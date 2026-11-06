@@ -1,0 +1,67 @@
+{
+  "utc": "2026-11-06T00:04:50.270537+00:00",
+  "status": "MATCHED_TO_ACTUAL_SIGNED15_SOURCE_BUILD_AND_EXPORTED_IPA",
+  "version": "0.3.15",
+  "build": "15",
+  "selectedSource939ManifestSHA256": "7f26917fdfcadaaeeb0eab3dc5d547124aba2365bac4ea3d739237422a93daad",
+  "sourceZIPsha256": "d9c07c6621c4d1ba40f121fc847b9758a82396c46a09b2e1433f8363d60bba99",
+  "publicShippingInputs": 773,
+  "all773PublicShippingBytesMatchSource939": true,
+  "actualRootReleaseSource939AfterFenceExact": true,
+  "actualSignedArchiveReceiptSHA256": "20b8bbdc1aafa0e955157a85336412e6b809a96f3ffe3829f7d82eb0e4ccb162",
+  "archiveExportAllActualExitsZero": true,
+  "actualIPA": {
+    "bytes": 26527704,
+    "sha256": "ab71ecf844df8d539da19a810ce65d168be0cc43e01a232a38ec315565a463e9"
+  },
+  "actualMain": {
+    "bundleIdentifier": "com.messenger.unyri.X7G7M9PFJ3",
+    "version": "0.3.15",
+    "build": "15",
+    "apsEnvironment": "production",
+    "InfoAPNsEnvironment": "production"
+  },
+  "actualShare": {
+    "bundleIdentifier": "com.messenger.unyri.X7G7M9PFJ3.share",
+    "apsEnvironment": null
+  },
+  "actualFrameworks": {
+    "WebRTC": {
+      "signedIPABytes": 12311616,
+      "signedIPASHA256": "16503ce9586c29b201c284ec06c1ee7dfdcad2b75c81c7fe336d55b2dfe65414",
+      "signedArchiveSHA256": "f7ad2759714bc39712b16e7a35b9958597c808a3fa7b3f5ca3d512c734c82f90",
+      "archiveAndExportWholeFileHashSame": false,
+      "MachOUUID": "4C4C441D-5555-3144-A1D9-F77F93A1CF0C",
+      "pinnedUnsignedArchiveSHA256": "5be1095131b7d1961d902231796d3e6b78a7f534e8eb1286fe7b0e7794ba4278",
+      "arm64IOSVerifiedBySignedReleaseReceipt": true,
+      "uuidMatchesActuallyCompiledPinnedFramework": true
+    },
+    "RustLiveKitFFI": {
+      "signedIPABytes": 1513296,
+      "signedIPASHA256": "f69d669fc4578a75d5a6cdc3d93e6a671ecfb3d38de7fc3d0f026369227be153",
+      "signedArchiveSHA256": "de193e28c477cc431a866c56eb047f1cb324ad8ea48d72df7d5049d13fddbc37",
+      "archiveAndExportWholeFileHashSame": false,
+      "MachOUUID": "0347A5C5-4C38-3C04-AE6F-64203B009A0D",
+      "pinnedUnsignedArchiveSHA256": "91677cf9e97a1b373d81ee8cb877955dd6d9764948d5aad18fe46624ef597ebf",
+      "arm64IOSVerifiedBySignedReleaseReceipt": true,
+      "uuidMatchesActuallyCompiledPinnedFramework": true
+    },
+    "LiveKitWebRTC": {
+      "signedIPABytes": 12462192,
+      "signedIPASHA256": "d4c8737af3047a74fee0ac2310c68b043b05838d3065048243bb81ddcebdb775",
+      "signedArchiveSHA256": "b1c607eb6cf6ddb727c0cff12253fc6451b7b4ab71b50feeea9f551fcad4ab16",
+      "archiveAndExportWholeFileHashSame": false,
+      "MachOUUID": "4C4C44EB-5555-3144-A120-0506CDF82192",
+      "pinnedUnsignedArchiveSHA256": "1635ddb8f63a3c89610c45f0c2bfd690e9335e42659e75034a90c35e064b8133",
+      "arm64IOSVerifiedBySignedReleaseReceipt": true,
+      "uuidMatchesActuallyCompiledPinnedFramework": true
+    }
+  },
+  "AppleAltoolValidation": {
+    "exit": 0,
+    "receiptSHA256": "d040664fffdf533bd1a4b051b09517529c2d291daadd4e4f96ae7473b8b53898"
+  },
+  "noUpstreamBinaryReproductionClaim": true,
+  "noPhysicalAPNsCallOrLargeFileDeliveryClaim": true,
+  "publicationExecutedByThisTask": false
+}

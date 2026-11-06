@@ -1,0 +1,23 @@
+{
+  "description": "PUBLIC synthetic test keys, never use in production",
+  "qr": {
+    "v": 1,
+    "type": "coco-history-transfer",
+    "server": "00000000-0000-4000-8000-000000000001",
+    "owner": "00000000-0000-4000-8000-000000000002",
+    "transfer": "00000000-0000-4000-8000-000000000003",
+    "recipient": "j0DFrbaPJWJK5bIU6nZ6bslNgp09e14a0bpvPiE4KF8=",
+    "expires": 1893456600000
+  },
+  "recipient_private": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8=",
+  "sender_private": "ICEiIyQlJicoKSorLC0uLzAxMjM0NTY3ODk6Ozw9Pj8=",
+  "sender_public_key": "NYBy1jZYgNGu6jKa35EhODhR7SGijjt16WXQ0s0WYlQ=",
+  "backup_id": "00000000-0000-4000-8000-000000000004",
+  "recovery_key": "gIGCg4SFhoeIiYqLjI2Oj5CRkpOUlZaXmJmam5ydnp8=",
+  "nonce": "AAECAwQFBgcICQoL",
+  "aad": "COCO-HISTORY-TRANSFER-V1\n00000000-0000-4000-8000-000000000001\n00000000-0000-4000-8000-000000000002\n00000000-0000-4000-8000-000000000003\n1893456600000\nj0DFrbaPJWJK5bIU6nZ6bslNgp09e14a0bpvPiE4KF8=\nNYBy1jZYgNGu6jKa35EhODhR7SGijjt16WXQ0s0WYlQ=\n00000000-0000-4000-8000-000000000004",
+  "shared_secret": "lmOqHal+hIqRSkNtBBY9+7iRePEH8bW3ftOFQgM4KFQ=",
+  "wrapping_key": "RWPqVCrshP91RftbCT/sdMM5qQGSsY81nGDX7jFgfT0=",
+  "ciphertext": "AAECAwQFBgcICQoLyC9DRPmqgwwFGfj1VsXzAFllxNBF7Tjg5gW6iSvA16nzy160z7w2xdN88BQkbqrP",
+  "comparison_code": "FD3A-FF86-A60C-FF17"
+}

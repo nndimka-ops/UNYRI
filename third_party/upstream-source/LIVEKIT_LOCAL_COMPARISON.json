@@ -1,0 +1,1985 @@
+{
+  "baseCommit": "43c1c0870e51eedbfd95b20b1b5c43a767886786",
+  "byteExact": [
+    "Sources/LiveKit/LiveKit.docc/Resources/.keep"
+  ],
+  "newlineOnly": [
+    "LICENSE",
+    "NOTICE",
+    "Sources/CLiveKitProto/include/livekit_metrics.pb.h",
+    "Sources/CLiveKitProto/include/livekit_models.pb.h",
+    "Sources/CLiveKitProto/include/livekit_rtc.pb.h",
+    "Sources/CLiveKitProto/include/lk_pb.h",
+    "Sources/CLiveKitProto/include/lk_pb_common.h",
+    "Sources/CLiveKitProto/include/lk_pb_config.h",
+    "Sources/CLiveKitProto/include/lk_pb_decode.h",
+    "Sources/CLiveKitProto/include/lk_pb_encode.h",
+    "Sources/CLiveKitProto/include/lk_pb_rename.h",
+    "Sources/CLiveKitProto/include/options.pb.h",
+    "Sources/CLiveKitProto/include/timestamp.pb.h",
+    "Sources/CLiveKitProto/LICENSE-nanopb.txt",
+    "Sources/CLiveKitProto/livekit_metrics.pb.c",
+    "Sources/CLiveKitProto/livekit_models.pb.c",
+    "Sources/CLiveKitProto/livekit_rtc.pb.c",
+    "Sources/CLiveKitProto/lk_abi_check.c",
+    "Sources/CLiveKitProto/module.modulemap",
+    "Sources/CLiveKitProto/pb_common.c",
+    "Sources/CLiveKitProto/pb_decode.c",
+    "Sources/CLiveKitProto/pb_encode.c",
+    "Sources/CLiveKitProto/timestamp.pb.c",
+    "Sources/LiveKit/Agent/Agent.swift",
+    "Sources/LiveKit/Agent/Chat/Message.swift",
+    "Sources/LiveKit/Agent/Chat/Receive/MessageReceiver.swift",
+    "Sources/LiveKit/Agent/Chat/Receive/TranscriptionDelegateReceiver.swift",
+    "Sources/LiveKit/Agent/Chat/Receive/TranscriptionStreamReceiver.swift",
+    "Sources/LiveKit/Agent/Chat/Send/MessageSender.swift",
+    "Sources/LiveKit/Agent/Chat/Send/TextMessageSender.swift",
+    "Sources/LiveKit/Agent/Participant+Agent.swift",
+    "Sources/LiveKit/Agent/Room+Agent.swift",
+    "Sources/LiveKit/Agent/Session.swift",
+    "Sources/LiveKit/Agent/SessionOptions.swift",
+    "Sources/LiveKit/Audio/AudioDeviceModuleDelegateAdapter.swift",
+    "Sources/LiveKit/Audio/AudioEngineObserver.swift",
+    "Sources/LiveKit/Audio/AudioSessionEngineObserver.swift",
+    "Sources/LiveKit/Audio/Manager/AudioManager+ModuleType.swift",
+    "Sources/LiveKit/Audio/Manager/AudioManager+MuteMode.swift",
+    "Sources/LiveKit/Audio/Manager/AudioManager+Testing.swift",
+    "Sources/LiveKit/Audio/Manager/AudioManager.swift",
+    "Sources/LiveKit/Audio/MixerEngineObserver.swift",
+    "Sources/LiveKit/Audio/PlayerNodePool.swift",
+    "Sources/LiveKit/Audio/SoundPlayer+Types.swift",
+    "Sources/LiveKit/Audio/SoundPlayer.swift",
+    "Sources/LiveKit/Broadcast/BroadcastBundleInfo.swift",
+    "Sources/LiveKit/Broadcast/BroadcastManager.swift",
+    "Sources/LiveKit/Broadcast/BroadcastScreenCapturer.swift",
+    "Sources/LiveKit/Broadcast/IPC/BroadcastAudioCodec.swift",
+    "Sources/LiveKit/Broadcast/IPC/BroadcastImageCodec.swift",
+    "Sources/LiveKit/Broadcast/IPC/BroadcastIPCHeader.swift",
+    "Sources/LiveKit/Broadcast/IPC/BroadcastReceiver.swift",
+    "Sources/LiveKit/Broadcast/IPC/BroadcastUploader.swift",
+    "Sources/LiveKit/Broadcast/IPC/IPCChannel.swift",
+    "Sources/LiveKit/Broadcast/IPC/IPCProtocol.swift",
+    "Sources/LiveKit/Broadcast/IPC/SocketPath.swift",
+    "Sources/LiveKit/Broadcast/LKSampleHandler.swift",
+    "Sources/LiveKit/Broadcast/NOTICE",
+    "Sources/LiveKit/Broadcast/Support/DarwinNotificationCenter.swift",
+    "Sources/LiveKit/Convenience/AudioProcessing.swift",
+    "Sources/LiveKit/Core/BufferedAmountMeter.swift",
+    "Sources/LiveKit/Core/DataChannelDrain.swift",
+    "Sources/LiveKit/Core/DataChannelPair.swift",
+    "Sources/LiveKit/Core/DataChannelSendStages.swift",
+    "Sources/LiveKit/Core/DataChannelWrite.swift",
+    "Sources/LiveKit/Core/LiveKitSDK+VideoEncoderFactory.swift",
+    "Sources/LiveKit/Core/PreConnectAudioBuffer.swift",
+    "Sources/LiveKit/Core/RegionManager.swift",
+    "Sources/LiveKit/Core/Room+Convenience.swift",
+    "Sources/LiveKit/Core/Room+DataStream.swift",
+    "Sources/LiveKit/Core/Room+DataTrack.swift",
+    "Sources/LiveKit/Core/Room+Debug.swift",
+    "Sources/LiveKit/Core/Room+EngineDelegate.swift",
+    "Sources/LiveKit/Core/Room+MulticastDelegate.swift",
+    "Sources/LiveKit/Core/Room+PreConnect.swift",
+    "Sources/LiveKit/Core/Room+Region.swift",
+    "Sources/LiveKit/Core/Room+RPC.swift",
+    "Sources/LiveKit/Core/Room+SignalClientDelegate.swift",
+    "Sources/LiveKit/Core/Room+TransportDelegate.swift",
+    "Sources/LiveKit/Core/Room.swift",
+    "Sources/LiveKit/Core/RoomDependencies.swift",
+    "Sources/LiveKit/Core/RPC.swift",
+    "Sources/LiveKit/Core/RpcClientManager.swift",
+    "Sources/LiveKit/Core/RpcServerManager.swift",
+    "Sources/LiveKit/Core/RTC.swift",
+    "Sources/LiveKit/Core/RTCBox.swift",
+    "Sources/LiveKit/Core/RTCMediaTrack.swift",
+    "Sources/LiveKit/Core/RTCReceiver.swift",
+    "Sources/LiveKit/Core/RTCSender.swift",
+    "Sources/LiveKit/Core/SignalClient.swift",
+    "Sources/LiveKit/Core/TransportMode.swift",
+    "Sources/LiveKit/Core/VideoEncoderFactoryAdapter.swift",
+    "Sources/LiveKit/DataStream/DataStreams+FFIDelegates.swift",
+    "Sources/LiveKit/DataStream/DataStreams.swift",
+    "Sources/LiveKit/DataStream/FileInfo.swift",
+    "Sources/LiveKit/DataStream/Incoming/ByteStreamReader.swift",
+    "Sources/LiveKit/DataStream/Incoming/TextStreamReader.swift",
+    "Sources/LiveKit/DataStream/Outgoing/ByteStreamWriter.swift",
+    "Sources/LiveKit/DataStream/Outgoing/TextStreamWriter.swift",
+    "Sources/LiveKit/DataStream/StreamError.swift",
+    "Sources/LiveKit/DataStream/StreamInfo.swift",
+    "Sources/LiveKit/DataStream/StreamOptions.swift",
+    "Sources/LiveKit/DataTrack/DataTrackError.swift",
+    "Sources/LiveKit/DataTrack/DataTrackFrame.swift",
+    "Sources/LiveKit/DataTrack/DataTrackInfo.swift",
+    "Sources/LiveKit/DataTrack/DataTrackPublishOptions.swift",
+    "Sources/LiveKit/DataTrack/DataTrackSchema.swift",
+    "Sources/LiveKit/DataTrack/DataTrackSid.swift",
+    "Sources/LiveKit/DataTrack/DataTrackStream.swift",
+    "Sources/LiveKit/DataTrack/LocalDataTrack.swift",
+    "Sources/LiveKit/DataTrack/RemoteDataTrack.swift",
+    "Sources/LiveKit/E2EE/DataTrackE2EE.swift",
+    "Sources/LiveKit/E2EE/KeyProvider.swift",
+    "Sources/LiveKit/E2EE/Options.swift",
+    "Sources/LiveKit/E2EE/Protos+E2EE.swift",
+    "Sources/LiveKit/E2EE/State.swift",
+    "Sources/LiveKit/Errors.swift",
+    "Sources/LiveKit/Extensions/AsyncSequence.swift",
+    "Sources/LiveKit/Extensions/AVAudioNode.swift",
+    "Sources/LiveKit/Extensions/AVAudioPCMBuffer.swift",
+    "Sources/LiveKit/Extensions/AVCaptureDevice.swift",
+    "Sources/LiveKit/Extensions/CGFloat.swift",
+    "Sources/LiveKit/Extensions/Codable.swift",
+    "Sources/LiveKit/Extensions/CoreImage.swift",
+    "Sources/LiveKit/Extensions/CustomStringConvertible.swift",
+    "Sources/LiveKit/Extensions/Data.swift",
+    "Sources/LiveKit/Extensions/LKRTCRtpSender.swift",
+    "Sources/LiveKit/Extensions/PixelBuffer.swift",
+    "Sources/LiveKit/Extensions/Primitives.swift",
+    "Sources/LiveKit/Extensions/RTCConfiguration.swift",
+    "Sources/LiveKit/Extensions/RTCDataChannel+Util.swift",
+    "Sources/LiveKit/Extensions/RTCI420Buffer.swift",
+    "Sources/LiveKit/Extensions/RTCMediaConstraints.swift",
+    "Sources/LiveKit/Extensions/RTCRtpTransceiver.swift",
+    "Sources/LiveKit/Extensions/RTCVideoCapturerDelegate+Buffer.swift",
+    "Sources/LiveKit/Extensions/Sendable.swift",
+    "Sources/LiveKit/Extensions/String.swift",
+    "Sources/LiveKit/Extensions/TimeInterval.swift",
+    "Sources/LiveKit/Extensions/URL.swift",
+    "Sources/LiveKit/LiveKit+DeviceHelpers.swift",
+    "Sources/LiveKit/LiveKit.docc/LiveKit.md",
+    "Sources/LiveKit/LiveKit.swift",
+    "Sources/LiveKit/Participant/LocalParticipant+DataStream.swift",
+    "Sources/LiveKit/Participant/LocalParticipant+DataTrack.swift",
+    "Sources/LiveKit/Participant/LocalParticipant+RPC.swift",
+    "Sources/LiveKit/Participant/Participant+Convenience.swift",
+    "Sources/LiveKit/Participant/Participant+Equatable.swift",
+    "Sources/LiveKit/Participant/Participant+Identifiable.swift",
+    "Sources/LiveKit/Participant/Participant+Kind.swift",
+    "Sources/LiveKit/Participant/Participant+MulticastDelegate.swift",
+    "Sources/LiveKit/Participant/Participant.swift",
+    "Sources/LiveKit/Participant/RemoteParticipant+Active.swift",
+    "Sources/LiveKit/PrivacyInfo.xcprivacy",
+    "Sources/LiveKit/Protocols/AudioCustomProcessingDelegate.swift",
+    "Sources/LiveKit/Protocols/AudioRenderer.swift",
+    "Sources/LiveKit/Protocols/MediaEncoding.swift",
+    "Sources/LiveKit/Protocols/Mirrorable.swift",
+    "Sources/LiveKit/Protocols/NextInvokable.swift",
+    "Sources/LiveKit/Protocols/ParticipantDelegate.swift",
+    "Sources/LiveKit/Protocols/RoomDelegate.swift",
+    "Sources/LiveKit/Protocols/SignalClientDelegate.swift",
+    "Sources/LiveKit/Protocols/TrackDelegate.swift",
+    "Sources/LiveKit/Protocols/TransportDelegate.swift",
+    "Sources/LiveKit/Protocols/VideoEncoder.swift",
+    "Sources/LiveKit/Protocols/VideoEncoderFactory.swift",
+    "Sources/LiveKit/Protocols/VideoProcessor.swift",
+    "Sources/LiveKit/Protocols/VideoRenderer.swift",
+    "Sources/LiveKit/Protocols/VideoViewDelegate.swift",
+    "Sources/LiveKit/Protos/livekit_metrics+Nanopb.swift",
+    "Sources/LiveKit/Protos/livekit_models+Nanopb.swift",
+    "Sources/LiveKit/Protos/livekit_rtc+Nanopb.swift",
+    "Sources/LiveKit/Protos/timestamp+Nanopb.swift",
+    "Sources/LiveKit/Support/AppStateListener.swift",
+    "Sources/LiveKit/Support/Async/AsyncAbandonOnCancel.swift",
+    "Sources/LiveKit/Support/Async/AsyncCompleter.swift",
+    "Sources/LiveKit/Support/Async/AsyncDebounce.swift",
+    "Sources/LiveKit/Support/Async/AsyncFileStream.swift",
+    "Sources/LiveKit/Support/Async/AsyncRetry.swift",
+    "Sources/LiveKit/Support/Async/AsyncSequence+Subscribe.swift",
+    "Sources/LiveKit/Support/Async/AsyncSerialDelegate.swift",
+    "Sources/LiveKit/Support/Async/AsyncTimer.swift",
+    "Sources/LiveKit/Support/Async/AsyncTryMapSequence.swift",
+    "Sources/LiveKit/Support/Async/ObservableObject+.swift",
+    "Sources/LiveKit/Support/Async/Task+Discarding.swift",
+    "Sources/LiveKit/Support/Audio/AudioConverter.swift",
+    "Sources/LiveKit/Support/Audio/AudioMixRecorder.swift",
+    "Sources/LiveKit/Support/Audio/AudioPlayerRenderer.swift",
+    "Sources/LiveKit/Support/Audio/AVAudioPCMRingBuffer.swift",
+    "Sources/LiveKit/Support/Audio/FFTProcessor.swift",
+    "Sources/LiveKit/Support/DataStructures/Deque.swift",
+    "Sources/LiveKit/Support/DataStructures/MapTable.swift",
+    "Sources/LiveKit/Support/DataStructures/OrderedDictionary.swift",
+    "Sources/LiveKit/Support/DataStructures/OrderedSet.swift",
+    "Sources/LiveKit/Support/DataStructures/RingBuffer.swift",
+    "Sources/LiveKit/Support/DataStructures/TTLDictionary.swift",
+    "Sources/LiveKit/Support/Global.swift",
+    "Sources/LiveKit/Support/Gzip.swift",
+    "Sources/LiveKit/Support/Logger.swift",
+    "Sources/LiveKit/Support/MulticastDelegate.swift",
+    "Sources/LiveKit/Support/Network/ConnectivityListener.swift",
+    "Sources/LiveKit/Support/Network/HTTP.swift",
+    "Sources/LiveKit/Support/Network/RustTransport.swift",
+    "Sources/LiveKit/Support/Network/WebSocket.swift",
+    "Sources/LiveKit/Support/Schedulers/DispatchQueueExecutor.swift",
+    "Sources/LiveKit/Support/Schedulers/QueueActor.swift",
+    "Sources/LiveKit/Support/Schedulers/SerialRunnerActor.swift",
+    "Sources/LiveKit/Support/SDP/SDP.swift",
+    "Sources/LiveKit/Support/Sync/Locks.swift",
+    "Sources/LiveKit/Support/Sync/StateSync.swift",
+    "Sources/LiveKit/Support/Tracing.swift",
+    "Sources/LiveKit/Support/Utils+VideoEncodings.swift",
+    "Sources/LiveKit/Support/Utils.swift",
+    "Sources/LiveKit/Support/ValueOrAbsent.swift",
+    "Sources/LiveKit/Support/Video/DeviceManager.swift",
+    "Sources/LiveKit/Support/View/NativeView.swift",
+    "Sources/LiveKit/Support/View/NativeViewRepresentable.swift",
+    "Sources/LiveKit/Support/View/TextView.swift",
+    "Sources/LiveKit/SwiftUI/LocalMedia.swift",
+    "Sources/LiveKit/SwiftUI/SwiftUIAudioRoutePickerButton.swift",
+    "Sources/LiveKit/SwiftUI/SwiftUIVideoView.swift",
+    "Sources/LiveKit/SwiftUI/TrackDelegateObserver.swift",
+    "Sources/LiveKit/Token/CachingTokenSource.swift",
+    "Sources/LiveKit/Token/DevelopmentTokenSource.swift",
+    "Sources/LiveKit/Token/EndpointTokenSource.swift",
+    "Sources/LiveKit/Token/LiteralTokenSource.swift",
+    "Sources/LiveKit/Token/TokenSource.swift",
+    "Sources/LiveKit/Track/AudioTrack.swift",
+    "Sources/LiveKit/Track/Capturers/ARCameraCapturer.swift",
+    "Sources/LiveKit/Track/Capturers/BufferCapturer.swift",
+    "Sources/LiveKit/Track/Capturers/CameraCapturer.swift",
+    "Sources/LiveKit/Track/Capturers/InAppCapturer.swift",
+    "Sources/LiveKit/Track/Capturers/IOSScreenCapturer.swift",
+    "Sources/LiveKit/Track/Capturers/MacOSScreenCapturer.swift",
+    "Sources/LiveKit/Track/Capturers/ScreenCapturer.swift",
+    "Sources/LiveKit/Track/Capturers/VideoCapturer+MulticastDelegate.swift",
+    "Sources/LiveKit/Track/Capturers/VideoCapturer.swift",
+    "Sources/LiveKit/Track/Local/LocalAudioTrack.swift",
+    "Sources/LiveKit/Track/Local/LocalTrack.swift",
+    "Sources/LiveKit/Track/Local/LocalVideoTrack.swift",
+    "Sources/LiveKit/Track/Metrics/MetricsManager.swift",
+    "Sources/LiveKit/Track/Recorders/LocalAudioTrackRecorder.swift",
+    "Sources/LiveKit/Track/Remote/RemoteAudioTrack.swift",
+    "Sources/LiveKit/Track/Remote/RemoteTrack.swift",
+    "Sources/LiveKit/Track/Remote/RemoteVideoTrack.swift",
+    "Sources/LiveKit/Track/Support/Extensions.swift",
+    "Sources/LiveKit/Track/Track+Equatable.swift",
+    "Sources/LiveKit/Track/Track+MulticastDelegate.swift",
+    "Sources/LiveKit/Track/Track.swift",
+    "Sources/LiveKit/Track/VideoTrack.swift",
+    "Sources/LiveKit/TrackPublications/LocalTrackPublication.swift",
+    "Sources/LiveKit/TrackPublications/RemoteTrackPublication.swift",
+    "Sources/LiveKit/TrackPublications/TrackPublication+Equatable.swift",
+    "Sources/LiveKit/TrackPublications/TrackPublication+Identifiable.swift",
+    "Sources/LiveKit/TrackPublications/TrackPublication.swift",
+    "Sources/LiveKit/Types/Attributes/AttributeTypings.swift",
+    "Sources/LiveKit/Types/AudioBuffer.swift",
+    "Sources/LiveKit/Types/AudioDevice.swift",
+    "Sources/LiveKit/Types/AudioDuckingLevel.swift",
+    "Sources/LiveKit/Types/AudioEncoding+Comparable.swift",
+    "Sources/LiveKit/Types/AudioEncoding.swift",
+    "Sources/LiveKit/Types/AudioEngineAvailability.swift",
+    "Sources/LiveKit/Types/AudioProcessingModes.swift",
+    "Sources/LiveKit/Types/AudioProcessingOptions.swift",
+    "Sources/LiveKit/Types/AudioProcessingOptionsError.swift",
+    "Sources/LiveKit/Types/AudioSessionConfiguration.swift",
+    "Sources/LiveKit/Types/ClientCapability.swift",
+    "Sources/LiveKit/Types/ClientProtocol.swift",
+    "Sources/LiveKit/Types/Codec/Codec.swift",
+    "Sources/LiveKit/Types/Codec/VideoCodec.swift",
+    "Sources/LiveKit/Types/ConnectionQuality.swift",
+    "Sources/LiveKit/Types/ConnectionState.swift",
+    "Sources/LiveKit/Types/DataChannelKind.swift",
+    "Sources/LiveKit/Types/DegradationPreference.swift",
+    "Sources/LiveKit/Types/Dimensions.swift",
+    "Sources/LiveKit/Types/EncodedVideoFrame.swift",
+    "Sources/LiveKit/Types/IceCandidate.swift",
+    "Sources/LiveKit/Types/IceServer.swift",
+    "Sources/LiveKit/Types/IceTransportPolicy.swift",
+    "Sources/LiveKit/Types/MediaDevice.swift",
+    "Sources/LiveKit/Types/Options/ARCameraCaptureOptions.swift",
+    "Sources/LiveKit/Types/Options/AudioCaptureOptions.swift",
+    "Sources/LiveKit/Types/Options/AudioPublishOptions.swift",
+    "Sources/LiveKit/Types/Options/BufferCaptureOptions.swift",
+    "Sources/LiveKit/Types/Options/CameraCaptureOptions+Copy.swift",
+    "Sources/LiveKit/Types/Options/CameraCaptureOptions.swift",
+    "Sources/LiveKit/Types/Options/CaptureOptions.swift",
+    "Sources/LiveKit/Types/Options/ConnectOptions+Copy.swift",
+    "Sources/LiveKit/Types/Options/DataPublishOptions.swift",
+    "Sources/LiveKit/Types/Options/DataStreamOptions.swift",
+    "Sources/LiveKit/Types/Options/PublishOptions.swift",
+    "Sources/LiveKit/Types/Options/RoomOptions.swift",
+    "Sources/LiveKit/Types/Options/ScreenShareCaptureOptions.swift",
+    "Sources/LiveKit/Types/Options/VideoCaptureOptions.swift",
+    "Sources/LiveKit/Types/Options/VideoPublishOptions.swift",
+    "Sources/LiveKit/Types/Participant+Types.swift",
+    "Sources/LiveKit/Types/ParticipantPermissions.swift",
+    "Sources/LiveKit/Types/ParticipantState.swift",
+    "Sources/LiveKit/Types/ParticipantTrackPermission.swift",
+    "Sources/LiveKit/Types/Priority.swift",
+    "Sources/LiveKit/Types/ProtocolVersion.swift",
+    "Sources/LiveKit/Types/RegionInfo.swift",
+    "Sources/LiveKit/Types/Room+Types.swift",
+    "Sources/LiveKit/Types/RoomConfiguration.swift",
+    "Sources/LiveKit/Types/ScalabilityMode.swift",
+    "Sources/LiveKit/Types/SessionDescription.swift",
+    "Sources/LiveKit/Types/SpeechActivityEvent.swift",
+    "Sources/LiveKit/Types/Statistics.swift",
+    "Sources/LiveKit/Types/Track+Types.swift",
+    "Sources/LiveKit/Types/TrackSettings.swift",
+    "Sources/LiveKit/Types/TrackSource.swift",
+    "Sources/LiveKit/Types/TrackStatistics.swift",
+    "Sources/LiveKit/Types/TrackStreamState.swift",
+    "Sources/LiveKit/Types/TrackType.swift",
+    "Sources/LiveKit/Types/TranscriptionSegment.swift",
+    "Sources/LiveKit/Types/VideoCodecInfo.swift",
+    "Sources/LiveKit/Types/VideoEncoderSettings.swift",
+    "Sources/LiveKit/Types/VideoEncoding+Comparable.swift",
+    "Sources/LiveKit/Types/VideoEncoding.swift",
+    "Sources/LiveKit/Types/VideoFrame.swift",
+    "Sources/LiveKit/Types/VideoParameters+Comparable.swift",
+    "Sources/LiveKit/Types/VideoParameters.swift",
+    "Sources/LiveKit/Types/VideoQuality.swift",
+    "Sources/LiveKit/Types/VideoRotation.swift",
+    "Sources/LiveKit/VideoProcessors/BackgroundBlurVideoProcessor.swift",
+    "Sources/LiveKit/Views/SampleBufferVideoRenderer.swift",
+    "Sources/LiveKit/Views/VideoRendererBinder.swift",
+    "Sources/LiveKit/Views/VideoView+MulticastDelegate.swift",
+    "Sources/LiveKit/Views/VideoView+PinchToZoom.swift",
+    "Sources/LiveKit/Views/VideoView.swift",
+    "Sources/LiveKitNanopb/Nanopb.swift",
+    "Sources/LiveKitNanopb/NanopbAccessors.swift",
+    "Sources/LiveKitNanopb/NanopbWire.swift",
+    "Sources/LKObjCHelpers/include/LKObjCHelpers.h",
+    "Sources/LKObjCHelpers/LKObjCHelpers.m",
+    "Sources/LKObjCHelpers/module.modulemap"
+  ],
+  "contentChanged": [
+    "Package.swift",
+    "Sources/LiveKit/Core/Room+Engine.swift",
+    "Sources/LiveKit/Core/Transport.swift",
+    "Sources/LiveKit/E2EE/E2EEManager.swift",
+    "Sources/LiveKit/Participant/LocalParticipant.swift",
+    "Sources/LiveKit/Participant/RemoteParticipant.swift",
+    "Sources/LiveKit/Types/Options/ConnectOptions.swift"
+  ],
+  "localOnly": [
+    "COCO-E2EE.patch",
+    "COCO-PATCH.md",
+    "UPSTREAM.json"
+  ],
+  "localFiles": {
+    "COCO-E2EE.patch": {
+      "bytes": 14903,
+      "sha256": "16a37b90cad888556738beea57d520950e8053111c0e71f3eee642a4e4f78827"
+    },
+    "COCO-PATCH.md": {
+      "bytes": 3336,
+      "sha256": "b0e11654b230586a0317d814962d150b53d32f352974d1fa5f60ea85e0dbe1c7"
+    },
+    "LICENSE": {
+      "bytes": 11560,
+      "sha256": "3ddf9be5c28fe27dad143a5dc76eea25222ad1dd68934a047064e56ed2fa40c5"
+    },
+    "NOTICE": {
+      "bytes": 566,
+      "sha256": "6be5b57f1d03badf1d8e7d58d56c556bc0a89b7ed2329ec814c1905f4cfe6f4a"
+    },
+    "Package.swift": {
+      "bytes": 1277,
+      "sha256": "13dd5ad009f3cc09f07eed417543d9444d3c52dcfc9c841c25040f9e7be0c2aa"
+    },
+    "Sources/CLiveKitProto/include/livekit_metrics.pb.h": {
+      "bytes": 14613,
+      "sha256": "e6d389bcbdb24cad0c4c55ec8677687c4edbfaea781b2e6c3a34c706764f007a"
+    },
+    "Sources/CLiveKitProto/include/livekit_models.pb.h": {
+      "bytes": 124348,
+      "sha256": "20eca883cfff9b49a8bc8b4ae566134bd9107e705bb5176fbc7ff03f576d039a"
+    },
+    "Sources/CLiveKitProto/include/livekit_rtc.pb.h": {
+      "bytes": 108496,
+      "sha256": "decc8487c854cb5f4a867ce1c3d5afe63593c1048d74848106fc3faabb2c5f25"
+    },
+    "Sources/CLiveKitProto/include/lk_pb.h": {
+      "bytes": 45747,
+      "sha256": "656bb3347c23692906babe1f4ce8c2b8c575c1033dae3eed62ce07f8cbbfebd1"
+    },
+    "Sources/CLiveKitProto/include/lk_pb_common.h": {
+      "bytes": 1876,
+      "sha256": "6f87c554b87a28a226f79ae3bbc580b946926135df99790bba65e291e212bdd8"
+    },
+    "Sources/CLiveKitProto/include/lk_pb_config.h": {
+      "bytes": 1261,
+      "sha256": "305f7d6c9779572292b8d24f820ed3669a73a1c55de4a62bf10dea1bf56efb9d"
+    },
+    "Sources/CLiveKitProto/include/lk_pb_decode.h": {
+      "bytes": 8458,
+      "sha256": "0ca94b2586c8b9fb3c2dd373e96d8d990b7e8d022134d71a16be6d390ba226d2"
+    },
+    "Sources/CLiveKitProto/include/lk_pb_encode.h": {
+      "bytes": 7521,
+      "sha256": "bf221a4b535084557b9e9bcdd704b196ee9d1553eafde221a0d046b78272c5a4"
+    },
+    "Sources/CLiveKitProto/include/lk_pb_rename.h": {
+      "bytes": 4816,
+      "sha256": "f656dbfac55470be949d1513b5a4dda1854964d37af14532949bbbd733299aad"
+    },
+    "Sources/CLiveKitProto/include/options.pb.h": {
+      "bytes": 1950,
+      "sha256": "1572ea23bfb335a62e4818079dbd6a3e0c232d0744804d5facedfbe4a1f2cf9e"
+    },
+    "Sources/CLiveKitProto/include/timestamp.pb.h": {
+      "bytes": 5983,
+      "sha256": "cbfb126ef973a2b6dcabd2c6570be837af6d7b7147b59f4902b2ec3587d48a62"
+    },
+    "Sources/CLiveKitProto/LICENSE-nanopb.txt": {
+      "bytes": 1770,
+      "sha256": "be7564f98f49ffbe39334f829a2248497aa5f8e69009471d0ea5f865d1d850cf"
+    },
+    "Sources/CLiveKitProto/livekit_metrics.pb.c": {
+      "bytes": 707,
+      "sha256": "91a58cb032241d3883c56fca2c7baddd7f7636197c9afafa235f03143234c0d6"
+    },
+    "Sources/CLiveKitProto/livekit_models.pb.c": {
+      "bytes": 4852,
+      "sha256": "d14628c14e3a19393ff37b0a8fcde89b62cb595ae3ebc289a0cea5a1b0d97ae7"
+    },
+    "Sources/CLiveKitProto/livekit_rtc.pb.c": {
+      "bytes": 5352,
+      "sha256": "5449b9c44f135ed68914f0953ae1505e74050a6921f13455f23cbbd1ad365317"
+    },
+    "Sources/CLiveKitProto/lk_abi_check.c": {
+      "bytes": 509,
+      "sha256": "f37b37cf1f8d5df8e74f86b65ec60652318dcbd7f5e050ec1dc24e35ac20d885"
+    },
+    "Sources/CLiveKitProto/module.modulemap": {
+      "bytes": 65,
+      "sha256": "faf5a2951b8716f149bbd9fdd6a7f3c5b1e270e4feb4838ec7d47d9c16e68e97"
+    },
+    "Sources/CLiveKitProto/pb_common.c": {
+      "bytes": 12636,
+      "sha256": "dc72aa9d4cfd19f36c60e8064717900b4d1f2d8165b9a5e743e8380dcbbbca2e"
+    },
+    "Sources/CLiveKitProto/pb_decode.c": {
+      "bytes": 57055,
+      "sha256": "bee7e79201d5287ba49e4e1151cba8e6a5df2f06b4c202159465a7fd80cd3694"
+    },
+    "Sources/CLiveKitProto/pb_encode.c": {
+      "bytes": 31907,
+      "sha256": "a21586fae5ec85da2c574ffedcf461b5a2ea56df32517d2164508336c98d4274"
+    },
+    "Sources/CLiveKitProto/timestamp.pb.c": {
+      "bytes": 318,
+      "sha256": "ac60c5e444fccf48d8aa639bec6402284c9d00841809336fa6fd31d01f350d6e"
+    },
+    "Sources/LiveKit/Agent/Agent.swift": {
+      "bytes": 6606,
+      "sha256": "948ac8f8ff8b3e061f20a850b8e779b27c20934e70c73949fe91e963a64521ed"
+    },
+    "Sources/LiveKit/Agent/Chat/Message.swift": {
+      "bytes": 2381,
+      "sha256": "a274c81266785b1451a4598a3c7e414b6a0592c13fa42eb0003cc3b90d884c3b"
+    },
+    "Sources/LiveKit/Agent/Chat/Receive/MessageReceiver.swift": {
+      "bytes": 966,
+      "sha256": "f8e39a0205e65816ee2cf5a44852c069fbdaec78016279e4ee09b4d2450e62fb"
+    },
+    "Sources/LiveKit/Agent/Chat/Receive/TranscriptionDelegateReceiver.swift": {
+      "bytes": 2540,
+      "sha256": "12d92427e1ef5e3257666424227ac33ab0bdacb52675e06ec54384f2067756a5"
+    },
+    "Sources/LiveKit/Agent/Chat/Receive/TranscriptionStreamReceiver.swift": {
+      "bytes": 7620,
+      "sha256": "29f67f9f8ab6594c8a5465cbc5b21b3d024f835e96f29a0134589cc2f3f186fa"
+    },
+    "Sources/LiveKit/Agent/Chat/Send/MessageSender.swift": {
+      "bytes": 926,
+      "sha256": "4a2727166cb6eaa6cabf9e6a1b60385f6c32fcaaa1f5437067a41291e02e294b"
+    },
+    "Sources/LiveKit/Agent/Chat/Send/TextMessageSender.swift": {
+      "bytes": 1953,
+      "sha256": "6304082ed6f4b2a66b829466651ff926d06083054abafc1732b7838c6d0e22f6"
+    },
+    "Sources/LiveKit/Agent/Participant+Agent.swift": {
+      "bytes": 1429,
+      "sha256": "c6b02e33bd83133b4382118624da6ab65411e3709cc5cdc99c01c0fd09037a47"
+    },
+    "Sources/LiveKit/Agent/Room+Agent.swift": {
+      "bytes": 1285,
+      "sha256": "50114a188273245af808e95fef97d4034e88fe71f118c2d2c59b67dd2d1fc051"
+    },
+    "Sources/LiveKit/Agent/Session.swift": {
+      "bytes": 14021,
+      "sha256": "7e7edab9f874041eba1a2cbd2ba2e5a80d4d0e174fd6d4eaf10c7fab06456080"
+    },
+    "Sources/LiveKit/Agent/SessionOptions.swift": {
+      "bytes": 2738,
+      "sha256": "0c21f03653661caf0956cd07959b73f1cc24f03a55b803265af522339fc30aab"
+    },
+    "Sources/LiveKit/Audio/AudioDeviceModuleDelegateAdapter.swift": {
+      "bytes": 4836,
+      "sha256": "cd413919976d8cba35c897b8766fd125284733bc994716f6739c269d3f06f9b6"
+    },
+    "Sources/LiveKit/Audio/AudioEngineObserver.swift": {
+      "bytes": 4226,
+      "sha256": "c9c280782dd296abe14604e44a88c63545977b7e607f499bdad1be60d89619e8"
+    },
+    "Sources/LiveKit/Audio/AudioSessionEngineObserver.swift": {
+      "bytes": 14200,
+      "sha256": "88b9ad77838afad6c0a69711c59c471f59b0bb577da5483a69e34469deae69d0"
+    },
+    "Sources/LiveKit/Audio/Manager/AudioManager+ModuleType.swift": {
+      "bytes": 2228,
+      "sha256": "6bcbbcd55fa552407aa2365ebd5b5b7c6fdd9e964371162f373379e90b89428b"
+    },
+    "Sources/LiveKit/Audio/Manager/AudioManager+MuteMode.swift": {
+      "bytes": 3670,
+      "sha256": "f5e89dfc1a425664ddf75975a795ecea8f00500ec51fb677e283c023a3700bb4"
+    },
+    "Sources/LiveKit/Audio/Manager/AudioManager+Testing.swift": {
+      "bytes": 1905,
+      "sha256": "ccd3f23cb800a45e252710d455e3ad07b9c739cbc7713cf5afa18f88286d4740"
+    },
+    "Sources/LiveKit/Audio/Manager/AudioManager.swift": {
+      "bytes": 29763,
+      "sha256": "f3ca7bc1635426449e8389c36393ac9bffee96784888cf25a5b68488b4f0b765"
+    },
+    "Sources/LiveKit/Audio/MixerEngineObserver.swift": {
+      "bytes": 15396,
+      "sha256": "45f0aba389e0ac61d483b0161034c734241064fbd6a2d7a71bb463a044379473"
+    },
+    "Sources/LiveKit/Audio/PlayerNodePool.swift": {
+      "bytes": 7501,
+      "sha256": "cf0d3791890bd18000857b439f69314566788bfd3516b20300aee15caca495e6"
+    },
+    "Sources/LiveKit/Audio/SoundPlayer+Types.swift": {
+      "bytes": 7253,
+      "sha256": "38633cc1af2bc83e9bbb5bffb55cc790bcfa13eaddff2b7b624fed9e9369bcff"
+    },
+    "Sources/LiveKit/Audio/SoundPlayer.swift": {
+      "bytes": 11837,
+      "sha256": "d23dcb14267a95e6fe022c9cef9a521a7dd8836a4beb61c586e682950cd17e22"
+    },
+    "Sources/LiveKit/Broadcast/BroadcastBundleInfo.swift": {
+      "bytes": 2924,
+      "sha256": "2d7b758afe17d60b34a20cc699bcb5910ac1960d9062e77b9cf821eb32a26ce2"
+    },
+    "Sources/LiveKit/Broadcast/BroadcastManager.swift": {
+      "bytes": 4878,
+      "sha256": "065ed3015bbc2fb903735ab971f3900828efe84d4b49b854f9d6f9a3bdf38129"
+    },
+    "Sources/LiveKit/Broadcast/BroadcastScreenCapturer.swift": {
+      "bytes": 7542,
+      "sha256": "bd5af08366c5e989faa21026f358ed85903b62ba8e4a8cb1bd7b8de0d3165a2f"
+    },
+    "Sources/LiveKit/Broadcast/IPC/BroadcastAudioCodec.swift": {
+      "bytes": 4296,
+      "sha256": "2e243dd4c3981ebcc3107175e2b8bcb3371e28ba031b0c146f67bd440f1c8282"
+    },
+    "Sources/LiveKit/Broadcast/IPC/BroadcastImageCodec.swift": {
+      "bytes": 4233,
+      "sha256": "98b70efe7c0ae0aa67f4639e0275d119a30d9dbfde929b29a92bd58c480d5069"
+    },
+    "Sources/LiveKit/Broadcast/IPC/BroadcastIPCHeader.swift": {
+      "bytes": 1014,
+      "sha256": "3a427acd05b9d0159d0b38a3136abe73690f6086bc6b2131698b121faa2ffc05"
+    },
+    "Sources/LiveKit/Broadcast/IPC/BroadcastReceiver.swift": {
+      "bytes": 3154,
+      "sha256": "c408204f77ec18c4f2900424dc29f10517deaf81ec1b3562f3bda8c6235691be"
+    },
+    "Sources/LiveKit/Broadcast/IPC/BroadcastUploader.swift": {
+      "bytes": 4654,
+      "sha256": "bc211a225574cf3c0d39a026c9ce79e02e3dd3162769ac53ae5fbcbe1af3a9fa"
+    },
+    "Sources/LiveKit/Broadcast/IPC/IPCChannel.swift": {
+      "bytes": 9264,
+      "sha256": "0ef0f0c5fdcf3786950979d82a44d9fb489cf697481aa20a81cf5738b9e60652"
+    },
+    "Sources/LiveKit/Broadcast/IPC/IPCProtocol.swift": {
+      "bytes": 5150,
+      "sha256": "08cbe99f14274af2a519fe8682266c967b680179e7b11fe3bf1ba069bca203c7"
+    },
+    "Sources/LiveKit/Broadcast/IPC/SocketPath.swift": {
+      "bytes": 1773,
+      "sha256": "adc5bc9abc24b9aa745481795ee13f2b2e7e22bdbf5753d9b57462470cd76c1b"
+    },
+    "Sources/LiveKit/Broadcast/LKSampleHandler.swift": {
+      "bytes": 5258,
+      "sha256": "7de818393f732db8b55186549a3e79ba5edd03527fc9ca34fb670896c6610c52"
+    },
+    "Sources/LiveKit/Broadcast/NOTICE": {
+      "bytes": 131,
+      "sha256": "01d15e76f4ca3adf56d4ad5500853f08ab4a094d8509a8202addb1942abf6642"
+    },
+    "Sources/LiveKit/Broadcast/Support/DarwinNotificationCenter.swift": {
+      "bytes": 4807,
+      "sha256": "4ef25e313da896f789ed0a2eeb8b5c656bd795e69d255784175630d5faae4441"
+    },
+    "Sources/LiveKit/Convenience/AudioProcessing.swift": {
+      "bytes": 7675,
+      "sha256": "3ae4ca4c702a00cb27fabd423f57aa91f005c4fd7847c533bd0a2a486395e622"
+    },
+    "Sources/LiveKit/Core/BufferedAmountMeter.swift": {
+      "bytes": 3347,
+      "sha256": "7436dac3753b4908d713c18c5472d86f44d6edde65bc39cf899ac5860d3395d3"
+    },
+    "Sources/LiveKit/Core/DataChannelDrain.swift": {
+      "bytes": 25672,
+      "sha256": "34752a95dc0cb86bcab378035dd13e41344477558d8d599eefc36863acb43c05"
+    },
+    "Sources/LiveKit/Core/DataChannelPair.swift": {
+      "bytes": 14737,
+      "sha256": "8c80dbf5ae69b565c9da4ffef0be4b4e3102c199d9e2e39de369f07284e1c462"
+    },
+    "Sources/LiveKit/Core/DataChannelSendStages.swift": {
+      "bytes": 5512,
+      "sha256": "db554634013dfa64808c99cf741169dbbaf30c1284c231db256c779685c3ba1a"
+    },
+    "Sources/LiveKit/Core/DataChannelWrite.swift": {
+      "bytes": 11190,
+      "sha256": "d0c8302c707c4fa5bf1236846f1124971149e8b9cce20dc7ecea41c7ce6fefff"
+    },
+    "Sources/LiveKit/Core/LiveKitSDK+VideoEncoderFactory.swift": {
+      "bytes": 4715,
+      "sha256": "e93f453fc9fc00403e49e37415b25181dfe0be6211e3410d7d544bd6e677c2c5"
+    },
+    "Sources/LiveKit/Core/PreConnectAudioBuffer.swift": {
+      "bytes": 11136,
+      "sha256": "c72dcf859e52e56051f5f099251301ce04e6eb12ce6dfd50e2496eb929a7572f"
+    },
+    "Sources/LiveKit/Core/RegionManager.swift": {
+      "bytes": 9487,
+      "sha256": "8adea7e55d4faeba0906a7a26434979c51aa4595a5bb6eb926e261bacc58fc82"
+    },
+    "Sources/LiveKit/Core/Room+Convenience.swift": {
+      "bytes": 1072,
+      "sha256": "f3b43fb84a8c93bfb9b8069d44235c44eee108aee97e87839a6d41510b87a1dd"
+    },
+    "Sources/LiveKit/Core/Room+DataStream.swift": {
+      "bytes": 5921,
+      "sha256": "a5c40cd8d7148a292eacc7e67fea55e1d54e3d40906a33d683183a102fd1c616"
+    },
+    "Sources/LiveKit/Core/Room+DataTrack.swift": {
+      "bytes": 21443,
+      "sha256": "6b3d5ba9643988fa9068e1cc500ef3d6275e4d33a6cd8492ec38f528dd7a1058"
+    },
+    "Sources/LiveKit/Core/Room+Debug.swift": {
+      "bytes": 1370,
+      "sha256": "d4a94380d4d4b4e4189643f74ae4b0d7b901bbd95f054db814136ced470a8c38"
+    },
+    "Sources/LiveKit/Core/Room+Engine.swift": {
+      "bytes": 32806,
+      "sha256": "6ab655e803dd3c234f75262c47bbc4f46be8503a027b1de1ea911052484d1438"
+    },
+    "Sources/LiveKit/Core/Room+EngineDelegate.swift": {
+      "bytes": 13493,
+      "sha256": "1c68999e6d94f3778cb1523820a3e1e4a52606f4bb2bb2b14b215c9c532d2a4f"
+    },
+    "Sources/LiveKit/Core/Room+MulticastDelegate.swift": {
+      "bytes": 1032,
+      "sha256": "d90db1e391efba54c03f4058aa50635a82eb41bca01ed630a204037dd53448a0"
+    },
+    "Sources/LiveKit/Core/Room+PreConnect.swift": {
+      "bytes": 3291,
+      "sha256": "9b4f13f69f5dc62e01d4052c8926a92e6f384c7734b996b904fd5d59044df2e5"
+    },
+    "Sources/LiveKit/Core/Room+Region.swift": {
+      "bytes": 9367,
+      "sha256": "3ac8d2032a48589688ba009be29f292587aa7833a371c9dfdaa4b88704e8698c"
+    },
+    "Sources/LiveKit/Core/Room+RPC.swift": {
+      "bytes": 4228,
+      "sha256": "5472844bf1d0c7cc5776503c8db85a879d671d0bb86dc04783d6556c3811f721"
+    },
+    "Sources/LiveKit/Core/Room+SignalClientDelegate.swift": {
+      "bytes": 22303,
+      "sha256": "b9a5f70019e400d32f29399c07b441a7cc5cda014664fcc7023f8d8b0b37ca8c"
+    },
+    "Sources/LiveKit/Core/Room+TransportDelegate.swift": {
+      "bytes": 4843,
+      "sha256": "3082b1305c27ad1f7eea98f18683dfb4a5e898dccc94f2fcda83187d2c0c6906"
+    },
+    "Sources/LiveKit/Core/Room.swift": {
+      "bytes": 34760,
+      "sha256": "068d1dd50658c4eadf8e4766e207bbd2dd811d652df26bf2c45ff647b7af000b"
+    },
+    "Sources/LiveKit/Core/RoomDependencies.swift": {
+      "bytes": 19235,
+      "sha256": "6ccfaa225a9aa25d645ac430a8a05bf75cc0d5c3b47e37d4705783cdb1b3715e"
+    },
+    "Sources/LiveKit/Core/RPC.swift": {
+      "bytes": 5685,
+      "sha256": "e22efcf2c426b1eb94528498430cbd7ba325a622a2e960a60023dc851eff0c45"
+    },
+    "Sources/LiveKit/Core/RpcClientManager.swift": {
+      "bytes": 16003,
+      "sha256": "1a5f74952f0bb9cfc61edc2ab890ab075ebd707e64416e0d758077c4cd15cdef"
+    },
+    "Sources/LiveKit/Core/RpcServerManager.swift": {
+      "bytes": 15281,
+      "sha256": "bbf23636b5dc4e04c2868f88873b61a446dd52dd75747114b268297f07a974fa"
+    },
+    "Sources/LiveKit/Core/RTC.swift": {
+      "bytes": 15365,
+      "sha256": "582f64f2d90cb481502c0417e5155a88dc5b8025fa5871115edba1c78784ceb4"
+    },
+    "Sources/LiveKit/Core/RTCBox.swift": {
+      "bytes": 2512,
+      "sha256": "15a73558559663ab398d52b013653f6f4bfb2e453650752b60a42b39ac3e88b2"
+    },
+    "Sources/LiveKit/Core/RTCMediaTrack.swift": {
+      "bytes": 2661,
+      "sha256": "b32d030a538967ee5ab39cc7c6a3035ae999f0b0d6e7c53967c0a0b9f905ea5b"
+    },
+    "Sources/LiveKit/Core/RTCReceiver.swift": {
+      "bytes": 1397,
+      "sha256": "6239312a3c9af442253c20ef0402dec3cbb001d93afcf268519b34704ae6e5a5"
+    },
+    "Sources/LiveKit/Core/RTCSender.swift": {
+      "bytes": 1651,
+      "sha256": "e4d285e168483a8487cfe6f61467f78fb6a6bf0884e23b1f0c52df1961a61142"
+    },
+    "Sources/LiveKit/Core/SignalClient.swift": {
+      "bytes": 38474,
+      "sha256": "2e3bd9fc5fd37e2c3cf49d92eb2870456bd9c06b92ea2e2c84411ef0b3bdd7b7"
+    },
+    "Sources/LiveKit/Core/Transport.swift": {
+      "bytes": 42988,
+      "sha256": "42e9911dcf74d72c5c5b7a80d222ad534cc77e71d1000801e23dab371e4f83c1"
+    },
+    "Sources/LiveKit/Core/TransportMode.swift": {
+      "bytes": 4006,
+      "sha256": "c513471d701a5d031e90e5862244c2efd18366902938d09d2acddf33a73458aa"
+    },
+    "Sources/LiveKit/Core/VideoEncoderFactoryAdapter.swift": {
+      "bytes": 7298,
+      "sha256": "b9c076f52f34cc662886ae94845e5b7c34d4a7632928624ea9fdf18f713745b3"
+    },
+    "Sources/LiveKit/DataStream/DataStreams+FFIDelegates.swift": {
+      "bytes": 6673,
+      "sha256": "7896cee85557b45526522e53d928680fa43f1ca09ee987963096d724b036e8cf"
+    },
+    "Sources/LiveKit/DataStream/DataStreams.swift": {
+      "bytes": 21150,
+      "sha256": "a785adf6373495394f8ac79232562dbc7c22b03f134a28616da8fbe7b661b3c2"
+    },
+    "Sources/LiveKit/DataStream/FileInfo.swift": {
+      "bytes": 3107,
+      "sha256": "8759fe04326a9ef642b3198e975b1d11053b5f80ac6cb33843d3192637bdc93a"
+    },
+    "Sources/LiveKit/DataStream/Incoming/ByteStreamReader.swift": {
+      "bytes": 7899,
+      "sha256": "7dee5f811efff4f222e6f6e0ebd09631e12fd06092fa9bfc3bce135fb8e9922e"
+    },
+    "Sources/LiveKit/DataStream/Incoming/TextStreamReader.swift": {
+      "bytes": 4929,
+      "sha256": "ae4efda671c1e3bd1fa304613ead8b8058335ab960293bc195fdddc48c54d91d"
+    },
+    "Sources/LiveKit/DataStream/Outgoing/ByteStreamWriter.swift": {
+      "bytes": 3282,
+      "sha256": "a951bd0231a100f05f8ca7ce67c297535e3b6520bb314627ad1cda89bdbc7475"
+    },
+    "Sources/LiveKit/DataStream/Outgoing/TextStreamWriter.swift": {
+      "bytes": 3284,
+      "sha256": "92f8be1535ed6cdb7cf327882ddc0959a6b065c704298a1c4d651bfdf2e8a584"
+    },
+    "Sources/LiveKit/DataStream/StreamError.swift": {
+      "bytes": 6994,
+      "sha256": "a60052623df64d3116871e30e141ef4ba0ab4acc43d72eba2c6f57a6632b708d"
+    },
+    "Sources/LiveKit/DataStream/StreamInfo.swift": {
+      "bytes": 6048,
+      "sha256": "6ab2b00db263fdfd0efd2992c7b74a42d23fb3a2bbdf1631eb309fa65ec34e8d"
+    },
+    "Sources/LiveKit/DataStream/StreamOptions.swift": {
+      "bytes": 11310,
+      "sha256": "bb91cee7d03c9e78141ea696645b645879e8324d1a611e75c7cbf3b429ed4619"
+    },
+    "Sources/LiveKit/DataTrack/DataTrackError.swift": {
+      "bytes": 5599,
+      "sha256": "26dc8d07348c0e8a45cae8f75b379ab748d7439714eddebb2cd6ee2a6e35f801"
+    },
+    "Sources/LiveKit/DataTrack/DataTrackFrame.swift": {
+      "bytes": 3971,
+      "sha256": "17baa2830e45a8c6540028481c46dc111e4ee9bad8afdde9accd636d3831c67a"
+    },
+    "Sources/LiveKit/DataTrack/DataTrackInfo.swift": {
+      "bytes": 2422,
+      "sha256": "ca875a8496535b4406882d9d52b4120312b7a5ee2a3f7b8dafab3907703a2408"
+    },
+    "Sources/LiveKit/DataTrack/DataTrackPublishOptions.swift": {
+      "bytes": 2292,
+      "sha256": "213ffb469b54d44c412927f3a8548ce410362a12e361a7def53cae672ed79369"
+    },
+    "Sources/LiveKit/DataTrack/DataTrackSchema.swift": {
+      "bytes": 9214,
+      "sha256": "1735d268c98ce64749f4baac4976ebadc4f89ae807dee2a6bf7590dc0c6d6e23"
+    },
+    "Sources/LiveKit/DataTrack/DataTrackSid.swift": {
+      "bytes": 1475,
+      "sha256": "c93da2b49e1f0279f7d64e383fc0a4d566aa82fd6e1d990727770ce4e991fffa"
+    },
+    "Sources/LiveKit/DataTrack/DataTrackStream.swift": {
+      "bytes": 2444,
+      "sha256": "03bd75319e5261d0cf3224254c3f014c0aca64b578c36871c2daf11cfe56e3c2"
+    },
+    "Sources/LiveKit/DataTrack/LocalDataTrack.swift": {
+      "bytes": 5305,
+      "sha256": "afd2dc9c1ace4b4314c399c8760ebd7407dd705d89ca572403492cfef0a62d2d"
+    },
+    "Sources/LiveKit/DataTrack/RemoteDataTrack.swift": {
+      "bytes": 4351,
+      "sha256": "8dc1078902a395de979b9c0d0f1166a3ddf852f4b22017d266bd208cd2999fea"
+    },
+    "Sources/LiveKit/E2EE/DataTrackE2EE.swift": {
+      "bytes": 2770,
+      "sha256": "90387b8b1ff809d5308400bddf22db88ec0f07dc2a244650d8c740aff2748f89"
+    },
+    "Sources/LiveKit/E2EE/E2EEManager.swift": {
+      "bytes": 18647,
+      "sha256": "2a6016764d445d5e815eb066b97b699135a7723aa28fba5098a406d14e6c5fd5"
+    },
+    "Sources/LiveKit/E2EE/KeyProvider.swift": {
+      "bytes": 11469,
+      "sha256": "1985c2c242fb7c4948fd8538625b1ce0f7631149d0530f92bd54bfdc0056a8bb"
+    },
+    "Sources/LiveKit/E2EE/Options.swift": {
+      "bytes": 4389,
+      "sha256": "a7195d680d9ea8f170de82798c57d8e36ff7d65697ed43745c0f49cd39910194"
+    },
+    "Sources/LiveKit/E2EE/Protos+E2EE.swift": {
+      "bytes": 3346,
+      "sha256": "e3792a6bc1e32dc6b8cd6b3ec7976a9be4e98407bb2481e26f4f4417a843a962"
+    },
+    "Sources/LiveKit/E2EE/State.swift": {
+      "bytes": 1738,
+      "sha256": "c411d860d42e4ec36fcda1b60f9426f2b2e6b75f6d0fe0fc0bbd5a07c1092237"
+    },
+    "Sources/LiveKit/Errors.swift": {
+      "bytes": 10724,
+      "sha256": "a89818490f7a29a989bec943bb4c9319373a1111cd15ddb90a549fc52e3facd9"
+    },
+    "Sources/LiveKit/Extensions/AsyncSequence.swift": {
+      "bytes": 782,
+      "sha256": "7181d296f448357ba7ba1f48ea8274716010e79e71069d8b87d4d8aec0d197f7"
+    },
+    "Sources/LiveKit/Extensions/AVAudioNode.swift": {
+      "bytes": 889,
+      "sha256": "759ad83cd225c20cb4a793e1f4d3ca39ecb7df49c23a9354bebc0d08c251efe3"
+    },
+    "Sources/LiveKit/Extensions/AVAudioPCMBuffer.swift": {
+      "bytes": 6920,
+      "sha256": "cce086f7759e7b13477c319a24a5c3f7fbc21724bafa216c64a8e603fc0fbbb9"
+    },
+    "Sources/LiveKit/Extensions/AVCaptureDevice.swift": {
+      "bytes": 1732,
+      "sha256": "44c90df4a77ede6c141044df958479cf836529eeb8400b1cfd3c52f7256a0864"
+    },
+    "Sources/LiveKit/Extensions/CGFloat.swift": {
+      "bytes": 703,
+      "sha256": "314f9d68ca9c34ef548409f24dad7f6a974c82c6c43e65e287cb3eaef4591401"
+    },
+    "Sources/LiveKit/Extensions/Codable.swift": {
+      "bytes": 1033,
+      "sha256": "bb3f89caf895ab781b40a95fad2690ded47cbaa9feae8230c38efeab013b4e3b"
+    },
+    "Sources/LiveKit/Extensions/CoreImage.swift": {
+      "bytes": 2790,
+      "sha256": "9f13e992964f2f247a061b69edf038ed3a8e9af70db22241f9262e4af46ff9d9"
+    },
+    "Sources/LiveKit/Extensions/CustomStringConvertible.swift": {
+      "bytes": 7997,
+      "sha256": "43b04c0cfcf1de9bd01c30595b4f938d3ff4a75ce7c8526ce402e172a1c91962"
+    },
+    "Sources/LiveKit/Extensions/Data.swift": {
+      "bytes": 1306,
+      "sha256": "0304e7cf040ac434873298444486b48dd226388b89cbae5830ea2f2c52a80451"
+    },
+    "Sources/LiveKit/Extensions/LKRTCRtpSender.swift": {
+      "bytes": 3233,
+      "sha256": "3a5adf04b7c94e3b0c91e60935aa1e69b62b9fb4735e5fc4876282d247b7495a"
+    },
+    "Sources/LiveKit/Extensions/PixelBuffer.swift": {
+      "bytes": 16477,
+      "sha256": "2409b00287c1f28cebe8572bf3d7633256c9a5093ec79394d37ff43508062018"
+    },
+    "Sources/LiveKit/Extensions/Primitives.swift": {
+      "bytes": 1872,
+      "sha256": "b307998c6a2822d4225aa28dc8e577e5af7d5681c6335457e976a392988567b5"
+    },
+    "Sources/LiveKit/Extensions/RTCConfiguration.swift": {
+      "bytes": 1286,
+      "sha256": "764fe52d21c1ea6cabb24991f15a76e7c2e57af125a1617652e43e4c1b3aedbe"
+    },
+    "Sources/LiveKit/Extensions/RTCDataChannel+Util.swift": {
+      "bytes": 1038,
+      "sha256": "12cb3199209e5d7a30d9a18ca91e89de7d8f0ff70cfe4ac4cdf8d7651cd64bd1"
+    },
+    "Sources/LiveKit/Extensions/RTCI420Buffer.swift": {
+      "bytes": 4523,
+      "sha256": "44b80c003197672e93313f522c7a975cfbde8d930e1d0e48536ff0b87a14879b"
+    },
+    "Sources/LiveKit/Extensions/RTCMediaConstraints.swift": {
+      "bytes": 894,
+      "sha256": "1ae7fb3efefb78da6afbec3c984b7d6394790c2a9b7d6b03a397d787405e8f97"
+    },
+    "Sources/LiveKit/Extensions/RTCRtpTransceiver.swift": {
+      "bytes": 2223,
+      "sha256": "e6379737b1867ec94f70a44be6e161eac79f2f69b2a94cf704b8510fd9cf7d42"
+    },
+    "Sources/LiveKit/Extensions/RTCVideoCapturerDelegate+Buffer.swift": {
+      "bytes": 2392,
+      "sha256": "9022154c5715e65451988f7049521f669d6f445a7524d6881325fc760b594f82"
+    },
+    "Sources/LiveKit/Extensions/Sendable.swift": {
+      "bytes": 2546,
+      "sha256": "71860c5dd0697c3e1c572bc5290bc0c33ab54bb715419dbaf1b3ae5278f05d25"
+    },
+    "Sources/LiveKit/Extensions/String.swift": {
+      "bytes": 1580,
+      "sha256": "c10119417740bea221471d94881386b4f95bbaf07cf2963fe92e055040de05d7"
+    },
+    "Sources/LiveKit/Extensions/TimeInterval.swift": {
+      "bytes": 4951,
+      "sha256": "e52b454ba27ad0aef918b7dedada4767d84a6281afb8fa887926fcce0f8456f1"
+    },
+    "Sources/LiveKit/Extensions/URL.swift": {
+      "bytes": 3084,
+      "sha256": "df109db1e1fba3dbc0e8f2bf54a3d41faaf999685716a9def78caedcd943f363"
+    },
+    "Sources/LiveKit/LiveKit+DeviceHelpers.swift": {
+      "bytes": 8681,
+      "sha256": "fd22025beaab806210ed259c1280f84470916ca97554bc096b6e85e4cf850993"
+    },
+    "Sources/LiveKit/LiveKit.docc/LiveKit.md": {
+      "bytes": 15,
+      "sha256": "837a82569de60c9fb2c3ccd64aa4a47a4c5ddfc8fa33a86183409ddfb5886fd9"
+    },
+    "Sources/LiveKit/LiveKit.docc/Resources/.keep": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "Sources/LiveKit/LiveKit.swift": {
+      "bytes": 3646,
+      "sha256": "e600db242caba644d44611d397fe4bfd8ff8216e3adf95da5ac8b6c8bfe092d2"
+    },
+    "Sources/LiveKit/Participant/LocalParticipant+DataStream.swift": {
+      "bytes": 8161,
+      "sha256": "5e049bb26e190d4d6eecd8e1a7f7caa5d6d052b63177d35375394cf9aa4126d1"
+    },
+    "Sources/LiveKit/Participant/LocalParticipant+DataTrack.swift": {
+      "bytes": 5392,
+      "sha256": "d3411595481058238a7f587bcd10a676da9d8b7b806352cd33a86f94ca168468"
+    },
+    "Sources/LiveKit/Participant/LocalParticipant+RPC.swift": {
+      "bytes": 4178,
+      "sha256": "1a3cd66855d0b5434f8fbb49cb2f08adfad6a94007db4662a33927eedb84ff12"
+    },
+    "Sources/LiveKit/Participant/LocalParticipant.swift": {
+      "bytes": 50522,
+      "sha256": "90d41a002c7f9c0d4e6539681b91df3bd837322d291f91c7346230db02b77c25"
+    },
+    "Sources/LiveKit/Participant/Participant+Convenience.swift": {
+      "bytes": 2048,
+      "sha256": "caca9a250c015a1705d6d401e19051a1d15b10a30c2c12684b2bd68b0fb76183"
+    },
+    "Sources/LiveKit/Participant/Participant+Equatable.swift": {
+      "bytes": 1045,
+      "sha256": "f6ef232af6556c865225e00c529e0bede5ff111a5d763eee1a6a10555a0adbc1"
+    },
+    "Sources/LiveKit/Participant/Participant+Identifiable.swift": {
+      "bytes": 794,
+      "sha256": "d2d02a36b7f903702341d55ac7318b40c24623355a6c555c1a13e808fd5fdaaa"
+    },
+    "Sources/LiveKit/Participant/Participant+Kind.swift": {
+      "bytes": 1690,
+      "sha256": "651c248d420416af83e48be592d31d04cd8631ec9026c471b498dd6cb7c3f4a3"
+    },
+    "Sources/LiveKit/Participant/Participant+MulticastDelegate.swift": {
+      "bytes": 1053,
+      "sha256": "cec7c30fea553bf5f45db24ac1fd4e8f4d152377eb15e7479017bc54497fcb33"
+    },
+    "Sources/LiveKit/Participant/Participant.swift": {
+      "bytes": 15163,
+      "sha256": "ac9333600de60341ce7699bfc31d67e77557478858fb377f7076c230ef628252"
+    },
+    "Sources/LiveKit/Participant/RemoteParticipant+Active.swift": {
+      "bytes": 2699,
+      "sha256": "88070cdca0d11e4b9cc06abaf8e3a284ab9c9fd9bd3928972126d8dd3feb03f5"
+    },
+    "Sources/LiveKit/Participant/RemoteParticipant.swift": {
+      "bytes": 11322,
+      "sha256": "34eab4261035621dd2057d2aa3b01e1447571056bafc775ba66490ec72617a17"
+    },
+    "Sources/LiveKit/PrivacyInfo.xcprivacy": {
+      "bytes": 561,
+      "sha256": "27fb64ba9efa5e9712e3c59670a0f4b556b613b009bb6f639e9e5fc2d07112b3"
+    },
+    "Sources/LiveKit/Protocols/AudioCustomProcessingDelegate.swift": {
+      "bytes": 4824,
+      "sha256": "e52d040fe22295b063ccc86d4482621c4a0eaa3435d87fb90f7b5bf5e12c2efc"
+    },
+    "Sources/LiveKit/Protocols/AudioRenderer.swift": {
+      "bytes": 1424,
+      "sha256": "c97cc077c23332056e23f38a08842a97e5d50d56c17b6d31e8d0153cdcf9acc5"
+    },
+    "Sources/LiveKit/Protocols/MediaEncoding.swift": {
+      "bytes": 976,
+      "sha256": "4e6f99605458fe513d2a833a5b1921fa647fbe00190650267d7cc7ae249623ed"
+    },
+    "Sources/LiveKit/Protocols/Mirrorable.swift": {
+      "bytes": 717,
+      "sha256": "d7217963da03de259289550517835c8475cc0d3eb8a006c32adc6f9e9fe4a4fe"
+    },
+    "Sources/LiveKit/Protocols/NextInvokable.swift": {
+      "bytes": 723,
+      "sha256": "afca213e6889a73fc4e8f6752a4d1cbd0180b8b68b9cb001f3813fcef0505374"
+    },
+    "Sources/LiveKit/Protocols/ParticipantDelegate.swift": {
+      "bytes": 13355,
+      "sha256": "08bb2c7b4fd40c7107a84faf225b087f1ae33ecb03056e55b4510c61a39f6e68"
+    },
+    "Sources/LiveKit/Protocols/RoomDelegate.swift": {
+      "bytes": 18241,
+      "sha256": "8af88f1eb677787e052f31751820d59b7df5c5658406ab5a53a6179478525684"
+    },
+    "Sources/LiveKit/Protocols/SignalClientDelegate.swift": {
+      "bytes": 3514,
+      "sha256": "45417f4b5a23bf3491d118d2283f2a35f18027dc293528f9ba0af810479dba77"
+    },
+    "Sources/LiveKit/Protocols/TrackDelegate.swift": {
+      "bytes": 1545,
+      "sha256": "d5710401fab50f592e660a18ea45b9987958742d2a09551b515eba31faaa6052"
+    },
+    "Sources/LiveKit/Protocols/TransportDelegate.swift": {
+      "bytes": 1243,
+      "sha256": "b5643db45c398a58b6a78857bfb614674ea138fc04effb820514de134ac38844"
+    },
+    "Sources/LiveKit/Protocols/VideoEncoder.swift": {
+      "bytes": 6918,
+      "sha256": "6324459c9dde6f82cab6da7090e28e63874149f589e5ea4081828cce131441ea"
+    },
+    "Sources/LiveKit/Protocols/VideoEncoderFactory.swift": {
+      "bytes": 2331,
+      "sha256": "63a04d45ac5ac6c7a8e3c54bb4604b2b6858e4a1bd1a098b05d99f5e3ce418ff"
+    },
+    "Sources/LiveKit/Protocols/VideoProcessor.swift": {
+      "bytes": 725,
+      "sha256": "34128e16af4efcecb0da82ebca64d212334e617b82aaeb0ce505ccec5d150db4"
+    },
+    "Sources/LiveKit/Protocols/VideoRenderer.swift": {
+      "bytes": 2105,
+      "sha256": "6a8abb67c179bd2601cf2b8c7799ad7a669cd10a151b6315a1509b054266c594"
+    },
+    "Sources/LiveKit/Protocols/VideoViewDelegate.swift": {
+      "bytes": 1078,
+      "sha256": "52158fb5935ef3f3f4f1c60a0445686944fdba7845b84b318ac85d0003de8cf1"
+    },
+    "Sources/LiveKit/Protos/livekit_metrics+Nanopb.swift": {
+      "bytes": 15426,
+      "sha256": "ba6d9f0398c4b2de4cdfbbd5e4fdd61c29fbd7152ae29166495326d6ef091337"
+    },
+    "Sources/LiveKit/Protos/livekit_models+Nanopb.swift": {
+      "bytes": 195378,
+      "sha256": "b6b6098ce367cf3a2c44b237cc7851a646dadfd578e2b87f49e4c6472d5ef90f"
+    },
+    "Sources/LiveKit/Protos/livekit_rtc+Nanopb.swift": {
+      "bytes": 278669,
+      "sha256": "168d7c311630a7ffc5be6fbe7fc522fe5434b7c8bf82c52fc249148c0760269c"
+    },
+    "Sources/LiveKit/Protos/timestamp+Nanopb.swift": {
+      "bytes": 2101,
+      "sha256": "97b60c2bb8b7f3de16e091bd0818c550b5ed360e84123d71d46e359816b2c0a8"
+    },
+    "Sources/LiveKit/Support/AppStateListener.swift": {
+      "bytes": 3114,
+      "sha256": "065d961bd63df8b4aa190cdb37b39c176d45fb20502dcc375eb0b75bd1446701"
+    },
+    "Sources/LiveKit/Support/Async/AsyncAbandonOnCancel.swift": {
+      "bytes": 2361,
+      "sha256": "116e1fc739fd05d24a2151039dea2c26682aaa7454e5f2d9d7f98b480c3f19c5"
+    },
+    "Sources/LiveKit/Support/Async/AsyncCompleter.swift": {
+      "bytes": 8601,
+      "sha256": "fc274d005c0828f6c09ae70781ced8eff45e2117baeca2b0f99f9d5f32946edd"
+    },
+    "Sources/LiveKit/Support/Async/AsyncDebounce.swift": {
+      "bytes": 1262,
+      "sha256": "5dc576b7684f092968e379c8b89bad225d66410d98882c4d7b9d1938c793ed95"
+    },
+    "Sources/LiveKit/Support/Async/AsyncFileStream.swift": {
+      "bytes": 4420,
+      "sha256": "355e044c7084bd58e1f135f82a1c2ae0de02c971e389e6b47b3f567adb122351"
+    },
+    "Sources/LiveKit/Support/Async/AsyncRetry.swift": {
+      "bytes": 2315,
+      "sha256": "6fb44725a72947539449a87485fe08d9e2aac69915a6f831bd50f4aabb8f78f4"
+    },
+    "Sources/LiveKit/Support/Async/AsyncSequence+Subscribe.swift": {
+      "bytes": 6569,
+      "sha256": "7f6126e8e305929a2f89b3b0b1b15ab8946c026d9e18462484b7894aa65ba1e3"
+    },
+    "Sources/LiveKit/Support/Async/AsyncSerialDelegate.swift": {
+      "bytes": 2064,
+      "sha256": "5cfbf42e6a49d45dcc0edeac4c74ca15df9b53ee6abd9616151e3025ec62dbe0"
+    },
+    "Sources/LiveKit/Support/Async/AsyncTimer.swift": {
+      "bytes": 2929,
+      "sha256": "5f4449f7474d24c7d54398f24a2d98d59a42d3a8260fba0d96471db5dfc85c4d"
+    },
+    "Sources/LiveKit/Support/Async/AsyncTryMapSequence.swift": {
+      "bytes": 1551,
+      "sha256": "4dda9d646798c39560f69777e016d66108982ba474490fd8e8324ea98373d419"
+    },
+    "Sources/LiveKit/Support/Async/ObservableObject+.swift": {
+      "bytes": 1052,
+      "sha256": "08dac0f54b8e070314c31f3636672fd640c2910eccf756274cdd82529f7a59db"
+    },
+    "Sources/LiveKit/Support/Async/Task+Discarding.swift": {
+      "bytes": 2975,
+      "sha256": "d8110e13bbffad5f693f18545b97b8452998e6eba1d320007c6ab3fe6e01b3fd"
+    },
+    "Sources/LiveKit/Support/Audio/AudioConverter.swift": {
+      "bytes": 2638,
+      "sha256": "6c2e518651b01a0b1600dfdd91cec6021cc2a49b2f3f6fe0e8e083617062a9f0"
+    },
+    "Sources/LiveKit/Support/Audio/AudioMixRecorder.swift": {
+      "bytes": 10409,
+      "sha256": "e697e4cbb9cce2fa4e0b73288a515ff2a1c116d44fe53d3bb96502c4bee2e146"
+    },
+    "Sources/LiveKit/Support/Audio/AudioPlayerRenderer.swift": {
+      "bytes": 2378,
+      "sha256": "152878848a1701a3f56dbbea0777415e7e2765db86b8ea0b0bbed1f7a20feddb"
+    },
+    "Sources/LiveKit/Support/Audio/AVAudioPCMRingBuffer.swift": {
+      "bytes": 4388,
+      "sha256": "db4a2f08192dd2d46573a16009f78ffb278689bb7705861a9eb61110774e7e20"
+    },
+    "Sources/LiveKit/Support/Audio/FFTProcessor.swift": {
+      "bytes": 5720,
+      "sha256": "d38c1476d663bee662044b4aafca2fddddd4f43e44a4e59d9159a63a71d29320"
+    },
+    "Sources/LiveKit/Support/DataStructures/Deque.swift": {
+      "bytes": 2551,
+      "sha256": "44258cf3b88a96f0abda0267e3f79a890a6ce6f51336d13b1fa5a5e551e65f45"
+    },
+    "Sources/LiveKit/Support/DataStructures/MapTable.swift": {
+      "bytes": 1623,
+      "sha256": "25f1f0f994299c385f25df137a72b7d55adf5e8798cc389fd9e6afc2a477aa01"
+    },
+    "Sources/LiveKit/Support/DataStructures/OrderedDictionary.swift": {
+      "bytes": 3218,
+      "sha256": "1e0a2ff3ded9dd6b9f49fe720e18b0dfcdbbc44143f121a1fd136f5825af4ade"
+    },
+    "Sources/LiveKit/Support/DataStructures/OrderedSet.swift": {
+      "bytes": 1315,
+      "sha256": "659f6041634337182b219425a0cea2fbff968f47a511044de35f5b05a28ab579"
+    },
+    "Sources/LiveKit/Support/DataStructures/RingBuffer.swift": {
+      "bytes": 1543,
+      "sha256": "f4440b54f791774f6c4c4bd9b887982627846e1534ace726b120b4dc7250b112"
+    },
+    "Sources/LiveKit/Support/DataStructures/TTLDictionary.swift": {
+      "bytes": 2839,
+      "sha256": "71b460efc6b5ebb69a90b51b3c94978efe7436fee539edc8fe4776f1d37d32e9"
+    },
+    "Sources/LiveKit/Support/Global.swift": {
+      "bytes": 1685,
+      "sha256": "bbfaa732474905cd0aea302ed0c34e9ceee00394fc3ce37712a772d0c7ab8fca"
+    },
+    "Sources/LiveKit/Support/Gzip.swift": {
+      "bytes": 3996,
+      "sha256": "dea0a0fd008dca169eb92a50c7450e99684872c660b8a7050886455debf0f770"
+    },
+    "Sources/LiveKit/Support/Logger.swift": {
+      "bytes": 9539,
+      "sha256": "218c8992f38bac4b8b0688ce1e3d977248817681371259864646ab47a422a635"
+    },
+    "Sources/LiveKit/Support/MulticastDelegate.swift": {
+      "bytes": 3756,
+      "sha256": "edcb64770f99b9d760d2fce5205f93c2ba452eee4a32b2aead0a2d4e48140dea"
+    },
+    "Sources/LiveKit/Support/Network/ConnectivityListener.swift": {
+      "bytes": 6976,
+      "sha256": "4c4b60f6e63841feb74135d28111dc1c76a59b02d8b67446681f8b3c2f7f354c"
+    },
+    "Sources/LiveKit/Support/Network/HTTP.swift": {
+      "bytes": 4568,
+      "sha256": "e0e146d03f194f8e170c6275210b5b1afa6ff9831e7cf860b2aa9d8efe9f7100"
+    },
+    "Sources/LiveKit/Support/Network/RustTransport.swift": {
+      "bytes": 6957,
+      "sha256": "f537a0e5ecbe2a93c62da9252f78268a73408491d4404079901a01eefdb98bb3"
+    },
+    "Sources/LiveKit/Support/Network/WebSocket.swift": {
+      "bytes": 7575,
+      "sha256": "96d772a9888c73043c207f4c8872d25a4458fc63d8a94c28cc7dcca03bcd9e67"
+    },
+    "Sources/LiveKit/Support/Schedulers/DispatchQueueExecutor.swift": {
+      "bytes": 1996,
+      "sha256": "d74771a00c6225ab66422dffb7f06a08468da48e633d0ce02f89f72614011ab5"
+    },
+    "Sources/LiveKit/Support/Schedulers/QueueActor.swift": {
+      "bytes": 2336,
+      "sha256": "114d093e15cc9d56e82a11ac14297e64b3d430243654a9a534db228c5e28e58c"
+    },
+    "Sources/LiveKit/Support/Schedulers/SerialRunnerActor.swift": {
+      "bytes": 1600,
+      "sha256": "116822fb041319f1e33000bfa750840de27fd99efc52f05281977e0707b4c38b"
+    },
+    "Sources/LiveKit/Support/SDP/SDP.swift": {
+      "bytes": 11558,
+      "sha256": "4fc9866770be6afd9e1b08790e98a4efa677d0d647ac5897388605c2281b6012"
+    },
+    "Sources/LiveKit/Support/Sync/Locks.swift": {
+      "bytes": 2912,
+      "sha256": "f4abcedcfeb8889b7f2998e22562252f9df6cb827e6e11dd7de5b2da29723e1e"
+    },
+    "Sources/LiveKit/Support/Sync/StateSync.swift": {
+      "bytes": 5881,
+      "sha256": "0207b941f036908d8f4f670e25c4fa54e3b79602b896c25315e2ad5d5917bc56"
+    },
+    "Sources/LiveKit/Support/Tracing.swift": {
+      "bytes": 4302,
+      "sha256": "e3724347bc08be0ec73d30e5bfdf7cc081edfdbb7b83d7a8c4d465795e242fb8"
+    },
+    "Sources/LiveKit/Support/Utils+VideoEncodings.swift": {
+      "bytes": 5585,
+      "sha256": "60af65c8a94ab70c7412339535f641f5b99d5e71df0f6cf32e8a8062ab6a338b"
+    },
+    "Sources/LiveKit/Support/Utils.swift": {
+      "bytes": 15155,
+      "sha256": "79f01b234f3e146b8ec190f791c6d8a0ca9b96f4d0e385763a88cd7694a0753d"
+    },
+    "Sources/LiveKit/Support/ValueOrAbsent.swift": {
+      "bytes": 925,
+      "sha256": "60cdc9050331488a83c63ee818902db9f5d9bd14ee17f1f78ef525ef7cd7dea9"
+    },
+    "Sources/LiveKit/Support/Video/DeviceManager.swift": {
+      "bytes": 5680,
+      "sha256": "0d68e0d957857269ec77d1854efe7b7d72e225c672b71f90b2b7723cc3da7ce9"
+    },
+    "Sources/LiveKit/Support/View/NativeView.swift": {
+      "bytes": 2052,
+      "sha256": "f26b7846f617b58433e8f7253fa754f5794b629a0d08f2d09d24fffd1e0f89dc"
+    },
+    "Sources/LiveKit/Support/View/NativeViewRepresentable.swift": {
+      "bytes": 2255,
+      "sha256": "d36fc8232cb3ece4eb42b1a17987d79b7ba83feaf906fdcfa80f985c79416f46"
+    },
+    "Sources/LiveKit/Support/View/TextView.swift": {
+      "bytes": 2715,
+      "sha256": "b866d4eb2f1820e2b6da72f6c3a531c9e21a47bdeb6fba58eb1d76b2ea0414d1"
+    },
+    "Sources/LiveKit/SwiftUI/LocalMedia.swift": {
+      "bytes": 8851,
+      "sha256": "f48855c34071e12b159eb00fb9a1c32f81678bf08f47c8e923a8a6f48af1b276"
+    },
+    "Sources/LiveKit/SwiftUI/SwiftUIAudioRoutePickerButton.swift": {
+      "bytes": 1308,
+      "sha256": "d094afefdc802d385522aceb3dfbd0f436d5b2cd02d1a59e9f8b2d7e3cf83151"
+    },
+    "Sources/LiveKit/SwiftUI/SwiftUIVideoView.swift": {
+      "bytes": 3526,
+      "sha256": "bd1404ba83526134473c76a800182c234222a3be21d6c4f8533aa58d3869d674"
+    },
+    "Sources/LiveKit/SwiftUI/TrackDelegateObserver.swift": {
+      "bytes": 2031,
+      "sha256": "7b4a372e3759eaf69c48ca03a6d1d0229e0c2b063c8ad554396f70acb529dd2f"
+    },
+    "Sources/LiveKit/Token/CachingTokenSource.swift": {
+      "bytes": 6444,
+      "sha256": "0d70242ee788c2fa5f6082a93d157b19ac2aee8844049fc10ce261e19bae2272"
+    },
+    "Sources/LiveKit/Token/DevelopmentTokenSource.swift": {
+      "bytes": 2046,
+      "sha256": "66b1bdedd2b35984937a1d92bb07ff5ca363c4947f006c8ed3fd323d906600af"
+    },
+    "Sources/LiveKit/Token/EndpointTokenSource.swift": {
+      "bytes": 2825,
+      "sha256": "fd45cbebd9c8c7b13b4258cebc71123e83d4d766bb15c9a12353a6236b7420c9"
+    },
+    "Sources/LiveKit/Token/LiteralTokenSource.swift": {
+      "bytes": 2383,
+      "sha256": "a31d922a93a74c1fe47db7146c49a97074a5d1afa76f4f7fa8b5231cafda8298"
+    },
+    "Sources/LiveKit/Token/TokenSource.swift": {
+      "bytes": 7098,
+      "sha256": "1713136beac24f81a21eead1fe4f5cd8d9f951e289efdd874ddeacb9756ab140"
+    },
+    "Sources/LiveKit/Track/AudioTrack.swift": {
+      "bytes": 914,
+      "sha256": "aa36a4d68679023e1c2c3f8973e67fb3c4adf3ec0b08bed6dddf944b6f348b7f"
+    },
+    "Sources/LiveKit/Track/Capturers/ARCameraCapturer.swift": {
+      "bytes": 5287,
+      "sha256": "62a99b96915a76de010b8209029d7d7c20e4d57069cda3c57b8a4db4deeeda3a"
+    },
+    "Sources/LiveKit/Track/Capturers/BufferCapturer.swift": {
+      "bytes": 4379,
+      "sha256": "1105c897577523580e419e5a8e74e02da58d856a1fafa602a324f9607c8f5ad4"
+    },
+    "Sources/LiveKit/Track/Capturers/CameraCapturer.swift": {
+      "bytes": 20434,
+      "sha256": "507adc7ace5c955fc8f025fd1316590466f0600fdf21dcc0ae0e9675ae9d38bc"
+    },
+    "Sources/LiveKit/Track/Capturers/InAppCapturer.swift": {
+      "bytes": 4401,
+      "sha256": "1f3908470ea9683fc73d48a768714e01a52b13171f3d7c5bc5afea40417bee0c"
+    },
+    "Sources/LiveKit/Track/Capturers/IOSScreenCapturer.swift": {
+      "bytes": 10543,
+      "sha256": "b76af660e9abcadbd6b6a67f7ce49772f9621c00fc1fa13cdf7aa0b04cbfe1ab"
+    },
+    "Sources/LiveKit/Track/Capturers/MacOSScreenCapturer.swift": {
+      "bytes": 12982,
+      "sha256": "623131fdd335ede5883ffa714987573ba3eeae9660de9cca3756c35d335a795a"
+    },
+    "Sources/LiveKit/Track/Capturers/ScreenCapturer.swift": {
+      "bytes": 9346,
+      "sha256": "484c7001399389c273b19d6d61f6fcf7dbff53b3a03f429b7f5240edcb3eb703"
+    },
+    "Sources/LiveKit/Track/Capturers/VideoCapturer+MulticastDelegate.swift": {
+      "bytes": 1059,
+      "sha256": "313fe064f7750cf1aa8cfd7341f05ec84b3aa66de15de6dcc8b2b7018f852be6"
+    },
+    "Sources/LiveKit/Track/Capturers/VideoCapturer.swift": {
+      "bytes": 13002,
+      "sha256": "52779f7635a37c41644341d06412452fabb8cc4a2f05e8bdf11b908e8722123d"
+    },
+    "Sources/LiveKit/Track/Local/LocalAudioTrack.swift": {
+      "bytes": 9213,
+      "sha256": "51fba1930bbd371e6e70a42a16d555c8b850bfa2b0107f306c41c5fef93767e4"
+    },
+    "Sources/LiveKit/Track/Local/LocalTrack.swift": {
+      "bytes": 974,
+      "sha256": "143215963f73e219deab06d1971b0f895fd0fcd1e5e0f3fbd9dbce7c09cea89c"
+    },
+    "Sources/LiveKit/Track/Local/LocalVideoTrack.swift": {
+      "bytes": 3715,
+      "sha256": "8437744d6e04285cc8c28efcbcfadc1800abfc0a9f7baee024803a8bb83d2628"
+    },
+    "Sources/LiveKit/Track/Metrics/MetricsManager.swift": {
+      "bytes": 11492,
+      "sha256": "f7813d9dab0a272b568838023374dd70dea866b4666baaaeebe7b7e1f6787fce"
+    },
+    "Sources/LiveKit/Track/Recorders/LocalAudioTrackRecorder.swift": {
+      "bytes": 5541,
+      "sha256": "12655a0b2e18aa032e3bfd0eab609e0750c815378d672eaea85723bbfae1a084"
+    },
+    "Sources/LiveKit/Track/Remote/RemoteAudioTrack.swift": {
+      "bytes": 2892,
+      "sha256": "f9d41dbeeba9860f9211893f5eb31011ae2bb38d44351292277de91a6ad4a92b"
+    },
+    "Sources/LiveKit/Track/Remote/RemoteTrack.swift": {
+      "bytes": 759,
+      "sha256": "4b0ad07c7e63987ee8246a3dbdce8b2e7eae405bed6812743bb1b0c06fac9b62"
+    },
+    "Sources/LiveKit/Track/Remote/RemoteVideoTrack.swift": {
+      "bytes": 2671,
+      "sha256": "66b08df724581341ae1ba55057bed2774f1c60a4b6499c4261ea5de6ed6440e2"
+    },
+    "Sources/LiveKit/Track/Support/Extensions.swift": {
+      "bytes": 4668,
+      "sha256": "47f2ba1bd68c42cf0e26e736c5adf64623766219f9460b3e2617f0c15a4b473f"
+    },
+    "Sources/LiveKit/Track/Track+Equatable.swift": {
+      "bytes": 1031,
+      "sha256": "593748ac20116b051b9259bc9e7c2faebcddefcd4956f0ad27044a30e6351ecc"
+    },
+    "Sources/LiveKit/Track/Track+MulticastDelegate.swift": {
+      "bytes": 1035,
+      "sha256": "66d0890835b527382aab90e9ef7390474e3bf65d3d76f2bd94ca6e15de2a45c7"
+    },
+    "Sources/LiveKit/Track/Track.swift": {
+      "bytes": 15916,
+      "sha256": "a80b7e0220d1600e4c48674114e2fe89af1af6a37419f0b15024e377d74644aa"
+    },
+    "Sources/LiveKit/Track/VideoTrack.swift": {
+      "bytes": 3808,
+      "sha256": "ab83bfe847fbe84b4987fccea64e6016ccee6be0b47bbd8c040ddbc6d65a6c82"
+    },
+    "Sources/LiveKit/TrackPublications/LocalTrackPublication.swift": {
+      "bytes": 8511,
+      "sha256": "c48e0d57713698ab5f1bb60b67188da4de6d28fd6a4eba3eda6760a5682b5574"
+    },
+    "Sources/LiveKit/TrackPublications/RemoteTrackPublication.swift": {
+      "bytes": 15410,
+      "sha256": "14ffd3b036479d08843e451e37ded9898398b655d1495ffa13462c217b0b034e"
+    },
+    "Sources/LiveKit/TrackPublications/TrackPublication+Equatable.swift": {
+      "bytes": 1050,
+      "sha256": "708b0fe67ad3d1c223490f1f55f1e9114ee06edec2fa621fffeccde400a985a8"
+    },
+    "Sources/LiveKit/TrackPublications/TrackPublication+Identifiable.swift": {
+      "bytes": 796,
+      "sha256": "49ac6bf3067a0d4294ac6c9552c58afeb1ec212466eb61c93c65d4dbf8bbe57c"
+    },
+    "Sources/LiveKit/TrackPublications/TrackPublication.swift": {
+      "bytes": 8314,
+      "sha256": "ffe4b3900bda9bae2de9b64701c270abace83cc73fa5513cb8e23ebcaefe1c97"
+    },
+    "Sources/LiveKit/Types/Attributes/AttributeTypings.swift": {
+      "bytes": 3512,
+      "sha256": "879fcb3718d1fd1ea786130f48a51c8f95fcd769e184c9eca9042555ec037faa"
+    },
+    "Sources/LiveKit/Types/AudioBuffer.swift": {
+      "bytes": 1471,
+      "sha256": "4152a048a77ff69e65c7656d24df86039302f35f32c7fb685092909d3e1b0821"
+    },
+    "Sources/LiveKit/Types/AudioDevice.swift": {
+      "bytes": 1086,
+      "sha256": "a266772a92ae8cceb351476381dc724fe8a002bb60380b2384683c3c157b9d66"
+    },
+    "Sources/LiveKit/Types/AudioDuckingLevel.swift": {
+      "bytes": 1927,
+      "sha256": "31412221db1fc63c34687b21fb4ba0088f17e9814ede6fddafaf8d2b74d03725"
+    },
+    "Sources/LiveKit/Types/AudioEncoding+Comparable.swift": {
+      "bytes": 796,
+      "sha256": "2625771ccc7b1e22ee35702a4840085b9f54eeb1b00ac81815e93b25d5588965"
+    },
+    "Sources/LiveKit/Types/AudioEncoding.swift": {
+      "bytes": 2645,
+      "sha256": "cab10b9f03f14383f11a7a4ad3abdaaf5f7fdae07d3b19211eeda23afc2de192"
+    },
+    "Sources/LiveKit/Types/AudioEngineAvailability.swift": {
+      "bytes": 1707,
+      "sha256": "95440f7308372ffcd074d627350c0ddd9c550c8f4ad5df4382dd169e4fa7029c"
+    },
+    "Sources/LiveKit/Types/AudioProcessingModes.swift": {
+      "bytes": 4483,
+      "sha256": "b06cf26bf912e7acc244b3aae06d0ef41401afbcb11f96fc9947b3120a3114d5"
+    },
+    "Sources/LiveKit/Types/AudioProcessingOptions.swift": {
+      "bytes": 13801,
+      "sha256": "88bf9f45514bb1b6e8de9181e305cbf7daaef2acfb45464d0c85125a91b3696a"
+    },
+    "Sources/LiveKit/Types/AudioProcessingOptionsError.swift": {
+      "bytes": 1747,
+      "sha256": "4f82991fbf5694bae57516ea3e7544a8769a43a035d4504037a8b1bb88056cc8"
+    },
+    "Sources/LiveKit/Types/AudioSessionConfiguration.swift": {
+      "bytes": 7389,
+      "sha256": "7b4cb69817ea2f1b06bcbb2f4443d5e7076be8b771a268de657951df870c80a6"
+    },
+    "Sources/LiveKit/Types/ClientCapability.swift": {
+      "bytes": 1536,
+      "sha256": "029eddc0001215505429448f1dcd056b8df5222c58dee73428750d0dc8f5c139"
+    },
+    "Sources/LiveKit/Types/ClientProtocol.swift": {
+      "bytes": 1892,
+      "sha256": "7415fdddaca094894875e3a418d8c5da8f3e253d1f8ff8032c302d912266c61e"
+    },
+    "Sources/LiveKit/Types/Codec/Codec.swift": {
+      "bytes": 1001,
+      "sha256": "e0627a6040fc83016b897ca29c11aa73f7b2a7d69bc148608325e25f6e5a0488"
+    },
+    "Sources/LiveKit/Types/Codec/VideoCodec.swift": {
+      "bytes": 2657,
+      "sha256": "7630564ae66b126a626abf28a79654786ea0a8f00a91b95d445564a1d1fd3e2a"
+    },
+    "Sources/LiveKit/Types/ConnectionQuality.swift": {
+      "bytes": 1260,
+      "sha256": "16083cc508841d09e5829ccb1dcfd8c845b4e325c9c2ce0b4a7849f9623fca24"
+    },
+    "Sources/LiveKit/Types/ConnectionState.swift": {
+      "bytes": 1572,
+      "sha256": "46431356ef9caf68c7ba88855a9fa5513ee533ecd378b737495a3cd0c719db42"
+    },
+    "Sources/LiveKit/Types/DataChannelKind.swift": {
+      "bytes": 1466,
+      "sha256": "746a8d33d975407422ca16606071220dcb21c21a6c237830be3d6c7f98d253d2"
+    },
+    "Sources/LiveKit/Types/DegradationPreference.swift": {
+      "bytes": 2622,
+      "sha256": "577a8c0f27fb62239b87fe92ea29e6d2efda74caac4ffa9ee1fa6155987d1f7e"
+    },
+    "Sources/LiveKit/Types/Dimensions.swift": {
+      "bytes": 7551,
+      "sha256": "fdb5c3f172fdf96486a56fdb01d38732035488e8a8eefe7f656ed9d9f463a093"
+    },
+    "Sources/LiveKit/Types/EncodedVideoFrame.swift": {
+      "bytes": 5792,
+      "sha256": "6d601655b601c548b48238cbbe5efe9febfa526cfab2d828b80e41c97601cdc8"
+    },
+    "Sources/LiveKit/Types/IceCandidate.swift": {
+      "bytes": 2048,
+      "sha256": "27bc8571ab8e874decab6110a00687b3e7f6053ddbc18b8298868d98646d9dda"
+    },
+    "Sources/LiveKit/Types/IceServer.swift": {
+      "bytes": 1724,
+      "sha256": "b697c60760d5020a0c4b1112dfc1c2b7723709b2b67e050f1b2aebc7312f84ed"
+    },
+    "Sources/LiveKit/Types/IceTransportPolicy.swift": {
+      "bytes": 1024,
+      "sha256": "c78df0c179e43286e6368f5ddd97f91bc7636981fd9a407e9304fecd4d13a8af"
+    },
+    "Sources/LiveKit/Types/MediaDevice.swift": {
+      "bytes": 745,
+      "sha256": "84043d0516fc0f8c180fc29958f3f2cf7c8d9f0358e07c185b2465ae011d8ade"
+    },
+    "Sources/LiveKit/Types/Options/ARCameraCaptureOptions.swift": {
+      "bytes": 1550,
+      "sha256": "0b7113e404526b547e55a6ac7107ee26ea2612bcf2829600c258309fccfb9212"
+    },
+    "Sources/LiveKit/Types/Options/AudioCaptureOptions.swift": {
+      "bytes": 5661,
+      "sha256": "927885dceb579b100641c7a2eefdab604e5503db0dd42db6307d3f3f1cbdc54f"
+    },
+    "Sources/LiveKit/Types/Options/AudioPublishOptions.swift": {
+      "bytes": 2695,
+      "sha256": "fe8dcfce127da7b2f11035630232a58b8d5d2415683c719e3e195c9938aeeb15"
+    },
+    "Sources/LiveKit/Types/Options/BufferCaptureOptions.swift": {
+      "bytes": 1544,
+      "sha256": "027200378f51c241a20139f302464b249a8450030dfeeb339b066d8b51cc26f3"
+    },
+    "Sources/LiveKit/Types/Options/CameraCaptureOptions+Copy.swift": {
+      "bytes": 2523,
+      "sha256": "768ec8d6e98d4ddb11dcb360f925890d9a39c0da1d7164903cfd81b151868fd7"
+    },
+    "Sources/LiveKit/Types/Options/CameraCaptureOptions.swift": {
+      "bytes": 3972,
+      "sha256": "ad838bfff36cc34f25e233b1b5b936a4c1b2a25e6f1c5404f40e8b32d9eaa124"
+    },
+    "Sources/LiveKit/Types/Options/CaptureOptions.swift": {
+      "bytes": 681,
+      "sha256": "29bb1a7fde0946a6c560678a6d07435fc3aa870720b0c3be1d9ea6268f0f5eb0"
+    },
+    "Sources/LiveKit/Types/Options/ConnectOptions+Copy.swift": {
+      "bytes": 1741,
+      "sha256": "9069f6b7dcb73ceaa20ab91be6d07c52f3efd91ea24739de9425ffa8682d1617"
+    },
+    "Sources/LiveKit/Types/Options/ConnectOptions.swift": {
+      "bytes": 7408,
+      "sha256": "f51969c803fcc5de5e2bf9a86e3632e4ae08fea30c7cec9b8da11b78e1da83e3"
+    },
+    "Sources/LiveKit/Types/Options/DataPublishOptions.swift": {
+      "bytes": 2411,
+      "sha256": "6b5d1cbf5fa13f57b4d03f10a2dd22e7f0abea4b09a442db66798d4589282a3c"
+    },
+    "Sources/LiveKit/Types/Options/DataStreamOptions.swift": {
+      "bytes": 2759,
+      "sha256": "952583d38279f8e54220243678d98d637ddddcb0484e3bc6f4079f23f1e39514"
+    },
+    "Sources/LiveKit/Types/Options/PublishOptions.swift": {
+      "bytes": 1261,
+      "sha256": "2d324f168c859d625a1b36d297551a767a837a79c2ffba1140e5e13708a74626"
+    },
+    "Sources/LiveKit/Types/Options/RoomOptions.swift": {
+      "bytes": 10241,
+      "sha256": "fbc5742dc10ba95eb2ae9f9efad71efe7443439f4e14a8a71591cad579bdb944"
+    },
+    "Sources/LiveKit/Types/Options/ScreenShareCaptureOptions.swift": {
+      "bytes": 5273,
+      "sha256": "d1811ae9b32aafc4af326481a896d13b9fb9ed389432e484700c43b3da97973d"
+    },
+    "Sources/LiveKit/Types/Options/VideoCaptureOptions.swift": {
+      "bytes": 770,
+      "sha256": "05ef7c2ad0766df5343a1de981061d271e3588d4aabb45584353c96d4c721996"
+    },
+    "Sources/LiveKit/Types/Options/VideoPublishOptions.swift": {
+      "bytes": 3640,
+      "sha256": "67b5d2c7477830a572e350bc22a8bdda11fa7dab2b136f0361a70abf53f3f7bf"
+    },
+    "Sources/LiveKit/Types/Participant+Types.swift": {
+      "bytes": 2109,
+      "sha256": "658372e776ffcb27362abf08194f7799eaaee01dcceddba3ef4a2389d133e528"
+    },
+    "Sources/LiveKit/Types/ParticipantPermissions.swift": {
+      "bytes": 4252,
+      "sha256": "a759675dcc330af58b022d42f097e0d26cff4e77dadfb1c85780494fd45dfce5"
+    },
+    "Sources/LiveKit/Types/ParticipantState.swift": {
+      "bytes": 2467,
+      "sha256": "9fdd00b0834b9126b227820068ad034127402fc81cd404e5aa2515b190c66037"
+    },
+    "Sources/LiveKit/Types/ParticipantTrackPermission.swift": {
+      "bytes": 1782,
+      "sha256": "40b9e5870ddd851d6e139baa1e69c6664ad9274cbdec6bfe77b70b487eaf5a9a"
+    },
+    "Sources/LiveKit/Types/Priority.swift": {
+      "bytes": 1749,
+      "sha256": "9a7fc859afafc227378f9d988f10243ca9eab2b0f2364574fdd9113208efe05f"
+    },
+    "Sources/LiveKit/Types/ProtocolVersion.swift": {
+      "bytes": 1545,
+      "sha256": "c37b5a96d0caf4a31eb0bbd2d95905adc9aefa9fdcab19c12059f44adfc660eb"
+    },
+    "Sources/LiveKit/Types/RegionInfo.swift": {
+      "bytes": 1663,
+      "sha256": "17f420fa404eea7ff57b1d0ce5f15dd6229202b51b4b55cc745de154047356ea"
+    },
+    "Sources/LiveKit/Types/Room+Types.swift": {
+      "bytes": 1355,
+      "sha256": "3d8fd2cecc6dd6a61c673a0a9dd37152aa395b40a2de10b000807b4e1e3db6f4"
+    },
+    "Sources/LiveKit/Types/RoomConfiguration.swift": {
+      "bytes": 3670,
+      "sha256": "a77d5f01e43d07acd9594fdf3e412e78b96d161fd01092daf621a72e0821094e"
+    },
+    "Sources/LiveKit/Types/ScalabilityMode.swift": {
+      "bytes": 1663,
+      "sha256": "71e1450768d9638fb98e6416bfe40026a07f4f0001e9cc3f6dffcbc7931b0f9d"
+    },
+    "Sources/LiveKit/Types/SessionDescription.swift": {
+      "bytes": 1605,
+      "sha256": "ce7f02b0addbe81f6e3766c6284f1ebb14a0ca11b52a13796211884fabc78f52"
+    },
+    "Sources/LiveKit/Types/SpeechActivityEvent.swift": {
+      "bytes": 960,
+      "sha256": "d857d6280a40bbeb95b3e40f07815ba793100573d6e76e5f5eaab62d68350802"
+    },
+    "Sources/LiveKit/Types/Statistics.swift": {
+      "bytes": 33213,
+      "sha256": "06c7e4d23e0b5d49ec128b60a225403cacd794fc8076cc7bf9b36841b181934a"
+    },
+    "Sources/LiveKit/Types/Track+Types.swift": {
+      "bytes": 1352,
+      "sha256": "5d58b2281f232ffcd9ada26366e8adf6e6ed6dae7d3a54159ca482215ec3863b"
+    },
+    "Sources/LiveKit/Types/TrackSettings.swift": {
+      "bytes": 1744,
+      "sha256": "dfa09476b993f230cb6a0a8c1222b444ae4c6d167934c8ff7f2e2d256dbed987"
+    },
+    "Sources/LiveKit/Types/TrackSource.swift": {
+      "bytes": 1251,
+      "sha256": "f3809c7bd4b801e51d7183a55e2285740c5cc768bda3ca794e1af345f9bdb9f1"
+    },
+    "Sources/LiveKit/Types/TrackStatistics.swift": {
+      "bytes": 6271,
+      "sha256": "6f2cb5fbfe1f915f0f5e37728df9ecdfe234c5e98a210700f4ccea8135a34db5"
+    },
+    "Sources/LiveKit/Types/TrackStreamState.swift": {
+      "bytes": 922,
+      "sha256": "43c3b82cfc0f3b9aab7037eb799daadbbc1a48fe91f0e8c0bbce7b6fbc1037bf"
+    },
+    "Sources/LiveKit/Types/TrackType.swift": {
+      "bytes": 1273,
+      "sha256": "4e309380f3edf5aea037d6249ff28311cf97eb5abd28f29c8ec66b8d684734b6"
+    },
+    "Sources/LiveKit/Types/TranscriptionSegment.swift": {
+      "bytes": 1635,
+      "sha256": "14565a9d67282d6cb3080035de9c8ec38114bd0a138ea912e3f712086b2ca291"
+    },
+    "Sources/LiveKit/Types/VideoCodecInfo.swift": {
+      "bytes": 5786,
+      "sha256": "46ff7bdc9a97bba5a24934f87bea979dbdef7baf5805c9759b7b145510c8dbe3"
+    },
+    "Sources/LiveKit/Types/VideoEncoderSettings.swift": {
+      "bytes": 3764,
+      "sha256": "5b234a438a902016d484be20ab086be2140082e6ef044254c70dd783045b881f"
+    },
+    "Sources/LiveKit/Types/VideoEncoding+Comparable.swift": {
+      "bytes": 907,
+      "sha256": "5edcb76ee72399572308ecc1a1ddeabda7dac584541d67ea9f10e9ef5049bc44"
+    },
+    "Sources/LiveKit/Types/VideoEncoding.swift": {
+      "bytes": 2095,
+      "sha256": "092fd862356ac53594cb2c17075047617ced810e5036e492568b8d0f63fcdc96"
+    },
+    "Sources/LiveKit/Types/VideoFrame.swift": {
+      "bytes": 10001,
+      "sha256": "459d2f6cde545e2ede68b7135a5dce61109f7f26c1d5609dd559457c4d05fc22"
+    },
+    "Sources/LiveKit/Types/VideoParameters+Comparable.swift": {
+      "bytes": 937,
+      "sha256": "cceeaa96c95970591ae060750b1fcb67dfc3c3918fa0d3d0c3213a839be76df2"
+    },
+    "Sources/LiveKit/Types/VideoParameters.swift": {
+      "bytes": 8785,
+      "sha256": "3a10516fbce2d84663146b9abb32ae40f93ca2035b15b9749fc5fa10f31d45f1"
+    },
+    "Sources/LiveKit/Types/VideoQuality.swift": {
+      "bytes": 2140,
+      "sha256": "86b4ae41c8da163ce655dbbd8b3f8de66ee9e5caab26d92ab7ba6371fbe48c17"
+    },
+    "Sources/LiveKit/Types/VideoRotation.swift": {
+      "bytes": 1037,
+      "sha256": "b57cdaccb2a40c574489aa41436134aefdd8cbe4a048eba60e65c7af4b70f126"
+    },
+    "Sources/LiveKit/VideoProcessors/BackgroundBlurVideoProcessor.swift": {
+      "bytes": 7739,
+      "sha256": "cf7ff8651f0dcd450f1db2e9bfbceae7d3a8029183008e1689ea8b6d5bf1f690"
+    },
+    "Sources/LiveKit/Views/SampleBufferVideoRenderer.swift": {
+      "bytes": 9413,
+      "sha256": "e9c5b894e790755825200b5ee8663a2399e076741101295aa3377b4e8b4479de"
+    },
+    "Sources/LiveKit/Views/VideoRendererBinder.swift": {
+      "bytes": 3574,
+      "sha256": "676849f3d45c699ad708b9d3588f4b46edd0bf839fc7e37f286835d9633c7b84"
+    },
+    "Sources/LiveKit/Views/VideoView+MulticastDelegate.swift": {
+      "bytes": 1083,
+      "sha256": "88eb25a1e076c5b9abecf55f63e4036d80fb2ad2521e095946f3c6938d9ba473"
+    },
+    "Sources/LiveKit/Views/VideoView+PinchToZoom.swift": {
+      "bytes": 4814,
+      "sha256": "f18353a9aa81431ea14a60f46bdf7e11141a106507c5891b33ff019f7d367093"
+    },
+    "Sources/LiveKit/Views/VideoView.swift": {
+      "bytes": 35559,
+      "sha256": "1fdb8847244b450ec09ddbf15867dbc9517992f91f4b11576ee638d38223fc44"
+    },
+    "Sources/LiveKitNanopb/Nanopb.swift": {
+      "bytes": 15089,
+      "sha256": "86b8348b0c00f5a361a56f516dc2f387b6380ac0c4a696bdd05ce576da51ade3"
+    },
+    "Sources/LiveKitNanopb/NanopbAccessors.swift": {
+      "bytes": 13881,
+      "sha256": "56bd72c824eb1cd1532bc4f6e722b351f47a4ea3d6fd8d28c5120ecf6e2f07c8"
+    },
+    "Sources/LiveKitNanopb/NanopbWire.swift": {
+      "bytes": 3583,
+      "sha256": "6c5ad8fff742d2dce7c858feeaf5eea616bc320b35d4082b2fd89af25ec53a65"
+    },
+    "Sources/LKObjCHelpers/include/LKObjCHelpers.h": {
+      "bytes": 581,
+      "sha256": "54683fdc417da9ac7d5042cce7c5b3409662c1e7db529f84db455a6ccf7488f2"
+    },
+    "Sources/LKObjCHelpers/LKObjCHelpers.m": {
+      "bytes": 1180,
+      "sha256": "04c2851b4e0039f873590485c5c12173527676d47291ac6e12e1b435a26d285e"
+    },
+    "Sources/LKObjCHelpers/module.modulemap": {
+      "bytes": 79,
+      "sha256": "e0ac459713104dd8367785e98b2664c9dacc84d376ef5d6d23454de121c25dbb"
+    },
+    "UPSTREAM.json": {
+      "bytes": 43403,
+      "sha256": "8877fe93446c4490e3d727411b020a4ea834c55d0cf940a49a37c5b5c750a092"
+    }
+  },
+  "upstreamOnlyNonSelectedFiles": [
+    ".github/CODEOWNERS",
+    ".github/ISSUE_TEMPLATE/bug_report.md",
+    ".github/ISSUE_TEMPLATE/feature_request.md",
+    ".github/api-check/api-check.swift",
+    ".github/banner_dark.png",
+    ".github/banner_light.png",
+    ".github/dependabot.yml",
+    ".github/sanitizers/tsan.supp",
+    ".github/size-check/.gitignore",
+    ".github/size-check/EmptyApp/App.swift",
+    ".github/size-check/LiveKitApp/App.swift",
+    ".github/size-check/project.yml",
+    ".github/size-check/size-check.swift",
+    ".github/stall-dump/stall-dump.sh",
+    ".github/tuist-check/.gitignore",
+    ".github/tuist-check/Project.swift",
+    ".github/tuist-check/Sources/main.swift",
+    ".github/tuist-check/Tuist.swift",
+    ".github/tuist-check/Tuist/Package.swift",
+    ".github/tuist-check/run.sh",
+    ".github/workflows/api-check.yaml",
+    ".github/workflows/benchmark.yaml",
+    ".github/workflows/ci.yaml",
+    ".github/workflows/cocoapods-lint.yaml",
+    ".github/workflows/codeql.yaml",
+    ".github/workflows/publish-docs.yaml",
+    ".github/workflows/publish-podspec.yaml",
+    ".github/workflows/publish-xcframework.yaml",
+    ".github/workflows/swift-snapshot.yaml",
+    ".gitignore",
+    ".gitmodules",
+    ".periphery.yml",
+    ".swiftformat",
+    ".swiftlint.yml",
+    ".version",
+    "AGENTS.md",
+    "Benchmarks/LiveKitBenchmark/BenchmarkSupport/BenchmarkConfig.swift",
+    "Benchmarks/LiveKitBenchmark/BenchmarkSupport/BenchmarkTracer.swift",
+    "Benchmarks/LiveKitBenchmark/BenchmarkSupport/EchoParticipant.swift",
+    "Benchmarks/LiveKitBenchmark/BenchmarkSupport/SessionObservers.swift",
+    "Benchmarks/LiveKitBenchmark/BenchmarkSupport/TokenGenerator.swift",
+    "Benchmarks/LiveKitBenchmark/Benchmarks.swift",
+    "Benchmarks/LiveKitBenchmark/ConnectionBenchmark.swift",
+    "Benchmarks/LiveKitBenchmark/DataChannelBenchmark.swift",
+    "Benchmarks/LiveKitBenchmark/RPCBenchmark.swift",
+    "Benchmarks/LiveKitBenchmark/SessionLifecycleBenchmark.swift",
+    "Benchmarks/Package.swift",
+    "CHANGELOG.md",
+    "CLAUDE.md",
+    "Docs/Resources/broadcast-dialog.png",
+    "Docs/Resources/in-app-dialog.png",
+    "Docs/Resources/new-target-options.png",
+    "Docs/audio.md",
+    "Docs/cocoapods.md",
+    "Docs/ios-screen-sharing.md",
+    "LiveKitClient.podspec",
+    "Makefile",
+    "PROTOCOL.md",
+    "Package@swift-6.2.swift",
+    "README.md",
+    "Tests/LKTestHost/Audio.xctestplan",
+    "Tests/LKTestHost/Core.xctestplan",
+    "Tests/LKTestHost/LKTestHost.xcodeproj/project.pbxproj",
+    "Tests/LKTestHost/LKTestHost.xcodeproj/project.xcworkspace/contents.xcworkspacedata",
+    "Tests/LKTestHost/LKTestHost/Assets.xcassets/AccentColor.colorset/Contents.json",
+    "Tests/LKTestHost/LKTestHost/Assets.xcassets/AppIcon.appiconset/Contents.json",
+    "Tests/LKTestHost/LKTestHost/Assets.xcassets/Contents.json",
+    "Tests/LKTestHost/LKTestHost/Info.plist",
+    "Tests/LKTestHost/LKTestHost/LKTestHost.entitlements",
+    "Tests/LKTestHost/LKTestHost/LKTestHostApp.swift",
+    "Tests/LKTestHost/README.md",
+    "Tests/LiveKitAudioTests/AudioEngineAvailability.swift",
+    "Tests/LiveKitAudioTests/AudioEngineObserver.swift",
+    "Tests/LiveKitAudioTests/AudioEnginePermission.swift",
+    "Tests/LiveKitAudioTests/AudioEngineTests.swift",
+    "Tests/LiveKitAudioTests/AudioManagerAdmResultTests.swift",
+    "Tests/LiveKitAudioTests/AudioManagerTests.swift",
+    "Tests/LiveKitAudioTests/AudioProcessingLifecycle.swift",
+    "Tests/LiveKitAudioTests/AudioProcessingTests.swift",
+    "Tests/LiveKitAudioTests/DeviceManager.swift",
+    "Tests/LiveKitAudioTests/LocalAudioTrackRecorderTests.swift",
+    "Tests/LiveKitAudioTests/MicrophoneTransceiverReleaseTests.swift",
+    "Tests/LiveKitAudioTests/MuteTests.swift",
+    "Tests/LiveKitAudioTests/PublishDeviceOptimization.swift",
+    "Tests/LiveKitAudioTests/PublishMicrophoneTests.swift",
+    "Tests/LiveKitAudioTests/SinWaveSourceNode.swift",
+    "Tests/LiveKitAudioTests/Tags.swift",
+    "Tests/LiveKitAudioTests/TestAudioRecorder.swift",
+    "Tests/LiveKitCoreTests/AVFoundation/AVAudioPCMBufferTests.swift",
+    "Tests/LiveKitCoreTests/AVFoundation/AVAudioPCMRingBufferTests.swift",
+    "Tests/LiveKitCoreTests/AVFoundation/AudioConverterTests.swift",
+    "Tests/LiveKitCoreTests/AVFoundation/AudioMixRecorderTests.swift",
+    "Tests/LiveKitCoreTests/AdaptiveStreamPixelDensityTests.swift",
+    "Tests/LiveKitCoreTests/Agent/SessionOptionsTests.swift",
+    "Tests/LiveKitCoreTests/Agent/TranscriptionTests.swift",
+    "Tests/LiveKitCoreTests/AsyncCompleter+Test.swift",
+    "Tests/LiveKitCoreTests/AsyncFileStreamTests.swift",
+    "Tests/LiveKitCoreTests/AsyncSerialDelegateTests.swift",
+    "Tests/LiveKitCoreTests/AsyncTimerTests.swift",
+    "Tests/LiveKitCoreTests/AudioProcessingOptionsTests.swift",
+    "Tests/LiveKitCoreTests/AudioSessionCategorySelectionTests.swift",
+    "Tests/LiveKitCoreTests/Broadcast/BroadcastAudioCodecTests.swift",
+    "Tests/LiveKitCoreTests/Broadcast/BroadcastImageCodecTests.swift",
+    "Tests/LiveKitCoreTests/Broadcast/BroadcastScreenCapturerTests.swift",
+    "Tests/LiveKitCoreTests/Broadcast/IPCChannelTests.swift",
+    "Tests/LiveKitCoreTests/Broadcast/ScreenShareCaptureRoutingTests.swift",
+    "Tests/LiveKitCoreTests/Broadcast/SocketPathTests.swift",
+    "Tests/LiveKitCoreTests/BroadcastManagerTests.swift",
+    "Tests/LiveKitCoreTests/CodecTests.swift",
+    "Tests/LiveKitCoreTests/CompleterTests.swift",
+    "Tests/LiveKitCoreTests/ConnectionParamsTests.swift",
+    "Tests/LiveKitCoreTests/CooperativePoolBlockingTests.swift",
+    "Tests/LiveKitCoreTests/DarwinNotificationCenterTests.swift",
+    "Tests/LiveKitCoreTests/DataChannel/BufferedAmountMeterTests.swift",
+    "Tests/LiveKitCoreTests/DataChannel/DataChannelDrainTests.swift",
+    "Tests/LiveKitCoreTests/DataChannel/DataChannelPairTests.swift",
+    "Tests/LiveKitCoreTests/DataChannel/EncryptedDataChannelTests.swift",
+    "Tests/LiveKitCoreTests/DataChannel/FullReconnectDataTests.swift",
+    "Tests/LiveKitCoreTests/DataChannel/RealiableDataChannelTests.swift",
+    "Tests/LiveKitCoreTests/DataChannel/ReliableStageTests.swift",
+    "Tests/LiveKitCoreTests/DataChannel/SendTokenTests.swift",
+    "Tests/LiveKitCoreTests/DataStream/ByteStreamReaderCancellationTests.swift",
+    "Tests/LiveKitCoreTests/DataStream/ByteStreamReaderTests.swift",
+    "Tests/LiveKitCoreTests/DataStream/DataStreamLoopbackTests.swift",
+    "Tests/LiveKitCoreTests/DataStream/DataStreamPacketRecorder.swift",
+    "Tests/LiveKitCoreTests/DataStream/DataStreamTests.swift",
+    "Tests/LiveKitCoreTests/DataStream/FileInfoTests.swift",
+    "Tests/LiveKitCoreTests/DataStream/IncomingStreamManagerTests.swift",
+    "Tests/LiveKitCoreTests/DataStream/IncomingStreamV2Tests.swift",
+    "Tests/LiveKitCoreTests/DataStream/LocalParticipantAttachmentTests.swift",
+    "Tests/LiveKitCoreTests/DataStream/LocalParticipantDataStreamTests.swift",
+    "Tests/LiveKitCoreTests/DataStream/OrderedTextStreamTests.swift",
+    "Tests/LiveKitCoreTests/DataStream/OutgoingDeliveryTests.swift",
+    "Tests/LiveKitCoreTests/DataStream/OutgoingStreamManagerTests.swift",
+    "Tests/LiveKitCoreTests/DataStream/StreamInfoBridgeTests.swift",
+    "Tests/LiveKitCoreTests/DataStream/StreamOptionsTests.swift",
+    "Tests/LiveKitCoreTests/DataStream/StreamReaderAccountingTests.swift",
+    "Tests/LiveKitCoreTests/DataStream/TextStreamReaderTests.swift",
+    "Tests/LiveKitCoreTests/DataTrack/DataTrackApiTests.swift",
+    "Tests/LiveKitCoreTests/DataTrack/DataTrackDelegateTests.swift",
+    "Tests/LiveKitCoreTests/DataTrack/DataTrackLifecycleTests.swift",
+    "Tests/LiveKitCoreTests/DataTrack/DataTrackPublishTests.swift",
+    "Tests/LiveKitCoreTests/DataTrack/DataTrackReader.swift",
+    "Tests/LiveKitCoreTests/DataTrack/DataTrackSendTests.swift",
+    "Tests/LiveKitCoreTests/DataTrack/DataTrackStressTests.swift",
+    "Tests/LiveKitCoreTests/DataTrack/DataTrackTests.swift",
+    "Tests/LiveKitCoreTests/DegradationPreferenceTests.swift",
+    "Tests/LiveKitCoreTests/E2EE/FrameCryptorKeyIndexTests.swift",
+    "Tests/LiveKitCoreTests/E2EE/KeyProvider.swift",
+    "Tests/LiveKitCoreTests/E2EE/Thread.swift",
+    "Tests/LiveKitCoreTests/Extensions/StringTests.swift",
+    "Tests/LiveKitCoreTests/FunctionTests.swift",
+    "Tests/LiveKitCoreTests/GzipTestSupport.swift",
+    "Tests/LiveKitCoreTests/JoinRequestUrlTests.swift",
+    "Tests/LiveKitCoreTests/MockDataChannelPair.swift",
+    "Tests/LiveKitCoreTests/ObjCHelpersTests.swift",
+    "Tests/LiveKitCoreTests/OfferWithJoinGateTests.swift",
+    "Tests/LiveKitCoreTests/OfferWithJoinTests.swift",
+    "Tests/LiveKitCoreTests/Participant/RemoteParticipantTests.swift",
+    "Tests/LiveKitCoreTests/ParticipantTests.swift",
+    "Tests/LiveKitCoreTests/PeerConnectionSignalingTests.swift",
+    "Tests/LiveKitCoreTests/Proto/ProtoConverterTests.swift",
+    "Tests/LiveKitCoreTests/PublishBufferCapturerTests.swift",
+    "Tests/LiveKitCoreTests/PublishDataTests.swift",
+    "Tests/LiveKitCoreTests/PublishTrackTests.swift",
+    "Tests/LiveKitCoreTests/QueueActorTests.swift",
+    "Tests/LiveKitCoreTests/RegionManagerTests.swift",
+    "Tests/LiveKitCoreTests/Room/DependencyStageTests.swift",
+    "Tests/LiveKitCoreTests/Room/FailedFullReconnectTests.swift",
+    "Tests/LiveKitCoreTests/Room/PreConnectAudioBufferTests.swift",
+    "Tests/LiveKitCoreTests/Room/RepublishTracksTests.swift",
+    "Tests/LiveKitCoreTests/Room/RoomStateTests.swift",
+    "Tests/LiveKitCoreTests/Room/RoomTests.swift",
+    "Tests/LiveKitCoreTests/Room/TransceiverReleaseTests.swift",
+    "Tests/LiveKitCoreTests/RpcClientServerTests.swift",
+    "Tests/LiveKitCoreTests/RpcTests.swift",
+    "Tests/LiveKitCoreTests/RustTransportTests.swift",
+    "Tests/LiveKitCoreTests/SDKTests.swift",
+    "Tests/LiveKitCoreTests/SDP/OpusStereoSdpTests.swift",
+    "Tests/LiveKitCoreTests/SDP/SDPFixture.swift",
+    "Tests/LiveKitCoreTests/SDP/SDPTests.swift",
+    "Tests/LiveKitCoreTests/SDP/TransportMungeFallbackTests.swift",
+    "Tests/LiveKitCoreTests/SDP/TransportSDPMungeTests.swift",
+    "Tests/LiveKitCoreTests/SDPMungingTests.swift",
+    "Tests/LiveKitCoreTests/SerialRunnerActor.swift",
+    "Tests/LiveKitCoreTests/SignalClientTests.swift",
+    "Tests/LiveKitCoreTests/SimulcastPresetsTests.swift",
+    "Tests/LiveKitCoreTests/Specs/SpecCase.swift",
+    "Tests/LiveKitCoreTests/SubscribedQualityMergeTests.swift",
+    "Tests/LiveKitCoreTests/TTLDictionaryTests.swift",
+    "Tests/LiveKitCoreTests/Tags.swift",
+    "Tests/LiveKitCoreTests/TaskObserveTests.swift",
+    "Tests/LiveKitCoreTests/ThreadSafetyTests.swift",
+    "Tests/LiveKitCoreTests/TimeIntervalTests.swift",
+    "Tests/LiveKitCoreTests/Token/TokenSourceTests.swift",
+    "Tests/LiveKitCoreTests/Track/TrackTests.swift",
+    "Tests/LiveKitCoreTests/TransportCloseTests.swift",
+    "Tests/LiveKitCoreTests/VideoEncoderFactoryTests.swift",
+    "Tests/LiveKitCoreTests/VideoEncodingsTests.swift",
+    "Tests/LiveKitCoreTests/VideoRendererBinderTests.swift",
+    "Tests/LiveKitCoreTests/VideoViewBindingTests.swift",
+    "Tests/LiveKitCoreTests/WARPTests.swift",
+    "Tests/LiveKitCoreTests/WebSocket/WebSocketTests.swift",
+    "Tests/LiveKitNanopbTests/ConcurrencyStressTests.swift",
+    "Tests/LiveKitNanopbTests/ConformanceEdgeCaseTests.swift",
+    "Tests/LiveKitNanopbTests/ConformanceTests.swift",
+    "Tests/LiveKitNanopbTests/DecodeFuzzTests.swift",
+    "Tests/LiveKitNanopbTests/ExemplarConformanceTests.swift",
+    "Tests/LiveKitNanopbTests/Generated/ConformanceExemplars.swift",
+    "Tests/LiveKitNanopbTests/LeakTests.swift",
+    "Tests/LiveKitNanopbTests/NanopbRuntimeTests.swift",
+    "Tests/LiveKitNanopbTests/Oracle/livekit_metrics.pb.swift",
+    "Tests/LiveKitNanopbTests/Oracle/livekit_models.pb.swift",
+    "Tests/LiveKitNanopbTests/Oracle/livekit_rtc.pb.swift",
+    "Tests/LiveKitNanopbTests/TemporaryMessageTests.swift",
+    "Tests/LiveKitObjCTests/Basic.m",
+    "Tests/LiveKitObjCTests/DataStreamObjCTests.m",
+    "Tests/LiveKitObjCTests/DataTrackObjCTests.m",
+    "Tests/LiveKitObjCTests/DelegateObjCTests.m",
+    "Tests/LiveKitObjCTests/ParticipantObjCTests.m",
+    "Tests/LiveKitObjCTests/RoomObjCTests.m",
+    "Tests/LiveKitObjCTests/RpcObjCTests.m",
+    "Tests/LiveKitTestSupport/Backports.swift",
+    "Tests/LiveKitTestSupport/ConcurrentCounter.swift",
+    "Tests/LiveKitTestSupport/MockURLProtocol.swift",
+    "Tests/LiveKitTestSupport/ObjCRoomHelper.swift",
+    "Tests/LiveKitTestSupport/Polling.swift",
+    "Tests/LiveKitTestSupport/Room+DataTrack.swift",
+    "Tests/LiveKitTestSupport/Room.swift",
+    "Tests/LiveKitTestSupport/Tags.swift",
+    "Tests/LiveKitTestSupport/TestEnvironment.swift",
+    "Tests/LiveKitTestSupport/TokenGenerator.swift",
+    "Tests/LiveKitTestSupport/Tracks.swift",
+    "livekit_ipc.proto",
+    "scripts/LiveKitClient-XCFramework.podspec.stencil",
+    "scripts/Package.swift.stencil",
+    "scripts/build_docs.sh",
+    "scripts/create_version.swift",
+    "scripts/generate-swift-protos.swift",
+    "scripts/xcframework.swift"
+  ]
+}

@@ -1,0 +1,439 @@
+{
+  "name": "webrtc-build",
+  "repository": "https://github.com/webrtc-sdk/webrtc-build",
+  "commit": "717ec1dc5a94389d691e09cccaf3d7b3364fb4b7",
+  "source_url": "https://codeload.github.com/webrtc-sdk/webrtc-build/tar.gz/717ec1dc5a94389d691e09cccaf3d7b3364fb4b7",
+  "archive": "webrtc-build-717ec1dc5a94389d691e09cccaf3d7b3364fb4b7.tar.gz",
+  "archive_bytes": 54487,
+  "archive_sha256": "12e45b27ba2b13c8dd2779053921f7dcf3ab28b075f1019e5d1a842784cd567c",
+  "all_git_blobs_match": true,
+  "members": {
+    ".github/templates/LiveKitWebRTC.podspec": {
+      "bytes": 1076,
+      "sha256": "50a8debcfdddbf12760e339c83b99db2fdd52ad551bc27c9635eb37276d0f74d",
+      "git_blob_sha1": "0c0dad1cc96a95015b4feae118801f97ee0ca11c",
+      "type": "file"
+    },
+    ".github/templates/Package.swift": {
+      "bytes": 621,
+      "sha256": "6e8979cddb2b8e2fb9ac0e2e630339103019380737410ac54d52993719c35463",
+      "git_blob_sha1": "a4792a51978d299ecf6a40055713a090596bed66",
+      "type": "file"
+    },
+    ".github/workflows/build.yml": {
+      "bytes": 4173,
+      "sha256": "3fe4ccd1095aff6931a6049e655a90df0da8b0bde6861658db3729fbc232cb89",
+      "git_blob_sha1": "54bfc317882cc9242b028c7eefa6b825e9c307e8",
+      "type": "file"
+    },
+    ".github/workflows/unittests.yml": {
+      "bytes": 3564,
+      "sha256": "87e01c704292d05881f6ca1c73c1552dd01828995d10838d3025916bffa981b3",
+      "git_blob_sha1": "5aad7913f0c9cc44650284b12937e1caee2cd01f",
+      "type": "file"
+    },
+    "LICENSE": {
+      "bytes": 1068,
+      "sha256": "97c31210567f082cbd2f1067a491c1d5498a019414948153e98c321810986bfd",
+      "git_blob_sha1": "56dda1f8dd0fdc360479bce117d8c5b9b57f294b",
+      "type": "file"
+    },
+    "README.md": {
+      "bytes": 54,
+      "sha256": "d4b1b2e18f238e9f2c0d2a6ad8f69f542ecdafd26c5880aea8213f4558339d4e",
+      "git_blob_sha1": "8b742eeca78eb5b4376582eb5b30946ae073ab38",
+      "type": "file"
+    },
+    "build/.dockerignore": {
+      "bytes": 24,
+      "sha256": "4531883afb20f4f9076d2ad12d4d7962b0f09c5a61905c0b0fe79ac5e197d233",
+      "git_blob_sha1": "e0be073fe8753541b27141bf107caa9bd0934d96",
+      "type": "file"
+    },
+    "build/.gclient": {
+      "bytes": 169,
+      "sha256": "de7ed817d87b17282e861ee127e1e0ddb918c681ac92a1847867f9b479d218d7",
+      "git_blob_sha1": "a2f863d3fc4766b3f1237616b83c03bbf74da322",
+      "type": "file"
+    },
+    "build/.gclient_entries": {
+      "bytes": 58040,
+      "sha256": "fa65f1891affd557c8642c04738a40e735389d7f26d58db42a77c8d3d16bbef4",
+      "git_blob_sha1": "995d3ddf6c18046b923852730dbf8135126b0447",
+      "type": "file"
+    },
+    "build/.github/workflows/build.yml": {
+      "bytes": 6386,
+      "sha256": "819580ba8f450ba605a44150b54805e964fcaa813b558d477ef656f8ece727dd",
+      "git_blob_sha1": "2fbb351ee74d78aaaf3b9cdda625012163a5fcab",
+      "type": "file"
+    },
+    "build/.github/workflows/daily.yml": {
+      "bytes": 2198,
+      "sha256": "e40cb4b6a942a8a29638c825e2def4c1f85393f9da90c545fa6cba4131ff3e97",
+      "git_blob_sha1": "9632a5cf03701546ee7dfd07cda46a3bc17d4f3b",
+      "type": "file"
+    },
+    "build/.gitignore": {
+      "bytes": 27,
+      "sha256": "606a4b0461615b994450f738b4454824b115f5167ba67fc193631bc8da550272",
+      "git_blob_sha1": "64723b6105d7aa385a06f2fa9237d091708192db",
+      "type": "file"
+    },
+    "build/.vscode/settings.json": {
+      "bytes": 330,
+      "sha256": "0e424799bfed4d888c0c495290901ec9c8fd73dec185460e6d7cc39d26c41e90",
+      "git_blob_sha1": "0f3504f6a7d270813c45ad74d3f8b3503da36f62",
+      "type": "file"
+    },
+    "build/CHANGES.md": {
+      "bytes": 5790,
+      "sha256": "792082c57c7aee87cad1926eec9619cf8d997e90aa11ef431c1f8c0affedf55b",
+      "git_blob_sha1": "4eb6d8e4969d24dbf046be2f8a28027ee7cd0dd4",
+      "type": "file"
+    },
+    "build/DEVELOPMENT.md": {
+      "bytes": 4971,
+      "sha256": "e0e124fb9f98a713630ea482cb739aef1bcd3739e907fcd7ec5b4cedec7c940e",
+      "git_blob_sha1": "f1b6ac97878854b49fbf7fd83563ccd58c169972",
+      "type": "file"
+    },
+    "build/LICENSE": {
+      "bytes": 10169,
+      "sha256": "5129bd4751caa19044c73c4c8b0669a5a16b15961ddbe8244c2ebc8ee4c39a7e",
+      "git_blob_sha1": "8f164ed931957316a5a4c8b41f7afeea3a91913a",
+      "type": "file"
+    },
+    "build/NOTICE": {
+      "bytes": 730,
+      "sha256": "8dd1e5574aeb01b32cdf71b7d892827d6791defdb0769f8d6dd6dc16ffdf27fe",
+      "git_blob_sha1": "0fa3733985768fb24d6a32bddc61bbd9ec0de64a",
+      "type": "file"
+    },
+    "build/README.md": {
+      "bytes": 1473,
+      "sha256": "27055e23389bba21b75de180f2985a6100038bde71455aa0eeed980142b65ad2",
+      "git_blob_sha1": "c463ce14422a10b6e9cb2ebc4e3ccf572c82b9d1",
+      "type": "file"
+    },
+    "build/RELEASING.md": {
+      "bytes": 294,
+      "sha256": "f30c5796386fbeb471d0bb58b542ddda25846bc770b3b691f3d8f30c6b4babbe",
+      "git_blob_sha1": "1319ffbbb3631783a219b45f36a909014555b86e",
+      "type": "file"
+    },
+    "build/VERSION": {
+      "bytes": 154,
+      "sha256": "bd0979d15d83335eed7d0ca9b92b5b399253ba7edea653ff9ff065c2023abbdc",
+      "git_blob_sha1": "88c13f4435a8d9afc35ac9b557e0f86da5be6947",
+      "type": "file"
+    },
+    "build/VERSION.head": {
+      "bytes": 94,
+      "sha256": "671eea23504e0759b79a8be37e78548f29c94f0b1d6f1a418f12e7be24731b70",
+      "git_blob_sha1": "cf0fb1747a480b8046a9342dae6f7e680f5a25de",
+      "type": "file"
+    },
+    "build/android/Dockerfile": {
+      "bytes": 760,
+      "sha256": "5dbb6335fd878263c04410c7a81e14570a49c890f628983ab13be0680f6754ea",
+      "git_blob_sha1": "838b8120468c8f0ff2689d01598df2fe99e800c1",
+      "type": "file"
+    },
+    "build/android_prefixed/Dockerfile": {
+      "bytes": 769,
+      "sha256": "559b3f07ddfd207005de696c581b0a53383d6646b5d617b3393d65388a982fd4",
+      "git_blob_sha1": "7e53e9cdf6f93e9a1721a938815372f6f60075ea",
+      "type": "file"
+    },
+    "build/android_prefixed_stripped/Dockerfile": {
+      "bytes": 778,
+      "sha256": "165929496da8011f6d293ae0d73ad2ef26e8bb76427e609f35a4521bf675f261",
+      "git_blob_sha1": "bb55540cf7e39791f6be3b05bc0338cecc8c6018",
+      "type": "file"
+    },
+    "build/apple/xcframework.sh": {
+      "bytes": 8846,
+      "sha256": "fb5a9f15d4452ee0cf44bfac5c4b0f5f222cd095b0535578b8ae2c43c62776d6",
+      "git_blob_sha1": "4774536480c21c0e5886cb7a0b3d0edce3cc9368",
+      "type": "file"
+    },
+    "build/build.android.sh": {
+      "bytes": 494,
+      "sha256": "ac4704a6c7b6a1e46ca8db861c556dd9f0d24227b1bc1cf0b0c6ecb5755af59d",
+      "git_blob_sha1": "aeecc24ed4d85c891574113ea3ba7f0d3c582223",
+      "type": "file"
+    },
+    "build/build.android_prefixed.sh": {
+      "bytes": 503,
+      "sha256": "96d3806326d21bbe887c575260d0d497138d55c21d0474a4ccbd4afe2aedbb3f",
+      "git_blob_sha1": "304e870e356afe755b262d06b9fd92b792726302",
+      "type": "file"
+    },
+    "build/build.android_prefixed_stripped.sh": {
+      "bytes": 512,
+      "sha256": "581bfd5c57562ed69f604e39d6ed86181d575900772e3244786ece1360b1a436",
+      "git_blob_sha1": "85de6aae1875e924d88985b194fbe8d1ededb99d",
+      "type": "file"
+    },
+    "build/build.apple.sh": {
+      "bytes": 237,
+      "sha256": "836a825674005a41b8b8c87706af490d0f7c4c274eb5e2d21f071aa4e207e226",
+      "git_blob_sha1": "5c5d5b7efb0984874c9ab8b8f1fc076cbb7bcd20",
+      "type": "file"
+    },
+    "build/build.apple_prefixed.sh": {
+      "bytes": 299,
+      "sha256": "85ef92accbe3b0953400c7d02f0965468b39dfb4b196499718d07f802a967761",
+      "git_blob_sha1": "90a382ea7bda595ea669496703f5bb4227ceacf3",
+      "type": "file"
+    },
+    "build/build.apple_prefixed_stripped.sh": {
+      "bytes": 983,
+      "sha256": "370b9c45ff1b1d5dbf6a927baa8ca1cc12c407c3f9fe86f9a9c143fb18e07718",
+      "git_blob_sha1": "050ae0887965f259cd582827060483d0f1ac07ef",
+      "type": "file"
+    },
+    "build/build.ios.sh": {
+      "bytes": 165,
+      "sha256": "64c19022e56af87237f4137ebaaf70469ee3448e70a84915e29c5a85d2aced59",
+      "git_blob_sha1": "63e3f62349818ca7fff9f3b0c5e129b3177f80b5",
+      "type": "file"
+    },
+    "build/build.macos_arm64.sh": {
+      "bytes": 118,
+      "sha256": "e2962378a24bb342b4f4723e9a1a7067c5921df84bc4a0c4bdd58e22130be233",
+      "git_blob_sha1": "5dcfcc041611369d85da181e2ead5ded4df7221a",
+      "type": "file"
+    },
+    "build/build.macos_x86_64.sh": {
+      "bytes": 121,
+      "sha256": "4cf8210534ecb65d58e23bbb56319ecf84484a3f5589b3db3e506d221b54acb2",
+      "git_blob_sha1": "076b23972a66858c16ddb6af4b9a7a715cefaadc",
+      "type": "file"
+    },
+    "build/build.raspberry-pi-os_armv6.sh": {
+      "bytes": 508,
+      "sha256": "7ad2c7259027d7e4d9533dac8d0caa8c6e1c4475e9ca14e3a6bac5de8dbfa8eb",
+      "git_blob_sha1": "15c00ebc113d0649efb68ec966bcdc750d192ea3",
+      "type": "file"
+    },
+    "build/build.raspberry-pi-os_armv7.sh": {
+      "bytes": 508,
+      "sha256": "33473baa5c0560b87f74d59b3eaec8aec628bb5e7deb7edf309cb643bacf31fb",
+      "git_blob_sha1": "b291cd9ee873186c315d6c1954789db8b0e1b3ea",
+      "type": "file"
+    },
+    "build/build.raspberry-pi-os_armv8.sh": {
+      "bytes": 508,
+      "sha256": "52ecb494204e63d9868de757a4cc6c3e34d4a70f2a3fb3cce337299ba0c4311e",
+      "git_blob_sha1": "9675125dfe6196dcb26a86a350a683008b8fb957",
+      "type": "file"
+    },
+    "build/build.ubuntu-18.04_armv8.sh": {
+      "bytes": 505,
+      "sha256": "12353db33f6335dc1e4ccbbe387efbb972469a451aa84443ff40d8c89ce52910",
+      "git_blob_sha1": "cb4252dbc27f68d5942c3d0dc38a874a1326e76f",
+      "type": "file"
+    },
+    "build/build.ubuntu-18.04_x86_64.sh": {
+      "bytes": 506,
+      "sha256": "21c7d974708dfd6f9474455cc924d4d58459f1439004e8f9e0ac163a208f4e98",
+      "git_blob_sha1": "ba542dd1400bd225d9370216eea301282b44b975",
+      "type": "file"
+    },
+    "build/build.ubuntu-20.04_armv8.sh": {
+      "bytes": 505,
+      "sha256": "e83df404d74575fe0ebe974bb3d3269c99d1051e8d6575528069efe823a5dbd0",
+      "git_blob_sha1": "81218c9392b1d6d3374ba9573c38d6e95d0e3961",
+      "type": "file"
+    },
+    "build/build.ubuntu-20.04_x86_64.sh": {
+      "bytes": 506,
+      "sha256": "85e3872e1d5a0cda175470ddf5a3fa0f1e535d466745b1734f2d1d921577d055",
+      "git_blob_sha1": "9d380af4272211bfe913e1ceb1380abc9d11fc1a",
+      "type": "file"
+    },
+    "build/build.ubuntu-22.04_x86_64.sh": {
+      "bytes": 506,
+      "sha256": "264b9116facabcd0083fac0185ab7e6943ae64c08e6e524690e7d013590831d9",
+      "git_blob_sha1": "07e45d02699be73044a46f7f9f37c018d996cc5f",
+      "type": "file"
+    },
+    "build/build.windows_arm64.ps1": {
+      "bytes": 667,
+      "sha256": "73db2adb163f11979476910ace21b67e86654b79d828a180ec6a7b625dffbd92",
+      "git_blob_sha1": "a1508728014e6350e3677135f1559aac295d23c4",
+      "type": "file"
+    },
+    "build/build.windows_x86_64.ps1": {
+      "bytes": 670,
+      "sha256": "2fa39d503d96532c9a9ba52b70b937bf9b09c00e724e302e400ae675cb9a96e4",
+      "git_blob_sha1": "abb7390fcd03e81f1b1e8d6b8f611b529ade2f78",
+      "type": "file"
+    },
+    "build/patches/README.md": {
+      "bytes": 11846,
+      "sha256": "bf670954f09f8a2233f1d41933a1e9c514183fe5225b898ac3375bfb521eecf8",
+      "git_blob_sha1": "8d407d1edab83da709a444567f5fe9fb18511d27",
+      "type": "file"
+    },
+    "build/patches/add_dep_zlib.patch": {
+      "bytes": 291,
+      "sha256": "b32617708b051c18941c794c07a18c31cc5b0dae10f4033eb41c6a4aa9144fcf",
+      "git_blob_sha1": "cc622f23f964f61484dc785727835879b76199ca",
+      "type": "file"
+    },
+    "build/patches/add_license_dav1d.patch": {
+      "bytes": 530,
+      "sha256": "53df992b239249c240c20b94bd321eeff00a0d22595f522c129b90f115bb84a8",
+      "git_blob_sha1": "d11a413511782088a551b5e62d53e391d74d5247",
+      "type": "file"
+    },
+    "build/patches/android_webrtc_version.patch": {
+      "bytes": 503,
+      "sha256": "38db530b367e6b16a432c482b60291f0c3b681d308066786c31634744c5a417e",
+      "git_blob_sha1": "d975ac63d1e569e28f64a74cd1f29f64fd66273b",
+      "type": "file"
+    },
+    "build/patches/apple_prefix.patch": {
+      "bytes": 5137,
+      "sha256": "649ca0ac6de2386261f978ddd03840855e851a14545840f975edce703e9b48ad",
+      "git_blob_sha1": "81cff067dc240c63deb2757c5f8dec7c1e469b70",
+      "type": "file"
+    },
+    "build/patches/fix_build_for_validate_test_registration.patch": {
+      "bytes": 1141,
+      "sha256": "4d14199846d8aa666f10cfc9e28c65d757480b970ffbd0a6d6df4e291239bd91",
+      "git_blob_sha1": "776a1d18e792b8fb57b53391a25a1d824e417712",
+      "type": "file"
+    },
+    "build/patches/fix_mocks.patch": {
+      "bytes": 719,
+      "sha256": "470388523a650424b48bbec5b2110c999c5776e2aeb408b24fc43ebc0fbc4a64",
+      "git_blob_sha1": "d7a792465973d2d2150046ca5e3daf34a725738b",
+      "type": "file"
+    },
+    "build/patches/jni_prefix.patch": {
+      "bytes": 13043,
+      "sha256": "324d4cf9490aa544757b35dd508e34288dd3e47f0ca2865c6197ec3e84939749",
+      "git_blob_sha1": "b4c6eb4028572fd932fc9650e236c6ada53fc8e1",
+      "type": "file"
+    },
+    "build/patches/nacl_armv6_2.patch": {
+      "bytes": 1231,
+      "sha256": "6f472f9d69811ca90b8d53e6ce57cf20eedc3db5dfa4060aac4a697666c79030",
+      "git_blob_sha1": "330dd23c43db661a4236e120c28f34ddb72e55bb",
+      "type": "file"
+    },
+    "build/patches/ssl_verify_callback_with_native_handle.patch": {
+      "bytes": 3187,
+      "sha256": "9103af481287e4d4cb359c64dfdefc6fbf1ccaf03e107f1878640f12fa92da6d",
+      "git_blob_sha1": "ccfb138f78477ccf257cdeba66e0ef143158f6b6",
+      "type": "file"
+    },
+    "build/patches/windows_add_deps.patch": {
+      "bytes": 377,
+      "sha256": "98783a93c564118e7022297c2cdaa2eb03265e5e5e05c36ae1c5f4a56974e4de",
+      "git_blob_sha1": "5419faafc694014f8b5093ba7285263b2ecdad7a",
+      "type": "file"
+    },
+    "build/patches/windows_silence_warnings.patch": {
+      "bytes": 518,
+      "sha256": "1d659eec8b7382893674362d32846baf11c8e8dd8e83a14f549f34c4a1d5f05d",
+      "git_blob_sha1": "c7d3a134496aeae1d7e9d56e29849b0a572db440",
+      "type": "file"
+    },
+    "build/run.py": {
+      "bytes": 49546,
+      "sha256": "bbe60069ab641e6a6eebf45d9a131c14afe93ad24449bc7e5db7908eaa967a86",
+      "git_blob_sha1": "b95533a2f5b1ca318fa279ea9e7afff391770a11",
+      "type": "file"
+    },
+    "build/scripts/apt_install_arm.sh": {
+      "bytes": 1417,
+      "sha256": "a556a82965f89594b554079d913ce2a019986f1ec96e8a68a23a802f228b18dd",
+      "git_blob_sha1": "8e4154a0db5204da16b73c57ed3c600423ad9210",
+      "type": "file"
+    },
+    "build/scripts/apt_install_test_deps.sh": {
+      "bytes": 622,
+      "sha256": "8c52ba0a47ce60dd54697102080e818571085e8d27fed75b1228af764c9ba4d8",
+      "git_blob_sha1": "3d74736f4a579c27d12484ece2e72c9e43ed074e",
+      "type": "file"
+    },
+    "build/scripts/apt_install_x86_64.sh": {
+      "bytes": 524,
+      "sha256": "969ef15ce8a7755967ef8648c60e3f1409adde92fc978fc21e13ce3ea730c3b3",
+      "git_blob_sha1": "4044bfff5c72116da67de3df8d56376214b6659f",
+      "type": "file"
+    },
+    "build/ubuntu-18.04_armv8/Dockerfile": {
+      "bytes": 613,
+      "sha256": "43b94ec4977d6d70d06b64c2d816a74814bbe62c7a6231b1ba4b079fbbf43a2e",
+      "git_blob_sha1": "588e64e9f1a05cf5b9941e5398fb1dfaac757c36",
+      "type": "file"
+    },
+    "build/ubuntu-18.04_armv8/arm64.conf": {
+      "bytes": 282,
+      "sha256": "08d17309446aca12047d682228fadae7dc5a54827a23743ff8bd74b73de64902",
+      "git_blob_sha1": "b98fe82d8af5c76c1ac8b17117c65615fc32dc3e",
+      "type": "file"
+    },
+    "build/ubuntu-18.04_x86_64/Dockerfile": {
+      "bytes": 617,
+      "sha256": "518e26dbb489e12d000b643786ae42deabd5fce51ce804d6246e8bc7d7dd23ee",
+      "git_blob_sha1": "ece463e4efa451c058eb1593d684c67309b5b036",
+      "type": "file"
+    },
+    "build/ubuntu-20.04_armv8/Dockerfile": {
+      "bytes": 613,
+      "sha256": "32f3a3da75f4b839883670d4f9a31ad980a0240a34e5482b354257f5f968590e",
+      "git_blob_sha1": "ce66d028ae22583ff7aa1d48058c7ae793acb97d",
+      "type": "file"
+    },
+    "build/ubuntu-20.04_armv8/arm64.conf": {
+      "bytes": 292,
+      "sha256": "02c94fb7fb70d21070b2d97e7a94f02320494195e79e01402bc127c88fee9856",
+      "git_blob_sha1": "a26e36af19967cbb6684f56239b1ecdacd3c0e3c",
+      "type": "file"
+    },
+    "build/ubuntu-20.04_x86_64/Dockerfile": {
+      "bytes": 617,
+      "sha256": "3c38f16db2bba0d591a410fccd0df327f18185e9962655fa88ce892eb52cbb83",
+      "git_blob_sha1": "e7526fa507661b37b5f10b4dd10d645164240700",
+      "type": "file"
+    },
+    "build/ubuntu-22.04_x86_64/Dockerfile": {
+      "bytes": 617,
+      "sha256": "c27079ac77dd7b2c4074a9f8d360021e75b53468fec70658798563f1880e72cc",
+      "git_blob_sha1": "5b743c50c189055af399ab46f7206806a5d41a2e",
+      "type": "file"
+    },
+    "docs/build.md": {
+      "bytes": 7661,
+      "sha256": "ea9c1c7e05e5bd6274e026d346070480cd4e9f5535cde083cd593eef5decdb39",
+      "git_blob_sha1": "07525bf278c4b6dbcf47aaca5a087e052fc7d6be",
+      "type": "file"
+    },
+    "docs/windows.md": {
+      "bytes": 2725,
+      "sha256": "73db5f80219dd494745dcdf747957b9a4d7a8861b69767ef772cb04d1eb9abee",
+      "git_blob_sha1": "735d7499a5164eb8fa4a5268db6ee2e8b4fc170e",
+      "type": "file"
+    },
+    "webrtc_build_settings.yaml": {
+      "bytes": 1366,
+      "sha256": "3a5b70309e93affd968ed50bb8065fd124e7771d9bb3349a16c5fd7f1498ea3b",
+      "git_blob_sha1": "35f6eb20e10cffea3a9dd3de777e2e5f31b513ce",
+      "type": "file"
+    },
+    "webrtc_version.yaml": {
+      "bytes": 149,
+      "sha256": "c41f1388db49565ffdf3b1c8461febac7dfcac83800e0eea0a7f39940a4a5860",
+      "git_blob_sha1": "a323ce68d85ceecbc68bf5beb105ee48449bbc29",
+      "type": "file"
+    }
+  },
+  "top_level": "webrtc-build-717ec1dc5a94389d691e09cccaf3d7b3364fb4b7"
+}

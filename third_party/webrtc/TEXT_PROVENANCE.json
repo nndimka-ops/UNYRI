@@ -1,0 +1,44 @@
+[
+  {
+    "name": "stasel-upstream-LICENSE",
+    "url": "https://webrtc.googlesource.com/src/+/6f37672d358475cd17544121a12494da454d85fb/LICENSE?format=TEXT",
+    "bytes": 1511,
+    "sha256": "ab00a482b6a3902e40211b43c5d0441962ea99b6cc7c25c0f243fa270b78d482",
+    "status": "OK"
+  },
+  {
+    "name": "stasel-upstream-DEPS",
+    "url": "https://webrtc.googlesource.com/src/+/6f37672d358475cd17544121a12494da454d85fb/DEPS?format=TEXT",
+    "bytes": 52409,
+    "sha256": "be35438d47acbfffe33e4e6203eb47c71a282c6245a555d0e7d21c0dcf53fdfb",
+    "status": "OK"
+  },
+  {
+    "name": "livekit-webrtc-package.swift",
+    "url": "https://raw.githubusercontent.com/livekit/webrtc-xcframework/150.7871.04/Package.swift",
+    "bytes": 673,
+    "sha256": "851c43e7acfebf42281b215cfc80b80b367cbe674848019c6d7979d5915e78d6",
+    "status": "OK"
+  },
+  {
+    "name": "livekit-webrtc-upstream-LICENSE",
+    "url": "https://raw.githubusercontent.com/webrtc-sdk/webrtc/a545de45259b47dfac5f3635863e47cb601f1bb2/LICENSE",
+    "bytes": 1511,
+    "sha256": "ab00a482b6a3902e40211b43c5d0441962ea99b6cc7c25c0f243fa270b78d482",
+    "status": "OK"
+  },
+  {
+    "name": "livekit-webrtc-upstream-DEPS",
+    "url": "https://raw.githubusercontent.com/webrtc-sdk/webrtc/a545de45259b47dfac5f3635863e47cb601f1bb2/DEPS",
+    "bytes": 52284,
+    "sha256": "dcf605b64a79a0ea7808b13bd9373a57d3bb441cb00436292ab865485a5ffdd3",
+    "status": "OK"
+  },
+  {
+    "name": "livekit-ffi-package.swift",
+    "url": "https://raw.githubusercontent.com/livekit/livekit-ffi-xcframework/0.13.1/Package.swift",
+    "bytes": 1096,
+    "sha256": "863dcb34b949d0e2045e717a6017b39be6de7bb84874ae8fa4131d0852b73da6",
+    "status": "OK"
+  }
+]

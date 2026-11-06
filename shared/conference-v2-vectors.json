@@ -1,0 +1,1571 @@
+{
+  "schemaVersion": 1,
+  "protocol": "coco-conference-invite-v2",
+  "syntheticOnly": true,
+  "publicOrigin": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+  "valid": [
+    {
+      "id": "public_alias",
+      "link": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expected": {
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+        "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+        "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+        "version": 2
+      },
+      "canonicalLink": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A"
+    },
+    {
+      "id": "public_alias_outer_whitespace",
+      "link": " \ncoco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A\t ",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expected": {
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+        "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+        "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+        "version": 2
+      },
+      "canonicalLink": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A"
+    },
+    {
+      "id": "custom_https",
+      "link": "coco://c#AgEAGWh0dHBzOi8vY2hhdC5leGFtcGxlLnRlc3QAESIzRFVmd4iZqrvM3e7_AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyChoqOkpaanqKmqq6ytrq-wsbKztLW2t7i5uru8vb6_wA",
+      "currentServer": "https://chat.example.test",
+      "expected": {
+        "server": "https://chat.example.test",
+        "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+        "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+        "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+        "version": 2
+      },
+      "canonicalLink": "coco://c#AgEAGWh0dHBzOi8vY2hhdC5leGFtcGxlLnRlc3QAESIzRFVmd4iZqrvM3e7_AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyChoqOkpaanqKmqq6ytrq-wsbKztLW2t7i5uru8vb6_wA"
+    },
+    {
+      "id": "custom_nondefault_port",
+      "link": "coco://c#AgEAHmh0dHBzOi8vY2hhdC5leGFtcGxlLnRlc3Q6OTQ0MwARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://chat.example.test:9443",
+      "expected": {
+        "server": "https://chat.example.test:9443",
+        "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+        "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+        "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+        "version": 2
+      },
+      "canonicalLink": "coco://c#AgEAHmh0dHBzOi8vY2hhdC5leGFtcGxlLnRlc3Q6OTQ0MwARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A"
+    },
+    {
+      "id": "custom_ipv6",
+      "link": "coco://c#AgEAG2h0dHBzOi8vWzIwMDE6ZGI4OjoxMF06OTQ0MwARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://[2001:db8::10]:9443",
+      "expected": {
+        "server": "https://[2001:db8::10]:9443",
+        "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+        "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+        "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+        "version": 2
+      },
+      "canonicalLink": "coco://c#AgEAG2h0dHBzOi8vWzIwMDE6ZGI4OjoxMF06OTQ0MwARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A"
+    },
+    {
+      "id": "custom_ascii_idn",
+      "link": "coco://c#AgEAHWh0dHBzOi8veG4tLWJjaGVyLWt2YS5leGFtcGxlABEiM0RVZneImaq7zN3u_wECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8goaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+      "currentServer": "https://xn--bcher-kva.example",
+      "expected": {
+        "server": "https://xn--bcher-kva.example",
+        "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+        "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+        "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+        "version": 2
+      },
+      "canonicalLink": "coco://c#AgEAHWh0dHBzOi8veG4tLWJjaGVyLWt2YS5leGFtcGxlABEiM0RVZneImaq7zN3u_wECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8goaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A"
+    },
+    {
+      "id": "custom_maximum_256_bytes",
+      "link": "coco://c#AgEBAGh0dHBzOi8vYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhLmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYi5jY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2MuZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQAESIzRFVmd4iZqrvM3e7_AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyChoqOkpaanqKmqq6ytrq-wsbKztLW2t7i5uru8vb6_wA",
+      "currentServer": "https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.dddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "expected": {
+        "server": "https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.dddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+        "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+        "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+        "version": 2
+      },
+      "canonicalLink": "coco://c#AgEBAGh0dHBzOi8vYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhLmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYi5jY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2MuZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQAESIzRFVmd4iZqrvM3e7_AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyChoqOkpaanqKmqq6ytrq-wsbKztLW2t7i5uru8vb6_wA"
+    },
+    {
+      "id": "canonical_current_server_normalization",
+      "link": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud/",
+      "expected": {
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+        "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+        "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+        "version": 2
+      },
+      "canonicalLink": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A"
+    }
+  ],
+  "invalid": [
+    {
+      "id": "empty",
+      "link": "",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "missing_fragment",
+      "link": "coco://c",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "empty_fragment",
+      "link": "coco://c#",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "path_payload",
+      "link": "coco://c/AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "path_and_fragment",
+      "link": "coco://c/x#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "slash_before_fragment",
+      "link": "coco://c/#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "query_before_fragment",
+      "link": "coco://c?q=x#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "userinfo",
+      "link": "coco://u@c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "port",
+      "link": "coco://c:443#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "wrong_scheme",
+      "link": "https://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "upper_scheme",
+      "link": "COCO://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "wrong_host",
+      "link": "coco://conference#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "upper_host",
+      "link": "coco://C#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "padding",
+      "link": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A=",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "standard_b64_plus",
+      "link": "coco://c#+gDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "standard_b64_slash",
+      "link": "coco://c#/gDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "percent_escape",
+      "link": "coco://c#%41gDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "internal_space",
+      "link": "coco://c#AgDv36wbUxSI pwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "second_fragment",
+      "link": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A#x",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "oversized_input",
+      "link": "coco://c#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "one_character_encoding",
+      "link": "coco://c#A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "only_version",
+      "link": "coco://c#Ag",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "unknown_version",
+      "link": "coco://c#AwDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "unknown_mode",
+      "link": "coco://c#AgLv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "public_missing_fingerprint",
+      "link": "coco://c#AgAAESIzRFVmd4iZqrvM3e7_AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyChoqOkpaanqKmqq6ytrq-wsbKztLW2t7i5uru8vb6_wA",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "public_truncated_fingerprint",
+      "link": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwABEiM0RVZneImaq7zN3u_wECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8goaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "public_wrong_fingerprint",
+      "link": "coco://c#AgDu36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "public_truncated_room",
+      "link": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7gECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8goaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "public_truncated_secret",
+      "link": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4foaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "public_truncated_media_key",
+      "link": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr8",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "public_trailing_byte",
+      "link": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_AAA",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "zero_secret",
+      "link": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "zero_media_key",
+      "link": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "equal_keys",
+      "link": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8g",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "both_zero_keys",
+      "link": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_missing_length",
+      "link": "coco://c#AgE",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_short_length",
+      "link": "coco://c#AgEA",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_empty_origin",
+      "link": "coco://c#AgEAAAARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_declared_too_large",
+      "link": "coco://c#AgEAGmh0dHBzOi8vY2hhdC5leGFtcGxlLnRlc3QAESIzRFVmd4iZqrvM3e7_AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyChoqOkpaanqKmqq6ytrq-wsbKztLW2t7i5uru8vb6_wA",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_declared_too_small",
+      "link": "coco://c#AgEAGGh0dHBzOi8vY2hhdC5leGFtcGxlLnRlc3QAESIzRFVmd4iZqrvM3e7_AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyChoqOkpaanqKmqq6ytrq-wsbKztLW2t7i5uru8vb6_wA",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_trailing_byte",
+      "link": "coco://c#AgEAGWh0dHBzOi8vY2hhdC5leGFtcGxlLnRlc3QAESIzRFVmd4iZqrvM3e7_AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyChoqOkpaanqKmqq6ytrq-wsbKztLW2t7i5uru8vb6_wAA",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_missing_payload_byte",
+      "link": "coco://c#AgEAGWh0dHBzOi8vY2hhdC5leGFtcGxlLnRlc3QAESIzRFVmd4iZqrvM3e7_AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyChoqOkpaanqKmqq6ytrq-wsbKztLW2t7i5uru8vb6_",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_invalid_utf8",
+      "link": "coco://c#AgEAEWh0dHBzOi8v_y5leGFtcGxlABEiM0RVZneImaq7zN3u_wECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8goaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_non_ascii_utf8",
+      "link": "coco://c#AgEAF2h0dHBzOi8vYsO8Y2hlci5leGFtcGxlABEiM0RVZneImaq7zN3u_wECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8goaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_origin_over_256_bytes",
+      "link": "coco://c#AgEBAWh0dHBzOi8vYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhLmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYi5jY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2MuZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkABEiM0RVZneImaq7zN3u_wECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8goaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_http",
+      "link": "coco://c#AgEAGGh0dHA6Ly9jaGF0LmV4YW1wbGUudGVzdAARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_userinfo",
+      "link": "coco://c#AgEAHmh0dHBzOi8vdXNlckBjaGF0LmV4YW1wbGUudGVzdAARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_path",
+      "link": "coco://c#AgEAHmh0dHBzOi8vY2hhdC5leGFtcGxlLnRlc3QvcGF0aAARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_trailing_slash",
+      "link": "coco://c#AgEAGmh0dHBzOi8vY2hhdC5leGFtcGxlLnRlc3QvABEiM0RVZneImaq7zN3u_wECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8goaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_query",
+      "link": "coco://c#AgEAHWh0dHBzOi8vY2hhdC5leGFtcGxlLnRlc3Q_cT14ABEiM0RVZneImaq7zN3u_wECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8goaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_fragment",
+      "link": "coco://c#AgEAG2h0dHBzOi8vY2hhdC5leGFtcGxlLnRlc3QjeAARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_uppercase_host",
+      "link": "coco://c#AgEAGWh0dHBzOi8vQ0hBVC5leGFtcGxlLnRlc3QAESIzRFVmd4iZqrvM3e7_AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyChoqOkpaanqKmqq6ytrq-wsbKztLW2t7i5uru8vb6_wA",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_default_port",
+      "link": "coco://c#AgEAHWh0dHBzOi8vY2hhdC5leGFtcGxlLnRlc3Q6NDQzABEiM0RVZneImaq7zN3u_wECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8goaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_zero_port",
+      "link": "coco://c#AgEAG2h0dHBzOi8vY2hhdC5leGFtcGxlLnRlc3Q6MAARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_port_overflow",
+      "link": "coco://c#AgEAH2h0dHBzOi8vY2hhdC5leGFtcGxlLnRlc3Q6NjU1MzYAESIzRFVmd4iZqrvM3e7_AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyChoqOkpaanqKmqq6ytrq-wsbKztLW2t7i5uru8vb6_wA",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_missing_host",
+      "link": "coco://c#AgEACGh0dHBzOi8vABEiM0RVZneImaq7zN3u_wECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8goaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_host_percent_escape",
+      "link": "coco://c#AgEAG2h0dHBzOi8vY2hhdCUyZWV4YW1wbGUudGVzdAARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_embedded_nul",
+      "link": "coco://c#AgEAGmh0dHBzOi8vY2hhdAAuZXhhbXBsZS50ZXN0ABEiM0RVZneImaq7zN3u_wECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8goaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "custom_embedded_newline",
+      "link": "coco://c#AgEAGmh0dHBzOi8vY2hhdAouZXhhbXBsZS50ZXN0ABEiM0RVZneImaq7zN3u_wECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8goaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "noncanonical_padding_bits",
+      "link": "coco://c#AgEAGWh0dHBzOi8vY2hhdC5leGFtcGxlLnRlc3QAESIzRFVmd4iZqrvM3e7_AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyChoqOkpaanqKmqq6ytrq-wsbKztLW2t7i5uru8vb6_wB",
+      "currentServer": "https://chat.example.test",
+      "expectedError": "invalid"
+    },
+    {
+      "id": "public_different_selected_server",
+      "link": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+      "currentServer": "https://chat.example.test",
+      "expectedError": "different_server"
+    },
+    {
+      "id": "custom_different_selected_server",
+      "link": "coco://c#AgEAGWh0dHBzOi8vY2hhdC5leGFtcGxlLnRlc3QAESIzRFVmd4iZqrvM3e7_AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyChoqOkpaanqKmqq6ytrq-wsbKztLW2t7i5uru8vb6_wA",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expectedError": "different_server"
+    }
+  ],
+  "legacyValid": [
+    {
+      "id": "legacy_public",
+      "link": "coco://conference?server=https%3A%2F%2F8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud&room=00112233-4455-6677-8899-aabbccddeeff#v=1&i=AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA&k=oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expected": {
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+        "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+        "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+        "version": 1
+      }
+    },
+    {
+      "id": "legacy_custom",
+      "link": "coco://conference?server=https%3A%2F%2Fchat.example.test&room=00112233-4455-6677-8899-aabbccddeeff#v=1&i=AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA&k=oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+      "currentServer": "https://chat.example.test",
+      "expected": {
+        "server": "https://chat.example.test",
+        "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+        "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+        "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+        "version": 1
+      }
+    },
+    {
+      "id": "legacy_zero_secret_unchanged",
+      "link": "coco://conference?server=https%3A%2F%2F8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud&room=00112233-4455-6677-8899-aabbccddeeff#v=1&i=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&k=oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expected": {
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+        "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+        "version": 1
+      }
+    },
+    {
+      "id": "legacy_zero_media_key_unchanged",
+      "link": "coco://conference?server=https%3A%2F%2F8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud&room=00112233-4455-6677-8899-aabbccddeeff#v=1&i=AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA&k=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "expected": {
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+        "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+        "mediaKey": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "version": 1
+      }
+    }
+  ],
+  "metadataValid": [
+    {
+      "id": "metadata_public_v2",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expected": {
+        "invite": {
+          "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+          "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+          "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+          "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+          "version": 2
+        },
+        "serverMatches": true,
+        "expiredHint": false
+      }
+    },
+    {
+      "id": "metadata_custom_v2",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://chat.example.test",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgEAGWh0dHBzOi8vY2hhdC5leGFtcGxlLnRlc3QAESIzRFVmd4iZqrvM3e7_AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyChoqOkpaanqKmqq6ytrq-wsbKztLW2t7i5uru8vb6_wA",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://chat.example.test",
+      "nowUnix": 1793286000,
+      "expected": {
+        "invite": {
+          "server": "https://chat.example.test",
+          "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+          "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+          "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+          "version": 2
+        },
+        "serverMatches": true,
+        "expiredHint": false
+      }
+    },
+    {
+      "id": "metadata_public_v1",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://conference?server=https%3A%2F%2F8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud&room=00112233-4455-6677-8899-aabbccddeeff#v=1&i=AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA&k=oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expected": {
+        "invite": {
+          "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+          "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+          "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+          "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+          "version": 1
+        },
+        "serverMatches": true,
+        "expiredHint": false
+      }
+    },
+    {
+      "id": "metadata_custom_v1",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://chat.example.test",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://conference?server=https%3A%2F%2Fchat.example.test&room=00112233-4455-6677-8899-aabbccddeeff#v=1&i=AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA&k=oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://chat.example.test",
+      "nowUnix": 1793286000,
+      "expected": {
+        "invite": {
+          "server": "https://chat.example.test",
+          "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+          "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+          "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+          "version": 1
+        },
+        "serverMatches": true,
+        "expiredHint": false
+      }
+    },
+    {
+      "id": "metadata_legacy_zero_secret_unchanged",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://conference?server=https%3A%2F%2F8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud&room=00112233-4455-6677-8899-aabbccddeeff#v=1&i=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&k=oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expected": {
+        "invite": {
+          "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+          "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+          "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+          "version": 1
+        },
+        "serverMatches": true,
+        "expiredHint": false
+      }
+    },
+    {
+      "id": "metadata_different_selected_server_is_inert",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://chat.example.test",
+      "nowUnix": 1793286000,
+      "expected": {
+        "invite": {
+          "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+          "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+          "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+          "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+          "version": 2
+        },
+        "serverMatches": false,
+        "expiredHint": false
+      }
+    },
+    {
+      "id": "metadata_past_expiry_is_only_hint",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793285999
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expected": {
+        "invite": {
+          "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+          "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+          "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+          "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+          "version": 2
+        },
+        "serverMatches": true,
+        "expiredHint": true
+      }
+    },
+    {
+      "id": "metadata_exact_expiry_is_only_hint",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793286000
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expected": {
+        "invite": {
+          "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+          "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+          "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+          "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+          "version": 2
+        },
+        "serverMatches": true,
+        "expiredHint": true
+      }
+    },
+    {
+      "id": "metadata_minimum_expiry_is_only_hint",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expected": {
+        "invite": {
+          "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+          "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+          "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+          "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+          "version": 2
+        },
+        "serverMatches": true,
+        "expiredHint": true
+      }
+    },
+    {
+      "id": "metadata_year9999_boundary",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 253402300799
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expected": {
+        "invite": {
+          "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+          "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+          "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+          "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+          "version": 2
+        },
+        "serverMatches": true,
+        "expiredHint": false
+      }
+    },
+    {
+      "id": "metadata_unicode_title",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Тестова конференція — сім’я",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expected": {
+        "invite": {
+          "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+          "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+          "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+          "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+          "version": 2
+        },
+        "serverMatches": true,
+        "expiredHint": false
+      }
+    },
+    {
+      "id": "metadata_80_unicode_scalars_320_bytes",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expected": {
+        "invite": {
+          "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+          "roomId": "00112233-4455-6677-8899-aabbccddeeff",
+          "secret": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+          "mediaKey": "oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+          "version": 2
+        },
+        "serverMatches": true,
+        "expiredHint": false
+      }
+    }
+  ],
+  "metadataInvalid": [
+    {
+      "id": "metadata_version_unknown",
+      "metadata": {
+        "version": 2,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_version_zero",
+      "metadata": {
+        "version": 0,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_version_boolean",
+      "metadata": {
+        "version": true,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_version_fraction",
+      "metadata": {
+        "version": 1.5,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_version_string",
+      "metadata": {
+        "version": "1",
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_id_uppercase",
+      "metadata": {
+        "version": 1,
+        "id": "AAAABBBB-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_id_noncanonical",
+      "metadata": {
+        "version": 1,
+        "id": "11112222333344448555666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_id_invalid",
+      "metadata": {
+        "version": 1,
+        "id": "not-a-uuid",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_room_uppercase",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-AABBCCDDEEFF",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_room_mismatch",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddee00",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_room_number",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": 42,
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_title_empty",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_title_whitespace",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": " ",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_title_not_trimmed",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": " Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_title_array",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": [
+          "Test conference"
+        ],
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_title_81_unicode_scalars",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_title_control",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test\u0000conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_title_c1_control",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Testconference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_title_newline",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test\nconference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_title_line_separator",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_title_paragraph_separator",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_outer_server_mismatch",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://chat.example.test",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_outer_origin_noncanonical",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud/",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_outer_origin_null",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": null,
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_invite_unknown_version",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AwDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_invite_wrong_fingerprint",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDu36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_invite_zero_v2_media_key",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_invite_boolean",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": false,
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_invite_plaintext_url",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "https://example.test",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_expiry_zero",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 0
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_expiry_negative",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": -1
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_expiry_boolean",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": true
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_expiry_fraction",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600.5
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_expiry_string",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": "1793289600"
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_expiry_exceeds_safe_date",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 253402300800
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_expiry_overflow_int64",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 9223372036854775808
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_missing_version",
+      "metadata": {
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_missing_id",
+      "metadata": {
+        "version": 1,
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_missing_title",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_missing_server",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_missing_room_id",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_missing_invite",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_missing_expires_at",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://c#AgDv36wbUxSIpwEyAvzAh-EwpKPBUNukuMrJkr_2_RdvCQARIjNEVWZ3iJmqu8zd7v8BAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fIKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr_A"
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_top_level_null",
+      "metadata": null,
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_top_level_array",
+      "metadata": [],
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_top_level_string",
+      "metadata": "conference",
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_top_level_number",
+      "metadata": 1,
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    },
+    {
+      "id": "metadata_outer_origin_over_256_with_v1",
+      "metadata": {
+        "version": 1,
+        "id": "11112222-3333-4444-8555-666677778888",
+        "title": "Test conference",
+        "server": "https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.ddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "room_id": "00112233-4455-6677-8899-aabbccddeeff",
+        "invite": "coco://conference?server=https%3A%2F%2Faaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.ddddddddddddddddddddddddddddddddddddddddddddddddddddddddd&room=00112233-4455-6677-8899-aabbccddeeff#v=1&i=AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA&k=oaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2-v8A",
+        "expires_at": 1793289600
+      },
+      "currentServer": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+      "nowUnix": 1793286000,
+      "expectedError": "invalid",
+      "expectedHarmlessFallback": true
+    }
+  ]
+}

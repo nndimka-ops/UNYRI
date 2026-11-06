@@ -1,0 +1,3511 @@
+{
+  "name": "livekit-swift",
+  "repository": "https://github.com/livekit/client-sdk-swift",
+  "commit": "43c1c0870e51eedbfd95b20b1b5c43a767886786",
+  "source_url": "https://codeload.github.com/livekit/client-sdk-swift/tar.gz/43c1c0870e51eedbfd95b20b1b5c43a767886786",
+  "archive": "livekit-swift-43c1c0870e51eedbfd95b20b1b5c43a767886786.tar.gz",
+  "archive_bytes": 1908266,
+  "archive_sha256": "fff16110dfe6c8d443dc6c7a24be6f9a6683490a9fa69225ec9406f747fc7111",
+  "all_git_blobs_match": true,
+  "members": {
+    ".github/CODEOWNERS": {
+      "bytes": 131,
+      "sha256": "25c462d32700cebb2691988f5cb9ebecedfad1306d5bcabdf9495fa3a7e87d9f",
+      "git_blob_sha1": "078cd183ed53d27e8a154f3735c2cdf83bc7c82f",
+      "type": "file"
+    },
+    ".github/ISSUE_TEMPLATE/bug_report.md": {
+      "bytes": 895,
+      "sha256": "a2a1f03ec5cb14d8b7a23e843cd69db4ce50151e533bd68ea14f035b24b8994c",
+      "git_blob_sha1": "0f5561b14bd6e0d162aaeec7fa664d516b8e872c",
+      "type": "file"
+    },
+    ".github/ISSUE_TEMPLATE/feature_request.md": {
+      "bytes": 609,
+      "sha256": "21e40a9236f2c6a96a1b767e66e7489ae71b98c7cc26a4b098a97bdc60ac62bc",
+      "git_blob_sha1": "6ea5a5251290d65eb9bfbc51cdce9517c5801c42",
+      "type": "file"
+    },
+    ".github/api-check/api-check.swift": {
+      "bytes": 13862,
+      "sha256": "a9e6c20450acb4db6bc072e0c669db12c4a7236988122964a471e6512873fc1f",
+      "git_blob_sha1": "25b998f2a9d752ab9b6648a38cc173146edaa602",
+      "type": "file"
+    },
+    ".github/banner_dark.png": {
+      "bytes": 131175,
+      "sha256": "e33e6b86565719cc09ba0a77fc7864606acddf2b9fb982bed20b188c2472124e",
+      "git_blob_sha1": "888e6c890fd545715300313f14d359cfbae81974",
+      "type": "file"
+    },
+    ".github/banner_light.png": {
+      "bytes": 53417,
+      "sha256": "9f0a17f870eda6eee51ae329d41b93fea7e915cc1127201713862fe06f04951f",
+      "git_blob_sha1": "ee8730911b3328df30fe0dbc5dca60085a9b700e",
+      "type": "file"
+    },
+    ".github/dependabot.yml": {
+      "bytes": 273,
+      "sha256": "dbd00889a32815467141d6a63783fee49b23535ae241e7cce817ddab19fd6c93",
+      "git_blob_sha1": "04b21b8e040430612d9caf42bc1da9a3a065d810",
+      "type": "file"
+    },
+    ".github/sanitizers/tsan.supp": {
+      "bytes": 958,
+      "sha256": "0f264815bcdf247630baa955de7cc0c70007fdfc39b822bec74cae595044493a",
+      "git_blob_sha1": "232b711c5f15e76d35bc29ee541e99685df8dc56",
+      "type": "file"
+    },
+    ".github/size-check/.gitignore": {
+      "bytes": 100,
+      "sha256": "1dee4789d9406dd9a8c0967e22c61c2d06b39eb81b1c9e54ffd183e41df4943e",
+      "git_blob_sha1": "54de99d36762d1c43c04e9c6de3b37d765962498",
+      "type": "file"
+    },
+    ".github/size-check/EmptyApp/App.swift": {
+      "bytes": 738,
+      "sha256": "3ae29b7c05625186f88af0563b6db9436e9f156aa265b0204ef92038d0356e60",
+      "git_blob_sha1": "8a81a742f6262fe910fee9e0be02d4bd2489a465",
+      "type": "file"
+    },
+    ".github/size-check/LiveKitApp/App.swift": {
+      "bytes": 1971,
+      "sha256": "1bf164c2cf575821f7f2c393fa387014f18161b70c0af837d24ce6ba4c3e37e4",
+      "git_blob_sha1": "47f4244e52c9f841b9dcf270f24ae3d17ed29c6b",
+      "type": "file"
+    },
+    ".github/size-check/project.yml": {
+      "bytes": 1510,
+      "sha256": "a00d089b4c4798c6e5ddb76a390524063f02d415723bd7e754b4cfd78b5721f7",
+      "git_blob_sha1": "cf4023d649bb4c27459d48713c8004a767a01d17",
+      "type": "file"
+    },
+    ".github/size-check/size-check.swift": {
+      "bytes": 12913,
+      "sha256": "dbaf14dd1a19d868d311a01454262a3462b0a72e7aeaee8703817cbeca853b7a",
+      "git_blob_sha1": "31d80c31f2e4338630e2703359fad7d1d4ae39a6",
+      "type": "file"
+    },
+    ".github/stall-dump/stall-dump.sh": {
+      "bytes": 1077,
+      "sha256": "b75be06bbdab0c3d3445773ff724077ac4d1db9d1ee95efd8fe88d33a372ee1e",
+      "git_blob_sha1": "d876625783ce5a7dcba8f6a47add336098825051",
+      "type": "file"
+    },
+    ".github/tuist-check/.gitignore": {
+      "bytes": 72,
+      "sha256": "8ca2286b0fcb078c83563377929bbc36fa0fc57c2170b48fe0d03381bdffa076",
+      "git_blob_sha1": "dc1a3c9f75bbaa027fdece8e99bcadde2c47decc",
+      "type": "file"
+    },
+    ".github/tuist-check/Project.swift": {
+      "bytes": 999,
+      "sha256": "1bbccaf4d892a44fd38fe0b459d87158b08ca9c08ea5e5a64d9b7ce05b65a313",
+      "git_blob_sha1": "dfd6447c9438633f70ce8195888452fad4a2a519",
+      "type": "file"
+    },
+    ".github/tuist-check/Sources/main.swift": {
+      "bytes": 638,
+      "sha256": "92fc426591a332b43f1a606c8ad53a1bb158e24863643bfd0861684766203572",
+      "git_blob_sha1": "e58974b854fc0c6004c27dda2bc5650a2f03f40e",
+      "type": "file"
+    },
+    ".github/tuist-check/Tuist.swift": {
+      "bytes": 639,
+      "sha256": "32c1fcaf065b23fbc4454f234a9f93c03a04c10f9464f784aec689c9426fecb9",
+      "git_blob_sha1": "8def6b9d3738a2249f6878fc65c493aa34c99234",
+      "type": "file"
+    },
+    ".github/tuist-check/Tuist/Package.swift": {
+      "bytes": 672,
+      "sha256": "6f090051b741620e89ea6e7c99090f1f00e489d33a50f74c2b99dddbe4dd29a3",
+      "git_blob_sha1": "a7589220c48f56dc56e58f94b1e58c69ab581bea",
+      "type": "file"
+    },
+    ".github/tuist-check/run.sh": {
+      "bytes": 707,
+      "sha256": "bfeaeee8eca8ea816ba153cbd518ddded96825713f1db45a2e7653c6e0153718",
+      "git_blob_sha1": "0015074267a11403b2efe416a03377ccc42a4f23",
+      "type": "file"
+    },
+    ".github/workflows/api-check.yaml": {
+      "bytes": 1944,
+      "sha256": "d844cfc286256350eed8b3d8159b4f183f9016143dd2e9ef47305e63b53408e4",
+      "git_blob_sha1": "92b59fe3dfbee555fd6faef8d8437aa229b50479",
+      "type": "file"
+    },
+    ".github/workflows/benchmark.yaml": {
+      "bytes": 1732,
+      "sha256": "6897f3fbf53ca8402642a50589a686bcc4d6f1650b5906549fb6e4b8ce0a4990",
+      "git_blob_sha1": "831f314167076ce98101734c36b1381225b3d1e7",
+      "type": "file"
+    },
+    ".github/workflows/ci.yaml": {
+      "bytes": 14309,
+      "sha256": "58b143c2ed9bf4b80881410e0de7cf1a274137811c8d1f676d27099ac799e800",
+      "git_blob_sha1": "ad687d76b92a92db23ae2da96e808772160538cb",
+      "type": "file"
+    },
+    ".github/workflows/cocoapods-lint.yaml": {
+      "bytes": 1477,
+      "sha256": "066293c000e07b6c691b6184de02a34f82542bdf27ae92b0233b615d468166f8",
+      "git_blob_sha1": "549bfd399f6c3fe131fb5a44b9d1429745ca2b2b",
+      "type": "file"
+    },
+    ".github/workflows/codeql.yaml": {
+      "bytes": 1965,
+      "sha256": "de1d0219f04706bf219c062deda25799051bc2bd866338bc3bdf073d76ce2197",
+      "git_blob_sha1": "4ecba028e537d7e09fa7cf05aea042809790c5d2",
+      "type": "file"
+    },
+    ".github/workflows/publish-docs.yaml": {
+      "bytes": 3545,
+      "sha256": "7ec59ff9b078a639ed0256532f89a9430abccaa49a647abf20741c61ccc0b531",
+      "git_blob_sha1": "3316659c4c9bc0f3146772afb9429cb998c4f7a7",
+      "type": "file"
+    },
+    ".github/workflows/publish-podspec.yaml": {
+      "bytes": 1411,
+      "sha256": "80b9957a876b7523888273400521285112133c06f1a8c2f28681ac80bc32c89e",
+      "git_blob_sha1": "066e478e6a486ba5dbb5827463dabc0ef7af9667",
+      "type": "file"
+    },
+    ".github/workflows/publish-xcframework.yaml": {
+      "bytes": 3561,
+      "sha256": "0f1a27cd9039e00c032af2561e78b689d9d20cd41d8ad01222c4b2aa1d03f784",
+      "git_blob_sha1": "6989eae6a3323b419cbc4c2591da64e31a0b1210",
+      "type": "file"
+    },
+    ".github/workflows/swift-snapshot.yaml": {
+      "bytes": 961,
+      "sha256": "4282b4d0a2f37b3835b73c13a5c9947091262bf7544563a2bd7c9bd957772a65",
+      "git_blob_sha1": "0f318abf0fa6580f8528719041784ac517d36e0a",
+      "type": "file"
+    },
+    ".gitignore": {
+      "bytes": 190,
+      "sha256": "4369fdbaa9143897600c925e3e76db70b0fd90e8c943230df5347b8cc0df35aa",
+      "git_blob_sha1": "7c86fdd0ab416903d5883def2a7c93929fcbbae2",
+      "type": "file"
+    },
+    ".gitmodules": {
+      "bytes": 87,
+      "sha256": "2bbee44e04887e2b3699ec7a688212b5d7614d68f74f4f417685849a76d124c7",
+      "git_blob_sha1": "3a8127d1dd8a1838105e2de3f0af2731c3833390",
+      "type": "file"
+    },
+    ".periphery.yml": {
+      "bytes": 39,
+      "sha256": "382e4a1fabaf8b1dba3088ce574710ff1a548cef29e33818e857e33c4ba8979f",
+      "git_blob_sha1": "2fecfdf010f2bfa38a212976e0d2a698b686ced8",
+      "type": "file"
+    },
+    ".swiftformat": {
+      "bytes": 900,
+      "sha256": "8945d9837ef066d74ddca77e150a26df989d6efbe2a579a2ecb662b8b84058d2",
+      "git_blob_sha1": "b198b0d9822faad4881071184eed3f685ea7c03d",
+      "type": "file"
+    },
+    ".swiftlint.yml": {
+      "bytes": 2849,
+      "sha256": "c636a539b3266808552dcde309ea8529ff62f863d7537270078da437577f3494",
+      "git_blob_sha1": "9b6cdc9e84d9e411906bf4c07734b9fbfe795f15",
+      "type": "file"
+    },
+    ".version": {
+      "bytes": 6,
+      "sha256": "c5f1cbaf7d662d64f2e1654127e2a35aea10cb37d7601aaf4b004ea020786d54",
+      "git_blob_sha1": "92aa628bc34867cb7846987571325899b6b5bb31",
+      "type": "file"
+    },
+    "AGENTS.md": {
+      "bytes": 15557,
+      "sha256": "e5d8b7283d490084c6d9996362be63f3a6d68004d696aabc2a7693e3dc413599",
+      "git_blob_sha1": "a64edc9654573aae11a6c464d134c1e216980ed4",
+      "type": "file"
+    },
+    "Benchmarks/LiveKitBenchmark/BenchmarkSupport/BenchmarkConfig.swift": {
+      "bytes": 2659,
+      "sha256": "7c0521b50dce8275661365e42add8b31719a79ff22e04a0a6e7088e0199b81b9",
+      "git_blob_sha1": "e8cffedbf4619ce686920c061b6a4688d28ea854",
+      "type": "file"
+    },
+    "Benchmarks/LiveKitBenchmark/BenchmarkSupport/BenchmarkTracer.swift": {
+      "bytes": 1911,
+      "sha256": "4dbe992f1b1708aa336b026b727051c694df760e2c67c513b1aa2031f444b1e0",
+      "git_blob_sha1": "6c3f9f44807336ac2fd8e51240ee0e7e1d602091",
+      "type": "file"
+    },
+    "Benchmarks/LiveKitBenchmark/BenchmarkSupport/EchoParticipant.swift": {
+      "bytes": 3755,
+      "sha256": "174f9b80a4fadbcc362a70646e65a662b44aff4d74a7d59bfbcb807999c3be0f",
+      "git_blob_sha1": "c2add889b660406aa647eb73f205f859417d568f",
+      "type": "file"
+    },
+    "Benchmarks/LiveKitBenchmark/BenchmarkSupport/SessionObservers.swift": {
+      "bytes": 8869,
+      "sha256": "f07697e2f07b2b3dcfadce7c18f0d57c37d91fd85ef080bd6c7737c64906ba94",
+      "git_blob_sha1": "77d315735df9381dfea2dc331c2672a17908a971",
+      "type": "file"
+    },
+    "Benchmarks/LiveKitBenchmark/BenchmarkSupport/TokenGenerator.swift": {
+      "bytes": 2475,
+      "sha256": "cc0b5e4fcc9f61b2b9f8bd59d43016422bca58a1ebcdc9817674e03b7fa6d89c",
+      "git_blob_sha1": "3ceb496479b6baf90c189790db1337f946663ce2",
+      "type": "file"
+    },
+    "Benchmarks/LiveKitBenchmark/Benchmarks.swift": {
+      "bytes": 1696,
+      "sha256": "23e6674dec8f1a25ffd855238da9dce55b579066c58aaf077f71ca7733e95418",
+      "git_blob_sha1": "b99a4a64f104c6e63ef917b93e42ce5c1a46b36e",
+      "type": "file"
+    },
+    "Benchmarks/LiveKitBenchmark/ConnectionBenchmark.swift": {
+      "bytes": 6409,
+      "sha256": "3080ddb5c76b2873d90b60719e50ff5213cd0f05e62fe68c34125f68e0603912",
+      "git_blob_sha1": "a80d32ca42e1e1c3685ae07d4cd7ee7c7ab01c4f",
+      "type": "file"
+    },
+    "Benchmarks/LiveKitBenchmark/DataChannelBenchmark.swift": {
+      "bytes": 5593,
+      "sha256": "8574ddf2e3e2200e301bba182c32df9e0d46339762f07c258655193131667aae",
+      "git_blob_sha1": "471171ec21c6a47a375957b773eccaaa5319495c",
+      "type": "file"
+    },
+    "Benchmarks/LiveKitBenchmark/RPCBenchmark.swift": {
+      "bytes": 4442,
+      "sha256": "c5dcf37f30d15f8246f08b759524b5b3bf7b93adfdaf0671c6e36e4fa55196a5",
+      "git_blob_sha1": "aae7e268b05a5580f5f107f267857d6fa696e444",
+      "type": "file"
+    },
+    "Benchmarks/LiveKitBenchmark/SessionLifecycleBenchmark.swift": {
+      "bytes": 10056,
+      "sha256": "73855ee31fb481ee1dce785d33841d9b02da71145c6fcc65ca51a829ce211b86",
+      "git_blob_sha1": "3919b7febedb7dc98e126e8267c3881f70d0c32f",
+      "type": "file"
+    },
+    "Benchmarks/Package.swift": {
+      "bytes": 1054,
+      "sha256": "62bc03175f09df5d5c1c571e53aa73f9e574ac53c1a445f52b6f85de850e5134",
+      "git_blob_sha1": "dc8e5f19f0de5bf60aa4c2b43a9e3dae362c107d",
+      "type": "file"
+    },
+    "CHANGELOG.md": {
+      "bytes": 24099,
+      "sha256": "915fd3b8152b5af397b26dc87edcf499dad588a6810a73e77d1f76fd3c873d0a",
+      "git_blob_sha1": "62666741758e5b38ba2da088e497da3f7d85d543",
+      "type": "file"
+    },
+    "CLAUDE.md": {
+      "bytes": 11,
+      "sha256": "336cc4fbf19beaada7ccf9986414fa91851a8d7a07dfb3ccbe800a69eed0ab49",
+      "git_blob_sha1": "43c994c2d3617f947bcb5adf1933e21dabe46bb5",
+      "type": "file"
+    },
+    "Docs/Resources/broadcast-dialog.png": {
+      "bytes": 625056,
+      "sha256": "ab76428d27a88b147f242aecd1751a565e3bc95bfafb5f5c52e6fdf890f1c981",
+      "git_blob_sha1": "5e20407bf6c3cee9edf908caad0669061130a0d6",
+      "type": "file"
+    },
+    "Docs/Resources/in-app-dialog.png": {
+      "bytes": 187645,
+      "sha256": "f87d3c972c3aa93f17060a0542fb73301a2a1ccb8788f4b27c059e1cb38c9528",
+      "git_blob_sha1": "1467480c55798de84972b1692a6069e08200e977",
+      "type": "file"
+    },
+    "Docs/Resources/new-target-options.png": {
+      "bytes": 50122,
+      "sha256": "0d93e30ec2d5e8404d5116482842e0b39ef48f56e53f77e1732e5ec430561e8a",
+      "git_blob_sha1": "79f9e1165f42c28f36f147d9c0b4a361d27f405f",
+      "type": "file"
+    },
+    "Docs/audio.md": {
+      "bytes": 13844,
+      "sha256": "07149ba36a500abc6b46613c461bd10d322e8aaa2f2bafa30f40df0d1418a2c5",
+      "git_blob_sha1": "be5a2415fdb05e979593452642c2ac3c42f100b1",
+      "type": "file"
+    },
+    "Docs/cocoapods.md": {
+      "bytes": 1087,
+      "sha256": "20a1ada718aa8dd1c18bf40100548c1acfcda9caba9506c7437ee929ac2ea7ba",
+      "git_blob_sha1": "41242c60639c0391d9d389bf8769a30e969c698c",
+      "type": "file"
+    },
+    "Docs/ios-screen-sharing.md": {
+      "bytes": 10086,
+      "sha256": "e80a316f1fe091c603db22d79ac4d27fdb08835d1708da569f073bd6eac2e984",
+      "git_blob_sha1": "2ab57b900e386a2f9bf958e02cf69b1b661b9524",
+      "type": "file"
+    },
+    "LICENSE": {
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "git_blob_sha1": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+      "type": "file"
+    },
+    "LiveKitClient.podspec": {
+      "bytes": 1005,
+      "sha256": "98135313ef55795afd47fb6200fc1cb7b3c0b399edf9f74a14fec3fcede3d561",
+      "git_blob_sha1": "c69f9ae5e325e6027fc31a66732712fff43088a7",
+      "type": "file"
+    },
+    "Makefile": {
+      "bytes": 3972,
+      "sha256": "ebf38859a355e29c245176c5a3c02bf0679716b72e7e1c41cd8a7179b45ebe72",
+      "git_blob_sha1": "57bd863eb28bd3d8ba65a27be82d7f64d56219bb",
+      "type": "file"
+    },
+    "NOTICE": {
+      "bytes": 553,
+      "sha256": "6d0f7c5e0deb284362296c5da110dd353831da2e67ca77cb5abc051b951b0fac",
+      "git_blob_sha1": "692adc99215eab510e2f4617a132cdcdb5cda026",
+      "type": "file"
+    },
+    "PROTOCOL.md": {
+      "bytes": 20630,
+      "sha256": "bc82c4daf6a930baa6c89e250fe9243589bdbc07fa8651430dfdfb85d4fe70dd",
+      "git_blob_sha1": "eddfd04d56873c800578f98ed799901f8785ac48",
+      "type": "file"
+    },
+    "Package.swift": {
+      "bytes": 3402,
+      "sha256": "cebccccb59735bff946ab7cb585c383a9a399349036e33f576258547057023d6",
+      "git_blob_sha1": "4bca8cb3e77ff0dd5267d48c3d3a41b899653ce3",
+      "type": "file"
+    },
+    "Package@swift-6.2.swift": {
+      "bytes": 3427,
+      "sha256": "81f95f33ff9c09b77b1f8e3b8a1f2679a4a458c053dde246003b9aebb44c094f",
+      "git_blob_sha1": "78400e46dbba2fe427f3b8d8ca1b3a67902d34c9",
+      "type": "file"
+    },
+    "README.md": {
+      "bytes": 19623,
+      "sha256": "d1f50746dbd7ea4234aac61f769da1d0d86d8c71337ec626f0ac8742be8c8d76",
+      "git_blob_sha1": "fb57f597b5201ec2c7bc2a361f3438a7c619386c",
+      "type": "file"
+    },
+    "Sources/CLiveKitProto/LICENSE-nanopb.txt": {
+      "bytes": 1738,
+      "sha256": "adeb936041c8a37940fe68c2ca3734e5d18536da8bf40add782bea7fdb7fd287",
+      "git_blob_sha1": "6c340c81828027a0fb7983a53160357dee20c2da",
+      "type": "file"
+    },
+    "Sources/CLiveKitProto/include/livekit_metrics.pb.h": {
+      "bytes": 14347,
+      "sha256": "e387b498d79df11dafad6010672543673ab0a344d2904c395f914ad9b33a7299",
+      "git_blob_sha1": "21c4037689203f0f4af91d68d9aec24aa2e6cd3e",
+      "type": "file"
+    },
+    "Sources/CLiveKitProto/include/livekit_models.pb.h": {
+      "bytes": 121872,
+      "sha256": "12dd4023ed4a1f0e94c0eaabfcc603b4a96704c9d6e079783f339b8d0e7cc50e",
+      "git_blob_sha1": "f609a3f2c799817553eb8caca18d678431c06182",
+      "type": "file"
+    },
+    "Sources/CLiveKitProto/include/livekit_rtc.pb.h": {
+      "bytes": 106450,
+      "sha256": "57ffd696251a89eb23e6e9e63ed2efb89b0000f4ac8999cfce79e76a1503c297",
+      "git_blob_sha1": "7a4f58688768d658674e9370f1c2d3876218eb85",
+      "type": "file"
+    },
+    "Sources/CLiveKitProto/include/lk_pb.h": {
+      "bytes": 44810,
+      "sha256": "d2bd3b466e5a9b9c04c6b53fbf72d2a18f883eda02941d03c3de2d9ea7d9cbbf",
+      "git_blob_sha1": "8a3375cd19246532ef883fe42ca2ca5b3e65731a",
+      "type": "file"
+    },
+    "Sources/CLiveKitProto/include/lk_pb_common.h": {
+      "bytes": 1825,
+      "sha256": "9dc3feeb17dac608286d8986273d6c1482f9503b31f281195d641e2e8b284d84",
+      "git_blob_sha1": "76b474c138e6dfad06a5fdd148d8d1a3d2c38c15",
+      "type": "file"
+    },
+    "Sources/CLiveKitProto/include/lk_pb_config.h": {
+      "bytes": 1235,
+      "sha256": "bc8b47c9d6a607eab206eaa2d5bec448c13baf92ec9456d4becdaae2912612fd",
+      "git_blob_sha1": "a9a9c991d08842db8e87adf4ca245c572d8eecde",
+      "type": "file"
+    },
+    "Sources/CLiveKitProto/include/lk_pb_decode.h": {
+      "bytes": 8240,
+      "sha256": "094b5b8ab6b356db3cc459a68fdb96703a4db7031bc5087ffbdcd12e86c93cf0",
+      "git_blob_sha1": "89e09cd4bc36c805b42bd6f7f472ec0c5a34121d",
+      "type": "file"
+    },
+    "Sources/CLiveKitProto/include/lk_pb_encode.h": {
+      "bytes": 7324,
+      "sha256": "01e4c9e6b5a0f9b052672e190737e54482d83cfe587ae57372dcede40ada1ede",
+      "git_blob_sha1": "227fda56ff741aa1bcc3f2043a6593b88ec98e42",
+      "type": "file"
+    },
+    "Sources/CLiveKitProto/include/lk_pb_rename.h": {
+      "bytes": 4710,
+      "sha256": "c76628685a9eb896eeadd0811d253652f4433d59f099b9f09768f8cbeaf0fdb0",
+      "git_blob_sha1": "53becedb8fd8319556aae4cce51e9fcdadb909f7",
+      "type": "file"
+    },
+    "Sources/CLiveKitProto/include/options.pb.h": {
+      "bytes": 1899,
+      "sha256": "738cb8564e07e649f11f34a3d744d4a6eee5c999db2591dfedcd71ca4999b901",
+      "git_blob_sha1": "424d0ea3efd46809d37dc786e236edb91c64f5b6",
+      "type": "file"
+    },
+    "Sources/CLiveKitProto/include/timestamp.pb.h": {
+      "bytes": 5836,
+      "sha256": "15f79eea47807b1d90711624709cdc36649a517f7ca1563020233f094ae64805",
+      "git_blob_sha1": "4ca1792464efc67635275a2d647b6332c10d92a7",
+      "type": "file"
+    },
+    "Sources/CLiveKitProto/livekit_metrics.pb.c": {
+      "bytes": 678,
+      "sha256": "08742de31352fbd23fe85770e90a4d357d8a1d7759ded0939d66853f960b0361",
+      "git_blob_sha1": "b87dfc839df2057625f51c39f42ae0213496d1a1",
+      "type": "file"
+    },
+    "Sources/CLiveKitProto/livekit_models.pb.c": {
+      "bytes": 4599,
+      "sha256": "badfb9e9e62b803f02d504d4eaf80b2b9242b3ee6d31026bea5cf1c2342cb8db",
+      "git_blob_sha1": "5cf5a53d721fb270d6004392b9fbc2e569ea3e3e",
+      "type": "file"
+    },
+    "Sources/CLiveKitProto/livekit_rtc.pb.c": {
+      "bytes": 5136,
+      "sha256": "eb371a586f1c52515e074060329050a99bedf80a478bd16935b6355de4a9fe8c",
+      "git_blob_sha1": "22f616b39de672edc3b25cd2c22a89ae60621468",
+      "type": "file"
+    },
+    "Sources/CLiveKitProto/lk_abi_check.c": {
+      "bytes": 498,
+      "sha256": "04aec1aa2814bb6a955cf923574853adf6b421f9766e351f357c250a257d3229",
+      "git_blob_sha1": "faeb4936770cb40dcfb8ca3f3684ab98e14c8897",
+      "type": "file"
+    },
+    "Sources/CLiveKitProto/module.modulemap": {
+      "bytes": 61,
+      "sha256": "ac8fe880c66da57da9865674e5e9d3b540da8694b8d01fd8b8e48976fcd2e932",
+      "git_blob_sha1": "4c64bdc73d32af0900de5ab4543c5adc61145f39",
+      "type": "file"
+    },
+    "Sources/CLiveKitProto/pb_common.c": {
+      "bytes": 12246,
+      "sha256": "ecfa8cb313588122e76871a45286ef323fd544b4da99626e0efae149e8634b9d",
+      "git_blob_sha1": "d26cfa7639d1872c58eda08c05a5770b1d04267f",
+      "type": "file"
+    },
+    "Sources/CLiveKitProto/pb_decode.c": {
+      "bytes": 55288,
+      "sha256": "d97cf58be96625e71b44caf6adfb9341b7f38fe79b211859755eedf291d939c0",
+      "git_blob_sha1": "369af52bc1e7c19342cb6f7f34f5db0da1a20763",
+      "type": "file"
+    },
+    "Sources/CLiveKitProto/pb_encode.c": {
+      "bytes": 30895,
+      "sha256": "ad0fe1dd072812f56715a33ddf3828ce52dc1aeaa14014b02dfd8cc5f93aca12",
+      "git_blob_sha1": "f3424be1b247139e150d05063a7ec40906eb4dd1",
+      "type": "file"
+    },
+    "Sources/CLiveKitProto/timestamp.pb.c": {
+      "bytes": 306,
+      "sha256": "ba0efffe8033bdcbcb46092e9b4fc5a28f1131a5712f3db09748fd9d24cb14b0",
+      "git_blob_sha1": "61a90b2bea8accf496a194235492eab3afb94a43",
+      "type": "file"
+    },
+    "Sources/LKObjCHelpers/LKObjCHelpers.m": {
+      "bytes": 1147,
+      "sha256": "15b0b0bfefbffc9a62fed2c8b381b71a175f4db96b9b8c9b53f33ae6cc8daae1",
+      "git_blob_sha1": "b174ff0573136588879431a6efff8eceedfb3a96",
+      "type": "file"
+    },
+    "Sources/LKObjCHelpers/include/LKObjCHelpers.h": {
+      "bytes": 567,
+      "sha256": "b9e47408509a37dec57b258819a9718f17b59bec13475b310c0482c0a2e2dfa3",
+      "git_blob_sha1": "63d7a31ec07e85dc770b0b3b166e2567152cb2e5",
+      "type": "file"
+    },
+    "Sources/LKObjCHelpers/module.modulemap": {
+      "bytes": 75,
+      "sha256": "df5d3905dba0b04286971065b6f2d5b3881d3ca9baee17c4a85f5baa89e0010f",
+      "git_blob_sha1": "064b6113b61249800569f3b2736c4190b4609072",
+      "type": "file"
+    },
+    "Sources/LiveKit/Agent/Agent.swift": {
+      "bytes": 6394,
+      "sha256": "959763cca31dad553e64541d1fe33ca98b019d351e3bb52f886cf761bafda55f",
+      "git_blob_sha1": "6aeaaa953ce6393847b33491ecf379b805a9bd48",
+      "type": "file"
+    },
+    "Sources/LiveKit/Agent/Chat/Message.swift": {
+      "bytes": 2317,
+      "sha256": "7e1a705c5b819dac3c061faec0be1223186543979d34b3139cf5904022a88b0d",
+      "git_blob_sha1": "f9ffce218daaaada6fb7e915fabf0eb8f555bbb5",
+      "type": "file"
+    },
+    "Sources/LiveKit/Agent/Chat/Receive/MessageReceiver.swift": {
+      "bytes": 941,
+      "sha256": "720d57330f2b45e3b140d1f5cfdaae071d6cbf570eec1accb0e7e6d2dfd7b7de",
+      "git_blob_sha1": "e3b62c3f54c16c5710071f44aaa64c14e3c1928c",
+      "type": "file"
+    },
+    "Sources/LiveKit/Agent/Chat/Receive/TranscriptionDelegateReceiver.swift": {
+      "bytes": 2470,
+      "sha256": "194ce23a6be3744e9f861974b54819de54c255ad6fefdaea65aa59b75f181e4c",
+      "git_blob_sha1": "d8324ba1ad3f6009662bd883957db6105130c468",
+      "type": "file"
+    },
+    "Sources/LiveKit/Agent/Chat/Receive/TranscriptionStreamReceiver.swift": {
+      "bytes": 7434,
+      "sha256": "cd13478a4f51ba264e4c71392b7fa6812c65ffea83e586590af41bd31faba420",
+      "git_blob_sha1": "c576d624fc599cc30d1c8bfcc6efbeddd5193ff9",
+      "type": "file"
+    },
+    "Sources/LiveKit/Agent/Chat/Send/MessageSender.swift": {
+      "bytes": 901,
+      "sha256": "b9020a4a2eeaaa3e6b0bb10ab4eef8a110999e4f1817417fa78d52ad188962e1",
+      "git_blob_sha1": "ea24201ac05e8c697e6cd9c5da155130224598ff",
+      "type": "file"
+    },
+    "Sources/LiveKit/Agent/Chat/Send/TextMessageSender.swift": {
+      "bytes": 1894,
+      "sha256": "cab83ff5842f021bc0af5b04b15825ab8fb3605e715dc73484b99903553a213a",
+      "git_blob_sha1": "cc82f24e9f55cb13e75d99427f364967c4d7173f",
+      "type": "file"
+    },
+    "Sources/LiveKit/Agent/Participant+Agent.swift": {
+      "bytes": 1380,
+      "sha256": "4bb15f92c4b5f6c9444c1c4e3b7928ab146357e50e899d3b8425960ed5f4b311",
+      "git_blob_sha1": "776c74f6ed29890fb651465b4a4ecd9eba740305",
+      "type": "file"
+    },
+    "Sources/LiveKit/Agent/Room+Agent.swift": {
+      "bytes": 1251,
+      "sha256": "7a70ad87bc1fbfe3767ba6c5ac26583499b693c1089fced787fe65f50f8904a6",
+      "git_blob_sha1": "7ff14a80258d188211c683fc5ba5e3a5df32c8b5",
+      "type": "file"
+    },
+    "Sources/LiveKit/Agent/Session.swift": {
+      "bytes": 13662,
+      "sha256": "4cc73669d9d2804b8876b51f7ccb4fa07c9a444af8613b1892b07ce25eb574d7",
+      "git_blob_sha1": "10d3b86c247c4ccc2eb9363d79d3f6fa3f9b267f",
+      "type": "file"
+    },
+    "Sources/LiveKit/Agent/SessionOptions.swift": {
+      "bytes": 2672,
+      "sha256": "201bfac98fef26a64754f9390ba07601d5548bc7afbda81210b105da439ae4d3",
+      "git_blob_sha1": "0bbefa4c8399c2072e725fd0eb8f41d50ff0ef93",
+      "type": "file"
+    },
+    "Sources/LiveKit/Audio/AudioDeviceModuleDelegateAdapter.swift": {
+      "bytes": 4747,
+      "sha256": "b2baede1ed56b72ea6554fc2db3c7b43d897a81c6a9d4278f63bd657f0494492",
+      "git_blob_sha1": "ef11359cbc1e1a0f4c29dcf1a4b07cf6063d54a6",
+      "type": "file"
+    },
+    "Sources/LiveKit/Audio/AudioEngineObserver.swift": {
+      "bytes": 4148,
+      "sha256": "0363f51613858d8262c513c9ff4b8b59b382a6744c5dccdba2ddc2b981c2997f",
+      "git_blob_sha1": "d9ec721b0ac85c05a8da3b5c2d62a33bada92586",
+      "type": "file"
+    },
+    "Sources/LiveKit/Audio/AudioSessionEngineObserver.swift": {
+      "bytes": 13898,
+      "sha256": "bbe510fb677ba1411fa5effba3488ad0d9156d63de96f61506f458c3533e7157",
+      "git_blob_sha1": "e1f1ab9f67ea8a97444deaf6c4019bad3250f499",
+      "type": "file"
+    },
+    "Sources/LiveKit/Audio/Manager/AudioManager+ModuleType.swift": {
+      "bytes": 2177,
+      "sha256": "915a14b88b50ccb7d4070a550371f15103496c66223e41da6ab3ec4407aea5a0",
+      "git_blob_sha1": "e3e3afce5d11a48802d4459a386c3febc4cd095f",
+      "type": "file"
+    },
+    "Sources/LiveKit/Audio/Manager/AudioManager+MuteMode.swift": {
+      "bytes": 3575,
+      "sha256": "251f2a088dc3567b9bfe6be534dbc03ba5de7e73f873e5ae4ffbed65d260d3bd",
+      "git_blob_sha1": "46baf37673e3859f8ba7b93a9e86b02bc20cd8fb",
+      "type": "file"
+    },
+    "Sources/LiveKit/Audio/Manager/AudioManager+Testing.swift": {
+      "bytes": 1834,
+      "sha256": "1d8728e626f97ea808e817e836d3b1a10cfeb64f5ab79fb9298b06fe03c685d4",
+      "git_blob_sha1": "46a02f4b9f2ba692a56eaee9780ce4e6eb459228",
+      "type": "file"
+    },
+    "Sources/LiveKit/Audio/Manager/AudioManager.swift": {
+      "bytes": 29112,
+      "sha256": "a7eb6d5d0d985444894f4da4db2ad041439777c6c4921761a69bfb683e4cc568",
+      "git_blob_sha1": "dd126a8acef01e98032179cd4446fbdc446f0de6",
+      "type": "file"
+    },
+    "Sources/LiveKit/Audio/MixerEngineObserver.swift": {
+      "bytes": 15036,
+      "sha256": "db1dd4b77d970de1dccac25606a6c30e685ce4b7f2cd371da492ab013cef27c6",
+      "git_blob_sha1": "3e4e2c29ee708b99f3776038a7d03e9b5ac43daf",
+      "type": "file"
+    },
+    "Sources/LiveKit/Audio/PlayerNodePool.swift": {
+      "bytes": 7274,
+      "sha256": "c106499361be1b4b9ab68e86ee31830c3e2cb9ec52c8f8cf07d41be949422ee7",
+      "git_blob_sha1": "4d28e6351b8e718ee98eceb44a2f6d6853d6bd4b",
+      "type": "file"
+    },
+    "Sources/LiveKit/Audio/SoundPlayer+Types.swift": {
+      "bytes": 7061,
+      "sha256": "fb2ecdf31df39279d20e254762d3cf22bef963b20cb85e3934cf84efe30a49cd",
+      "git_blob_sha1": "3eb193320177154dab94a774e269d086755576cb",
+      "type": "file"
+    },
+    "Sources/LiveKit/Audio/SoundPlayer.swift": {
+      "bytes": 11546,
+      "sha256": "b71264828d764a39a038b7dedbe8ea658d9232c9fc185cb2cb73decfa0526f25",
+      "git_blob_sha1": "25581dab9c5da975da6b1b7001dc23441176fcb6",
+      "type": "file"
+    },
+    "Sources/LiveKit/Broadcast/BroadcastBundleInfo.swift": {
+      "bytes": 2848,
+      "sha256": "6332638f182ef6e71ec3570e0cc2a326361c8722272214c91a70ee47ade8b766",
+      "git_blob_sha1": "6c7160088069ad780ece29c797bf6db3238dc4c8",
+      "type": "file"
+    },
+    "Sources/LiveKit/Broadcast/BroadcastManager.swift": {
+      "bytes": 4739,
+      "sha256": "aa254b6a6a23f52f632a04f8b50ab0d7ac89e6626487deaa26b14ad192bfec34",
+      "git_blob_sha1": "b6234c58ba079483e244216577902e19eea33aac",
+      "type": "file"
+    },
+    "Sources/LiveKit/Broadcast/BroadcastScreenCapturer.swift": {
+      "bytes": 7361,
+      "sha256": "4a963d2fda899a2d34c56f3e4dbb318403464718e22decb1a1ff6780a5860674",
+      "git_blob_sha1": "3574400a169d73fc869ebbb37dff5c802ffb0ca2",
+      "type": "file"
+    },
+    "Sources/LiveKit/Broadcast/IPC/BroadcastAudioCodec.swift": {
+      "bytes": 4171,
+      "sha256": "88a8f57ef3013ed9dd809cf9fade3fbb37ad982aa2c6bd1b8612a7bbc73a3287",
+      "git_blob_sha1": "8532f8e0becc32df72c74237e7a45320d04b2730",
+      "type": "file"
+    },
+    "Sources/LiveKit/Broadcast/IPC/BroadcastIPCHeader.swift": {
+      "bytes": 983,
+      "sha256": "66cee5500f31e2733413452b357b40f6ea311f5a4417d210e38cbab1e20eb523",
+      "git_blob_sha1": "8900d335abe178e6fd9c08a27f9bba831853a64b",
+      "type": "file"
+    },
+    "Sources/LiveKit/Broadcast/IPC/BroadcastImageCodec.swift": {
+      "bytes": 4113,
+      "sha256": "3df668e9973a704a2012a1b108d961dc4df0015de279663aff3354fb9129d85e",
+      "git_blob_sha1": "8392d93b0d456d27675a8998be88fe6b8aeae439",
+      "type": "file"
+    },
+    "Sources/LiveKit/Broadcast/IPC/BroadcastReceiver.swift": {
+      "bytes": 3060,
+      "sha256": "f22f4a0a8889a06982840bf7c2145bb78910273b7e6a3bb53afee1433fb9e6b3",
+      "git_blob_sha1": "bbc42b2b30e5ac9d3053ad548c7fa0512ebac59f",
+      "type": "file"
+    },
+    "Sources/LiveKit/Broadcast/IPC/BroadcastUploader.swift": {
+      "bytes": 4514,
+      "sha256": "d9f9141c81203e67d8e608c6d764679423f9f40fc4d5da98037cfaf11903841e",
+      "git_blob_sha1": "83774d4c777bdd31313ad9ba46453e9a6a64d5b6",
+      "type": "file"
+    },
+    "Sources/LiveKit/Broadcast/IPC/IPCChannel.swift": {
+      "bytes": 9000,
+      "sha256": "31a5fcf5c0beeb7113be4f50a1fa900efdd4c93312b47287db7867115b328f47",
+      "git_blob_sha1": "b5d2882fda7293a9a358564e3caea536fad840d9",
+      "type": "file"
+    },
+    "Sources/LiveKit/Broadcast/IPC/IPCProtocol.swift": {
+      "bytes": 5008,
+      "sha256": "646713de0e33c2f191048d65f7d300b549c2844a9f0cc38f907d316bad72d06e",
+      "git_blob_sha1": "afe93d8ac9ad673590b16f623058a4bd0b0d4104",
+      "type": "file"
+    },
+    "Sources/LiveKit/Broadcast/IPC/SocketPath.swift": {
+      "bytes": 1719,
+      "sha256": "3269064d14983a1eec9385c4f05a5400e062d77af226b410aec10454e696d5a9",
+      "git_blob_sha1": "5e19f28d935e67041c026b4df05d2f534f6b6286",
+      "type": "file"
+    },
+    "Sources/LiveKit/Broadcast/LKSampleHandler.swift": {
+      "bytes": 5113,
+      "sha256": "11b2fa564e5c4b09bc31a9f421b4413c196d7d970a6c07f751a0836915e6943f",
+      "git_blob_sha1": "bdb428197236685febc1bd2281f5a64cbeb79b80",
+      "type": "file"
+    },
+    "Sources/LiveKit/Broadcast/NOTICE": {
+      "bytes": 130,
+      "sha256": "96128422823059c7895ec30d4f84acacdc62731f794934854279331c6bb4dab5",
+      "git_blob_sha1": "376e6f8471c1e48521d653a8a08aed36d7572da0",
+      "type": "file"
+    },
+    "Sources/LiveKit/Broadcast/Support/DarwinNotificationCenter.swift": {
+      "bytes": 4674,
+      "sha256": "ea978b7cc27642ba9ced9c5bb95a9e794592c01cef038ba2859ec7161e96fdd2",
+      "git_blob_sha1": "8b69909c06d7a3203706e2d14cbbef09c4175354",
+      "type": "file"
+    },
+    "Sources/LiveKit/Convenience/AudioProcessing.swift": {
+      "bytes": 7476,
+      "sha256": "cc5f16469d7bbee259255a7338e20ce246cc17c36501be7dfe6072760d7d085b",
+      "git_blob_sha1": "562ed769ebed6aabc6d09be3513dab613e2a3a1b",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/BufferedAmountMeter.swift": {
+      "bytes": 3276,
+      "sha256": "400da73a83c7f2ce75f3ad2edade94d339d964489bda37a3fd9075980a133c4a",
+      "git_blob_sha1": "8743c36244a19a66d0dd42a2946bff373ea9deba",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/DataChannelDrain.swift": {
+      "bytes": 25156,
+      "sha256": "5b8e2bfff0ac7e9e6d0452fbe202138fabf7dd474fe5e395e5097e8e726eda7b",
+      "git_blob_sha1": "262557ba53060c55ab73da72b486ad752abb2d8a",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/DataChannelPair.swift": {
+      "bytes": 14422,
+      "sha256": "0a7bb9f0b82b590e14b95bf7aeefd794ecf2e7356a884b09b86b7bc331c90eda",
+      "git_blob_sha1": "f531d1e35b1b166ed24e583dcb9db0afdf641426",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/DataChannelSendStages.swift": {
+      "bytes": 5361,
+      "sha256": "a9ecd36f0e30e8b6f36818d3daee66de6f95dcc5b104cfe8f085a152b08bd03d",
+      "git_blob_sha1": "af9ed4fa1ad3becc48626d97f1e2f69ef50e9d52",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/DataChannelWrite.swift": {
+      "bytes": 10903,
+      "sha256": "8fe8c27fe971c4e05b35732383a96d61a46bded2b16b2e4c4b1ec5dbce2c1151",
+      "git_blob_sha1": "379a1cc170e2a618bbf00f391e156cf99bd9c612",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/LiveKitSDK+VideoEncoderFactory.swift": {
+      "bytes": 4630,
+      "sha256": "702fd8cd2bef7bbad59b9d76c1977230d2f71735b55ceb8d1a44d999fcd1deb6",
+      "git_blob_sha1": "9c040515af6e16959130416f668472ffadc253bc",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/PreConnectAudioBuffer.swift": {
+      "bytes": 10886,
+      "sha256": "be0a11914c7994fddcc0f1ef76817227e68e2b586a5bf3349fa4047651894c14",
+      "git_blob_sha1": "6f6d4a8a0bfc039e8b880b576078cb1d069991dc",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/RPC.swift": {
+      "bytes": 5528,
+      "sha256": "9806fbc4f44dc5679e20f20a314d7444a0fbf6f16660b74e0c51f461a963de0b",
+      "git_blob_sha1": "de051d24d7eeb75d0c6c5e26e61aa0bddade484d",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/RTC.swift": {
+      "bytes": 15032,
+      "sha256": "631106d3659a9cdb962aa0201c0a8a1f92955a70b0cf744cbd42b18d1d275ef1",
+      "git_blob_sha1": "e2b4fede0eb726d9c8e0c1a6f4f0df10c459f8c6",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/RTCBox.swift": {
+      "bytes": 2457,
+      "sha256": "8e2bdbb8f1b2aced654cf4311508ff6ee52cd63350b8f6d1f246af77fd842f86",
+      "git_blob_sha1": "2d5d0a663bababed5d4ba5132b5e32ad09bc04ff",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/RTCMediaTrack.swift": {
+      "bytes": 2602,
+      "sha256": "c9d7fd1695b0e83e574adde8a6c44f56aa0ce8880bbbe89ea6d7e0927b2d00db",
+      "git_blob_sha1": "b3c3e567ed5b0e0ddc6d28d70ef56b9d8ef9aed4",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/RTCReceiver.swift": {
+      "bytes": 1361,
+      "sha256": "05b85870232f796a7421bbd81c1f2e32546c950d7e9b5c483f2157bdd77e7dad",
+      "git_blob_sha1": "b4da65ce940b290e3740e0a86b3a34d03f08cca9",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/RTCSender.swift": {
+      "bytes": 1609,
+      "sha256": "8997c44b4d63e160f7f4ca991cc3d8d1902c8270214663f4c21e48bb89265ef8",
+      "git_blob_sha1": "e71dab9617aeca19de9b19c7eaecfdc6214fe0da",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/RegionManager.swift": {
+      "bytes": 9241,
+      "sha256": "2d04a31c98f7f416b9d5b408be319048a4988c918ba238708d0cd3d3f7e4778e",
+      "git_blob_sha1": "3f6adccbe32a5e59a646099052eab0805340e677",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/Room+Convenience.swift": {
+      "bytes": 1044,
+      "sha256": "f9473aa405fff3298d294e64b8900e8ad8b00f3b7c0a720828d1e79b277f9e82",
+      "git_blob_sha1": "5f9846eefe3ea394d97714258475bf8ef372d3f5",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/Room+DataStream.swift": {
+      "bytes": 5794,
+      "sha256": "dc76cffe2b3add8f48b15f7867cbf111c06b60fb521d07036e9c4bde6297fe4b",
+      "git_blob_sha1": "fde6b5b0879c0909f23feb7de90c68b9c944628c",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/Room+DataTrack.swift": {
+      "bytes": 21046,
+      "sha256": "187260415fa5ba40c155f8e9ef30d719d5b8ae249fc03a63fcbb64a5cc866336",
+      "git_blob_sha1": "441a2a7be72ae0eef10c428983ac458a70904cab",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/Room+Debug.swift": {
+      "bytes": 1327,
+      "sha256": "6b98bb5f1491118ecfab9a2cf314c5dd6d615c70eb63c3f46f0d48c9969d73b9",
+      "git_blob_sha1": "1737e38e266b2dc2e7e980083de247e87f687576",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/Room+Engine.swift": {
+      "bytes": 31662,
+      "sha256": "f67045e88c9cd5629d5c1048371b7632e6d4a3b14963ee6bc68d85df8202865b",
+      "git_blob_sha1": "b9b1d1f0c4e64bb49d5032553f417b65a5664820",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/Room+EngineDelegate.swift": {
+      "bytes": 13186,
+      "sha256": "43acf1b636c01d00da6045c4e1949d0def0913efbdcc7098eb0b11a3ad86bcf5",
+      "git_blob_sha1": "f3edcc264fb3855ada2e1e3a3056124c05b7b63d",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/Room+MulticastDelegate.swift": {
+      "bytes": 998,
+      "sha256": "7354f0f36ec22a8bfd25273ce7d865e8493454fe182debb215f1522b05ddf607",
+      "git_blob_sha1": "7e64e0fe03ea2ce5d6e48852cee1133d76ae178c",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/Room+PreConnect.swift": {
+      "bytes": 3224,
+      "sha256": "e20014604233809b10334ab66970479b31651c57c742ca0b90fc0578c763c2fa",
+      "git_blob_sha1": "6369a3ccd87dc8b7b3a42a8ad02b68ae0e02d2f1",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/Room+RPC.swift": {
+      "bytes": 4126,
+      "sha256": "d717d04f159cf412ae1eaf8b9fa46ead63fa1005d2e62d785d30997a5162553b",
+      "git_blob_sha1": "7b108e2ec9eb93c89c144ab49eb8b310f6e04c60",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/Room+Region.swift": {
+      "bytes": 9152,
+      "sha256": "5bb9f1fccbccba24f08505758f10dcce88f832a1b6421ea3469d4889eee66ec1",
+      "git_blob_sha1": "5c51061fe3391d4deb8bb68614519af358ae4de8",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/Room+SignalClientDelegate.swift": {
+      "bytes": 21782,
+      "sha256": "ef76973b49087c5e94f3ca29f8ac4e3b48d81fd879c71a60f9bee240605ecdb7",
+      "git_blob_sha1": "7045d22112620b4e77814868d1be9f1bb07c3034",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/Room+TransportDelegate.swift": {
+      "bytes": 4719,
+      "sha256": "001f8f7d2b0ead020c23299cf834fa8647ef2e0abdd29051346c5e37fea0645a",
+      "git_blob_sha1": "06abca9cd612d0e43b78d78604d7737f21c68556",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/Room.swift": {
+      "bytes": 33901,
+      "sha256": "a37a9d1873a675a6a9cff107fd6f598723ce3da75f4283fddfcb44fc9f945f10",
+      "git_blob_sha1": "510f325784cd4adfa76a59d4b0126e7f8a285607",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/RoomDependencies.swift": {
+      "bytes": 18845,
+      "sha256": "0478765f2847bc5b7da5f72d9ce3ef6079de48cc8ccabf58e6ccd975fbd8db01",
+      "git_blob_sha1": "98ab246a363db46b01f02d9dce56165eaef18b93",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/RpcClientManager.swift": {
+      "bytes": 15671,
+      "sha256": "7d63047895a6427967670022df276f1465b13f351718151f99a747de7c1c3e81",
+      "git_blob_sha1": "24d41b56fccd1319cb2038ebd2ef1c2e32323249",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/RpcServerManager.swift": {
+      "bytes": 14943,
+      "sha256": "700f9d4027cafd59d87b28fae0cbd0f5192fca6c30d45578b45cbb305edf912c",
+      "git_blob_sha1": "80e3c29dfc5281ada7da22c5644909708c1602c4",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/SignalClient.swift": {
+      "bytes": 37549,
+      "sha256": "8adaab45087d1f63c9bc89303016c89cf6a11865e0654f26e782bc1b85a6fc60",
+      "git_blob_sha1": "3d1310d23e0699d91e774236cb817fbb1af1b1be",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/Transport.swift": {
+      "bytes": 41371,
+      "sha256": "4b1503eaea7437d516814fa1b2e8946fee53723d5b37900cdb2b530391edf98f",
+      "git_blob_sha1": "226857aedde7622719982ff726237f9ff992de89",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/TransportMode.swift": {
+      "bytes": 3903,
+      "sha256": "9d472705d48fad807cbdd75af8821f1dd1d5c8df4844e2b4beb7d56aed285bc7",
+      "git_blob_sha1": "da42529ba32450058e2208a86fb044ee2319a05d",
+      "type": "file"
+    },
+    "Sources/LiveKit/Core/VideoEncoderFactoryAdapter.swift": {
+      "bytes": 7121,
+      "sha256": "e9a684ffe1de9cdd3ab47acdb2519ee0e46f205d4e9fca977a3186278edfc0a7",
+      "git_blob_sha1": "2b9631403ce44b8f3e0656b90f0a8166bbc7ef44",
+      "type": "file"
+    },
+    "Sources/LiveKit/DataStream/DataStreams+FFIDelegates.swift": {
+      "bytes": 6529,
+      "sha256": "eff75b860e0a3134d1d14474db285a1d5fd1f7493d48fd6fd48bca5a1caa20b1",
+      "git_blob_sha1": "7410338b13e632be8f39f0abc0b924b79febe0d7",
+      "type": "file"
+    },
+    "Sources/LiveKit/DataStream/DataStreams.swift": {
+      "bytes": 20750,
+      "sha256": "9f10d2b47b4b2f43d574f97bc620ff1e6802774e7ede02c19300a45f7aab3ca9",
+      "git_blob_sha1": "4e3958c98a6835f8ed0779c203a0308037eccaec",
+      "type": "file"
+    },
+    "Sources/LiveKit/DataStream/FileInfo.swift": {
+      "bytes": 3017,
+      "sha256": "3042319e4c1a4a5442ff926e75fd5bf7d54b1141b5f8c64ce49ea47e876d04c5",
+      "git_blob_sha1": "afa268c6faafedd9bca389d01a735b83c6e28d49",
+      "type": "file"
+    },
+    "Sources/LiveKit/DataStream/Incoming/ByteStreamReader.swift": {
+      "bytes": 7711,
+      "sha256": "e803ee65695d6a26bd93c46a6e24d11a3fcb7148586f0457bbfc19917bd667c8",
+      "git_blob_sha1": "39433ce7c05a3854b08f21d97ebd4907973a218e",
+      "type": "file"
+    },
+    "Sources/LiveKit/DataStream/Incoming/TextStreamReader.swift": {
+      "bytes": 4808,
+      "sha256": "5e7ccdcd1665e16e8c5e46902bdb820de035a911ae7d6d7e426d782322ddaa43",
+      "git_blob_sha1": "973a38f05bcbc1abeb18f279b740eb20e7cb1b17",
+      "type": "file"
+    },
+    "Sources/LiveKit/DataStream/Outgoing/ByteStreamWriter.swift": {
+      "bytes": 3201,
+      "sha256": "48651dbcc67cf6dc819a63e4621280a4b380c668f6bd1ac9493bc903b2814212",
+      "git_blob_sha1": "cd0d2dada620905b9bbcd493d0ff872683439671",
+      "type": "file"
+    },
+    "Sources/LiveKit/DataStream/Outgoing/TextStreamWriter.swift": {
+      "bytes": 3203,
+      "sha256": "39d992b9e374f04bbad850ac9ab593ff73f677379f9903d594984ed86092d824",
+      "git_blob_sha1": "06e3d63955a2657caa8f7623f3991df761f3a3b9",
+      "type": "file"
+    },
+    "Sources/LiveKit/DataStream/StreamError.swift": {
+      "bytes": 6809,
+      "sha256": "c8f5f79ffa6f8a44e3cf81f94a5ba09360fab52c9d0d02d74119a32eb690bd7c",
+      "git_blob_sha1": "04e5938ef2e0fc07937f9ff9c4fba7871802dd31",
+      "type": "file"
+    },
+    "Sources/LiveKit/DataStream/StreamInfo.swift": {
+      "bytes": 5861,
+      "sha256": "f3ea887db646a4a05f231873586e76cc1e5aacf2614d4f060ef81c9adc1775a2",
+      "git_blob_sha1": "9b29d7ce1b65b7f061cd6f5abde4e6a82d12faf7",
+      "type": "file"
+    },
+    "Sources/LiveKit/DataStream/StreamOptions.swift": {
+      "bytes": 11011,
+      "sha256": "9975d09b0aeb09f773cf6cf0c360783ccd0a4d88917b18846919fef48842a0ab",
+      "git_blob_sha1": "287e06e4e2e76bfa81ba7fb245eae68b1deeadc2",
+      "type": "file"
+    },
+    "Sources/LiveKit/DataTrack/DataTrackError.swift": {
+      "bytes": 5458,
+      "sha256": "a8b1ee9cd0f853f6253854070c1d33834816db1fcd36505e4ba8f85d32cfd489",
+      "git_blob_sha1": "51d0580d10f6b3b24164e7b41912e0a1aee680bf",
+      "type": "file"
+    },
+    "Sources/LiveKit/DataTrack/DataTrackFrame.swift": {
+      "bytes": 3872,
+      "sha256": "f487223c7d894c0672d8f8f9fffc5610e98a921fdc15c29e39f0cd3abb777c55",
+      "git_blob_sha1": "07953fa1155db9d6db207646335879085695e6c0",
+      "type": "file"
+    },
+    "Sources/LiveKit/DataTrack/DataTrackInfo.swift": {
+      "bytes": 2361,
+      "sha256": "228df5dd4986eb1f9d5df8ae12fc861b66fba1d24943707d59c4c769d7694fd3",
+      "git_blob_sha1": "de992e49085829764efec0efbe2a0838f2fa57dd",
+      "type": "file"
+    },
+    "Sources/LiveKit/DataTrack/DataTrackPublishOptions.swift": {
+      "bytes": 2236,
+      "sha256": "5c4d1b9199703a1caeb156f48e39b099973a7b78ab3da19804c7bd29c16640e9",
+      "git_blob_sha1": "7e207e4fb439fca38c460dbabb5bc7649bb62096",
+      "type": "file"
+    },
+    "Sources/LiveKit/DataTrack/DataTrackSchema.swift": {
+      "bytes": 8954,
+      "sha256": "4f96813d640e95d2dcc08dae9fe80b59e9a496dd16ef61f72140453565900224",
+      "git_blob_sha1": "202eca9731d87d35b364e241e2ce9195f9cccd8d",
+      "type": "file"
+    },
+    "Sources/LiveKit/DataTrack/DataTrackSid.swift": {
+      "bytes": 1427,
+      "sha256": "14299a2402399176306ce9ea0af134557e9a197d572e2d5a5825da5e1837f9e5",
+      "git_blob_sha1": "d371626379b1ed9276e36ac1559696f9a2774cd5",
+      "type": "file"
+    },
+    "Sources/LiveKit/DataTrack/DataTrackStream.swift": {
+      "bytes": 2374,
+      "sha256": "2934ed2d3080d1b5b9a71d66926a6d9923f7b78d379021524024067235651ecb",
+      "git_blob_sha1": "850458c5868b81ae041a278585d54bb398ebc1a6",
+      "type": "file"
+    },
+    "Sources/LiveKit/DataTrack/LocalDataTrack.swift": {
+      "bytes": 5176,
+      "sha256": "25033ee2c8d82a5a54293eb08d55d96ec9a5ccd29a4bf67aae049f85c31287ab",
+      "git_blob_sha1": "007e2c006912705e05b1812b2ecc87be13d0a018",
+      "type": "file"
+    },
+    "Sources/LiveKit/DataTrack/RemoteDataTrack.swift": {
+      "bytes": 4261,
+      "sha256": "616685645d86232430599edace01b201e8aa240fb7fdc1f0e1a118617f41d995",
+      "git_blob_sha1": "294d269a7d81c783e81bcd39a56657cc3d8ce092",
+      "type": "file"
+    },
+    "Sources/LiveKit/E2EE/DataTrackE2EE.swift": {
+      "bytes": 2699,
+      "sha256": "8c86d6eaf023cdf50915a691a525f2cd4f1552af24500d12ca275d97fd3b160b",
+      "git_blob_sha1": "8f4eb538ffbc68662e36286267be24b7b789191c",
+      "type": "file"
+    },
+    "Sources/LiveKit/E2EE/E2EEManager.swift": {
+      "bytes": 15057,
+      "sha256": "4bbf68a811d051fc936f14f17b66d2a22eefdbfaa9cc5fd0228e3f66519d9968",
+      "git_blob_sha1": "bb1fd4f6ccfb5c3bdf06d5ddaf7e45496783d1f9",
+      "type": "file"
+    },
+    "Sources/LiveKit/E2EE/KeyProvider.swift": {
+      "bytes": 11186,
+      "sha256": "631330a3e1c5f3601573e121a52038f4f9fceb25e06c0edd987334e81d43a993",
+      "git_blob_sha1": "efa58efb1d382cb8551fe6068a827571c10bed4b",
+      "type": "file"
+    },
+    "Sources/LiveKit/E2EE/Options.swift": {
+      "bytes": 4247,
+      "sha256": "05ebddde765e5c424049ddaca399e3490bf199dded39f9763d1637ae047512f8",
+      "git_blob_sha1": "2434481e2e9f95ba5886d300c39ca2b287030b7d",
+      "type": "file"
+    },
+    "Sources/LiveKit/E2EE/Protos+E2EE.swift": {
+      "bytes": 3244,
+      "sha256": "f6c846f5f3cf6c94bbdf5bbf4ed2de912bcfbeffc439bb340af0e2c049514f7f",
+      "git_blob_sha1": "22e0e6a6886829aff96bbf82207fbd0f6e02863f",
+      "type": "file"
+    },
+    "Sources/LiveKit/E2EE/State.swift": {
+      "bytes": 1678,
+      "sha256": "9d84e38064f1a3072563eca3d7997cb234b14d66758c4fa9e945f3a24560dc6c",
+      "git_blob_sha1": "b3877c8249c32e5d3e3e33f4ddbd5f1b26bb0c2c",
+      "type": "file"
+    },
+    "Sources/LiveKit/Errors.swift": {
+      "bytes": 10407,
+      "sha256": "e1aa13ceb982d99322e7bcf6b6e8e53002371f896590ea8e43e723e73dc801c4",
+      "git_blob_sha1": "7cfe19e3e3bedd1d7110958ae25a71710c869b89",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/AVAudioNode.swift": {
+      "bytes": 864,
+      "sha256": "f58a7763888f1d80e57970dad4e984cfc39bca835c80977a950ee34ca3253202",
+      "git_blob_sha1": "b8bbf135cd8490f0b8be94500c44dbdb1bb422f7",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/AVAudioPCMBuffer.swift": {
+      "bytes": 6737,
+      "sha256": "33249c9e949510ba1c8bbe8e42ea2641069558bbea52f562ff3fa36144dacf7c",
+      "git_blob_sha1": "d60e2e1716a8845615ee10bd1ce57911194e636c",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/AVCaptureDevice.swift": {
+      "bytes": 1687,
+      "sha256": "b26e21e657ff30239e85a18d14f85c25cdc32cded62cc76361f8ff553e952ebe",
+      "git_blob_sha1": "822c368bf03f91eedd659e0abe9f7c56ef313282",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/AsyncSequence.swift": {
+      "bytes": 761,
+      "sha256": "c7041fcad682697ca23a0b8bcee0fdca18cc3abeb62f735e620f32aeece17f9b",
+      "git_blob_sha1": "9939bea5f827612fc6fca5586f9ee99f08ae246f",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/CGFloat.swift": {
+      "bytes": 682,
+      "sha256": "d3305d92f73545acc737acfdd15c7e1d963d8714026d37b139483ae4da9c5992",
+      "git_blob_sha1": "696ed79dc27e115b68b78a452e77f23db0e70c23",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/Codable.swift": {
+      "bytes": 1004,
+      "sha256": "637e032ad1dfd9c663a80cbee6d30ace780cf533bbf71ed33ad2419dd36b9931",
+      "git_blob_sha1": "8355ab03da579dab9037f304ff3657b6577112d1",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/CoreImage.swift": {
+      "bytes": 2717,
+      "sha256": "2255d10ba114cc633769bc55e6da4cc94e0cfc1fa85a6b964bcb84820a73fbed",
+      "git_blob_sha1": "61a62d0abd7d91fb4ee882879dd31835bddbbf37",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/CustomStringConvertible.swift": {
+      "bytes": 7758,
+      "sha256": "fce1e897f2f21792ffaf571e38f903dbbcb656321488b55b22dbcad4c29f4b10",
+      "git_blob_sha1": "47cae15cc166d86ec5ab20180504fa70d76014b3",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/Data.swift": {
+      "bytes": 1274,
+      "sha256": "b1abed8509020f022aa6b6f423e4f68e5e1144ebd817c817dd61e534fc440ed9",
+      "git_blob_sha1": "1916d1ab8548702ce52aeec1a318cc2d637b458e",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/LKRTCRtpSender.swift": {
+      "bytes": 3150,
+      "sha256": "4561091cb4bfd436eccf6e44a8a05f0073c3177aaa1ff93f9ac367334b614f47",
+      "git_blob_sha1": "b2e76c47c97cfce3d171fdfb2b37c6260a235dca",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/PixelBuffer.swift": {
+      "bytes": 16196,
+      "sha256": "bfbd05962dfee0639ed958635332eda4e8933a73bddf86ba6f78eb8881815bce",
+      "git_blob_sha1": "9ccf12ff15f90ca492b35bca08b4fa84a701d4b8",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/Primitives.swift": {
+      "bytes": 1816,
+      "sha256": "dbed8902686f00da3a14163a073ebc540fa5e3affd41f734a4fad90bb74c538d",
+      "git_blob_sha1": "a242a19622c3b3c5b42212e063f0a3d9e8748133",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/RTCConfiguration.swift": {
+      "bytes": 1251,
+      "sha256": "79f72be4a2a65919eb04e704f3604268d8d93c2b3b287db187a6feccd6fa850c",
+      "git_blob_sha1": "9f671098b6a9403372b9151a3a03341ae4c541a5",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/RTCDataChannel+Util.swift": {
+      "bytes": 1004,
+      "sha256": "7c5fefdda89515b8fd3b4aa3477ef2af60e397c6542aa043a295a4be64d9076e",
+      "git_blob_sha1": "1e44e7553640fb26605b5744b237fd0b6eca7ef0",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/RTCI420Buffer.swift": {
+      "bytes": 4423,
+      "sha256": "cda320c06d1312a5670f6d7f47dabb9b1291e8dfc8fdfa6c6fe2bacd4ab2d6d3",
+      "git_blob_sha1": "e398731419fe17bd839f558d32fec7e89b043981",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/RTCMediaConstraints.swift": {
+      "bytes": 868,
+      "sha256": "c750753eabe03fd9a840423b24b6d66d7476f194bbd97c62adb76b99ce0298b6",
+      "git_blob_sha1": "cb0182eee03ba4b6f617c5e7cce1313434ffd36f",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/RTCRtpTransceiver.swift": {
+      "bytes": 2170,
+      "sha256": "1aca649b9b433570272175d267c7928d472f995b411c7ce053cc03278fc820dd",
+      "git_blob_sha1": "26984ec62c9bf81e11c09d73af3d70f2c0f9a041",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/RTCVideoCapturerDelegate+Buffer.swift": {
+      "bytes": 2320,
+      "sha256": "2aeb1f3b6a3ff4a5486287a4b2738f5acecf2554461bbcc4dd2ea7f6c58dc51d",
+      "git_blob_sha1": "a64651a2d3619f9cc97183f460308d487b96aa29",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/Sendable.swift": {
+      "bytes": 2489,
+      "sha256": "110645e44b82590fa4954df3f6e30b699178a0fc6bf827a9ebb600886482c960",
+      "git_blob_sha1": "1969a90d1acad4bf10507a3c6b30bed32e94385f",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/String.swift": {
+      "bytes": 1525,
+      "sha256": "53b9dae088655f72ccb3773d8b1a076ffea6848a77495af4fd29d6c997819277",
+      "git_blob_sha1": "0ea84835a8a5926d9c8966fcdb3665a454455107",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/TimeInterval.swift": {
+      "bytes": 4846,
+      "sha256": "a0814c7ad255e6c7facca84fe6ec54d32bac5375e54b6191035eb923bd68f1a0",
+      "git_blob_sha1": "6855effe8be53ad4f6af9df64c0d9efde09bf618",
+      "type": "file"
+    },
+    "Sources/LiveKit/Extensions/URL.swift": {
+      "bytes": 2997,
+      "sha256": "c562d0fe786e5dd921427a02a6958a4d1630577b4d4b90f0be3306faa1dbb234",
+      "git_blob_sha1": "e9f10e9bcba9090974b16bdcdb276e2678d7fae7",
+      "type": "file"
+    },
+    "Sources/LiveKit/LiveKit+DeviceHelpers.swift": {
+      "bytes": 8511,
+      "sha256": "62cdf9df9790cd24ee2b50ff0730dccc9eeb97495017f4e322a108fbae32c288",
+      "git_blob_sha1": "0f57e1958bb4f1143dbc6cd2da946b9442293339",
+      "type": "file"
+    },
+    "Sources/LiveKit/LiveKit.docc/LiveKit.md": {
+      "bytes": 14,
+      "sha256": "b9568bbb6ff285c31c9180eec0652e5f14fa1c905d9179125978e9fb4f3483fb",
+      "git_blob_sha1": "2631364dc091d11d3dfaf1d80ae6c3ea96007bd9",
+      "type": "file"
+    },
+    "Sources/LiveKit/LiveKit.docc/Resources/.keep": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob_sha1": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "type": "file"
+    },
+    "Sources/LiveKit/LiveKit.swift": {
+      "bytes": 3551,
+      "sha256": "3b47753c641fb7b4e79aa170a598d9e83668ba827ad1b18214cd4c7916e44122",
+      "git_blob_sha1": "a522a0b13d2ab4b892fc9e1a1116a6e1cc607803",
+      "type": "file"
+    },
+    "Sources/LiveKit/Participant/LocalParticipant+DataStream.swift": {
+      "bytes": 7981,
+      "sha256": "3c4d9c03fb529ab6bd6af0590d8d5b291bc91b285998e369d8b328f81736bea0",
+      "git_blob_sha1": "73226da08cbb82aa6761fa357f35849e0717c440",
+      "type": "file"
+    },
+    "Sources/LiveKit/Participant/LocalParticipant+DataTrack.swift": {
+      "bytes": 5288,
+      "sha256": "31f0baf748543b73b89b4b9e839476bc6d46d3487da4083624210f9f60c14128",
+      "git_blob_sha1": "7615507eab7ea876f0482f0c55d710b23e4e7efc",
+      "type": "file"
+    },
+    "Sources/LiveKit/Participant/LocalParticipant+RPC.swift": {
+      "bytes": 4098,
+      "sha256": "b60ef8ddd31758f62becb6e0b382e6f414f6ce491ad84b264a8de97196ac16c1",
+      "git_blob_sha1": "afacbdc064acb3155b4e1f0d6e91e8780a3388b4",
+      "type": "file"
+    },
+    "Sources/LiveKit/Participant/LocalParticipant.swift": {
+      "bytes": 47011,
+      "sha256": "efe8ac569de4462bcfd4e0953bc8f89f23014272403a679507a741652c16f4dc",
+      "git_blob_sha1": "c19b43db3ea1543f1c22e4b8ecdac41b216b6c67",
+      "type": "file"
+    },
+    "Sources/LiveKit/Participant/Participant+Convenience.swift": {
+      "bytes": 1987,
+      "sha256": "f996ea359164ec8c5cb8e37c62324a4fcce4acfb429386db9757d0458125752a",
+      "git_blob_sha1": "a3b98340d00c53ab8e2b20180a69fd5b6d3de46b",
+      "type": "file"
+    },
+    "Sources/LiveKit/Participant/Participant+Equatable.swift": {
+      "bytes": 1013,
+      "sha256": "1d43c2315d36d7ebd8a9465ce29ff99b943f42d78dd44abcf060b45233cd087e",
+      "git_blob_sha1": "f6669be756fa235a39f843d07389bc18d8bd3347",
+      "type": "file"
+    },
+    "Sources/LiveKit/Participant/Participant+Identifiable.swift": {
+      "bytes": 769,
+      "sha256": "df8b8c8db1e7533299149828e2bb57a059a5b2b992269acec4e1900465baf339",
+      "git_blob_sha1": "e928a9821910a6a5f1e8a2818501f75e728317be",
+      "type": "file"
+    },
+    "Sources/LiveKit/Participant/Participant+Kind.swift": {
+      "bytes": 1628,
+      "sha256": "72f5c5e49117d6726c0bbf35dfb5811dc4fd887d2dacb1ee71c709cd11085e6d",
+      "git_blob_sha1": "4014bdcda7067c4920cb723c30e62a92c1556468",
+      "type": "file"
+    },
+    "Sources/LiveKit/Participant/Participant+MulticastDelegate.swift": {
+      "bytes": 1019,
+      "sha256": "28da78108cbe5f84c042c5d2cfe2b91f3b5f26dd732f223a9458432c3ea64200",
+      "git_blob_sha1": "bb67ef06acf383ec98eb131d4def1d14acf53386",
+      "type": "file"
+    },
+    "Sources/LiveKit/Participant/Participant.swift": {
+      "bytes": 14794,
+      "sha256": "441bf80337ed46eb2ff6fc1e9609ce25594b4a44e9d01f3a92418779d2c2f2a0",
+      "git_blob_sha1": "3bcb8d3ec3d7ae3092e01363376041ec10c87408",
+      "type": "file"
+    },
+    "Sources/LiveKit/Participant/RemoteParticipant+Active.swift": {
+      "bytes": 2627,
+      "sha256": "2b08308e1912dd118998884b2bb439250b58afd530b0dbbbf5749cfd4cd50d0b",
+      "git_blob_sha1": "833b25840f905473263b2a4c0ca05254f52674f0",
+      "type": "file"
+    },
+    "Sources/LiveKit/Participant/RemoteParticipant.swift": {
+      "bytes": 10618,
+      "sha256": "5f7e32179eece259f7471bb8e9e84b3e3331062989447aa51b0622d5800c409d",
+      "git_blob_sha1": "7dee9cd0089a8593b9cba364a3203318bcb8d455",
+      "type": "file"
+    },
+    "Sources/LiveKit/PrivacyInfo.xcprivacy": {
+      "bytes": 541,
+      "sha256": "7aed2e211fa5ee40e6457423bdb485a3fa0a60b4e182658e9fef5239c918dbc0",
+      "git_blob_sha1": "5fcd6e120ef1a0ec71300340d67652df5261a378",
+      "type": "file"
+    },
+    "Sources/LiveKit/Protocols/AudioCustomProcessingDelegate.swift": {
+      "bytes": 4692,
+      "sha256": "471a1d5e54324b53fac422158f3ce3ec20aa555b8ade14e9d8b5c2e967f315a0",
+      "git_blob_sha1": "5d84f9f734799a832ce28040167771e19d4d38e1",
+      "type": "file"
+    },
+    "Sources/LiveKit/Protocols/AudioRenderer.swift": {
+      "bytes": 1381,
+      "sha256": "ea1723888595cb44e5b8d88a52b9f2c6900cdd26928cadecbc696337950d7741",
+      "git_blob_sha1": "9b4c5f2c95f644590061fd462fea0e9e3aab75bc",
+      "type": "file"
+    },
+    "Sources/LiveKit/Protocols/MediaEncoding.swift": {
+      "bytes": 947,
+      "sha256": "26697359a45cf2853d9fd83425b4671d6b75c91fc26830831c0d792f043554ee",
+      "git_blob_sha1": "cc8cda2c73fc9c0d979a9d3db23cc69bd1e554de",
+      "type": "file"
+    },
+    "Sources/LiveKit/Protocols/Mirrorable.swift": {
+      "bytes": 694,
+      "sha256": "9a9b5f4019caae8e039b43697dc32d07a588f4aca17be1ee4bd606253bb3580f",
+      "git_blob_sha1": "fec536e138b089053bc6e5ca04b4517fd3e8a0f3",
+      "type": "file"
+    },
+    "Sources/LiveKit/Protocols/NextInvokable.swift": {
+      "bytes": 701,
+      "sha256": "6bb8f345ce5bcd2a682a48d9d7d4a1c868b4bc0c83cadeeeb5948f4822f23457",
+      "git_blob_sha1": "b3ec0c13c0cae3edfea56fbcd93f1d72c112e147",
+      "type": "file"
+    },
+    "Sources/LiveKit/Protocols/ParticipantDelegate.swift": {
+      "bytes": 13115,
+      "sha256": "eb0855f8483732b17f57e8ddfbdf7dc415d06d5acfa8056b41a3ddad92a3a9b1",
+      "git_blob_sha1": "204810bbe67ef8161cf6acc87488865ec19f711a",
+      "type": "file"
+    },
+    "Sources/LiveKit/Protocols/RoomDelegate.swift": {
+      "bytes": 17893,
+      "sha256": "1a47155fd7b9600ded0cf1ff3baaf82ad46501dbef143dd5629ca227d51c5770",
+      "git_blob_sha1": "2d3d2d408e39ed31fd7f3e2c685f84c281475f3a",
+      "type": "file"
+    },
+    "Sources/LiveKit/Protocols/SignalClientDelegate.swift": {
+      "bytes": 3470,
+      "sha256": "58dc82f07ac6690e771d3624a285192154070bccd35458b2e73d90c67db24a07",
+      "git_blob_sha1": "14c550829e2022e6ba61dea3a394e6da8c4d95a4",
+      "type": "file"
+    },
+    "Sources/LiveKit/Protocols/TrackDelegate.swift": {
+      "bytes": 1507,
+      "sha256": "9613ce24f2284e5cc16f1c5a38c2f4094a368dc9fb8db40836eea303ba5718af",
+      "git_blob_sha1": "c4df66968433a7302c4d57d401d5feea8e97df70",
+      "type": "file"
+    },
+    "Sources/LiveKit/Protocols/TransportDelegate.swift": {
+      "bytes": 1217,
+      "sha256": "f0bf288eeea5330d4515c664ac3b1e44e4c894fd79e2c1772da9eb9b1e342178",
+      "git_blob_sha1": "23b244fe34a1f0e5a48a034d5b6fbf87c5c46018",
+      "type": "file"
+    },
+    "Sources/LiveKit/Protocols/VideoEncoder.swift": {
+      "bytes": 6774,
+      "sha256": "36caf14aff4c3ba5a8a9bdf26e14776612bf4a862b687ec07de236358223681c",
+      "git_blob_sha1": "2cfd13f075d1a8c2d0f0de9dc7063fb85be2e14c",
+      "type": "file"
+    },
+    "Sources/LiveKit/Protocols/VideoEncoderFactory.swift": {
+      "bytes": 2279,
+      "sha256": "af0f9a556dce6c771cd92e873f8ba9a090a70016d6914133ca9fab985fa449dd",
+      "git_blob_sha1": "5c99665f7c591f35c2ddb3108d7a27680bc7a1cd",
+      "type": "file"
+    },
+    "Sources/LiveKit/Protocols/VideoProcessor.swift": {
+      "bytes": 703,
+      "sha256": "781a1aaf0e8c561f6b4d646a5d388bc3d5908d9b9142e19a4372280575f8ed77",
+      "git_blob_sha1": "23274756387e2241e62e7f5a008209b8d6f89d21",
+      "type": "file"
+    },
+    "Sources/LiveKit/Protocols/VideoRenderer.swift": {
+      "bytes": 2044,
+      "sha256": "5f61e043fe805ec0dd2c4c924b560680a2a6370e90a4ad69f2c6acf9f449faa2",
+      "git_blob_sha1": "6c8827253f1a7dc24a630f49b70679013f0d6c78",
+      "type": "file"
+    },
+    "Sources/LiveKit/Protocols/VideoViewDelegate.swift": {
+      "bytes": 1049,
+      "sha256": "109bae7911157c717295d40a082b7f1412f2a5275d7cbe6e37bb56e6f03ff238",
+      "git_blob_sha1": "2606458cf8495e44f65df53a1074bc07d7357c9a",
+      "type": "file"
+    },
+    "Sources/LiveKit/Protos/livekit_metrics+Nanopb.swift": {
+      "bytes": 15057,
+      "sha256": "55a0deed0368b48c5cf8eabeae8b674b96d2bd649a78dec047ac7ac4f41771de",
+      "git_blob_sha1": "b0b78da098222d934854cf26b3a896fafa1952aa",
+      "type": "file"
+    },
+    "Sources/LiveKit/Protos/livekit_models+Nanopb.swift": {
+      "bytes": 190953,
+      "sha256": "0753f585df5b85ad212f9f3d6127294b96a00e282a8f6810f22382161c21e134",
+      "git_blob_sha1": "2b48bb415b56a20db195fd4429245e454b42cf35",
+      "type": "file"
+    },
+    "Sources/LiveKit/Protos/livekit_rtc+Nanopb.swift": {
+      "bytes": 273535,
+      "sha256": "f8e30fae5c32e7ab357a42070d27dd0808dc4b20cb40e7771b0089effa8cdda5",
+      "git_blob_sha1": "ee6fec54d8afd00349a94bdd358bdd98ffe9219a",
+      "type": "file"
+    },
+    "Sources/LiveKit/Protos/timestamp+Nanopb.swift": {
+      "bytes": 2045,
+      "sha256": "02444426a33bfc81619c972e4f5dd98c1a0b85d328b0e6749c90f981f7452d0d",
+      "git_blob_sha1": "850baf59196ba0f6bacfa96114e385641bbde723",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/AppStateListener.swift": {
+      "bytes": 3022,
+      "sha256": "f1c1dc95ebfa68d23ecf35357d90795027ccc149be1fef6af7640f74d877ba5c",
+      "git_blob_sha1": "7c0cef5c914fe9cadb50629a4ca4e69a13076570",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Async/AsyncAbandonOnCancel.swift": {
+      "bytes": 2305,
+      "sha256": "2663ff50568497f8c1a10e76ac63229d0cd17e692138c620a574c7717c616dc6",
+      "git_blob_sha1": "3282cfdb2469e3b62118c58f8ff7b6a8960005a9",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Async/AsyncCompleter.swift": {
+      "bytes": 8370,
+      "sha256": "f8bc2ef953eab70bbe941f9400a7c214174ee9fe0ad8b8d551fe9575a0f9473d",
+      "git_blob_sha1": "10e2302a9b5be247ef391a98dd40ed6219bbcf50",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Async/AsyncDebounce.swift": {
+      "bytes": 1218,
+      "sha256": "4667d229659a41cde5105d500ee020b61a70ec4ef890e14c1df319dee22ec9f1",
+      "git_blob_sha1": "10a1f06082fd46e5fce84761737c3addf3ee4a5a",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Async/AsyncFileStream.swift": {
+      "bytes": 4279,
+      "sha256": "bb1f04b537daba883d26ffbe06827c3228a7e274ef86b0e8142003eb9da2d4c6",
+      "git_blob_sha1": "45a187215cc3155e10db01e5bb46c06164185865",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Async/AsyncRetry.swift": {
+      "bytes": 2259,
+      "sha256": "d73679b955ca26317e89e645b16ccaa4ed1a69e572f908351f9bea3427bc2d71",
+      "git_blob_sha1": "88aa5cd7dfeac1a4d4745abfb4258e20a10f8b69",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Async/AsyncSequence+Subscribe.swift": {
+      "bytes": 6393,
+      "sha256": "5ea6c6ee2166040081313cccbb0529bd80c77eb1d3f4deebb28d8a6c0f93a583",
+      "git_blob_sha1": "3a9d0f2292daf67df30a4f1395c0712ebb75a9d5",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Async/AsyncSerialDelegate.swift": {
+      "bytes": 2007,
+      "sha256": "7512280ca29a3033ded0dc94c64e1c08021ba154d1f7321d1c6a635ac7e45bff",
+      "git_blob_sha1": "cdb7dee91f48bca2e7fb64b5d450c0b0e0a09300",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Async/AsyncTimer.swift": {
+      "bytes": 2839,
+      "sha256": "087114c90726380a73d054016c9431d560029e83af9ef2d9a41c703ab8501453",
+      "git_blob_sha1": "607911465bc1e2e91b344a7da8b66d4abcd6175c",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Async/AsyncTryMapSequence.swift": {
+      "bytes": 1507,
+      "sha256": "61a658a1c66e443448673855288c51ce2eaa4ebc74733ff9f53b1fc271b91e4b",
+      "git_blob_sha1": "329141caf4ae16d6c1f10173e3909b8e70f50d2c",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Async/ObservableObject+.swift": {
+      "bytes": 1021,
+      "sha256": "3b2ffa8bdabd68b43826373c12396b191372d38564fde82a3be091a1fc0e7211",
+      "git_blob_sha1": "65644762553bc491273a4f88b68ea9390f4736ff",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Async/Task+Discarding.swift": {
+      "bytes": 2901,
+      "sha256": "bc5e4a8b4bd88886237d4cd3fac316d010379ea2522ab7165753a709c623ce7f",
+      "git_blob_sha1": "660e0b9d7ca5e9fea4f69987c24c454dcf0cb2a6",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Audio/AVAudioPCMRingBuffer.swift": {
+      "bytes": 4289,
+      "sha256": "c3178ec6291046ca0c182e3bdda09a217c945f5afacfad1a4736dc32122d3689",
+      "git_blob_sha1": "436033fef7bb5d95013628f360e7f3543ccf6eeb",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Audio/AudioConverter.swift": {
+      "bytes": 2572,
+      "sha256": "8c1ca1a73b0c30ad130810b9dd625788258d7746fc1c59d72384eaf9d834c781",
+      "git_blob_sha1": "5cd9029b021f46995143be2b040c10edddea26be",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Audio/AudioMixRecorder.swift": {
+      "bytes": 10085,
+      "sha256": "17d8812a674b64633b62ecc45ef79e987a9568286d105bfdb11fc0f8de8f7f7c",
+      "git_blob_sha1": "2096edaa05619d6854a1af483936217c87a19d54",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Audio/AudioPlayerRenderer.swift": {
+      "bytes": 2304,
+      "sha256": "eee846c94f04d188e36cdd84a12d600d48de5f9c88b1dc399c384b915bf8dea7",
+      "git_blob_sha1": "8ac4e20f310b601e9607eff825329195e1a0a132",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Audio/FFTProcessor.swift": {
+      "bytes": 5573,
+      "sha256": "ba61768169e0d5e49f38f946ad0f5aba112921da7a387a7f78a7e4718b8ee332",
+      "git_blob_sha1": "10d531e53b353caf242b1fff6dfa8e15bddc6d0f",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/DataStructures/Deque.swift": {
+      "bytes": 2467,
+      "sha256": "9495444f75345ddef3cd62f43a6f51bfc422618f9e0ab9aada6bdbf43fcc0c5a",
+      "git_blob_sha1": "20da9b73919b75d2a0da2be35f3f6d6f60813cb6",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/DataStructures/MapTable.swift": {
+      "bytes": 1569,
+      "sha256": "51547a0f295794e05161d483706112f2d2c1ff39f728bac5a7839ab8800b48de",
+      "git_blob_sha1": "6254be68a9adee9b3bfbb282224eb54afdaefc77",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/DataStructures/OrderedDictionary.swift": {
+      "bytes": 3121,
+      "sha256": "4c9da8f7024dbd017615e510a1fed5818067605a98b1afe84a0d292784812e2f",
+      "git_blob_sha1": "58227104e96b3c80b68ac5fa4dcd22be5612ce76",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/DataStructures/OrderedSet.swift": {
+      "bytes": 1275,
+      "sha256": "b8bf3973cd2c4f0158d59fe6f370e56d823d909c88d134a6744f99809d041719",
+      "git_blob_sha1": "da1cd46ed412c6e108b102e4e18dc2a3c1927601",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/DataStructures/RingBuffer.swift": {
+      "bytes": 1492,
+      "sha256": "c4692910c85286d64ad4c50bad32ad190c942f1d806528299cb719d175cd3c75",
+      "git_blob_sha1": "48937511482d66e0b14de26b150f687a07c88629",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/DataStructures/TTLDictionary.swift": {
+      "bytes": 2724,
+      "sha256": "e242dbe5a0f455062869fee9bfb69b4125b349c8734c311d085113f38a42a415",
+      "git_blob_sha1": "4d5cccae16037e0d31d601def5d2b168df3eeb47",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Global.swift": {
+      "bytes": 1634,
+      "sha256": "58d5e371cb8c4e04e1381dff5069b48bbbd60d1d1f0703dffa40abdbf328bd00",
+      "git_blob_sha1": "79c83a95a50a096e031dc58da1e0f9bfec650e2c",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Gzip.swift": {
+      "bytes": 3904,
+      "sha256": "da38a024af7b9b97bdfc13224cd01b40005265982c865262bf1ae2f25de83338",
+      "git_blob_sha1": "7ffc55f700ac90d4b7fdb0cfd55b66e72a85d407",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Logger.swift": {
+      "bytes": 9224,
+      "sha256": "b17011db8db219607ff6eff599cc4faf432d86e5948539504197189eb0bd5dc5",
+      "git_blob_sha1": "ff825a86ae6f544228e3373984bb64b148210613",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/MulticastDelegate.swift": {
+      "bytes": 3642,
+      "sha256": "68a725f1ac0c5a8197641177b786f233f8c9db13ce8f9d3fb75a78fd2c40d5e1",
+      "git_blob_sha1": "3c0979ff68e7be3d375e424594b572323add6835",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Network/ConnectivityListener.swift": {
+      "bytes": 6794,
+      "sha256": "7ca848e1ba3b8adcfb120c8e5afd527b48ac39ca2f91933a3700159f787c2f49",
+      "git_blob_sha1": "a4b9bc4c9145a15be32426fa12af191a6d745b23",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Network/HTTP.swift": {
+      "bytes": 4471,
+      "sha256": "de4426f569704d31e8f1ac265ee90802bbc3c5bde7d0b506d69c4cf00886a96a",
+      "git_blob_sha1": "43911bca6947f0a8ed05e1249892537d430bcf93",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Network/RustTransport.swift": {
+      "bytes": 6780,
+      "sha256": "f238f5b6dd7c08f771063f1329adabe1a877eccbd85aa7ec9a3c27ddfa29ba8d",
+      "git_blob_sha1": "990a826efb3f0538f19e7c37d60fc830ea38b2a0",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Network/WebSocket.swift": {
+      "bytes": 7388,
+      "sha256": "07ccd1fc98656d19f1a38539274e473f6babf0f7c954214c3343a801af266a71",
+      "git_blob_sha1": "644a0616567b8913390dab4638d94a2c6a834fbb",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/SDP/SDP.swift": {
+      "bytes": 11283,
+      "sha256": "dd737072717519a94522d388f9255e25dab16e1cf12499d3aac0c0a010bb973a",
+      "git_blob_sha1": "21a3a467eeca0c020216c025cadabe81d4156990",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Schedulers/DispatchQueueExecutor.swift": {
+      "bytes": 1949,
+      "sha256": "eed5b0939c7383125a8346e3ce8ef90b37017485980c4aafae74ecfea92a9f9d",
+      "git_blob_sha1": "26a707faec2a8fbbb7311f0a60b38dac0374abe5",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Schedulers/QueueActor.swift": {
+      "bytes": 2255,
+      "sha256": "83c9d7e51bf9b8ae84590a52f66bd8727a2eb36e0ab60c0942efdb5e0fec9d04",
+      "git_blob_sha1": "02c5d0cbb574156f43a1c6363ba880d6fda821ad",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Schedulers/SerialRunnerActor.swift": {
+      "bytes": 1553,
+      "sha256": "dd3c8c23b88cb19dcdffe47431369101a4c81361398ecd94adc160fd84c36994",
+      "git_blob_sha1": "b127ee199c54ff3f6725eebb9b61c23098791dd2",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Sync/Locks.swift": {
+      "bytes": 2816,
+      "sha256": "e6ee39ea331c149450a85f560bdfa48711f9f5b0a06dd466ea2cd666f3dce46c",
+      "git_blob_sha1": "5f8b6abd41f80c6a11e6ea72d5153055846f6ffd",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Sync/StateSync.swift": {
+      "bytes": 5732,
+      "sha256": "4d3f2069f192259a2ca196b163da99b26e5841ab7085e818e7d797351f07e09c",
+      "git_blob_sha1": "582365fa33b9b05591b69706318c9a2d483784ec",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Tracing.swift": {
+      "bytes": 4168,
+      "sha256": "08f9cc912f239805775da47e08a9643811f55797693345b2efcb28a8f78c8696",
+      "git_blob_sha1": "3cd39dd943b606e1ca8f7396b4064ad2f7a088d9",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Utils+VideoEncodings.swift": {
+      "bytes": 5464,
+      "sha256": "de266649126507aa5f0017852c06814d8d5eb843a61e612bed5aa3874b6fc27d",
+      "git_blob_sha1": "82efab40a3ba3c51a2c940f8d32fa4e845fee061",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Utils.swift": {
+      "bytes": 14763,
+      "sha256": "a0af203217164bf6ab56b738b269ee972c76f5d24dd9d72e5dcdea2fd5e01da6",
+      "git_blob_sha1": "276875680557d44ceddf168ba422f27ecf0e16fe",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/ValueOrAbsent.swift": {
+      "bytes": 897,
+      "sha256": "e2168d68de259f3a581c02e568bfced28500637c7fdfc9a86daadc9530f67379",
+      "git_blob_sha1": "b17882015fd04ede77258e880236f106e1874b83",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/Video/DeviceManager.swift": {
+      "bytes": 5536,
+      "sha256": "11546b97a5dc0c3abc052d3c05a5179bd2332527c4937d1a0e6f0f361c696a97",
+      "git_blob_sha1": "0ce32747e4e8964e29966c7b167984cf7351cabf",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/View/NativeView.swift": {
+      "bytes": 1976,
+      "sha256": "86e2ea73283ab2b5d7e611cbb3583011bb2a1c05aaaf86358d7f2923d2d7e2b4",
+      "git_blob_sha1": "dbf97532b838c73025363052b05af36892d5436b",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/View/NativeViewRepresentable.swift": {
+      "bytes": 2185,
+      "sha256": "07cb32bd3aae43e9cec8524a86b83e314cb6f23b8f20d6c2884d68ae6439099c",
+      "git_blob_sha1": "c81b3dd7a517d811f27bdd9e7058a8a5a6e1b239",
+      "type": "file"
+    },
+    "Sources/LiveKit/Support/View/TextView.swift": {
+      "bytes": 2626,
+      "sha256": "6b5ebd4882d5eda21f8676d464a38139e4862673e9869e9e531feb67e8a8ec79",
+      "git_blob_sha1": "713f4625cc1c38fa0683e3f57c191374165fd193",
+      "type": "file"
+    },
+    "Sources/LiveKit/SwiftUI/LocalMedia.swift": {
+      "bytes": 8625,
+      "sha256": "c66941b2bb90d1e991c6ba412a37da7c2e44c59c8f85e8eaca27cc11f6eab182",
+      "git_blob_sha1": "41b5921f4d211a9161c10eb36d96622d26640205",
+      "type": "file"
+    },
+    "Sources/LiveKit/SwiftUI/SwiftUIAudioRoutePickerButton.swift": {
+      "bytes": 1267,
+      "sha256": "0d31c44910d19d719255e591927a1928969a3bccd0a0181eb787b7e68516345f",
+      "git_blob_sha1": "8e66b1bfb24a9aab48bb083ce7efa47e852b843e",
+      "type": "file"
+    },
+    "Sources/LiveKit/SwiftUI/SwiftUIVideoView.swift": {
+      "bytes": 3426,
+      "sha256": "4a78eaa7213e65ee324e963a899d0e8d326b7804366a6a563dbfc5a0c7d12ba6",
+      "git_blob_sha1": "a1389da89a37c64a563aa7fdd60bef0e56fd3582",
+      "type": "file"
+    },
+    "Sources/LiveKit/SwiftUI/TrackDelegateObserver.swift": {
+      "bytes": 1970,
+      "sha256": "26764c1d7fb6f7dc337d598c007f42995d77179ef7a7539f28bf3a8a40ea42cf",
+      "git_blob_sha1": "57fd887f7c7898b10eb1f20c871380d3a3977b42",
+      "type": "file"
+    },
+    "Sources/LiveKit/Token/CachingTokenSource.swift": {
+      "bytes": 6277,
+      "sha256": "d71832fffeaefb5379327c828e248edc8a5898b53fbc21ed5ee7c8fe829d87af",
+      "git_blob_sha1": "8f05dcc25b6121e74656967b5a90607f02ebf49a",
+      "type": "file"
+    },
+    "Sources/LiveKit/Token/DevelopmentTokenSource.swift": {
+      "bytes": 2001,
+      "sha256": "ed65e8419832b52997224263e7260d832936b0e4347e3fca93bd3e3cea535021",
+      "git_blob_sha1": "134adc513f69b81f16ad4d8609941204c0a685ed",
+      "type": "file"
+    },
+    "Sources/LiveKit/Token/EndpointTokenSource.swift": {
+      "bytes": 2761,
+      "sha256": "f266bcdc363f2eed017eb91a2b3ecd0dc06546dc0e6a52f887862b85b8da7082",
+      "git_blob_sha1": "490888151dba04b4b08dda21ff3be6b9552d292e",
+      "type": "file"
+    },
+    "Sources/LiveKit/Token/LiteralTokenSource.swift": {
+      "bytes": 2328,
+      "sha256": "79dddcbd622335ca8beb82e9c6a7c11e8374edb9b4bfca2fb9374beac7df45ad",
+      "git_blob_sha1": "400f9df83d0bf5c754fda06e33bafade0b24d41b",
+      "type": "file"
+    },
+    "Sources/LiveKit/Token/TokenSource.swift": {
+      "bytes": 6932,
+      "sha256": "f2d244fce95cd1bdddf4a3148097a30527d7a551527cfed69958bcdd61c98496",
+      "git_blob_sha1": "a735615e818b66b2a726e4ae4f9d6bc7d8e67275",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/AudioTrack.swift": {
+      "bytes": 886,
+      "sha256": "9a44cadfaa6fb9665a2ed3144a95dbd209e0e03c3dda64f914eb6e0cd3e9441a",
+      "git_blob_sha1": "9bd5300ab05c298fb6659fcd109226efa73a0c27",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/Capturers/ARCameraCapturer.swift": {
+      "bytes": 5159,
+      "sha256": "b69b20e9c2f0cc8132a5ea49deac3b9100b6ac7774692997f85454f0a50814ec",
+      "git_blob_sha1": "6321a57df6020e6082d6bd5fd008aa7ec065fa55",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/Capturers/BufferCapturer.swift": {
+      "bytes": 4286,
+      "sha256": "369555914c0cd31be3d097b515c83f11b4358374bc38b408b5b3c124bde80d80",
+      "git_blob_sha1": "23cbc4287a91324ac60e977749e716b9a71c0b18",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/Capturers/CameraCapturer.swift": {
+      "bytes": 19943,
+      "sha256": "52ee70b4c4c4366512e1d4f6d1bba8c99adf6663addcbacdd1a88353a894c236",
+      "git_blob_sha1": "120d701947b64020acb0fd0a35d67482043ea75a",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/Capturers/IOSScreenCapturer.swift": {
+      "bytes": 10312,
+      "sha256": "0048b2808213a3ce2c0843abfdff1aba20c0a09e3c686b6e51664109820fa53c",
+      "git_blob_sha1": "0faed2fe9857fab7dd6a554429630ccc638d439a",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/Capturers/InAppCapturer.swift": {
+      "bytes": 4298,
+      "sha256": "7ad335c0cadbd7ca5980340c418489d8a49cd9f1a046c21d0e7949fcdd6da3c4",
+      "git_blob_sha1": "2fed4f230425614978f335f74daf1d634ab50a6f",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/Capturers/MacOSScreenCapturer.swift": {
+      "bytes": 12648,
+      "sha256": "f8f1f5f3bbe3adfe2c3acd0ae5f3dffbd96b211a1044d5b325f2baa13e7c8094",
+      "git_blob_sha1": "18256cc3f7c7b77610a675c34b81e5ba03fc2c77",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/Capturers/ScreenCapturer.swift": {
+      "bytes": 9132,
+      "sha256": "52a1b4cbbfdc8ed5c8e32a6138dc61597e83034e837a8cd1548127d0ce7d1365",
+      "git_blob_sha1": "ad82dbe34bf0f7c310e2b71325d0c041332b68a2",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/Capturers/VideoCapturer+MulticastDelegate.swift": {
+      "bytes": 1025,
+      "sha256": "35bae1169a312f2f11b0fb4d355f148a6b5c54abf4caedacf8f1bb5cbf37ff78",
+      "git_blob_sha1": "b31d0bf6399d517d30563c97d85fa369f607a427",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/Capturers/VideoCapturer.swift": {
+      "bytes": 12661,
+      "sha256": "e985831fa107d62c0c5cc46075abf8daa861e5fe229524befd8c7cbf2ca6ff1c",
+      "git_blob_sha1": "9731a5a892d8a9972c72428385da065a7f2eca33",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/Local/LocalAudioTrack.swift": {
+      "bytes": 8985,
+      "sha256": "2204baa4d0d51318fdabc65096364b36f62f8cadc4a68eb3e52ed0252221cc3f",
+      "git_blob_sha1": "d92e42f6d59c8e9d4abe7cb08ced4184acd17698",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/Local/LocalTrack.swift": {
+      "bytes": 940,
+      "sha256": "2cb7a0ff9e3a260e35cbc7a730fad57359b0bd2bba78358f96ac232338702c38",
+      "git_blob_sha1": "a54aa7738028bc8b7ee69f35e4e35f9d37dd16e9",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/Local/LocalVideoTrack.swift": {
+      "bytes": 3605,
+      "sha256": "07354c62ec298b0dbb23d75cd9f588e758422be7b6e99c97d07272952d13bf2b",
+      "git_blob_sha1": "8582623f3444693577cb75335f78d1b2293a788b",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/Metrics/MetricsManager.swift": {
+      "bytes": 11240,
+      "sha256": "5414ccd907713f9e2c8be709d9ce7183ed87b1902e76f2bc42f9eb01e2cffc82",
+      "git_blob_sha1": "fbadc0fc1248cda4f12d64fd2d2230aa6d2dbb66",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/Recorders/LocalAudioTrackRecorder.swift": {
+      "bytes": 5390,
+      "sha256": "f694ac8a78b4c9e6b82759ff7f45ff4da0199436368eb22d30dd2c365953494a",
+      "git_blob_sha1": "e40bce465a31685a67c6fc5472d596f7ff85d7bb",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/Remote/RemoteAudioTrack.swift": {
+      "bytes": 2813,
+      "sha256": "11e9ecab08884e3515bbfe21cb2599bb045986be42a635415ebe9a75d933db23",
+      "git_blob_sha1": "c9bc5d19080f55b042040e506189bb0f32f7ba8e",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/Remote/RemoteTrack.swift": {
+      "bytes": 737,
+      "sha256": "3d721f529bcf8a958ae44599a76aae9808dca87a9630d5933c0d6939f4760488",
+      "git_blob_sha1": "9af9695fbed78321abfc985dd8d6104e87b1e09d",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/Remote/RemoteVideoTrack.swift": {
+      "bytes": 2594,
+      "sha256": "01a52fb4f5630075b7d6a8c0f2f1ec1785bbd8469e39cd2a034468945bf69401",
+      "git_blob_sha1": "d01504a09ed238c9eff64f15adba54359020f8d3",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/Support/Extensions.swift": {
+      "bytes": 4551,
+      "sha256": "d25d7a5f85e229aba61f73b513045cbd9395bb1fc806be7c099b9a17e163b21b",
+      "git_blob_sha1": "576e95c4ee14821f5ce263a590a27b6a5936a240",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/Track+Equatable.swift": {
+      "bytes": 999,
+      "sha256": "72614edf3f42f507ca3d9d8db2084712bce3bc72e6542df0ab6171d93979980c",
+      "git_blob_sha1": "8b4231edfe2f24afa7c984a4c7200194996f746f",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/Track+MulticastDelegate.swift": {
+      "bytes": 1001,
+      "sha256": "06d06c7f4a08e0f7d7bc6b1c921372329b1d615d1b6648d326e4ad32fcc18adf",
+      "git_blob_sha1": "3908f283138057ceb27b4b6d6d5b23615ebdc051",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/Track.swift": {
+      "bytes": 15429,
+      "sha256": "78f6b547e56724631a1e48bcdc13bffb524fce3137036e7c2f2f2328ecbdefbb",
+      "git_blob_sha1": "34c3b6d0e5eebe4bcc18c9786c45f3b67bf9008d",
+      "type": "file"
+    },
+    "Sources/LiveKit/Track/VideoTrack.swift": {
+      "bytes": 3711,
+      "sha256": "c1d9e559a08328dcfc8f5ebfd8500801c78040941e6d260b1eb28c2723b8f392",
+      "git_blob_sha1": "ab18f3a8c113d35dd6dcc0bff87451843bb0a1da",
+      "type": "file"
+    },
+    "Sources/LiveKit/TrackPublications/LocalTrackPublication.swift": {
+      "bytes": 8281,
+      "sha256": "7e456f2bd0be85ca6d1f84ce1b9a88243cf32a146442c445b9e845cd46979b6a",
+      "git_blob_sha1": "245b25d87162c0befe6dc0e485808fcfb22883bf",
+      "type": "file"
+    },
+    "Sources/LiveKit/TrackPublications/RemoteTrackPublication.swift": {
+      "bytes": 15020,
+      "sha256": "d1ba33d22d06ef36056a4ac4a2721562dc79f168ea27f2020b1953b251282872",
+      "git_blob_sha1": "f44bc6dcea728e09a39fa69aa8ec0d575060869c",
+      "type": "file"
+    },
+    "Sources/LiveKit/TrackPublications/TrackPublication+Equatable.swift": {
+      "bytes": 1018,
+      "sha256": "c6ab748bc57a11b694eaf2eeefd51c4dc8bf28a248364d63887febbe98cbe9c1",
+      "git_blob_sha1": "7d21b6ab258340298cc0c140b8a5490ab4fca35d",
+      "type": "file"
+    },
+    "Sources/LiveKit/TrackPublications/TrackPublication+Identifiable.swift": {
+      "bytes": 769,
+      "sha256": "5a959a8bc9b5408a71b2ed01a9b1c58c5965307a4813ab1eae4a357d773f4881",
+      "git_blob_sha1": "490e24adcbaf4d0680f8c5d14c2929c6e9279dd9",
+      "type": "file"
+    },
+    "Sources/LiveKit/TrackPublications/TrackPublication.swift": {
+      "bytes": 8081,
+      "sha256": "a06696ebb839a9a567e652ab5602ac80ddece17e60e3d9768eb6b1c2b7d58668",
+      "git_blob_sha1": "0ac002c3decccbf2e509263ad7f8522a08b75d3e",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Attributes/AttributeTypings.swift": {
+      "bytes": 3409,
+      "sha256": "43c72cab93bb33e826b8d94335bdfa3fb031b4beb0750dcf5973526b3e2717b9",
+      "git_blob_sha1": "8b90b7b93686a0a2294fc56134274be346ae77a5",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/AudioBuffer.swift": {
+      "bytes": 1426,
+      "sha256": "9fb92228fac17c346570331734381d71db5a2b5bedddeba9a12cd8fa93cbbb0a",
+      "git_blob_sha1": "872833221eeb6cbd04971d32ea95ea38e971696f",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/AudioDevice.swift": {
+      "bytes": 1050,
+      "sha256": "09113ac9646a6448c0e63536c811a34d0e9f495c3387294b88dfeda29f03f41e",
+      "git_blob_sha1": "1d6afa4f932d90cbf73275ebc553cbcdc9e600ea",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/AudioDuckingLevel.swift": {
+      "bytes": 1870,
+      "sha256": "aa7a235c9338d92ceeeeeb7845a8d804e953259a901e6bf6c000714f2b6d66c9",
+      "git_blob_sha1": "55ccf32989b01b842f9b49c15b0a909989422858",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/AudioEncoding+Comparable.swift": {
+      "bytes": 773,
+      "sha256": "1232207d661f3b0079ed951dafb5a6d4af851ed5d42d4e4cdfb02a10519a2c2e",
+      "git_blob_sha1": "2af9b92c8125db3c0c27980ba33c030f5f3815e7",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/AudioEncoding.swift": {
+      "bytes": 2564,
+      "sha256": "86d8eff738a488e32a09076763ffb2bc834fcc79e62be1a3fc3884082315ecbb",
+      "git_blob_sha1": "6cb6513bdfadb388793043d178c4617efde3452b",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/AudioEngineAvailability.swift": {
+      "bytes": 1663,
+      "sha256": "dd7450286d390359a817e5b711ae29bb3d5e6734e9c26189b6a3221469e5335d",
+      "git_blob_sha1": "1832f8e894bf5b036ff4418f16231176bdaf6efb",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/AudioProcessingModes.swift": {
+      "bytes": 4349,
+      "sha256": "fc12fe8f1de88e8a19bef58e6125cd4e55324a0193b716e74e2269a4040369e3",
+      "git_blob_sha1": "dfff99500eb45827d3dd2ec7bca32b8a7becfdad",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/AudioProcessingOptions.swift": {
+      "bytes": 13474,
+      "sha256": "3345fb04197e2ec4b27910b22197045058c00c8df8b66e0604c45f8035e731c0",
+      "git_blob_sha1": "49db08a99a8dbbb9b029443cfca63256c026edfb",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/AudioProcessingOptionsError.swift": {
+      "bytes": 1703,
+      "sha256": "1cdf120b83fbb5886947a550ef3b4239480a4bc7fa891b60cead14643c1cbdcf",
+      "git_blob_sha1": "7224adcc3459ecfc89c1c77cbc3e757b951c31f6",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/AudioSessionConfiguration.swift": {
+      "bytes": 7230,
+      "sha256": "376387b82dca1c4d0a387d8f843b99f537890095230617f7ebc95a9c8049791e",
+      "git_blob_sha1": "08e5260b76c470bac9d3ee85c44611b20595a27a",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/ClientCapability.swift": {
+      "bytes": 1501,
+      "sha256": "c376d45bcbc079f5bdd0248d2e5dcf981c7747a4d6ebd96e5cbddda74878c514",
+      "git_blob_sha1": "b59ac830381ea7be864cab276f26c14a12304cd9",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/ClientProtocol.swift": {
+      "bytes": 1837,
+      "sha256": "23e4366aa483ea3fe10c736a00d9799ecfaddc8ede6db32e3179d67b6557b0cd",
+      "git_blob_sha1": "008d8fcc12b7c0b66419ced3a97f73bc26915e54",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Codec/Codec.swift": {
+      "bytes": 968,
+      "sha256": "1a3bf03b81f077593e216c5453247ff3ae6ef74d149ed609f67f1d70c0ee9df3",
+      "git_blob_sha1": "8f18565c2e97976b6cb194935ac0b216398b132c",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Codec/VideoCodec.swift": {
+      "bytes": 2576,
+      "sha256": "a0b18f9a48fd10609e4ea6fe9ce0729df219f1ee90965c5c8e6d176cd5952518",
+      "git_blob_sha1": "d961b734a26e9d7263dfb3f1245a524f70c9c7dd",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/ConnectionQuality.swift": {
+      "bytes": 1220,
+      "sha256": "8d4bdc85964dc1c864af9f8340fe2ee0774f72a4cd9c9667220f5f34c8a225b6",
+      "git_blob_sha1": "e7c0022c84029a7b7f3d705dc208912ca9217fa9",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/ConnectionState.swift": {
+      "bytes": 1521,
+      "sha256": "12b0ba16b74be4267e604e30e6b0db8acfe8ac54e90dfe86bc16e0133bfa482f",
+      "git_blob_sha1": "e41ca5da8560e6d3b911111d4e1f3e4972f6a2bb",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/DataChannelKind.swift": {
+      "bytes": 1430,
+      "sha256": "e58de027cb8bd9d946e211c3c3d2d8963eb0716297c582553815dbd01a887e50",
+      "git_blob_sha1": "1ee36bf101557594363667e5014cb3bb58f9a3da",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/DegradationPreference.swift": {
+      "bytes": 2557,
+      "sha256": "6563eecabef4399168c0428ab191dc51f1df84dd1c9f03bd0432110d61db0eda",
+      "git_blob_sha1": "2a13eca54ceb970dabeb93b66118306e5e68a3e1",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Dimensions.swift": {
+      "bytes": 7318,
+      "sha256": "156c78a24047d4d1e6a0690efc2139e3a4544ac3c49ea7a955c70be7820c8920",
+      "git_blob_sha1": "4d1e3fa76ba0eb87ae9df015b2e43dc155fb9fbf",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/EncodedVideoFrame.swift": {
+      "bytes": 5637,
+      "sha256": "0f27af2500bcf3db9e05d676a9648aa2b1b7ea214f0cb3385233d41d2aded36b",
+      "git_blob_sha1": "116c506dc2abb6f72327a34f1c8b10a9540f8203",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/IceCandidate.swift": {
+      "bytes": 1987,
+      "sha256": "ba11c85f543c11ff2f853274698fe4a6d83a988d83e345e9d84a7a75e0f66674",
+      "git_blob_sha1": "3e7903a5b188f2801baba6dd71903a4ddcfefdb4",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/IceServer.swift": {
+      "bytes": 1672,
+      "sha256": "949105a6d1d46442543ce920f278c352954477a7859f3a057dc074bfc14f30ea",
+      "git_blob_sha1": "0f120eb120c330754a7196933b5589b9894f5dfb",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/IceTransportPolicy.swift": {
+      "bytes": 986,
+      "sha256": "1e648a2d88ac8c0348317f6d87938247ba655a5cd244e13eb88a8c2028bfbead",
+      "git_blob_sha1": "49b5648e2f4f7a57429e0ea06f82eba8f05a90b5",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/MediaDevice.swift": {
+      "bytes": 722,
+      "sha256": "d07c5d198f12450feb69286c4e8020004110492ef44c5691dad786ad02037ca9",
+      "git_blob_sha1": "e73eac2ab548e276c77953ea6d6b28a90e612345",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Options/ARCameraCaptureOptions.swift": {
+      "bytes": 1497,
+      "sha256": "35b19b91a04f0be19d8a76bf85b71a1d9550d985c6d1e75aba95f10d39b6ee30",
+      "git_blob_sha1": "d1dd74f1ac624481427b75c0350e2f79a3fdaf49",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Options/AudioCaptureOptions.swift": {
+      "bytes": 5514,
+      "sha256": "25187a46aafed7cbac4504f38a2f85782b702c4052486c0d463dd8ed191f96d8",
+      "git_blob_sha1": "2b98f78962d48eeb2b7676baf14dc7ba57e6613f",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Options/AudioPublishOptions.swift": {
+      "bytes": 2601,
+      "sha256": "4013a9414d7b5b9e3f8d2803a6e518941f98c442b5a4d76ee0f798588ba28942",
+      "git_blob_sha1": "b7eb30fadfda0682bbbb3b1ca09de4e230f7b6cb",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Options/BufferCaptureOptions.swift": {
+      "bytes": 1491,
+      "sha256": "186fd8c420cb752fb794b7967af2dc87075bdf72eabd2af6fe1ebb9051739e97",
+      "git_blob_sha1": "c53eeb0783c8ef4d5360dbe4a9250d0d9ed84120",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Options/CameraCaptureOptions+Copy.swift": {
+      "bytes": 2474,
+      "sha256": "40b536565537f215d5c8018e1c5e29f2a532e4df74b7db116855314f6d9f3a27",
+      "git_blob_sha1": "9eed370845380bab33ac7e4418ccc213962cf920",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Options/CameraCaptureOptions.swift": {
+      "bytes": 3851,
+      "sha256": "de85a6ebb7941fe57fcf5ef7d8215839402e526b5976f08504fc09bf3851e67f",
+      "git_blob_sha1": "31f36e958d3d31aba7011956129577ceeb3bd3e1",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Options/CaptureOptions.swift": {
+      "bytes": 661,
+      "sha256": "37811cbb926f03b131ff8599b21e7b61f1401ca112cbba62e78225ce118a9ef7",
+      "git_blob_sha1": "af2d233a015f1abaf91b46a5cf93a003c36d2ff1",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Options/ConnectOptions+Copy.swift": {
+      "bytes": 1707,
+      "sha256": "beb9c638420c3e0409c682fcbadad5f7afa18e9299fc08aea9ab30a8f93cea92",
+      "git_blob_sha1": "b73e97de99916de8fe8f39df481ab1af4aac2c6c",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Options/ConnectOptions.swift": {
+      "bytes": 7163,
+      "sha256": "389f6ce7376f4477376bcec91d704e1393ee3f646c7ee581ccb9d618e3403f1d",
+      "git_blob_sha1": "1d6092c9715b0a384cca3972bf702a46f03d5ec8",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Options/DataPublishOptions.swift": {
+      "bytes": 2346,
+      "sha256": "f11de9761d31999a997feb13ba007a54d2de1f48e8b176b31cb578c1cfec8942",
+      "git_blob_sha1": "7316233b8a84a068b64f06fa62c935df29e7acf2",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Options/DataStreamOptions.swift": {
+      "bytes": 2690,
+      "sha256": "809e71a318c51b4980061792302509e5a3586f9c6aa796fb46b7fd9cde1fbc29",
+      "git_blob_sha1": "28a7b7b88296196f05685f7d61e74cf3288c4f5e",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Options/PublishOptions.swift": {
+      "bytes": 1230,
+      "sha256": "18a244111ec872107213d929dc84f664e9d7d7ed84f7f44e55e24d302ba2feb5",
+      "git_blob_sha1": "4acbac2375e42942cdb45eab67571380d1f04edd",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Options/RoomOptions.swift": {
+      "bytes": 10038,
+      "sha256": "0cb33ad946ed1c3c7eef17d9d402e34c79ce7edd102618c1001743d43edec214",
+      "git_blob_sha1": "acbc610ea36dec3e729df2c20df6602e04ab1833",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Options/ScreenShareCaptureOptions.swift": {
+      "bytes": 5149,
+      "sha256": "772a88226f6057932e5101bd6bfff39a0caa8d99a8d69f7a6bf26c0ef2434693",
+      "git_blob_sha1": "96db9da0da1c838a28c10b7a1e945c46961256a6",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Options/VideoCaptureOptions.swift": {
+      "bytes": 747,
+      "sha256": "a23359a6978641a471900d56d07ff5736adb3ec7db7503601c577247a3935760",
+      "git_blob_sha1": "a058a0f1ffd650021fb2c79c7bb00cf6d4c7d687",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Options/VideoPublishOptions.swift": {
+      "bytes": 3543,
+      "sha256": "9f47251ab098b14aa3a86d075c024a8a4cdba9d83b9a91ca390daecaa40c6951",
+      "git_blob_sha1": "35ec3ffbb0ac1ce1fb59adca06377aac5bea89a0",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Participant+Types.swift": {
+      "bytes": 2039,
+      "sha256": "5f69ef23542e4fb6c170e4334bd825c0c1883ba709950104064b4dd9e93e4f09",
+      "git_blob_sha1": "371ea42e38ce0681c21546fe8bdda6d114359843",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/ParticipantPermissions.swift": {
+      "bytes": 4141,
+      "sha256": "6ed04420366fe83a65fdc69cd28479b7862cb9463ebfb07d08f241e77a898ad5",
+      "git_blob_sha1": "68a80dff696d47d1ceb3566d800b18f2a45e7367",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/ParticipantState.swift": {
+      "bytes": 2374,
+      "sha256": "95dd831c6e9a2a77d5ec23fc8d4edd94d0bcfc0e3772f7b183703006e2fccdca",
+      "git_blob_sha1": "7135033028a09f63deb28246a75f6ff0db61e4e2",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/ParticipantTrackPermission.swift": {
+      "bytes": 1726,
+      "sha256": "9d7d05a13cb478ad14c85466c236c64408653a6638bff5cda45bb945404b8e7c",
+      "git_blob_sha1": "672b88aff5037058f9d65d3b2f56cb5fd9c53a55",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Priority.swift": {
+      "bytes": 1691,
+      "sha256": "78e425fe98c0d61777bf809f02dd93bf214500b692e69fb6c3781e37841b4ee2",
+      "git_blob_sha1": "eeca7558b39c1ae77a5a6396386fa129c060dfae",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/ProtocolVersion.swift": {
+      "bytes": 1492,
+      "sha256": "0acce647c60f0b0fec22055732d0397c53c3470922f5baea44ebc654c3edf69c",
+      "git_blob_sha1": "b405897a04895404ad5de96e3474ee38a4069788",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/RegionInfo.swift": {
+      "bytes": 1605,
+      "sha256": "4ca92d03946610cfd4c5b887cb9d3418067e73d5ff7e9462b4939f46934ce93a",
+      "git_blob_sha1": "b2bb011a4ba38aa5719d1a79010caf35241c2a88",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Room+Types.swift": {
+      "bytes": 1311,
+      "sha256": "9089b2a7f1cfecefb55b2ecbb536315de853e8d1236544c234841151094ee18b",
+      "git_blob_sha1": "946da6b2fce6a91eabaf1b63f73e73a4e0404fd0",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/RoomConfiguration.swift": {
+      "bytes": 3560,
+      "sha256": "0dcfc5cac14bc834248ea765a3bacd889cdf998ea045cbc15e0418939dabbc9f",
+      "git_blob_sha1": "dd79d683649daff4b398d8732e28b64f76b8d7fc",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/ScalabilityMode.swift": {
+      "bytes": 1600,
+      "sha256": "5dc15ab984fef1da8cd56e889b268287b2996cf305b211539c6685eea1d25b24",
+      "git_blob_sha1": "80e9fd3aeff3a0dde2cce776663b88e8387a60cd",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/SessionDescription.swift": {
+      "bytes": 1558,
+      "sha256": "985d505476500a24544a3f67a0d7a30c4c6fb8579f86a8b17699e2d31e45fea9",
+      "git_blob_sha1": "ee57fba73d27cf046615bba78b24d0e58620591d",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/SpeechActivityEvent.swift": {
+      "bytes": 928,
+      "sha256": "012f329d5c0f7723d9a40c94d1610f146a8abe4b2f5639aedb0e5cdf5658bab2",
+      "git_blob_sha1": "3fb1cfca2179cf326aa9c232944f4ddafa42e7a4",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Statistics.swift": {
+      "bytes": 32330,
+      "sha256": "c357bb2fcc480871d8f9238ecc541e1e583fcba9cb9bdbeb975d608e18a58054",
+      "git_blob_sha1": "e4b7031d55382ecb47d132ce45a9f2f6d5ff34d4",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/Track+Types.swift": {
+      "bytes": 1308,
+      "sha256": "3ea8bc9c1bc17bec3802ff7d668cef06103d80fe83fc2ca204c1e7d691459e2b",
+      "git_blob_sha1": "f2882ad98fd490c53b4afbc0c222bd75f402e39c",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/TrackSettings.swift": {
+      "bytes": 1698,
+      "sha256": "87a8d3090e6f737c317c9e2ca23461a8298c85a4ed02e00c2acc3aac1169eda5",
+      "git_blob_sha1": "6d0700960f6d640012dad960680063ea29df119e",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/TrackSource.swift": {
+      "bytes": 1210,
+      "sha256": "2d9bc8ed8638e34527856d1c53d586ef4ba183467c5798c0c37d00bce158708a",
+      "git_blob_sha1": "767217be990729f1447609bc5483972293a47ea5",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/TrackStatistics.swift": {
+      "bytes": 6141,
+      "sha256": "706383020c60d23d6de2a38224cd1bf2ffc85872992a3aa629c70186623ccb04",
+      "git_blob_sha1": "5a31a7ae5374fe85ffc9ac300abcec4983cb3619",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/TrackStreamState.swift": {
+      "bytes": 888,
+      "sha256": "1a95a4dd79b0b22ecf2e5a9d9a33710f75cbe43d4bb187f12c46dbc7f7caf7de",
+      "git_blob_sha1": "a83fa1046b44e84212103e6c90a1ae9cfafb2d62",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/TrackType.swift": {
+      "bytes": 1228,
+      "sha256": "2e7dd52780574e9f2e76ef9e1619fca6292cbb289d33d0b0f6f2a926c0d6a138",
+      "git_blob_sha1": "16db74e1b181df47a0341670f7fb78bf03221f29",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/TranscriptionSegment.swift": {
+      "bytes": 1580,
+      "sha256": "a3eea0d1a2f00e1790f60adad1d27830e6f4c5a28b52c6939feb531f1b8da71f",
+      "git_blob_sha1": "2d93e50f59fce03e2d70c8547997b72c4a84a28e",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/VideoCodecInfo.swift": {
+      "bytes": 5659,
+      "sha256": "6b2cfaba185e2646424fa428c1508863e703c4849a63a3f5ded88fdc9bd88d13",
+      "git_blob_sha1": "f64234d2910bb16813ed660c4a9c251b5ebb1c7f",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/VideoEncoderSettings.swift": {
+      "bytes": 3653,
+      "sha256": "d80af6ea74eeb1eb381937fa37087833db84f7ad468e621f4f4c75981e19f970",
+      "git_blob_sha1": "d6928e6390bf4f880249425c6d1a034eaee2e47f",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/VideoEncoding+Comparable.swift": {
+      "bytes": 880,
+      "sha256": "63d27e6d1cde94ea60c66c59944d85ce3120cbce00dfb5849f4078d021561db9",
+      "git_blob_sha1": "3f7d5fd52236433c590ab4b4f24336a341c5b81b",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/VideoEncoding.swift": {
+      "bytes": 2031,
+      "sha256": "e2d1b0b09f324698a4ff12d28fa05d50069a0fa81917d29ef539f91e96218417",
+      "git_blob_sha1": "f4d82302afdab13008086c42902de8b24c9d9624",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/VideoFrame.swift": {
+      "bytes": 9738,
+      "sha256": "87c41774c067857172dc6b13c9eda5546431349a987e9368a6a2fc830e82cb25",
+      "git_blob_sha1": "577ef0d5f22fac6f3cf16f82eaeab65d0305f1e1",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/VideoParameters+Comparable.swift": {
+      "bytes": 910,
+      "sha256": "df53a399b52efb88b3b91f3789e654bf3ea48a30cafbae462e2c4bc9f66bf07d",
+      "git_blob_sha1": "4034388d2868102d6c59fda143508f98827e0fba",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/VideoParameters.swift": {
+      "bytes": 8507,
+      "sha256": "ea8069e56061f162a8aa19428907239293633cb6ac03069cde79d0a914650565",
+      "git_blob_sha1": "35f8f8cffe6e2f463258c692aeb0126ac8e09e5e",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/VideoQuality.swift": {
+      "bytes": 2061,
+      "sha256": "b4497a5e6080503090137112b6145c2a9d14a6cf84dec5f68983cff1127455a0",
+      "git_blob_sha1": "553fe7801e838030aacd6820de254a3ab87fe526",
+      "type": "file"
+    },
+    "Sources/LiveKit/Types/VideoRotation.swift": {
+      "bytes": 1001,
+      "sha256": "ce9ac61ad5dc1d6bfa8eba0902c19e5b30242956061985c07a497b5b3840b1e7",
+      "git_blob_sha1": "7da6a4f1e063dd5372d987c4f0b2521e4366cc66",
+      "type": "file"
+    },
+    "Sources/LiveKit/VideoProcessors/BackgroundBlurVideoProcessor.swift": {
+      "bytes": 7549,
+      "sha256": "6c7ac6fcd90afeb1b030ff5b6129f5d70e0241815819fbb4129df83d562031fe",
+      "git_blob_sha1": "de1311ecc3d5e32058e3630acecae75dabc61125",
+      "type": "file"
+    },
+    "Sources/LiveKit/Views/SampleBufferVideoRenderer.swift": {
+      "bytes": 9161,
+      "sha256": "638a2495cabd0682ed2f8ced2f229d31a16b66d4262cccddb8f6d71ea12e61b5",
+      "git_blob_sha1": "c09b16a7ea6233fa23183b8784a6e34fbe12fe67",
+      "type": "file"
+    },
+    "Sources/LiveKit/Views/VideoRendererBinder.swift": {
+      "bytes": 3486,
+      "sha256": "322ae2691b470e2b592143878b0a8b97c952bbca78c3cd9fa4eb6980e04436f1",
+      "git_blob_sha1": "e5b5651e1c753ea0329b56410ac4d8c2704be999",
+      "type": "file"
+    },
+    "Sources/LiveKit/Views/VideoView+MulticastDelegate.swift": {
+      "bytes": 1049,
+      "sha256": "61e677712bae5d82b87a458a11d470f9417e9ec8ae994308018ee34c3d3e3820",
+      "git_blob_sha1": "7010217343407763232459cd0a41ffee828ed2a9",
+      "type": "file"
+    },
+    "Sources/LiveKit/Views/VideoView+PinchToZoom.swift": {
+      "bytes": 4698,
+      "sha256": "721a8d78c76905ae55b4c7f6a0f1f5a8c3b66ef110b9cc8e6925fbad3f13be65",
+      "git_blob_sha1": "de1674b2278fc244eba0c6ba66d129a948c4b2f4",
+      "type": "file"
+    },
+    "Sources/LiveKit/Views/VideoView.swift": {
+      "bytes": 34583,
+      "sha256": "0cb5c12be2e2bc6b13fce371ed34d393833ff16fe9aa637c807c96d80c5e91d4",
+      "git_blob_sha1": "fe285901b024f1374069bbfe653e6cdc3d1e7dd3",
+      "type": "file"
+    },
+    "Sources/LiveKitNanopb/Nanopb.swift": {
+      "bytes": 14745,
+      "sha256": "a09a7bc5a96dac1185f392647be59a1727b9068acd1ac2d8bd4fd2a4319961f5",
+      "git_blob_sha1": "1d4746ab98912b5ff709b179adda0edf6640aae2",
+      "type": "file"
+    },
+    "Sources/LiveKitNanopb/NanopbAccessors.swift": {
+      "bytes": 13547,
+      "sha256": "24d69849d995deaee891df632e171b4acebbc5842ffe52851b56fc11bb7d41cc",
+      "git_blob_sha1": "36cbdd019f9bc488c9bfa2280d38b3e0a9c87e34",
+      "type": "file"
+    },
+    "Sources/LiveKitNanopb/NanopbWire.swift": {
+      "bytes": 3490,
+      "sha256": "5157b84e6854bb1da3395842181daaa2afe29d512d8066646f5ac3b97130f429",
+      "git_blob_sha1": "f7e7c0b17032b7285a96e4b605b23670a5174fa0",
+      "type": "file"
+    },
+    "Tests/LKTestHost/Audio.xctestplan": {
+      "bytes": 796,
+      "sha256": "b29b8f4f71c868f1a9cad70a2550f09151ec019b1a9c0ba95f7ad6eb5e542f36",
+      "git_blob_sha1": "008a737dc6685566d2e4ee0cf02ac3b3b68ad926",
+      "type": "file"
+    },
+    "Tests/LKTestHost/Core.xctestplan": {
+      "bytes": 795,
+      "sha256": "00baccf2aa28f89ddcbba3455e8cc752759df6d27ac30ee5ee81ed3631d5e347",
+      "git_blob_sha1": "62d89099378c3abbbf47327c134f322b43c54f50",
+      "type": "file"
+    },
+    "Tests/LKTestHost/LKTestHost.xcodeproj/project.pbxproj": {
+      "bytes": 28182,
+      "sha256": "d072b8c5fea2481cebccfa280756df04c092ec69dd0dad38e8a8248143c69217",
+      "git_blob_sha1": "d9d19b5279775e6759cc018719ba6e7cad86c40a",
+      "type": "file"
+    },
+    "Tests/LKTestHost/LKTestHost.xcodeproj/project.xcworkspace/contents.xcworkspacedata": {
+      "bytes": 135,
+      "sha256": "7f3b00b5c3fdb45242d7b87e1e5c4e25d1fa8129a16c94295ecc4e8ea2235c5f",
+      "git_blob_sha1": "919434a6254f0e9651f402737811be6634a03e9c",
+      "type": "file"
+    },
+    "Tests/LKTestHost/LKTestHost/Assets.xcassets/AccentColor.colorset/Contents.json": {
+      "bytes": 123,
+      "sha256": "9af65086fa30b49252fae1a1225731691de794f7775af74d71befeb507d12b7c",
+      "git_blob_sha1": "eb8789700816459c1e1480e0b34781d9fb78a1ca",
+      "type": "file"
+    },
+    "Tests/LKTestHost/LKTestHost/Assets.xcassets/AppIcon.appiconset/Contents.json": {
+      "bytes": 1429,
+      "sha256": "040294b5970a6d1d5b5a811e22086092954f6a1f503b38d0fae128bb02b4356a",
+      "git_blob_sha1": "ffdfe150be82b5a43726c1349762b6eefcadb81e",
+      "type": "file"
+    },
+    "Tests/LKTestHost/LKTestHost/Assets.xcassets/Contents.json": {
+      "bytes": 63,
+      "sha256": "0fd49ba3c3585c709678e0046a821c3c60685ec7063720d30d3a3448be3a208b",
+      "git_blob_sha1": "73c00596a7fca3f3d4bdd64053b69d86745f9e10",
+      "type": "file"
+    },
+    "Tests/LKTestHost/LKTestHost/Info.plist": {
+      "bytes": 286,
+      "sha256": "3d34577053979104887017ab46b0b8fa353def15abe071dbbd76c04fc63e7c69",
+      "git_blob_sha1": "515c9376fffac22e8206ff4d7937b059be69db73",
+      "type": "file"
+    },
+    "Tests/LKTestHost/LKTestHost/LKTestHost.entitlements": {
+      "bytes": 595,
+      "sha256": "5b9b6d5acad2f3cf5d7492ecf1d0bbd73f96a0b1f872a857418fda90232b2d5b",
+      "git_blob_sha1": "bdb71bd437919212050fc26f1671151f1a80a3d0",
+      "type": "file"
+    },
+    "Tests/LKTestHost/LKTestHost/LKTestHostApp.swift": {
+      "bytes": 993,
+      "sha256": "201bfec3e2a85bdd4c41c74ca69ecb7755036c6cc0ab0beeacd8d6f6e67d4a31",
+      "git_blob_sha1": "71827e39958d46993a18b1dbe2473e8bed50a739",
+      "type": "file"
+    },
+    "Tests/LKTestHost/README.md": {
+      "bytes": 891,
+      "sha256": "ea57258384f6691d52a90613462bb79bf0fe9702774a7d2347c3796f9669bb10",
+      "git_blob_sha1": "91a5a89a38b794620b24d4a27c8368676e3708d2",
+      "type": "file"
+    },
+    "Tests/LiveKitAudioTests/AudioEngineAvailability.swift": {
+      "bytes": 1759,
+      "sha256": "149cc51231179b2022ac5541e0c60e914f11b4c8c24150abd7e5238110d507e0",
+      "git_blob_sha1": "74b788a890728a31f8b82c4b51cae7d963410d73",
+      "type": "file"
+    },
+    "Tests/LiveKitAudioTests/AudioEngineObserver.swift": {
+      "bytes": 3043,
+      "sha256": "083695acbcf7904b1b43d369ffb0bb568dea636f04c8baf9a77c78089889ebd7",
+      "git_blob_sha1": "6b187767b66a5f042523e72bacf2f9aafc7f36ed",
+      "type": "file"
+    },
+    "Tests/LiveKitAudioTests/AudioEnginePermission.swift": {
+      "bytes": 2006,
+      "sha256": "7247e888457ed7e1e0b17bc846c80c145dc33e1a9c48d2152b05f9debc0810e2",
+      "git_blob_sha1": "f3eac14801be79b98ea9a801bdc6b65cc90e6105",
+      "type": "file"
+    },
+    "Tests/LiveKitAudioTests/AudioEngineTests.swift": {
+      "bytes": 16126,
+      "sha256": "37005268e06294fab90e8ff56c1b4dee65fc0e87813591fc8282f826903bbf5e",
+      "git_blob_sha1": "944ffc11b4c22c6a896521c386baf11b075b8b64",
+      "type": "file"
+    },
+    "Tests/LiveKitAudioTests/AudioManagerAdmResultTests.swift": {
+      "bytes": 2233,
+      "sha256": "781e0d3886a184dce013752a312e1827db934c60070c375c53873e52428d9a08",
+      "git_blob_sha1": "eeaca9373dbcac1565fd69c7c9033653eb7d01d5",
+      "type": "file"
+    },
+    "Tests/LiveKitAudioTests/AudioManagerTests.swift": {
+      "bytes": 5692,
+      "sha256": "528393e82d188084e48d9f6a52c97de58c4726dfa3680f54dc20c3d2bc9ce0c8",
+      "git_blob_sha1": "67c9f398ceed90272ad54b472045a2c0ba60a6cf",
+      "type": "file"
+    },
+    "Tests/LiveKitAudioTests/AudioProcessingLifecycle.swift": {
+      "bytes": 5272,
+      "sha256": "f0ef60f3703ee9db13d1822f69a5fb2f872bd0a76b5a9031848b08ff71deae4a",
+      "git_blob_sha1": "e1f850d2f28034fe79741ef23e2899a9e994bb3f",
+      "type": "file"
+    },
+    "Tests/LiveKitAudioTests/AudioProcessingTests.swift": {
+      "bytes": 4601,
+      "sha256": "3e8fc569997a46df63ca5402f85ee3d2d7d87759b234c9ba6ce5a0af85455b34",
+      "git_blob_sha1": "0ccada6ff26207132415d83cd02bd4d422a1e578",
+      "type": "file"
+    },
+    "Tests/LiveKitAudioTests/DeviceManager.swift": {
+      "bytes": 1274,
+      "sha256": "53a3fb59c6ac45bc5526523e32f7e1ae2d79ce577b095ee11fc0a5919854483f",
+      "git_blob_sha1": "4f74620989e7a9c8c9a4cbc52d45ca2b67fb0425",
+      "type": "file"
+    },
+    "Tests/LiveKitAudioTests/LocalAudioTrackRecorderTests.swift": {
+      "bytes": 4944,
+      "sha256": "d48deaf4edf64ddfff62d5ddddc9947caa1a51b31706111eda8da12f25aa2fe7",
+      "git_blob_sha1": "b196f3b532a770d53f3137a2b42d2c891bad2884",
+      "type": "file"
+    },
+    "Tests/LiveKitAudioTests/MicrophoneTransceiverReleaseTests.swift": {
+      "bytes": 4454,
+      "sha256": "78e05fc46a519f71fbaeb9bdb7e9be73ea626f57feb79e2c29dd57c71adbe957",
+      "git_blob_sha1": "bf8268c25986df9d422f4b9df3b09c4a099a2356",
+      "type": "file"
+    },
+    "Tests/LiveKitAudioTests/MuteTests.swift": {
+      "bytes": 6753,
+      "sha256": "64e8c059449427c927c9975d905fd339ee6fb8fe867d43b19ecf3cbaf1692eec",
+      "git_blob_sha1": "f93af52d502138b5e137fd6883bf42e85f14591f",
+      "type": "file"
+    },
+    "Tests/LiveKitAudioTests/PublishDeviceOptimization.swift": {
+      "bytes": 3090,
+      "sha256": "6029ac1dfc534dc09cbfa35e40a7bc9564677aca290252b13815090eeeafd19c",
+      "git_blob_sha1": "8544279c29129f7546a94e36b23cc31665031fed",
+      "type": "file"
+    },
+    "Tests/LiveKitAudioTests/PublishMicrophoneTests.swift": {
+      "bytes": 4073,
+      "sha256": "1906d6fee916dd55580ab5a1e39fd90a29a4d4df71aed753a32760b5d093d1e2",
+      "git_blob_sha1": "f89f5a80010f3dc759f1e27ca0603bd35b217ad3",
+      "type": "file"
+    },
+    "Tests/LiveKitAudioTests/SinWaveSourceNode.swift": {
+      "bytes": 2417,
+      "sha256": "cbf183144802e30981fd44d0b41944f89879141bed586f3eb79144978790777a",
+      "git_blob_sha1": "99e9e9d394502593fa03dd32f3b3da06b1f6fd90",
+      "type": "file"
+    },
+    "Tests/LiveKitAudioTests/Tags.swift": {
+      "bytes": 812,
+      "sha256": "89d2f3af43e85fc71ebba0b6a6cc081909f8d16062c1b01f4d860f89899ea556",
+      "git_blob_sha1": "5978f72bb3f0b6182aef793fb460c5b5b85f2efd",
+      "type": "file"
+    },
+    "Tests/LiveKitAudioTests/TestAudioRecorder.swift": {
+      "bytes": 2089,
+      "sha256": "d0bed257bc2476e78d857707fb0eeaa19fb627bcd701330ec8d01e5550364f6d",
+      "git_blob_sha1": "13dfdb9f11407b2e0ac049587d88fa587567482b",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/AVFoundation/AVAudioPCMBufferTests.swift": {
+      "bytes": 8351,
+      "sha256": "26eeb486f8080063cdb5dca8145e822137065fa9342d6d49d6e39e647477b20a",
+      "git_blob_sha1": "7ed5cea343c77d0d0f9b917398d220278c100ced",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/AVFoundation/AVAudioPCMRingBufferTests.swift": {
+      "bytes": 5022,
+      "sha256": "cce3caa5f8dcc5af26c386e80a799a204e4841f415f34e2b756cc7434362f5e0",
+      "git_blob_sha1": "bec95e9e52121587b6e4a2486a8b926d94801f9c",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/AVFoundation/AudioConverterTests.swift": {
+      "bytes": 3425,
+      "sha256": "eff7356eeec726c14084a22e6a0c002878c3c1dff74935c1f33a7f4bf2bfca14",
+      "git_blob_sha1": "80c31e6217fd12a9fa5a83a315f42a64a72bca0c",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/AVFoundation/AudioMixRecorderTests.swift": {
+      "bytes": 6015,
+      "sha256": "1f31a8c80130686a3c3c4044afefc20430b66891a572fbbca3814e803e8e9bed",
+      "git_blob_sha1": "420600e21e82a334aff9a64da21d2ae69b28d120",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/AdaptiveStreamPixelDensityTests.swift": {
+      "bytes": 2145,
+      "sha256": "75a050dd35fc4ec35904d5b127f8f46f1e57191859dbf9272d1f7b1aedcb93e8",
+      "git_blob_sha1": "6757058c18504ca41bf9c3261a6c42280e15ed70",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Agent/SessionOptionsTests.swift": {
+      "bytes": 2488,
+      "sha256": "8e87c09542bc116a91f2a0a27f78336dac048eb8b96529af6c89c5552d6acd13",
+      "git_blob_sha1": "a1ce2c2e927e4e330201ff2ab7e795b213c2a696",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Agent/TranscriptionTests.swift": {
+      "bytes": 12327,
+      "sha256": "8fa0bf13710158e2f215c1ba57d0f913dc8c607400fed88c2003a0c7e18366f0",
+      "git_blob_sha1": "eebe901133e84e78a29a3c395ca5e7c35bae1dda",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/AsyncCompleter+Test.swift": {
+      "bytes": 1554,
+      "sha256": "b7cbd998312a4dac4c84c929292e530077c6c2c89e3ac4c23c537dade897a9cc",
+      "git_blob_sha1": "be36d49901b7f86f2ab3e2dfd27d9f06abd66ee6",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/AsyncFileStreamTests.swift": {
+      "bytes": 2303,
+      "sha256": "19909c9921d5b7abc6216c37e7c79c8c61d235b5abcb779396c93b1def976bd0",
+      "git_blob_sha1": "4400685aaad2725f1e398c8f467b3d5c0b6679ec",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/AsyncSerialDelegateTests.swift": {
+      "bytes": 3363,
+      "sha256": "da5682e8fd0e7fb077d0d82bc9ce212513e6a1aeb10692f889c2f59f3366d089",
+      "git_blob_sha1": "b1a3ebd645037efbbc2cc6d970b1f08f1b2cfe04",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/AsyncTimerTests.swift": {
+      "bytes": 12346,
+      "sha256": "98b6d59cd97567a90f1e49d78d8acbda8f5d125e359f76cb9ee994acbcfc2329",
+      "git_blob_sha1": "dbc5d51ece0b43be5dfc3cbde33812926ce5c98d",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/AudioProcessingOptionsTests.swift": {
+      "bytes": 5034,
+      "sha256": "a25790eada819f7451488f6e3e9078195b7d274865f0c5487ff3ea4abaa75921",
+      "git_blob_sha1": "df31a954dd91e4f184f1d798057fb1b17416441e",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/AudioSessionCategorySelectionTests.swift": {
+      "bytes": 5542,
+      "sha256": "b76e46026e01790bb4890d788014fb7e6fbb3c66da6f75051ad2163af40858c1",
+      "git_blob_sha1": "a5a5d65e245e6a359bdc58a5064c5f9966cda451",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Broadcast/BroadcastAudioCodecTests.swift": {
+      "bytes": 5152,
+      "sha256": "25e14b57c431a8f40d2255b45a00dffe2f42f04051c5108d56c9945cda14ccbf",
+      "git_blob_sha1": "c301ec99cba1a53fe1d45b920d74e19cdb811674",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Broadcast/BroadcastImageCodecTests.swift": {
+      "bytes": 2360,
+      "sha256": "db65c3f7d5c36f41f3839ee8535b5d125e1cfddd79f0c6460916feb11b33b5a7",
+      "git_blob_sha1": "e0bb1f1b01032d212892e27b1cb7b6d8754bfe8d",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Broadcast/BroadcastScreenCapturerTests.swift": {
+      "bytes": 6180,
+      "sha256": "115fec06183dc70f3626316ff8fbd23e877b4735f37b8b31ccbcd44524252b6d",
+      "git_blob_sha1": "6cf72914bac2f6368b583f8695f102e998a3cbe7",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Broadcast/IPCChannelTests.swift": {
+      "bytes": 6706,
+      "sha256": "70f765983ae0e7018a9258fa6a71e505f7b59fa036daa31f59e340c63739cc4f",
+      "git_blob_sha1": "5038f2ab3b39524cd6777829866b36d7b76c1b40",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Broadcast/ScreenShareCaptureRoutingTests.swift": {
+      "bytes": 1728,
+      "sha256": "4cb0209195f08b45bbb574020f89d6fa3eb84fd3c6d45d71df506273ac07bb7e",
+      "git_blob_sha1": "6710c7ee3d8d75f8cd6636eef166cbdb65f240ef",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Broadcast/SocketPathTests.swift": {
+      "bytes": 1097,
+      "sha256": "57df263d5bb6c89ad4030f4c12a08b50c0de2bd16a098b9adbb679b11845780e",
+      "git_blob_sha1": "1aba23213fe23989f943830a5b4375ea27146603",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/BroadcastManagerTests.swift": {
+      "bytes": 2446,
+      "sha256": "e3e5ca13e924c9b8f2e7d2b8b85d853b4108ff60d5e763194a720eb07bb631c4",
+      "git_blob_sha1": "cffbe2d9ab9b50df6a49f4a47fd799bb35075aa5",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/CodecTests.swift": {
+      "bytes": 4751,
+      "sha256": "0ca6a9c840ae4a27922067b36e62e5525727d3beb890f14ede592121f50e088e",
+      "git_blob_sha1": "d05621d1092cc6a7dddc8a71d148b787106994c6",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/CompleterTests.swift": {
+      "bytes": 11714,
+      "sha256": "f1f20c76cbaec64408db38c6dea53fa07845b012f07500b2465b28fb7f2583bb",
+      "git_blob_sha1": "47cf37a7eb5cb5f21e49ed7a0dd4e8ef0264ee6e",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/ConnectionParamsTests.swift": {
+      "bytes": 2909,
+      "sha256": "860a375f550c735031a4599f90c0548847d12c79c5690b6a092389e603fd5d0d",
+      "git_blob_sha1": "629919706394d68718dd52f3a53dc5b9f200472a",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/CooperativePoolBlockingTests.swift": {
+      "bytes": 14871,
+      "sha256": "ee3020fd378cb5b01f69acfde068275a97b836f277145ac96721aa9876cef8f4",
+      "git_blob_sha1": "fe7398cdc2ee09f278f8ca659ad15ddcc14d18c0",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DarwinNotificationCenterTests.swift": {
+      "bytes": 1672,
+      "sha256": "4e5c9f3f9000a99c1366e78ed41b6cee090b82159dd4bb4a3803912e4678a4c8",
+      "git_blob_sha1": "45af1c52bc3f0635ea2e6598cdee1baf75e9eb90",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataChannel/BufferedAmountMeterTests.swift": {
+      "bytes": 3069,
+      "sha256": "badebd98a81f84b66fd5042a623705e4919b9b48dd46095430866a6c379a4be0",
+      "git_blob_sha1": "4f0fa71f9a482c552584e7444a2cf7ea03badab1",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataChannel/DataChannelDrainTests.swift": {
+      "bytes": 25887,
+      "sha256": "8703a244b8e7eb56d207a0360108cdb403975b1a88c0fad920a48913796c461c",
+      "git_blob_sha1": "97224fbbf2063a7ec19e916f3bd845bd3021eac8",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataChannel/DataChannelPairTests.swift": {
+      "bytes": 8886,
+      "sha256": "0e24d2428c1e8253c3bcdab503606f9f1d25450a06133d37bb035e79caf8561b",
+      "git_blob_sha1": "4cb5009aad77c348f6e8602b482b7586ff0b9665",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataChannel/EncryptedDataChannelTests.swift": {
+      "bytes": 18282,
+      "sha256": "138f76d55d04c04756ad0310dc52a322cf6edc8b1cf7b77b3501214480d120c0",
+      "git_blob_sha1": "2733c690b5cef7e84a282efe7232f993cf2b722f",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataChannel/FullReconnectDataTests.swift": {
+      "bytes": 4183,
+      "sha256": "1c8341c6e9cb779283c6aa62e45f10016f9042aed61e6e94606f87f4b924e907",
+      "git_blob_sha1": "893c35b0ad0d061e593376e817e36be7c1188b63",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataChannel/RealiableDataChannelTests.swift": {
+      "bytes": 12628,
+      "sha256": "e3b2910d4f041afefde08e646fc4443fdc6ecbd423ad080281d8c5e00b367f32",
+      "git_blob_sha1": "11dbc06e01bd2beafcfac83a72ecf44f08c94338",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataChannel/ReliableStageTests.swift": {
+      "bytes": 4830,
+      "sha256": "d1b7e6a14dbfd4f337857d5b059918c3f8223e387453eec380c734638d389482",
+      "git_blob_sha1": "4faaa6af3cac00419c55955bd98c6e1a8b459883",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataChannel/SendTokenTests.swift": {
+      "bytes": 2209,
+      "sha256": "4f71a8fde9f940193b099998077f4bdd40a1673cc219cc469b2097c290b8f409",
+      "git_blob_sha1": "9e26eabf1e1ace5d758d3a8637f1b6f1eb1c7afd",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataStream/ByteStreamReaderCancellationTests.swift": {
+      "bytes": 8342,
+      "sha256": "45f524ce100b7e416e858b2afb657e1da8e537c96e0e221e9a409f5ad43afe99",
+      "git_blob_sha1": "2433b60ab9415c487f2dd85f5b0e7dd645d882aa",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataStream/ByteStreamReaderTests.swift": {
+      "bytes": 11907,
+      "sha256": "49e277d3c5fa534f9746f4fa5612c6d409a9cdd0117660fb015b959c1429862b",
+      "git_blob_sha1": "33b20e836e85d8a868e0c47b80c1b5cc30c8d2c4",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataStream/DataStreamLoopbackTests.swift": {
+      "bytes": 12055,
+      "sha256": "76dac7a3f251ce444f68f2861693033d27e616231ace46727b37b7e922f21f2d",
+      "git_blob_sha1": "27b05c7a6b15da8fb19c75d4117fd4c025f517d2",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataStream/DataStreamPacketRecorder.swift": {
+      "bytes": 2326,
+      "sha256": "4afa61697f3beb2feb799cbbca8ec9c7aa68fce9c070a2891964215755cf5149",
+      "git_blob_sha1": "cf8915b2ef5b9dccf14f10fea3c1f5b6dca90c7b",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataStream/DataStreamTests.swift": {
+      "bytes": 12638,
+      "sha256": "8d442e21ec183cdb0ef109d071d2bcae2351d041be7b8d72dcbed88d5fae5989",
+      "git_blob_sha1": "47a865cc800abd5961c0cc2395f5edcd34dd7254",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataStream/FileInfoTests.swift": {
+      "bytes": 2084,
+      "sha256": "66df1b72b08626bfc70757b0b1c5a0a2d68b9f7f991e331c4c8820cc6c7e7a58",
+      "git_blob_sha1": "f4f2565514763d7a9992e276f99fa52f0dfd722c",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataStream/IncomingStreamManagerTests.swift": {
+      "bytes": 15295,
+      "sha256": "a1fc41c08b482fdd21b6be803e163637965456a60debc140612b12c9b4dc31d7",
+      "git_blob_sha1": "16d2f2245b9db801805a230f854ad480dd75ce95",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataStream/IncomingStreamV2Tests.swift": {
+      "bytes": 15308,
+      "sha256": "be00385115e82706c12810cc8660c88c853a6476fbc0b62479aa95255adeb1c9",
+      "git_blob_sha1": "803dc6ffec9871d76daea217abe9430013b15376",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataStream/LocalParticipantAttachmentTests.swift": {
+      "bytes": 8183,
+      "sha256": "79fe978a35c320eb57a47557cb3391d7bc464c72c013ef603f37cfa9b9cbb9dc",
+      "git_blob_sha1": "dd52bd0e9a72d12d64273a40d091a0c1ca77cca0",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataStream/LocalParticipantDataStreamTests.swift": {
+      "bytes": 14040,
+      "sha256": "bffe3050a35a5fa8ea45df62bfef79ac3063686f3a3a7b911be04cff9f011467",
+      "git_blob_sha1": "e398fecf71657205d4103d97dfb1c651f9f1ce9c",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataStream/OrderedTextStreamTests.swift": {
+      "bytes": 12245,
+      "sha256": "fd4614e5c8acaaed86e6363f4256fe59ab7d5615fafd3b254b708276fa5025b2",
+      "git_blob_sha1": "44f4d94354997f14a003db9663ed95e741026159",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataStream/OutgoingDeliveryTests.swift": {
+      "bytes": 7009,
+      "sha256": "48a2a36004e56460bd0e398b15ebfaacf53c0bc114d05a408eb0fb2f540d8e78",
+      "git_blob_sha1": "224fdb409f8e4e165f128ab8906edd4973e65811",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataStream/OutgoingStreamManagerTests.swift": {
+      "bytes": 12805,
+      "sha256": "8ed3355c2cbb422d14e498e87e53e58b2e764a9f102abb5b253120c96b7e73b1",
+      "git_blob_sha1": "09bd29f970c2e956f3abf5e40162e77d0a1daa01",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataStream/StreamInfoBridgeTests.swift": {
+      "bytes": 9615,
+      "sha256": "9d8d67bb609fb6c0a8b41c5458f3fbcf116daa9cee03c13ac9f1834e81c8b2d6",
+      "git_blob_sha1": "c1d0b0910a9794c1bb78f61091d83c50f880625e",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataStream/StreamOptionsTests.swift": {
+      "bytes": 3907,
+      "sha256": "b70741fda4c0403e1c6ec437c480105649392fc3ad1ab8b3643016fc89b5267e",
+      "git_blob_sha1": "607e2cd559786645fb98955e4a22d83ed10b910c",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataStream/StreamReaderAccountingTests.swift": {
+      "bytes": 8053,
+      "sha256": "2bc19a79f223d62141259de7528e5e261b5de341f6f5a66ae021af47ea7330f1",
+      "git_blob_sha1": "e5998385d855745808fa82e7e4b535a3acbcb757",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataStream/TextStreamReaderTests.swift": {
+      "bytes": 5779,
+      "sha256": "c1d2ae05c37b7798cc3e043e4a69bf4a3b50da94d39199accd7a0307ba590b1d",
+      "git_blob_sha1": "7f47bbc3b96ce7e312855a67c020bc7b8be8016a",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataTrack/DataTrackApiTests.swift": {
+      "bytes": 8591,
+      "sha256": "445d88638b28eaa118af75426efc27957e63c531e138e168122f3fdb5ae71230",
+      "git_blob_sha1": "bc25be1954ece53ad67c2136db6a0e05e592e2fc",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataTrack/DataTrackDelegateTests.swift": {
+      "bytes": 6072,
+      "sha256": "5ba1db1919e3f8aa02dce876f4c040c4a10814062e69e3706c5228dbdd4e8c38",
+      "git_blob_sha1": "cf3c7d79896bc728b054428222c4a499827811c9",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataTrack/DataTrackLifecycleTests.swift": {
+      "bytes": 13706,
+      "sha256": "18574b02e0bef83900e809e6ecdb90d3b38a0df5173b049b950df85d62ac0f67",
+      "git_blob_sha1": "ec14418bef1589a67d2b270b1967f18b3f26e2fd",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataTrack/DataTrackPublishTests.swift": {
+      "bytes": 9079,
+      "sha256": "dd05911618256f58989b33fdfdb908da97919c6f8d237f6bc5ffcfc90cc2ace4",
+      "git_blob_sha1": "e3f6be8d0fd68c9f25b5e056faec78d887a7a20c",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataTrack/DataTrackReader.swift": {
+      "bytes": 5336,
+      "sha256": "18a5960169b47e5d243e5a844ed04f5ace2217e90f10e63f540f84323c14df08",
+      "git_blob_sha1": "70d16b0617a602fe67e250a2400f34c78e3fa0a0",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataTrack/DataTrackSendTests.swift": {
+      "bytes": 4609,
+      "sha256": "889e610f46c9e8a7c213493ca72718339099254b552768d3af08e4b1b13714ea",
+      "git_blob_sha1": "01f3ad8adbb8df746424daf08cc9c4141cc19121",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataTrack/DataTrackStressTests.swift": {
+      "bytes": 9175,
+      "sha256": "157b51c79eaa88872bd2f2e2626ca09c044d25758cf1ed6a6b9053f308fe7383",
+      "git_blob_sha1": "63dc933a63fecd015b14f00d45533f74c2ad3602",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DataTrack/DataTrackTests.swift": {
+      "bytes": 9142,
+      "sha256": "44b9a24e8eafa85ba4bb0cdae3285b233177744abbaaa9121d9d84c0efba7371",
+      "git_blob_sha1": "3918fd006f08b3622f920bb02cf9c3c03be326d8",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/DegradationPreferenceTests.swift": {
+      "bytes": 1869,
+      "sha256": "8f01faaad826bf342887d7d7a782dca741f1239d393ce5121739abc8186aa287",
+      "git_blob_sha1": "364e897274abebaa32d05836ca95ff92b67e855b",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/E2EE/FrameCryptorKeyIndexTests.swift": {
+      "bytes": 14115,
+      "sha256": "949e80426a7e0596fbfcd3d83f7f49d9e72f94074c86bc4fc78b3da07640b2c0",
+      "git_blob_sha1": "31a42d33456f234615cfe51be5416f1609bcacd7",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/E2EE/KeyProvider.swift": {
+      "bytes": 4302,
+      "sha256": "b8e04f9163765004119b9787f3cf84907d931fe0aaffb01c6e8bc995aaf75782",
+      "git_blob_sha1": "2b015b9bbe8d95bd059ab75e2434450b85e1dbfa",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/E2EE/Thread.swift": {
+      "bytes": 2916,
+      "sha256": "7287df50432ecb74d14466a73a7e294d11a1cd09a03ad8a9949450ce1fa9ea2e",
+      "git_blob_sha1": "2e1ddf7a1c0039aea0d333e190d0648fd5f22139",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Extensions/StringTests.swift": {
+      "bytes": 1722,
+      "sha256": "f568552f05350660ff7914b531b7d2f04499f8e1807ba19c3831cea0c2c7e821",
+      "git_blob_sha1": "ceebb808f99992b1f888560665d15145b2649031",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/FunctionTests.swift": {
+      "bytes": 2050,
+      "sha256": "ec8a2d28e0ce70ae86c0c6d6152c35d66399de7ab5eb3bcf1561159f913b0969",
+      "git_blob_sha1": "571f56456cc38479ea587283f64845f324288f47",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/GzipTestSupport.swift": {
+      "bytes": 2628,
+      "sha256": "99bb44023b367429bd285ab7cd1e5ee0d8a1e764b031e491d6bcacf08da940fb",
+      "git_blob_sha1": "d6c22619bc9893c65b2cb663d864faa3ea44bc44",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/JoinRequestUrlTests.swift": {
+      "bytes": 5440,
+      "sha256": "7f05a5e93069df8fe3c60d7d607e6caa0b41ee18785d9c026e8a8d5db7eaf05f",
+      "git_blob_sha1": "14b27a1dc16b1264efb942b284d3f810919308eb",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/MockDataChannelPair.swift": {
+      "bytes": 1795,
+      "sha256": "c23c978245cb3805540d767ddcf1edad780e8064f75e070cf0ae450a1628cb64",
+      "git_blob_sha1": "887922060845860a0ebb117dfc4a1d0e5e426305",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/ObjCHelpersTests.swift": {
+      "bytes": 810,
+      "sha256": "02d52855fc976bc4514284fbbfa2694dd4c4d76ae9f087ed8a700d2133fdab63",
+      "git_blob_sha1": "f3647f70fab8ddaf4eaad62f7407564defb52af7",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/OfferWithJoinGateTests.swift": {
+      "bytes": 7074,
+      "sha256": "7fc6ce945cfa5394da422e1948b21d1a5de3405e8e65aa25607e5a15bac0ae4b",
+      "git_blob_sha1": "f668cff7e6676f869368b813217df6db48199e48",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/OfferWithJoinTests.swift": {
+      "bytes": 10781,
+      "sha256": "9545e40b5cf696d1933266d888f325e38c25b6bc5cb05df3892d28fc63be797c",
+      "git_blob_sha1": "f4e7166b74332b019f74e80f5ec1ad9209d021b7",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Participant/RemoteParticipantTests.swift": {
+      "bytes": 5508,
+      "sha256": "185c6ca23658814d88c2a08fb4bcf04260e3500942cc2194d06f100dc455f3fd",
+      "git_blob_sha1": "1393c516d28bdbd623e172e28be0d5815a350b94",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/ParticipantTests.swift": {
+      "bytes": 4012,
+      "sha256": "cabf96bb422445e0bb5e8cb7244cd2c46f367551e452e331815b3bc693cc8646",
+      "git_blob_sha1": "67e772a2c98ee8489320045b194b27cd37efc2f3",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/PeerConnectionSignalingTests.swift": {
+      "bytes": 21402,
+      "sha256": "fbe4b2135633d324f721203b95e18281e34bf8aa065a1faf12a547a1c1d493ab",
+      "git_blob_sha1": "7cde662004882542dc731bb3e308e63cdbe35fe2",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Proto/ProtoConverterTests.swift": {
+      "bytes": 7962,
+      "sha256": "1de9c8afe7e484544011845e5610a1d9ddef986909c86a2810ac1838303c1fdc",
+      "git_blob_sha1": "c8d4871906eb7a32b34bca9c00cd7e6d9dec0446",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/PublishBufferCapturerTests.swift": {
+      "bytes": 3236,
+      "sha256": "45cf730d4b9b566721a50942ccd981ed6745f591c4b9316b0b3b686fc061ebdb",
+      "git_blob_sha1": "08824d93e602846bf854f77b24a2ab7ff8c1a846",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/PublishDataTests.swift": {
+      "bytes": 3562,
+      "sha256": "427e0a93bfdfcc578e8a20cc96fd3194b627f0ba5ad75e69aacea76326dacabb",
+      "git_blob_sha1": "07f042282b00524488e350ffd4b7bcd870142df9",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/PublishTrackTests.swift": {
+      "bytes": 2828,
+      "sha256": "a022e63f0cb41fa031af6ebaeb41f8ad409b46dbc8a826c5773cd1a54c09b6da",
+      "git_blob_sha1": "776a4143839434eec8677c854e223deca69ddc74",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/QueueActorTests.swift": {
+      "bytes": 1216,
+      "sha256": "47d2e431091d16f1278d6ba87613731f0df9068ed42bb528d9cf2a447d51f47e",
+      "git_blob_sha1": "517b0d1e0dc980a455454da96cf2142373224529",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/RegionManagerTests.swift": {
+      "bytes": 14116,
+      "sha256": "fe782ec0bb728128966b34350716a382432a9309d6d84212c564873431a2cceb",
+      "git_blob_sha1": "a95479ccfdc1059c823c66af88448056814ef69d",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Room/DependencyStageTests.swift": {
+      "bytes": 4996,
+      "sha256": "3df2623a81d9df468ede0a04ada3b28ad739d027f9ea50c12afb45546458da49",
+      "git_blob_sha1": "e70ad8cce2bd5742a8b66bd69bf0268a09ce7ce4",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Room/FailedFullReconnectTests.swift": {
+      "bytes": 3631,
+      "sha256": "8cf4eb4a50f04e4ff9c9b4ef1663dec95f5194f7d76914d3a2931d61510e08cf",
+      "git_blob_sha1": "cd9f79a4feb8ea22cd5a6b79cdf03f4e72ae230c",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Room/PreConnectAudioBufferTests.swift": {
+      "bytes": 9078,
+      "sha256": "35ec5f739c43d25f2be213154bc6ea6e41810f266e2565a41b3a0ac890622766",
+      "git_blob_sha1": "f7190b57531f074e35edcbfd917957b46ea87621",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Room/RepublishTracksTests.swift": {
+      "bytes": 6043,
+      "sha256": "2d78242fd603c542d48236ef09a3c4996d48dc378f36373183c703342cbe4e09",
+      "git_blob_sha1": "2c923af3b1f0feb4fcf493c820b8f0a95267052b",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Room/RoomStateTests.swift": {
+      "bytes": 4752,
+      "sha256": "8cfaf7b150533487fb6417e971614f770173e85edd4eaf0203388534fcda0c79",
+      "git_blob_sha1": "92176a90554337fb0b54caab347c7ba6f227e217",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Room/RoomTests.swift": {
+      "bytes": 9768,
+      "sha256": "014fc22c88c6753547f824c7a9b2786fe842553f971150fed7be328d5d7063df",
+      "git_blob_sha1": "9af6e0cf978e9b30c7d1e536b9499f166c83329b",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Room/TransceiverReleaseTests.swift": {
+      "bytes": 11838,
+      "sha256": "fd11444eb5a8b865265c4f9c04e7ee4ee137f313f7b7996d0c4b674a8581beba",
+      "git_blob_sha1": "f31bc7334c11d86df5f407254c2a81501f3e506e",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/RpcClientServerTests.swift": {
+      "bytes": 63202,
+      "sha256": "f94f8fe10c77151d8916ea2abbc09c7f2b842301ed1be6331e0b0ad3a64614fa",
+      "git_blob_sha1": "1f169a015941725ffb4169527617193c64208bc9",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/RpcTests.swift": {
+      "bytes": 10583,
+      "sha256": "ee8704a8330f7ada47c7e06273c3ce278d42c082d28bbc86aac6f83d1762595b",
+      "git_blob_sha1": "b9d3b0c00896793445fac35f0a3c9fa1e274128e",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/RustTransportTests.swift": {
+      "bytes": 13685,
+      "sha256": "2ca28a2bcc2fdbbf5cb8c8d500e7628c54a6a7909403e6f0db7fe2d13e3658cf",
+      "git_blob_sha1": "fe4d6b52b209a5d56d3e8a1603917a543b0d6184",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/SDKTests.swift": {
+      "bytes": 834,
+      "sha256": "7ac6d0e2e26470fb24dd146166ef1aa0304bb1d1b02fac44e94fa3d7a04a5f1a",
+      "git_blob_sha1": "052035d0e3949913440d140d6dc24679998a1b20",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/SDP/OpusStereoSdpTests.swift": {
+      "bytes": 9766,
+      "sha256": "9103def188d3876e27d568e8bbc0d5e10d0c5c6fd38d6f40d256abd31bf7ac74",
+      "git_blob_sha1": "1c03b0c0897af9dd2eb1be911bef17bc7c45b1a2",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/SDP/SDPFixture.swift": {
+      "bytes": 5560,
+      "sha256": "d9ece50adb602e20290fa736f14d91e8156181ecffa48d5685079abaef912e17",
+      "git_blob_sha1": "33d480f2e63daf6ac76c112c3e8ff00b2d0a4537",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/SDP/SDPTests.swift": {
+      "bytes": 15216,
+      "sha256": "1c4d15042e41bf57f9ab8a8e7c9afe12f664084fcb0361768c4b982ca8404af7",
+      "git_blob_sha1": "b22c259c65cc9bd597a5620f22a09f7999148bcb",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/SDP/TransportMungeFallbackTests.swift": {
+      "bytes": 11000,
+      "sha256": "5c6e47a9a989afabe6d4825c62bc8dc1325ad237f23c7cca0df43f3b46f7c9a2",
+      "git_blob_sha1": "963474a52c13fe7efee495ebbc870f18c1948a7e",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/SDP/TransportSDPMungeTests.swift": {
+      "bytes": 13656,
+      "sha256": "abb65515f7c53d50ea8a7927afe494e6ec2a6b16ed4b10126e2316ef06818b36",
+      "git_blob_sha1": "ec1add56d10170e1c9b0a483b78d97761cd4e58a",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/SDPMungingTests.swift": {
+      "bytes": 3583,
+      "sha256": "5dbccef20ddb060ea598374b4959c34ee0bbc91f26360d90ba20cfcb35689a8e",
+      "git_blob_sha1": "57e2e1ed95a8b2d30d6504f327940d225c2abc97",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/SerialRunnerActor.swift": {
+      "bytes": 5069,
+      "sha256": "24db05bd718f47660d5c65e413bbe0d759a67d6113d3cc53d47b14e5f128e25c",
+      "git_blob_sha1": "336eb7e93feb615d05867d9125fcb91733dda911",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/SignalClientTests.swift": {
+      "bytes": 1984,
+      "sha256": "d8dc5929e0615dc962a3eb9efe184ad42328a227eb1da1cd09ac4bdc55d9b58e",
+      "git_blob_sha1": "ff63aa0d555f70d1bf66adbb47502c8a44be5637",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/SimulcastPresetsTests.swift": {
+      "bytes": 6389,
+      "sha256": "77d2cf103ec5d0fd212195dc4d4e8ade8c43149c3c5c50c7123c6978f4159add",
+      "git_blob_sha1": "a6efde84aebdecc25f5d38e9fe49cd92abfe247b",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Specs/SpecCase.swift": {
+      "bytes": 1798,
+      "sha256": "3ffbfcaf6277424ae0a719711b8eb14600caf4273ec4ec9eff150a5ed026bb7f",
+      "git_blob_sha1": "855009048fd2ad03b66a3bb6ba187c67d91a2b96",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/SubscribedQualityMergeTests.swift": {
+      "bytes": 2799,
+      "sha256": "d43df87f180a09f129676965ac3e6f29f4347d36173f52b47b09a2efa91c51f7",
+      "git_blob_sha1": "8a1e485d8dca9f24a4f4b826d9183778d2cecd42",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/TTLDictionaryTests.swift": {
+      "bytes": 1777,
+      "sha256": "c32be014dd6b1ecc10a0dbe990813a30f53916f9231de420b9807af64a943f4d",
+      "git_blob_sha1": "fb69f85d5a97027737e14e02ad695b8e1ecf17e8",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Tags.swift": {
+      "bytes": 2778,
+      "sha256": "46855e9437bcd466b3fde3130a10480b325de6d48cb2f31ab3426a8f34c585c3",
+      "git_blob_sha1": "297599c40868ef103ea9dc0091aac61978d0147c",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/TaskObserveTests.swift": {
+      "bytes": 5445,
+      "sha256": "cb96d7cd9d05e43aa2c68cbb108d7382b9307833ef8fd108f773cce7b6c4042b",
+      "git_blob_sha1": "a37d5b76184b96b9fc4af61760478b5af23a7fbf",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/ThreadSafetyTests.swift": {
+      "bytes": 2040,
+      "sha256": "023f53b97f8ec052bd1279ab9279e46e9d814b85415be85558c25301da651bc1",
+      "git_blob_sha1": "24484f5db5342a5d8eca06d084813b569fd477b1",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/TimeIntervalTests.swift": {
+      "bytes": 5280,
+      "sha256": "9b70c9185ebb10875f21ceb5929d76fc454a0d07a8bdba6c849c40be3060b754",
+      "git_blob_sha1": "a1f419fd99ddb254376822ffaab765c49fcdea7d",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Token/TokenSourceTests.swift": {
+      "bytes": 10888,
+      "sha256": "04cc1db3ac1123f9b3c5094d71e91cef88bee060bc4fbba51f2e3d380c13e6bd",
+      "git_blob_sha1": "466901eeb5e34764647be41c001dc6b5fd8ad35b",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/Track/TrackTests.swift": {
+      "bytes": 2747,
+      "sha256": "e6fa0f08dc79f49e9eb6f99f7f64b61d85ad253dd5b63f7333b5c446827d09e5",
+      "git_blob_sha1": "5da65dd88c73c0635daf16e02b70fbdceb939263",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/TransportCloseTests.swift": {
+      "bytes": 2709,
+      "sha256": "7ab7352a07e8719de2b04804b5d31980954930227df242197354b26431e28f71",
+      "git_blob_sha1": "12aa41046580bf28709b8cade7a76daf77685cf2",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/VideoEncoderFactoryTests.swift": {
+      "bytes": 12320,
+      "sha256": "033af1e2852c99e671acf55ce77d5619f20e2e1d3ee6f901ab2caae817ff6fbc",
+      "git_blob_sha1": "42b7909f5512a19fc466038942c1e4c9f03dcec1",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/VideoEncodingsTests.swift": {
+      "bytes": 3058,
+      "sha256": "5945aa7479f884638d90741f8835dbc566b12339f033264901a2a9538ad793c2",
+      "git_blob_sha1": "fb432c1c0a6ba5a50e652df0c46cb0da2969871d",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/VideoRendererBinderTests.swift": {
+      "bytes": 8807,
+      "sha256": "a4ec0cc09f3c2d2d720ce76bb53d68c43268637e25a2c3606749fb2edb190dfe",
+      "git_blob_sha1": "850df49a5cda7c75716d9f3433777fb3e3cb1b89",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/VideoViewBindingTests.swift": {
+      "bytes": 5942,
+      "sha256": "fb794fa646d034137cdffb4d9f219f8639e13ff995b69bbb8a3c3ccfef1d100e",
+      "git_blob_sha1": "d2aba18691dcd977389cc8c32470a16baa9e097f",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/WARPTests.swift": {
+      "bytes": 2111,
+      "sha256": "2f6b4c80762737863185c60dbc01ec726ce3b270d3ac18cddc6469f39f927472",
+      "git_blob_sha1": "4a726469baea81af6dfc42c004e242cde8792719",
+      "type": "file"
+    },
+    "Tests/LiveKitCoreTests/WebSocket/WebSocketTests.swift": {
+      "bytes": 5766,
+      "sha256": "29275312ffc6e86d748550856474bd72006ee297e0bb33ee678bea00b6faeea1",
+      "git_blob_sha1": "0a7be9506cc1b74272649e2de116ea592ebc7957",
+      "type": "file"
+    },
+    "Tests/LiveKitNanopbTests/ConcurrencyStressTests.swift": {
+      "bytes": 8857,
+      "sha256": "f2983cf3829338a00f81fb1614d6b6ddb842565c7a72960d5227308560d46b6b",
+      "git_blob_sha1": "a0d86ac5e5316d7bdfd2654a1a1ea590809f0d6b",
+      "type": "file"
+    },
+    "Tests/LiveKitNanopbTests/ConformanceEdgeCaseTests.swift": {
+      "bytes": 5737,
+      "sha256": "cdccf52625e8fa5f3b437974ff1476ac710be10393be05056242380a949a2b02",
+      "git_blob_sha1": "90f81a39e4246a089c313b05a9ba255a116155b2",
+      "type": "file"
+    },
+    "Tests/LiveKitNanopbTests/ConformanceTests.swift": {
+      "bytes": 3747,
+      "sha256": "ae06fbd6e9e95222ab1d1c44e47cb6005e7b201fa49b3f8528a43ef7955d5661",
+      "git_blob_sha1": "68a4ff15910984062095a49ff4dfcd05c0a6837d",
+      "type": "file"
+    },
+    "Tests/LiveKitNanopbTests/DecodeFuzzTests.swift": {
+      "bytes": 5568,
+      "sha256": "7d59b9246a570a349e3a5a0aa33cb297e5352d3f0778de39bc1b004542c00bb2",
+      "git_blob_sha1": "fa7198cef7449858aa609ad9b6bb7009afad4e00",
+      "type": "file"
+    },
+    "Tests/LiveKitNanopbTests/ExemplarConformanceTests.swift": {
+      "bytes": 1887,
+      "sha256": "f3339b3c5e081ef13d5e60c6761fb428c71e5aeddb3db4f639368e971bb1a872",
+      "git_blob_sha1": "a46a9d3bb3ce6a67b2f05d5e12e3be60650f3bfd",
+      "type": "file"
+    },
+    "Tests/LiveKitNanopbTests/Generated/ConformanceExemplars.swift": {
+      "bytes": 142543,
+      "sha256": "ee70510c83e0748a32a8c4a97a4cc1568ac4edc699ff8e32575b025ea5d1f449",
+      "git_blob_sha1": "cf02442504956db18aed6ac60e65e6e634211c4d",
+      "type": "file"
+    },
+    "Tests/LiveKitNanopbTests/LeakTests.swift": {
+      "bytes": 3875,
+      "sha256": "4513ec709813065e851a97d98544005c0fb360f72888a7265b3b51db9d512384",
+      "git_blob_sha1": "da18fbddb0d3280bfd5b6451d4e3052fa0204aec",
+      "type": "file"
+    },
+    "Tests/LiveKitNanopbTests/NanopbRuntimeTests.swift": {
+      "bytes": 13017,
+      "sha256": "b152f289db864b97fb5a7b4766f5edf24dfc8b0042d600fb798c50489c44b3c4",
+      "git_blob_sha1": "905213ef79c61fe005ebd91ad696c649193f274b",
+      "type": "file"
+    },
+    "Tests/LiveKitNanopbTests/Oracle/livekit_metrics.pb.swift": {
+      "bytes": 30627,
+      "sha256": "0cb4ef49ae5b0e55a6d0ac26f173d53dc58e3d7edaa3172b6b2fe0b69c20e8c3",
+      "git_blob_sha1": "7b12131450725a85b1d36613fe2413c496c71c62",
+      "type": "file"
+    },
+    "Tests/LiveKitNanopbTests/Oracle/livekit_models.pb.swift": {
+      "bytes": 296206,
+      "sha256": "162c83a8e279adf0e87a25452d44e1a1156d8e73d66ea59b39ef92aac4d5b1ed",
+      "git_blob_sha1": "027c373e87e12b9b615b6da1e1e31f8aee4ea6f5",
+      "type": "file"
+    },
+    "Tests/LiveKitNanopbTests/Oracle/livekit_rtc.pb.swift": {
+      "bytes": 258442,
+      "sha256": "47cf570b02b11e44329314deb8972dee108f73db2d3a43fd3d878b433aba3452",
+      "git_blob_sha1": "e6569435d24e2501604934c59f289637336b4286",
+      "type": "file"
+    },
+    "Tests/LiveKitNanopbTests/TemporaryMessageTests.swift": {
+      "bytes": 4074,
+      "sha256": "7b1911d986d1216e34bb53f23699f0f3e7a3b51788573948a12770ff6206d296",
+      "git_blob_sha1": "56375ea64e5ed6554e46094d9ba29dc0e93465df",
+      "type": "file"
+    },
+    "Tests/LiveKitObjCTests/Basic.m": {
+      "bytes": 1560,
+      "sha256": "a08f108dbaedde078b3a98183b7a5a3520ab142baa0763481ff4e01ca2741233",
+      "git_blob_sha1": "b68bd507c7e3a6cd865b26996ca87ec95c40b15a",
+      "type": "file"
+    },
+    "Tests/LiveKitObjCTests/DataStreamObjCTests.m": {
+      "bytes": 21901,
+      "sha256": "8eac887201068c9ea0c771f9ce83c15173a9ddd9ca31e317b0cfba113e21b5cb",
+      "git_blob_sha1": "9cdc5fd1aea3dcd1e83455054555188745856ec8",
+      "type": "file"
+    },
+    "Tests/LiveKitObjCTests/DataTrackObjCTests.m": {
+      "bytes": 8502,
+      "sha256": "cba8abd1086e7793de0190d9903e070e87999dac77073f61efda70e82f8a876f",
+      "git_blob_sha1": "568802f7e388bb8fc5eeb0d038984f7277f59e1e",
+      "type": "file"
+    },
+    "Tests/LiveKitObjCTests/DelegateObjCTests.m": {
+      "bytes": 9147,
+      "sha256": "a3317a1ca8cef6f2935c2d5512f73f346f4b40110c37ecb97694afd487cf6b43",
+      "git_blob_sha1": "c75484a20f38a09221c2ca227387841b3ecaacca",
+      "type": "file"
+    },
+    "Tests/LiveKitObjCTests/ParticipantObjCTests.m": {
+      "bytes": 5941,
+      "sha256": "4884fd0f751a2ab26e9aa3856cc33349c81e45951d2509ddbe91538978f34934",
+      "git_blob_sha1": "ab510d81f72b3e798f83028adbb9da9ccf3dae3a",
+      "type": "file"
+    },
+    "Tests/LiveKitObjCTests/RoomObjCTests.m": {
+      "bytes": 5802,
+      "sha256": "4f77335b7285963c0d0ae09d4207733ebd4c34e95263d79dc38339844d3d2d50",
+      "git_blob_sha1": "2d1411f251b1db4229aa6ed4c1e71f2d731f5b69",
+      "type": "file"
+    },
+    "Tests/LiveKitObjCTests/RpcObjCTests.m": {
+      "bytes": 8241,
+      "sha256": "5eead1c9e1eab0c648457acb29afff88582edcfcc5501fcbb03d8df4464652ac",
+      "git_blob_sha1": "041784d5167a55b9aea5b18272dedebf1c8c1d9e",
+      "type": "file"
+    },
+    "Tests/LiveKitTestSupport/Backports.swift": {
+      "bytes": 1403,
+      "sha256": "957562b577d788310565fdf9281173e459de251a4bbeac367fb46de9fdfc5fc4",
+      "git_blob_sha1": "c86988da13a1946af9b399f77efc4e6539e902f5",
+      "type": "file"
+    },
+    "Tests/LiveKitTestSupport/ConcurrentCounter.swift": {
+      "bytes": 1539,
+      "sha256": "902f8942353e2eda411c817471911960a9ffeb0231fd2a67fbfdf37e3d83473d",
+      "git_blob_sha1": "55a01ade240d9b7a87fb973e240b83904e88ac3c",
+      "type": "file"
+    },
+    "Tests/LiveKitTestSupport/MockURLProtocol.swift": {
+      "bytes": 3513,
+      "sha256": "1cb8729e5ce525d8d0ef5ab4f2c1bd3d0da345db9e0e5fda2f50a1b9cb882e83",
+      "git_blob_sha1": "e96bc22575337ea9013e216656a3726c77726dcb",
+      "type": "file"
+    },
+    "Tests/LiveKitTestSupport/ObjCRoomHelper.swift": {
+      "bytes": 5099,
+      "sha256": "acf71fba50e3cf612d7b1e4d646f1f3574cbc2c6f18f9dc3d725b30a42c0a989",
+      "git_blob_sha1": "2d2379e1e077d41aa7bc3933690055a000810ac0",
+      "type": "file"
+    },
+    "Tests/LiveKitTestSupport/Polling.swift": {
+      "bytes": 1817,
+      "sha256": "a8c03ae3626c3c21554b088c820fa326f58a97b36d4e47335c8e680b97d62da0",
+      "git_blob_sha1": "5e59cb36367e14ab5baa25f68a93fc8bedd7ce32",
+      "type": "file"
+    },
+    "Tests/LiveKitTestSupport/Room+DataTrack.swift": {
+      "bytes": 9070,
+      "sha256": "3598fd0e42565bdb9b28ce04a14a489e0a838c31e2de2fac131704cd52dbecc6",
+      "git_blob_sha1": "d5123b20ced1eac7aa0136d24058f94566c840fd",
+      "type": "file"
+    },
+    "Tests/LiveKitTestSupport/Room.swift": {
+      "bytes": 4662,
+      "sha256": "f368826ff91068f1a3edf5c610791f7b9575ebdcc83f5c90469502303daa533e",
+      "git_blob_sha1": "f4bcce13b5dfb10ae548147dcc7781002cc0a57b",
+      "type": "file"
+    },
+    "Tests/LiveKitTestSupport/Tags.swift": {
+      "bytes": 809,
+      "sha256": "778d9561ad2cffc346997cce31107767198030cb0e444635d8dc74101a144d6f",
+      "git_blob_sha1": "9afc96509ea4e6e9ad877305a11efc3a7e60c4c6",
+      "type": "file"
+    },
+    "Tests/LiveKitTestSupport/TestEnvironment.swift": {
+      "bytes": 12271,
+      "sha256": "76deed12657420f32919b356fb8a83493e7675a0d869a7b02e2dbfb73acc6544",
+      "git_blob_sha1": "5f691752b2c76b84ec8155449a03855c5456b854",
+      "type": "file"
+    },
+    "Tests/LiveKitTestSupport/TokenGenerator.swift": {
+      "bytes": 1897,
+      "sha256": "cf1ac682e4d724454f0b45f36632add62b420aa8d9ea824c84a28f09364c6683",
+      "git_blob_sha1": "295c6de9d52ac79a08fdf1b8d4d2813c2d707a64",
+      "type": "file"
+    },
+    "Tests/LiveKitTestSupport/Tracks.swift": {
+      "bytes": 11056,
+      "sha256": "b032ef37f0ccd6fd3be75020c0e4bd06a69ee78f8c742e366fa453b41eae85e0",
+      "git_blob_sha1": "33f12227b78c6d238c46bc5ef38d76c889099eac",
+      "type": "file"
+    },
+    "livekit_ipc.proto": {
+      "bytes": 492,
+      "sha256": "9af7d02785565a4e8692eb642be05c4998a59e261f4373c5e959cac13152cf8f",
+      "git_blob_sha1": "218451559cdcb0b6adbf5f1a95a423003cbd9817",
+      "type": "file"
+    },
+    "scripts/LiveKitClient-XCFramework.podspec.stencil": {
+      "bytes": 1287,
+      "sha256": "40cb027a2a384733627fdecf990dbda8f2cc45b9a062d401cbcad5fdc3c55ff2",
+      "git_blob_sha1": "235241d76807815a36b0d4499be030dceace5cd4",
+      "type": "file"
+    },
+    "scripts/Package.swift.stencil": {
+      "bytes": 1003,
+      "sha256": "481996aefb07d04183ef5816fe5286be4509879665f590235c12a0a362cd95cc",
+      "git_blob_sha1": "ac0b8b90b53a0e1a6961cb0f7ff0fde1d4ba7d80",
+      "type": "file"
+    },
+    "scripts/build_docs.sh": {
+      "bytes": 244,
+      "sha256": "ce32d018746296da68518894c51dcb0cc8a9680131d175d155cfed4f815d613e",
+      "git_blob_sha1": "7cfdc6beac769ce98580744e236be0b60a202408",
+      "type": "file"
+    },
+    "scripts/create_version.swift": {
+      "bytes": 10736,
+      "sha256": "4a9d5f0bf1405105f81861df95770087fa2441a9ae50c633944967ef1e0342a0",
+      "git_blob_sha1": "60dc26d361d395a04cb1585f614a9379e9aca851",
+      "type": "file"
+    },
+    "scripts/generate-swift-protos.swift": {
+      "bytes": 56169,
+      "sha256": "7c620f0f7203ce0091cca00d0f66e471019cad5aae7fc3e8357831307e462bc2",
+      "git_blob_sha1": "db8a7899d72cb64c6cae6af7c3e82dc972e757ab",
+      "type": "file"
+    },
+    "scripts/xcframework.swift": {
+      "bytes": 25100,
+      "sha256": "6bc95bd51e725fdb443cf6050531e1bfa013a9baf1c5f400e2571ade9e6c57a4",
+      "git_blob_sha1": "8a0ba80404f1327f85fda4fd9813fb66bb025f4e",
+      "type": "file"
+    }
+  },
+  "top_level": "client-sdk-swift-43c1c0870e51eedbfd95b20b1b5c43a767886786"
+}

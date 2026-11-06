@@ -1,0 +1,42 @@
+{
+  "repository": "https://github.com/signalapp/libsignal",
+  "tag": "v0.86.5",
+  "commit": "b39e93f1a5e6531044dfcdf5876585cbcf08f884",
+  "sourceArchive": {
+    "file": "libsignal-v0.86.5-source.tar.gz",
+    "bytes": 2388059,
+    "sha256": "7956a7af562b5142f80933f42ff7cb2aaa0ed077382ce06580d5eb9bf6651814",
+    "officialSourceURL": "https://codeload.github.com/signalapp/libsignal/tar.gz/b39e93f1a5e6531044dfcdf5876585cbcf08f884",
+    "unaltered": true,
+    "regularFiles": 1469,
+    "internalSymlinks": 14,
+    "publicBuildToolException": {
+      "pathInsideArchive": "java/gradle/wrapper/gradle-wrapper.jar",
+      "bytes": 55616,
+      "purpose": "Normal unmodified upstream build wrapper; explicitly allowed, not a generated UNYRI/vendor SDK binary"
+    }
+  },
+  "appWrapper": {
+    "relativePath": "../../ios/LibSignalClient",
+    "files": 125,
+    "byteExactUpstream": 124,
+    "modified": [
+      "Package.swift"
+    ],
+    "patch": "LOCAL_WRAPPER_VS_UPSTREAM.patch"
+  },
+  "officialFFIPrebuild": {
+    "url": "https://build-artifacts.signal.org/libraries/libsignal-client-ios-build-v0.86.5.tar.gz",
+    "sha256": "a3df979aa39b307ac4ef0f3fd59536daab5d6b3f8257c7aefe5f0470625f2582",
+    "includedInSourcePacket": false,
+    "deviceMember": "target/aarch64-apple-ios/release/libsignal_ffi.a",
+    "arm64SimulatorMember": "target/aarch64-apple-ios-sim/release/libsignal_ffi.a",
+    "x86SimulatorMember": "target/x86_64-apple-ios/release/libsignal_ffi.a"
+  },
+  "limits": [
+    "Version/checksum provenance is not a source-to-prebuilt reproduction",
+    "Cargo dependency sources/toolchains/Apple SDK not vendored",
+    "167 upstream iOS acknowledgments are not the complete measured linked UNYRI inventory",
+    "No Apple distribution exception inferred"
+  ]
+}

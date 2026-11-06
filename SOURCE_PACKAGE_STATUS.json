@@ -1,0 +1,20 @@
+{
+  "app": "UNYRI for iOS",
+  "version": "0.3.15",
+  "build": "15",
+  "sourceSnapshotManifestSHA256": "7f26917fdfcadaaeeb0eab3dc5d547124aba2365bac4ea3d739237422a93daad",
+  "selectedProductBuildSourceFiles": 773,
+  "excludedQAOrHistoricalFiles": 166,
+  "allCopiedProductBytesExact": true,
+  "sourceRecipeMappingEstablished": true,
+  "networkDependencySourcesVendored": false,
+  "signed15BinaryMatchedByThisPackagingTask": true,
+  "publicationExecuted": false,
+  "technicalSourcePublicationCandidateReady": true,
+  "reproductionClaim": "Exact shipping source input and pinned upstream source/recipe map; not an offline or bit-identical binary reproduction certification.",
+  "remainingReleaseActions": [
+    "Publish the approved source/release URL and retain it with the distributed release"
+  ],
+  "scope": "iOS client, extension and local packages; server source/deployment is a separate project scope.",
+  "signed15Binding": "SIGNED_RELEASE_BINDING.json"
+}

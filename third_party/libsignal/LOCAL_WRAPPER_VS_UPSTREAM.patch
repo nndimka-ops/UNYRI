@@ -1,0 +1,84 @@
+--- upstream-b39e93f1a5e6531044dfcdf5876585cbcf08f884/swift/Package.swift
++++ unyri-local-wrapper/Package.swift
+@@ -1,45 +1,36 @@
+-// swift-tools-version:6.0
+-
+-//
+-// Copyright 2020-2021 Signal Messenger, LLC.
+-// SPDX-License-Identifier: AGPL-3.0-only
+-//
+-
+-import PackageDescription
+-
+-let rustBuildDir = "../target/debug/"
+-
+-let package = Package(
+-    name: "LibSignalClient",
+-    platforms: [
+-        .macOS(.v10_15), .iOS(.v13),
+-    ],
+-    products: [
+-        .library(
+-            name: "LibSignalClient",
+-            targets: ["LibSignalClient"]
+-        )
+-    ],
+-    dependencies: [
+-        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.4.3")
+-    ],
+-    targets: [
+-        .systemLibrary(name: "SignalFfi"),
+-        .target(
+-            name: "LibSignalClient",
+-            dependencies: ["SignalFfi"],
+-            swiftSettings: [.enableExperimentalFeature("StrictConcurrency")],
+-            linkerSettings: [
+-                // link libz, which is required for permessage-deflate websocket support.
+-                .linkedLibrary("z")
+-            ]
+-        ),
+-        .testTarget(
+-            name: "LibSignalClientTests",
+-            dependencies: ["LibSignalClient"],
+-            resources: [.process("Resources")],
+-            swiftSettings: [.enableExperimentalFeature("StrictConcurrency")],
+-            linkerSettings: [.unsafeFlags(["-L\(rustBuildDir)"])]
+-        ),
+-    ]
+-)
++// swift-tools-version:5.9
++//
++// Copyright 2020-2021 Signal Messenger, LLC.
++// SPDX-License-Identifier: AGPL-3.0-only
++//
++// Local Swift Package wrapper around the official signalapp/libsignal Swift
++// sources (pinned to tag v0.86.5). This mirrors upstream `swift/Package.swift`
++// but omits the DocC plugin dependency and the StrictConcurrency experiment so
++// the module compiles in Swift 5 language mode, matching the official
++// `LibSignalClient.podspec` (`s.swift_version = '5'`).
++//
++// The prebuilt Rust FFI (`libsignal_ffi.a`) is downloaded, checksum-verified,
++// and extracted in CI (see `.github/workflows/ios-build.yml`); the `SignalFfi`
++// system library target's module map declares `link "signal_ffi"`, so the app
++// links it from `LIBRARY_SEARCH_PATHS`.
++//
++
++import PackageDescription
++
++let package = Package(
++    name: "LibSignalClient",
++    platforms: [
++        .iOS(.v13)
++    ],
++    products: [
++        .library(name: "LibSignalClient", targets: ["LibSignalClient"])
++    ],
++    targets: [
++        .systemLibrary(name: "SignalFfi"),
++        .target(
++            name: "LibSignalClient",
++            dependencies: ["SignalFfi"],
++            linkerSettings: [.linkedLibrary("z")]
++        ),
++    ]
++)

@@ -1,0 +1,21 @@
+{
+  "unicode_version": "16.0.0",
+  "tables": "Merged numeric Mn/Mc/Me and Default_Ignorable_Code_Point intervals; own parser and policy algorithms",
+  "data_sources": {
+    "version": "16.0.0",
+    "sources": {
+      "DerivedGeneralCategory.txt": {
+        "url": "https://www.unicode.org/Public/16.0.0/ucd/extracted/DerivedGeneralCategory.txt",
+        "sha256": "7676ab755a41ef82108460238569e60ad65c191ddafe61b36c6765ec1353f293"
+      },
+      "DerivedCoreProperties.txt": {
+        "url": "https://www.unicode.org/Public/16.0.0/ucd/DerivedCoreProperties.txt",
+        "sha256": "39d35161f2954497f69e08bdb9e701493f476a3d30222de20028feda36c1dabd"
+      }
+    },
+    "mark_ranges": 321,
+    "invisible_ranges": 17
+  },
+  "permission_notice_source": "https://www.unicode.org/license.txt",
+  "permission_notice_sha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96"
+}

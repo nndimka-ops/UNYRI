@@ -1,0 +1,45 @@
+{
+  "scope": "Actual unsigned Release iPhoneOS0.3.15/build15 compiler outputs, not a distribution-signature/source reproduction claim",
+  "source939ManifestSHA256": "7f26917fdfcadaaeeb0eab3dc5d547124aba2365bac4ea3d739237422a93daad",
+  "frameworks": {
+    "Frameworks/WebRTC.framework/WebRTC": {
+      "bytes": 12197964,
+      "sha256": "5be1095131b7d1961d902231796d3e6b78a7f534e8eb1286fe7b0e7794ba4278",
+      "archs": [
+        "arm64"
+      ],
+      "platforms": [
+        "2"
+      ],
+      "uuid": "UUID: 4C4C441D-5555-3144-A1D9-F77F93A1CF0C (arm64)",
+      "pinnedArtifactMember": "artifacts/webrtc/WebRTC/WebRTC.xcframework/ios-arm64/WebRTC.framework/WebRTC"
+    },
+    "Frameworks/RustLiveKitFFI.framework/RustLiveKitFFI": {
+      "bytes": 1483200,
+      "sha256": "91677cf9e97a1b373d81ee8cb877955dd6d9764948d5aad18fe46624ef597ebf",
+      "archs": [
+        "arm64"
+      ],
+      "platforms": [
+        "2"
+      ],
+      "uuid": "UUID: 0347A5C5-4C38-3C04-AE6F-64203B009A0D (arm64)",
+      "pinnedArtifactMember": "artifacts/livekit-ffi-xcframework/RustLiveKitFFI/RustLiveKitFFI.xcframework/ios-arm64/RustLiveKitFFI.framework/RustLiveKitFFI"
+    },
+    "Frameworks/LiveKitWebRTC.framework/LiveKitWebRTC": {
+      "bytes": 12347368,
+      "sha256": "1635ddb8f63a3c89610c45f0c2bfd690e9335e42659e75034a90c35e064b8133",
+      "archs": [
+        "arm64"
+      ],
+      "platforms": [
+        "2"
+      ],
+      "uuid": "UUID: 4C4C44EB-5555-3144-A120-0506CDF82192 (arm64)",
+      "pinnedArtifactMember": "artifacts/webrtc-xcframework/LiveKitWebRTC/LiveKitWebRTC.xcframework/ios-arm64/LiveKitWebRTC.framework/LiveKitWebRTC"
+    }
+  },
+  "deviceSignalStaticLibrarySHA256": "9e91aac4046830e1b4988f18f476eac220e21ac3fa69dbada88dc2be966d1339",
+  "binaryPackageManifestBytesMatchActuallyUsedCache": true,
+  "signed15Comparison": "Record the final signed archive framework UUIDs separately; code signing changes whole-file hashes."
+}

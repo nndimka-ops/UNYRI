@@ -1,0 +1,362 @@
+{
+  "version": 1,
+  "preferenceKey": "sidebar-appearance-v1",
+  "maxUtf8Bytes": 16384,
+  "localDeviceOnly": true,
+  "fields": {
+    "geometryWidth": {
+      "type": "number",
+      "minimum": 34,
+      "maximum": 80,
+      "default": 45
+    },
+    "geometryCorner": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 40,
+      "default": 40
+    },
+    "geometryInset": {
+      "type": "number",
+      "minimum": 6,
+      "maximum": 24,
+      "default": 8
+    },
+    "geometryRowHeight": {
+      "type": "number",
+      "minimum": 44,
+      "maximum": 66,
+      "default": 44
+    },
+    "geometrySecondaryHeight": {
+      "type": "number",
+      "minimum": 44,
+      "maximum": 66,
+      "default": 44
+    },
+    "geometryRowGap": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10,
+      "default": 0
+    },
+    "geometryRowPaddingX": {
+      "type": "number",
+      "minimum": 6,
+      "maximum": 22,
+      "default": 22
+    },
+    "geometryRowPaddingY": {
+      "type": "number",
+      "minimum": 4,
+      "maximum": 12,
+      "default": 4
+    },
+    "geometryIconGap": {
+      "type": "number",
+      "minimum": 6,
+      "maximum": 20,
+      "default": 12
+    },
+    "materialBackground": {
+      "type": "color",
+      "pattern": "^#[0-9A-Fa-f]{6}$",
+      "default": "#171D26"
+    },
+    "materialTop": {
+      "type": "color",
+      "pattern": "^#[0-9A-Fa-f]{6}$",
+      "default": "#202630"
+    },
+    "materialBottom": {
+      "type": "color",
+      "pattern": "^#[0-9A-Fa-f]{6}$",
+      "default": "#121820"
+    },
+    "materialGradient": {
+      "type": "boolean",
+      "default": true
+    },
+    "materialAngle": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 360,
+      "default": 80
+    },
+    "materialOpacity": {
+      "type": "number",
+      "minimum": 40,
+      "maximum": 100,
+      "default": 92
+    },
+    "materialBorderColor": {
+      "type": "color",
+      "pattern": "^#[0-9A-Fa-f]{6}$",
+      "default": "#303640"
+    },
+    "materialBorderWidth": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 2,
+      "default": 0
+    },
+    "materialBorderOpacity": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 100
+    },
+    "materialShadow": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 12,
+      "default": 6
+    },
+    "typographyFamily": {
+      "type": "enum",
+      "values": [
+        "system",
+        "serif",
+        "mono"
+      ],
+      "default": "system"
+    },
+    "typographyText": {
+      "type": "color",
+      "pattern": "^#[0-9A-Fa-f]{6}$",
+      "default": "#F0F2F8"
+    },
+    "typographyMuted": {
+      "type": "color",
+      "pattern": "^#[0-9A-Fa-f]{6}$",
+      "default": "#99A4B5"
+    },
+    "typographySize": {
+      "type": "number",
+      "minimum": 11,
+      "maximum": 18,
+      "default": 13
+    },
+    "typographySecondarySize": {
+      "type": "number",
+      "minimum": 10,
+      "maximum": 16,
+      "default": 11
+    },
+    "typographyWeight": {
+      "type": "enum",
+      "values": [
+        "400",
+        "500",
+        "600"
+      ],
+      "default": "400"
+    },
+    "typographyLetterSpacing": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "default": 0
+    },
+    "profileLayout": {
+      "type": "enum",
+      "values": [
+        "compact",
+        "center"
+      ],
+      "default": "compact"
+    },
+    "profileShowAvatar": {
+      "type": "boolean",
+      "default": true
+    },
+    "profileShowUsername": {
+      "type": "boolean",
+      "default": true
+    },
+    "profileShowEdit": {
+      "type": "boolean",
+      "default": true
+    },
+    "avatarSize": {
+      "type": "number",
+      "minimum": 26,
+      "maximum": 68,
+      "default": 68
+    },
+    "avatarOnline": {
+      "type": "boolean",
+      "default": true
+    },
+    "iconsSize": {
+      "type": "number",
+      "minimum": 14,
+      "maximum": 26,
+      "default": 18
+    },
+    "iconsColor": {
+      "type": "color",
+      "pattern": "^#[0-9A-Fa-f]{6}$",
+      "default": "#AAA0DF"
+    },
+    "iconsColored": {
+      "type": "boolean",
+      "default": true
+    },
+    "iconsTiles": {
+      "type": "boolean",
+      "default": false
+    },
+    "iconsTileSize": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 8,
+      "default": 5
+    },
+    "iconsTileRadius": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 16,
+      "default": 9
+    },
+    "iconsChevrons": {
+      "type": "boolean",
+      "default": false
+    },
+    "rowsRadius": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 32,
+      "default": 30
+    },
+    "rowsFill": {
+      "type": "color",
+      "pattern": "^#[0-9A-Fa-f]{6}$",
+      "default": "#25303E"
+    },
+    "rowsFillOpacity": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 0
+    },
+    "rowsGrouped": {
+      "type": "boolean",
+      "default": true
+    },
+    "selectedFill": {
+      "type": "color",
+      "pattern": "^#[0-9A-Fa-f]{6}$",
+      "default": "#2B3243"
+    },
+    "selectedOpacity": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 100
+    },
+    "selectedBadge": {
+      "type": "color",
+      "pattern": "^#[0-9A-Fa-f]{6}$",
+      "default": "#8370CA"
+    },
+    "quickVisible": {
+      "type": "boolean",
+      "default": true
+    },
+    "quickLayout": {
+      "type": "enum",
+      "values": [
+        "row",
+        "stack"
+      ],
+      "default": "row"
+    },
+    "dividerVisible": {
+      "type": "boolean",
+      "default": true
+    },
+    "footerShowLogout": {
+      "type": "boolean",
+      "default": true
+    },
+    "footerShowVersion": {
+      "type": "boolean",
+      "default": true
+    },
+    "patternKind": {
+      "type": "enum",
+      "values": [
+        "none",
+        "dots",
+        "lines",
+        "diamonds"
+      ],
+      "default": "none"
+    },
+    "patternColor": {
+      "type": "color",
+      "pattern": "^#[0-9A-Fa-f]{6}$",
+      "default": "#78879E"
+    },
+    "patternOpacity": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 12,
+      "default": 4
+    },
+    "patternSize": {
+      "type": "number",
+      "minimum": 8,
+      "maximum": 40,
+      "default": 28
+    },
+    "patternSpacing": {
+      "type": "number",
+      "minimum": 24,
+      "maximum": 120,
+      "default": 80
+    },
+    "behaviorDuration": {
+      "type": "number",
+      "minimum": 100,
+      "maximum": 280,
+      "default": 180
+    },
+    "behaviorSwipeOpen": {
+      "type": "boolean",
+      "default": true
+    },
+    "behaviorSwipeClose": {
+      "type": "boolean",
+      "default": true
+    },
+    "behaviorScrim": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 70,
+      "default": 45
+    }
+  },
+  "itemIds": [
+    "chats",
+    "calls",
+    "saved",
+    "settings",
+    "server",
+    "devices",
+    "help",
+    "report"
+  ],
+  "mandatoryItems": [
+    "chats",
+    "settings"
+  ],
+  "collections": {
+    "itemOrder": "all known IDs exactly once; keep first valid occurrence then append missing defaults",
+    "hiddenItems": "known IDs excluding chats/settings",
+    "itemColors": "known ID to #RRGGBB"
+  },
+  "readPolicy": "unknown fields ignored; malformed scalar fields use saved defaults; unsupported version/oversize uses all defaults",
+  "writePolicy": "one JSON preference write only on Apply; load/resolve/reset-draft do not write"
+}

@@ -1,0 +1,14 @@
+build/
+DerivedData/
+.DS_Store
+xcuserdata/
+ios/libsignal-ffi/
+*.ipa
+*.xcarchive/
+*.dSYM/
+*.p12
+*.p8
+*.mobileprovision
+*.cer
+*.keychain*
+.env

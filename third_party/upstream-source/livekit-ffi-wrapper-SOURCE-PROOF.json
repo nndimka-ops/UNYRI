@@ -1,0 +1,73 @@
+{
+  "name": "livekit-ffi-wrapper",
+  "repository": "https://github.com/livekit/livekit-ffi-xcframework",
+  "tag": "0.13.1",
+  "commit": "685cfd95e23edf734450125eb58bb3bb21b4133b",
+  "source_url": "https://codeload.github.com/livekit/livekit-ffi-xcframework/tar.gz/685cfd95e23edf734450125eb58bb3bb21b4133b",
+  "archive": "livekit-ffi-wrapper-685cfd95e23edf734450125eb58bb3bb21b4133b.tar.gz",
+  "archive_bytes": 60898,
+  "archive_sha256": "9b4011b1077652e3c10977aa27685480b116acc7713ca16edf6832ca928296f8",
+  "all_git_blobs_match": true,
+  "members": {
+    ".github/CODEOWNERS": {
+      "bytes": 38,
+      "sha256": "ed2f07d68eb33277449535bd3297443aa52c7b9204042bd0bdba6297a9b6ed9f",
+      "gitBlob": "96be67e4f9fec8e859fc247fc78cb58dce76e67f"
+    },
+    ".github/workflows/publish-podspec.yaml": {
+      "bytes": 1408,
+      "sha256": "d23e95ffcff6e41f13465e0b3e71ff4c0fae92d21fd0e5d45e8ed779fa912e48",
+      "gitBlob": "60fb39ff67bf81831f7358ddddcbe87d3417e305"
+    },
+    ".gitignore": {
+      "bytes": 1593,
+      "sha256": "c9981d2b6add12673e979f04c6a57abc1e1224ce4a0125ccea01f9084322ab0c",
+      "gitBlob": "52fe2f7102c32aa7f837eaa73be2065be9d82802"
+    },
+    "LICENSE": {
+      "bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "gitBlob": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64"
+    },
+    "LiveKitFFI.podspec": {
+      "bytes": 1017,
+      "sha256": "0c33a59f521aa56819c81671a6ff8ff7348e9931f3833e6a1e7ca1a296d51c60",
+      "gitBlob": "eebbf0664867dec9453525d502c07b4cc7ebf27b"
+    },
+    "Package.swift": {
+      "bytes": 1096,
+      "sha256": "863dcb34b949d0e2045e717a6017b39be6de7bb84874ae8fa4131d0852b73da6",
+      "gitBlob": "86c32347f6737e4f72e1d706cca102d3561b1c0e"
+    },
+    "Package@swift-6.2.swift": {
+      "bytes": 1121,
+      "sha256": "f3760e75d4e202c6c3f4e481d9bc35380a11a44b023740e73f68fffd31b18eb6",
+      "gitBlob": "a6711dd5ea27ab6372f983cbd5bb0c4a556573da"
+    },
+    "PrivacyInfo.xcprivacy": {
+      "bytes": 599,
+      "sha256": "10da67f217824f019288ec328ababc290ab0399c52e9be77a24d494339137da2",
+      "gitBlob": "64e785c852a27dbb621edfd61615dcffa2af5861"
+    },
+    "Sources/LiveKitFFI/livekit_common.swift": {
+      "bytes": 18347,
+      "sha256": "6a3c20edaaf70bef95828d1979019b38597f9350b0fc990788091bbdecefddd9",
+      "gitBlob": "46068ca283f1cfdaf04fdc74098b9886a46e06cc"
+    },
+    "Sources/LiveKitFFI/livekit_datatrack.swift": {
+      "bytes": 55738,
+      "sha256": "234833f3d333a82de4f862bdfd38e8aa0751543a02e532979961a56a14752950",
+      "gitBlob": "e0a8e5eeddfb8c7e3509dd01fd4224d2eb7fa9b9"
+    },
+    "Sources/LiveKitFFI/livekit_ffi.swift": {
+      "bytes": 283446,
+      "sha256": "4aae3770692dae35017de952dc51cfaa3ea758b9173219f2c50690f58acbf8eb",
+      "gitBlob": "63ecac3a9db73c5af7f79a8029052706eea55d49"
+    },
+    "Sources/LiveKitFFI/livekit_net.swift": {
+      "bytes": 70297,
+      "sha256": "a593b6716a27f2a2de534a8de26de6169498e7284743ed09ea35f89285fc4f24",
+      "gitBlob": "dc3f0a2906302acbd7b2a841b89adf1b8ee30d56"
+    }
+  }
+}

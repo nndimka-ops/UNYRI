@@ -1,0 +1,53 @@
+{
+  "name": "livekit-webrtc-wrapper",
+  "repository": "https://github.com/livekit/webrtc-xcframework",
+  "tag": "150.7871.04",
+  "commit": "f843fb1c12017bd17fde38e7293649c204548467",
+  "source_url": "https://codeload.github.com/livekit/webrtc-xcframework/tar.gz/f843fb1c12017bd17fde38e7293649c204548467",
+  "archive": "livekit-webrtc-wrapper-f843fb1c12017bd17fde38e7293649c204548467.tar.gz",
+  "archive_bytes": 2831,
+  "archive_sha256": "c18e2d069a89f497a4339b8118b50838b88eb5561647343dd794f9a70c7ad588",
+  "all_git_blobs_match": true,
+  "members": {
+    ".gitattributes": {
+      "bytes": 66,
+      "sha256": "1a1dbe176bc233b499d35a57db7513f2941c99ab9759f177830c9149be99005b",
+      "gitBlob": "dfe0770424b2a19faf507a501ebfc23be8f54e7b"
+    },
+    ".github/CODEOWNERS": {
+      "bytes": 38,
+      "sha256": "ed2f07d68eb33277449535bd3297443aa52c7b9204042bd0bdba6297a9b6ed9f",
+      "gitBlob": "96be67e4f9fec8e859fc247fc78cb58dce76e67f"
+    },
+    ".github/workflows/publish-podspec.yaml": {
+      "bytes": 1411,
+      "sha256": "7458f3ccf334da1bc50f25c48d43a8d31dff2d240d4ebda1f2dcf4ed7ecde9dc",
+      "gitBlob": "3c510ab52b9e622e9a1b9e8bb9abd59291cd20f4"
+    },
+    ".gitignore": {
+      "bytes": 18,
+      "sha256": "9b8d3d4cc2a74c712a023ce92f04db60fc2057961f75861b1c3338da6a17690a",
+      "gitBlob": "e245577d5533b3af92eec6d03c48dc0f4e144fdb"
+    },
+    "LICENSE": {
+      "bytes": 1068,
+      "sha256": "97c31210567f082cbd2f1067a491c1d5498a019414948153e98c321810986bfd",
+      "gitBlob": "56dda1f8dd0fdc360479bce117d8c5b9b57f294b"
+    },
+    "LiveKitWebRTC.podspec": {
+      "bytes": 1076,
+      "sha256": "114e58d99a3d3e25aa1e58853b248f578bdeab47e8c71ad8ded2967d413ad4f8",
+      "gitBlob": "fdadc265846e6af8f9b0e302faa6e33fdd6100fe"
+    },
+    "Package.swift": {
+      "bytes": 673,
+      "sha256": "851c43e7acfebf42281b215cfc80b80b367cbe674848019c6d7979d5915e78d6",
+      "gitBlob": "55e2d3586ad71f4c554703db422b69339a9f2926"
+    },
+    "README.md": {
+      "bytes": 987,
+      "sha256": "1ad0fe819cbcbb02755327736c49e3344ead66a07b81cf08a25611120fae972c",
+      "gitBlob": "9d1da7cbaffab4790cf712e5da8cb1fcbfacd5f1"
+    }
+  }
+}

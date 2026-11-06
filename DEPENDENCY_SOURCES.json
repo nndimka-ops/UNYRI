@@ -1,0 +1,78 @@
+{
+  "status": "EXACT_VERSION_SOURCE_AND_RECIPE_MAP_NETWORK_DEPENDENCIES_NOT_VENDORED",
+  "firstPartyAppVersion": "0.3.15",
+  "firstPartyBuild": "15",
+  "components": [
+    {
+      "component": "Signal Swift/RustFFI",
+      "version": "0.86.5",
+      "repository": "https://github.com/signalapp/libsignal",
+      "commit": "b39e93f1a5e6531044dfcdf5876585cbcf08f884",
+      "sourceIncluded": "third_party/libsignal/libsignal-v0.86.5-source.tar.gz",
+      "sourceSHA256": "7956a7af562b5142f80933f42ff7cb2aaa0ed077382ce06580d5eb9bf6651814",
+      "wrapper": "ios/LibSignalClient",
+      "recipe": "SOURCE_BUILD.md#signal",
+      "transitivePins": "third_party/libsignal/CARGO_SOURCE_REFERENCES.json"
+    },
+    {
+      "component": "LiveKit Swift",
+      "version": "2.19.0",
+      "repository": "https://github.com/livekit/client-sdk-swift",
+      "commit": "43c1c0870e51eedbfd95b20b1b5c43a767886786",
+      "localSource": "ios/ConferenceLiveKit",
+      "upstreamSourceArchive": "livekit-swift-43c1c0870e51eedbfd95b20b1b5c43a767886786.tar.gz",
+      "localComparison": "third_party/upstream-source/LIVEKIT_LOCAL_COMPARISON.json",
+      "contentPatch": "third_party/upstream-source/LIVEKIT_LOCAL_CONTENT.patch"
+    },
+    {
+      "component": "Project WebRTC",
+      "version": "152.0.0",
+      "wrapperCommit": "1d04692697cb642bfebf6ad2dd99fe52649c3d6d",
+      "repository": "https://webrtc.googlesource.com/src",
+      "sourceCommit": "6f37672d358475cd17544121a12494da454d85fb",
+      "sourceURL": "https://webrtc.googlesource.com/src/+/6f37672d358475cd17544121a12494da454d85fb",
+      "branch": "branch-heads/7977",
+      "builderArchive": "stasel-webrtc-1d04692697cb642bfebf6ad2dd99fe52649c3d6d.tar.gz",
+      "binaryURL": "https://github.com/stasel/WebRTC/releases/download/152.0.0/WebRTC-M152.xcframework.zip",
+      "binarySHA256": "115cb9944248a3302c0c8af17462e2576a28ccc7adef9f6a1fe66ee75d9e1cc8",
+      "transitiveSourcePins": "third_party/webrtc/stasel-upstream-DEPS"
+    },
+    {
+      "component": "LiveKitWebRTC",
+      "version": "150.7871.04",
+      "wrapperCommit": "f843fb1c12017bd17fde38e7293649c204548467",
+      "repository": "https://github.com/webrtc-sdk/webrtc",
+      "sourceCommit": "a545de45259b47dfac5f3635863e47cb601f1bb2",
+      "sourceURL": "https://github.com/webrtc-sdk/webrtc/tree/a545de45259b47dfac5f3635863e47cb601f1bb2",
+      "builderCommit": "717ec1dc5a94389d691e09cccaf3d7b3364fb4b7",
+      "builderArchive": "webrtc-build-717ec1dc5a94389d691e09cccaf3d7b3364fb4b7.tar.gz",
+      "binaryURL": "https://github.com/livekit/webrtc-xcframework/releases/download/150.7871.04/LiveKitWebRTC.xcframework.zip",
+      "binarySHA256": "3b0aa4bee8d5596d6592b8d75bddc84391769849fd64c04b8e13c9e77ce6a82b",
+      "transitiveSourcePins": "third_party/webrtc/livekit-webrtc-upstream-DEPS"
+    },
+    {
+      "component": "RustLiveKitFFI",
+      "version": "0.13.1",
+      "wrapperCommit": "685cfd95e23edf734450125eb58bb3bb21b4133b",
+      "repository": "https://github.com/livekit/rust-sdks",
+      "commit": "7187f6a42ca6382b73c631b75a9d560253f5b90f",
+      "sourceTag": "livekit-ffi/v0.13.1",
+      "sourceIncluded": "livekit-rust-sdks-7187f6a42ca6382b73c631b75a9d560253f5b90f.tar.gz",
+      "binaryURL": "https://github.com/livekit/livekit-ffi-xcframework/releases/download/0.13.1/RustLiveKitFFI.xcframework.zip",
+      "binarySHA256": "9c6fca694df24f1206897c5787c001120c27e03a2b28688af76c83ea79a45805",
+      "features": "Swift core-modules, not default room-apis/libwebrtc",
+      "transitiveSourcePins": "third_party/upstream-source/LIVEKIT_FFI_CARGO_SOURCE_REFERENCES.json"
+    }
+  ],
+  "archivesRoot": "third_party/upstream-source",
+  "sourceRecipes": "SOURCE_BUILD.md",
+  "upstreamSourceAndBuildRecipeMappingEstablished": true,
+  "upstreamSourceArchivesAllGitBlobsVerified": true,
+  "bitIdenticalReproductionPerformed": false,
+  "notBundled": [
+    "WebRTC/Chromium DEPS checkouts and fetched toolchain binaries",
+    "Cargo registry and pinned Git dependency source packages; exact lock references and retrieval recipes are included",
+    "Apple SDK/Xcode and Apple system libraries"
+  ],
+  "theseAreConcreteNetworkBuildInputsNotUnknownVersions": true
+}

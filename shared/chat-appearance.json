@@ -1,0 +1,566 @@
+{
+  "version": 1,
+  "name": "Классическая UNYRI",
+  "selectedPrototype": 2,
+  "defaults": {
+    "common": {
+      "background": "#0A0B10",
+      "text": "#F5F7FF",
+      "muted": "#A9AFC1",
+      "fontSize": 18,
+      "timeSize": 11,
+      "gap": 6,
+      "bold": false,
+      "ticks": "#68C9ED"
+    },
+    "pattern": {
+      "kind": "Фирменный",
+      "color": "#F5F7FF",
+      "opacity": 4,
+      "size": 26,
+      "columns": 6,
+      "rows": 6,
+      "offsetX": 0,
+      "offsetY": 0,
+      "rotation": 0
+    },
+    "tokens": {
+      "out": "#353053",
+      "end": "#2B2846",
+      "incoming": "#202735",
+      "gradient": true,
+      "outTransparency": 0,
+      "endTransparency": 0,
+      "inTransparency": 0,
+      "angle": 135
+    },
+    "geometry": {
+      "radius": 24,
+      "scale": 100,
+      "softness": 55,
+      "leading": 24,
+      "trailing": 24,
+      "padX": 12,
+      "padY": 8,
+      "width": 340,
+      "inline": false
+    },
+    "voice": {
+      "accent": "#5D9EFF",
+      "fill": "#353053",
+      "transparency": 0,
+      "width": 216,
+      "playSize": 38,
+      "waveHeight": 18,
+      "slim": true,
+      "button": "#5D9EFF",
+      "buttonTransparency": 0,
+      "ink": "#14232D",
+      "inactive": "#73829B",
+      "inactiveTransparency": 40
+    },
+    "files": {
+      "accent": "#8ABBFF",
+      "fill": "#353053",
+      "transparency": 0,
+      "width": 222,
+      "iconSize": 20,
+      "fontSize": 14,
+      "flat": false,
+      "showType": true,
+      "iconBackground": "#223341",
+      "iconTransparency": 100,
+      "iconRadius": 20,
+      "success": "#63D7B5"
+    },
+    "reactions": {
+      "fill": "#26223F",
+      "transparency": 0,
+      "border": "#9A8BC3",
+      "borderTransparency": 88,
+      "borderWidth": 0.5,
+      "size": 13,
+      "radius": 11,
+      "gap": 4
+    }
+  },
+  "fields": [
+    {
+      "key": "tokens.out",
+      "label": "Исходящие: основной цвет",
+      "kind": "color",
+      "default": "#353053"
+    },
+    {
+      "key": "tokens.outTransparency",
+      "label": "Прозрачность исходящих: начало",
+      "kind": "number",
+      "default": 0,
+      "min": 0.0,
+      "max": 100.0
+    },
+    {
+      "key": "tokens.end",
+      "label": "Исходящие: второй цвет",
+      "kind": "color",
+      "default": "#2B2846"
+    },
+    {
+      "key": "tokens.endTransparency",
+      "label": "Прозрачность исходящих: конец",
+      "kind": "number",
+      "default": 0,
+      "min": 0.0,
+      "max": 100.0
+    },
+    {
+      "key": "tokens.incoming",
+      "label": "Входящие: подложка",
+      "kind": "color",
+      "default": "#202735"
+    },
+    {
+      "key": "tokens.inTransparency",
+      "label": "Прозрачность входящих",
+      "kind": "number",
+      "default": 0,
+      "min": 0.0,
+      "max": 100.0
+    },
+    {
+      "key": "tokens.gradient",
+      "label": "Мягкий градиент",
+      "kind": "bool",
+      "default": true
+    },
+    {
+      "key": "tokens.angle",
+      "label": "Направление градиента",
+      "kind": "number",
+      "default": 135,
+      "min": 0.0,
+      "max": 360.0
+    },
+    {
+      "key": "geometry.radius",
+      "label": "Базовый радиус углов",
+      "kind": "number",
+      "default": 24,
+      "min": 0.0,
+      "max": 48.0
+    },
+    {
+      "key": "geometry.scale",
+      "label": "Сила скругления",
+      "kind": "number",
+      "default": 100,
+      "min": 0.0,
+      "max": 100.0
+    },
+    {
+      "key": "geometry.softness",
+      "label": "Профиль изгиба углов",
+      "kind": "number",
+      "default": 55,
+      "min": 0.0,
+      "max": 100.0
+    },
+    {
+      "key": "geometry.leading",
+      "label": "Нижний угол со стороны текста",
+      "kind": "number",
+      "default": 24,
+      "min": 0.0,
+      "max": 40.0
+    },
+    {
+      "key": "geometry.trailing",
+      "label": "Нижний угол со стороны времени",
+      "kind": "number",
+      "default": 24,
+      "min": 0.0,
+      "max": 40.0
+    },
+    {
+      "key": "geometry.padX",
+      "label": "Отступы по бокам",
+      "kind": "number",
+      "default": 12,
+      "min": 0.0,
+      "max": 24.0
+    },
+    {
+      "key": "geometry.padY",
+      "label": "Отступы сверху и снизу",
+      "kind": "number",
+      "default": 8,
+      "min": 0.0,
+      "max": 18.0
+    },
+    {
+      "key": "geometry.width",
+      "label": "Максимальная ширина",
+      "kind": "number",
+      "default": 340,
+      "min": 180.0,
+      "max": 340.0
+    },
+    {
+      "key": "geometry.inline",
+      "label": "Время в строке короткого сообщения",
+      "kind": "bool",
+      "default": false
+    },
+    {
+      "key": "voice.accent",
+      "label": "Активная звуковая дорожка",
+      "kind": "color",
+      "default": "#5D9EFF"
+    },
+    {
+      "key": "voice.fill",
+      "label": "Подложка голосового",
+      "kind": "color",
+      "default": "#353053"
+    },
+    {
+      "key": "voice.transparency",
+      "label": "Прозрачность голосового",
+      "kind": "number",
+      "default": 0,
+      "min": 0.0,
+      "max": 100.0
+    },
+    {
+      "key": "voice.width",
+      "label": "Ширина голосового",
+      "kind": "number",
+      "default": 216,
+      "min": 180.0,
+      "max": 320.0
+    },
+    {
+      "key": "voice.playSize",
+      "label": "Размер значка воспроизведения",
+      "kind": "number",
+      "default": 38,
+      "min": 24.0,
+      "max": 48.0
+    },
+    {
+      "key": "voice.waveHeight",
+      "label": "Высота звуковой дорожки",
+      "kind": "number",
+      "default": 18,
+      "min": 12.0,
+      "max": 42.0
+    },
+    {
+      "key": "voice.slim",
+      "label": "Скорость сбоку, компактная строка",
+      "kind": "bool",
+      "default": true
+    },
+    {
+      "key": "voice.button",
+      "label": "Заливка кнопки воспроизведения",
+      "kind": "color",
+      "default": "#5D9EFF"
+    },
+    {
+      "key": "voice.buttonTransparency",
+      "label": "Прозрачность кнопки воспроизведения",
+      "kind": "number",
+      "default": 0,
+      "min": 0.0,
+      "max": 100.0
+    },
+    {
+      "key": "voice.ink",
+      "label": "Значок внутри кнопки",
+      "kind": "color",
+      "default": "#14232D"
+    },
+    {
+      "key": "voice.inactive",
+      "label": "Неактивная звуковая дорожка",
+      "kind": "color",
+      "default": "#73829B"
+    },
+    {
+      "key": "voice.inactiveTransparency",
+      "label": "Прозрачность неактивной дорожки",
+      "kind": "number",
+      "default": 40,
+      "min": 0.0,
+      "max": 100.0
+    },
+    {
+      "key": "files.accent",
+      "label": "Цвет иконки файла",
+      "kind": "color",
+      "default": "#8ABBFF"
+    },
+    {
+      "key": "files.fill",
+      "label": "Подложка файла",
+      "kind": "color",
+      "default": "#353053"
+    },
+    {
+      "key": "files.transparency",
+      "label": "Прозрачность подложки файла",
+      "kind": "number",
+      "default": 0,
+      "min": 0.0,
+      "max": 100.0
+    },
+    {
+      "key": "files.width",
+      "label": "Ширина блока файла",
+      "kind": "number",
+      "default": 222,
+      "min": 190.0,
+      "max": 320.0
+    },
+    {
+      "key": "files.iconSize",
+      "label": "Размер иконки файла",
+      "kind": "number",
+      "default": 20,
+      "min": 20.0,
+      "max": 42.0
+    },
+    {
+      "key": "files.fontSize",
+      "label": "Размер имени файла",
+      "kind": "number",
+      "default": 14,
+      "min": 12.0,
+      "max": 18.0
+    },
+    {
+      "key": "files.flat",
+      "label": "Файл без общей подложки",
+      "kind": "bool",
+      "default": false
+    },
+    {
+      "key": "files.showType",
+      "label": "Показывать тип рядом с размером",
+      "kind": "bool",
+      "default": true
+    },
+    {
+      "key": "files.iconBackground",
+      "label": "Фон самой иконки файла",
+      "kind": "color",
+      "default": "#223341"
+    },
+    {
+      "key": "files.iconTransparency",
+      "label": "Прозрачность фона иконки",
+      "kind": "number",
+      "default": 100,
+      "min": 0.0,
+      "max": 100.0
+    },
+    {
+      "key": "files.iconRadius",
+      "label": "Скругление иконки файла",
+      "kind": "number",
+      "default": 20,
+      "min": 0.0,
+      "max": 20.0
+    },
+    {
+      "key": "files.success",
+      "label": "Отметка загрузки файла",
+      "kind": "color",
+      "default": "#63D7B5"
+    },
+    {
+      "key": "reactions.fill",
+      "label": "Плашка реакции",
+      "kind": "color",
+      "default": "#26223F"
+    },
+    {
+      "key": "reactions.transparency",
+      "label": "Прозрачность плашки реакции",
+      "kind": "number",
+      "default": 0,
+      "min": 0.0,
+      "max": 100.0
+    },
+    {
+      "key": "reactions.border",
+      "label": "Обводка реакции",
+      "kind": "color",
+      "default": "#9A8BC3"
+    },
+    {
+      "key": "reactions.borderTransparency",
+      "label": "Прозрачность обводки",
+      "kind": "number",
+      "default": 88,
+      "min": 0.0,
+      "max": 100.0
+    },
+    {
+      "key": "reactions.borderWidth",
+      "label": "Толщина обводки",
+      "kind": "number",
+      "default": 0.5,
+      "min": 0.0,
+      "max": 2.0,
+      "step": 0.25
+    },
+    {
+      "key": "reactions.size",
+      "label": "Размер эмодзи",
+      "kind": "number",
+      "default": 13,
+      "min": 12.0,
+      "max": 20.0
+    },
+    {
+      "key": "reactions.radius",
+      "label": "Скругление плашки",
+      "kind": "number",
+      "default": 11,
+      "min": 0.0,
+      "max": 22.0
+    },
+    {
+      "key": "reactions.gap",
+      "label": "Расстояние между реакциями",
+      "kind": "number",
+      "default": 4,
+      "min": 0.0,
+      "max": 10.0
+    },
+    {
+      "key": "common.background",
+      "label": "Фон приложения",
+      "kind": "color",
+      "default": "#0A0B10"
+    },
+    {
+      "key": "common.text",
+      "label": "Основной текст",
+      "kind": "color",
+      "default": "#F5F7FF"
+    },
+    {
+      "key": "common.muted",
+      "label": "Время и подписи",
+      "kind": "color",
+      "default": "#A9AFC1"
+    },
+    {
+      "key": "common.fontSize",
+      "label": "Размер текста сообщений",
+      "kind": "number",
+      "default": 18,
+      "min": 12.0,
+      "max": 24.0
+    },
+    {
+      "key": "common.timeSize",
+      "label": "Размер времени",
+      "kind": "number",
+      "default": 11,
+      "min": 10.0,
+      "max": 16.0
+    },
+    {
+      "key": "common.gap",
+      "label": "Расстояние между сообщениями",
+      "kind": "number",
+      "default": 6,
+      "min": 0.0,
+      "max": 24.0
+    },
+    {
+      "key": "common.bold",
+      "label": "Более плотное начертание текста",
+      "kind": "bool",
+      "default": false
+    },
+    {
+      "key": "common.ticks",
+      "label": "Прочитанные галочки",
+      "kind": "color",
+      "default": "#68C9ED"
+    },
+    {
+      "key": "pattern.kind",
+      "label": "Рисунок фона",
+      "kind": "choice",
+      "default": "Фирменный"
+    },
+    {
+      "key": "pattern.color",
+      "label": "Цвет узора",
+      "kind": "color",
+      "default": "#F5F7FF"
+    },
+    {
+      "key": "pattern.opacity",
+      "label": "Заметность узора",
+      "kind": "number",
+      "default": 4,
+      "min": 0.0,
+      "max": 25.0
+    },
+    {
+      "key": "pattern.size",
+      "label": "Размер символов",
+      "kind": "number",
+      "default": 26,
+      "min": 12.0,
+      "max": 44.0
+    },
+    {
+      "key": "pattern.columns",
+      "label": "Столбцов узора",
+      "kind": "number",
+      "default": 6,
+      "min": 2.0,
+      "max": 6.0
+    },
+    {
+      "key": "pattern.rows",
+      "label": "Рядов узора",
+      "kind": "number",
+      "default": 6,
+      "min": 3.0,
+      "max": 10.0
+    },
+    {
+      "key": "pattern.offsetX",
+      "label": "Смещение узора вправо",
+      "kind": "number",
+      "default": 0,
+      "min": -30.0,
+      "max": 30.0
+    },
+    {
+      "key": "pattern.offsetY",
+      "label": "Смещение узора вниз",
+      "kind": "number",
+      "default": 0,
+      "min": -30.0,
+      "max": 30.0
+    },
+    {
+      "key": "pattern.rotation",
+      "label": "Поворот символов",
+      "kind": "number",
+      "default": 0,
+      "min": -45.0,
+      "max": 45.0
+    }
+  ]
+}

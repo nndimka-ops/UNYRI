@@ -1,0 +1,85 @@
+{
+  "name": "stasel-webrtc",
+  "repository": "https://github.com/stasel/WebRTC",
+  "commit": "1d04692697cb642bfebf6ad2dd99fe52649c3d6d",
+  "source_url": "https://codeload.github.com/stasel/WebRTC/tar.gz/1d04692697cb642bfebf6ad2dd99fe52649c3d6d",
+  "archive": "stasel-webrtc-1d04692697cb642bfebf6ad2dd99fe52649c3d6d.tar.gz",
+  "archive_bytes": 30066,
+  "archive_sha256": "d850768018851587feccc398007bb2d1d3741d063be4095d5952003c791000a7",
+  "all_git_blobs_match": true,
+  "members": {
+    ".github/workflows/webrtc-build.yml": {
+      "bytes": 1838,
+      "sha256": "7337814fa8fa1cdb775225bd94d25031c287bc265cf8d7525f5e30f815633466",
+      "git_blob_sha1": "cfedbce05d32b8dc3a4157e237cadb21480fd66f",
+      "type": "file"
+    },
+    ".github/workflows/webrtc-release.yml": {
+      "bytes": 1315,
+      "sha256": "e810493da426b75ad3179cd7a3b4f0326651bdff56fafaaa6a55458762150cfa",
+      "git_blob_sha1": "3aee16bb5ff71540c8dafb7d8cde10ce1d64044e",
+      "type": "file"
+    },
+    ".gitignore": {
+      "bytes": 124,
+      "sha256": "dc5458add060653003710343348c54cf0cdf12b6ccd8b35000796a8c61e09c04",
+      "git_blob_sha1": "20c75c1a8ee6ffa5663abde9b2a35969df98e929",
+      "type": "file"
+    },
+    "LICENSE.md": {
+      "bytes": 2992,
+      "sha256": "843529896bae499c92af3ecade86855128f930334ba97530695ccecef56e966d",
+      "git_blob_sha1": "2f33dfe81ad3bb9c24c34728ec80b2e4eb4e0057",
+      "type": "file"
+    },
+    "Package.swift": {
+      "bytes": 550,
+      "sha256": "7b61c6bc2b2c360a7f767b1608d2ad36c542d04ede6144cf030e284e0407e5b5",
+      "git_blob_sha1": "8623d366451bd6840a5b1ef8f5039ab737fc7d06",
+      "type": "file"
+    },
+    "README.md": {
+      "bytes": 4812,
+      "sha256": "9ad128715e484e340af8ac50dd35ffa5752970fca1decaddfafde3d76be49cb1",
+      "git_blob_sha1": "ec91c90b5597f525d73d34c5c5301989aa5528e9",
+      "type": "file"
+    },
+    "WebRTC-lib.podspec": {
+      "bytes": 928,
+      "sha256": "fe56ec8c3c7dce494c26767f3170f2109bd4097dbd326646fef98976d7d22833",
+      "git_blob_sha1": "83fbb7bd577e81b2a315d99a572e423d6693960b",
+      "type": "file"
+    },
+    "WebRTC.json": {
+      "bytes": 5859,
+      "sha256": "57a40faa0adfeb1046e86d8396b2565fd193e9a2f9af6884dc4bc9fa55062a15",
+      "git_blob_sha1": "6e1e6127a02e9764fdc92bf59e318ed6adab3976",
+      "type": "file"
+    },
+    "scripts/build.sh": {
+      "bytes": 10784,
+      "sha256": "b67ef275a16b31e9f80f44827658d430881bc41b8df5cda01493bda48080ce36",
+      "git_blob_sha1": "ea2acd5198d20cc9eff7e7ce9ceee8cae1c66cbf",
+      "type": "file"
+    },
+    "scripts/clean.sh": {
+      "bytes": 50,
+      "sha256": "fecccfef4ac324f285534b4e48590a812cb7142c426a1032b74bd3b45b8b95be",
+      "git_blob_sha1": "e236ee5706c2c7e515b54f9d272c41af35516629",
+      "type": "file"
+    },
+    "scripts/gn-args": {
+      "bytes": 69829,
+      "sha256": "86bd8b2f1d0f9d68078da2ac3b9c7627eeafce499293bb2db511a4ea055a6b80",
+      "git_blob_sha1": "8c10d8b31f44572a851c9dce421244804c5ebf01",
+      "type": "file"
+    },
+    "scripts/release.py": {
+      "bytes": 8903,
+      "sha256": "952c784d4f1a005c7cd98d3c938c84f560cdcf5d69bf954d0af8aa8ce1d73287",
+      "git_blob_sha1": "f1a3d12e101f01ded82447f825e939d1f6372b00",
+      "type": "file"
+    }
+  },
+  "top_level": "WebRTC-1d04692697cb642bfebf6ad2dd99fe52649c3d6d"
+}

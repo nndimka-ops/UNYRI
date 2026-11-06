@@ -1,0 +1,4137 @@
+[
+  {
+    "path": ".gitignore",
+    "bytes": 140,
+    "sha256": "1702f7da46d23b1bc6411474592a9b0934a40b66c09d654ff4716a1b1d2f24e5"
+  },
+  {
+    "path": "COPYRIGHT",
+    "bytes": 453,
+    "sha256": "9b96877a43544bbf46efe0ceef28d8a38b09ddee5a2cd3804cec7c36c5f3c8e0"
+  },
+  {
+    "path": "DEPENDENCY_SOURCES.json",
+    "bytes": 4182,
+    "sha256": "f41c9b094bd22d3f7b13c859321a8678d3af46a4f29a6be81cf4c7cff3edba04"
+  },
+  {
+    "path": "design/branding/unyri/icon-01-refined-r1.png",
+    "bytes": 469276,
+    "sha256": "098f9d1749c0d641ec25a57b71cdfa1a63f1d12637f95a009a2b0d7db596dcc4"
+  },
+  {
+    "path": "design/render_app_icon.py",
+    "bytes": 522,
+    "sha256": "7f1fa129ba9c5739bb9005af556b91b69e46a165fbdb2ea03becc4dbd857a5c8"
+  },
+  {
+    "path": "docs/SELF_HOSTING.md",
+    "bytes": 1182,
+    "sha256": "3fc1a24dbab9293d2dce10d82ac225c6f678f18df042c571d0d476981ad8e645"
+  },
+  {
+    "path": "ios/.gitignore",
+    "bytes": 313,
+    "sha256": "a56a0c8f964b777417955affc9b2e3f6f6e1d53c6c0c732db1d94a0f0a7bf9ac"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/COCO-E2EE.patch",
+    "bytes": 14903,
+    "sha256": "16a37b90cad888556738beea57d520950e8053111c0e71f3eee642a4e4f78827"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/COCO-PATCH.md",
+    "bytes": 3336,
+    "sha256": "b0e11654b230586a0317d814962d150b53d32f352974d1fa5f60ea85e0dbe1c7"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/LICENSE",
+    "bytes": 11560,
+    "sha256": "3ddf9be5c28fe27dad143a5dc76eea25222ad1dd68934a047064e56ed2fa40c5"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/NOTICE",
+    "bytes": 566,
+    "sha256": "6be5b57f1d03badf1d8e7d58d56c556bc0a89b7ed2329ec814c1905f4cfe6f4a"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Package.swift",
+    "bytes": 1277,
+    "sha256": "13dd5ad009f3cc09f07eed417543d9444d3c52dcfc9c841c25040f9e7be0c2aa"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/CLiveKitProto/include/livekit_metrics.pb.h",
+    "bytes": 14613,
+    "sha256": "e6d389bcbdb24cad0c4c55ec8677687c4edbfaea781b2e6c3a34c706764f007a"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/CLiveKitProto/include/livekit_models.pb.h",
+    "bytes": 124348,
+    "sha256": "20eca883cfff9b49a8bc8b4ae566134bd9107e705bb5176fbc7ff03f576d039a"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/CLiveKitProto/include/livekit_rtc.pb.h",
+    "bytes": 108496,
+    "sha256": "decc8487c854cb5f4a867ce1c3d5afe63593c1048d74848106fc3faabb2c5f25"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/CLiveKitProto/include/lk_pb.h",
+    "bytes": 45747,
+    "sha256": "656bb3347c23692906babe1f4ce8c2b8c575c1033dae3eed62ce07f8cbbfebd1"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/CLiveKitProto/include/lk_pb_common.h",
+    "bytes": 1876,
+    "sha256": "6f87c554b87a28a226f79ae3bbc580b946926135df99790bba65e291e212bdd8"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/CLiveKitProto/include/lk_pb_config.h",
+    "bytes": 1261,
+    "sha256": "305f7d6c9779572292b8d24f820ed3669a73a1c55de4a62bf10dea1bf56efb9d"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/CLiveKitProto/include/lk_pb_decode.h",
+    "bytes": 8458,
+    "sha256": "0ca94b2586c8b9fb3c2dd373e96d8d990b7e8d022134d71a16be6d390ba226d2"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/CLiveKitProto/include/lk_pb_encode.h",
+    "bytes": 7521,
+    "sha256": "bf221a4b535084557b9e9bcdd704b196ee9d1553eafde221a0d046b78272c5a4"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/CLiveKitProto/include/lk_pb_rename.h",
+    "bytes": 4816,
+    "sha256": "f656dbfac55470be949d1513b5a4dda1854964d37af14532949bbbd733299aad"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/CLiveKitProto/include/options.pb.h",
+    "bytes": 1950,
+    "sha256": "1572ea23bfb335a62e4818079dbd6a3e0c232d0744804d5facedfbe4a1f2cf9e"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/CLiveKitProto/include/timestamp.pb.h",
+    "bytes": 5983,
+    "sha256": "cbfb126ef973a2b6dcabd2c6570be837af6d7b7147b59f4902b2ec3587d48a62"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/CLiveKitProto/LICENSE-nanopb.txt",
+    "bytes": 1770,
+    "sha256": "be7564f98f49ffbe39334f829a2248497aa5f8e69009471d0ea5f865d1d850cf"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/CLiveKitProto/livekit_metrics.pb.c",
+    "bytes": 707,
+    "sha256": "91a58cb032241d3883c56fca2c7baddd7f7636197c9afafa235f03143234c0d6"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/CLiveKitProto/livekit_models.pb.c",
+    "bytes": 4852,
+    "sha256": "d14628c14e3a19393ff37b0a8fcde89b62cb595ae3ebc289a0cea5a1b0d97ae7"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/CLiveKitProto/livekit_rtc.pb.c",
+    "bytes": 5352,
+    "sha256": "5449b9c44f135ed68914f0953ae1505e74050a6921f13455f23cbbd1ad365317"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/CLiveKitProto/lk_abi_check.c",
+    "bytes": 509,
+    "sha256": "f37b37cf1f8d5df8e74f86b65ec60652318dcbd7f5e050ec1dc24e35ac20d885"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/CLiveKitProto/module.modulemap",
+    "bytes": 65,
+    "sha256": "faf5a2951b8716f149bbd9fdd6a7f3c5b1e270e4feb4838ec7d47d9c16e68e97"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/CLiveKitProto/pb_common.c",
+    "bytes": 12636,
+    "sha256": "dc72aa9d4cfd19f36c60e8064717900b4d1f2d8165b9a5e743e8380dcbbbca2e"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/CLiveKitProto/pb_decode.c",
+    "bytes": 57055,
+    "sha256": "bee7e79201d5287ba49e4e1151cba8e6a5df2f06b4c202159465a7fd80cd3694"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/CLiveKitProto/pb_encode.c",
+    "bytes": 31907,
+    "sha256": "a21586fae5ec85da2c574ffedcf461b5a2ea56df32517d2164508336c98d4274"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/CLiveKitProto/timestamp.pb.c",
+    "bytes": 318,
+    "sha256": "ac60c5e444fccf48d8aa639bec6402284c9d00841809336fa6fd31d01f350d6e"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Agent/Agent.swift",
+    "bytes": 6606,
+    "sha256": "948ac8f8ff8b3e061f20a850b8e779b27c20934e70c73949fe91e963a64521ed"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Agent/Chat/Message.swift",
+    "bytes": 2381,
+    "sha256": "a274c81266785b1451a4598a3c7e414b6a0592c13fa42eb0003cc3b90d884c3b"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Agent/Chat/Receive/MessageReceiver.swift",
+    "bytes": 966,
+    "sha256": "f8e39a0205e65816ee2cf5a44852c069fbdaec78016279e4ee09b4d2450e62fb"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Agent/Chat/Receive/TranscriptionDelegateReceiver.swift",
+    "bytes": 2540,
+    "sha256": "12d92427e1ef5e3257666424227ac33ab0bdacb52675e06ec54384f2067756a5"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Agent/Chat/Receive/TranscriptionStreamReceiver.swift",
+    "bytes": 7620,
+    "sha256": "29f67f9f8ab6594c8a5465cbc5b21b3d024f835e96f29a0134589cc2f3f186fa"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Agent/Chat/Send/MessageSender.swift",
+    "bytes": 926,
+    "sha256": "4a2727166cb6eaa6cabf9e6a1b60385f6c32fcaaa1f5437067a41291e02e294b"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Agent/Chat/Send/TextMessageSender.swift",
+    "bytes": 1953,
+    "sha256": "6304082ed6f4b2a66b829466651ff926d06083054abafc1732b7838c6d0e22f6"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Agent/Participant+Agent.swift",
+    "bytes": 1429,
+    "sha256": "c6b02e33bd83133b4382118624da6ab65411e3709cc5cdc99c01c0fd09037a47"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Agent/Room+Agent.swift",
+    "bytes": 1285,
+    "sha256": "50114a188273245af808e95fef97d4034e88fe71f118c2d2c59b67dd2d1fc051"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Agent/Session.swift",
+    "bytes": 14021,
+    "sha256": "7e7edab9f874041eba1a2cbd2ba2e5a80d4d0e174fd6d4eaf10c7fab06456080"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Agent/SessionOptions.swift",
+    "bytes": 2738,
+    "sha256": "0c21f03653661caf0956cd07959b73f1cc24f03a55b803265af522339fc30aab"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Audio/AudioDeviceModuleDelegateAdapter.swift",
+    "bytes": 4836,
+    "sha256": "cd413919976d8cba35c897b8766fd125284733bc994716f6739c269d3f06f9b6"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Audio/AudioEngineObserver.swift",
+    "bytes": 4226,
+    "sha256": "c9c280782dd296abe14604e44a88c63545977b7e607f499bdad1be60d89619e8"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Audio/AudioSessionEngineObserver.swift",
+    "bytes": 14200,
+    "sha256": "88b9ad77838afad6c0a69711c59c471f59b0bb577da5483a69e34469deae69d0"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Audio/Manager/AudioManager+ModuleType.swift",
+    "bytes": 2228,
+    "sha256": "6bcbbcd55fa552407aa2365ebd5b5b7c6fdd9e964371162f373379e90b89428b"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Audio/Manager/AudioManager+MuteMode.swift",
+    "bytes": 3670,
+    "sha256": "f5e89dfc1a425664ddf75975a795ecea8f00500ec51fb677e283c023a3700bb4"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Audio/Manager/AudioManager+Testing.swift",
+    "bytes": 1905,
+    "sha256": "ccd3f23cb800a45e252710d455e3ad07b9c739cbc7713cf5afa18f88286d4740"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Audio/Manager/AudioManager.swift",
+    "bytes": 29763,
+    "sha256": "f3ca7bc1635426449e8389c36393ac9bffee96784888cf25a5b68488b4f0b765"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Audio/MixerEngineObserver.swift",
+    "bytes": 15396,
+    "sha256": "45f0aba389e0ac61d483b0161034c734241064fbd6a2d7a71bb463a044379473"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Audio/PlayerNodePool.swift",
+    "bytes": 7501,
+    "sha256": "cf0d3791890bd18000857b439f69314566788bfd3516b20300aee15caca495e6"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Audio/SoundPlayer+Types.swift",
+    "bytes": 7253,
+    "sha256": "38633cc1af2bc83e9bbb5bffb55cc790bcfa13eaddff2b7b624fed9e9369bcff"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Audio/SoundPlayer.swift",
+    "bytes": 11837,
+    "sha256": "d23dcb14267a95e6fe022c9cef9a521a7dd8836a4beb61c586e682950cd17e22"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Broadcast/BroadcastBundleInfo.swift",
+    "bytes": 2924,
+    "sha256": "2d7b758afe17d60b34a20cc699bcb5910ac1960d9062e77b9cf821eb32a26ce2"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Broadcast/BroadcastManager.swift",
+    "bytes": 4878,
+    "sha256": "065ed3015bbc2fb903735ab971f3900828efe84d4b49b854f9d6f9a3bdf38129"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Broadcast/BroadcastScreenCapturer.swift",
+    "bytes": 7542,
+    "sha256": "bd5af08366c5e989faa21026f358ed85903b62ba8e4a8cb1bd7b8de0d3165a2f"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Broadcast/IPC/BroadcastAudioCodec.swift",
+    "bytes": 4296,
+    "sha256": "2e243dd4c3981ebcc3107175e2b8bcb3371e28ba031b0c146f67bd440f1c8282"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Broadcast/IPC/BroadcastImageCodec.swift",
+    "bytes": 4233,
+    "sha256": "98b70efe7c0ae0aa67f4639e0275d119a30d9dbfde929b29a92bd58c480d5069"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Broadcast/IPC/BroadcastIPCHeader.swift",
+    "bytes": 1014,
+    "sha256": "3a427acd05b9d0159d0b38a3136abe73690f6086bc6b2131698b121faa2ffc05"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Broadcast/IPC/BroadcastReceiver.swift",
+    "bytes": 3154,
+    "sha256": "c408204f77ec18c4f2900424dc29f10517deaf81ec1b3562f3bda8c6235691be"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Broadcast/IPC/BroadcastUploader.swift",
+    "bytes": 4654,
+    "sha256": "bc211a225574cf3c0d39a026c9ce79e02e3dd3162769ac53ae5fbcbe1af3a9fa"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Broadcast/IPC/IPCChannel.swift",
+    "bytes": 9264,
+    "sha256": "0ef0f0c5fdcf3786950979d82a44d9fb489cf697481aa20a81cf5738b9e60652"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Broadcast/IPC/IPCProtocol.swift",
+    "bytes": 5150,
+    "sha256": "08cbe99f14274af2a519fe8682266c967b680179e7b11fe3bf1ba069bca203c7"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Broadcast/IPC/SocketPath.swift",
+    "bytes": 1773,
+    "sha256": "adc5bc9abc24b9aa745481795ee13f2b2e7e22bdbf5753d9b57462470cd76c1b"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Broadcast/LKSampleHandler.swift",
+    "bytes": 5258,
+    "sha256": "7de818393f732db8b55186549a3e79ba5edd03527fc9ca34fb670896c6610c52"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Broadcast/NOTICE",
+    "bytes": 131,
+    "sha256": "01d15e76f4ca3adf56d4ad5500853f08ab4a094d8509a8202addb1942abf6642"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Broadcast/Support/DarwinNotificationCenter.swift",
+    "bytes": 4807,
+    "sha256": "4ef25e313da896f789ed0a2eeb8b5c656bd795e69d255784175630d5faae4441"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Convenience/AudioProcessing.swift",
+    "bytes": 7675,
+    "sha256": "3ae4ca4c702a00cb27fabd423f57aa91f005c4fd7847c533bd0a2a486395e622"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/BufferedAmountMeter.swift",
+    "bytes": 3347,
+    "sha256": "7436dac3753b4908d713c18c5472d86f44d6edde65bc39cf899ac5860d3395d3"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/DataChannelDrain.swift",
+    "bytes": 25672,
+    "sha256": "34752a95dc0cb86bcab378035dd13e41344477558d8d599eefc36863acb43c05"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/DataChannelPair.swift",
+    "bytes": 14737,
+    "sha256": "8c80dbf5ae69b565c9da4ffef0be4b4e3102c199d9e2e39de369f07284e1c462"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/DataChannelSendStages.swift",
+    "bytes": 5512,
+    "sha256": "db554634013dfa64808c99cf741169dbbaf30c1284c231db256c779685c3ba1a"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/DataChannelWrite.swift",
+    "bytes": 11190,
+    "sha256": "d0c8302c707c4fa5bf1236846f1124971149e8b9cce20dc7ecea41c7ce6fefff"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/LiveKitSDK+VideoEncoderFactory.swift",
+    "bytes": 4715,
+    "sha256": "e93f453fc9fc00403e49e37415b25181dfe0be6211e3410d7d544bd6e677c2c5"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/PreConnectAudioBuffer.swift",
+    "bytes": 11136,
+    "sha256": "c72dcf859e52e56051f5f099251301ce04e6eb12ce6dfd50e2496eb929a7572f"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/RegionManager.swift",
+    "bytes": 9487,
+    "sha256": "8adea7e55d4faeba0906a7a26434979c51aa4595a5bb6eb926e261bacc58fc82"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/Room+Convenience.swift",
+    "bytes": 1072,
+    "sha256": "f3b43fb84a8c93bfb9b8069d44235c44eee108aee97e87839a6d41510b87a1dd"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/Room+DataStream.swift",
+    "bytes": 5921,
+    "sha256": "a5c40cd8d7148a292eacc7e67fea55e1d54e3d40906a33d683183a102fd1c616"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/Room+DataTrack.swift",
+    "bytes": 21443,
+    "sha256": "6b3d5ba9643988fa9068e1cc500ef3d6275e4d33a6cd8492ec38f528dd7a1058"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/Room+Debug.swift",
+    "bytes": 1370,
+    "sha256": "d4a94380d4d4b4e4189643f74ae4b0d7b901bbd95f054db814136ced470a8c38"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/Room+Engine.swift",
+    "bytes": 32806,
+    "sha256": "6ab655e803dd3c234f75262c47bbc4f46be8503a027b1de1ea911052484d1438"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/Room+EngineDelegate.swift",
+    "bytes": 13493,
+    "sha256": "1c68999e6d94f3778cb1523820a3e1e4a52606f4bb2bb2b14b215c9c532d2a4f"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/Room+MulticastDelegate.swift",
+    "bytes": 1032,
+    "sha256": "d90db1e391efba54c03f4058aa50635a82eb41bca01ed630a204037dd53448a0"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/Room+PreConnect.swift",
+    "bytes": 3291,
+    "sha256": "9b4f13f69f5dc62e01d4052c8926a92e6f384c7734b996b904fd5d59044df2e5"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/Room+Region.swift",
+    "bytes": 9367,
+    "sha256": "3ac8d2032a48589688ba009be29f292587aa7833a371c9dfdaa4b88704e8698c"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/Room+RPC.swift",
+    "bytes": 4228,
+    "sha256": "5472844bf1d0c7cc5776503c8db85a879d671d0bb86dc04783d6556c3811f721"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/Room+SignalClientDelegate.swift",
+    "bytes": 22303,
+    "sha256": "b9a5f70019e400d32f29399c07b441a7cc5cda014664fcc7023f8d8b0b37ca8c"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/Room+TransportDelegate.swift",
+    "bytes": 4843,
+    "sha256": "3082b1305c27ad1f7eea98f18683dfb4a5e898dccc94f2fcda83187d2c0c6906"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/Room.swift",
+    "bytes": 34760,
+    "sha256": "068d1dd50658c4eadf8e4766e207bbd2dd811d652df26bf2c45ff647b7af000b"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/RoomDependencies.swift",
+    "bytes": 19235,
+    "sha256": "6ccfaa225a9aa25d645ac430a8a05bf75cc0d5c3b47e37d4705783cdb1b3715e"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/RPC.swift",
+    "bytes": 5685,
+    "sha256": "e22efcf2c426b1eb94528498430cbd7ba325a622a2e960a60023dc851eff0c45"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/RpcClientManager.swift",
+    "bytes": 16003,
+    "sha256": "1a5f74952f0bb9cfc61edc2ab890ab075ebd707e64416e0d758077c4cd15cdef"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/RpcServerManager.swift",
+    "bytes": 15281,
+    "sha256": "bbf23636b5dc4e04c2868f88873b61a446dd52dd75747114b268297f07a974fa"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/RTC.swift",
+    "bytes": 15365,
+    "sha256": "582f64f2d90cb481502c0417e5155a88dc5b8025fa5871115edba1c78784ceb4"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/RTCBox.swift",
+    "bytes": 2512,
+    "sha256": "15a73558559663ab398d52b013653f6f4bfb2e453650752b60a42b39ac3e88b2"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/RTCMediaTrack.swift",
+    "bytes": 2661,
+    "sha256": "b32d030a538967ee5ab39cc7c6a3035ae999f0b0d6e7c53967c0a0b9f905ea5b"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/RTCReceiver.swift",
+    "bytes": 1397,
+    "sha256": "6239312a3c9af442253c20ef0402dec3cbb001d93afcf268519b34704ae6e5a5"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/RTCSender.swift",
+    "bytes": 1651,
+    "sha256": "e4d285e168483a8487cfe6f61467f78fb6a6bf0884e23b1f0c52df1961a61142"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/SignalClient.swift",
+    "bytes": 38474,
+    "sha256": "2e3bd9fc5fd37e2c3cf49d92eb2870456bd9c06b92ea2e2c84411ef0b3bdd7b7"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/Transport.swift",
+    "bytes": 42988,
+    "sha256": "42e9911dcf74d72c5c5b7a80d222ad534cc77e71d1000801e23dab371e4f83c1"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/TransportMode.swift",
+    "bytes": 4006,
+    "sha256": "c513471d701a5d031e90e5862244c2efd18366902938d09d2acddf33a73458aa"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Core/VideoEncoderFactoryAdapter.swift",
+    "bytes": 7298,
+    "sha256": "b9c076f52f34cc662886ae94845e5b7c34d4a7632928624ea9fdf18f713745b3"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/DataStream/DataStreams+FFIDelegates.swift",
+    "bytes": 6673,
+    "sha256": "7896cee85557b45526522e53d928680fa43f1ca09ee987963096d724b036e8cf"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/DataStream/DataStreams.swift",
+    "bytes": 21150,
+    "sha256": "a785adf6373495394f8ac79232562dbc7c22b03f134a28616da8fbe7b661b3c2"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/DataStream/FileInfo.swift",
+    "bytes": 3107,
+    "sha256": "8759fe04326a9ef642b3198e975b1d11053b5f80ac6cb33843d3192637bdc93a"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/DataStream/Incoming/ByteStreamReader.swift",
+    "bytes": 7899,
+    "sha256": "7dee5f811efff4f222e6f6e0ebd09631e12fd06092fa9bfc3bce135fb8e9922e"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/DataStream/Incoming/TextStreamReader.swift",
+    "bytes": 4929,
+    "sha256": "ae4efda671c1e3bd1fa304613ead8b8058335ab960293bc195fdddc48c54d91d"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/DataStream/Outgoing/ByteStreamWriter.swift",
+    "bytes": 3282,
+    "sha256": "a951bd0231a100f05f8ca7ce67c297535e3b6520bb314627ad1cda89bdbc7475"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/DataStream/Outgoing/TextStreamWriter.swift",
+    "bytes": 3284,
+    "sha256": "92f8be1535ed6cdb7cf327882ddc0959a6b065c704298a1c4d651bfdf2e8a584"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/DataStream/StreamError.swift",
+    "bytes": 6994,
+    "sha256": "a60052623df64d3116871e30e141ef4ba0ab4acc43d72eba2c6f57a6632b708d"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/DataStream/StreamInfo.swift",
+    "bytes": 6048,
+    "sha256": "6ab2b00db263fdfd0efd2992c7b74a42d23fb3a2bbdf1631eb309fa65ec34e8d"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/DataStream/StreamOptions.swift",
+    "bytes": 11310,
+    "sha256": "bb91cee7d03c9e78141ea696645b645879e8324d1a611e75c7cbf3b429ed4619"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/DataTrack/DataTrackError.swift",
+    "bytes": 5599,
+    "sha256": "26dc8d07348c0e8a45cae8f75b379ab748d7439714eddebb2cd6ee2a6e35f801"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/DataTrack/DataTrackFrame.swift",
+    "bytes": 3971,
+    "sha256": "17baa2830e45a8c6540028481c46dc111e4ee9bad8afdde9accd636d3831c67a"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/DataTrack/DataTrackInfo.swift",
+    "bytes": 2422,
+    "sha256": "ca875a8496535b4406882d9d52b4120312b7a5ee2a3f7b8dafab3907703a2408"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/DataTrack/DataTrackPublishOptions.swift",
+    "bytes": 2292,
+    "sha256": "213ffb469b54d44c412927f3a8548ce410362a12e361a7def53cae672ed79369"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/DataTrack/DataTrackSchema.swift",
+    "bytes": 9214,
+    "sha256": "1735d268c98ce64749f4baac4976ebadc4f89ae807dee2a6bf7590dc0c6d6e23"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/DataTrack/DataTrackSid.swift",
+    "bytes": 1475,
+    "sha256": "c93da2b49e1f0279f7d64e383fc0a4d566aa82fd6e1d990727770ce4e991fffa"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/DataTrack/DataTrackStream.swift",
+    "bytes": 2444,
+    "sha256": "03bd75319e5261d0cf3224254c3f014c0aca64b578c36871c2daf11cfe56e3c2"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/DataTrack/LocalDataTrack.swift",
+    "bytes": 5305,
+    "sha256": "afd2dc9c1ace4b4314c399c8760ebd7407dd705d89ca572403492cfef0a62d2d"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/DataTrack/RemoteDataTrack.swift",
+    "bytes": 4351,
+    "sha256": "8dc1078902a395de979b9c0d0f1166a3ddf852f4b22017d266bd208cd2999fea"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/E2EE/DataTrackE2EE.swift",
+    "bytes": 2770,
+    "sha256": "90387b8b1ff809d5308400bddf22db88ec0f07dc2a244650d8c740aff2748f89"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/E2EE/E2EEManager.swift",
+    "bytes": 18647,
+    "sha256": "2a6016764d445d5e815eb066b97b699135a7723aa28fba5098a406d14e6c5fd5"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/E2EE/KeyProvider.swift",
+    "bytes": 11469,
+    "sha256": "1985c2c242fb7c4948fd8538625b1ce0f7631149d0530f92bd54bfdc0056a8bb"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/E2EE/Options.swift",
+    "bytes": 4389,
+    "sha256": "a7195d680d9ea8f170de82798c57d8e36ff7d65697ed43745c0f49cd39910194"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/E2EE/Protos+E2EE.swift",
+    "bytes": 3346,
+    "sha256": "e3792a6bc1e32dc6b8cd6b3ec7976a9be4e98407bb2481e26f4f4417a843a962"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/E2EE/State.swift",
+    "bytes": 1738,
+    "sha256": "c411d860d42e4ec36fcda1b60f9426f2b2e6b75f6d0fe0fc0bbd5a07c1092237"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Errors.swift",
+    "bytes": 10724,
+    "sha256": "a89818490f7a29a989bec943bb4c9319373a1111cd15ddb90a549fc52e3facd9"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/AsyncSequence.swift",
+    "bytes": 782,
+    "sha256": "7181d296f448357ba7ba1f48ea8274716010e79e71069d8b87d4d8aec0d197f7"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/AVAudioNode.swift",
+    "bytes": 889,
+    "sha256": "759ad83cd225c20cb4a793e1f4d3ca39ecb7df49c23a9354bebc0d08c251efe3"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/AVAudioPCMBuffer.swift",
+    "bytes": 6920,
+    "sha256": "cce086f7759e7b13477c319a24a5c3f7fbc21724bafa216c64a8e603fc0fbbb9"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/AVCaptureDevice.swift",
+    "bytes": 1732,
+    "sha256": "44c90df4a77ede6c141044df958479cf836529eeb8400b1cfd3c52f7256a0864"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/CGFloat.swift",
+    "bytes": 703,
+    "sha256": "314f9d68ca9c34ef548409f24dad7f6a974c82c6c43e65e287cb3eaef4591401"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/Codable.swift",
+    "bytes": 1033,
+    "sha256": "bb3f89caf895ab781b40a95fad2690ded47cbaa9feae8230c38efeab013b4e3b"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/CoreImage.swift",
+    "bytes": 2790,
+    "sha256": "9f13e992964f2f247a061b69edf038ed3a8e9af70db22241f9262e4af46ff9d9"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/CustomStringConvertible.swift",
+    "bytes": 7997,
+    "sha256": "43b04c0cfcf1de9bd01c30595b4f938d3ff4a75ce7c8526ce402e172a1c91962"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/Data.swift",
+    "bytes": 1306,
+    "sha256": "0304e7cf040ac434873298444486b48dd226388b89cbae5830ea2f2c52a80451"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/LKRTCRtpSender.swift",
+    "bytes": 3233,
+    "sha256": "3a5adf04b7c94e3b0c91e60935aa1e69b62b9fb4735e5fc4876282d247b7495a"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/PixelBuffer.swift",
+    "bytes": 16477,
+    "sha256": "2409b00287c1f28cebe8572bf3d7633256c9a5093ec79394d37ff43508062018"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/Primitives.swift",
+    "bytes": 1872,
+    "sha256": "b307998c6a2822d4225aa28dc8e577e5af7d5681c6335457e976a392988567b5"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/RTCConfiguration.swift",
+    "bytes": 1286,
+    "sha256": "764fe52d21c1ea6cabb24991f15a76e7c2e57af125a1617652e43e4c1b3aedbe"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/RTCDataChannel+Util.swift",
+    "bytes": 1038,
+    "sha256": "12cb3199209e5d7a30d9a18ca91e89de7d8f0ff70cfe4ac4cdf8d7651cd64bd1"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/RTCI420Buffer.swift",
+    "bytes": 4523,
+    "sha256": "44b80c003197672e93313f522c7a975cfbde8d930e1d0e48536ff0b87a14879b"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/RTCMediaConstraints.swift",
+    "bytes": 894,
+    "sha256": "1ae7fb3efefb78da6afbec3c984b7d6394790c2a9b7d6b03a397d787405e8f97"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/RTCRtpTransceiver.swift",
+    "bytes": 2223,
+    "sha256": "e6379737b1867ec94f70a44be6e161eac79f2f69b2a94cf704b8510fd9cf7d42"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/RTCVideoCapturerDelegate+Buffer.swift",
+    "bytes": 2392,
+    "sha256": "9022154c5715e65451988f7049521f669d6f445a7524d6881325fc760b594f82"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/Sendable.swift",
+    "bytes": 2546,
+    "sha256": "71860c5dd0697c3e1c572bc5290bc0c33ab54bb715419dbaf1b3ae5278f05d25"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/String.swift",
+    "bytes": 1580,
+    "sha256": "c10119417740bea221471d94881386b4f95bbaf07cf2963fe92e055040de05d7"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/TimeInterval.swift",
+    "bytes": 4951,
+    "sha256": "e52b454ba27ad0aef918b7dedada4767d84a6281afb8fa887926fcce0f8456f1"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Extensions/URL.swift",
+    "bytes": 3084,
+    "sha256": "df109db1e1fba3dbc0e8f2bf54a3d41faaf999685716a9def78caedcd943f363"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/LiveKit+DeviceHelpers.swift",
+    "bytes": 8681,
+    "sha256": "fd22025beaab806210ed259c1280f84470916ca97554bc096b6e85e4cf850993"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/LiveKit.docc/LiveKit.md",
+    "bytes": 15,
+    "sha256": "837a82569de60c9fb2c3ccd64aa4a47a4c5ddfc8fa33a86183409ddfb5886fd9"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/LiveKit.docc/Resources/.keep",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/LiveKit.swift",
+    "bytes": 3646,
+    "sha256": "e600db242caba644d44611d397fe4bfd8ff8216e3adf95da5ac8b6c8bfe092d2"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Participant/LocalParticipant+DataStream.swift",
+    "bytes": 8161,
+    "sha256": "5e049bb26e190d4d6eecd8e1a7f7caa5d6d052b63177d35375394cf9aa4126d1"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Participant/LocalParticipant+DataTrack.swift",
+    "bytes": 5392,
+    "sha256": "d3411595481058238a7f587bcd10a676da9d8b7b806352cd33a86f94ca168468"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Participant/LocalParticipant+RPC.swift",
+    "bytes": 4178,
+    "sha256": "1a3cd66855d0b5434f8fbb49cb2f08adfad6a94007db4662a33927eedb84ff12"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Participant/LocalParticipant.swift",
+    "bytes": 50522,
+    "sha256": "90d41a002c7f9c0d4e6539681b91df3bd837322d291f91c7346230db02b77c25"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Participant/Participant+Convenience.swift",
+    "bytes": 2048,
+    "sha256": "caca9a250c015a1705d6d401e19051a1d15b10a30c2c12684b2bd68b0fb76183"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Participant/Participant+Equatable.swift",
+    "bytes": 1045,
+    "sha256": "f6ef232af6556c865225e00c529e0bede5ff111a5d763eee1a6a10555a0adbc1"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Participant/Participant+Identifiable.swift",
+    "bytes": 794,
+    "sha256": "d2d02a36b7f903702341d55ac7318b40c24623355a6c555c1a13e808fd5fdaaa"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Participant/Participant+Kind.swift",
+    "bytes": 1690,
+    "sha256": "651c248d420416af83e48be592d31d04cd8631ec9026c471b498dd6cb7c3f4a3"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Participant/Participant+MulticastDelegate.swift",
+    "bytes": 1053,
+    "sha256": "cec7c30fea553bf5f45db24ac1fd4e8f4d152377eb15e7479017bc54497fcb33"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Participant/Participant.swift",
+    "bytes": 15163,
+    "sha256": "ac9333600de60341ce7699bfc31d67e77557478858fb377f7076c230ef628252"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Participant/RemoteParticipant+Active.swift",
+    "bytes": 2699,
+    "sha256": "88070cdca0d11e4b9cc06abaf8e3a284ab9c9fd9bd3928972126d8dd3feb03f5"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Participant/RemoteParticipant.swift",
+    "bytes": 11322,
+    "sha256": "34eab4261035621dd2057d2aa3b01e1447571056bafc775ba66490ec72617a17"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/PrivacyInfo.xcprivacy",
+    "bytes": 561,
+    "sha256": "27fb64ba9efa5e9712e3c59670a0f4b556b613b009bb6f639e9e5fc2d07112b3"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Protocols/AudioCustomProcessingDelegate.swift",
+    "bytes": 4824,
+    "sha256": "e52d040fe22295b063ccc86d4482621c4a0eaa3435d87fb90f7b5bf5e12c2efc"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Protocols/AudioRenderer.swift",
+    "bytes": 1424,
+    "sha256": "c97cc077c23332056e23f38a08842a97e5d50d56c17b6d31e8d0153cdcf9acc5"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Protocols/MediaEncoding.swift",
+    "bytes": 976,
+    "sha256": "4e6f99605458fe513d2a833a5b1921fa647fbe00190650267d7cc7ae249623ed"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Protocols/Mirrorable.swift",
+    "bytes": 717,
+    "sha256": "d7217963da03de259289550517835c8475cc0d3eb8a006c32adc6f9e9fe4a4fe"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Protocols/NextInvokable.swift",
+    "bytes": 723,
+    "sha256": "afca213e6889a73fc4e8f6752a4d1cbd0180b8b68b9cb001f3813fcef0505374"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Protocols/ParticipantDelegate.swift",
+    "bytes": 13355,
+    "sha256": "08bb2c7b4fd40c7107a84faf225b087f1ae33ecb03056e55b4510c61a39f6e68"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Protocols/RoomDelegate.swift",
+    "bytes": 18241,
+    "sha256": "8af88f1eb677787e052f31751820d59b7df5c5658406ab5a53a6179478525684"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Protocols/SignalClientDelegate.swift",
+    "bytes": 3514,
+    "sha256": "45417f4b5a23bf3491d118d2283f2a35f18027dc293528f9ba0af810479dba77"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Protocols/TrackDelegate.swift",
+    "bytes": 1545,
+    "sha256": "d5710401fab50f592e660a18ea45b9987958742d2a09551b515eba31faaa6052"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Protocols/TransportDelegate.swift",
+    "bytes": 1243,
+    "sha256": "b5643db45c398a58b6a78857bfb614674ea138fc04effb820514de134ac38844"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Protocols/VideoEncoder.swift",
+    "bytes": 6918,
+    "sha256": "6324459c9dde6f82cab6da7090e28e63874149f589e5ea4081828cce131441ea"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Protocols/VideoEncoderFactory.swift",
+    "bytes": 2331,
+    "sha256": "63a04d45ac5ac6c7a8e3c54bb4604b2b6858e4a1bd1a098b05d99f5e3ce418ff"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Protocols/VideoProcessor.swift",
+    "bytes": 725,
+    "sha256": "34128e16af4efcecb0da82ebca64d212334e617b82aaeb0ce505ccec5d150db4"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Protocols/VideoRenderer.swift",
+    "bytes": 2105,
+    "sha256": "6a8abb67c179bd2601cf2b8c7799ad7a669cd10a151b6315a1509b054266c594"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Protocols/VideoViewDelegate.swift",
+    "bytes": 1078,
+    "sha256": "52158fb5935ef3f3f4f1c60a0445686944fdba7845b84b318ac85d0003de8cf1"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Protos/livekit_metrics+Nanopb.swift",
+    "bytes": 15426,
+    "sha256": "ba6d9f0398c4b2de4cdfbbd5e4fdd61c29fbd7152ae29166495326d6ef091337"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Protos/livekit_models+Nanopb.swift",
+    "bytes": 195378,
+    "sha256": "b6b6098ce367cf3a2c44b237cc7851a646dadfd578e2b87f49e4c6472d5ef90f"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Protos/livekit_rtc+Nanopb.swift",
+    "bytes": 278669,
+    "sha256": "168d7c311630a7ffc5be6fbe7fc522fe5434b7c8bf82c52fc249148c0760269c"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Protos/timestamp+Nanopb.swift",
+    "bytes": 2101,
+    "sha256": "97b60c2bb8b7f3de16e091bd0818c550b5ed360e84123d71d46e359816b2c0a8"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/AppStateListener.swift",
+    "bytes": 3114,
+    "sha256": "065d961bd63df8b4aa190cdb37b39c176d45fb20502dcc375eb0b75bd1446701"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Async/AsyncAbandonOnCancel.swift",
+    "bytes": 2361,
+    "sha256": "116e1fc739fd05d24a2151039dea2c26682aaa7454e5f2d9d7f98b480c3f19c5"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Async/AsyncCompleter.swift",
+    "bytes": 8601,
+    "sha256": "fc274d005c0828f6c09ae70781ced8eff45e2117baeca2b0f99f9d5f32946edd"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Async/AsyncDebounce.swift",
+    "bytes": 1262,
+    "sha256": "5dc576b7684f092968e379c8b89bad225d66410d98882c4d7b9d1938c793ed95"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Async/AsyncFileStream.swift",
+    "bytes": 4420,
+    "sha256": "355e044c7084bd58e1f135f82a1c2ae0de02c971e389e6b47b3f567adb122351"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Async/AsyncRetry.swift",
+    "bytes": 2315,
+    "sha256": "6fb44725a72947539449a87485fe08d9e2aac69915a6f831bd50f4aabb8f78f4"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Async/AsyncSequence+Subscribe.swift",
+    "bytes": 6569,
+    "sha256": "7f6126e8e305929a2f89b3b0b1b15ab8946c026d9e18462484b7894aa65ba1e3"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Async/AsyncSerialDelegate.swift",
+    "bytes": 2064,
+    "sha256": "5cfbf42e6a49d45dcc0edeac4c74ca15df9b53ee6abd9616151e3025ec62dbe0"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Async/AsyncTimer.swift",
+    "bytes": 2929,
+    "sha256": "5f4449f7474d24c7d54398f24a2d98d59a42d3a8260fba0d96471db5dfc85c4d"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Async/AsyncTryMapSequence.swift",
+    "bytes": 1551,
+    "sha256": "4dda9d646798c39560f69777e016d66108982ba474490fd8e8324ea98373d419"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Async/ObservableObject+.swift",
+    "bytes": 1052,
+    "sha256": "08dac0f54b8e070314c31f3636672fd640c2910eccf756274cdd82529f7a59db"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Async/Task+Discarding.swift",
+    "bytes": 2975,
+    "sha256": "d8110e13bbffad5f693f18545b97b8452998e6eba1d320007c6ab3fe6e01b3fd"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Audio/AudioConverter.swift",
+    "bytes": 2638,
+    "sha256": "6c2e518651b01a0b1600dfdd91cec6021cc2a49b2f3f6fe0e8e083617062a9f0"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Audio/AudioMixRecorder.swift",
+    "bytes": 10409,
+    "sha256": "e697e4cbb9cce2fa4e0b73288a515ff2a1c116d44fe53d3bb96502c4bee2e146"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Audio/AudioPlayerRenderer.swift",
+    "bytes": 2378,
+    "sha256": "152878848a1701a3f56dbbea0777415e7e2765db86b8ea0b0bbed1f7a20feddb"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Audio/AVAudioPCMRingBuffer.swift",
+    "bytes": 4388,
+    "sha256": "db4a2f08192dd2d46573a16009f78ffb278689bb7705861a9eb61110774e7e20"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Audio/FFTProcessor.swift",
+    "bytes": 5720,
+    "sha256": "d38c1476d663bee662044b4aafca2fddddd4f43e44a4e59d9159a63a71d29320"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/DataStructures/Deque.swift",
+    "bytes": 2551,
+    "sha256": "44258cf3b88a96f0abda0267e3f79a890a6ce6f51336d13b1fa5a5e551e65f45"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/DataStructures/MapTable.swift",
+    "bytes": 1623,
+    "sha256": "25f1f0f994299c385f25df137a72b7d55adf5e8798cc389fd9e6afc2a477aa01"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/DataStructures/OrderedDictionary.swift",
+    "bytes": 3218,
+    "sha256": "1e0a2ff3ded9dd6b9f49fe720e18b0dfcdbbc44143f121a1fd136f5825af4ade"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/DataStructures/OrderedSet.swift",
+    "bytes": 1315,
+    "sha256": "659f6041634337182b219425a0cea2fbff968f47a511044de35f5b05a28ab579"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/DataStructures/RingBuffer.swift",
+    "bytes": 1543,
+    "sha256": "f4440b54f791774f6c4c4bd9b887982627846e1534ace726b120b4dc7250b112"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/DataStructures/TTLDictionary.swift",
+    "bytes": 2839,
+    "sha256": "71b460efc6b5ebb69a90b51b3c94978efe7436fee539edc8fe4776f1d37d32e9"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Global.swift",
+    "bytes": 1685,
+    "sha256": "bbfaa732474905cd0aea302ed0c34e9ceee00394fc3ce37712a772d0c7ab8fca"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Gzip.swift",
+    "bytes": 3996,
+    "sha256": "dea0a0fd008dca169eb92a50c7450e99684872c660b8a7050886455debf0f770"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Logger.swift",
+    "bytes": 9539,
+    "sha256": "218c8992f38bac4b8b0688ce1e3d977248817681371259864646ab47a422a635"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/MulticastDelegate.swift",
+    "bytes": 3756,
+    "sha256": "edcb64770f99b9d760d2fce5205f93c2ba452eee4a32b2aead0a2d4e48140dea"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Network/ConnectivityListener.swift",
+    "bytes": 6976,
+    "sha256": "4c4b60f6e63841feb74135d28111dc1c76a59b02d8b67446681f8b3c2f7f354c"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Network/HTTP.swift",
+    "bytes": 4568,
+    "sha256": "e0e146d03f194f8e170c6275210b5b1afa6ff9831e7cf860b2aa9d8efe9f7100"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Network/RustTransport.swift",
+    "bytes": 6957,
+    "sha256": "f537a0e5ecbe2a93c62da9252f78268a73408491d4404079901a01eefdb98bb3"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Network/WebSocket.swift",
+    "bytes": 7575,
+    "sha256": "96d772a9888c73043c207f4c8872d25a4458fc63d8a94c28cc7dcca03bcd9e67"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Schedulers/DispatchQueueExecutor.swift",
+    "bytes": 1996,
+    "sha256": "d74771a00c6225ab66422dffb7f06a08468da48e633d0ce02f89f72614011ab5"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Schedulers/QueueActor.swift",
+    "bytes": 2336,
+    "sha256": "114d093e15cc9d56e82a11ac14297e64b3d430243654a9a534db228c5e28e58c"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Schedulers/SerialRunnerActor.swift",
+    "bytes": 1600,
+    "sha256": "116822fb041319f1e33000bfa750840de27fd99efc52f05281977e0707b4c38b"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/SDP/SDP.swift",
+    "bytes": 11558,
+    "sha256": "4fc9866770be6afd9e1b08790e98a4efa677d0d647ac5897388605c2281b6012"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Sync/Locks.swift",
+    "bytes": 2912,
+    "sha256": "f4abcedcfeb8889b7f2998e22562252f9df6cb827e6e11dd7de5b2da29723e1e"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Sync/StateSync.swift",
+    "bytes": 5881,
+    "sha256": "0207b941f036908d8f4f670e25c4fa54e3b79602b896c25315e2ad5d5917bc56"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Tracing.swift",
+    "bytes": 4302,
+    "sha256": "e3724347bc08be0ec73d30e5bfdf7cc081edfdbb7b83d7a8c4d465795e242fb8"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Utils+VideoEncodings.swift",
+    "bytes": 5585,
+    "sha256": "60af65c8a94ab70c7412339535f641f5b99d5e71df0f6cf32e8a8062ab6a338b"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Utils.swift",
+    "bytes": 15155,
+    "sha256": "79f01b234f3e146b8ec190f791c6d8a0ca9b96f4d0e385763a88cd7694a0753d"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/ValueOrAbsent.swift",
+    "bytes": 925,
+    "sha256": "60cdc9050331488a83c63ee818902db9f5d9bd14ee17f1f78ef525ef7cd7dea9"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/Video/DeviceManager.swift",
+    "bytes": 5680,
+    "sha256": "0d68e0d957857269ec77d1854efe7b7d72e225c672b71f90b2b7723cc3da7ce9"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/View/NativeView.swift",
+    "bytes": 2052,
+    "sha256": "f26b7846f617b58433e8f7253fa754f5794b629a0d08f2d09d24fffd1e0f89dc"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/View/NativeViewRepresentable.swift",
+    "bytes": 2255,
+    "sha256": "d36fc8232cb3ece4eb42b1a17987d79b7ba83feaf906fdcfa80f985c79416f46"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Support/View/TextView.swift",
+    "bytes": 2715,
+    "sha256": "b866d4eb2f1820e2b6da72f6c3a531c9e21a47bdeb6fba58eb1d76b2ea0414d1"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/SwiftUI/LocalMedia.swift",
+    "bytes": 8851,
+    "sha256": "f48855c34071e12b159eb00fb9a1c32f81678bf08f47c8e923a8a6f48af1b276"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/SwiftUI/SwiftUIAudioRoutePickerButton.swift",
+    "bytes": 1308,
+    "sha256": "d094afefdc802d385522aceb3dfbd0f436d5b2cd02d1a59e9f8b2d7e3cf83151"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/SwiftUI/SwiftUIVideoView.swift",
+    "bytes": 3526,
+    "sha256": "bd1404ba83526134473c76a800182c234222a3be21d6c4f8533aa58d3869d674"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/SwiftUI/TrackDelegateObserver.swift",
+    "bytes": 2031,
+    "sha256": "7b4a372e3759eaf69c48ca03a6d1d0229e0c2b063c8ad554396f70acb529dd2f"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Token/CachingTokenSource.swift",
+    "bytes": 6444,
+    "sha256": "0d70242ee788c2fa5f6082a93d157b19ac2aee8844049fc10ce261e19bae2272"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Token/DevelopmentTokenSource.swift",
+    "bytes": 2046,
+    "sha256": "66b1bdedd2b35984937a1d92bb07ff5ca363c4947f006c8ed3fd323d906600af"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Token/EndpointTokenSource.swift",
+    "bytes": 2825,
+    "sha256": "fd45cbebd9c8c7b13b4258cebc71123e83d4d766bb15c9a12353a6236b7420c9"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Token/LiteralTokenSource.swift",
+    "bytes": 2383,
+    "sha256": "a31d922a93a74c1fe47db7146c49a97074a5d1afa76f4f7fa8b5231cafda8298"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Token/TokenSource.swift",
+    "bytes": 7098,
+    "sha256": "1713136beac24f81a21eead1fe4f5cd8d9f951e289efdd874ddeacb9756ab140"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/AudioTrack.swift",
+    "bytes": 914,
+    "sha256": "aa36a4d68679023e1c2c3f8973e67fb3c4adf3ec0b08bed6dddf944b6f348b7f"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/Capturers/ARCameraCapturer.swift",
+    "bytes": 5287,
+    "sha256": "62a99b96915a76de010b8209029d7d7c20e4d57069cda3c57b8a4db4deeeda3a"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/Capturers/BufferCapturer.swift",
+    "bytes": 4379,
+    "sha256": "1105c897577523580e419e5a8e74e02da58d856a1fafa602a324f9607c8f5ad4"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/Capturers/CameraCapturer.swift",
+    "bytes": 20434,
+    "sha256": "507adc7ace5c955fc8f025fd1316590466f0600fdf21dcc0ae0e9675ae9d38bc"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/Capturers/InAppCapturer.swift",
+    "bytes": 4401,
+    "sha256": "1f3908470ea9683fc73d48a768714e01a52b13171f3d7c5bc5afea40417bee0c"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/Capturers/IOSScreenCapturer.swift",
+    "bytes": 10543,
+    "sha256": "b76af660e9abcadbd6b6a67f7ce49772f9621c00fc1fa13cdf7aa0b04cbfe1ab"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/Capturers/MacOSScreenCapturer.swift",
+    "bytes": 12982,
+    "sha256": "623131fdd335ede5883ffa714987573ba3eeae9660de9cca3756c35d335a795a"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/Capturers/ScreenCapturer.swift",
+    "bytes": 9346,
+    "sha256": "484c7001399389c273b19d6d61f6fcf7dbff53b3a03f429b7f5240edcb3eb703"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/Capturers/VideoCapturer+MulticastDelegate.swift",
+    "bytes": 1059,
+    "sha256": "313fe064f7750cf1aa8cfd7341f05ec84b3aa66de15de6dcc8b2b7018f852be6"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/Capturers/VideoCapturer.swift",
+    "bytes": 13002,
+    "sha256": "52779f7635a37c41644341d06412452fabb8cc4a2f05e8bdf11b908e8722123d"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/Local/LocalAudioTrack.swift",
+    "bytes": 9213,
+    "sha256": "51fba1930bbd371e6e70a42a16d555c8b850bfa2b0107f306c41c5fef93767e4"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/Local/LocalTrack.swift",
+    "bytes": 974,
+    "sha256": "143215963f73e219deab06d1971b0f895fd0fcd1e5e0f3fbd9dbce7c09cea89c"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/Local/LocalVideoTrack.swift",
+    "bytes": 3715,
+    "sha256": "8437744d6e04285cc8c28efcbcfadc1800abfc0a9f7baee024803a8bb83d2628"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/Metrics/MetricsManager.swift",
+    "bytes": 11492,
+    "sha256": "f7813d9dab0a272b568838023374dd70dea866b4666baaaeebe7b7e1f6787fce"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/Recorders/LocalAudioTrackRecorder.swift",
+    "bytes": 5541,
+    "sha256": "12655a0b2e18aa032e3bfd0eab609e0750c815378d672eaea85723bbfae1a084"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/Remote/RemoteAudioTrack.swift",
+    "bytes": 2892,
+    "sha256": "f9d41dbeeba9860f9211893f5eb31011ae2bb38d44351292277de91a6ad4a92b"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/Remote/RemoteTrack.swift",
+    "bytes": 759,
+    "sha256": "4b0ad07c7e63987ee8246a3dbdce8b2e7eae405bed6812743bb1b0c06fac9b62"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/Remote/RemoteVideoTrack.swift",
+    "bytes": 2671,
+    "sha256": "66b08df724581341ae1ba55057bed2774f1c60a4b6499c4261ea5de6ed6440e2"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/Support/Extensions.swift",
+    "bytes": 4668,
+    "sha256": "47f2ba1bd68c42cf0e26e736c5adf64623766219f9460b3e2617f0c15a4b473f"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/Track+Equatable.swift",
+    "bytes": 1031,
+    "sha256": "593748ac20116b051b9259bc9e7c2faebcddefcd4956f0ad27044a30e6351ecc"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/Track+MulticastDelegate.swift",
+    "bytes": 1035,
+    "sha256": "66d0890835b527382aab90e9ef7390474e3bf65d3d76f2bd94ca6e15de2a45c7"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/Track.swift",
+    "bytes": 15916,
+    "sha256": "a80b7e0220d1600e4c48674114e2fe89af1af6a37419f0b15024e377d74644aa"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Track/VideoTrack.swift",
+    "bytes": 3808,
+    "sha256": "ab83bfe847fbe84b4987fccea64e6016ccee6be0b47bbd8c040ddbc6d65a6c82"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/TrackPublications/LocalTrackPublication.swift",
+    "bytes": 8511,
+    "sha256": "c48e0d57713698ab5f1bb60b67188da4de6d28fd6a4eba3eda6760a5682b5574"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/TrackPublications/RemoteTrackPublication.swift",
+    "bytes": 15410,
+    "sha256": "14ffd3b036479d08843e451e37ded9898398b655d1495ffa13462c217b0b034e"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/TrackPublications/TrackPublication+Equatable.swift",
+    "bytes": 1050,
+    "sha256": "708b0fe67ad3d1c223490f1f55f1e9114ee06edec2fa621fffeccde400a985a8"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/TrackPublications/TrackPublication+Identifiable.swift",
+    "bytes": 796,
+    "sha256": "49ac6bf3067a0d4294ac6c9552c58afeb1ec212466eb61c93c65d4dbf8bbe57c"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/TrackPublications/TrackPublication.swift",
+    "bytes": 8314,
+    "sha256": "ffe4b3900bda9bae2de9b64701c270abace83cc73fa5513cb8e23ebcaefe1c97"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Attributes/AttributeTypings.swift",
+    "bytes": 3512,
+    "sha256": "879fcb3718d1fd1ea786130f48a51c8f95fcd769e184c9eca9042555ec037faa"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/AudioBuffer.swift",
+    "bytes": 1471,
+    "sha256": "4152a048a77ff69e65c7656d24df86039302f35f32c7fb685092909d3e1b0821"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/AudioDevice.swift",
+    "bytes": 1086,
+    "sha256": "a266772a92ae8cceb351476381dc724fe8a002bb60380b2384683c3c157b9d66"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/AudioDuckingLevel.swift",
+    "bytes": 1927,
+    "sha256": "31412221db1fc63c34687b21fb4ba0088f17e9814ede6fddafaf8d2b74d03725"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/AudioEncoding+Comparable.swift",
+    "bytes": 796,
+    "sha256": "2625771ccc7b1e22ee35702a4840085b9f54eeb1b00ac81815e93b25d5588965"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/AudioEncoding.swift",
+    "bytes": 2645,
+    "sha256": "cab10b9f03f14383f11a7a4ad3abdaaf5f7fdae07d3b19211eeda23afc2de192"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/AudioEngineAvailability.swift",
+    "bytes": 1707,
+    "sha256": "95440f7308372ffcd074d627350c0ddd9c550c8f4ad5df4382dd169e4fa7029c"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/AudioProcessingModes.swift",
+    "bytes": 4483,
+    "sha256": "b06cf26bf912e7acc244b3aae06d0ef41401afbcb11f96fc9947b3120a3114d5"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/AudioProcessingOptions.swift",
+    "bytes": 13801,
+    "sha256": "88bf9f45514bb1b6e8de9181e305cbf7daaef2acfb45464d0c85125a91b3696a"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/AudioProcessingOptionsError.swift",
+    "bytes": 1747,
+    "sha256": "4f82991fbf5694bae57516ea3e7544a8769a43a035d4504037a8b1bb88056cc8"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/AudioSessionConfiguration.swift",
+    "bytes": 7389,
+    "sha256": "7b4cb69817ea2f1b06bcbb2f4443d5e7076be8b771a268de657951df870c80a6"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/ClientCapability.swift",
+    "bytes": 1536,
+    "sha256": "029eddc0001215505429448f1dcd056b8df5222c58dee73428750d0dc8f5c139"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/ClientProtocol.swift",
+    "bytes": 1892,
+    "sha256": "7415fdddaca094894875e3a418d8c5da8f3e253d1f8ff8032c302d912266c61e"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Codec/Codec.swift",
+    "bytes": 1001,
+    "sha256": "e0627a6040fc83016b897ca29c11aa73f7b2a7d69bc148608325e25f6e5a0488"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Codec/VideoCodec.swift",
+    "bytes": 2657,
+    "sha256": "7630564ae66b126a626abf28a79654786ea0a8f00a91b95d445564a1d1fd3e2a"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/ConnectionQuality.swift",
+    "bytes": 1260,
+    "sha256": "16083cc508841d09e5829ccb1dcfd8c845b4e325c9c2ce0b4a7849f9623fca24"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/ConnectionState.swift",
+    "bytes": 1572,
+    "sha256": "46431356ef9caf68c7ba88855a9fa5513ee533ecd378b737495a3cd0c719db42"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/DataChannelKind.swift",
+    "bytes": 1466,
+    "sha256": "746a8d33d975407422ca16606071220dcb21c21a6c237830be3d6c7f98d253d2"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/DegradationPreference.swift",
+    "bytes": 2622,
+    "sha256": "577a8c0f27fb62239b87fe92ea29e6d2efda74caac4ffa9ee1fa6155987d1f7e"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Dimensions.swift",
+    "bytes": 7551,
+    "sha256": "fdb5c3f172fdf96486a56fdb01d38732035488e8a8eefe7f656ed9d9f463a093"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/EncodedVideoFrame.swift",
+    "bytes": 5792,
+    "sha256": "6d601655b601c548b48238cbbe5efe9febfa526cfab2d828b80e41c97601cdc8"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/IceCandidate.swift",
+    "bytes": 2048,
+    "sha256": "27bc8571ab8e874decab6110a00687b3e7f6053ddbc18b8298868d98646d9dda"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/IceServer.swift",
+    "bytes": 1724,
+    "sha256": "b697c60760d5020a0c4b1112dfc1c2b7723709b2b67e050f1b2aebc7312f84ed"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/IceTransportPolicy.swift",
+    "bytes": 1024,
+    "sha256": "c78df0c179e43286e6368f5ddd97f91bc7636981fd9a407e9304fecd4d13a8af"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/MediaDevice.swift",
+    "bytes": 745,
+    "sha256": "84043d0516fc0f8c180fc29958f3f2cf7c8d9f0358e07c185b2465ae011d8ade"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Options/ARCameraCaptureOptions.swift",
+    "bytes": 1550,
+    "sha256": "0b7113e404526b547e55a6ac7107ee26ea2612bcf2829600c258309fccfb9212"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Options/AudioCaptureOptions.swift",
+    "bytes": 5661,
+    "sha256": "927885dceb579b100641c7a2eefdab604e5503db0dd42db6307d3f3f1cbdc54f"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Options/AudioPublishOptions.swift",
+    "bytes": 2695,
+    "sha256": "fe8dcfce127da7b2f11035630232a58b8d5d2415683c719e3e195c9938aeeb15"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Options/BufferCaptureOptions.swift",
+    "bytes": 1544,
+    "sha256": "027200378f51c241a20139f302464b249a8450030dfeeb339b066d8b51cc26f3"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Options/CameraCaptureOptions+Copy.swift",
+    "bytes": 2523,
+    "sha256": "768ec8d6e98d4ddb11dcb360f925890d9a39c0da1d7164903cfd81b151868fd7"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Options/CameraCaptureOptions.swift",
+    "bytes": 3972,
+    "sha256": "ad838bfff36cc34f25e233b1b5b936a4c1b2a25e6f1c5404f40e8b32d9eaa124"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Options/CaptureOptions.swift",
+    "bytes": 681,
+    "sha256": "29bb1a7fde0946a6c560678a6d07435fc3aa870720b0c3be1d9ea6268f0f5eb0"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Options/ConnectOptions+Copy.swift",
+    "bytes": 1741,
+    "sha256": "9069f6b7dcb73ceaa20ab91be6d07c52f3efd91ea24739de9425ffa8682d1617"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Options/ConnectOptions.swift",
+    "bytes": 7408,
+    "sha256": "f51969c803fcc5de5e2bf9a86e3632e4ae08fea30c7cec9b8da11b78e1da83e3"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Options/DataPublishOptions.swift",
+    "bytes": 2411,
+    "sha256": "6b5d1cbf5fa13f57b4d03f10a2dd22e7f0abea4b09a442db66798d4589282a3c"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Options/DataStreamOptions.swift",
+    "bytes": 2759,
+    "sha256": "952583d38279f8e54220243678d98d637ddddcb0484e3bc6f4079f23f1e39514"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Options/PublishOptions.swift",
+    "bytes": 1261,
+    "sha256": "2d324f168c859d625a1b36d297551a767a837a79c2ffba1140e5e13708a74626"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Options/RoomOptions.swift",
+    "bytes": 10241,
+    "sha256": "fbc5742dc10ba95eb2ae9f9efad71efe7443439f4e14a8a71591cad579bdb944"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Options/ScreenShareCaptureOptions.swift",
+    "bytes": 5273,
+    "sha256": "d1811ae9b32aafc4af326481a896d13b9fb9ed389432e484700c43b3da97973d"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Options/VideoCaptureOptions.swift",
+    "bytes": 770,
+    "sha256": "05ef7c2ad0766df5343a1de981061d271e3588d4aabb45584353c96d4c721996"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Options/VideoPublishOptions.swift",
+    "bytes": 3640,
+    "sha256": "67b5d2c7477830a572e350bc22a8bdda11fa7dab2b136f0361a70abf53f3f7bf"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Participant+Types.swift",
+    "bytes": 2109,
+    "sha256": "658372e776ffcb27362abf08194f7799eaaee01dcceddba3ef4a2389d133e528"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/ParticipantPermissions.swift",
+    "bytes": 4252,
+    "sha256": "a759675dcc330af58b022d42f097e0d26cff4e77dadfb1c85780494fd45dfce5"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/ParticipantState.swift",
+    "bytes": 2467,
+    "sha256": "9fdd00b0834b9126b227820068ad034127402fc81cd404e5aa2515b190c66037"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/ParticipantTrackPermission.swift",
+    "bytes": 1782,
+    "sha256": "40b9e5870ddd851d6e139baa1e69c6664ad9274cbdec6bfe77b70b487eaf5a9a"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Priority.swift",
+    "bytes": 1749,
+    "sha256": "9a7fc859afafc227378f9d988f10243ca9eab2b0f2364574fdd9113208efe05f"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/ProtocolVersion.swift",
+    "bytes": 1545,
+    "sha256": "c37b5a96d0caf4a31eb0bbd2d95905adc9aefa9fdcab19c12059f44adfc660eb"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/RegionInfo.swift",
+    "bytes": 1663,
+    "sha256": "17f420fa404eea7ff57b1d0ce5f15dd6229202b51b4b55cc745de154047356ea"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Room+Types.swift",
+    "bytes": 1355,
+    "sha256": "3d8fd2cecc6dd6a61c673a0a9dd37152aa395b40a2de10b000807b4e1e3db6f4"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/RoomConfiguration.swift",
+    "bytes": 3670,
+    "sha256": "a77d5f01e43d07acd9594fdf3e412e78b96d161fd01092daf621a72e0821094e"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/ScalabilityMode.swift",
+    "bytes": 1663,
+    "sha256": "71e1450768d9638fb98e6416bfe40026a07f4f0001e9cc3f6dffcbc7931b0f9d"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/SessionDescription.swift",
+    "bytes": 1605,
+    "sha256": "ce7f02b0addbe81f6e3766c6284f1ebb14a0ca11b52a13796211884fabc78f52"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/SpeechActivityEvent.swift",
+    "bytes": 960,
+    "sha256": "d857d6280a40bbeb95b3e40f07815ba793100573d6e76e5f5eaab62d68350802"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Statistics.swift",
+    "bytes": 33213,
+    "sha256": "06c7e4d23e0b5d49ec128b60a225403cacd794fc8076cc7bf9b36841b181934a"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/Track+Types.swift",
+    "bytes": 1352,
+    "sha256": "5d58b2281f232ffcd9ada26366e8adf6e6ed6dae7d3a54159ca482215ec3863b"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/TrackSettings.swift",
+    "bytes": 1744,
+    "sha256": "dfa09476b993f230cb6a0a8c1222b444ae4c6d167934c8ff7f2e2d256dbed987"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/TrackSource.swift",
+    "bytes": 1251,
+    "sha256": "f3809c7bd4b801e51d7183a55e2285740c5cc768bda3ca794e1af345f9bdb9f1"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/TrackStatistics.swift",
+    "bytes": 6271,
+    "sha256": "6f2cb5fbfe1f915f0f5e37728df9ecdfe234c5e98a210700f4ccea8135a34db5"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/TrackStreamState.swift",
+    "bytes": 922,
+    "sha256": "43c3b82cfc0f3b9aab7037eb799daadbbc1a48fe91f0e8c0bbce7b6fbc1037bf"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/TrackType.swift",
+    "bytes": 1273,
+    "sha256": "4e309380f3edf5aea037d6249ff28311cf97eb5abd28f29c8ec66b8d684734b6"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/TranscriptionSegment.swift",
+    "bytes": 1635,
+    "sha256": "14565a9d67282d6cb3080035de9c8ec38114bd0a138ea912e3f712086b2ca291"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/VideoCodecInfo.swift",
+    "bytes": 5786,
+    "sha256": "46ff7bdc9a97bba5a24934f87bea979dbdef7baf5805c9759b7b145510c8dbe3"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/VideoEncoderSettings.swift",
+    "bytes": 3764,
+    "sha256": "5b234a438a902016d484be20ab086be2140082e6ef044254c70dd783045b881f"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/VideoEncoding+Comparable.swift",
+    "bytes": 907,
+    "sha256": "5edcb76ee72399572308ecc1a1ddeabda7dac584541d67ea9f10e9ef5049bc44"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/VideoEncoding.swift",
+    "bytes": 2095,
+    "sha256": "092fd862356ac53594cb2c17075047617ced810e5036e492568b8d0f63fcdc96"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/VideoFrame.swift",
+    "bytes": 10001,
+    "sha256": "459d2f6cde545e2ede68b7135a5dce61109f7f26c1d5609dd559457c4d05fc22"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/VideoParameters+Comparable.swift",
+    "bytes": 937,
+    "sha256": "cceeaa96c95970591ae060750b1fcb67dfc3c3918fa0d3d0c3213a839be76df2"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/VideoParameters.swift",
+    "bytes": 8785,
+    "sha256": "3a10516fbce2d84663146b9abb32ae40f93ca2035b15b9749fc5fa10f31d45f1"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/VideoQuality.swift",
+    "bytes": 2140,
+    "sha256": "86b4ae41c8da163ce655dbbd8b3f8de66ee9e5caab26d92ab7ba6371fbe48c17"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Types/VideoRotation.swift",
+    "bytes": 1037,
+    "sha256": "b57cdaccb2a40c574489aa41436134aefdd8cbe4a048eba60e65c7af4b70f126"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/VideoProcessors/BackgroundBlurVideoProcessor.swift",
+    "bytes": 7739,
+    "sha256": "cf7ff8651f0dcd450f1db2e9bfbceae7d3a8029183008e1689ea8b6d5bf1f690"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Views/SampleBufferVideoRenderer.swift",
+    "bytes": 9413,
+    "sha256": "e9c5b894e790755825200b5ee8663a2399e076741101295aa3377b4e8b4479de"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Views/VideoRendererBinder.swift",
+    "bytes": 3574,
+    "sha256": "676849f3d45c699ad708b9d3588f4b46edd0bf839fc7e37f286835d9633c7b84"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Views/VideoView+MulticastDelegate.swift",
+    "bytes": 1083,
+    "sha256": "88eb25a1e076c5b9abecf55f63e4036d80fb2ad2521e095946f3c6938d9ba473"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Views/VideoView+PinchToZoom.swift",
+    "bytes": 4814,
+    "sha256": "f18353a9aa81431ea14a60f46bdf7e11141a106507c5891b33ff019f7d367093"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKit/Views/VideoView.swift",
+    "bytes": 35559,
+    "sha256": "1fdb8847244b450ec09ddbf15867dbc9517992f91f4b11576ee638d38223fc44"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKitNanopb/Nanopb.swift",
+    "bytes": 15089,
+    "sha256": "86b8348b0c00f5a361a56f516dc2f387b6380ac0c4a696bdd05ce576da51ade3"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKitNanopb/NanopbAccessors.swift",
+    "bytes": 13881,
+    "sha256": "56bd72c824eb1cd1532bc4f6e722b351f47a4ea3d6fd8d28c5120ecf6e2f07c8"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LiveKitNanopb/NanopbWire.swift",
+    "bytes": 3583,
+    "sha256": "6c5ad8fff742d2dce7c858feeaf5eea616bc320b35d4082b2fd89af25ec53a65"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LKObjCHelpers/include/LKObjCHelpers.h",
+    "bytes": 581,
+    "sha256": "54683fdc417da9ac7d5042cce7c5b3409662c1e7db529f84db455a6ccf7488f2"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LKObjCHelpers/LKObjCHelpers.m",
+    "bytes": 1180,
+    "sha256": "04c2851b4e0039f873590485c5c12173527676d47291ac6e12e1b435a26d285e"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/Sources/LKObjCHelpers/module.modulemap",
+    "bytes": 79,
+    "sha256": "e0ac459713104dd8367785e98b2664c9dacc84d376ef5d6d23454de121c25dbb"
+  },
+  {
+    "path": "ios/ConferenceLiveKit/UPSTREAM.json",
+    "bytes": 43403,
+    "sha256": "8877fe93446c4490e3d727411b020a4ea834c55d0cf940a49a37c5b5c750a092"
+  },
+  {
+    "path": "ios/LibSignalClient/LICENSE",
+    "bytes": 34523,
+    "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0"
+  },
+  {
+    "path": "ios/LibSignalClient/Package.swift",
+    "bytes": 1246,
+    "sha256": "db6a16935ced0d98d3867ed6e52c7ba24671ead3f8b3231c613d848571fbc72f"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/AccountKeys.swift",
+    "bytes": 13421,
+    "sha256": "b67ddfd73ea1ba43aa76c5e6f237806402be22c5cedffb2b6fd3d81244a6e7aa"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/Address.swift",
+    "bytes": 4026,
+    "sha256": "02ecc031ac83edf2ad00e224dbb591a7880a60ced2b1812c18a53c3557d4f538"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/Aes256Ctr.swift",
+    "bytes": 3013,
+    "sha256": "518280f3efb096eaf8b9d409f366b4ea23f99b8d4304193bb0edd83bc3c608b7"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/Aes256Gcm.swift",
+    "bytes": 7702,
+    "sha256": "c5b3b8e0f10cf752670d0dd9517c12f68fc29e974af425425dcbd0b4c36476cb"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/Aes256GcmSiv.swift",
+    "bytes": 3048,
+    "sha256": "182a0470867b985b290ab427a76108212069d8d28621b6427453bd94b6a10aff"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/AsyncUtils.swift",
+    "bytes": 8780,
+    "sha256": "3ff07a9f3ee2f702928e1cd294620817d4028ed8af61e658ab4c92e518d35077"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/BorrowUtils.swift",
+    "bytes": 9991,
+    "sha256": "1b282c7d7e88ccaf40f86ee1f4acf2772cc18a004f168154288fb9c81f98bc0f"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/Cds2.swift",
+    "bytes": 1034,
+    "sha256": "881ee3dc5d9bcbb2e87e960c507a12050ef5e1843ea93b3040ade689df194885"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/CdsTypes.swift",
+    "bytes": 9192,
+    "sha256": "1f06b5d89e6d564c472d3328d904ffe53ac9325a6c5194be8ef3c0406f219c08"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/chat/Services.swift",
+    "bytes": 5775,
+    "sha256": "1e02eb90faadbc1bb2fa1b30c3556a6976c9dd669a4d0a31abfe20321c7021d1"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/chat/UnauthMessagesService.swift",
+    "bytes": 6302,
+    "sha256": "356ac1e041bf5f9e2403293b540dd98f688648460052a5ed85ed6bdffdd8423d"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/chat/UnauthUsernamesService.swift",
+    "bytes": 3358,
+    "sha256": "9e25210f6a03c18a51a7551a38b2e476c7301e5973473a5fe920f4ea85b58caf"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/ChatConnection+Fake.swift",
+    "bytes": 15729,
+    "sha256": "aea7281403c342ab1bc552e6d566c483defa09143621342e9d3809c2fa55a27b"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/ChatConnection.swift",
+    "bytes": 15129,
+    "sha256": "ebf1dbbd9cd4be0a2f6e8f5d50550f1e1e4c2f1d016ce4c99e38acf92d2c7896"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/ChatListener.swift",
+    "bytes": 9974,
+    "sha256": "2844655f119706e93d8b1cfa6b787eee9428dea31df57b73005b068fb4b2663d"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/ChatServiceTypes.swift",
+    "bytes": 7566,
+    "sha256": "feaae0cae53f5944a43a261bc528f486580b29b76f62c6ebdef588a018c599d8"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/ComparableBackup.swift",
+    "bytes": 4215,
+    "sha256": "075f3a95712d82c4f416465d59b6406cea841402250a302fcae9f5fc9e4d795a"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/DataStoreInMemory.swift",
+    "bytes": 5582,
+    "sha256": "6896b8b8a6765825278d87f7bfd5986328df85632fa1a941603a9ff2a9da9764"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/DataStoreProtocols.swift",
+    "bytes": 2721,
+    "sha256": "b41d48bfb42fd32b11d8bf37640170cc60e53d2ea77146db69af935071223963"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/DataStoreUtils.swift",
+    "bytes": 16167,
+    "sha256": "d3ea55d794fe5e34c7869ea0afde413adef99c69a5483a92e360ce1760b42211"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/DeviceTransfer.swift",
+    "bytes": 1302,
+    "sha256": "8ad98bb6139ada27853711bcddd987a9f0d88cf6f0422bb0dd1c1a6c9a84ed14"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/Error.swift",
+    "bytes": 16036,
+    "sha256": "2bd62bb5b3644aa52e96b1caa669d00abb1fd624badd19dbd3c2ed4f13132b55"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/Fingerprint.swift",
+    "bytes": 3330,
+    "sha256": "ca931297bd2dc0415c184b5165f83c595b56ddcd7bd53666a4ed88ab37911685"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/HsmEnclave.swift",
+    "bytes": 4909,
+    "sha256": "94a4a1a04f2869dcf0ed9c0659f6568a1b183d6d9bc7d508ff592009cbb9d290"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/IdentityKey.swift",
+    "bytes": 2984,
+    "sha256": "942fb4b4d0c702c8305b2c8c8c05cbdd501282a8ef0afe8dbf77f0be680ed43c"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/IncrementalMac.swift",
+    "bytes": 4951,
+    "sha256": "1ddcc263920eeec0db88b1926aa4e178126e0c919bd28d3827496d35439d1db4"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/IoProtocols.swift",
+    "bytes": 2534,
+    "sha256": "3eb46c46b52359da72e5bc5d72d22c6663c4638280b11a2ddaed5db1fe2ad035"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/IoUtils.swift",
+    "bytes": 1592,
+    "sha256": "75fa3daebc7b11c16cdc3b9a080f6cd8d0118dbded8db53c00f3082a110729bd"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/Kdf.swift",
+    "bytes": 963,
+    "sha256": "eb08f18e891ce172db71491b89e397d5a19d5f74b1288e5ebb33b6a499f073c1"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/Kem.swift",
+    "bytes": 5891,
+    "sha256": "146f71d54ef2e9ef5ff585142246eda8e942f820ed5a6aced16ac75ffd7c58d3"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/KeyTransparency.swift",
+    "bytes": 11610,
+    "sha256": "9ef12e44cb346508e7b4d1b592c650784fd9bab1e3e1b6c10762d577ea91556e"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/Logging.swift",
+    "bytes": 4897,
+    "sha256": "1785947f8a55045d4f54ce3d02112423e0b1055027cab694a022461a18d7a257"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/Media.swift",
+    "bytes": 4553,
+    "sha256": "de4d1c383f52d5c6568f0479ec314a8347301c29105f24de79fe83dfa33db71a"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/MessageBackup.swift",
+    "bytes": 10623,
+    "sha256": "38da8d88695a3ca30e0f114f3a63fe7dbaa55a7cfaebb5ff60f2211dfd71369c"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/messages/CiphertextMessage.swift",
+    "bytes": 2828,
+    "sha256": "bb1c99ad1bc46f87430a4f50eaeac3ffbffff5dc9c67ba777173de6d74a011c8"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/messages/PlaintextContent.swift",
+    "bytes": 5796,
+    "sha256": "d4384141af4c3e1e7e2741105f2f353673fc872d0b36d38ccda7ff14a641f695"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/messages/PreKeySignalMessage.swift",
+    "bytes": 3713,
+    "sha256": "73752b597460899d7433bbccd0b1d1758b1df6fa8c0e4fbe25eec3fca1d8f6eb"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/messages/SenderKeyDistributionMessage.swift",
+    "bytes": 4038,
+    "sha256": "c4fa7a3ee67d9231d8ba479c9ea42056c09115013bd04448808579bf24baf471"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/messages/SenderKeyMessage.swift",
+    "bytes": 3085,
+    "sha256": "9bd5b5739454f609a2ded397ba9f72d1d7d12d014740f21dbd02776474b0d3c3"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/messages/SignalMessage.swift",
+    "bytes": 3339,
+    "sha256": "3ab526d06cddee9f67839a88c942513f0af9d0f1bc2bca89488d2e204ec36b74"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/NativeHandleOwner.swift",
+    "bytes": 6086,
+    "sha256": "5b37be0d01fbe0a652a573d24fd34785be0f2342411eb5007260b9ab676d816d"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/Net.swift",
+    "bytes": 22950,
+    "sha256": "c6fc11d771ae23055315cc9fec15323e6c635c3c8c2e059d9d86c0307ddd45f5"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/PrivateKey.swift",
+    "bytes": 4520,
+    "sha256": "8a67e975b0e199476539371df78b77d8c78c0860fe2fe43be846dfec1800762f"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/Protocol.swift",
+    "bytes": 5952,
+    "sha256": "36fe219b338c053d070b4564294460e9d05a9ccaa074035323cc964abbc9fe9b"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/PublicKey.swift",
+    "bytes": 4801,
+    "sha256": "d41d4aca0a1bb3301b2e3e6a0885646aedecda09bcad91afbeab1630a2964ea4"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/RegistrationService.swift",
+    "bytes": 28748,
+    "sha256": "6cc77480e7bbc687698e0780a0a7d52ec9ca6d3455b46fa80840e3832fc83930"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/RegistrationServiceTypes.swift",
+    "bytes": 14404,
+    "sha256": "ee0e6c0372b4b18fae25a9ec9f3a6a99395e7a36cf65f50c89c67a9440c62711"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/SealedSender.swift",
+    "bytes": 10010,
+    "sha256": "50576fbf1dd57b5ee2bc79f26d9e4156a4baf6d91047772be0d6b7be9c0d4268"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/SealedSenderCertificates.swift",
+    "bytes": 10073,
+    "sha256": "abf548d1603a76589d37f17aa1af3d7ff04e32294d72343c63abba9acc0527cf"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/SecureValueRecoveryBackup.swift",
+    "bytes": 18736,
+    "sha256": "4ea620e25ea148776b23c026666b85c1d8e5727790fbbe1607f7e2bd617d8827"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/ServiceId.swift",
+    "bytes": 6765,
+    "sha256": "19eeac85a0bbf75c15b08c64a996ced3a80622a3909eeafe9fdc5bc0b01d2032"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/Sgx.swift",
+    "bytes": 3771,
+    "sha256": "fd3433f69e11511b6378c7962c29a4bc81010de3bb68214101547b8e30d128a7"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/SignedPublicPreKey.swift",
+    "bytes": 1995,
+    "sha256": "a71864f8b66f796359d069e8f0903c1244bbf4c2f830dff377ecd37f2c5002ba"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/state/KyberPreKeyRecord.swift",
+    "bytes": 4119,
+    "sha256": "33df478e551178f347d06d4d4b3c8d5bb3d7727696a2d9c77d48e1ec0d7768ab"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/state/PreKeyBundle.swift",
+    "bytes": 7430,
+    "sha256": "316cc455b868d56f9a4525b729c030abe11225ab78740248c157d81d6a265d5c"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/state/PreKeyRecord.swift",
+    "bytes": 3254,
+    "sha256": "db93fbb31d5523c1049642e72d617ad65d3beb4e062f618391a82e59391712f7"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/state/SenderKeyRecord.swift",
+    "bytes": 1859,
+    "sha256": "eb91275d046a5da2e457c1d291fffa6a059ab4bde4529befadf84577e59a77aa"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/state/SessionRecord.swift",
+    "bytes": 3179,
+    "sha256": "7ed107272ac5e1aa4aa56279ddc6c4ca5d9f6a8a74a5ed115bf3cb61c65327b0"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/state/SignedPreKeyRecord.swift",
+    "bytes": 4096,
+    "sha256": "23a39a15a42cc7ada0242ab7a02d22a8eaf294af822fd637b1d9aad8fffd3e6c"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/Svr2.swift",
+    "bytes": 1032,
+    "sha256": "0b52897c8167ace37e3991150ce7e8882fce515ba587e4a8ccf10356cfa2b0e2"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/TokioAsyncContext.swift",
+    "bytes": 5286,
+    "sha256": "219e389941c7361536d4c707b616d3168ad675613f8864d9f6a816fd7ef47853"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/Username.swift",
+    "bytes": 4048,
+    "sha256": "f3e83a6940dbc69204eac541b6a6af266817bd90e289e19bfd9fba7eae065756"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/Utils.swift",
+    "bytes": 12988,
+    "sha256": "b8f0697f0bb8c040bfaab4e07335d0bbf2d2a99de558ef249b3e9b505f22fdb0"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/AuthCredentialPresentation.swift",
+    "bytes": 1284,
+    "sha256": "92c54bc7e80ca730a77bbf8b878d4d28a2c07da25e68feb0b14b28109c4db9a4"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/AuthCredentialWithPni.swift",
+    "bytes": 352,
+    "sha256": "8a267ba333d16144e0a5f233da5be2e5e65357f1eafe26bcb542a98b0f0b0f69"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/AuthCredentialWithPniResponse.swift",
+    "bytes": 369,
+    "sha256": "8dd915e801d21827efbd036eaa33a58ed8f0acdde00c1a9134ec4bbad0c3a874"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/BackupAuthCredential.swift",
+    "bytes": 2426,
+    "sha256": "f221db50df55e0734f6a77ecc6993d808d1a540322a28f166e48e30479230c4d"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/BackupAuthCredentialPresentation.swift",
+    "bytes": 805,
+    "sha256": "577eb9683ca5fbc37cd300762cecbb346e7a0a4f16093179ff4fd6c21625d485"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/BackupAuthCredentialRequest.swift",
+    "bytes": 1708,
+    "sha256": "dc8a0781c0d239e6c08ea11abb49a6d2b7c9cce42f21b9d83cac9ab0f9a40c3b"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/BackupAuthCredentialRequestContext.swift",
+    "bytes": 1948,
+    "sha256": "b6a512e4eae4ce7c079095cb53e6b2e29070dede55b9b441a3165e3c9ab2bc6f"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/BackupAuthCredentialResponse.swift",
+    "bytes": 366,
+    "sha256": "e586648f4c385f50216cce1f68ccaa9caf01b95d018b23268b950208da0b8920"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/BackupLevel.swift",
+    "bytes": 403,
+    "sha256": "3d2c3259edb244c1481f35d27ca1f6190d8eb140e92ab8a654b79d7553071493"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ByteArray.swift",
+    "bytes": 3891,
+    "sha256": "3a633fff534ae869daa0c4baac9ab67cdaf269f83faf4395cf3d629108e8cab6"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/CallLinkAuthCredential.swift",
+    "bytes": 1883,
+    "sha256": "bf8e36df27fb200ab3cf31039f6bb9b33407e644b2edb4e5b4b2738deb76c793"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/CallLinkAuthCredentialPresentation.swift",
+    "bytes": 1264,
+    "sha256": "f963707bb242a89b8ebcd9a5d2c6b51b020d203dec7392ca4ab453fb443dbf1f"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/CallLinkAuthCredentialResponse.swift",
+    "bytes": 2136,
+    "sha256": "8dc47aca054cccfcca3a1dd0972c90f512609eabab2c7129c93aa3b53a9fff1d"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/CallLinkPublicParams.swift",
+    "bytes": 350,
+    "sha256": "7d8ec070e99c75ac0ded8384c568bbf388204df7d1e5e3a8f64a443e7d228a39"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/CallLinkSecretParams.swift",
+    "bytes": 1414,
+    "sha256": "328da0ec0e72c5bdb6105d5525f878244e054263bcdc1cb9da9cd5d39bb2b745"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ClientZkAuthOperations.swift",
+    "bytes": 3145,
+    "sha256": "2e672eded14155e5f066b6ddcbf1cbcdea14c2b4238e318255fefce1fdf5c7bb"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ClientZkGroupCipher.swift",
+    "bytes": 3913,
+    "sha256": "73d8a67f250d09aaea30b4f177f2d8136f778651096e679ddb1d41e8efea53e9"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ClientZkProfileOperations.swift",
+    "bytes": 4353,
+    "sha256": "c6deeaca56f2f46e23b6e91d695758e4d698d2cf1316d95e7f22b1d43f291c99"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ClientZkReceiptOperations.swift",
+    "bytes": 3545,
+    "sha256": "b202d51ce9883430794ce9036fe7aa3ad179f05f57d53daaab85ea2fcb388052"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/CreateCallLinkCredential.swift",
+    "bytes": 2437,
+    "sha256": "7db9f80efe95b70b3fff7e4a6a7abed570e68728356ee31df4a0a5a82c319b7f"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/CreateCallLinkCredentialPresentation.swift",
+    "bytes": 1357,
+    "sha256": "95c31c505bb9d8f495ace36483d4536750b622d6ded51afb7bbb0d37907950a6"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/CreateCallLinkCredentialRequest.swift",
+    "bytes": 1829,
+    "sha256": "e6389de119b1a4fc1becac9c434d8a30ae79d8eb396d31e0c05ed306a39a1793"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/CreateCallLinkCredentialRequestContext.swift",
+    "bytes": 2410,
+    "sha256": "8b473de7661b361dfcc36d19eebdf0045131efc2c347281b256effacf3a5f0e4"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/CreateCallLinkCredentialResponse.swift",
+    "bytes": 375,
+    "sha256": "2a9fe50c93ff84b9355117a87b56b5590ece3e53dce8d7bb48c609d5b5aef409"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ExpiringProfileKeyCredential.swift",
+    "bytes": 782,
+    "sha256": "e89a90ce47b786417bff4b9f3be26cf11aceb0899c4654bc2d302a5cb279ac59"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ExpiringProfileKeyCredentialResponse.swift",
+    "bytes": 383,
+    "sha256": "956ff9d506225de48722ea4f6392fc130837ad9e459259e920cdd9973372c18c"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/GenericServerPublicParams.swift",
+    "bytes": 360,
+    "sha256": "dcca3157b4e3c4aa9c28494d747403ddff089f4471f877ed24a0a37d90e69e48"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/GenericServerSecretParams.swift",
+    "bytes": 1226,
+    "sha256": "176247ec24194c1b6bec8b0e8427bce3e74af4bfe99c8f287961a34d580038e1"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/GroupIdentifier.swift",
+    "bytes": 696,
+    "sha256": "3cf7f36515d1661e8f6bd18b5bd070d74006bcc20727ba11883ffb59bf0c1521"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/GroupMasterKey.swift",
+    "bytes": 355,
+    "sha256": "5be36faf622b70e6720471c148da68a6fc875c8384a3ac93fc6a08feca71706e"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/GroupPublicParams.swift",
+    "bytes": 631,
+    "sha256": "9c593fb05f87534103a0470ed7c84cc0eeebefc7ba6dd2b8192a739735c6c855"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/GroupSecretParams.swift",
+    "bytes": 1704,
+    "sha256": "1857e7f7f86d80c03f68bf7e438b52a28d4b002e3866097e5b9f30528c6dc8d7"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/GroupSendDerivedKeyPair.swift",
+    "bytes": 1679,
+    "sha256": "678fb6bc01cc026a5bef2f6ba04da8599078719157d351c211d7340d6e5028f3"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/GroupSendEndorsement.swift",
+    "bytes": 7771,
+    "sha256": "7d599623569a0da0ee6a83bee701cc5e717fad2f74bcafa40ddd9b95f1ea96c3"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/GroupSendEndorsementsResponse.swift",
+    "bytes": 8053,
+    "sha256": "f6c0dee8aa2826e85a1caf45a030ed5250cff75ca63589ae2b76ae5ffcb4c539"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/GroupSendFullToken.swift",
+    "bytes": 1859,
+    "sha256": "9d92ae6ae48b886fcd05138cee3cc8e1569114b22dc7249f9ce3b91744e247e6"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/NotarySignature.swift",
+    "bytes": 357,
+    "sha256": "cd0548c11c99df5a7ebf899538339eedd4a56564fe66ee97bdcdd116e869688c"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ProfileKey.swift",
+    "bytes": 1444,
+    "sha256": "b2aacfe7225ec74f43cd7ae0d1a18cd7d000572c3695836e92b750e123727ae2"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ProfileKeyCiphertext.swift",
+    "bytes": 354,
+    "sha256": "4984c6e9554088ff039e9e987104df30af342e3a35f08e3e4a27b19f4a6861a9"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ProfileKeyCommitment.swift",
+    "bytes": 354,
+    "sha256": "b164835c7d106c143182a30d8ac25ef8eb7d0cc4e8771d605aeadeaa3c8f5dd4"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ProfileKeyCredentialPresentation.swift",
+    "bytes": 972,
+    "sha256": "70b23581204123af87fe092f5823770c221e7d8f40de6078dfa3ee6be6eaf4d2"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ProfileKeyCredentialRequest.swift",
+    "bytes": 369,
+    "sha256": "9e379abd9a83b1b5897c641d2ac58d16c6379a3572050ff12d6dc0aa89ac409e"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ProfileKeyCredentialRequestContext.swift",
+    "bytes": 681,
+    "sha256": "287eafe7686cc2ed42723ac9384375d8307a6ecea04331f8ff3cebf691636731"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ProfileKeyVersion.swift",
+    "bytes": 361,
+    "sha256": "72918b49847602689b3c550a7dbf68ca912038515c05c55072cf74f27954d40e"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/Randomness.swift",
+    "bytes": 826,
+    "sha256": "3102da310ac3afd247820adb133c1e7952c5dda4d225e3094eb2ab7a2f876eb6"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ReceiptCredential.swift",
+    "bytes": 894,
+    "sha256": "49137b679f83ffbbf4a7df9622d6ddf8c9ab5617f84a707bdff73666c2307571"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ReceiptCredentialPresentation.swift",
+    "bytes": 1234,
+    "sha256": "bdcb3af4bce65e955f1e9e58dd2b6c0e35f6f16938ce48e7c491a78521a4b1eb"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ReceiptCredentialRequest.swift",
+    "bytes": 362,
+    "sha256": "99bfe39b2a1f9e99c1688d6b2adc1f9be235a0026803b0a8bc3ff25458f45472"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ReceiptCredentialRequestContext.swift",
+    "bytes": 667,
+    "sha256": "15564c9cb4e8df06d8647402480b074a828adf2ac1b2f5a8a213205024911474"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ReceiptCredentialResponse.swift",
+    "bytes": 364,
+    "sha256": "65c942844c9249378c88fd943a1b648870f0d8b27de7a8c55a3f8bdc4a236c4b"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ReceiptSerial.swift",
+    "bytes": 353,
+    "sha256": "7111f60077630cde04e2e4796cf57ad4b4ac2b52b73fc94f58557db1b4bfea90"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ServerPublicParams.swift",
+    "bytes": 2661,
+    "sha256": "88e9b0a8248c76298e892ffd8238e9aabba63bd26877a6147e5732812dfb06e8"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ServerSecretParams.swift",
+    "bytes": 3091,
+    "sha256": "7994756088d70a271a0ac2baf9d07643ee9ac775174d7b0f9b1c6cdf9538d066"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ServerZkAuthOperations.swift",
+    "bytes": 2659,
+    "sha256": "9bcd597e1ee26501e36343844f40190f5593f43fb11dfe9c1a5c517a8f187c34"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ServerZkProfileOperations.swift",
+    "bytes": 3226,
+    "sha256": "f6fb32a05631e99d62a50d3813a9ff36ef8925bcb3e74bc6af77b56dec320068"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/ServerZkReceiptOperations.swift",
+    "bytes": 2454,
+    "sha256": "22f489a9f52f174e83a7fc0305d92204f7de05268ee965b3ebb6d97b183b5050"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/LibSignalClient/zkgroup/UuidCiphertext.swift",
+    "bytes": 341,
+    "sha256": "8ef8d8e3cf0063b4d9e51fbba26d9b9ff218e4193c571b6ce44e67ae5a723172"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/SignalFfi/module.modulemap",
+    "bytes": 188,
+    "sha256": "d19b820da59339ffa3d90586f964c7b77ada0be9fe82d942d1ad09d53c5ed120"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/SignalFfi/signal_ffi.h",
+    "bytes": 131421,
+    "sha256": "da9c78c6336ef3eb14ee9bcc0a0315cef8e71a1ae81f0f72f2060d25d14c1bdd"
+  },
+  {
+    "path": "ios/LibSignalClient/Sources/SignalFfi/signal_ffi_testing.h",
+    "bytes": 19907,
+    "sha256": "d481580861693c27a500943c8438b87787913a092c2a46a5079d41080a872738"
+  },
+  {
+    "path": "ios/README.md",
+    "bytes": 10214,
+    "sha256": "d3ae10b598b55104a8728eacd2eb12a0d254c149b026a97f02d71c2af5d6dad0"
+  },
+  {
+    "path": "ios/scripts/restore-signal-ffi.sh",
+    "bytes": 7623,
+    "sha256": "c6c0d33707c540a126c4435fc1d664f26a1af6b8a779fd1add468735c3254b11"
+  },
+  {
+    "path": "ios/Shared/UnyriShareStore.swift",
+    "bytes": 4761,
+    "sha256": "20f84db3f8bf540f199f8783e28f6862d15c2ee092c1a8fde197759a467a9a5a"
+  },
+  {
+    "path": "ios/UNYRI/Admin/AdminCache.swift",
+    "bytes": 5363,
+    "sha256": "9a14e8502967093e08496e9b3c340c011b5a29198bf11ba0eb65b5bc92d29ae4"
+  },
+  {
+    "path": "ios/UNYRI/Admin/AdminModels.swift",
+    "bytes": 18799,
+    "sha256": "d07dd50d42713e9ac4f697128cb541403c2d127aded4865f430444241b13ac3a"
+  },
+  {
+    "path": "ios/UNYRI/Admin/AdminPaging.swift",
+    "bytes": 5221,
+    "sha256": "d601ff74edfa8e9cca7fbeab262ae0065349d7aec91c3e2288e28237d6499805"
+  },
+  {
+    "path": "ios/UNYRI/Admin/AdminTransport.swift",
+    "bytes": 2491,
+    "sha256": "0114107582ae16d4faf59072aa560a3f5954f21778a952a5a38adb5723795491"
+  },
+  {
+    "path": "ios/UNYRI/App/AppConfig.swift",
+    "bytes": 14068,
+    "sha256": "5702d7920dfdbdedf22f64682f0ef10c5dcc9320b4eb253aeb3c26dce6521e05"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/AccentColor.colorset/Contents.json",
+    "bytes": 134,
+    "sha256": "cfd475a29cb96942b791c4da348bc521d84219855393f7a474df6e67e0d2a665"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
+    "bytes": 258956,
+    "sha256": "5de81e224388bf17f0b00d26e3ad94a2018a6f501b84c0f171d99b54c5037ef5"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/AppIcon.appiconset/Contents.json",
+    "bytes": 223,
+    "sha256": "27679882ad7fa91faf4b112acfc13b34f360b38bd50963d6c9014ed4d608560a"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/Contents.json",
+    "bytes": 69,
+    "sha256": "73d83da8f89d57a704aa6df8b476cd9c2a22221daf3b9e949cecdd61e77f7cdc"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriBrandMark.imageset/Contents.json",
+    "bytes": 424,
+    "sha256": "d829930c2b04d794aa5726a47ee3d8b282d9cf380a6feaf2cce533c0b503c914"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriBrandMark.imageset/mark.png",
+    "bytes": 1949,
+    "sha256": "7e64f79cd70a42237d48ba282fbb96dde8073880abc1396cf2dcdb64649a939a"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriBrandMark.imageset/mark@2x.png",
+    "bytes": 5734,
+    "sha256": "9656b520efbd0de815a0d11c92c3ae1428bbb7755709ee72a24846275c72996a"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriBrandMark.imageset/mark@3x.png",
+    "bytes": 14240,
+    "sha256": "9aefcbc4c604905d9f0040b06c9b088c7ca3e2f110c9baa784d5b345f4a88eb1"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarCalls.imageset/Contents.json",
+    "bytes": 394,
+    "sha256": "214934417f03684def4b74e9a2410e8d07e6e962120d2832c25b4a8dba413d1c"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarCalls.imageset/icon@2x.png",
+    "bytes": 1045,
+    "sha256": "5bbeed87acd27918409b041d8b1e731f8800282fac7ddfc3e34d57f4c2a53287"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarCalls.imageset/icon@3x.png",
+    "bytes": 1622,
+    "sha256": "46447266e74322391bb4a953efe1970b639ab3fba33e965724efbd6611d0a658"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarChats.imageset/Contents.json",
+    "bytes": 394,
+    "sha256": "214934417f03684def4b74e9a2410e8d07e6e962120d2832c25b4a8dba413d1c"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarChats.imageset/icon@2x.png",
+    "bytes": 530,
+    "sha256": "bfb5ceb373336d4ac7f7b141f06c2bfe1325aebcb0f2877448b1681861659030"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarChats.imageset/icon@3x.png",
+    "bytes": 761,
+    "sha256": "2ae92dbf11ed9db8b41a8fd4b21ff21beebda607be034c70f6e4e9c29995cf8e"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarChevron.imageset/Contents.json",
+    "bytes": 394,
+    "sha256": "214934417f03684def4b74e9a2410e8d07e6e962120d2832c25b4a8dba413d1c"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarChevron.imageset/icon@2x.png",
+    "bytes": 389,
+    "sha256": "331185f468bcbff884905e9a04c185df48018a6707241630baa6a7d802faac2f"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarChevron.imageset/icon@3x.png",
+    "bytes": 586,
+    "sha256": "e497da5b10ec015b30c797eca767845c9728c9a5c83b6a3948271adff6c3f371"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarClose.imageset/Contents.json",
+    "bytes": 394,
+    "sha256": "214934417f03684def4b74e9a2410e8d07e6e962120d2832c25b4a8dba413d1c"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarClose.imageset/icon@2x.png",
+    "bytes": 595,
+    "sha256": "795d1845800039af30db6c19a63b107c310ffa7d0a0cf58c3178857b38690a2f"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarClose.imageset/icon@3x.png",
+    "bytes": 828,
+    "sha256": "1c05e2e90c32396ebf2b5f0cb78c3532a0c5e90467afea402891e784336f5fe8"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarDevices.imageset/Contents.json",
+    "bytes": 394,
+    "sha256": "214934417f03684def4b74e9a2410e8d07e6e962120d2832c25b4a8dba413d1c"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarDevices.imageset/icon@2x.png",
+    "bytes": 599,
+    "sha256": "ee6e252194d2d56e8f791f49c0a688b2a219a5d5ae6288f2cef70de89672b76f"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarDevices.imageset/icon@3x.png",
+    "bytes": 823,
+    "sha256": "0ef9f947dff83cb53b6fa5813a79e586b5bbd5dabf4d3dc2a7c91314cb206e80"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarEdit.imageset/Contents.json",
+    "bytes": 394,
+    "sha256": "214934417f03684def4b74e9a2410e8d07e6e962120d2832c25b4a8dba413d1c"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarEdit.imageset/icon@2x.png",
+    "bytes": 836,
+    "sha256": "badeae0e237e0e0639a7f3dfdeeb594c1f9c6bac9dd0203d930219e5e434cefb"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarEdit.imageset/icon@3x.png",
+    "bytes": 1213,
+    "sha256": "39e10f1568786f6f8f53ef6bb2f8d891c1d0c96431224f685ba64fe7acb68fd3"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarHelp.imageset/Contents.json",
+    "bytes": 394,
+    "sha256": "214934417f03684def4b74e9a2410e8d07e6e962120d2832c25b4a8dba413d1c"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarHelp.imageset/icon@2x.png",
+    "bytes": 1604,
+    "sha256": "412730c9c81d2a79109dd132d2755ced50694d99c664e7fbeb6252f908e7a664"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarHelp.imageset/icon@3x.png",
+    "bytes": 2419,
+    "sha256": "a8a9479ce707036e4b7ed25b5e69704663568e37321fad16fdde548d16e3f7b4"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarLogout.imageset/Contents.json",
+    "bytes": 394,
+    "sha256": "214934417f03684def4b74e9a2410e8d07e6e962120d2832c25b4a8dba413d1c"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarLogout.imageset/icon@2x.png",
+    "bytes": 636,
+    "sha256": "6a9ef7a46fe9d8f90da367b09ab658451106c88705ab27bfbbdd68566cd27cfc"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarLogout.imageset/icon@3x.png",
+    "bytes": 928,
+    "sha256": "0b992da48b4467aabf5d0d84544177656601103f79335b7ca5f9b70892731ed9"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarLucideLicense.dataset/Contents.json",
+    "bytes": 149,
+    "sha256": "f0461c17dc5bc93bfaa2dcc057120cd1ee4a7677a4c2aa38813eeacb9f85e200"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarLucideLicense.dataset/LICENSE.txt",
+    "bytes": 3208,
+    "sha256": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarPeople.imageset/Contents.json",
+    "bytes": 394,
+    "sha256": "214934417f03684def4b74e9a2410e8d07e6e962120d2832c25b4a8dba413d1c"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarPeople.imageset/icon@2x.png",
+    "bytes": 1146,
+    "sha256": "99bfab70bd93c20ff61357cbdfc6f2499c0da8829c8e63cf99493ecf51bb7ffa"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarPeople.imageset/icon@3x.png",
+    "bytes": 1830,
+    "sha256": "3609c943f505ecc2e02a9586581906c1febd369f81d21f674f1f406cae107048"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarReport.imageset/Contents.json",
+    "bytes": 394,
+    "sha256": "214934417f03684def4b74e9a2410e8d07e6e962120d2832c25b4a8dba413d1c"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarReport.imageset/icon@2x.png",
+    "bytes": 726,
+    "sha256": "562780f3b198bef2d9f51aac66521d794494e67ae608d80fca3f44ad08c181b8"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarReport.imageset/icon@3x.png",
+    "bytes": 1065,
+    "sha256": "413b0b4f1f8bd04de0b29d79f8e782b64f47706c84498cbc11f21ae0e2f10ec7"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarSaved.imageset/Contents.json",
+    "bytes": 394,
+    "sha256": "214934417f03684def4b74e9a2410e8d07e6e962120d2832c25b4a8dba413d1c"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarSaved.imageset/icon@2x.png",
+    "bytes": 610,
+    "sha256": "38885c86adc697d9be3a9a270384ac227425b9cdee25c2e2b927ab9ac4ddf682"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarSaved.imageset/icon@3x.png",
+    "bytes": 914,
+    "sha256": "12a9a3aa2d1f5e5bd1deaf788c94cc512f7df42597c696f3aac1f961877e49c6"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarSearch.imageset/Contents.json",
+    "bytes": 394,
+    "sha256": "214934417f03684def4b74e9a2410e8d07e6e962120d2832c25b4a8dba413d1c"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarSearch.imageset/icon@2x.png",
+    "bytes": 1130,
+    "sha256": "b6f91a31bd0648c1c5eb700685eadec74e5634d0bf9baa4c1405ab605e14bc48"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarSearch.imageset/icon@3x.png",
+    "bytes": 1792,
+    "sha256": "e46af009da5371f8f99e76dbe440e9c18071bf2efd4fcd9d8d30eaede1ebde25"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarServer.imageset/Contents.json",
+    "bytes": 394,
+    "sha256": "214934417f03684def4b74e9a2410e8d07e6e962120d2832c25b4a8dba413d1c"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarServer.imageset/icon@2x.png",
+    "bytes": 744,
+    "sha256": "6d85df86ac540309b45e33671249a6bb98bb96c550e8cf46deb124ec218a51e5"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarServer.imageset/icon@3x.png",
+    "bytes": 1181,
+    "sha256": "cc0091c00131fbd0748d17b9b370fc11be139bff99de91e056ecf42fe4b52f70"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarSettings.imageset/Contents.json",
+    "bytes": 394,
+    "sha256": "214934417f03684def4b74e9a2410e8d07e6e962120d2832c25b4a8dba413d1c"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarSettings.imageset/icon@2x.png",
+    "bytes": 878,
+    "sha256": "4d91aa76c75947deb289368c179fcdb69c18e2366b3fbe87c1a868b0576e5345"
+  },
+  {
+    "path": "ios/UNYRI/Assets.xcassets/UnyriSidebarSettings.imageset/icon@3x.png",
+    "bytes": 1472,
+    "sha256": "6e7ec06b69db8d5567072e1f4d6b0b4b3da3bee3a20a92c76bdda74de9717040"
+  },
+  {
+    "path": "ios/UNYRI/Attachments/AttachmentManager.swift",
+    "bytes": 50621,
+    "sha256": "f048d491ac6e281990e8f98105c132015dc3327325344c191c05c98b01e94224"
+  },
+  {
+    "path": "ios/UNYRI/Attachments/ImageProcessor.swift",
+    "bytes": 3975,
+    "sha256": "bf482406842e92af2c5e2b3e22718ec3bfa990ee7abe3f88581cb7a6e0baf189"
+  },
+  {
+    "path": "ios/UNYRI/Attachments/StorageService.swift",
+    "bytes": 10835,
+    "sha256": "b911f088e149d69dfefbce4a6fa558dbf97204cd5b393743312fe3b479acc409"
+  },
+  {
+    "path": "ios/UNYRI/Attachments/VoicePlayerController.swift",
+    "bytes": 7246,
+    "sha256": "8e7db7fdc5d31e514757bb5296431208c739dd5a09b006b057e7151a3de86772"
+  },
+  {
+    "path": "ios/UNYRI/Attachments/VoiceRecorder.swift",
+    "bytes": 8706,
+    "sha256": "4fccfda94eb42701717cd6bbca7c03681e4121931a5b911afaec845e3310d504"
+  },
+  {
+    "path": "ios/UNYRI/Auth/AuthRepository.swift",
+    "bytes": 23769,
+    "sha256": "80cacfcb6821880227bf23a68104451124e09444fe34a450f0a6101ca494d858"
+  },
+  {
+    "path": "ios/UNYRI/Auth/DeviceInfo.swift",
+    "bytes": 1455,
+    "sha256": "96a96f74da031a0208735569dbba6a617dfbf52f4f91aaa994ed0cc1804a381f"
+  },
+  {
+    "path": "ios/UNYRI/Auth/InstallationProof.swift",
+    "bytes": 6081,
+    "sha256": "36ba622e8747bd89942ba67210f5d44a954a26e8893bd11e91271136b296268f"
+  },
+  {
+    "path": "ios/UNYRI/Auth/SessionStore.swift",
+    "bytes": 23648,
+    "sha256": "c1594517e00575277e4b8a7dbce7c67d52f38f6724664f6d6f902de9018e0646"
+  },
+  {
+    "path": "ios/UNYRI/Calls/CallAudioSession.swift",
+    "bytes": 1429,
+    "sha256": "7ea023748435cdb2e8949b332b9202c408eaec216538cb69a292f4703308641f"
+  },
+  {
+    "path": "ios/UNYRI/Calls/CallController.swift",
+    "bytes": 44706,
+    "sha256": "754c1569a508f83aa3c5fe45c1949285dcbf640b693f8d2a94539821ccc3cdc1"
+  },
+  {
+    "path": "ios/UNYRI/Calls/CallKitCoordinator.swift",
+    "bytes": 28933,
+    "sha256": "04ac2cdb564b548887b2fdb85ca7db1a936d7630952c1ba1de5472fcf3aeaa52"
+  },
+  {
+    "path": "ios/UNYRI/Calls/CallKitPolicy.swift",
+    "bytes": 7931,
+    "sha256": "385e7e72f811d1bdf9854ac911013ba6deaf265cf7910a8e138c972eba273fc2"
+  },
+  {
+    "path": "ios/UNYRI/Calls/CallKitProvider.swift",
+    "bytes": 19704,
+    "sha256": "7b7ae73976834043a299deda8b1b1e1de812d8b83f44d69316a2565f9e5bf629"
+  },
+  {
+    "path": "ios/UNYRI/Calls/CallMediaPermissions.swift",
+    "bytes": 1374,
+    "sha256": "9aa3d6fccc2089c81b4826c41ca0141c069f65d5106cf27133d30a9445c7a6e2"
+  },
+  {
+    "path": "ios/UNYRI/Calls/CallModels.swift",
+    "bytes": 25245,
+    "sha256": "fb3ebea6986cfec1b9579ff01acc2daeea546cf6e161231ce9b4feaef325f66e"
+  },
+  {
+    "path": "ios/UNYRI/Calls/CallReconciliation.swift",
+    "bytes": 6093,
+    "sha256": "8fdf0ecb04ee7b9ab362e9c12dbe220a8f42da15e95854d26c5022fd2c2dae30"
+  },
+  {
+    "path": "ios/UNYRI/Calls/CallSignaling.swift",
+    "bytes": 7637,
+    "sha256": "badf16f11c83c757756e64e4683529404f6991a17e74a78de53a1dd87a334827"
+  },
+  {
+    "path": "ios/UNYRI/Calls/CallStateReducer.swift",
+    "bytes": 40693,
+    "sha256": "f3317737c60d16b54ae34001878e2503c035087f85b870561dea73b440ac9038"
+  },
+  {
+    "path": "ios/UNYRI/Calls/CameraCaptureFormat.swift",
+    "bytes": 3346,
+    "sha256": "8b0f0a448cf2adcf3455fc87654209fc0a0712476f4bb1c5094d22c45bde505a"
+  },
+  {
+    "path": "ios/UNYRI/Calls/SocketCallSignaling.swift",
+    "bytes": 2187,
+    "sha256": "ce1c614a19cca441d798b08ddf441c6769b1db988984cef8ea7f3553c4302dcf"
+  },
+  {
+    "path": "ios/UNYRI/Calls/WebRTCEngine.swift",
+    "bytes": 2760,
+    "sha256": "dedb8a9ddab61cbda0be0db3969138ed0bc0c6d5a7da53df625006fa3998c2bc"
+  },
+  {
+    "path": "ios/UNYRI/Chats/ChatsRepository.swift",
+    "bytes": 40082,
+    "sha256": "e3266c8ba88f0fc520cb007f0664a649dd5336df690fdec9011f7e51118543c4"
+  },
+  {
+    "path": "ios/UNYRI/Conferences/ConferenceController.swift",
+    "bytes": 80547,
+    "sha256": "34310e7553051beb23d877656a75f5151809bedba97bfce3ed8166aa632f8cff"
+  },
+  {
+    "path": "ios/UNYRI/Conferences/ConferenceDirectoryModels.swift",
+    "bytes": 17010,
+    "sha256": "e0c299c8c5c9590a817a1f3d0305c4c11a8a2ee8ec633487b9266f75dfe371ea"
+  },
+  {
+    "path": "ios/UNYRI/Conferences/ConferenceDirectoryView.swift",
+    "bytes": 34345,
+    "sha256": "9ba159d5db48a6cac98b781038f60394f2912f596ede5f98f7f80c52d5bb6699"
+  },
+  {
+    "path": "ios/UNYRI/Conferences/ConferenceInvite.swift",
+    "bytes": 13411,
+    "sha256": "29c2d0873e6309881e3957e2b95de668cbb13af9a9203b1ff43b5c441d469e16"
+  },
+  {
+    "path": "ios/UNYRI/Conferences/ConferenceKeyHandoff.swift",
+    "bytes": 14766,
+    "sha256": "756c5e11f7a860d0ae0c23becf81602b12779eb66b3ff604769ae7dcdab9417e"
+  },
+  {
+    "path": "ios/UNYRI/Conferences/ConferenceMessageViews.swift",
+    "bytes": 20535,
+    "sha256": "e6bf20e29ba3b2757db29362e659e02179c39073d99f2b8929a39151c17578c4"
+  },
+  {
+    "path": "ios/UNYRI/Conferences/ConferenceOwnedAccess.swift",
+    "bytes": 3329,
+    "sha256": "860f163d6e754706134593809f5f7066a5b951d44027dea31dfb17d1d916024a"
+  },
+  {
+    "path": "ios/UNYRI/Conferences/ConferenceRoomView.swift",
+    "bytes": 52808,
+    "sha256": "583f19b1234e34913bf628412d43b87dab6bb8026fb9b3799d261e0477cc10f0"
+  },
+  {
+    "path": "ios/UNYRI/Conferences/ConferencesAPI.swift",
+    "bytes": 24443,
+    "sha256": "a43ab33cf2160a189eedcba10074f610bd05284fcf87bf078a445c4394c40f79"
+  },
+  {
+    "path": "ios/UNYRI/Conferences/ConferenceViews.swift",
+    "bytes": 13434,
+    "sha256": "e7f4d0b85989c72c553c4c3614769f1f77d25cecceddb55aceab25eab09cbef0"
+  },
+  {
+    "path": "ios/UNYRI/ContentView.swift",
+    "bytes": 2479,
+    "sha256": "99d4557022c207703c335343a75f43cde38543f2cb32f6f5510fa96334416249"
+  },
+  {
+    "path": "ios/UNYRI/Data/AttachmentStore.swift",
+    "bytes": 26867,
+    "sha256": "58b930c9b05635397b2bbed13587e6afa0cc030f9230089137b4954cc12be868"
+  },
+  {
+    "path": "ios/UNYRI/Data/MessageStore.swift",
+    "bytes": 135716,
+    "sha256": "444d599e52cbac4291de94052f780968f7cf2cde0c09e6158480754696ce43c4"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectComposerOriginal.swift",
+    "bytes": 2730,
+    "sha256": "20e74b4cf63bd120b459ad9c0df632549e01991d4db3f7d74f57c69f980e82db"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectFileAllocationLedger.swift",
+    "bytes": 17787,
+    "sha256": "1882333f24b89133268946a4cc077e904948b8f1e17e0a79d0c7afab8c61ccd2"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectFileAPI.swift",
+    "bytes": 6050,
+    "sha256": "73d80062b822111ad79b27e278033a6ec32c37be8e3f12d246b1905b68bd0af0"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectFileBulkIO.swift",
+    "bytes": 3350,
+    "sha256": "5730d62aded827dde3a012ada4479f42b9a7c295afde29f795cfe1fee137442c"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectFileContinuedProcessing.swift",
+    "bytes": 7558,
+    "sha256": "4b9b546fb6c43ee08793c24e3e0c43ab8cdb67f11938d208f92765f902f69d95"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectFileDisk.swift",
+    "bytes": 31484,
+    "sha256": "27ebc401b18a8e4cebee753813eb22130a1f9d4fe3a62433d62b1efe45969929"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectFileDisplay.swift",
+    "bytes": 1370,
+    "sha256": "40250c6afafc7bab1c4f19b1d8f399d8682ab93a0d858d19e89aa1363d8bd41e"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectFileExecutionPermit.swift",
+    "bytes": 2752,
+    "sha256": "ed4ec3b53fa11002a71da4b28c36c7f5c404ce7f24aa652c139b902c2d8cd975"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectFileHTTPGate.swift",
+    "bytes": 14544,
+    "sha256": "841f61adb93792dea65f1d81551a6221e142b2763a30a6ba4943f7b66a51c1d4"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectFileJournal.swift",
+    "bytes": 4578,
+    "sha256": "1210b626637da5043af6ecc1b01915a24525355a043d3320d77668e7092ccd54"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectFileManagerView.swift",
+    "bytes": 11353,
+    "sha256": "5a493de0ae4fc15635c1787f26fdddb70b9a7c2bd228f429d4c68119441e2c23"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectFileModels.swift",
+    "bytes": 18402,
+    "sha256": "a56dda6f93da087b4ebfbdc7aa0892b293a55876892dd592e39728f4b4b8aed2"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectFilePeer.swift",
+    "bytes": 17261,
+    "sha256": "3f47376d24044a5a918927520b77bf8ce550c6b95bef1f5f0e6688daacd6062b"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectFilePeerPipe.swift",
+    "bytes": 6447,
+    "sha256": "e5e2834620897d30536893ff00bb4f8a7053174695825069e1c513dabeb69150"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectFilePollPlan.swift",
+    "bytes": 2892,
+    "sha256": "9adc139c5a9b14ccdc6f481db76ccfa96fbceea4864cd3b0902c5dca97ec3e56"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectFilePresentation.swift",
+    "bytes": 3457,
+    "sha256": "87a1cbb939a2cb4967ee630fe8625910f8eed1ed1c7fdea876d5e764ec61cb48"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectFileQueueState.swift",
+    "bytes": 2852,
+    "sha256": "60fb10246edd5bea544c2d63c1f0c4df707b2cf4451ea7f9acd306a7e5123b01"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectFileStream.swift",
+    "bytes": 11670,
+    "sha256": "722f596bdb7093b74b1419d6fe039edbcc7115ef3c420ee0df0dfcbba55ba87c"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectFileTransfers.swift",
+    "bytes": 146802,
+    "sha256": "c914478ad6d1684ea1209719985682dcc83a16bfea2d0daee45f5ed93015078a"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectFileViews.swift",
+    "bytes": 16513,
+    "sha256": "f3b478cf80402572fad9726a9114ec5b2cb98d3a239a57ca12a9ae11f72ec9e4"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectManualTransferState.swift",
+    "bytes": 9260,
+    "sha256": "d7240ef14bfce081a469a8e96b864e9b8ca642e85702a5bfc956f07d434a3fc6"
+  },
+  {
+    "path": "ios/UNYRI/DirectTransfer/DirectPhotoOriginal.swift",
+    "bytes": 2804,
+    "sha256": "bcffdc14fe2e1fa2fa21eaa594755864a4bf5072159893d4084e07e5a4073426"
+  },
+  {
+    "path": "ios/UNYRI/Info-Alpha.plist",
+    "bytes": 3411,
+    "sha256": "240babf97f345957ebcfb213af3dbf4d740176980b16f2e10ec3787df17b72dc"
+  },
+  {
+    "path": "ios/UNYRI/Info-Release.plist",
+    "bytes": 3672,
+    "sha256": "ecd1786789aca9ecb411ea01fe4bf667568ddacd5cca90f0013af4e1d03fbaa3"
+  },
+  {
+    "path": "ios/UNYRI/Info.plist",
+    "bytes": 3501,
+    "sha256": "ec758daa28ebcb0db9e7411f04183efa81cf25764f2e16f59dbf8822ea1a36f7"
+  },
+  {
+    "path": "ios/UNYRI/Localizable.xcstrings",
+    "bytes": 1142643,
+    "sha256": "6ee7e1ca40ee827f4289371bf6d5e44ff357bc582101713ad9bcf054db9b6b1d"
+  },
+  {
+    "path": "ios/UNYRI/Messages/ForegroundMessageBannerController.swift",
+    "bytes": 9436,
+    "sha256": "4803a0a908a5eeb5d662aeb647586d0a7775ba9cca4e600fa750678f13bd9dff"
+  },
+  {
+    "path": "ios/UNYRI/Messages/MessageIngestor.swift",
+    "bytes": 21137,
+    "sha256": "0728723b03ce13794749885e82b648641b8511f1ac96d9f3e02d7015704a5ce6"
+  },
+  {
+    "path": "ios/UNYRI/Messages/MessageOutbox.swift",
+    "bytes": 44481,
+    "sha256": "33894b08e81e5c6501036cee81ddb315ef8f70f2ee3a292215118aa8ebac8ca5"
+  },
+  {
+    "path": "ios/UNYRI/Messages/MessageSendComposer.swift",
+    "bytes": 3870,
+    "sha256": "378abc0de9052a6c5190767327785185e4b6ec631348577032d1652ac91faaef"
+  },
+  {
+    "path": "ios/UNYRI/Messages/MessagesRepository.swift",
+    "bytes": 73257,
+    "sha256": "9289c59393822102e864e645a2b3128d71189cae533382347a0fca202ac264cb"
+  },
+  {
+    "path": "ios/UNYRI/Messages/OutboxPolicy.swift",
+    "bytes": 4567,
+    "sha256": "a77728fcfe31dbe7e99e06540de4c4e5e31e95e9ee9be2c74c8f4af7669b0746"
+  },
+  {
+    "path": "ios/UNYRI/Messages/SyncManager.swift",
+    "bytes": 5613,
+    "sha256": "8f780d489b04fca7efae75fa59bfa5c62a1e76c9e18301e0b48bf837d046dccb"
+  },
+  {
+    "path": "ios/UNYRI/Models/AttachmentModels.swift",
+    "bytes": 19699,
+    "sha256": "4b5f41bfacff02ce1d56405bbd5a3a3e63f7f99343aedbc1986e1fbd9289ca71"
+  },
+  {
+    "path": "ios/UNYRI/Models/AuthModels.swift",
+    "bytes": 1758,
+    "sha256": "1a6ea782f1737be4ce22a8fddee50e63248a41c231959f503c7dcb74b0d49f7a"
+  },
+  {
+    "path": "ios/UNYRI/Models/ChatModels.swift",
+    "bytes": 16068,
+    "sha256": "c92e52b2c6863a9bd61b52e3a74c48c0c587ad49b4ec06f481424ee541d29894"
+  },
+  {
+    "path": "ios/UNYRI/Models/KeysModels.swift",
+    "bytes": 1564,
+    "sha256": "08b5070ff5bd6ede49338157a94dfe13dd50727e73f52f2c50ad9ad49ad7a575"
+  },
+  {
+    "path": "ios/UNYRI/Models/MessageModels.swift",
+    "bytes": 12878,
+    "sha256": "9fc615fbd5f1e7aba5ad0dd53b458d4372cc0315c3a13ccda9566e1169a2a0c8"
+  },
+  {
+    "path": "ios/UNYRI/Models/RealtimeModels.swift",
+    "bytes": 3809,
+    "sha256": "561363256cecc6743351eed5a101b2e8f27dc3c7bcde0149bc4065af024ad86e"
+  },
+  {
+    "path": "ios/UNYRI/Models/SignalModels.swift",
+    "bytes": 2070,
+    "sha256": "6ee4fe0fa824103b43de454ae209e97ac5fb2ebe01025b78d4d9265e7b9ad475"
+  },
+  {
+    "path": "ios/UNYRI/Models/UserModels.swift",
+    "bytes": 11917,
+    "sha256": "43b630a8df7931fb58f77f78248224f3280941215dadb361eefe6aeb6f89bb54"
+  },
+  {
+    "path": "ios/UNYRI/Networking/APIClient.swift",
+    "bytes": 21513,
+    "sha256": "35c9df17450ae460738670e6e454c922d20169e749cb019d0b6ffd1fa860a570"
+  },
+  {
+    "path": "ios/UNYRI/Networking/AttachmentsAPI.swift",
+    "bytes": 2595,
+    "sha256": "4d8f4e4c5d8092c21959f6fef2407cfedf32c6f790d53d1d8cdbb156f64e05d3"
+  },
+  {
+    "path": "ios/UNYRI/Networking/AuthAPI.swift",
+    "bytes": 2472,
+    "sha256": "db0241434daf182950a6bc4597491b30545eaade9f6e80ecbbc6f54f5b873a4b"
+  },
+  {
+    "path": "ios/UNYRI/Networking/CallsAPI.swift",
+    "bytes": 25169,
+    "sha256": "78396e88c860087364cc7294de8463aac8b0a15ff8f99a4f7cc77e579dc342ed"
+  },
+  {
+    "path": "ios/UNYRI/Networking/ChatsAPI.swift",
+    "bytes": 4768,
+    "sha256": "fecdf6696f74afa22a5c19933e86bfbc1cb0b0ad50aad537ef86343a19468746"
+  },
+  {
+    "path": "ios/UNYRI/Networking/HistoryBackupAPI.swift",
+    "bytes": 13167,
+    "sha256": "88d5d1ae855eca9f4884876b418deb9dbad2c497278fdbf8c37f679d5e80b28c"
+  },
+  {
+    "path": "ios/UNYRI/Networking/KeysAPI.swift",
+    "bytes": 1355,
+    "sha256": "2f9155175d4c7756561c94d1e903e163fdc2a8847c11e7a5647521277b4002e2"
+  },
+  {
+    "path": "ios/UNYRI/Networking/MessagesAPI.swift",
+    "bytes": 2238,
+    "sha256": "3fae730b761dbd513e3c22724779c3aeae863390761687707dca427e3ab765f3"
+  },
+  {
+    "path": "ios/UNYRI/Networking/PushAPI.swift",
+    "bytes": 4393,
+    "sha256": "efe20b57e8a1f7fe20a0e713e9d5cf979098ff9771b630af08fd38bb7f2b309d"
+  },
+  {
+    "path": "ios/UNYRI/Networking/RealtimeApplicationProbe.swift",
+    "bytes": 2047,
+    "sha256": "314cdf11d65fa09260106a258b53aacd243c7a901f28673dbd894047c9172d9f"
+  },
+  {
+    "path": "ios/UNYRI/Networking/RealtimeClient.swift",
+    "bytes": 36851,
+    "sha256": "8a39a29283e864ebd504311cf4aa3ce5029ae7b73908cf6c494cbaafcc0d31f4"
+  },
+  {
+    "path": "ios/UNYRI/Networking/SyncAPI.swift",
+    "bytes": 2170,
+    "sha256": "61a07cd7ef2e7130360609cadb524df3d3a491d7d4d3c81540e03e69c63798e0"
+  },
+  {
+    "path": "ios/UNYRI/Networking/UsersAPI.swift",
+    "bytes": 3612,
+    "sha256": "9e4d43b1393c0ff46bd2def764232f10581a586590fc8c2bda2c2a8d0ffdd3af"
+  },
+  {
+    "path": "ios/UNYRI/PrivacyInfo.xcprivacy",
+    "bytes": 1179,
+    "sha256": "5d80614bf8f569f4f8ca053b38ee4d254d97c1150e4100d9a2bdd64221f7c2ff"
+  },
+  {
+    "path": "ios/UNYRI/Resources/appearance_preview.jpg",
+    "bytes": 23615,
+    "sha256": "c964d30b68b9703d20f1392413663d2d6f387cfa3523938ed474e22993bc8fc8"
+  },
+  {
+    "path": "ios/UNYRI/Signal/AttachmentCrypto.swift",
+    "bytes": 15145,
+    "sha256": "8b6a18c801aea979e4c0d4178982433ab16dce12d82691ea1c0cd65b1b1e2f37"
+  },
+  {
+    "path": "ios/UNYRI/Signal/KeysRepository.swift",
+    "bytes": 7722,
+    "sha256": "40bb6f0e1ceb8b7ee69632f685fefba53c1d3a2b654a8df82a879933fbccdcdd"
+  },
+  {
+    "path": "ios/UNYRI/Signal/LibSignalProbe.swift",
+    "bytes": 557,
+    "sha256": "902a0555b304cbe1e460e156a470e7f7ec1ca7c3fadc2712fc76f1afcf25eedb"
+  },
+  {
+    "path": "ios/UNYRI/Signal/MessageContentCodec.swift",
+    "bytes": 23252,
+    "sha256": "61c72e38ef8c7bc4415cef2391649de0405d1ac03d798cd4cc50e9246b3321c2"
+  },
+  {
+    "path": "ios/UNYRI/Signal/SignalBootstrapPlanner.swift",
+    "bytes": 1751,
+    "sha256": "9c7b53488b29b3678bd092951274d60b4a845daec4f3d8979524a06cd24c4102"
+  },
+  {
+    "path": "ios/UNYRI/Signal/SignalBundleDecoder.swift",
+    "bytes": 4065,
+    "sha256": "cc8abd787ce3350e84574d8042e26a158fdc66ba5213823bb260dc7c5f54eb16"
+  },
+  {
+    "path": "ios/UNYRI/Signal/SignalCryptoProvider.swift",
+    "bytes": 1757,
+    "sha256": "aa96fedf71bd35d8f39487cf41ad8ebc438e7b591d404317f398bfee043cc68b"
+  },
+  {
+    "path": "ios/UNYRI/Signal/SignalDeviceIdCache.swift",
+    "bytes": 1670,
+    "sha256": "370e7b667453176f3bc92305503d0e21ac4efeda61c3390706ecdaa0124c961c"
+  },
+  {
+    "path": "ios/UNYRI/Signal/SignalKeyBootstrap.swift",
+    "bytes": 3061,
+    "sha256": "3dc136be7c7f5052455e9a4acfab83a3f524e48b77218b3cd35a3272cd9e1c7a"
+  },
+  {
+    "path": "ios/UNYRI/Signal/SignalKeyManager.swift",
+    "bytes": 9498,
+    "sha256": "1dec7ff3bd9f8381e0e491536ef8e536966fe90509fb1d2818516106fe55ef2f"
+  },
+  {
+    "path": "ios/UNYRI/Signal/SignalMetadataStore.swift",
+    "bytes": 3914,
+    "sha256": "096bc9e8ea171454634abbcfda0ea0da6422492afea33b543f9be47290230c4f"
+  },
+  {
+    "path": "ios/UNYRI/Signal/SignalSessionManager.swift",
+    "bytes": 21904,
+    "sha256": "baceb386b99eca10c238ecdc2a35cd910ef0b4c6470928cf8dfd97592df047a1"
+  },
+  {
+    "path": "ios/UNYRI/Signal/SignalStateStore.swift",
+    "bytes": 6505,
+    "sha256": "db10966cb44026305840753369537a4e9fe3230cd03ab5791bf629c45a3adffd"
+  },
+  {
+    "path": "ios/UNYRI/Signal/SignalStorageKeys.swift",
+    "bytes": 7255,
+    "sha256": "d9f42316fe97444fd3ca9deae6172f3b557b235fc456374c550d4c9615a26911"
+  },
+  {
+    "path": "ios/UNYRI/Signal/UnyriSignalStores.swift",
+    "bytes": 11220,
+    "sha256": "120d8748447bc44c5499d4f385be6e0fbf2cfc725a21eedff0beaf5203c78f93"
+  },
+  {
+    "path": "ios/UNYRI/Support/AccountAutoDelete.swift",
+    "bytes": 9238,
+    "sha256": "29adb2772d11650e9344905b3e8b3aec4f32fdfb404c29e6066821444f2406f8"
+  },
+  {
+    "path": "ios/UNYRI/Support/AdminFactorPolicy.swift",
+    "bytes": 1135,
+    "sha256": "00af192ad82b569a4093538c9ea66bd0863551320fe0b0d03b96d377dc6ae6be"
+  },
+  {
+    "path": "ios/UNYRI/Support/AdminSigningKey.swift",
+    "bytes": 5755,
+    "sha256": "0774550accf171aa5a1868fb15c9bafa636eaf6e75ab702242fc96858854741a"
+  },
+  {
+    "path": "ios/UNYRI/Support/AlbumMosaicLayout.swift",
+    "bytes": 4309,
+    "sha256": "70bef2a675394b2f8a0e40099a6fca30a17b5f3793d43b067abb7c44b75c5b5f"
+  },
+  {
+    "path": "ios/UNYRI/Support/AppColorStyle.swift",
+    "bytes": 1741,
+    "sha256": "2416d480026a5f6406ed2b7a05a047ff6ca7f4b83b6aac6bb941b5708cbe3084"
+  },
+  {
+    "path": "ios/UNYRI/Support/AppLanguage.swift",
+    "bytes": 1151,
+    "sha256": "d6f44d084ffa5ba89a6d09bfca8542276b90019a9e22d99c5ea294a7651b2972"
+  },
+  {
+    "path": "ios/UNYRI/Support/AttachmentPickerStyle.swift",
+    "bytes": 832,
+    "sha256": "6969558d8ee6cf827a5f2727e4a290f1cf8788b26aafc135a55cefb9024643a6"
+  },
+  {
+    "path": "ios/UNYRI/Support/Base64.swift",
+    "bytes": 381,
+    "sha256": "e98719b4c425b3f951860abfa6ed065c6f6695c4e86747f0d412484fc6c67575"
+  },
+  {
+    "path": "ios/UNYRI/Support/CallDisplayWakePolicy.swift",
+    "bytes": 1527,
+    "sha256": "9eeed8963b7249d9675519459552b5da4c39c550b610a4cd5d5416a1ced6dffb"
+  },
+  {
+    "path": "ios/UNYRI/Support/ChatAlbumSelection.swift",
+    "bytes": 2392,
+    "sha256": "18383fabd979c947a7da754d4882a3260f80b581d03df6002398ea131eacead9"
+  },
+  {
+    "path": "ios/UNYRI/Support/ChatBackSwipe.swift",
+    "bytes": 6320,
+    "sha256": "a4e2185aed5d80e64fbb64149b3cc3a836bc1564fea5b68aae9ec7cb9b52643a"
+  },
+  {
+    "path": "ios/UNYRI/Support/ChatKeyboardTailAnchor.swift",
+    "bytes": 10496,
+    "sha256": "34cd4849cd5f19410395e893346f6ca5a52bd7b6ac141a264482d57804a3a96c"
+  },
+  {
+    "path": "ios/UNYRI/Support/ChatOpeningGate.swift",
+    "bytes": 1050,
+    "sha256": "ab47fb685056cfb28107d34c4849986575fb86019261449db02d1df103738044"
+  },
+  {
+    "path": "ios/UNYRI/Support/ChatViewportPolicy.swift",
+    "bytes": 7656,
+    "sha256": "ce953adf70cce735b6523acba1e396893aba9a84049ea874237480df7d311854"
+  },
+  {
+    "path": "ios/UNYRI/Support/CrashDiagnostics.swift",
+    "bytes": 7864,
+    "sha256": "2974c68c676e4b33a3d126ca2510d635c850da0e74adcc356b2649968eef1167"
+  },
+  {
+    "path": "ios/UNYRI/Support/CrashDiagnosticsSession.swift",
+    "bytes": 7462,
+    "sha256": "68c24ebfbbbbc2123b512a45bc95b3b6046016c1a21cb620404da8a1a3afba05"
+  },
+  {
+    "path": "ios/UNYRI/Support/HistoryArchive.swift",
+    "bytes": 28014,
+    "sha256": "3e3385692ad9587277919b5f9bbfaab41594ec068d19541ac3966bb02432821a"
+  },
+  {
+    "path": "ios/UNYRI/Support/HistoryAttachmentRestorer.swift",
+    "bytes": 4123,
+    "sha256": "76a4401e2ffcfd93ca3c989b45e9782af27481eaf8cd842bcf9dbabd295315a7"
+  },
+  {
+    "path": "ios/UNYRI/Support/HistoryAutomaticBackup.swift",
+    "bytes": 9466,
+    "sha256": "7702ff5ad0e42029463cf86bbfc5b6af63e290986d77d2a3ca154c5c0e7da28c"
+  },
+  {
+    "path": "ios/UNYRI/Support/HistoryAutoPolicy.swift",
+    "bytes": 1541,
+    "sha256": "13d4b9202b0e3cf146d745dcbf5d928131eee5800f827cd3e67b55c36860bf64"
+  },
+  {
+    "path": "ios/UNYRI/Support/HistoryBackupCoordinator.swift",
+    "bytes": 13108,
+    "sha256": "1c4e4ca2d70e5a05ef261a83e694ccc80ecfdf9cb323bf068bfe14398ddee1bf"
+  },
+  {
+    "path": "ios/UNYRI/Support/HistoryBackupCrypto.swift",
+    "bytes": 3742,
+    "sha256": "23e1fcdfa994cd7712fb65be447537d36570b28a2289deb5d9d08b46ec20e319"
+  },
+  {
+    "path": "ios/UNYRI/Support/HistoryMedia.swift",
+    "bytes": 5936,
+    "sha256": "e6121916b41abdc560ba73efd30f8a1f47d7698d39ed2d55cf7d746d3df0ae7a"
+  },
+  {
+    "path": "ios/UNYRI/Support/HistoryNativeOwner.swift",
+    "bytes": 29741,
+    "sha256": "176a6c0f1c61250db2830ad690a5fcfc9f10fc856ca70156010136e359b0c531"
+  },
+  {
+    "path": "ios/UNYRI/Support/HistoryRecoveryKeys.swift",
+    "bytes": 4550,
+    "sha256": "6f115f7879ac58b79ac255afcba7bf1498e5ad394883a43df35cb07ec61bb8b8"
+  },
+  {
+    "path": "ios/UNYRI/Support/HistorySetupPolicy.swift",
+    "bytes": 2536,
+    "sha256": "05003ac0c0fdf37211adb81103499aa77cec0494ecfa7279d3570edb0e43e602"
+  },
+  {
+    "path": "ios/UNYRI/Support/HistoryTransfer.swift",
+    "bytes": 6641,
+    "sha256": "5ebaacdc40c50b9b3fb1f972c3eb63d113f4b5125014d09886116670f4ae90a3"
+  },
+  {
+    "path": "ios/UNYRI/Support/MediaCacheLease.swift",
+    "bytes": 2307,
+    "sha256": "5a340b44f5141e00330c6a4a8e3ac66128f42444ea1fb0f7b22da99e64bc765d"
+  },
+  {
+    "path": "ios/UNYRI/Support/MediaPreparationState.swift",
+    "bytes": 7517,
+    "sha256": "6a7158a44399fc4c92ce0a8df25e720d8246721d231b47faac1417368d9b90be"
+  },
+  {
+    "path": "ios/UNYRI/Support/MessageTextPolicy.swift",
+    "bytes": 15907,
+    "sha256": "02f3fb30bb6ac77f3fc3ec5b8c28a676e1171f5c2b4ea1d63ec5371434bedb2a"
+  },
+  {
+    "path": "ios/UNYRI/Support/NonCallCaptureOwnership.swift",
+    "bytes": 4909,
+    "sha256": "402f7f2fe039e25dc89947dbaeb15aeba79fb798ec570bea64dab9c2d09bc603"
+  },
+  {
+    "path": "ios/UNYRI/Support/NotificationPreferences.swift",
+    "bytes": 5836,
+    "sha256": "2375764a32fd145d266053b4428add5cc440bcdd36c1a64cff9e78a85ec03b7e"
+  },
+  {
+    "path": "ios/UNYRI/Support/PerformanceDiagnostics.swift",
+    "bytes": 15338,
+    "sha256": "43959c598a715f3d2d6a36e8ffa613dbd90f47303558f62adc8e77aca74e33a3"
+  },
+  {
+    "path": "ios/UNYRI/Support/PerformanceDiagnosticsSession.swift",
+    "bytes": 3203,
+    "sha256": "ab0cb4ada96d3146775b6daaa0884054a7fe7582586f9684864070b1d8262fc7"
+  },
+  {
+    "path": "ios/UNYRI/Support/PerformanceDiagnosticsUIKit.swift",
+    "bytes": 16527,
+    "sha256": "215dea5aaba9cfdbf08f1623147e2d265d660799e311c7cd372637f8d524bfdd"
+  },
+  {
+    "path": "ios/UNYRI/Support/PushNotificationCoordinator.swift",
+    "bytes": 13072,
+    "sha256": "a5d20a01c11ba95463c766250fa1b8ad11a124be611ad4af36ba86661344e42d"
+  },
+  {
+    "path": "ios/UNYRI/Support/PushRegistration.swift",
+    "bytes": 23140,
+    "sha256": "062d28252057db148e314ffeb3fc04b596eecd1f782ce41312cab1a00a8703fe"
+  },
+  {
+    "path": "ios/UNYRI/Support/QuickReactionPolicy.swift",
+    "bytes": 461,
+    "sha256": "e3aae0383ad5ebf73f3d5206b96456dad754883fccacf08c6da5f2303af4693a"
+  },
+  {
+    "path": "ios/UNYRI/Support/RelativeTime.swift",
+    "bytes": 1410,
+    "sha256": "9ddd5a596655f788c373bdffd331e3ab0a859b70cd0be7efbc45b49496a5a237"
+  },
+  {
+    "path": "ios/UNYRI/Support/SavedSidebarStyle.swift",
+    "bytes": 8657,
+    "sha256": "22e6733182edaa33a76e4cc401ba32ef6c16aead192596c74d776175553bdb4b"
+  },
+  {
+    "path": "ios/UNYRI/Support/SearchPresentation.swift",
+    "bytes": 1171,
+    "sha256": "28182167abcda5977e757d9093ee3937b2765504d8e06057c83234eb4fdcaf0a"
+  },
+  {
+    "path": "ios/UNYRI/Support/SidebarAppearanceSettings.swift",
+    "bytes": 42037,
+    "sha256": "3b0f9811029cb53243f8acca659da3b4b718ca03c7af06006f12d46992b92c23"
+  },
+  {
+    "path": "ios/UNYRI/Support/UnyriPendingAlbumPresentation.swift",
+    "bytes": 7011,
+    "sha256": "c88b7af7e0b81b97713069b89cb13e7da543a514a45331eb138de457a83ba848"
+  },
+  {
+    "path": "ios/UNYRI/Support/UserSettings.swift",
+    "bytes": 13610,
+    "sha256": "131367ad01b700b2080949f14985cc730fad57800d1f00d8d5930a590a960bd9"
+  },
+  {
+    "path": "ios/UNYRI/Support/UserSettingsPolicy.swift",
+    "bytes": 4563,
+    "sha256": "08af51900c7b547949e78b62a2276f4873c320acd29447c5064afc92ea67bbef"
+  },
+  {
+    "path": "ios/UNYRI/Support/Validation.swift",
+    "bytes": 3971,
+    "sha256": "be7f2e628a7a18956f3151fe83e2b6bf1466683ed01e4a691ef816811541897d"
+  },
+  {
+    "path": "ios/UNYRI/Support/VoiceFormat.swift",
+    "bytes": 4105,
+    "sha256": "48e2af1d2d1e26398c3b95cf0c023d89e92ab59e6d611954f57d5a0b0502228e"
+  },
+  {
+    "path": "ios/UNYRI/UI/Auth/AccountRecoveryView.swift",
+    "bytes": 10654,
+    "sha256": "66a04f21f8c2828a6926316a1177989722bf39ada5b762d89dc9163e6f293fa9"
+  },
+  {
+    "path": "ios/UNYRI/UI/Auth/LoginView.swift",
+    "bytes": 11398,
+    "sha256": "7557598f5e99e30c43f81ee1c421ccb80049993bf05efa2fbceea7ddc29bc357"
+  },
+  {
+    "path": "ios/UNYRI/UI/Auth/RegisterView.swift",
+    "bytes": 8700,
+    "sha256": "da21ccc7dfd95efe944eb460d9ffb9d23fe6bf681670975c74ebe2628253eda6"
+  },
+  {
+    "path": "ios/UNYRI/UI/Calls/CallDisplayAwake.swift",
+    "bytes": 2760,
+    "sha256": "df3e7bbb45dbc126e4f16a16f7553d527fd040931dd510098cdbabaaf972a47f"
+  },
+  {
+    "path": "ios/UNYRI/UI/Calls/CallPictureInPicture.swift",
+    "bytes": 18442,
+    "sha256": "ef5d59551a5f9dcdad2066aaae040cb1e10ba856441aad1d99cdd4a100c0032d"
+  },
+  {
+    "path": "ios/UNYRI/UI/Calls/CallScreen.swift",
+    "bytes": 48944,
+    "sha256": "bb856779ad55638b7565192e51f41f2f7d61422f11963c20635c601ceccd3f60"
+  },
+  {
+    "path": "ios/UNYRI/UI/Calls/VideoRenderViews.swift",
+    "bytes": 4344,
+    "sha256": "b1528b62540be5109e513ffac40b3e0efb3028946a64b863002b1d803b3bcafc"
+  },
+  {
+    "path": "ios/UNYRI/UI/Chats/ChatPlaceholderView.swift",
+    "bytes": 1319,
+    "sha256": "edcefad4217ae19bfc89c8c1825f290b6f8a0d5cd91d99af3e08cabf715b6845"
+  },
+  {
+    "path": "ios/UNYRI/UI/Chats/ChatScreen.swift",
+    "bytes": 409773,
+    "sha256": "294544fe446e915ee2bb5f86a5524d01641e9914dd2e9a3160a2f1c1d0b5c9dd"
+  },
+  {
+    "path": "ios/UNYRI/UI/Chats/ChatsListView.swift",
+    "bytes": 64552,
+    "sha256": "7e617b11c11a06c1611acc9b0503d532887acd5762cc7d012133c134c214d9ca"
+  },
+  {
+    "path": "ios/UNYRI/UI/Chats/IdentityVerificationView.swift",
+    "bytes": 9202,
+    "sha256": "8b28215f84a740810343c9de838482a409870cb0132a6cb6a271433d5f7c7c15"
+  },
+  {
+    "path": "ios/UNYRI/UI/Chats/QuickReaction.swift",
+    "bytes": 73481,
+    "sha256": "524299c6f822d1ce5771bf95dcac48b1fd4f24eb46a1c5db5f557804c033da22"
+  },
+  {
+    "path": "ios/UNYRI/UI/Chats/UnyriFullMessageTextView.swift",
+    "bytes": 2404,
+    "sha256": "f314b13cb517287615903e0119488044126f8d5684734232788f2a44afa61f9e"
+  },
+  {
+    "path": "ios/UNYRI/UI/Chats/UnyriMediaViewer.swift",
+    "bytes": 86595,
+    "sha256": "c6bec3c4c792c3585702cc6e0d11427180df21c61a9c1b272177d8c0eeffa5e6"
+  },
+  {
+    "path": "ios/UNYRI/UI/Components/UnyriAttachmentPopover.swift",
+    "bytes": 14032,
+    "sha256": "82108ff01f388e61c93837fcc7c7119cb78a301984b6c530a8708cbd1a832c2f"
+  },
+  {
+    "path": "ios/UNYRI/UI/Components/UnyriBackButton.swift",
+    "bytes": 14445,
+    "sha256": "80e88060b7ba9004463df892bd8bae4100392a7cedf1b42b8284a361dac1dfec"
+  },
+  {
+    "path": "ios/UNYRI/UI/Components/UserAvatar.swift",
+    "bytes": 3673,
+    "sha256": "d2c01ce0c2f4da696c03cc4ae957156782d100c1fcfb0addf17416cab4ef2aac"
+  },
+  {
+    "path": "ios/UNYRI/UI/LoggedInView.swift",
+    "bytes": 57354,
+    "sha256": "b8a22aa3be6a3abf478f3134a5e25f28295dfebcf586bd29a161ae998b568580"
+  },
+  {
+    "path": "ios/UNYRI/UI/Profile/AccountAutoDeleteSettingsView.swift",
+    "bytes": 9316,
+    "sha256": "d58215a2bf50a93768f34396fc2abfdf2a681c66fe96e0cf16428672b111362b"
+  },
+  {
+    "path": "ios/UNYRI/UI/Profile/AlphaSettings.swift",
+    "bytes": 61582,
+    "sha256": "174c125ea1237eed9b4683bd88fcd20c19d96968993ef0c707e63803a6c84821"
+  },
+  {
+    "path": "ios/UNYRI/UI/Profile/BlockedAccountsView.swift",
+    "bytes": 9162,
+    "sha256": "686eea60668974703796304d980916397fac8d5f4d31a10c683b7ab4432ab81c"
+  },
+  {
+    "path": "ios/UNYRI/UI/Profile/EditProfileView.swift",
+    "bytes": 20737,
+    "sha256": "d16c76612089bc0609b3a7907b9c1f36b54542b6c31a3e07552f5476a315a816"
+  },
+  {
+    "path": "ios/UNYRI/UI/Profile/HistoryKeySettingsView.swift",
+    "bytes": 27302,
+    "sha256": "5da3da5594fc4651f59f7b1887fcb891b84e33f813bc5e835e9b6d033b37290d"
+  },
+  {
+    "path": "ios/UNYRI/UI/Profile/HistoryTransferView.swift",
+    "bytes": 35564,
+    "sha256": "91d012f46801d4b07d482c23b4fbb0e8eb4677b600a6088463d21855f66a0aed"
+  },
+  {
+    "path": "ios/UNYRI/UI/Profile/NotificationSettingsView.swift",
+    "bytes": 22052,
+    "sha256": "fb094ed5a8c305a4797aeb8fa6aaeb0481fecbff54ff27170a791587c6b0cbe6"
+  },
+  {
+    "path": "ios/UNYRI/UI/Profile/PerformanceDiagnosticsView.swift",
+    "bytes": 4051,
+    "sha256": "e599ca93a93093c6b4cf16baafa659e6e297dea8d8ac77f39d9dac73927ec13f"
+  },
+  {
+    "path": "ios/UNYRI/UI/Profile/PrivacyStorageSettingsView.swift",
+    "bytes": 14709,
+    "sha256": "873e7f6ddadcd0db40b296e759d93b3797205baec6bffe1d818508391918f798"
+  },
+  {
+    "path": "ios/UNYRI/UI/Profile/ProfileView.swift",
+    "bytes": 115786,
+    "sha256": "53ae3e2d3b8e1ff3ef5e2cc11ffae5796a94bac7b8cab30fce318736667a6529"
+  },
+  {
+    "path": "ios/UNYRI/UI/Profile/UnyriChatAppearanceSettingsView.swift",
+    "bytes": 16028,
+    "sha256": "e605b97d18f90a42b062d3c5d80311bbbafbde4ef5e97e69575d20fe6addfc5c"
+  },
+  {
+    "path": "ios/UNYRI/UI/Profile/UnyriSidebarAppearanceSettingsView.swift",
+    "bytes": 26462,
+    "sha256": "7ab0caa2851aa948ff53c2b101ea3d7f04b3a22890100ed951781c9d2573923c"
+  },
+  {
+    "path": "ios/UNYRI/UI/Search/SearchUsersView.swift",
+    "bytes": 30508,
+    "sha256": "0851197211d930c2387cb8ff3584562454aa552107c6c652f012e9329c05c552"
+  },
+  {
+    "path": "ios/UNYRI/UI/Theme/ChatAppearance.swift",
+    "bytes": 21834,
+    "sha256": "456982667437c5378f6be2cccfe1422d00c120d6d6ba587186508deadc7d7c5f"
+  },
+  {
+    "path": "ios/UNYRI/UI/Theme/SidebarAppearanceRoot.swift",
+    "bytes": 3583,
+    "sha256": "29d9c6709584413febfc77d58c0ea8f246acebebef45a8f660998c4c0a28d4f2"
+  },
+  {
+    "path": "ios/UNYRI/UI/Theme/UnyriAppearanceCornerMetrics.swift",
+    "bytes": 1222,
+    "sha256": "c026e22e2b2c5c0fbb8d5e1cf30df1ab45ac1d4386454647d8951b59f4c2a695"
+  },
+  {
+    "path": "ios/UNYRI/UI/Theme/UnyriChatAppearanceSettings.swift",
+    "bytes": 6080,
+    "sha256": "f1bd3a5a39326e09fb09e9c4b2d17f1f10b767a9169fe21eeba2d2fc7ddf50dc"
+  },
+  {
+    "path": "ios/UNYRI/UI/Theme/UnyriSavedChatStyle.swift",
+    "bytes": 3777,
+    "sha256": "0627907a5c6197fdb7e19c7dda3c4b45facb3b02316fb67dfe66e916ffb15cfb"
+  },
+  {
+    "path": "ios/UNYRI/UI/Theme/UnyriSavedSidebarView.swift",
+    "bytes": 23796,
+    "sha256": "6ce5849c3e47ba724adf4e1cd9b96c307bdb3c746cf5f75f78e600bfb41b4d18"
+  },
+  {
+    "path": "ios/UNYRI/UI/Theme/UnyriTheme.swift",
+    "bytes": 23411,
+    "sha256": "f0e75ddb5856ab8f23229feb61e8cdc770e07dbca57782f8cebc4d802b5044b9"
+  },
+  {
+    "path": "ios/UNYRI/UNYRI.entitlements",
+    "bytes": 377,
+    "sha256": "febb950c82908a4bd23367dbf715ccc4d210943e4bba9a610de28836fba440dd"
+  },
+  {
+    "path": "ios/UNYRI/UNYRIApp.swift",
+    "bytes": 59161,
+    "sha256": "45305fb964506b089394e8dc6a01676711c0d815ea675a269c4686e129bdc73e"
+  },
+  {
+    "path": "ios/UNYRI/Users/BlockedAccountsModel.swift",
+    "bytes": 5827,
+    "sha256": "57ddc93449d6f45080f0521f6de5c6508059653af00fe224889acedc7544477c"
+  },
+  {
+    "path": "ios/UNYRI/Users/UsersRepository.swift",
+    "bytes": 25722,
+    "sha256": "6123ce674d71897fd64fe47a5c10701c14b91151dd48555b193ddc349bafe366"
+  },
+  {
+    "path": "ios/UNYRI/WebRTC/WebRTCEngineImpl.swift",
+    "bytes": 32977,
+    "sha256": "01572d598d7bf6c9b13b9555f91e40e443e62aa7c0c3a7f4b398b3076c644a4e"
+  },
+  {
+    "path": "ios/UNYRI/WebRTC/WebRTCProbe.swift",
+    "bytes": 1266,
+    "sha256": "6426fe383d5e9e8ef963a453e10620314b68400918ddbdd816eb5d40fe8f61c3"
+  },
+  {
+    "path": "ios/UNYRI.xcodeproj/project.pbxproj",
+    "bytes": 111120,
+    "sha256": "2008ad78bc0bba4601c3b7690bfb6ce89c056538188df423a9ac354472f943bc"
+  },
+  {
+    "path": "ios/UNYRI.xcodeproj/project.xcworkspace/contents.xcworkspacedata",
+    "bytes": 142,
+    "sha256": "ac28b35c2b940210bec0fff8e424b07fd0efe9112ab178a10533583f251a386c"
+  },
+  {
+    "path": "ios/UNYRI.xcodeproj/xcshareddata/xcschemes/UNYRI.xcscheme",
+    "bytes": 2900,
+    "sha256": "d0b61e2403eca64d2d279ab92433d287fb23b88b75f4b798f0fdd2e8416aabc3"
+  },
+  {
+    "path": "ios/UNYRIShare/Info.plist",
+    "bytes": 1336,
+    "sha256": "1f47484f5e7d10b9115e2ab71113c1a8a9c0eb4ccc69273a6ff08a17c287d1b6"
+  },
+  {
+    "path": "ios/UNYRIShare/PrivacyInfo.xcprivacy",
+    "bytes": 703,
+    "sha256": "79f4c715736b1a8f90f0d3ed53929bf50133fc11628005db007d080d8a1902d6"
+  },
+  {
+    "path": "ios/UNYRIShare/ShareViewController.swift",
+    "bytes": 8676,
+    "sha256": "4aed93b36777c438f6e13f8866d76c9af37db92d1ac8c8f810139fba431fb674"
+  },
+  {
+    "path": "ios/UNYRIShare/UNYRIShare.entitlements",
+    "bytes": 306,
+    "sha256": "d91d680e5f5c7314099a592fee073a576b89eb62297f5505a273a5b98a8ca24b"
+  },
+  {
+    "path": "LICENSE",
+    "bytes": 34523,
+    "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0"
+  },
+  {
+    "path": "LOCAL_MODIFICATIONS.md",
+    "bytes": 1293,
+    "sha256": "4f7bc8a3cc4902282935c72e32d7b485cd5396f44653c35b47235ddffe8c035d"
+  },
+  {
+    "path": "README.md",
+    "bytes": 2100,
+    "sha256": "f8be55ed9e433e554deb584cb9333fe874bcbe93bb1f381702112b65a588625b"
+  },
+  {
+    "path": "shared/attachment-picker-style.json",
+    "bytes": 389,
+    "sha256": "b6bb1764764e4df1e513b0904218a6c0534cd3001ad6a78c57714fa10adf629f"
+  },
+  {
+    "path": "shared/chat-appearance.json",
+    "bytes": 13871,
+    "sha256": "a9c8bf6fa429363ab6b9749d3687a8342b5b86fd442fd52ca474fa2583d7f51f"
+  },
+  {
+    "path": "shared/chat-style-v2.json",
+    "bytes": 2374,
+    "sha256": "e3942773b92696084405104af51ba392b705e0c026b0dec400411666b181b3ee"
+  },
+  {
+    "path": "shared/conference-contract.md",
+    "bytes": 25912,
+    "sha256": "b23590a945097315fe8e7082de6fd2c797db48dea2cc4f61165814f14513b728"
+  },
+  {
+    "path": "shared/conference-discovery-v1-vectors.json",
+    "bytes": 30555,
+    "sha256": "29b54b6f71834f2a9400186f7aea70ed0abf9737cd9cf6a5798120d2abdbb82d"
+  },
+  {
+    "path": "shared/conference-discovery-v1.md",
+    "bytes": 13519,
+    "sha256": "b9bb17154d8777581ca7cc779e73d4dbc655ecd819313d4f4046dd744d0a15df"
+  },
+  {
+    "path": "shared/conference-v2-vectors.json",
+    "bytes": 82673,
+    "sha256": "f85bc05507103b805a35567939169c873a567431cdc37741c82b73a4a50dac51"
+  },
+  {
+    "path": "shared/server-origin.json",
+    "bytes": 166,
+    "sha256": "dbf5d3eb31c49fc500d7b2d64506bdb9bf693f25a8c22659be0c279e2fb30cd3"
+  },
+  {
+    "path": "shared/sidebar-appearance-schema.json",
+    "bytes": 7779,
+    "sha256": "b893e602a4f20929aa975c9b50d12848b9c3dd0e442ba6766daf70a68783aff4"
+  },
+  {
+    "path": "shared/sidebar-icons/bookmark.svg",
+    "bytes": 340,
+    "sha256": "4dfa4e2393f44ed546f947c3c37cfc0b2998b10616be756ca90dfa7e887fb933"
+  },
+  {
+    "path": "shared/sidebar-icons/chevron-right.svg",
+    "bytes": 235,
+    "sha256": "83687b97faae8196b9cc76b640668d1427e13a0c72f1d9e3e12632cc84fe6c03"
+  },
+  {
+    "path": "shared/sidebar-icons/circle-help.svg",
+    "bytes": 326,
+    "sha256": "04c9f54bdf80eb4fba74260989f24b72243a0f82fbe27085e15563f5a56b93f2"
+  },
+  {
+    "path": "shared/sidebar-icons/flag.svg",
+    "bytes": 368,
+    "sha256": "a96f8c705e55ecf3ed1d2b03674c056be2a84aa78f033dc0c683d2ec47a69c20"
+  },
+  {
+    "path": "shared/sidebar-icons/laptop.svg",
+    "bytes": 405,
+    "sha256": "38e78c7410dcbfb1a9fc13c1d50ed747016afa156da16c7470c3c2cf8f426c61"
+  },
+  {
+    "path": "shared/sidebar-icons/log-out.svg",
+    "bytes": 319,
+    "sha256": "4795bb0ea87868c2998c3b1308fe91258b56d7434e4d9aeb54f8a0f8e352d8e3"
+  },
+  {
+    "path": "shared/sidebar-icons/manifest.json",
+    "bytes": 3639,
+    "sha256": "cf32936cf2e007c5c8a263bcfd5c56435e211de74f9a373c7f76855675a58cb5"
+  },
+  {
+    "path": "shared/sidebar-icons/message-square.svg",
+    "bytes": 337,
+    "sha256": "e160f5ca8dd06830e9d72edaee31588bb32810d3cf3942ab67beb198783daead"
+  },
+  {
+    "path": "shared/sidebar-icons/pencil.svg",
+    "bytes": 377,
+    "sha256": "c70f4edc9705cc0eb21c4bd31ddf702213cff3117f63d48ea31c293c9da31b09"
+  },
+  {
+    "path": "shared/sidebar-icons/phone.svg",
+    "bytes": 435,
+    "sha256": "9d245fd7573823afd2bde451d708f7894776a872b457287ecbf178f578e370df"
+  },
+  {
+    "path": "shared/sidebar-icons/README.md",
+    "bytes": 1802,
+    "sha256": "0cf05e61b65b264634236d2af0cc42b7de91bb48efcedc9b2247844a8ade0872"
+  },
+  {
+    "path": "shared/sidebar-icons/search.svg",
+    "bytes": 277,
+    "sha256": "1f4bc740fa6623e56084916572a94e6b8b94ba5ff294e8b591f4ab2d767e8eaa"
+  },
+  {
+    "path": "shared/sidebar-icons/server.svg",
+    "bytes": 417,
+    "sha256": "37a36909efedd9196236d1618994385a7d5c9ab26e4fa0f6eba1b37d1c246553"
+  },
+  {
+    "path": "shared/sidebar-icons/settings-2.svg",
+    "bytes": 332,
+    "sha256": "8223d81cf6c46080f40801ec70ef36e3d4a309830bc1b1a4a14970bfd6bf245d"
+  },
+  {
+    "path": "shared/sidebar-icons/users.svg",
+    "bytes": 389,
+    "sha256": "c7b73f2de4760e25e01a0e8c9d805fa7129661ff5409bc22ac03c2604c183be4"
+  },
+  {
+    "path": "shared/sidebar-icons/x.svg",
+    "bytes": 260,
+    "sha256": "946b206191275d880c8955c90c9a67fc34cb2e580b9e8c5a879ceeaf62a04394"
+  },
+  {
+    "path": "shared/sidebar-style.json",
+    "bytes": 4943,
+    "sha256": "e59cbee11b5a0720fd4122da1750ef02a99d9bb9d411b001f905a1aaf4680119"
+  },
+  {
+    "path": "shared/test-vectors/history-archive-v1.json",
+    "bytes": 569,
+    "sha256": "088bb081ba8393de6c463e73c25a2130f2db05d1b199944be80cd77e7e214a9a"
+  },
+  {
+    "path": "shared/test-vectors/history-archive-v2-call-only-legacy.json",
+    "bytes": 1619,
+    "sha256": "945b3a543a34c38e4ca1c8e1b5dbdb7c5fba4f74b8ad6bbf10e4e580c89f2efe"
+  },
+  {
+    "path": "shared/test-vectors/history-archive-v2-complete.json",
+    "bytes": 2577,
+    "sha256": "9c569a5b64f8ca2c5855ff3af6fdd189cd9b7ae1f8725c14a95c605d8c51d6c7"
+  },
+  {
+    "path": "shared/test-vectors/history-archive-v2.json",
+    "bytes": 1263,
+    "sha256": "437eb9f01f7b020d38157b6e3c9db268c287fea8b57d3188a809461ee1127c57"
+  },
+  {
+    "path": "shared/test-vectors/history-media-v1.json",
+    "bytes": 187,
+    "sha256": "450ac0f6a2ef92651b3e1e2a9daf55e377555862d13314f43760ae36ba5b52d3"
+  },
+  {
+    "path": "shared/test-vectors/history-transfer-v1.json",
+    "bytes": 1354,
+    "sha256": "bd498c443b2cec18a86d206d05592298c961a34a24e44556579299a1e4f4f6c4"
+  },
+  {
+    "path": "SIGNED_RELEASE_BINDING.json",
+    "bytes": 3183,
+    "sha256": "0e5b9ed68b88c33c97a2323d21942b0455a358a9f1ade141ef3b379ebc58f73d"
+  },
+  {
+    "path": "SOURCE_BUILD.md",
+    "bytes": 8779,
+    "sha256": "f17b75f8093ec095e4ed8ebc45acc23ee7f4589e7411c7bfe221c14bb99b134a"
+  },
+  {
+    "path": "SOURCE_PACKAGE_STATUS.json",
+    "bytes": 979,
+    "sha256": "ac33cd02c95ee385e03efc010747ca029ae49befe8a1130536befd2af52e1251"
+  },
+  {
+    "path": "SOURCE_SELECTION.json",
+    "bytes": 162777,
+    "sha256": "fbb12ca556343bf08122be24486a84fad3c083c8df0f29615e7f0cb17c31ca9c"
+  },
+  {
+    "path": "third_party/DEVICE_FRAMEWORK_SOURCE_BINDING.json",
+    "bytes": 1929,
+    "sha256": "615ab6f54ef31ac3f19d5d20816854dcd9acd02af23a6d04a0d2557a035536ae"
+  },
+  {
+    "path": "third_party/libsignal/acknowledgments/about.toml",
+    "bytes": 10707,
+    "sha256": "3a9f9f12ae553464214899da3028ee5e27e85c300d2b794206a79cd97911cba4"
+  },
+  {
+    "path": "third_party/libsignal/acknowledgments/acknowledgments-ios.plist",
+    "bytes": 396407,
+    "sha256": "773b786475ed4e0e07fe5d9eec6ef2d47f4836d558d91fbfdd98ab04f29c58cb"
+  },
+  {
+    "path": "third_party/libsignal/acknowledgments/cargo-about-version",
+    "bytes": 6,
+    "sha256": "ceb9b2c03afb769df3b1e518520c4e1798e9a3313a1c5ffffcb054fef5d6d6fb"
+  },
+  {
+    "path": "third_party/libsignal/acknowledgments/README.md",
+    "bytes": 1231,
+    "sha256": "f9b4e80bfa141551730eb14d6303c4f23fc70439d34feab16162eaed13a949e6"
+  },
+  {
+    "path": "third_party/libsignal/CARGO_SOURCE_REFERENCES.json",
+    "bytes": 125985,
+    "sha256": "a81955bf3ca1b547d88fa9a67479368f219be2e8a8e023581811782300b572d8"
+  },
+  {
+    "path": "third_party/libsignal/libsignal-client-ios-build-v0.86.5.tar.gz.sha256",
+    "bytes": 108,
+    "sha256": "17a08c9ddcde0fe459719bccd9188625b95708d2cdb8c85783336b2512f06ec2"
+  },
+  {
+    "path": "third_party/libsignal/libsignal-v0.86.5-source.tar.gz",
+    "bytes": 2388059,
+    "sha256": "7956a7af562b5142f80933f42ff7cb2aaa0ed077382ce06580d5eb9bf6651814"
+  },
+  {
+    "path": "third_party/libsignal/LOCAL_WRAPPER_VS_UPSTREAM.patch",
+    "bytes": 2731,
+    "sha256": "efb4d1b24c9776eeed1b899840085bdb41fa04151689dcef7bb1e6502b23ff61"
+  },
+  {
+    "path": "third_party/libsignal/PROVENANCE.json",
+    "bytes": 1766,
+    "sha256": "9bb68e6e37f20c2d4eded191d3f5ff854eff29e378b99801bdf02956eeffa562"
+  },
+  {
+    "path": "third_party/libsignal/UPSTREAM_SOURCE_MANIFEST.json",
+    "bytes": 298808,
+    "sha256": "66cbdb288ebabb89fc66987cf8e20780ab3b2a0cd7699ea64c62ca5c6f8f4d38"
+  },
+  {
+    "path": "third_party/lucide/LICENSE",
+    "bytes": 3208,
+    "sha256": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57"
+  },
+  {
+    "path": "third_party/lucide/README.md",
+    "bytes": 827,
+    "sha256": "4ae1242e5d9db0cfd4eb3447ea24c35dcb1c67f415b76c37d581fd17c55ae47d"
+  },
+  {
+    "path": "third_party/unicode16/LICENSE",
+    "bytes": 1995,
+    "sha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96"
+  },
+  {
+    "path": "third_party/unicode16/NOTICE.json",
+    "bytes": 908,
+    "sha256": "1f2bc155d2e7a1a3ecda3266e5ada0cdbab0ba897b66635aae74291f96f8782a"
+  },
+  {
+    "path": "third_party/upstream-notices/livekit-ffi-wrapper/LICENSE",
+    "bytes": 11357,
+    "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+  },
+  {
+    "path": "third_party/upstream-notices/livekit-rust-sdks/LICENSE",
+    "bytes": 11357,
+    "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+  },
+  {
+    "path": "third_party/upstream-notices/livekit-rust-sdks/NOTICE",
+    "bytes": 553,
+    "sha256": "6d0f7c5e0deb284362296c5da110dd353831da2e67ca77cb5abc051b951b0fac"
+  },
+  {
+    "path": "third_party/upstream-notices/livekit-swift/LICENSE",
+    "bytes": 11358,
+    "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  },
+  {
+    "path": "third_party/upstream-notices/livekit-swift/NOTICE",
+    "bytes": 553,
+    "sha256": "6d0f7c5e0deb284362296c5da110dd353831da2e67ca77cb5abc051b951b0fac"
+  },
+  {
+    "path": "third_party/upstream-notices/livekit-webrtc-wrapper/LICENSE",
+    "bytes": 1068,
+    "sha256": "97c31210567f082cbd2f1067a491c1d5498a019414948153e98c321810986bfd"
+  },
+  {
+    "path": "third_party/upstream-notices/stasel-webrtc/LICENSE.md",
+    "bytes": 2992,
+    "sha256": "843529896bae499c92af3ecade86855128f930334ba97530695ccecef56e966d"
+  },
+  {
+    "path": "third_party/upstream-notices/webrtc-build/LICENSE",
+    "bytes": 1068,
+    "sha256": "97c31210567f082cbd2f1067a491c1d5498a019414948153e98c321810986bfd"
+  },
+  {
+    "path": "third_party/upstream-source/livekit-ffi-wrapper-685cfd95e23edf734450125eb58bb3bb21b4133b.tar.gz",
+    "bytes": 60898,
+    "sha256": "9b4011b1077652e3c10977aa27685480b116acc7713ca16edf6832ca928296f8"
+  },
+  {
+    "path": "third_party/upstream-source/livekit-ffi-wrapper-SOURCE-PROOF.json",
+    "bytes": 3044,
+    "sha256": "67d6330785fcb921dae14d65c20223f26b62c4cfb9c0cb5c1053f394970868ab"
+  },
+  {
+    "path": "third_party/upstream-source/livekit-rust-sdks-7187f6a42ca6382b73c631b75a9d560253f5b90f.tar.gz",
+    "bytes": 10791668,
+    "sha256": "f31cb422e1f8a217a471e266962fdf4a09e588b6f22b7be498ca114954a146b0"
+  },
+  {
+    "path": "third_party/upstream-source/livekit-rust-sdks-SOURCE-PROOF.json",
+    "bytes": 258946,
+    "sha256": "6e501f3b06232ce85ff49561d61a5d5518d7d2f7ef4d89d0f6c7bd6e996ba6fd"
+  },
+  {
+    "path": "third_party/upstream-source/livekit-swift-43c1c0870e51eedbfd95b20b1b5c43a767886786.tar.gz",
+    "bytes": 1908266,
+    "sha256": "fff16110dfe6c8d443dc6c7a24be6f9a6683490a9fa69225ec9406f747fc7111"
+  },
+  {
+    "path": "third_party/upstream-source/livekit-swift-SOURCE-PROOF.json",
+    "bytes": 150086,
+    "sha256": "f7f75cd2845aa765a3ed04a9ba64ae7ab5ff51ea931e28dc4b97f333500777a9"
+  },
+  {
+    "path": "third_party/upstream-source/livekit-webrtc-wrapper-f843fb1c12017bd17fde38e7293649c204548467.tar.gz",
+    "bytes": 2831,
+    "sha256": "c18e2d069a89f497a4339b8118b50838b88eb5561647343dd794f9a70c7ad588"
+  },
+  {
+    "path": "third_party/upstream-source/livekit-webrtc-wrapper-SOURCE-PROOF.json",
+    "bytes": 2134,
+    "sha256": "603a132aa6782f67787b79e1110fcea5609b84b8733a5fe92fa373a79eb27a37"
+  },
+  {
+    "path": "third_party/upstream-source/LIVEKIT_FFI_CARGO_SOURCE_REFERENCES.json",
+    "bytes": 277642,
+    "sha256": "9ea970d8299f080667ec0cf7ccc8d5acd13247e609cb950bb3e20ddc6c34a150"
+  },
+  {
+    "path": "third_party/upstream-source/LIVEKIT_LOCAL_COMPARISON.json",
+    "bytes": 89882,
+    "sha256": "45668c09f564b288e7b31badd35460da0a70060fef75ec7b7a1850cbe4a07852"
+  },
+  {
+    "path": "third_party/upstream-source/LIVEKIT_LOCAL_CONTENT.patch",
+    "bytes": 19415,
+    "sha256": "72777046ae6a57cbd7711c443127ee10731d727155ac80416ea2333b4a82d270"
+  },
+  {
+    "path": "third_party/upstream-source/SOURCES.json",
+    "bytes": 3439,
+    "sha256": "ac1e10771502db4890907a6daabaa37e5c0bf9878c81e218aa3ddca390fb5530"
+  },
+  {
+    "path": "third_party/upstream-source/stasel-webrtc-1d04692697cb642bfebf6ad2dd99fe52649c3d6d.tar.gz",
+    "bytes": 30066,
+    "sha256": "d850768018851587feccc398007bb2d1d3741d063be4095d5952003c791000a7"
+  },
+  {
+    "path": "third_party/upstream-source/stasel-webrtc-SOURCE-PROOF.json",
+    "bytes": 3278,
+    "sha256": "4aa543f2e6e10b5d9953f67d5508ae94e9f9b3c389293e1571139f95827ba1c0"
+  },
+  {
+    "path": "third_party/upstream-source/webrtc-build-717ec1dc5a94389d691e09cccaf3d7b3364fb4b7.tar.gz",
+    "bytes": 54487,
+    "sha256": "12e45b27ba2b13c8dd2779053921f7dcf3ab28b075f1019e5d1a842784cd567c"
+  },
+  {
+    "path": "third_party/upstream-source/webrtc-build-SOURCE-PROOF.json",
+    "bytes": 17479,
+    "sha256": "27869b9898edba54b7fdec474a64cee4876d60daada5c62b897b88dabbc11f43"
+  },
+  {
+    "path": "third_party/webrtc/livekit-webrtc-upstream-DEPS",
+    "bytes": 52284,
+    "sha256": "dcf605b64a79a0ea7808b13bd9373a57d3bb441cb00436292ab865485a5ffdd3"
+  },
+  {
+    "path": "third_party/webrtc/livekit-webrtc-upstream-LICENSE",
+    "bytes": 1511,
+    "sha256": "ab00a482b6a3902e40211b43c5d0441962ea99b6cc7c25c0f243fa270b78d482"
+  },
+  {
+    "path": "third_party/webrtc/stasel-upstream-DEPS",
+    "bytes": 52409,
+    "sha256": "be35438d47acbfffe33e4e6203eb47c71a282c6245a555d0e7d21c0dcf53fdfb"
+  },
+  {
+    "path": "third_party/webrtc/stasel-upstream-LICENSE",
+    "bytes": 1511,
+    "sha256": "ab00a482b6a3902e40211b43c5d0441962ea99b6cc7c25c0f243fa270b78d482"
+  },
+  {
+    "path": "third_party/webrtc/TEXT_PROVENANCE.json",
+    "bytes": 1681,
+    "sha256": "a607b5d8c294f1d5b90aae7df43b4f16e9c7070c8468e90159ba9f752a606141"
+  },
+  {
+    "path": "THIRD_PARTY_NOTICES.md",
+    "bytes": 2297,
+    "sha256": "9d5126fc72303855c241b0fdeac53edbe63363108c31db81969685f71a2c6cf6"
+  }
+]

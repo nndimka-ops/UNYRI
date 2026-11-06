@@ -1,0 +1,68 @@
+[
+  {
+    "name": "stasel-webrtc",
+    "repository": "https://github.com/stasel/WebRTC",
+    "commit": "1d04692697cb642bfebf6ad2dd99fe52649c3d6d",
+    "source_url": "https://codeload.github.com/stasel/WebRTC/tar.gz/1d04692697cb642bfebf6ad2dd99fe52649c3d6d",
+    "archive": "stasel-webrtc-1d04692697cb642bfebf6ad2dd99fe52649c3d6d.tar.gz",
+    "archive_bytes": 30066,
+    "archive_sha256": "d850768018851587feccc398007bb2d1d3741d063be4095d5952003c791000a7",
+    "all_git_blobs_match": true,
+    "top_level": "WebRTC-1d04692697cb642bfebf6ad2dd99fe52649c3d6d"
+  },
+  {
+    "name": "webrtc-build",
+    "repository": "https://github.com/webrtc-sdk/webrtc-build",
+    "commit": "717ec1dc5a94389d691e09cccaf3d7b3364fb4b7",
+    "source_url": "https://codeload.github.com/webrtc-sdk/webrtc-build/tar.gz/717ec1dc5a94389d691e09cccaf3d7b3364fb4b7",
+    "archive": "webrtc-build-717ec1dc5a94389d691e09cccaf3d7b3364fb4b7.tar.gz",
+    "archive_bytes": 54487,
+    "archive_sha256": "12e45b27ba2b13c8dd2779053921f7dcf3ab28b075f1019e5d1a842784cd567c",
+    "all_git_blobs_match": true,
+    "top_level": "webrtc-build-717ec1dc5a94389d691e09cccaf3d7b3364fb4b7"
+  },
+  {
+    "name": "livekit-rust-sdks",
+    "repository": "https://github.com/livekit/rust-sdks",
+    "commit": "7187f6a42ca6382b73c631b75a9d560253f5b90f",
+    "source_url": "https://codeload.github.com/livekit/rust-sdks/tar.gz/7187f6a42ca6382b73c631b75a9d560253f5b90f",
+    "archive": "livekit-rust-sdks-7187f6a42ca6382b73c631b75a9d560253f5b90f.tar.gz",
+    "archive_bytes": 10791668,
+    "archive_sha256": "f31cb422e1f8a217a471e266962fdf4a09e588b6f22b7be498ca114954a146b0",
+    "all_git_blobs_match": true,
+    "top_level": "rust-sdks-7187f6a42ca6382b73c631b75a9d560253f5b90f"
+  },
+  {
+    "name": "livekit-swift",
+    "repository": "https://github.com/livekit/client-sdk-swift",
+    "commit": "43c1c0870e51eedbfd95b20b1b5c43a767886786",
+    "source_url": "https://codeload.github.com/livekit/client-sdk-swift/tar.gz/43c1c0870e51eedbfd95b20b1b5c43a767886786",
+    "archive": "livekit-swift-43c1c0870e51eedbfd95b20b1b5c43a767886786.tar.gz",
+    "archive_bytes": 1908266,
+    "archive_sha256": "fff16110dfe6c8d443dc6c7a24be6f9a6683490a9fa69225ec9406f747fc7111",
+    "all_git_blobs_match": true,
+    "top_level": "client-sdk-swift-43c1c0870e51eedbfd95b20b1b5c43a767886786"
+  },
+  {
+    "name": "livekit-webrtc-wrapper",
+    "repository": "https://github.com/livekit/webrtc-xcframework",
+    "tag": "150.7871.04",
+    "commit": "f843fb1c12017bd17fde38e7293649c204548467",
+    "source_url": "https://codeload.github.com/livekit/webrtc-xcframework/tar.gz/f843fb1c12017bd17fde38e7293649c204548467",
+    "archive": "livekit-webrtc-wrapper-f843fb1c12017bd17fde38e7293649c204548467.tar.gz",
+    "archive_bytes": 2831,
+    "archive_sha256": "c18e2d069a89f497a4339b8118b50838b88eb5561647343dd794f9a70c7ad588",
+    "all_git_blobs_match": true
+  },
+  {
+    "name": "livekit-ffi-wrapper",
+    "repository": "https://github.com/livekit/livekit-ffi-xcframework",
+    "tag": "0.13.1",
+    "commit": "685cfd95e23edf734450125eb58bb3bb21b4133b",
+    "source_url": "https://codeload.github.com/livekit/livekit-ffi-xcframework/tar.gz/685cfd95e23edf734450125eb58bb3bb21b4133b",
+    "archive": "livekit-ffi-wrapper-685cfd95e23edf734450125eb58bb3bb21b4133b.tar.gz",
+    "archive_bytes": 60898,
+    "archive_sha256": "9b4011b1077652e3c10977aa27685480b116acc7713ca16edf6832ca928296f8",
+    "all_git_blobs_match": true
+  }
+]
