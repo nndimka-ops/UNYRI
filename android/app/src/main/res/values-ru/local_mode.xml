@@ -1,0 +1,12 @@
+<resources>
+    <string name="local_mode_title">Локальная связь</string>
+    <string name="local_mode_description">Сообщения и звонки напрямую от твоего сервера по Wi-Fi, без интернета. Режим показывает постоянное уведомление и расходует больше батареи. После принудительной остановки или перезагрузки открой UNYRI снова.</string>
+    <string name="local_mode_connected">Подключено к твоему серверу</string>
+    <string name="local_mode_reconnecting">Ожидание сервера — переподключение</string>
+    <string name="local_mode_stopped">Фоновая связь остановлена</string>
+    <string name="local_mode_stop">Выключить</string>
+    <string name="local_mode_battery">Разрешить работу в фоне</string>
+    <string name="local_mode_battery_allowed">Ограничение батареи снято</string>
+    <string name="local_mode_notifications">Разрешить уведомления</string>
+    <string name="local_mode_signin">Войди в аккаунт, чтобы включить локальную связь.</string>
+</resources>

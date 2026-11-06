@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="history_settings_title">History and backups</string>
+    <string name="history_feature_limit">Encrypted copies include messages, photos, videos, voice messages and files. Keep your recovery key separately.</string>
+    <string name="history_no_copy">No confirmed backup on this server</string>
+    <string name="history_copy_exists">An encrypted backup is stored on this server</string>
+    <string name="history_last_confirmed">Last confirmed copy</string>
+    <string name="history_pending_copy">An unfinished upload exists. It is not a usable backup. Delete it before preparing a new key.</string>
+    <string name="history_key_saved">Recovery key saved securely on this phone</string>
+    <string name="history_key_not_saved">No recovery key saved on this phone</string>
+    <string name="history_key_explanation">This key is only for history. It is not your account password or a six-digit sign-in code. Keep it outside UNYRI: without it, an encrypted backup cannot be opened. The server never receives this key.</string>
+    <string name="history_create_key">Prepare recovery key</string>
+    <string name="history_save_key_instruction">Save the entire key in a password manager or write it down. Then enter its last 8 characters to confirm. This draft expires after 10 minutes.</string>
+    <string name="history_copy_key">Copy recovery key</string>
+    <string name="history_last_group">Last 8 characters</string>
+    <string name="history_confirm_key">I saved the key</string>
+    <string name="history_enter_existing">Enter the recovery key saved when the backup was created. UNYRI will verify it without importing or changing your messages.</string>
+    <string name="history_recovery_key">History recovery key</string>
+    <string name="history_verify_key">Verify and save key</string>
+    <string name="history_operation_failed">The operation could not be completed. Check your connection and recovery key, then refresh. Existing keys are never replaced automatically.</string>
+    <string name="history_invalid_key">Use the complete key beginning with COCO-H1-, including all eight groups.</string>
+    <string name="history_wrong_key">This key cannot open the backup. Check that you entered the history recovery key for this account and server.</string>
+    <string name="history_server_upgrade">This server does not support history backups yet. Ask its owner to update the server.</string>
+    <string name="history_key_expired">The unsaved key draft expired. Prepare a new key.</string>
+    <string name="history_pause_copying">Disable future backup uploads</string>
+    <string name="history_enable_copying">Allow future backup uploads</string>
+    <string name="history_copying_paused">Backup uploads disabled. Existing copies are kept.</string>
+    <string name="history_delete_copy">Delete server backup</string>
+    <string name="history_delete_warning">The server copy will be permanently deleted and future uploads disabled. Messages on your phones and the recovery key will remain. This cannot be undone.</string>
+    <string name="history_backup_now">Back up now</string>
+    <string name="history_restore_now">Restore messages and files</string>
+    <string name="history_working">Preparing, transferring and verifying. Keep this screen open.</string>
+    <string name="history_completed">Completed successfully.</string>
+    <string name="history_source_not_ready">Wait for pending messages to finish, or cancel them. Unreadable messages must be restored with the correct key before creating a complete copy.</string>
+    <string name="history_source_changed">History changed during copying. Try again; the previous confirmed copy is safe.</string>
+    <string name="history_media_unavailable">A file could not be downloaded. Check the connection and try again. The previous confirmed copy is safe.</string>
+<string name="history_insufficient_space">There is not enough free space for safe verification. Free some storage and try again.</string><string name="history_restore_warning">Messages and files will be downloaded and checked before importing. Newer messages stay on this phone; saved deletion and hide actions are also applied. Keep this screen open.</string>    <string name="history_setup_prepare_title">1 of 3 · Save your recovery key</string>
+    <string name="history_setup_prepare_detail">Start here. Save the recovery key outside UNYRI. Then you can create a copy of your messages and files.</string>
+    <string name="history_setup_confirm_title">1 of 3 · Confirm your saved key</string>
+    <string name="history_setup_confirm_detail">Copy or write down the entire key below, then enter its last 8 characters. Preparing a key does not upload your history.</string>
+    <string name="history_setup_existing_title">Enter the key for your existing backup</string>
+    <string name="history_setup_existing_detail">This server already has a backup. Enter its saved recovery key below. A new key cannot open the old copy.</string>
+    <string name="history_setup_unfinished_title">An upload was interrupted</string>
+    <string name="history_setup_unfinished_detail">The earlier upload is not a confirmed backup. Refresh its status or remove the unfinished server copy below. Messages on this phone stay in place.</string>
+    <string name="history_setup_allow_title">2 of 3 · Allow encrypted backups</string>
+    <string name="history_setup_allow_detail">Your key is saved. Allow encrypted uploads to create or update a backup. An existing copy can still be restored while uploads are off.</string>
+    <string name="history_setup_create_title">3 of 3 · Create your first backup</string>
+    <string name="history_setup_create_detail">The key is saved and uploads are allowed. Tap Back up now. Keep UNYRI open until it finishes.</string>
+    <string name="history_setup_ready_title">Your backup is ready</string>
+    <string name="history_setup_ready_detail">Your encrypted copy is stored on the server. Keep your recovery key outside UNYRI; signing in alone does not restore history.</string>
+    <string name="history_setup_restore_key_hint">Enter and verify your saved key above before restoring.</string>
+    <string name="history_setup_auto_hint">Save your recovery key and allow uploads before enabling automatic backup.</string>
+</resources>

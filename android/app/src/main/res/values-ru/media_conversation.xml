@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="media_busy_peer">Линия занята. Попробуйте позвонить позже.</string>
+    <string name="media_busy_room">Вы уже в комнате. Сначала выйдите из неё.</string>
+    <string name="media_busy_call">У вас идёт звонок. Сначала завершите его.</string>
+    <string name="media_busy_capture">Завершите текущую запись перед началом звонка.</string>
+    <string name="media_busy_cleanup">Завершаем предыдущий разговор. Подождите немного и повторите.</string>
+    <string name="media_busy_call_or_capture">Сначала завершите текущий звонок или запись.</string>
+    <string name="media_return_status">%1$s · Нажмите, чтобы вернуться</string>
+    <string name="media_return_call">Вернуться к звонку</string>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_caption_camera">Caméra</string>
+    <string name="call_caption_mute">Micro</string>
+    <string name="call_caption_end">Raccrocher</string>
+    <string name="call_caption_speaker">Haut-parleur</string>
+    <string name="call_caption_flip">Inverser</string>
+    <string name="call_caption_video">Vidéo</string>
+</resources>

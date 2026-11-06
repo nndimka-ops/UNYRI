@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_chats">Chats</string>
+    <string name="quick_reaction">Quick reaction</string>
+    <string name="quick_reaction_hint">Double-tap a message to react. In the photo viewer, double-tap still zooms.</string>
+    <string name="quick_reaction_off">Off</string>
+</resources>

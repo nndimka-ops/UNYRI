@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_accept">Прийняти</string>
+    <string name="direct_call_priority">На паузі під час дзвінка</string>
+    <string name="direct_cancel">Скасувати передавання</string>
+    <string name="direct_cancelled">Передавання скасовано</string>
+    <string name="direct_completed">Передано без стиснення</string>
+    <string name="direct_connecting">З’єднуємо телефони…</string>
+    <string name="direct_decline">Відхилити</string>
+    <string name="direct_destination_unavailable">Файли понад 100 МБ можна передавати лише іншій людині в доступному особистому чаті. Відкрий такий чат або вибери менший файл для цієї розмови.</string>
+    <string name="direct_disk_full">Недостатньо місця. Звільни пам’ять і продовж.</string>
+    <string name="direct_eta_long">&gt;24 год</string>
+    <string name="direct_expired">Термін пропозиції минув</string>
+    <string name="direct_history_only">Файли прямого передавання не входять до резервних копій історії. Попроси відправника надіслати файл ще раз.</string>
+    <string name="direct_integrity_failed">Файл не пройшов перевірку. Незавершений файл не відкриється.</string>
+    <string name="direct_no_route">Пряме з’єднання недоступне. Файл на сервер не завантажувався.</string>
+    <string name="direct_offer_note">Оригінал · чекаємо на твою згоду</string>
+    <string name="direct_open">Відкрити файл</string>
+    <string name="direct_open_failed">Не вдалося відкрити файл. Перевір його доступність на цьому пристрої та спробуй ще раз.</string>
+    <string name="direct_other_device">Відкрито на іншому пристрої</string>
+    <string name="direct_paused">Передавання призупинено. Збережена частина залишається.</string>
+    <string name="direct_prefix_mismatch">Збережена частина не відповідає оригіналу.</string>
+    <string name="direct_prepare_failed">Не вдалося підготувати оригінал. Перевір доступ до файлу, вільне місце та з’єднання.</string>
+    <string name="direct_progress">%1$d%% · %2$s / %3$s</string>
+    <string name="direct_rate_eta">%1$s/с · залишилося %2$s</string>
+    <string name="direct_rejected">Передавання відхилено</string>
+    <string name="direct_restart">Почати заново</string>
+    <string name="direct_restart_note">Збережена частина не відповідає оригіналу. Видалити лише цю незавершену частину й отримати файл від початку?</string>
+    <string name="direct_resume">Продовжити</string>
+    <string name="direct_security_error">Не вдалося підтвердити захист передавання. Перевір ключ безпеки співрозмовника.</string>
+    <string name="direct_source_missing">Оригінал більше недоступний. Вибери його знову.</string>
+    <string name="direct_too_large">До 64 ГіБ на файл за наявності вільного місця.</string>
+    <string name="direct_too_many">До 8 передавань у черзі. Заверши або скасуй попереднє.</string>
+    <string name="direct_transfer_unavailable">Передавання недоступне. Оригінал або збережена частина залишається.</string>
+    <string name="direct_transferring">Пряме передавання</string>
+    <string name="direct_unit_b">Б</string>
+    <string name="direct_unit_gb">ГБ</string>
+    <string name="direct_unit_kb">КБ</string>
+    <string name="direct_unit_mb">МБ</string>
+    <string name="direct_unsupported">Онови сервер UNYRI, щоб увімкнути пряме передавання.</string>
+    <string name="direct_verifying">Перевіряємо оригінал файлу…</string>
+    <string name="direct_waiting">Чекаємо на інший телефон</string>
+    <string name="direct_caption_retained">Підпис залишиться в полі повідомлення — його можна надіслати окремо.</string>
+    <string name="direct_send_title">Надіслати оригінал напряму?</string>
+    <string name="direct_send_note">Без стиснення й завантаження на сервер. Отримувач має прийняти файл; обидва телефони мають бути доступні. Якщо пряме з’єднання недоступне, передавання призупиниться й зможе продовжитися пізніше.</string>
+    <string name="direct_normal_limit_unavailable">Цей файл більший за 100 МБ. Пряме передавання в цій розмові недоступне. Вибери менший файл або відкрий доступний особистий чат.</string>
+</resources>

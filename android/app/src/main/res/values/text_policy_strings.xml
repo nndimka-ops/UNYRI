@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_text_policy">Text is too long or contains unsupported characters. Your draft has been kept.</string>
+    <string name="error_caption_policy">Caption is too long or contains unsupported characters. Your caption and selected items have been kept.</string>
+    <string name="error_forward_text_policy">One selected message is too long or contains unsupported characters. Nothing was sent.</string>
+</resources>

@@ -1,0 +1,12 @@
+<resources>
+    <string name="local_mode_title">Local connection</string>
+    <string name="local_mode_description">Receive messages and calls directly from your server over Wi-Fi, without internet. Keeps a visible notification and uses more battery. After a force stop or reboot, open UNYRI again.</string>
+    <string name="local_mode_connected">Connected to your server</string>
+    <string name="local_mode_reconnecting">Waiting for your server — reconnecting</string>
+    <string name="local_mode_stopped">Background connection is stopped</string>
+    <string name="local_mode_stop">Turn off</string>
+    <string name="local_mode_battery">Allow background operation</string>
+    <string name="local_mode_battery_allowed">Battery optimization exemption is enabled</string>
+    <string name="local_mode_notifications">Allow notifications</string>
+    <string name="local_mode_signin">Sign in to enable the local connection.</string>
+</resources>

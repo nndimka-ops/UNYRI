@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="admin_factor_continue_setup">Продовжити налаштування</string>
+    <string name="admin_factor_fresh_code">Якщо цей код автентифікатора вже використали для входу, дочекайтеся наступного або введіть невикористаний резервний код.</string>
+    <string name="admin_factor_authenticator">Пароль + автентифікатор</string>
+    <string name="admin_factor_paper">Пароль + паперовий ключ</string>
+    <string name="admin_factor_both">Пароль + автентифікатор + паперовий ключ</string>
+    <string name="admin_factor_password_required">Пароль облікового запису потрібен для кожного способу входу.</string>
+    <string name="admin_factor_windows">Змінити спосіб входу можна у Windows-консолі: «Захист мого входу».</string>
+    <string name="admin_factor_prepare">Підготовка захисту входу</string>
+    <string name="admin_factor_existing_authenticator">Використовуйте попередній автентифікатор. Його секрет повторно не показується.</string>
+    <string name="admin_factor_unsupported">Цей спосіб входу не підтримується. Оновіть UNYRI або скористайтеся Windows-консоллю.</string>
+    <string name="admin_factor_finish_prepare">Спочатку продовжте налаштування вище.</string>
+</resources>

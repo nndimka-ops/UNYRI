@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_caption_retained">Your caption stays in the message field so you can send it separately.</string>
+    <string name="direct_unit_b">B</string>
+    <string name="direct_unit_kb">KB</string>
+    <string name="direct_unit_mb">MB</string>
+    <string name="direct_unit_gb">GB</string>
+    <string name="direct_verifying">Verifying the original file…</string>
+    <string name="direct_progress">%1$d%% · %2$s / %3$s</string>
+    <string name="direct_rate_eta">%1$s/s · %2$s remaining</string>
+    <string name="direct_eta_long">&gt;24 h</string>
+    <string name="direct_transfer_unavailable">Transfer unavailable. The saved original or part is retained.</string>
+    <string name="direct_send_title">Send the original directly?</string>
+    <string name="direct_send_note">No compression or server upload. The recipient must accept; both phones need to be available. Transfer pauses when a direct connection is unavailable and can resume later.</string>
+    <string name="direct_accept">Accept</string>
+    <string name="direct_decline">Decline</string>
+    <string name="direct_cancel">Cancel transfer</string>
+    <string name="direct_resume">Resume</string>
+    <string name="direct_restart">Start again</string>
+    <string name="direct_restart_note">The saved part does not match the original. Delete only this unfinished part and receive the file from the beginning?</string>
+    <string name="direct_open">Open file</string>
+    <string name="direct_open_failed">The file could not be opened. Check its availability on this device and try again.</string>
+    <string name="direct_completed">Transferred without compression</string>
+    <string name="direct_cancelled">Transfer cancelled</string>
+    <string name="direct_rejected">Transfer declined</string>
+    <string name="direct_expired">The offer expired</string>
+    <string name="direct_other_device">Opened on another device</string>
+    <string name="direct_transferring">Direct transfer</string>
+    <string name="direct_connecting">Connecting phones…</string>
+    <string name="direct_no_route">A direct connection is unavailable. No file was uploaded to the server.</string>
+    <string name="direct_prefix_mismatch">The saved part does not match the original.</string>
+    <string name="direct_disk_full">Not enough storage. Free space and resume.</string>
+    <string name="direct_source_missing">The original is no longer available. Select it again.</string>
+    <string name="direct_unsupported">Update the UNYRI server to enable direct transfers.</string>
+    <string name="direct_integrity_failed">File verification failed. The unfinished file will not open.</string>
+    <string name="direct_security_error">Transfer authentication failed. Check your contact’s security key.</string>
+    <string name="direct_call_priority">Paused during the call</string>
+    <string name="direct_paused">Transfer paused. The saved part is retained.</string>
+    <string name="direct_offer_note">Original file · waiting for your approval</string>
+    <string name="direct_waiting">Waiting for the other phone</string>
+    <string name="direct_too_large">Direct files can be up to 64 GiB, subject to available storage.</string>
+    <string name="direct_too_many">Up to 8 pending direct transfers. Finish or cancel an earlier one.</string>
+    <string name="direct_prepare_failed">The original could not be prepared. Check access to the file, storage and connection.</string>
+    <string name="direct_destination_unavailable">Files over 100 MB need an available one-to-one chat with another person. Open one, or choose a smaller file for this conversation.</string>
+    <string name="direct_normal_limit_unavailable">This file exceeds 100 MB. Direct transfer is unavailable in this conversation. Choose a smaller file or open an available one-to-one chat.</string>
+    <string name="direct_history_only">Direct files are not included in history backups. Ask the sender to send the file again.</string>
+</resources>

@@ -1,0 +1,19 @@
+<resources>
+    <string name="chats_select">Выбрать чаты</string>
+    <string name="chats_pin">Закрепить</string>
+    <string name="chats_unpin">Открепить</string>
+    <string name="chats_pinned">Закреплённый чат</string>
+    <string name="chats_actions">Фильтры и действия с чатами</string>
+    <string name="chats_selected_count">Выбрано: %1$d</string>
+    <string name="chats_select_all">Выбрать все</string>
+    <string name="chats_deselect_all">Снять выбор</string>
+    <string name="chats_batch_delete_title">Удалить чаты: %1$d?</string>
+    <string name="chats_batch_failed">Часть изменений не сохранена. Эти чаты остаются выбранными — попробуй ещё раз.</string>
+    <string name="chats_archive_title">Архив</string>
+    <string name="chats_archive_action">Переместить в архив</string>
+    <string name="chats_restore">Вернуть в чаты</string>
+    <string name="chats_restore_short">Вернуть</string>
+    <string name="chats_archive_back">Назад к чатам</string>
+    <string name="chats_archive_empty">В архиве пока пусто</string>
+    <string name="chats_archive_detail">Переноси чаты через их меню или выбери несколько. Новые сообщения оставляют их здесь до ручного возврата.</string>
+</resources>

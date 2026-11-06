@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_lock_title">Блокировка приложения</string>
+    <string name="app_lock_detail">Биометрия Android или системный PIN, графический ключ либо пароль устройства. Используется код блокировки телефона.</string>
+    <string name="app_lock_auth_title">Разблокировать UNYRI</string>
+    <string name="app_lock_system_pin">Код блокировки телефона</string>
+    <string name="app_lock_after_background">Блокировать после выхода в фон</string>
+    <string name="app_lock_immediate">Сразу</string>
+    <string name="app_lock_minute">1 минута</string>
+    <string name="app_lock_five_minutes">5 минут</string>
+    <string name="app_lock_error">Подтверждение не завершено. При необходимости настройте блокировку экрана в Android.</string>
+    <string name="app_lock_locked">UNYRI заблокирован</string>
+    <string name="app_lock_unlock">Разблокировать</string>
+</resources>

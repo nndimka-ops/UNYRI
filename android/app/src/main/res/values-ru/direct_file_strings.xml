@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_caption_retained">Подпись останется в поле сообщения — её можно отправить отдельно.</string>
+    <string name="direct_unit_b">Б</string>
+    <string name="direct_unit_kb">КБ</string>
+    <string name="direct_unit_mb">МБ</string>
+    <string name="direct_unit_gb">ГБ</string>
+    <string name="direct_verifying">Проверяем оригинал файла…</string>
+    <string name="direct_progress">%1$d%% · %2$s / %3$s</string>
+    <string name="direct_rate_eta">%1$s/с · осталось %2$s</string>
+    <string name="direct_eta_long">&gt;24 ч</string>
+    <string name="direct_transfer_unavailable">Передача недоступна. Оригинал или сохранённая часть остаются.</string>
+    <string name="direct_send_title">Отправить оригинал напрямую?</string>
+    <string name="direct_send_note">Без сжатия и загрузки на сервер. Получатель должен принять файл; оба телефона должны быть доступны. Если прямой связи нет, передача приостановится и сможет продолжиться позже.</string>
+    <string name="direct_accept">Принять</string>
+    <string name="direct_decline">Отклонить</string>
+    <string name="direct_cancel">Отменить передачу</string>
+    <string name="direct_resume">Продолжить</string>
+    <string name="direct_restart">Начать заново</string>
+    <string name="direct_restart_note">Сохранённая часть не совпала с оригиналом. Удалить только эту незавершённую часть и получить файл с начала?</string>
+    <string name="direct_open">Открыть файл</string>
+    <string name="direct_open_failed">Не удалось открыть файл. Проверь его доступность на устройстве и попробуй ещё раз.</string>
+    <string name="direct_completed">Передано без сжатия</string>
+    <string name="direct_cancelled">Передача отменена</string>
+    <string name="direct_rejected">Передача отклонена</string>
+    <string name="direct_expired">Срок приглашения истёк</string>
+    <string name="direct_other_device">Открыто на другом устройстве</string>
+    <string name="direct_transferring">Передача напрямую</string>
+    <string name="direct_connecting">Соединяем телефоны…</string>
+    <string name="direct_no_route">Прямое соединение недоступно. Файл на сервер не загружался.</string>
+    <string name="direct_prefix_mismatch">Сохранённая часть не совпала с оригиналом.</string>
+    <string name="direct_disk_full">Не хватает места. Освободи память и продолжи.</string>
+    <string name="direct_source_missing">Оригинал недоступен. Выбери файл заново.</string>
+    <string name="direct_unsupported">Для прямой передачи нужно обновить сервер UNYRI.</string>
+    <string name="direct_integrity_failed">Файл не прошёл проверку. Незавершённый файл не откроется.</string>
+    <string name="direct_security_error">Не удалось подтвердить защиту передачи. Проверь ключ безопасности собеседника.</string>
+    <string name="direct_call_priority">На паузе во время звонка</string>
+    <string name="direct_paused">Передача приостановлена. Сохранённая часть останется.</string>
+    <string name="direct_offer_note">Оригинал · требуется твоё согласие</string>
+    <string name="direct_waiting">Ждём второй телефон</string>
+    <string name="direct_too_large">До 64 ГиБ на файл при наличии свободного места.</string>
+    <string name="direct_too_many">Не больше 8 ожидающих передач. Заверши или отмени предыдущую.</string>
+    <string name="direct_prepare_failed">Не удалось подготовить оригинал. Проверь доступ к файлу, свободное место и подключение.</string>
+    <string name="direct_destination_unavailable">Файлы больше 100 МБ можно передать только другому человеку в доступном личном чате. Открой такой чат или выбери файл поменьше для этой переписки.</string>
+    <string name="direct_normal_limit_unavailable">Этот файл больше 100 МБ. Прямая передача в этой переписке недоступна. Выбери файл поменьше или открой доступный личный чат.</string>
+    <string name="direct_history_only">Файлы прямой передачи не входят в резервную копию истории. Попроси отправителя прислать файл ещё раз.</string>
+</resources>

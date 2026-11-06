@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_editor_loading">Загружаем профиль…</string>
+    <string name="profile_editor_preview_name">Ваше имя</string>
+    <string name="profile_editor_photo_note">Фото меняется сразу. Текстовые поля — после нажатия «Сохранить».</string>
+    <string name="profile_editor_identity_section">Как вас видят</string>
+    <string name="profile_editor_name_hint">Это имя видно в чатах и звонках.</string>
+    <string name="profile_editor_name_error">Введите имя от 1 до 64 символов.</string>
+    <string name="profile_editor_bio_label">О себе (необязательно)</string>
+    <string name="profile_editor_bio_hint">Пара слов о себе. Оставьте пустым, чтобы убрать описание.</string>
+    <string name="profile_editor_bio_error">Не больше 160 символов.</string>
+    <string name="profile_editor_username_section">Как вас найти</string>
+    <string name="profile_editor_username_hint">От 3 до 32 букв, цифр, точек или подчёркиваний. По этому имени вас найдут на сервере.</string>
+    <string name="profile_editor_username_error">От 3 до 32 латинских букв, цифр, точек или подчёркиваний.</string>
+    <string name="profile_editor_counter">%1$d / %2$d</string>
+    <string name="profile_editor_discard_title">Не сохранять изменения текста?</string>
+    <string name="profile_editor_discard_message">Изменения имени, имени пользователя и описания не сохранятся. Если фото уже изменено, оно останется.</string>
+    <string name="profile_editor_discard">Не сохранять</string>
+</resources>

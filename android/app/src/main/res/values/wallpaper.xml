@@ -1,0 +1,5 @@
+<resources>
+    <string name="wallpaper_title">Background</string>
+    <string name="wallpaper_pattern">Subtle pattern</string>
+    <string name="wallpaper_plain">Solid color</string>
+</resources>

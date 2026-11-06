@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Approved UNYRI raster foreground; each density is a 108dp layer. -->
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+    android:src="@drawable/unyri_launcher_foreground"
+    android:gravity="fill"
+    android:filter="true" />

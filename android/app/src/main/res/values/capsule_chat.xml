@@ -1,0 +1,4 @@
+<resources>
+    <string name="capsule_today">Today</string>
+    <string name="capsule_yesterday">Yesterday</string>
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_history_delete">Удалить запись звонка?</string>
+    <string name="call_history_delete_all">Запись звонка исчезнет у обоих участников.</string>
+    <string name="call_history_delete_me">Запись звонка исчезнет на ваших устройствах. У собеседника она останется.</string>
+    <string name="call_history_delete_failed">Не удалось удалить запись звонка. Проверьте соединение и версию сервера, затем повторите.</string>
+    <string name="chat_delete_items">Удалить выбранное?</string>
+    <string name="chat_delete_items_all">Выбранные сообщения и записи звонков исчезнут у обоих участников.</string>
+    <string name="chat_delete_items_me">Выбранные сообщения и записи звонков исчезнут у вас.</string>
+</resources>

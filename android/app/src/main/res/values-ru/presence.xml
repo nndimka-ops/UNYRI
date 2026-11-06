@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="presence_unknown">Статус неизвестен</string>
+    <string name="presence_offline">Не в сети</string>
+    <string name="presence_today">Был(а) сегодня в %1$s</string>
+    <string name="presence_yesterday">Был(а) вчера в %1$s</string>
+    <string name="presence_date">Был(а) %1$s</string>
+    <string name="directory_cached_hint">Сохранённые пользователи. Статус обновится после подключения.</string>
+</resources>

@@ -1,0 +1,24 @@
+<resources>
+    <string name="chat_controls">Chat settings</string>
+    <string name="chat_mute">Mute message notifications</string>
+    <string name="chat_unmute">Enable message notifications</string>
+    <string name="chat_mute_detail">Messages still arrive. Calls are not muted.</string>
+    <string name="chat_block">Block contact</string>
+    <string name="chat_unblock">Unblock contact</string>
+    <string name="chat_block_detail">New messages and calls in both directions will be blocked until you unblock this contact. Existing history stays.</string>
+    <string name="chat_blocked_notice">Contact blocked. Open chat settings</string>
+    <string name="chat_report">Report contact</string>
+    <string name="chat_report_disclosure">Your reason and description will be sent to this server administrator. Messages and files are not attached automatically.</string>
+    <string name="chat_report_description">Describe the problem (optional)</string>
+    <string name="chat_report_sent">Report sent to the server</string>
+    <string name="chat_settings_saved">Chat settings saved</string>
+    <string name="chat_settings_failed">Could not complete the request. Check your connection and try again.</string>
+    <string name="chat_reason_spam">Spam</string>
+    <string name="chat_reason_harassment">Harassment</string>
+    <string name="chat_reason_scam">Scam</string>
+    <string name="chat_reason_other">Other</string>
+    <string name="chat_controls_close">Close</string>
+    <string name="chat_report_send">Send report</string>
+    <string name="chat_report_reason">Reason</string>
+    <string name="chat_call_activity">Call</string>
+</resources>

@@ -1,0 +1,6 @@
+<resources>
+<string name="admin_include_installations">Також блокувати або розблокувати відомі встановлення</string>
+<string name="admin_installation_hint">Це зачепить інші акаунти на цих встановленнях лише на цьому сервері. Зміна ідентифікатора дозволяє обійти блокування. Розблокування знімає лише обмеження, призначені через цей акаунт.</string>
+<string name="auth_installation_restricted">Це встановлення застосунку заблоковане на сервері. Зверніться до його власника.</string>
+<string name="admin_installation_count">Заблоковано відомих встановлень: %d</string>
+</resources>

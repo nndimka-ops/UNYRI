@@ -1,0 +1,4 @@
+<resources>
+    <string name="devices_revoke_others_confirmation">Сеансы на других устройствах будут завершены. Этот телефон останется в аккаунте. Чтобы снова пользоваться UNYRI на тех устройствах, потребуется войти заново.</string>
+    <string name="message_reaction_action">Поставить реакцию</string>
+</resources>

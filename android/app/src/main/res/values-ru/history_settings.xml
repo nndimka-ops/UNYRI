@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="history_settings_title">История и резервные копии</string>
+    <string name="history_feature_limit">Зашифрованная копия включает сообщения, фото, видео, голосовые и файлы. Храните ключ восстановления отдельно.</string>
+    <string name="history_no_copy">Подтверждённой копии на этом сервере нет</string>
+    <string name="history_copy_exists">На этом сервере есть зашифрованная копия</string>
+    <string name="history_last_confirmed">Последняя подтверждённая копия</string>
+    <string name="history_pending_copy">Есть незавершённая загрузка. Восстановление из неё невозможно. Удалите её перед подготовкой нового ключа.</string>
+    <string name="history_key_saved">Ключ восстановления сохранён в защищённом хранилище телефона</string>
+    <string name="history_key_not_saved">На этом телефоне ключ ещё не сохранён</string>
+    <string name="history_key_explanation">Это ключ только для истории. Он не заменяет пароль аккаунта и не является шестизначным кодом входа. Сохраните его вне UNYRI: без него зашифрованную копию открыть нельзя. Сервер не получает этот ключ.</string>
+    <string name="history_create_key">Подготовить ключ восстановления</string>
+    <string name="history_save_key_instruction">Сохраните весь ключ в менеджере паролей или запишите. Затем введите последние 8 символов для подтверждения. Этот черновик действует 10 минут.</string>
+    <string name="history_copy_key">Скопировать ключ</string>
+    <string name="history_last_group">Последние 8 символов</string>
+    <string name="history_confirm_key">Я сохранил ключ</string>
+    <string name="history_enter_existing">Введите ключ, сохранённый при создании копии. UNYRI проверит его, не импортируя и не изменяя сообщения.</string>
+    <string name="history_recovery_key">Ключ восстановления истории</string>
+    <string name="history_verify_key">Проверить и сохранить ключ</string>
+    <string name="history_operation_failed">Не удалось завершить действие. Проверьте соединение и ключ восстановления, затем обновите экран. Существующие ключи автоматически не заменяются.</string>
+    <string name="history_invalid_key">Нужен полный ключ, начинающийся с COCO-H1-, со всеми восемью группами.</string>
+    <string name="history_wrong_key">Этот ключ не открывает копию. Убедитесь, что это ключ восстановления истории именно для этого аккаунта и сервера.</string>
+    <string name="history_server_upgrade">Этот сервер пока не поддерживает резервные копии истории. Попросите его владельца обновить сервер.</string>
+    <string name="history_key_expired">Время несохранённого черновика истекло. Подготовьте новый ключ.</string>
+    <string name="history_pause_copying">Отключить будущую загрузку копий</string>
+    <string name="history_enable_copying">Разрешить будущую загрузку копий</string>
+    <string name="history_copying_paused">Загрузка копий отключена. Существующие копии сохранены.</string>
+    <string name="history_delete_copy">Удалить копию с сервера</string>
+    <string name="history_delete_warning">Копия на сервере будет безвозвратно удалена, а будущие загрузки отключены. Сообщения на телефонах и ключ восстановления сохранятся. Отменить это действие нельзя.</string>
+    <string name="history_backup_now">Создать копию сейчас</string>
+    <string name="history_restore_now">Восстановить сообщения и файлы</string>
+    <string name="history_working">Подготавливаем, переносим и проверяем. Оставьте этот экран открытым.</string>
+    <string name="history_completed">Готово. Операция завершена.</string>
+    <string name="history_source_not_ready">Дождитесь отправки сообщений или отмените их. Перед созданием полной копии недоступные сообщения нужно восстановить с правильным ключом.</string>
+    <string name="history_source_changed">Во время копирования история изменилась. Повторите попытку. Предыдущая подтверждённая копия сохранена.</string>
+    <string name="history_media_unavailable">Не удалось скачать файл. Проверьте соединение и повторите попытку. Предыдущая подтверждённая копия сохранена.</string>
+<string name="history_insufficient_space">Недостаточно свободного места для безопасной проверки. Освободите память и повторите попытку.</string><string name="history_restore_warning">Сообщения и файлы будут скачаны и проверены перед импортом. Новые сообщения на телефоне сохранятся; также применятся сохранённые удаления и скрытие. Оставьте этот экран открытым.</string>    <string name="history_setup_prepare_title">1 из 3 · Сохраните ключ восстановления</string>
+    <string name="history_setup_prepare_detail">Начните здесь. Сохраните ключ восстановления вне UNYRI. После этого можно создать копию сообщений и файлов.</string>
+    <string name="history_setup_confirm_title">1 из 3 · Подтвердите сохранённый ключ</string>
+    <string name="history_setup_confirm_detail">Скопируйте или запишите весь ключ ниже и введите его последние 8 символов. Подготовка ключа ещё не загружает историю на сервер.</string>
+    <string name="history_setup_existing_title">Введите ключ от существующей копии</string>
+    <string name="history_setup_existing_detail">На сервере уже есть копия. Введите ниже сохранённый ключ от неё. Новый ключ не откроет прежнюю копию.</string>
+    <string name="history_setup_unfinished_title">Загрузка копии прервалась</string>
+    <string name="history_setup_unfinished_detail">Прежняя загрузка не стала подтверждённой копией. Обновите статус или удалите незавершённую копию с сервера кнопкой ниже. Сообщения на телефоне сохранятся.</string>
+    <string name="history_setup_allow_title">2 из 3 · Разрешите зашифрованные копии</string>
+    <string name="history_setup_allow_detail">Ключ сохранён. Разрешите загрузку, чтобы создать или обновить зашифрованную копию. Уже готовую копию можно восстановить и при отключённой загрузке.</string>
+    <string name="history_setup_create_title">3 из 3 · Создайте первую копию</string>
+    <string name="history_setup_create_detail">Ключ сохранён, загрузка разрешена. Нажмите «Создать копию сейчас» и оставьте UNYRI открытым до завершения.</string>
+    <string name="history_setup_ready_title">Резервная копия готова</string>
+    <string name="history_setup_ready_detail">Зашифрованная копия хранится на сервере. Сохраните ключ вне UNYRI: одного входа в аккаунт для восстановления истории недостаточно.</string>
+    <string name="history_setup_restore_key_hint">Для восстановления введите и проверьте сохранённый ключ выше.</string>
+    <string name="history_setup_auto_hint">Чтобы включить автоматические копии, сохраните ключ и разрешите загрузку.</string>
+</resources>

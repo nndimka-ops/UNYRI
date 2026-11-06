@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_lock_title">Блокування застосунку</string>
+    <string name="app_lock_detail">Біометрія Android або системний PIN, графічний ключ чи пароль пристрою. Використовується код блокування телефона.</string>
+    <string name="app_lock_auth_title">Розблокувати UNYRI</string>
+    <string name="app_lock_system_pin">Код блокування телефона</string>
+    <string name="app_lock_after_background">Блокувати після переходу у фон</string>
+    <string name="app_lock_immediate">Одразу</string>
+    <string name="app_lock_minute">1 хвилина</string>
+    <string name="app_lock_five_minutes">5 хвилин</string>
+    <string name="app_lock_error">Підтвердження не завершено. За потреби налаштуйте блокування екрана в Android.</string>
+    <string name="app_lock_locked">UNYRI заблоковано</string>
+    <string name="app_lock_unlock">Розблокувати</string>
+</resources>

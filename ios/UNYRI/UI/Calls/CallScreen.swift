@@ -103,7 +103,7 @@ struct CallScreen: View {
     @State private var videoControlsHeight: CGFloat = 0
     @State private var videoHeaderHeight: CGFloat = 0
     @State private var videoChromeHidden = false
-    @State private var remoteVideoFills = false
+    @State private var remoteVideoFills = true
 
     var body: some View {
         GeometryReader { geometry in
@@ -180,7 +180,7 @@ struct CallScreen: View {
         }
         .onChange(of: controller.videoPresentation?.call.callId) { _ in
             videoChromeHidden = false
-            remoteVideoFills = false
+            remoteVideoFills = true
         }
         .performanceScreen(.call)
         .onAppear {

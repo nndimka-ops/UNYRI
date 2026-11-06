@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="camera_retake">Retake</string>
+    <string name="camera_take_photo">Take photo</string>
+    <string name="camera_record_video">Record video</string>
+    <string name="camera_audio_required">Allow microphone access to record video with sound. You can still take photos.</string>
+    <string name="camera_capture_failed">Couldn\'t open the camera. Try again or switch cameras.</string>
+    <string name="camera_capture_interrupted">Capture interrupted. Please try again.</string>
+    <string name="camera_lens_unavailable">This camera is unavailable.</string>
+    <string name="camera_save_failed">Couldn\'t save the capture. Free some storage and try again, or cancel.</string>
+</resources>

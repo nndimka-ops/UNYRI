@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_caption_camera">Камера</string>
+    <string name="call_caption_mute">Мікрофон</string>
+    <string name="call_caption_end">Відбій</string>
+    <string name="call_caption_speaker">Динамік</string>
+    <string name="call_caption_flip">Змінити</string>
+    <string name="call_caption_video">Відео</string>
+</resources>

@@ -1,22 +1,24 @@
 {
   "app": "UNYRI for iOS",
-  "version": "0.3.16",
-  "build": "16",
-  "sourceSnapshotManifestSHA256": "f32341354f73f9b2f0f1adfd18a0aed7f3187f75710ce5d11635ad73262c71ce",
+  "version": "0.3.17",
+  "build": "17",
+  "sourceSnapshotManifestSHA256": "ca69e5a7b7d2680ef506b98bd0c36427e88e4e32e71286115780c2d6da70a63d",
   "selectedProductBuildSourceFiles": 773,
   "excludedQAOrHistoricalFiles": 166,
   "allCopiedProductBytesExact": true,
   "sourceRecipeMappingEstablished": true,
   "networkDependencySourcesVendored": false,
-  "signed16BinaryMatchedByThisPackagingTask": true,
   "publicationExecuted": false,
   "technicalSourcePublicationCandidateReady": true,
-  "binaryDistributionBindingStatus": "MATCHED_LOCAL_SIGNED16_ARCHIVE_AND_EXPORTED_IPA",
+  "binaryDistributionBindingStatus": "MATCHED_LOCAL_SIGNED_IOS17_AND_ACTUAL_ANDROID17_APK_PHYSICAL_MAIN_PENDING",
   "reproductionClaim": "Exact app input bytes and pinned upstream source/recipe map; not offline or bit-identical upstream binary reproduction certification.",
   "remainingReleaseActions": [
-    "Owner review/publication of approved source URL",
-    "Separate Apple16 authorization/validation/upload if requested"
+    "Separate Root-authorized public Git/GitHub publication; no physical Main17 qualification is claimed"
   ],
-  "scope": "iOS client, extension and local packages; backend source/deployment separate.",
-  "sourceBinding": "RELEASE_SOURCE_BINDING.json"
+  "scope": "iOS17 exact773 inputs, proposed Android17 native-source addition, preserved backend and Windows source; actual binary distribution checks separate.",
+  "sourceBinding": "RELEASE_SOURCE_BINDING.json",
+  "signed17BinaryMatchedByThisPackagingTask": true,
+  "actualAndroid17APKMatched": true,
+  "AndroidBinding": "release-metadata/android-0.3.17/RELEASE_SOURCE_BINDING.json",
+  "secretScanScope": "Pinned gitleaks8.30.1 default rules,100%redaction,decode5,emptyignore; known matching contexts classified separately without scanner suppression"
 }

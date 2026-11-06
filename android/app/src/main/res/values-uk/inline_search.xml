@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_scope_messages">Повідомлення</string>
+    <string name="search_scope_people">Люди</string>
+    <string name="search_clear">Очистити пошук</string>
+    <string name="search_people_action">Знайти людину на цьому сервері</string>
+    <string name="inline_search_people_hint">Пошук за ім’ям або @ніком. Цей запит надсилається вашому серверу.</string>
+    <string name="search_open_failed">Не вдалося відкрити чат. Результати збережено — спробуйте натиснути на людину ще раз.</string>
+</resources>

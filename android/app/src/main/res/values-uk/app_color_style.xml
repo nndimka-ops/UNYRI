@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_color_style_title">Кольори інтерфейсу</string>
+    <string name="app_color_style_colorful">Кольорова UNYRI</string>
+    <string name="app_color_style_monochrome">Монохромна</string>
+    <string name="app_color_style_detail">Кольори інтерфейсу змінюються одразу та зберігаються на цьому пристрої. Вигляд повідомлень зберігається окремо кнопкою «Застосувати».</string>
+    <string name="app_color_style_chat_preview_detail">Редактор показує збережені кольори повідомлень. У чаті вони повернуться після вибору кольорової UNYRI.</string>
+</resources>

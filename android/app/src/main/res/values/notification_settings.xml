@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_settings_title">Notifications</string>
+    <string name="notification_settings_summary">Messages, calls, sounds and local connection</string>
+    <string name="notification_settings_device_only">These preferences apply only to this device. Messages and call history keep arriving when alerts are off.</string>
+    <string name="notification_settings_enabled">Message and call alerts</string>
+    <string name="notification_settings_enabled_detail">Pause alerts without stopping message delivery. Your choices below are kept.</string>
+    <string name="notification_settings_messages">Messages and reminders</string>
+    <string name="notification_settings_messages_detail">Notifications outside UNYRI. Muted chats stay muted.</string>
+    <string name="notification_settings_calls">Incoming call alerts</string>
+    <string name="notification_settings_calls_detail">Ringtone and system incoming-call notification. An incoming call remains visible inside UNYRI.</string>
+    <string name="notification_settings_sound">Message sounds</string>
+    <string name="notification_settings_sound_detail">Turn off for silent message notifications. Ringtone and vibration are managed separately in Android.</string>
+    <string name="notification_settings_in_app">Banners inside UNYRI</string>
+    <string name="notification_settings_in_app_detail">Show a new message banner while another screen is open.</string>
+    <string name="notification_settings_system_on">Android notifications are allowed</string>
+    <string name="notification_settings_system_off">Android notifications are blocked</string>
+    <string name="notification_settings_system_detail">Android controls permission, lock-screen display, ringtone and vibration. Administrative and service notifications are also managed here. UNYRI cannot override your system choices.</string>
+    <string name="notification_settings_allow">Allow notifications</string>
+    <string name="notification_settings_system_open">Open Android notification settings</string>
+    <string name="notification_settings_message_channel">Message sound and vibration</string>
+    <string name="notification_settings_call_channel">Call ringtone and vibration</string>
+    <string name="notification_settings_local">Without internet on Wi-Fi</string>
+    <string name="notification_settings_local_detail">A reachable UNYRI server on the same local network can deliver messages without internet. Enable the local connection below to keep Android connected in the background. Its ongoing connection indicator remains visible. Force-stop, battery restrictions or a Wi-Fi interruption can stop delivery.</string>
+</resources>

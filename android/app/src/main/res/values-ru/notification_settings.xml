@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_settings_title">Уведомления</string>
+    <string name="notification_settings_summary">Сообщения, звонки, звуки и локальное подключение</string>
+    <string name="notification_settings_device_only">Настройки действуют только на этом устройстве. При отключённых оповещениях сообщения и история звонков продолжают поступать.</string>
+    <string name="notification_settings_enabled">Оповещения о сообщениях и звонках</string>
+    <string name="notification_settings_enabled_detail">Отключить оповещения, сохранив получение сообщений. Выбранные ниже параметры останутся.</string>
+    <string name="notification_settings_messages">Сообщения и напоминания</string>
+    <string name="notification_settings_messages_detail">Уведомления вне UNYRI. Чаты без звука остаются отключёнными.</string>
+    <string name="notification_settings_calls">Входящие звонки</string>
+    <string name="notification_settings_calls_detail">Мелодия и системное уведомление о звонке. Внутри UNYRI входящий вызов остаётся виден.</string>
+    <string name="notification_settings_sound">Звук и вибрация сообщений</string>
+    <string name="notification_settings_sound_detail">Отключите для тихих уведомлений о сообщениях. Мелодия звонка и вибрация настраиваются отдельно в Android.</string>
+    <string name="notification_settings_in_app">Баннеры внутри UNYRI</string>
+    <string name="notification_settings_in_app_detail">Показывать новое сообщение, когда открыт другой экран.</string>
+    <string name="notification_settings_system_on">Уведомления разрешены в Android</string>
+    <string name="notification_settings_system_off">Уведомления заблокированы в Android</string>
+    <string name="notification_settings_system_detail">Разрешение, показ на экране блокировки, мелодия и вибрация зависят от Android. Административные и служебные уведомления также управляются здесь. UNYRI не меняет системный выбор за вас.</string>
+    <string name="notification_settings_allow">Разрешить уведомления</string>
+    <string name="notification_settings_system_open">Открыть настройки уведомлений Android</string>
+    <string name="notification_settings_message_channel">Звук и вибрация сообщений</string>
+    <string name="notification_settings_call_channel">Мелодия и вибрация звонков</string>
+    <string name="notification_settings_local">Без интернета по Wi-Fi</string>
+    <string name="notification_settings_local_detail">Доступный сервер UNYRI в той же локальной сети может передавать сообщения без интернета. Включите локальное подключение ниже, чтобы Android сохранял связь в фоне. Постоянный индикатор подключения остаётся виден. Принудительная остановка, экономия батареи или потеря Wi-Fi могут остановить доставку.</string>
+</resources>

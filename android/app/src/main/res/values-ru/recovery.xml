@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="recovery_title">Восстановление аккаунта</string>
+    <string name="recovery_detail">Восстановление на этом сервере — по желанию. Сохраните код отдельно. Он позволяет сменить пароль и завершает вход на всех телефонах. Он не восстанавливает зашифрованную историю и не заменяет ключ администратора. Требуется HTTPS.</string>
+    <string name="recovery_enabled">Код восстановления активен</string>
+    <string name="recovery_disabled">Код восстановления выключен</string>
+    <string name="recovery_current_password">Текущий пароль</string>
+    <string name="recovery_generate">Создать новый код восстановления</string>
+    <string name="recovery_disable">Выключить код восстановления</string>
+    <string name="recovery_save_warning">Код показывается только сейчас. Сохраните его в безопасном месте. Новый код сразу заменяет предыдущий. Если ответ сервера потеряется, создайте ещё один код, подтвердив пароль.</string>
+    <string name="recovery_username">Ваш @ник</string>
+    <string name="recovery_code">Код восстановления</string>
+    <string name="recovery_new_password">Новый пароль (8–256 символов)</string>
+    <string name="recovery_repeat_password">Повторите новый пароль</string>
+    <string name="recovery_reset">Сменить пароль</string>
+    <string name="recovery_success">Пароль изменён. Войдите с новым паролем. Этот код восстановления больше не действует.</string>
+    <string name="recovery_failed">Не удалось завершить запрос. Проверьте введённые данные, HTTPS и версию сервера или повторите позже. Если ответ потерялся, операция могла уже выполниться.</string>
+</resources>

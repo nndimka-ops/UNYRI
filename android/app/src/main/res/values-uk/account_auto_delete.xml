@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auto_delete_title">Автовидалення акаунта</string>
+    <string name="auto_delete_settings_detail">Видалення акаунта після періоду неактивності</string>
+    <string name="auto_delete_description">Оберіть, скільки UNYRI зберігає акаунт без активності. Відкриття UNYRI на передньому плані зі зв’язком із сервером на будь-якому вашому пристрої починає відлік заново. Фонові сповіщення не враховуються.</string>
+    <string name="auto_delete_enable">Видаляти за неактивності</string>
+    <string name="auto_delete_default_off">Типово вимкнено. Зміни діють після збереження.</string>
+    <string name="auto_delete_period">Період неактивності</string>
+    <string name="auto_delete_days_value">%1$d дн.</string>
+    <string name="auto_delete_one_day">1 день</string>
+    <string name="auto_delete_year">1 рік</string>
+    <string name="auto_delete_three_years">3 роки</string>
+    <string name="auto_delete_exact_days">Точна кількість днів</string>
+    <string name="auto_delete_decrease">Зменшити на один день</string>
+    <string name="auto_delete_increase">Збільшити на один день</string>
+    <string name="auto_delete_range">Будь-яке ціле число від 1 до 1095 днів.</string>
+    <string name="auto_delete_off">Вимкнено</string>
+    <string name="auto_delete_saved_policy">Збережено: %1$s</string>
+    <string name="auto_delete_last_active">Остання активність на сервері: %1$s</string>
+    <string name="auto_delete_next_deletion">Видалення, якщо активності більше не буде: %1$s</string>
+    <string name="auto_delete_server_clock">Дати з останньої відповіді сервера. Строком керує сервер; успішний контакт застосунку на передньому плані може відсунути дату видалення.</string>
+    <string name="auto_delete_scope">Після завершення строку сервер назавжди видалить ваш акаунт, його чати, повідомлення, дзвінки та файли в обох сторін. Це неможливо скасувати.</string>
+    <string name="auto_delete_copy_limits">Інші пристрої UNYRI видалять кеш під час наступного підключення. Збережені копії, експорти та знімки екрана поза UNYRI стерти неможливо.</string>
+    <string name="auto_delete_confirm_title">Увімкнути автовидалення акаунта?</string>
+    <string name="auto_delete_confirm_period">Акаунт буде видалено назавжди через %1$s без активності на передньому плані, що дійшла до сервера з будь-якого вашого пристрою. Для збереження введіть пароль акаунта.</string>
+    <string name="auto_delete_confirm_off">Вимкнути автовидалення акаунта?</string>
+    <string name="auto_delete_disable_detail">Автоматичне видалення за неактивності припиниться. Підтвердьте дію поточним сеансом входу.</string>
+    <string name="auto_delete_failed">Не вдалося завантажити або зберегти налаштування. Перевірте зв’язок і, за потреби, пароль акаунта, а потім повторіть.</string>
+    <string name="auto_delete_conflict">Налаштування змінено на іншому пристрої. Запитано актуальне налаштування. Перевірте його перед повторним збереженням.</string>
+</resources>

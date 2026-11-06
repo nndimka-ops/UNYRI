@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_lock_title">App lock</string>
+    <string name="app_lock_detail">Use Android biometrics or your device screen-lock PIN, pattern or password. This is your system code.</string>
+    <string name="app_lock_auth_title">Unlock UNYRI</string>
+    <string name="app_lock_system_pin">Use device screen lock</string>
+    <string name="app_lock_after_background">Lock after leaving the app</string>
+    <string name="app_lock_immediate">Immediately</string>
+    <string name="app_lock_minute">1 minute</string>
+    <string name="app_lock_five_minutes">5 minutes</string>
+    <string name="app_lock_error">Authentication was not completed. Set a device screen lock in Android Settings if needed.</string>
+    <string name="app_lock_locked">UNYRI is locked</string>
+    <string name="app_lock_unlock">Unlock</string>
+</resources>

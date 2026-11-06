@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="calls_delete_error">Не все звонки удалены. Оставшиеся выделены — проверьте соединение и повторите.</string>
+    <string name="calls_delete_title">Удалить выбранные звонки?</string>
+    <string name="calls_delete_explanation">Записей о звонках: %1$d. Сообщения и контакты останутся.</string>
+    <string name="calls_selected">Выбрано: %1$d</string>
+    <string name="calls_loading">Загружаем звонки…</string>
+    <string name="calls_refresh_error">Не удалось обновить звонки. Сохранённая история доступна.</string>
+    <string name="calls_open_error">Не удалось открыть чат. Попробуйте ещё раз.</string>
+    <string name="reminders_empty_hint">Зажмите сообщение и выберите «Напомнить», чтобы установить напоминание.</string>
+    <string name="gallery_photo_description">Фото %1$d. Открыть просмотр</string>
+    <string name="gallery_video_description">Видео %1$d. Открыть просмотр</string>
+    <string name="security_event_new_device">Добавлено новое устройство</string>
+    <string name="security_event_device_revoked">Выполнен выход с устройства</string>
+    <string name="security_event_all_revoked">Выполнен выход с остальных устройств</string>
+    <string name="security_event_other">Событие безопасности аккаунта</string>
+    <string name="history_transfer_help">Как перенести историю</string>
+    <string name="notification_messages">Сообщения</string>
+    <string name="notification_calls_description">Входящие звонки</string>
+    <string name="notification_messages_description">Новые сообщения</string>
+    <string name="attachment_waiting_to_send">Ожидает отправки</string>
+    <string name="security_contact_device">У собеседника новое устройство</string>
+    <string name="security_contact_identity">Ключ безопасности собеседника изменился</string>
+</resources>

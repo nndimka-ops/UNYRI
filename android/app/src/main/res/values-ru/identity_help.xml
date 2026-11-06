@@ -1,0 +1,17 @@
+<resources>
+<string name="verify_own_devices">Мои другие устройства</string>
+<string name="verify_code_details">Показать код безопасности</string>
+<string name="verify_explanation">Отправку приостанавливает только изменение ключа. Подтверждать каждое устройство не нужно. Сначала уточните изменение у владельца устройства, затем вернитесь в чат и повторите отправку сообщения.</string>
+<string name="verify_all_devices">Все известные устройства</string>
+<string name="verify_only_changes">Только изменённые устройства</string>
+<string name="verify_no_changes">Здесь нет изменённых ключей. Вернитесь в чат и повторите отправку.</string>
+    <string name="verify_confirm_title">Подтвердите смену устройства</string>
+    <string name="verify_confirm_message">Уточните у собеседника, менял ли он телефон или переустанавливал UNYRI. Если да, подтвердите смену и повторите отправку сообщения. Пароль и ключ восстановления никому передавать не нужно.</string>
+    <string name="verify_confirm_action">Смена подтверждена</string>
+    <string name="verify_action_failed">Не удалось подтвердить устройство. Откройте экран заново и проверьте актуальный ключ.</string>
+    <string name="verify_changed_status">Ключ изменился</string>
+    <string name="verify_unverified_status">Не проверено</string>
+    <string name="verify_loading">Загружаем устройства…</string>
+    <string name="verify_load_failed">Не удалось загрузить устройства. Сохранённые ключи не изменены.</string>
+    <string name="verify_retry_load">Попробовать снова</string>
+</resources>

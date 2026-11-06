@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="presence_unknown">Статус невідомий</string>
+    <string name="presence_offline">Не в мережі</string>
+    <string name="presence_today">Був(-ла) сьогодні о %1$s</string>
+    <string name="presence_yesterday">Був(-ла) вчора о %1$s</string>
+    <string name="presence_date">Був(-ла) %1$s</string>
+    <string name="directory_cached_hint">Збережені користувачі. Статус оновиться після підключення.</string>
+</resources>

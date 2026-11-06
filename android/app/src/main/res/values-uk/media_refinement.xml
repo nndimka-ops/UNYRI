@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="media_selected_count">Вибрано: %1$d</string>
+    <string name="media_draft_hint">Натисніть для перегляду. Після закриття файли й підпис залишаться в чернетці цього чату.</string>
+    <string name="media_remove_draft">Прибрати з вибраного</string>
+    <string name="media_keep_draft">У чернетку</string>
+    <string name="media_send_count">Надіслати (%1$d)</string>
+    <string name="media_video">Відео</string>
+    <string name="media_muted_call">Відео без звуку під час дзвінка</string>
+</resources>

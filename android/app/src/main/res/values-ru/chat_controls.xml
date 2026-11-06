@@ -1,0 +1,24 @@
+<resources>
+    <string name="chat_controls">Настройки чата</string>
+    <string name="chat_mute">Выключить уведомления о сообщениях</string>
+    <string name="chat_unmute">Включить уведомления о сообщениях</string>
+    <string name="chat_mute_detail">Сообщения продолжат приходить. Звонки не отключаются.</string>
+    <string name="chat_block">Заблокировать собеседника</string>
+    <string name="chat_unblock">Разблокировать собеседника</string>
+    <string name="chat_block_detail">Новые сообщения и звонки в обе стороны будут заблокированы до разблокировки. Существующая история сохранится.</string>
+    <string name="chat_blocked_notice">Собеседник заблокирован. Открыть настройки чата</string>
+    <string name="chat_report">Пожаловаться на собеседника</string>
+    <string name="chat_report_disclosure">Причина и описание будут переданы администратору этого сервера. Сообщения и файлы автоматически не прикладываются.</string>
+    <string name="chat_report_description">Опишите проблему (необязательно)</string>
+    <string name="chat_report_sent">Жалоба отправлена на сервер</string>
+    <string name="chat_settings_saved">Настройки чата сохранены</string>
+    <string name="chat_settings_failed">Не удалось выполнить запрос. Проверьте соединение и повторите попытку.</string>
+    <string name="chat_reason_spam">Спам</string>
+    <string name="chat_reason_harassment">Оскорбления и преследование</string>
+    <string name="chat_reason_scam">Мошенничество</string>
+    <string name="chat_reason_other">Другое</string>
+    <string name="chat_controls_close">Закрыть</string>
+    <string name="chat_report_send">Отправить жалобу</string>
+    <string name="chat_report_reason">Причина</string>
+    <string name="chat_call_activity">Звонок</string>
+</resources>

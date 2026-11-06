@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_chats">Чати</string>
+    <string name="quick_reaction">Швидка реакція</string>
+    <string name="quick_reaction_hint">Двічі натисніть на повідомлення, щоб поставити реакцію. У переглядачі фото подвійне натискання, як і раніше, збільшує зображення.</string>
+    <string name="quick_reaction_off">Вимкнено</string>
+</resources>

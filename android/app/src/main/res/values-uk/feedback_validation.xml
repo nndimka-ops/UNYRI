@@ -1,0 +1,4 @@
+<resources>
+<string name="feedback_need_description">Опишіть проблему: щонайменше 5 символів.</string>
+<string name="feedback_need_consent">Увімкніть згоду вище — без неї звіт і знімки не надсилаються.</string>
+</resources>

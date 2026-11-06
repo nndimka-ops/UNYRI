@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_manager_title">Transfers</string>
+    <string name="direct_manager_device_only">On this device</string>
+    <string name="direct_manager_empty">No transfers in this view.</string>
+    <string name="direct_manager_chat">Open conversation</string>
+    <string name="direct_manager_preparing">Preparing original…</string>
+    <string name="direct_manager_reselect">Choose the original again in the conversation.</string>
+    <string name="direct_filter_all">All</string>
+    <string name="direct_filter_sending">Sending</string>
+    <string name="direct_filter_receiving">Receiving</string>
+    <string name="direct_direction_sending">Sending</string>
+    <string name="direct_direction_receiving">Receiving</string>
+    <string name="direct_group_active">Active</string>
+    <string name="direct_group_queued">Queued</string>
+    <string name="direct_group_held">Paused</string>
+    <string name="direct_group_attention">Needs attention</string>
+    <string name="direct_group_completed">Completed</string>
+    <string name="direct_queue_position">Queue position: %1$d</string>
+    <string name="direct_queued">Waiting for a free transfer slot.</string>
+    <string name="direct_server_capacity">Waiting for transfer service availability.</string>
+    <string name="direct_held_local">Paused by you. The saved original or part is retained.</string>
+    <string name="direct_held_peer">Paused by the other participant.</string>
+    <string name="direct_held_both">Paused by both participants.</string>
+    <string name="direct_confirming_continue">Confirming continuation…</string>
+    <string name="direct_sync_limit">Continuation could not be confirmed. Retry synchronization.</string>
+    <string name="direct_manual_pause">Pause</string>
+    <string name="direct_manual_continue">Continue</string>
+    <string name="direct_retry_sync">Retry synchronization</string>
+    <string name="direct_pause_save_failed">Transfer stopped, but pause could not be saved. Retry before closing the app.</string>
+    <string name="direct_continue_save_failed">Could not save continuation. Transfer remains paused.</string>
+    <string name="direct_sync_unavailable">Pause synchronization is unavailable for this older transfer. Cancel and create a new transfer if needed.</string>
+    <string name="direct_sync_cooldown">Wait briefly before retrying synchronization.</string>
+    <string name="direct_pause_saving">Saving pause…</string>
+    <string name="direct_continue_saving">Saving continuation…</string>
+</resources>

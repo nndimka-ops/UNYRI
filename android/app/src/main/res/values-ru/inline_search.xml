@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_scope_messages">Сообщения</string>
+    <string name="search_scope_people">Люди</string>
+    <string name="search_clear">Очистить поиск</string>
+    <string name="search_people_action">Найти человека на этом сервере</string>
+    <string name="inline_search_people_hint">Поиск по имени или @нику. Этот запрос отправляется вашему серверу.</string>
+    <string name="search_open_failed">Не удалось открыть чат. Результаты сохранены — попробуйте нажать на человека ещё раз.</string>
+</resources>

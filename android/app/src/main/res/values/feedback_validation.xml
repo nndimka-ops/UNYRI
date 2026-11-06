@@ -1,0 +1,4 @@
+<resources>
+<string name="feedback_need_description">Describe the problem in at least 5 characters.</string>
+<string name="feedback_need_consent">Turn on consent above to send your report and screenshots.</string>
+</resources>

@@ -41,3 +41,12 @@ checksums; third_party/DEVICE_FRAMEWORK_SOURCE_BINDING.json ties the actual unsi
 frameworks to the pinned cache bytes. Code-signing changes binary hashes, so a
 final signed archive comparison uses its own manifest and UUIDs. This index
 does not grant new licenses or assert a blanket Apple distribution exception.
+
+
+## Android real-time media additions
+
+[Exact bounded Android RTC source/notices map](third_party/android-rtc/README.md)
+records Stream1.3.10, LiveKitAndroid2.28.2 and its declared prefixedWebRTC144.7559.14.
+Identified Apache2, MIT, native BSD3 and patent notices are retained separately.
+This is not a complete freshly resolved APK dependency inventory or a proof
+of rebuilding Stream native C++ to the published binary bytes.

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_background_channel">Original file transfers</string>
+    <string name="direct_background_title">UNYRI · original file transfers</string>
+    <string name="direct_background_stop">Stop all transfers</string>
+    <string name="direct_background_interrupted">Transfer stopped. Tap Continue to resume.</string>
+    <string name="direct_background_notification_required">Allow transfer notifications to continue when UNYRI is minimized.</string>
+    <string name="direct_background_unavailable">Background transfer is unavailable. Keep UNYRI open, or tap Continue later.</string>
+</resources>

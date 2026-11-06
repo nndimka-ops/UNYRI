@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Approved UNYRI silhouette: white RGB on transparent alpha, 24dp at each
+     density. No opaque launcher background; Android supplies the tint. -->
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+    android:src="@drawable/unyri_notification_mask"
+    android:gravity="fill"
+    android:filter="true" />

@@ -1,0 +1,32 @@
+<resources>
+    <string name="admin_intro_setup">Set up administrator access once. Afterward, use the same paper key each time you sign in.</string>
+    <string name="admin_intro_login">Enter your account password, saved paper key and a current authenticator code. Do not generate a new paper key.</string>
+    <string name="admin_step_auth">1 · Connect an authenticator</string>
+    <string name="admin_step_key">2 · Save your paper key</string>
+    <string name="admin_step_enter">3 · Enter the code and sign in</string>
+    <string name="admin_auth_help">On this phone: copy the setup secret, open your authenticator and add an account using a setup key (time-based). On another device: scan the QR code. These are two ways to add the same account.</string>
+    <string name="admin_secret_label">Authenticator setup secret — not the sign-in code</string>
+    <string name="admin_copy_secret">Copy setup secret</string>
+    <string name="admin_copied_secret">Copied. Paste it into your authenticator.</string>
+    <string name="admin_switch_hint">You can switch to your authenticator and return within 3 minutes. The unfinished form stays only in memory. Closing this screen clears it.</string>
+    <string name="admin_key_once">Generate this key once and write down all 4 groups of 8 characters. It becomes active after your first successful sign-in. Keep using that same key afterward.</string>
+    <string name="admin_use_written_key">I already wrote down a key</string>
+    <string name="admin_regenerate_title">Generate a different key?</string>
+    <string name="admin_regenerate_body">This replaces only the unfinished setup key on this screen. Cross out the previous copy and write down the new one. Your server key is unchanged until sign-in succeeds.</string>
+    <string name="admin_regenerate">Generate a different key</string>
+    <string name="admin_cancel_setup">Cancel</string>
+    <string name="admin_code_help">Open your authenticator and enter the current 6-digit UNYRI code below. This is not the long setup secret or your paper key. A saved recovery code is also accepted.</string>
+    <string name="admin_form_expired">The form was cleared after a long absence. Enter your saved paper key again. If authenticator setup was not finished, repeat step 1.</string>
+    <string name="admin_key_first">Finish connecting the authenticator first.</string>
+    <string name="admin_setup_timeout">Authenticator setup lasts 10 minutes. If it expires, reconnect the authenticator; your written paper key can be reused.</string>
+    <string name="admin_use_otp">Use authenticator code</string>
+    <string name="admin_use_recovery">Use a recovery code</string>
+    <string name="admin_recovery_input">Saved recovery code</string>
+    <string name="admin_otp_input">6-digit authenticator code</string>
+    <string name="admin_recovery_format">Enter a saved 43-character recovery code.</string>
+    <string name="admin_otp_format">Enter 6 digits from your authenticator. Add the long setup secret to the authenticator first; it is not a sign-in code.</string>
+    <string name="admin_auth_rejected">The server rejected sign-in. Check your account password and the current authenticator code. This does not mean the code alone is wrong.</string>
+    <string name="admin_rate_limited">Too many attempts. Wait 5 minutes before trying again.</string>
+    <string name="admin_server_error">The server could not complete the request. Contact the server owner.</string>
+    <string name="admin_network_error">Could not connect securely to the server. Check the network and server certificate.</string>
+</resources>

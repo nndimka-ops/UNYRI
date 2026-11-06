@@ -1,0 +1,4 @@
+<resources>
+<string name="feedback_need_description">Опишите проблему: минимум 5 символов.</string>
+<string name="feedback_need_consent">Включите согласие выше — без него отчёт и снимки не отправляются.</string>
+</resources>

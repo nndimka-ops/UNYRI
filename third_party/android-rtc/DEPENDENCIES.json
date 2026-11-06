@@ -1,0 +1,299 @@
+{
+  "status": "BOUNDED_EXACT_ANDROID_RTC_DEPENDENCY_NOTICES_AND_SOURCE_MAP",
+  "scope": "Stream1.3.10 +LiveKitAndroid2.28.2 +declared prefixedWebRTC144.7559.14; not allapp resolved runtime dependency graph",
+  "artifacts": [
+    {
+      "coordinate": "io.getstream:stream-webrtc-android:1.3.10",
+      "AAR": {
+        "bytes": 20609071,
+        "sha256": "afa3b0feaa2902f6ece10e67ce3b7e6d9def18a86b73f0c6a524209cb938aa96"
+      },
+      "POMSHA256": "beb083887e967638f24b6075b4121a61c2f7da34885339dcd146d3b145786055",
+      "POMlicenses": [
+        {
+          "name": "The Apache Software License, Version 2.0",
+          "url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+        }
+      ],
+      "JNI": {
+        "jni/arm64-v8a/libjingle_peerconnection_so.so": {
+          "bytes": 11541096,
+          "sha256": "4e9d2df81f7db6d184a9d0024e6f9825c6325c3ee54a8d61ef657f02ef8d85e7",
+          "releaseWrapperGitPath": "stream-webrtc-android/libs/arm64-v8a/libjingle_peerconnection_so.so",
+          "releaseGitBlobMatches": true
+        },
+        "jni/armeabi-v7a/libjingle_peerconnection_so.so": {
+          "bytes": 6574072,
+          "sha256": "5c4e33201809f56eb41ead202000f7ba8afa0a87ce159af96d18d940622c5c78",
+          "releaseWrapperGitPath": "stream-webrtc-android/libs/armeabi-v7a/libjingle_peerconnection_so.so",
+          "releaseGitBlobMatches": true
+        },
+        "jni/x86/libjingle_peerconnection_so.so": {
+          "bytes": 12337128,
+          "sha256": "2e3e1e743682038363bca30aeb2e09230883aba653e3e411c9a7f7cc85516ddb",
+          "releaseWrapperGitPath": "stream-webrtc-android/libs/x86/libjingle_peerconnection_so.so",
+          "releaseGitBlobMatches": true
+        },
+        "jni/x86_64/libjingle_peerconnection_so.so": {
+          "bytes": 12819952,
+          "sha256": "36272820d42b34f29fed7a11a4eecccedee3bfe86c45f280e0be5c5b246f133d",
+          "releaseWrapperGitPath": "stream-webrtc-android/libs/x86_64/libjingle_peerconnection_so.so",
+          "releaseGitBlobMatches": true
+        }
+      },
+      "AARlicenseNoticeMembers": [],
+      "declaredDependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "artifact": "kotlin-stdlib",
+          "version": "1.9.25",
+          "scope": "compile",
+          "localPOMPresent": false
+        },
+        {
+          "group": "androidx.annotation",
+          "artifact": "annotation",
+          "version": "1.9.1",
+          "scope": "runtime",
+          "localPOMPresent": false
+        }
+      ],
+      "source": {
+        "wrapperTag": "1.3.10",
+        "wrapperCommit": "5d388e533d87f857e7de4a729630200cf9766369",
+        "wrapperURL": "https://github.com/GetStream/webrtc-android/tree/5d388e533d87f857e7de4a729630200cf9766369",
+        "nativeUpstream": "https://github.com/GetStream/webrtc",
+        "nativeCppRevision": "NOT_PROVEN_BY_POM_OR_RELEASE_METADATA",
+        "buildRecipe": "https://github.com/GetStream/webrtc-android/blob/5d388e533d87f857e7de4a729630200cf9766369/stream-webrtc-android/build.gradle.kts",
+        "recipeBoundary": "Wrapper packages committed libs via jniLibs.srcDir(libs); generic README native build instructions do not establish exact C++ revision/compiler flags for the cached AAR."
+      }
+    },
+    {
+      "coordinate": "io.livekit:livekit-android:2.28.2",
+      "AAR": {
+        "bytes": 2591212,
+        "sha256": "cb1c8858af0fe9fa7445edf55a4754e5faa4bdbbf5cd00a324bb8722d22da7ba"
+      },
+      "POMSHA256": "56b6b9409684d3f8e5661f26480fafe33253eb29302074a22c3feca30c712f8b",
+      "POMlicenses": [
+        {
+          "name": "The Apache Software License, Version 2.0",
+          "url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+        }
+      ],
+      "JNI": {},
+      "AARlicenseNoticeMembers": [],
+      "declaredDependencies": [
+        {
+          "group": "io.github.webrtc-sdk",
+          "artifact": "android-prefixed",
+          "version": "144.7559.14",
+          "scope": "compile",
+          "localPOMPresent": true,
+          "localPOMSHA256": "14ee5e846a98ee94c96583c7df13168ac287616e1518c13846ebe39d047e99fc",
+          "licenses": [
+            {
+              "name": "The 3-Clause BSD License",
+              "url": "https://opensource.org/license/bsd-3-clause/"
+            }
+          ]
+        },
+        {
+          "group": "com.squareup.okhttp3",
+          "artifact": "okhttp",
+          "version": "4.12.0",
+          "scope": "compile",
+          "localPOMPresent": false
+        },
+        {
+          "group": "com.github.davidliu",
+          "artifact": "audioswitch",
+          "version": "039a35aefab7747c557242fa216c9ea11743b604",
+          "scope": "compile",
+          "localPOMPresent": true,
+          "localPOMSHA256": "b01278803fe0a007591a44143e1919a406c0c529794b13aa30e86a87532095fd",
+          "licenses": [
+            {
+              "name": "Apache 2.0",
+              "url": "https://github.com/twilio/audioswitch/blob/master/LICENSE.txt"
+            }
+          ]
+        },
+        {
+          "group": "com.vdurmont",
+          "artifact": "semver4j",
+          "version": "3.1.0",
+          "scope": "compile",
+          "localPOMPresent": true,
+          "localPOMSHA256": "45b78699bad9232d899f0ee85513c1faed2f9545ae25e65ab5eae4c82cb2d753",
+          "licenses": [
+            {
+              "name": "The MIT License",
+              "url": "http://www.opensource.org/licenses/mit-license.php"
+            }
+          ]
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "artifact": "kotlin-stdlib-jdk7",
+          "version": "1.9.25",
+          "scope": "runtime",
+          "localPOMPresent": true,
+          "localPOMSHA256": "72409906b80ff4f64d61aea4efcb579d2015284266dfa9d79cbd91e7a2333f35",
+          "licenses": [
+            {
+              "name": "The Apache License, Version 2.0",
+              "url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            }
+          ]
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "artifact": "kotlinx-coroutines-android",
+          "version": "1.6.0",
+          "scope": "runtime",
+          "localPOMPresent": false
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "artifact": "kotlinx-serialization-json",
+          "version": "1.5.0",
+          "scope": "runtime",
+          "localPOMPresent": false
+        },
+        {
+          "group": "com.auth0.android",
+          "artifact": "jwtdecode",
+          "version": "2.0.2",
+          "scope": "runtime",
+          "localPOMPresent": true,
+          "localPOMSHA256": "bad042c99c072ad272857a958389b218adffe5945cf62c2164460053b96ca5cd",
+          "licenses": [
+            {
+              "name": "The MIT License (MIT)",
+              "url": "https://raw.githubusercontent.com/auth0/jwtdecode.android/master/LICENSE"
+            }
+          ]
+        },
+        {
+          "group": "androidx.annotation",
+          "artifact": "annotation",
+          "version": "1.7.1",
+          "scope": "runtime",
+          "localPOMPresent": false
+        },
+        {
+          "group": "androidx.core",
+          "artifact": "core",
+          "version": "1.13.1",
+          "scope": "runtime",
+          "localPOMPresent": false
+        },
+        {
+          "group": "com.google.protobuf",
+          "artifact": "protobuf-javalite",
+          "version": "3.25.9",
+          "scope": "runtime",
+          "localPOMPresent": true,
+          "localPOMSHA256": "1096f230a7e00f089884aadd62ceb409b1d098eed2edb043c6e701082f0ad99d",
+          "licenses": []
+        },
+        {
+          "group": "javax.sip",
+          "artifact": "android-jain-sip-ri",
+          "version": "1.3.0-91",
+          "scope": "runtime",
+          "localPOMPresent": true,
+          "localPOMSHA256": "91d8e37c6fe1000cd920c3ff926e62554b3942dd2d30b404c8e1996622ddeffb",
+          "licenses": []
+        },
+        {
+          "group": "com.google.dagger",
+          "artifact": "dagger",
+          "version": "2.46",
+          "scope": "runtime",
+          "localPOMPresent": true,
+          "localPOMSHA256": "fe5ec41e43cf0be6861f554b1c4a87b9cd524ba7601b76c671f51e94d01fbf79",
+          "licenses": [
+            {
+              "name": "Apache 2.0",
+              "url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+            }
+          ]
+        }
+      ],
+      "source": {
+        "tag": "v2.28.2",
+        "commit": "855100f1cef51a8e857f7c02cd1a2c27a43d9746",
+        "url": "https://github.com/livekit/client-sdk-android/tree/855100f1cef51a8e857f7c02cd1a2c27a43d9746",
+        "native": "AAR has no JNI; POM/module requires android-prefixed144.7559.14."
+      }
+    },
+    {
+      "coordinate": "io.github.webrtc-sdk:android-prefixed:144.7559.14",
+      "AAR": {
+        "bytes": 22606679,
+        "sha256": "ddfb649376627be094c7a2a6af8423afc6c4d6f636ef632242b6d520636ecd3a"
+      },
+      "POMSHA256": "14ee5e846a98ee94c96583c7df13168ac287616e1518c13846ebe39d047e99fc",
+      "POMlicenses": [
+        {
+          "name": "The 3-Clause BSD License",
+          "url": "https://opensource.org/license/bsd-3-clause/"
+        }
+      ],
+      "JNI": {
+        "jni/arm64-v8a/liblkjingle_peerconnection_so.so": {
+          "bytes": 12098392,
+          "sha256": "827922506ab840b639836ffc28ae80a33dd7c3c4a0ee33cf374989c31828e6fb"
+        },
+        "jni/armeabi-v7a/liblkjingle_peerconnection_so.so": {
+          "bytes": 6833332,
+          "sha256": "70b76967b354eaf7100ae92c9616c730fb2ef4e8780411912f792e043ca38967"
+        },
+        "jni/x86/liblkjingle_peerconnection_so.so": {
+          "bytes": 12619584,
+          "sha256": "429ca24734a553d9eb6a06e9470ed670cd719ef7229609bc1e95928df932c716"
+        },
+        "jni/x86_64/liblkjingle_peerconnection_so.so": {
+          "bytes": 16070464,
+          "sha256": "0bb88a673bebc63d16453e52839b86d5c25d28b917c93b96d142fb357e688d45"
+        }
+      },
+      "AARlicenseNoticeMembers": [],
+      "declaredDependencies": [],
+      "source": {
+        "packagingTag": "v144.7559.14",
+        "packagingURL": "https://github.com/webrtc-sdk/android/tree/v144.7559.14",
+        "nativeCommit": "df1011beabae993c555f7c11a7a4b8e8fa62480d",
+        "nativeURL": "https://github.com/webrtc-sdk/webrtc/tree/df1011beabae993c555f7c11a7a4b8e8fa62480d",
+        "primaryVersionMapping": "https://github.com/webrtc-sdk/android/releases/tag/v144.7559.14",
+        "binaryBoundary": "Version/release-to-source mapping verified; Maven AAR whole hash differs from GitHub release asset whole hash, no byte-identical rebuilt-binary claim."
+      }
+    }
+  ],
+  "licenseFiles": {
+    "Stream-wrapper-Apache-2.0.txt": {
+      "bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    "LiveKit-Android-Apache-2.0.txt": {
+      "bytes": 11357,
+      "sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd"
+    },
+    "WebRTC-Android-packaging-MIT.txt": {
+      "bytes": 1068,
+      "sha256": "e6b282fe6c0fb353928923470457f31b44cbab203effd60c0cde4a5bb96c8aec"
+    },
+    "WebRTC-native-BSD-3-Clause.txt": {
+      "bytes": 1511,
+      "sha256": "ab00a482b6a3902e40211b43c5d0441962ea99b6cc7c25c0f243fa270b78d482"
+    },
+    "WebRTC-native-PATENTS.txt": {
+      "bytes": 1388,
+      "sha256": "01462e2068d1a04c2274f3389773014c14ed9bc3446b28303543bd3e3c064145"
+    }
+  },
+  "declaredTransitivesNotResolvedAPKGraph": true,
+  "noJavaBuildArchiveDownloadOrMainGitChanges": true
+}

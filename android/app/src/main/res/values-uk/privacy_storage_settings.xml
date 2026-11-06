@@ -1,0 +1,25 @@
+<resources>
+    <string name="privacy_online">Хто бачить мене в мережі</string>
+    <string name="privacy_last_seen">Хто бачить час відвідування</string>
+    <string name="privacy_everyone">Усі</string>
+    <string name="privacy_nobody">Ніхто</string>
+    <string name="privacy_always_allow">Завжди дозволяти</string>
+    <string name="privacy_never_allow">Ніколи не дозволяти</string>
+    <string name="privacy_people_count">Людей: %1$d</string>
+    <string name="privacy_exceptions_detail">Винятки діють для статусу та часу відвідування. Заборона має пріоритет.</string>
+    <string name="privacy_read_receipts">Надсилати звіти про прочитання</string>
+    <string name="privacy_read_detail">Лічильник непрочитаних і далі скидається. Увімкнення не розкриває попередні приховані прочитання.</string>
+    <string name="privacy_save_failed">Не вдалося зберегти або оновити налаштування. Перевірте з’єднання та повторіть.</string>
+    <string name="media_download_detail">Ліміт автозавантаження на один файл. Невідомий розмір або тип мережі — лише ручне завантаження.</string>
+    <string name="media_download_off">Вимк.</string>
+    <string name="media_download_video">Відео</string>
+    <string name="cache_unlimited">Без обмеження</string>
+    <string name="cache_forever">Завжди</string>
+    <string name="cache_size_limit">Ліміт завантаженого кешу</string>
+    <string name="cache_retention">Зберігати завантажений кеш</string>
+    <string name="cache_days">%1$d дн.</string>
+    <string name="cache_policy_detail">Видаляється лише кеш, який можна завантажити повторно, починаючи зі старого. Повідомлення, відновлені оригінали, чернетки та використовувані файли зберігаються. Захищені файли можуть перевищувати ліміт.</string>
+    <string name="cache_by_chat">Завантажений кеш за чатами</string>
+    <string name="cache_saved_messages">Збережені повідомлення</string>
+    <string name="cache_chat_fallback">Чат %1$s</string>
+</resources>

@@ -1,0 +1,7 @@
+<resources>
+    <string name="reply_author_you">Вы</string>
+    <string name="reply_cancel">Отменить ответ</string>
+    <string name="chat_peer_online">в сети</string>
+    <string name="chat_emoji">Эмодзи</string>
+    <string name="chat_menu_title">Меню чата</string>
+</resources>

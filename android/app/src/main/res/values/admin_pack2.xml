@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Admin Product Pack 2.1 - moderation core strings.
+  Kept in its own file so the Pack 1 administration strings stay untouched.
+-->
+<resources>
+
+    <!-- Audit actions -->
+    <string name="admin_action_device_suspend">Device restricted</string>
+    <string name="admin_action_device_unsuspend">Device restored</string>
+    <string name="admin_action_note">Internal note added</string>
+    <string name="admin_action_feedback">Feedback reviewed</string>
+
+    <!-- Account status -->
+    <string name="admin_status_active">Active</string>
+    <string name="admin_status_suspended">Restricted</string>
+    <string name="admin_restore">Restore</string>
+
+    <!-- Platforms -->
+    <string name="admin_platform_android">Android</string>
+    <string name="admin_platform_ios">iOS</string>
+
+    <!-- Moderation timeline events -->
+    <string name="admin_event_report_received">Report received</string>
+    <string name="admin_event_report_open">Report reopened</string>
+    <string name="admin_event_report_started">Review started</string>
+    <string name="admin_event_report_resolved">Report resolved</string>
+    <string name="admin_event_report_dismissed">Report dismissed</string>
+    <string name="admin_event_account_suspended">Account restricted</string>
+    <string name="admin_event_account_restored">Account restriction lifted</string>
+    <string name="admin_event_device_suspended">Device restricted</string>
+    <string name="admin_event_device_restored">Device restriction lifted</string>
+    <string name="admin_event_note_added">Internal note added</string>
+    <string name="admin_event_other">Unrecognised event</string>
+
+    <!-- Device states -->
+    <string name="admin_device_active">Active</string>
+    <string name="admin_device_restricted">Restricted</string>
+    <string name="admin_device_revoked">Signed out</string>
+
+    <!-- Dashboard counters -->
+    <string name="admin_counter_open_reports">Open reports</string>
+    <string name="admin_counter_in_progress">In review</string>
+    <string name="admin_counter_feedback">Unresolved feedback</string>
+    <string name="admin_counter_suspensions">Restricted accounts</string>
+    <string name="admin_counter_devices">Restricted devices</string>
+    <string name="admin_counter_last_24h">Reports in 24 h</string>
+    <string name="admin_summary_title">Overview</string>
+
+    <!-- Lists and paging -->
+    <string name="admin_load_more">Show more</string>
+    <string name="admin_loading_more">Loading more…</string>
+    <string name="admin_retry">Retry</string>
+    <string name="admin_list_end">End of list</string>
+    <string name="admin_reports_empty">No reports match these filters</string>
+    <string name="admin_feedback_filtered_empty">No feedback matches these filters</string>
+    <string name="admin_users_empty">No accounts match these filters</string>
+    <string name="admin_timeline_empty">No moderation history yet</string>
+    <string name="admin_notes_empty">No internal notes yet</string>
+
+    <!-- Filters -->
+    <string name="admin_filter_status">Status</string>
+    <string name="admin_filter_platform">Platform</string>
+    <string name="admin_filter_reason">Type</string>
+    <string name="admin_filter_action">Action</string>
+    <string name="admin_filter_actor">Administrator id</string>
+    <string name="admin_filter_target">Target id</string>
+    <string name="admin_filter_from">From (UTC)</string>
+    <string name="admin_filter_to">To (UTC)</string>
+    <string name="admin_filter_clear">Clear filters</string>
+
+    <!-- User Moderation Center -->
+    <string name="admin_moderation_title">Moderation</string>
+    <string name="admin_moderation_profile">Profile</string>
+    <string name="admin_moderation_state">Moderation state</string>
+    <string name="admin_moderation_actions">Actions</string>
+    <string name="admin_moderation_devices">Known devices</string>
+    <string name="admin_moderation_reports">Reports involving this account</string>
+    <string name="admin_moderation_timeline">Moderation history</string>
+    <string name="admin_moderation_notes">Internal notes</string>
+    <string name="admin_moderation_diagnostics">Technical details</string>
+    <string name="admin_moderation_none">None</string>
+    <string name="admin_open_user">Open moderation</string>
+    <string name="admin_view_reports">View all reports for this account</string>
+    <string name="admin_account_created">Account created</string>
+    <string name="admin_reports_total">Reports</string>
+    <string name="admin_reports_open">Still open</string>
+    <string name="admin_protected_account">Administrator accounts cannot be restricted from here</string>
+
+    <!-- Internal notes -->
+    <string name="admin_note_add">Add note</string>
+    <string name="admin_note_hint">Internal note (visible to administrators only)</string>
+    <string name="admin_note_saved">Note added</string>
+
+    <!-- Devices -->
+    <string name="admin_device_last_seen">Last active</string>
+    <string name="admin_device_app">App</string>
+    <string name="admin_device_installation">Installation</string>
+    <string name="admin_device_suspend">Restrict device</string>
+    <string name="admin_device_restore">Restore device</string>
+
+    <!-- Feedback -->
+    <string name="admin_feedback_shot">screenshot</string>
+    <string name="admin_feedback_shots">Screenshots</string>
+    <string name="admin_suspend_custom_hours">Custom hours</string>
+    <string name="admin_feedback_close">Close with a reason</string>
+    <string name="admin_feedback_reopen">Reopen</string>
+    <string name="admin_screenshot_tap">Tap to load the screenshot</string>
+    <string name="admin_screenshot_loading">Loading screenshot…</string>
+    <string name="admin_screenshot_failed">Screenshot could not be loaded</string>
+
+    <!-- Restrictions and sessions -->
+    <string name="admin_restriction_until">Until</string>
+    <string name="admin_restriction_forever">No expiry</string>
+    <string name="admin_technical_detail">Technical detail</string>
+    <string name="admin_session_locked_state">Administration is locked</string>
+    <string name="admin_session_unlocked_state">Administration is unlocked</string>
+    <string name="admin_session_expired_state">The session needs to be unlocked again</string>
+    <string name="admin_search_display_name">Username or display name</string>
+    <string name="admin_search_scope_hint">Administrators can also search by display name.</string>
+    <string name="admin_console_open">Open administration console</string>
+    <string name="admin_console_hint">The administration console runs on the server. This device confirms your identity and opens it in your browser; the link it hands over works once and expires in a minute.</string>
+</resources>

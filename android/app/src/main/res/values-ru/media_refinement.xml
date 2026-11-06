@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="media_selected_count">Выбрано: %1$d</string>
+    <string name="media_draft_hint">Нажмите для просмотра. При закрытии файлы и подпись останутся в черновике этого чата.</string>
+    <string name="media_remove_draft">Убрать из выбранного</string>
+    <string name="media_keep_draft">В черновик</string>
+    <string name="media_send_count">Отправить (%1$d)</string>
+    <string name="media_video">Видео</string>
+    <string name="media_muted_call">Видео без звука во время звонка</string>
+</resources>

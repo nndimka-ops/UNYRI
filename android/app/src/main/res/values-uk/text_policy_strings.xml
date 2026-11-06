@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_text_policy">Текст задовгий або містить непідтримувані символи. Чернетку збережено.</string>
+    <string name="error_caption_policy">Підпис задовгий або містить непідтримувані символи. Підпис і вибрані файли збережено.</string>
+    <string name="error_forward_text_policy">Одне з вибраних повідомлень задовге або містить непідтримувані символи. Нічого не надіслано.</string>
+</resources>

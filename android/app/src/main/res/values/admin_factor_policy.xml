@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="admin_factor_continue_setup">Continue setup</string>
+    <string name="admin_factor_fresh_code">If you already used this authenticator code to sign in, wait for the next code or use an unused recovery code.</string>
+    <string name="admin_factor_authenticator">Password + authenticator</string>
+    <string name="admin_factor_paper">Password + paper key</string>
+    <string name="admin_factor_both">Password + authenticator + paper key</string>
+    <string name="admin_factor_password_required">Your account password is required with every sign-in method.</string>
+    <string name="admin_factor_windows">To change an existing sign-in method, open Sign-in protection in the Windows Admin Console.</string>
+    <string name="admin_factor_prepare">Prepare sign-in protection</string>
+    <string name="admin_factor_existing_authenticator">Use your existing authenticator. Its secret is not shown again.</string>
+    <string name="admin_factor_unsupported">This sign-in method is not supported. Update UNYRI or use the Windows Admin Console.</string>
+    <string name="admin_factor_finish_prepare">Continue setup above first.</string>
+</resources>

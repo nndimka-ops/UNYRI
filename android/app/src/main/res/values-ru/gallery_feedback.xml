@@ -1,0 +1,5 @@
+<resources>
+    <string name="gallery_empty">Здесь пока ничего нет</string>
+    <string name="gallery_load_failed">Не удалось загрузить медиа. Попробуйте ещё раз.</string>
+    <string name="gallery_open_failed">Не удалось открыть файл. Нажмите на него, чтобы повторить.</string>
+</resources>

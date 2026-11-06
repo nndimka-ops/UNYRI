@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auto_delete_title">Account auto-delete</string>
+    <string name="auto_delete_settings_detail">Delete the account after a period of inactivity</string>
+    <string name="auto_delete_description">Choose how long UNYRI should keep your account without activity. Opening UNYRI in the foreground with a server connection on any of your devices resets the period. Background notifications do not count.</string>
+    <string name="auto_delete_enable">Delete after inactivity</string>
+    <string name="auto_delete_default_off">Off by default. Changes apply only after Save.</string>
+    <string name="auto_delete_period">Inactivity period</string>
+    <string name="auto_delete_days_value">%1$d days</string>
+    <string name="auto_delete_one_day">1 day</string>
+    <string name="auto_delete_year">1 year</string>
+    <string name="auto_delete_three_years">3 years</string>
+    <string name="auto_delete_exact_days">Exact days</string>
+    <string name="auto_delete_decrease">Decrease by one day</string>
+    <string name="auto_delete_increase">Increase by one day</string>
+    <string name="auto_delete_range">Enter any whole number from 1 to 1095 days.</string>
+    <string name="auto_delete_off">Off</string>
+    <string name="auto_delete_saved_policy">Saved setting: %1$s</string>
+    <string name="auto_delete_last_active">Last server activity: %1$s</string>
+    <string name="auto_delete_next_deletion">Deletion if no further activity: %1$s</string>
+    <string name="auto_delete_server_clock">Dates reflect the last server response. The server manages the deadline; each successful foreground contact can move it later.</string>
+    <string name="auto_delete_scope">When the period expires, the server permanently deletes your account and its chats, messages, calls and files for both sides. This cannot be undone.</string>
+    <string name="auto_delete_copy_limits">Other UNYRI devices remove cached data when they next connect. Saved copies, exports and screenshots outside UNYRI cannot be erased.</string>
+    <string name="auto_delete_confirm_title">Enable account auto-delete?</string>
+    <string name="auto_delete_confirm_period">Your account will be permanently deleted after %1$s without foreground activity reaching the server from any of your devices. Enter your account password to save this setting.</string>
+    <string name="auto_delete_confirm_off">Turn off account auto-delete?</string>
+    <string name="auto_delete_disable_detail">Automatic deletion after inactivity will stop. Confirm with your current signed-in session.</string>
+    <string name="auto_delete_failed">Could not load or save this setting. Check your connection and, when required, your account password, then retry.</string>
+    <string name="auto_delete_conflict">This setting changed on another device. The latest policy was requested. Review it before saving again.</string>
+</resources>

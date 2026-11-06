@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_scope_messages">Messages</string>
+    <string name="search_scope_people">People</string>
+    <string name="search_clear">Clear search</string>
+    <string name="search_people_action">Find someone on this server</string>
+    <string name="inline_search_people_hint">Search by name or @username. This query is sent to your server.</string>
+    <string name="search_open_failed">Could not open the conversation. Your search results are still here. Try tapping the person again.</string>
+</resources>

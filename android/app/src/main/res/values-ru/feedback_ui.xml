@@ -1,0 +1,7 @@
+<resources>
+    <string name="feedback_working">Подождите…</string>
+    <string name="feedback_screenshots_section">Скриншоты</string>
+    <string name="feedback_screenshots_hint">Необязательно · до 3 изображений. Скройте пароли и другие личные данные.</string>
+    <string name="feedback_screenshot_number">Скриншот %1$d</string>
+    <string name="feedback_recipient">Кому отправится отчёт</string>
+</resources>

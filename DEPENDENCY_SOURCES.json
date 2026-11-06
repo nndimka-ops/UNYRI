@@ -1,7 +1,7 @@
 {
   "status": "EXACT_VERSION_SOURCE_AND_RECIPE_MAP_NETWORK_DEPENDENCIES_NOT_VENDORED",
-  "firstPartyAppVersion": "0.3.16",
-  "firstPartyBuild": "16",
+  "firstPartyAppVersion": "0.3.17",
+  "firstPartyBuild": "17",
   "components": [
     {
       "component": "Signal Swift/RustFFI",
@@ -74,5 +74,8 @@
     "Cargo registry and pinned Git dependency source packages; exact lock references and retrieval recipes are included",
     "Apple SDK/Xcode and Apple system libraries"
   ],
-  "theseAreConcreteNetworkBuildInputsNotUnknownVersions": true
+  "theseAreConcreteNetworkBuildInputsNotUnknownVersions": true,
+  "androidAdditionalScope": "release-metadata/android-0.3.17/DEPENDENCY_SCOPE.json",
+  "mappingEstablishedScope": "Existing iOS components only; additional Android exact-artifact mapping is recorded separately and remains bounded by its own scope.",
+  "androidBoundedRTCSourceAndNotices": "third_party/android-rtc/README.md"
 }

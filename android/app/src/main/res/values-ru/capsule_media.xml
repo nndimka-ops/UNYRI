@@ -1,0 +1,4 @@
+<resources>
+    <string name="capsule_gallery_originals">Отправить оригиналы как файлы</string>
+    <string name="chat_waiting_recipient_keys">Ждём защищённого соединения с собеседником. Сообщения отправятся автоматически.</string>
+</resources>

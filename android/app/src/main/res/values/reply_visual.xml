@@ -1,0 +1,7 @@
+<resources>
+    <string name="reply_author_you">You</string>
+    <string name="reply_cancel">Cancel reply</string>
+    <string name="chat_peer_online">online</string>
+    <string name="chat_emoji">Emoji</string>
+    <string name="chat_menu_title">Chat menu</string>
+</resources>

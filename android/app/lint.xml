@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <!--
+      Published APKs already use the legacy date-based versionCode 2026110109.
+      Keep upgrade compatibility with 2026110110 rather than lowering it. This
+      is below Google Play's 2100000000 cap; future builds increment by one,
+      leaving more than 73 million values. Only waive this heuristic for the
+      app's Gradle declaration; all other lint checks remain enabled.
+    -->
+    <issue id="HighAppVersionCode">
+        <ignore path="build.gradle.kts" />
+    </issue>
+    <!--
+      The 20 selectable locales include long-standing partial translations:
+      most secondary locales translate only the original 202 keys and use
+      Android's English resource fallback for newer features. Keep every
+      missing key visible in the report without blocking an otherwise safe
+      release; do not insert English copies into translated catalogs.
+      Core RU/UK debt (8/203 keys as of 2026-11-01) is recorded precisely in
+      localization-known-missing.json. scripts/check_android_core_localization.py
+      fails if either core catalog loses any additional translation.
+    -->
+    <issue id="MissingTranslation" severity="warning" />
+    <!--
+      Activity 1.9.1's detector collects calls by method name and reports from
+      GradleContext when Firebase's transitive Fragment 1.1.0 is present. It
+      does not check whether the receiver inherits FragmentActivity. Both
+      MainActivity (the lock controller's owner) and OwnedCameraCaptureActivity
+      directly extend modern ComponentActivity, so the old FragmentActivity
+      request-code and permission callback interception cannot apply here.
+      These two files contain exactly three Activity Result registrations.
+      Keep every other lint issue and every other source file checked. Remove
+      this exception if either Activity adopts FragmentActivity; it is also
+      unnecessary once the transitive Fragment is upgraded to at least 1.3.0.
+      Primary detector source (visitCallExpression and reportIssue):
+      https://android.googlesource.com/platform/frameworks/support/+/f2e05c341382db64d127118a13451dcaa554b702/activity/activity-lint/src/main/java/androidx/activity/lint/ActivityResultFragmentVersionDetector.kt
+    -->
+    <issue id="InvalidFragmentVersionForActivityResult">
+        <ignore path="src/main/java/com/messenger/app/security/AppLockController.kt" />
+        <ignore path="src/main/java/com/messenger/app/capture/OwnedCameraCaptureActivity.kt" />
+    </issue>
+</lint>

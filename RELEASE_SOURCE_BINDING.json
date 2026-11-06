@@ -1,116 +1,143 @@
 {
-  "utc": "2026-11-06T03:06:45.284824+00:00",
-  "status": "MATCHED_TO_ACTUAL_SIGNED16_ARCHIVE_AND_LOCAL_EXPORTED_IPA",
-  "version": "0.3.16",
-  "build": "16",
-  "selectedSource939ManifestSHA256": "f32341354f73f9b2f0f1adfd18a0aed7f3187f75710ce5d11635ad73262c71ce",
-  "sourceZIPsha256": "3fd9321ce9c0f10db35aca67a7864a620b6ee2f73bf56b9fc7725d719b787ac6",
+  "status": "MATCHED_TO_ACTUAL_SIGNED17_ARCHIVE_AND_LOCAL_EXPORTED_IPA",
+  "version": "0.3.17",
+  "build": "17",
+  "selectedSource939ManifestSHA256": "ca69e5a7b7d2680ef506b98bd0c36427e88e4e32e71286115780c2d6da70a63d",
+  "sourceZIPsha256": "b0b764f212e30f12f2c13a5f0cf7f34fb5d46a54789aa4deb39b0e9d8a11ebd6",
   "publicShippingInputs": 773,
   "all773PublicShippingBytesMatchSource939": true,
-  "sourceDeltaSince15": [
+  "sourceDeltaSince16": [
     "ios/UNYRI.xcodeproj/project.pbxproj",
-    "ios/UNYRI/DirectTransfer/DirectFileViews.swift"
+    "ios/UNYRI/DirectTransfer/DirectFileTransfers.swift",
+    "ios/UNYRI/UI/Calls/CallScreen.swift"
   ],
-  "unsignedDeviceSDKCompilerExit": 0,
-  "actualUnsignedDeviceFrameworks": {
-    "Frameworks/WebRTC.framework/WebRTC": {
-      "bytes": 12197964,
-      "sha256": "5be1095131b7d1961d902231796d3e6b78a7f534e8eb1286fe7b0e7794ba4278",
-      "archs": [
-        "arm64"
-      ],
-      "platforms": [
-        "2"
-      ],
-      "uuid": "UUID: 4C4C441D-5555-3144-A1D9-F77F93A1CF0C (arm64)",
-      "pinnedArtifactMember": "artifacts/webrtc/WebRTC/WebRTC.xcframework/ios-arm64/WebRTC.framework/WebRTC"
-    },
-    "Frameworks/RustLiveKitFFI.framework/RustLiveKitFFI": {
-      "bytes": 1483200,
-      "sha256": "91677cf9e97a1b373d81ee8cb877955dd6d9764948d5aad18fe46624ef597ebf",
-      "archs": [
-        "arm64"
-      ],
-      "platforms": [
-        "2"
-      ],
-      "uuid": "UUID: 0347A5C5-4C38-3C04-AE6F-64203B009A0D (arm64)",
-      "pinnedArtifactMember": "artifacts/livekit-ffi-xcframework/RustLiveKitFFI/RustLiveKitFFI.xcframework/ios-arm64/RustLiveKitFFI.framework/RustLiveKitFFI"
-    },
-    "Frameworks/LiveKitWebRTC.framework/LiveKitWebRTC": {
-      "bytes": 12347368,
-      "sha256": "1635ddb8f63a3c89610c45f0c2bfd690e9335e42659e75034a90c35e064b8133",
-      "archs": [
-        "arm64"
-      ],
-      "platforms": [
-        "2"
-      ],
-      "uuid": "UUID: 4C4C44EB-5555-3144-A120-0506CDF82192 (arm64)",
-      "pinnedArtifactMember": "artifacts/webrtc-xcframework/LiveKitWebRTC/LiveKitWebRTC.xcframework/ios-arm64/LiveKitWebRTC.framework/LiveKitWebRTC"
-    }
-  },
-  "deviceSignalStaticLibrarySHA256": "9e91aac4046830e1b4988f18f476eac220e21ac3fa69dbada88dc2be966d1339",
-  "signed16ArchiveReceiptSHA256": "16c8dde34cfaabe9eddded63f844a7b7ed9ec40d057974f9a9b9dabdb3444914",
-  "actualSigned16IPA": null,
-  "Apple16ValidationOrUpload": "NOT_PERFORMED_BY_THIS_BINDING",
-  "prior15ProofIsHistoricOnly": true,
-  "noUpstreamBitIdenticalBinaryReproductionClaim": true,
-  "noPhysicalPushOrLargeFileDeliveryClaim": true,
-  "publicationExecuted": false,
-  "actualRootReleaseSource939AfterFenceExact": true,
-  "actualSignedArchiveReceiptSHA256": "16c8dde34cfaabe9eddded63f844a7b7ed9ec40d057974f9a9b9dabdb3444914",
+  "actualSignedArchiveReceiptSHA256": "53ac418d169d85d64bd12d1ec75736512dec3074797160121353ada082473f2f",
+  "actualDesktopDeliveryReceiptSHA256": "0f94aed55384a4b3799b5c1782566723d5e084d17e3442b50cbac7269d3b9071",
   "actualIPA": {
-    "bytes": 26530599,
-    "sha256": "a9c96caa285b5c5c5006aa79b3dbbd10c6c06a61c98f50e572896c11ce5bf9f1"
+    "bytes": 26531675,
+    "sha256": "21280a57a9ce7be3095785cbed917a27a6310406fa45973660b294830791f7be"
+  },
+  "actualSignedArchiveZIP": {
+    "bytes": 134180746,
+    "sha256": "721d7c56cb829b3af247ce866ccb7bed5e435b862c373d256bf9e6049eea28f5"
   },
   "actualSignedProducts": {
     "main": {
-      "bundleIdentifier": "com.messenger.unyri.X7G7M9PFJ3",
-      "version": "0.3.16",
-      "build": "16",
-      "MachOUUID": "12EF663A-AE73-3B22-8465-19496460554B",
-      "profileSHA256": "8f9b95a907388bf928e768f9f0162e2aeefab17032b26f5f936e382c97a22af2",
-      "actualRootVerifiedAPS": "production"
+      "bundleId": "com.messenger.unyri.X7G7M9PFJ3",
+      "version": "0.3.17",
+      "build": "17",
+      "leafSha256": "69292801945a414c4a2873602ea2985ebc42d0d7509c5ec8c945ad779f81ef25",
+      "profileSha256": "8f9b95a907388bf928e768f9f0162e2aeefab17032b26f5f936e382c97a22af2",
+      "getTaskAllow": false,
+      "apsEnvironment": "production",
+      "infoAPNsEnvironment": "production",
+      "orientationMetadata": {
+        "UIDeviceFamily": [
+          1,
+          2
+        ],
+        "UISupportedInterfaceOrientations": [
+          "UIInterfaceOrientationPortrait",
+          "UIInterfaceOrientationLandscapeLeft",
+          "UIInterfaceOrientationLandscapeRight"
+        ],
+        "UISupportedInterfaceOrientations~ipad": [
+          "UIInterfaceOrientationPortrait",
+          "UIInterfaceOrientationPortraitUpsideDown",
+          "UIInterfaceOrientationLandscapeLeft",
+          "UIInterfaceOrientationLandscapeRight"
+        ],
+        "UIRequiresFullScreen": null
+      }
     },
     "share": {
-      "bundleIdentifier": "com.messenger.unyri.X7G7M9PFJ3.share",
-      "version": "0.3.16",
-      "build": "16",
-      "MachOUUID": "58EA879F-383C-30A6-8FF6-CB9F6CCCBB2A",
-      "profileSHA256": "86201dc650f52abe2dd182fddc6b791216204a27971cefc798f9313a0ee72df4",
-      "actualRootVerifiedAPS": null
+      "bundleId": "com.messenger.unyri.X7G7M9PFJ3.share",
+      "version": "0.3.17",
+      "build": "17",
+      "leafSha256": "69292801945a414c4a2873602ea2985ebc42d0d7509c5ec8c945ad779f81ef25",
+      "profileSha256": "86201dc650f52abe2dd182fddc6b791216204a27971cefc798f9313a0ee72df4",
+      "getTaskAllow": false,
+      "apsEnvironment": null,
+      "infoAPNsEnvironment": null,
+      "orientationMetadata": {
+        "UIDeviceFamily": [
+          1,
+          2
+        ],
+        "UISupportedInterfaceOrientations": null,
+        "UISupportedInterfaceOrientations~ipad": null,
+        "UIRequiresFullScreen": null
+      }
     }
   },
   "actualSignedFrameworks": {
     "WebRTC": {
-      "signedIPASHA256": "41a01641ad52863a78893976102bf334851caf415897611e694606f81a2f3c6a",
-      "signedIPABytes": 12311616,
-      "signedArchiveSHA256": "432f029a1f475f9d5bfb0cd63cd2127cf35bef76b03c8a5792984b4f627f2f32",
-      "MachOUUID": "4C4C441D-5555-3144-A1D9-F77F93A1CF0C",
-      "pinnedUnsignedSHA256": "5be1095131b7d1961d902231796d3e6b78a7f534e8eb1286fe7b0e7794ba4278",
+      "sha256": "ae397500e9b9121194893f42ed880070dd1cdd95d8930975136aab5d6e56ea9b",
       "platform": "IOS",
       "architecture": "arm64"
     },
     "RustLiveKitFFI": {
-      "signedIPASHA256": "0556644dab93b9a5ac4b7639d91f988ae69d7fa2b918fb86a9d115e29c4e4e70",
-      "signedIPABytes": 1513296,
-      "signedArchiveSHA256": "e5fb3540dd7ec4a3b8a6e31772ab8ba364266cd0150e8a16d0d2996125d85164",
-      "MachOUUID": "0347A5C5-4C38-3C04-AE6F-64203B009A0D",
-      "pinnedUnsignedSHA256": "91677cf9e97a1b373d81ee8cb877955dd6d9764948d5aad18fe46624ef597ebf",
+      "sha256": "e5246fe4bc29300a955e7ccdf6e59390cca66ca0d4dd98e935c7be34ec7ea6fe",
       "platform": "IOS",
       "architecture": "arm64"
     },
     "LiveKitWebRTC": {
-      "signedIPASHA256": "19e2cef4728cc4bff1dbfd39267472e7df57bfdb6cf00fb78a2339afed29d281",
-      "signedIPABytes": 12462192,
-      "signedArchiveSHA256": "1a6cf82cac20a36163624d5e892592d43789aec312572ccd7808b40f970fc25d",
-      "MachOUUID": "4C4C44EB-5555-3144-A120-0506CDF82192",
-      "pinnedUnsignedSHA256": "1635ddb8f63a3c89610c45f0c2bfd690e9335e42659e75034a90c35e064b8133",
+      "sha256": "866b702bd449cc05de038c154fda461d15a353febe2024c52e7cb42e29966198",
       "platform": "IOS",
       "architecture": "arm64"
     }
   },
-  "archiveExportAllActualExitsZero": true,
-  "RootSigningCleanupVerified": true
+  "dSYMs": {
+    "dSYMs/LiveKitWebRTC.framework.dSYM/Contents/Resources/DWARF/LiveKitWebRTC": {
+      "bytes": 189717713,
+      "sha256": "9abd05b1ee26ea26485b8aa19670c6b7e568967b119c6f4709f8c70c86ab1db7",
+      "uuids": [
+        {
+          "uuid": "4C4C44EB-5555-3144-A120-0506CDF82192",
+          "arch": "arm64"
+        }
+      ]
+    },
+    "dSYMs/RustLiveKitFFI.framework.dSYM/Contents/Resources/DWARF/RustLiveKitFFI": {
+      "bytes": 15454719,
+      "sha256": "015c92a5dd2b84f5dbfa99c10fda732f6b9e17c89b06a4479a23705d6d487a93",
+      "uuids": [
+        {
+          "uuid": "0347A5C5-4C38-3C04-AE6F-64203B009A0D",
+          "arch": "arm64"
+        }
+      ]
+    },
+    "dSYMs/UNYRI.app.dSYM/Contents/Resources/DWARF/UNYRI": {
+      "bytes": 213032868,
+      "sha256": "63bd4efcda2ba2312803fe653c808bd6704399788ecf04c15399e52b8586665f",
+      "uuids": [
+        {
+          "uuid": "6AD3F86E-2992-32DF-8505-FCA451F48E5F",
+          "arch": "arm64"
+        }
+      ]
+    },
+    "dSYMs/UNYRIShare.appex.dSYM/Contents/Resources/DWARF/UNYRIShare": {
+      "bytes": 1361656,
+      "sha256": "b58bd986838828bee7973ac1fb60dd5184580e7c93e5ce00693a07f1a64af503",
+      "uuids": [
+        {
+          "uuid": "CA86D43C-650F-329A-A68C-D447ACF382D3",
+          "arch": "arm64"
+        }
+      ]
+    }
+  },
+  "mainDSYMUuidMatches": true,
+  "shareDSYMUuidMatches": true,
+  "all38ArchiveExportQualificationStepsExitZero": true,
+  "source939AfterExact": true,
+  "allProtectedAfterFencesPassed": true,
+  "privateLeaseCleanupVerified": true,
+  "actualProductionAPNsEntitlementVerified": true,
+  "AppleValidationOrUpload": "NOT_PERFORMED_BY_THIS_SOURCE_EXPORT",
+  "physicalIPhone17Verified": false,
+  "noUpstreamBitIdenticalBinaryReproductionClaim": true,
+  "publicationExecutedByThisTask": false
 }

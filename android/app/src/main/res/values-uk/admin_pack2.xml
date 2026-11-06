@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Admin Product Pack 2.1 — українська локалізація. -->
+<resources>
+
+    <!-- Дії в журналі -->
+    <string name="admin_action_device_suspend">Пристрій обмежено</string>
+    <string name="admin_action_device_unsuspend">Пристрій відновлено</string>
+    <string name="admin_action_note">Додано внутрішню нотатку</string>
+    <string name="admin_action_feedback">Відгук опрацьовано</string>
+
+    <!-- Статус акаунта -->
+    <string name="admin_status_active">Активний</string>
+    <string name="admin_status_suspended">Обмежений</string>
+    <string name="admin_restore">Зняти обмеження</string>
+
+    <!-- Платформи -->
+    <string name="admin_platform_android">Android</string>
+    <string name="admin_platform_ios">iOS</string>
+
+    <!-- Події історії модерації -->
+    <string name="admin_event_report_received">Отримано скаргу</string>
+    <string name="admin_event_report_open">Скаргу відкрито знову</string>
+    <string name="admin_event_report_started">Розгляд розпочато</string>
+    <string name="admin_event_report_resolved">Скаргу вирішено</string>
+    <string name="admin_event_report_dismissed">Скаргу відхилено</string>
+    <string name="admin_event_account_suspended">Акаунт обмежено</string>
+    <string name="admin_event_account_restored">Обмеження акаунта знято</string>
+    <string name="admin_event_device_suspended">Пристрій обмежено</string>
+    <string name="admin_event_device_restored">Обмеження пристрою знято</string>
+    <string name="admin_event_note_added">Додано внутрішню нотатку</string>
+    <string name="admin_event_other">Нерозпізнана подія</string>
+
+    <!-- Стани пристроїв -->
+    <string name="admin_device_active">Активний</string>
+    <string name="admin_device_restricted">Обмежений</string>
+    <string name="admin_device_revoked">Виконано вихід</string>
+
+    <!-- Лічильники дашборда -->
+    <string name="admin_counter_open_reports">Відкриті скарги</string>
+    <string name="admin_counter_in_progress">У розгляді</string>
+    <string name="admin_counter_feedback">Неопрацьовані відгуки</string>
+    <string name="admin_counter_suspensions">Обмежені акаунти</string>
+    <string name="admin_counter_devices">Обмежені пристрої</string>
+    <string name="admin_counter_last_24h">Скарг за 24 год</string>
+    <string name="admin_summary_title">Огляд</string>
+
+    <!-- Списки та підвантаження -->
+    <string name="admin_load_more">Показати ще</string>
+    <string name="admin_loading_more">Завантаження…</string>
+    <string name="admin_retry">Повторити</string>
+    <string name="admin_list_end">Кінець списку</string>
+    <string name="admin_reports_empty">За цими фільтрами скарг немає</string>
+    <string name="admin_feedback_filtered_empty">За цими фільтрами відгуків немає</string>
+    <string name="admin_users_empty">За цими фільтрами акаунтів немає</string>
+    <string name="admin_timeline_empty">Історія модерації поки порожня</string>
+    <string name="admin_notes_empty">Внутрішніх нотаток поки немає</string>
+
+    <!-- Фільтри -->
+    <string name="admin_filter_status">Статус</string>
+    <string name="admin_filter_platform">Платформа</string>
+    <string name="admin_filter_reason">Тип</string>
+    <string name="admin_filter_action">Дія</string>
+    <string name="admin_filter_actor">ID адміністратора</string>
+    <string name="admin_filter_target">ID цілі</string>
+    <string name="admin_filter_from">З (UTC)</string>
+    <string name="admin_filter_to">По (UTC)</string>
+    <string name="admin_filter_clear">Скинути фільтри</string>
+
+    <!-- Центр модерації користувача -->
+    <string name="admin_moderation_title">Модерація</string>
+    <string name="admin_moderation_profile">Профіль</string>
+    <string name="admin_moderation_state">Стан модерації</string>
+    <string name="admin_moderation_actions">Дії</string>
+    <string name="admin_moderation_devices">Відомі пристрої</string>
+    <string name="admin_moderation_reports">Скарги на цей акаунт</string>
+    <string name="admin_moderation_timeline">Історія модерації</string>
+    <string name="admin_moderation_notes">Внутрішні нотатки</string>
+    <string name="admin_moderation_diagnostics">Технічні деталі</string>
+    <string name="admin_moderation_none">Немає</string>
+    <string name="admin_open_user">Відкрити модерацію</string>
+    <string name="admin_view_reports">Усі скарги на цей акаунт</string>
+    <string name="admin_account_created">Акаунт створено</string>
+    <string name="admin_reports_total">Скарг</string>
+    <string name="admin_reports_open">Ще відкрито</string>
+    <string name="admin_protected_account">Акаунти адміністраторів не можна обмежувати звідси</string>
+
+    <!-- Внутрішні нотатки -->
+    <string name="admin_note_add">Додати нотатку</string>
+    <string name="admin_note_hint">Внутрішня нотатка (видима лише адміністраторам)</string>
+    <string name="admin_note_saved">Нотатку додано</string>
+
+    <!-- Пристрої -->
+    <string name="admin_device_last_seen">Остання активність</string>
+    <string name="admin_device_app">Застосунок</string>
+    <string name="admin_device_installation">Встановлення</string>
+    <string name="admin_device_suspend">Обмежити пристрій</string>
+    <string name="admin_device_restore">Відновити пристрій</string>
+
+    <!-- Відгуки -->
+    <string name="admin_feedback_shot">скриншот</string>
+    <string name="admin_feedback_shots">Скриншоти</string>
+    <string name="admin_suspend_custom_hours">Власна кількість годин</string>
+    <string name="admin_feedback_close">Закрити з обґрунтуванням</string>
+    <string name="admin_feedback_reopen">Відкрити знову</string>
+    <string name="admin_screenshot_tap">Натисніть, щоб завантажити скриншот</string>
+    <string name="admin_screenshot_loading">Завантаження скриншота…</string>
+    <string name="admin_screenshot_failed">Не вдалося завантажити скриншот</string>
+
+    <!-- Обмеження та сесії -->
+    <string name="admin_restriction_until">До</string>
+    <string name="admin_restriction_forever">Без строку</string>
+    <string name="admin_technical_detail">Технічна деталь</string>
+    <string name="admin_session_locked_state">Адміністрування заблоковано</string>
+    <string name="admin_session_unlocked_state">Адміністрування розблоковано</string>
+    <string name="admin_session_expired_state">Потрібно розблокувати сесію заново</string>
+    <string name="admin_search_display_name">Ім\'я користувача або відображуване ім\'я</string>
+    <string name="admin_search_scope_hint">Адміністратори також можуть шукати за відображуваним ім\'ям.</string>
+    <string name="admin_console_open">Відкрити консоль адміністрування</string>
+    <string name="admin_console_hint">Консоль адміністрування працює на сервері. Цей пристрій підтверджує вашу особу та відкриває її у браузері; посилання діє один раз і спливає за хвилину.</string>
+</resources>

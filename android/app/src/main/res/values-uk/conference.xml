@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="conference_rooms_title">Кімнати</string>
+    <string name="conference_error_locked">Творець закрив вхід до кімнати. Спробуйте увійти пізніше.</string>
+    <string name="conference_error_settings">Не вдалося зберегти налаштування кімнати. Спробуйте ще раз.</string>
+    <string name="conference_error_owned_quota">У вас уже є кілька відкритих кімнат. Відкрийте «Мої кімнати» та завершіть непотрібну.</string>
+    <string name="conference_error_moderation">Не вдалося підтвердити дію з учасником. Оновіть кімнату та спробуйте ще раз.</string>
+    <string name="conference_error_microphone_host">Творець кімнати вимкнув ваш мікрофон. Після зняття обмеження ви зможете ввімкнути його самі.</string>
+    <string name="conference_microphone_host_info">Мікрофон вимкнено творцем кімнати. Натисніть, щоб дізнатися більше.</string>
+    <string name="conference_error_removed">Творець видалив вас із кімнати. Повторний вхід до цієї кімнати для цього облікового запису закрито.</string>
+    <string name="conference_error_invite">Недійсне посилання запрошення до конференції.</string>
+    <string name="conference_error_busy">Спочатку завершіть поточний дзвінок.</string>
+    <string name="conference_error_https">Для конференцій потрібен сервер із HTTPS.</string>
+    <string name="conference_error_closed">Конференцію завершено або з’єднання закрито.</string>
+    <string name="conference_error_encryption">Помилка шифрування конференції. З’єднання закрито.</string>
+    <string name="conference_error_join">Не вдалося приєднатися до конференції. Перевірте дозволи, запрошення й доступність сервера.</string>
+    <string name="conference_error_unencrypted">Медіапотік без наскрізного шифрування відхилено. З’єднання закрито.</string>
+    <string name="conference_error_control">Не вдалося змінити налаштування мікрофона або камери.</string>
+    <string name="conference_error_end">Не вдалося завершити конференцію. Спробуйте ще раз.</string>
+    <string name="conference_error_recovery">Не вдалося відновити з’єднання. Перевірте мережу та приєднайтеся знову.</string>
+    <string name="capture_in_use">Спочатку завершіть поточний дзвінок, зйомку або запис.</string>
+    <string name="capture_finish_before_answer">Завершіть зйомку або запис, а потім дайте відповідь на дзвінок.</string>
+    <string name="conference_settings_summary">Назва, видимість і вхід</string>
+    <string name="conference_invitation_label">Запрошення до кімнати</string>
+    <string name="conference_invitation_compact_label">Кімната</string>
+    <string name="conference_invitation_join">Увійти</string>
+    <string name="conference_invitation_pending">У черзі надсилання</string>
+    <string name="conference_invitation_failed">Не надіслано · повторіть</string>
+    <string name="conference_invitation_expired">Термін запрошення минув</string>
+    <string name="conference_invitation_share">Надіслати запрошення</string>
+</resources>

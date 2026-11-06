@@ -1,0 +1,30 @@
+{
+  "status": "BOUNDED_RTC_SOURCE_AND_NOTICES_ADDED_ACTUAL_APK_GRAPH_PENDING",
+  "directNativeRelatedPins": {
+    "org.signal:libsignal-android": "0.86.5",
+    "io.getstream:stream-webrtc-android": "1.3.10",
+    "io.livekit:livekit-android": "2.28.2",
+    "androidx.camera": "1.5.3"
+  },
+  "otherBuildSources": [
+    "android/gradle/libs.versions.toml",
+    "android/app/build.gradle.kts",
+    "android/settings.gradle.kts",
+    "android/gradle/wrapper/gradle-wrapper.properties"
+  ],
+  "alreadyPublicLibsignalFullSource": {
+    "version": "0.86.5",
+    "commit": "b39e93f1a5e6531044dfcdf5876585cbcf08f884",
+    "archiveSHA256": "7956a7af562b5142f80933f42ff7cb2aaa0ed077382ce06580d5eb9bf6651814"
+  },
+  "remainingExactMapping": [
+    "Bind actual final17 APK resolved runtime dependency and JNI inventory; no fresh graph claimed by cached POM lists",
+    "Stream wrapper JNI bytes match exact release Git blobs; exact native C++ revision/toolchain remains unproven",
+    "Preserve all component notices from actual runtime inventory; do not substitute the iOS WebRTC artifact provenance"
+  ],
+  "noLargeJNIVendoring": true,
+  "noOfflineOrBitIdenticalClaim": true,
+  "sourceCodeCanBePreparedWithoutPretendingBinaryInventoryComplete": true,
+  "boundedRTCMap": "../../third_party/android-rtc/DEPENDENCIES.json",
+  "boundedRTCMapRepositoryRelative": "third_party/android-rtc/DEPENDENCIES.json"
+}

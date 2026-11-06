@@ -1,10 +1,15 @@
 # Local modifications
 
-- First-party UNYRI 0.3.16/build16: APNs/PushKit client lifecycle, the accepted
+- First-party UNYRI 0.3.17/build17 (source selection; final binary binding separate): APNs/PushKit client lifecycle, the accepted
   chat-composer type boundary hotfix, ledger relocation protection, localization
   and iPad orientation metadata/runtime mask. Version16 additionally contains the
   compact direct-file card and two explicit 44-point icon hit shapes. Packaging
-  changes no app code.
+  changes no app code. Source17 adds direct-file Open/Share action handling and
+  defaults remote call video to Fill at initial presentation and call-ID reset;
+  existing fit toggle, controls and own-preview gestures are preserved.
+- Android17 is a new native source addition with public HTTPS defaults, compact
+  direct cards and qualified coordinator changes; private QA/test files, Firebase
+  configuration, signing keys and generated binaries are excluded.
 - Signal wrapper: 125 files, 124 byte-identical to Signal v0.86.5; the sole
   Package.swift change and full upstream source are retained under
   `third_party/libsignal`.

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_history_delete">Delete call record?</string>
+    <string name="call_history_delete_all">This call record will be removed for both participants.</string>
+    <string name="call_history_delete_me">This call record will be removed from your account. The other participant will keep it.</string>
+    <string name="call_history_delete_failed">Could not delete the call record. Check your connection and server version, then try again.</string>
+    <string name="chat_delete_items">Delete selected items?</string>
+    <string name="chat_delete_items_all">Selected messages and call records will be removed for both participants.</string>
+    <string name="chat_delete_items_me">Selected messages and call records will be removed for you.</string>
+</resources>

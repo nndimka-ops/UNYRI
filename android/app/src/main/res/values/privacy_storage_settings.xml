@@ -1,0 +1,25 @@
+<resources>
+    <string name="privacy_online">Who can see me online</string>
+    <string name="privacy_last_seen">Who can see my last seen</string>
+    <string name="privacy_everyone">Everyone</string>
+    <string name="privacy_nobody">Nobody</string>
+    <string name="privacy_always_allow">Always allow</string>
+    <string name="privacy_never_allow">Never allow</string>
+    <string name="privacy_people_count">%1$d people</string>
+    <string name="privacy_exceptions_detail">Exceptions apply to both online and last seen. Never allow takes priority.</string>
+    <string name="privacy_read_receipts">Send read receipts</string>
+    <string name="privacy_read_detail">Your unread badges still clear when you read. Changing this setting does not publish earlier hidden reads.</string>
+    <string name="privacy_save_failed">Could not save or refresh privacy. Check your connection and retry.</string>
+    <string name="media_download_detail">Automatic download limits per item. Unknown sizes and unrecognized networks require a manual download.</string>
+    <string name="media_download_off">Off</string>
+    <string name="media_download_video">Videos</string>
+    <string name="cache_unlimited">Unlimited</string>
+    <string name="cache_forever">Forever</string>
+    <string name="cache_size_limit">Downloaded media limit</string>
+    <string name="cache_retention">Keep downloaded media</string>
+    <string name="cache_days">%1$d days</string>
+    <string name="cache_policy_detail">Only downloadable media cache is removed, oldest first. Messages, restored originals, drafts and media in use stay. Protected files may exceed the limit.</string>
+    <string name="cache_by_chat">Downloaded cache by chat</string>
+    <string name="cache_saved_messages">Saved Messages</string>
+    <string name="cache_chat_fallback">Chat %1$s</string>
+</resources>

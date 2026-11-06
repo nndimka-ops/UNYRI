@@ -1,0 +1,137 @@
+<resources>
+    <!-- Admin UX Pack 1: role-aware navigation and dashboard -->
+    <string name="admin_nav_home">Dashboard</string>
+    <string name="admin_nav_reports">Reports</string>
+    <string name="admin_nav_users">Users</string>
+    <string name="admin_nav_feedback">Bug reports</string>
+    <string name="admin_nav_storage">Storage</string>
+    <string name="admin_nav_audit">Audit log</string>
+    <string name="admin_nav_settings">Server settings</string>
+    <string name="admin_nav_security">Security</string>
+    <string name="admin_role_owner">Owner</string>
+    <string name="admin_role_moderator">Moderator</string>
+    <string name="admin_session_locked">Locked</string>
+    <string name="admin_session_unlocked">Unlocked</string>
+    <string name="admin_server_id">Server ID</string>
+    <string name="admin_overview">Overview</string>
+    <string name="admin_quick_actions">Manage</string>
+    <string name="admin_metric_open_reports">Open reports</string>
+    <string name="admin_metric_feedback">Bug reports</string>
+    <string name="admin_metric_restrictions">Restricted accounts</string>
+    <string name="admin_metric_storage">Storage used</string>
+    <string name="admin_metric_unavailable">—</string>
+    <string name="admin_metric_hint">Counts come from the entries already loaded on this screen.</string>
+
+    <!-- Reports -->
+    <string name="admin_filter_all">All</string>
+    <string name="admin_report_reason">Reason</string>
+    <string name="admin_report_reporter">Reporter</string>
+    <string name="admin_report_target">Reported account</string>
+    <string name="admin_report_created">Created</string>
+    <string name="admin_report_reviewed">Reviewed</string>
+    <string name="admin_report_reviewed_by">Reviewed by</string>
+    <string name="admin_report_resolve">Resolve</string>
+    <string name="admin_report_dismiss">Dismiss</string>
+    <string name="admin_report_open_user">Open account moderation</string>
+    <string name="admin_confirm_resolve_title">Resolve this report?</string>
+    <string name="admin_confirm_resolve_body">The report closes as resolved. Fill in the decision reason first.</string>
+    <string name="admin_confirm_dismiss_title">Dismiss this report?</string>
+    <string name="admin_confirm_dismiss_body">The report closes as dismissed. Fill in the decision reason first.</string>
+    <string name="admin_reports_filter_empty">No reports in this filter</string>
+
+    <!-- Users -->
+    <string name="admin_user_search_hint">Search by @username</string>
+    <string name="admin_user_idle">Type a username to find an account</string>
+    <string name="admin_user_empty">No accounts match this name</string>
+    <string name="admin_user_active">Active</string>
+    <string name="admin_user_restricted">Restricted</string>
+    <string name="admin_user_installations">Known installations</string>
+    <string name="admin_user_username">Username</string>
+    <string name="admin_user_display_name">Display name</string>
+    <string name="admin_user_diagnostics">Technical details</string>
+    <string name="admin_user_self">Your account</string>
+    <string name="admin_user_restrict">Restrict access</string>
+    <string name="admin_user_restore">Restore access</string>
+    <string name="admin_user_restriction_active">Access is currently restricted</string>
+    <string name="admin_user_protected">Administrator accounts and your own account cannot be restricted here.</string>
+
+    <!-- Restriction sheet -->
+    <string name="admin_suspend_duration">Duration</string>
+    <string name="admin_duration_1h">1 hour</string>
+    <string name="admin_duration_24h">24 hours</string>
+    <string name="admin_duration_7d">7 days</string>
+    <string name="admin_duration_30d">30 days</string>
+    <string name="admin_duration_permanent">Indefinite</string>
+    <string name="admin_duration_custom">Custom</string>
+    <string name="admin_duration_custom_label">Hours</string>
+    <string name="admin_suspend_reason">Reason (recorded in the audit log)</string>
+    <string name="admin_suspend_continue">Review restriction</string>
+    <string name="admin_suspend_confirm_title">Restrict this account?</string>
+    <string name="admin_suspend_confirm_body">Active sessions are signed out. The account can sign in again after the restriction ends.</string>
+    <string name="admin_unsuspend_confirm_title">Restore this account?</string>
+    <string name="admin_unsuspend_confirm_body">The account can sign in again immediately.</string>
+
+    <!-- Feedback -->
+    <string name="admin_feedback_empty">No bug reports</string>
+    <string name="admin_feedback_platform">Platform</string>
+    <string name="admin_feedback_version">App version</string>
+    <string name="admin_feedback_os">OS</string>
+    <string name="admin_feedback_description">Description</string>
+    <string name="admin_feedback_technical">Technical details</string>
+    <string name="admin_feedback_screenshots">Screenshots</string>
+    <string name="admin_feedback_screenshot_hint">Shown as small previews. Tap one to open it full screen.</string>
+    <string name="admin_feedback_images_loading">Loading screenshots…</string>
+
+    <!-- Storage (owner) -->
+    <string name="admin_storage_budget">Storage budget</string>
+    <string name="admin_storage_no_budget">No budget configured</string>
+    <string name="admin_storage_top">Largest uploads by account</string>
+    <string name="admin_storage_plan">Planned deletions</string>
+    <string name="admin_storage_plan_item">%1$d files, %2$s</string>
+    <string name="admin_storage_plan_empty">Nothing to clean up right now</string>
+    <string name="admin_storage_plan_ttl">This plan expires 10 minutes after it is created.</string>
+    <string name="admin_storage_confirm_title">Delete the planned files?</string>
+    <string name="admin_storage_confirm_body">Abandoned uploads are removed permanently. This cannot be undone.</string>
+    <string name="admin_storage_repreview">Preview again</string>
+
+    <!-- Audit log (owner) -->
+    <string name="admin_audit_empty">No recorded actions</string>
+    <string name="admin_audit_when">When</string>
+    <string name="admin_audit_actor">Actor</string>
+    <string name="admin_audit_target">Target</string>
+    <string name="admin_audit_details">Details</string>
+    <string name="admin_action_suspend">Restricted an account</string>
+    <string name="admin_action_unsuspend">Restored an account</string>
+    <string name="admin_action_suspend_installations">Restricted an account and its installations</string>
+    <string name="admin_action_unsuspend_installations">Restored an account and its installations</string>
+    <string name="admin_action_report">Reviewed a user report</string>
+    <string name="admin_action_policy">Updated server settings</string>
+    <string name="admin_action_enroll">Set up administrator access</string>
+    <string name="admin_action_unlock">Signed in to administration</string>
+    <string name="admin_action_rotate">Replaced the administrator key</string>
+    <string name="admin_action_local">Operator change (local tool)</string>
+
+    <!-- Server settings (owner) -->
+    <string name="admin_settings_card">Public server card</string>
+    <string name="admin_settings_card_hint">These fields can be read without signing in, including by people who are not members of this server.</string>
+    <string name="admin_settings_limits">Upload limits</string>
+    <string name="admin_settings_storage">Storage and quota</string>
+    <string name="admin_settings_invalid">Check the numeric values before saving.</string>
+    <string name="admin_settings_saved">Server settings saved</string>
+
+    <!-- Admin session and security -->
+    <string name="admin_security_session">Administrator session</string>
+    <string name="admin_security_role">Role</string>
+    <string name="admin_security_timeout">Administration locks itself after 15 minutes without activity, when you leave the panel, and when the app goes to the background.</string>
+    <string name="admin_security_lock">Lock administration</string>
+    <string name="admin_security_key">Paper key</string>
+    <string name="admin_security_rotate_hint">Replacing the key signs out every administrator session. Keep the current key until the new one is saved.</string>
+    <string name="admin_security_rotate_confirm">Replace the administrator paper key?</string>
+    <string name="admin_security_rotate_confirm_body">Enter the current paper key and the new one. All administrator sessions are signed out.</string>
+
+    <!-- Shared states -->
+    <string name="admin_loading">Loading…</string>
+    <string name="admin_error_title">Request failed</string>
+    <string name="admin_section_empty">Nothing to show</string>
+    <string name="admin_back">Back</string>
+</resources>

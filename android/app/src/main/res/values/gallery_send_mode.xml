@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gallery_send_as">Quality:</string>
+    <string name="gallery_send_media">Standard</string>
+    <string name="gallery_send_hd">High</string>
+    <string name="gallery_send_files">Original</string>
+    <string name="gallery_send_media_detail">Smaller size, faster sending</string>
+    <string name="gallery_send_hd_detail">More detail, larger size</string>
+    <string name="gallery_send_files_detail">Sent as files without additional compression</string>
+</resources>

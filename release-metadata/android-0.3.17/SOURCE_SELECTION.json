@@ -1,0 +1,45 @@
+{
+  "status": "EXACT_SOURCE_SELECTION_EXPORTED_NOT_APK_BINDING",
+  "selectedSource1132ManifestSHA256": "884fd3f67bea896332bbbda8bf82cd1ec3fd3cf6499f2d1a4b6e424f25f6d3ea",
+  "version": "0.3.17",
+  "versionCode": 2026110602,
+  "applicationId": "com.messenger.app",
+  "productInputsManifest": "PRODUCT_INPUTS.json",
+  "productionAndBuildFiles": 801,
+  "newAndroidFiles": 791,
+  "existingSharedExactFiles": 10,
+  "testAndInstrumentationExcluded": 331,
+  "testPathsExcluded": [
+    "android/app/src/test/**",
+    "android/app/src/androidTest/**"
+  ],
+  "privateBuildInputsExcluded": [
+    "android/app/google-services.json",
+    "android/app/src/*/google-services.json",
+    "android/local.properties",
+    "signing keystores and passwords",
+    "Gradle/SDK caches and all build outputs"
+  ],
+  "publicCertificateException": {
+    "exactSHA256": "545f76de899525c7c7ce0aeb8bf634f7207e9bacf697a9e290c8c0ed92ea6e3d",
+    "bytesEach": 627,
+    "count": 3,
+    "markers": [
+      "CERTIFICATE"
+    ],
+    "noPrivateKeyMarker": true
+  },
+  "wrapperJarException": {
+    "sha256": "498495120a03b9a6ab5d155f5de3c8f0d986a449153702fb80fc80e134484f17",
+    "bytes": 43504
+  },
+  "noQAReceiptsOrIsolatedHelperSource": true,
+  "resolvedSourceTemplateOverrides": [
+    "android/app/build.gradle.kts",
+    "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectTransferCoordinator.kt",
+    "android/app/src/main/java/com/messenger/app/ui/call/VideoCallScreen.kt"
+  ],
+  "all801InputBytesExact": true,
+  "actualBinaryBinding": "RELEASE_SOURCE_BINDING.json",
+  "noPhysicalMain17InstallClaim": true
+}

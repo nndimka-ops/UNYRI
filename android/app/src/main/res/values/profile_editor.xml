@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_editor_loading">Loading profile…</string>
+    <string name="profile_editor_preview_name">Your name</string>
+    <string name="profile_editor_photo_note">Photo changes are applied immediately. Save the text fields when you are ready.</string>
+    <string name="profile_editor_identity_section">How others see you</string>
+    <string name="profile_editor_name_hint">The name shown in chats and calls.</string>
+    <string name="profile_editor_name_error">Enter a name of 1–64 characters.</string>
+    <string name="profile_editor_bio_label">About you (optional)</string>
+    <string name="profile_editor_bio_hint">A few words about you. Leave empty to remove.</string>
+    <string name="profile_editor_bio_error">Use no more than 160 characters.</string>
+    <string name="profile_editor_username_section">How to find you</string>
+    <string name="profile_editor_username_hint">3–32 letters, numbers, dots or underscores. People on this server can search for this name.</string>
+    <string name="profile_editor_username_error">Use 3–32 Latin letters, numbers, dots or underscores.</string>
+    <string name="profile_editor_counter">%1$d / %2$d</string>
+    <string name="profile_editor_discard_title">Discard text changes?</string>
+    <string name="profile_editor_discard_message">Your edits to the name, username and bio will not be saved. Any photo change already applied will remain.</string>
+    <string name="profile_editor_discard">Discard</string>
+</resources>

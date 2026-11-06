@@ -1,0 +1,10 @@
+<resources>
+  <string name="feedback_success_hint">Thanks. Your report has been received for review.</string>
+  <string name="feedback_placeholder">For example: I open a chat, select a photo, and the send button does not respond.</string>
+  <string name="feedback_optional_images">Optional. Add up to 3 screenshots to help explain the problem.</string>
+  <string name="feedback_review_hint">You can review the information before sending.</string>
+  <string name="feedback_review_title">Send this report?</string>
+  <string name="feedback_image_count">Attached screenshots: %1$d</string>
+  <string name="feedback_agree_send">Agree and send</string>
+  <string name="feedback_done">Done</string>
+</resources>

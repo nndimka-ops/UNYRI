@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="camera_retake">Переснять</string>
+    <string name="camera_take_photo">Сделать фото</string>
+    <string name="camera_record_video">Записать видео</string>
+    <string name="camera_audio_required">Разрешите доступ к микрофону для видео со звуком. Фото можно снимать без него.</string>
+    <string name="camera_capture_failed">Не удалось открыть камеру. Повторите или переключите камеру.</string>
+    <string name="camera_capture_interrupted">Съёмка прервана. Попробуйте ещё раз.</string>
+    <string name="camera_lens_unavailable">Эта камера недоступна.</string>
+    <string name="camera_save_failed">Не удалось сохранить снимок или видео. Освободите место и повторите либо отмените съёмку.</string>
+</resources>

@@ -1,0 +1,11 @@
+<resources>
+    <string name="video_back_ten">Назад на 10 секунд</string>
+    <string name="video_forward_ten">Вперёд на 10 секунд</string>
+    <string name="video_seek">Позиция воспроизведения</string>
+    <string name="video_speed">Скорость воспроизведения</string>
+    <string name="media_actions">Действия</string>
+    <string name="media_forward_chat">Переслать в чат</string>
+    <string name="media_save_device">Сохранить на устройство</string>
+    <string name="video_mute">Выключить звук</string>
+    <string name="video_unmute">Включить звук</string>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <files-path name="direct_transfers" path="direct-transfers/" />
+    <!-- Matches AttachmentManager's cacheDir(): context.cacheDir/attachments -->
+    <cache-path name="attachments" path="attachments/" />
+    <!-- Only restored media, never keys, databases, upload plans or all filesDir. -->
+    <files-path name="restored_history_media" path="history-restoration/" />
+    <!-- Camera-capture temp files (Bug A): context.cacheDir/camera -->
+    <cache-path name="camera" path="camera/" />
+    <cache-path name="avatar_camera" path="avatar_camera/" />
+</paths>

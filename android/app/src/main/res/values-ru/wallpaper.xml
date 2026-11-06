@@ -1,0 +1,5 @@
+<resources>
+    <string name="wallpaper_title">Фон приложения</string>
+    <string name="wallpaper_pattern">С узором</string>
+    <string name="wallpaper_plain">Однотонный</string>
+</resources>

@@ -1,0 +1,7 @@
+<resources>
+    <string name="feedback_working">Зачекайте…</string>
+    <string name="feedback_screenshots_section">Знімки екрана</string>
+    <string name="feedback_screenshots_hint">Необов’язково · до 3 зображень. Приховайте паролі та інші особисті дані.</string>
+    <string name="feedback_screenshot_number">Знімок екрана %1$d</string>
+    <string name="feedback_recipient">Хто отримає звіт</string>
+</resources>

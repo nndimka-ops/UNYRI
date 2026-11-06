@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_manager_title">Передачи</string>
+    <string name="direct_manager_device_only">На этом устройстве</string>
+    <string name="direct_manager_empty">В этом разделе нет передач.</string>
+    <string name="direct_manager_chat">Открыть переписку</string>
+    <string name="direct_manager_preparing">Подготавливаем оригинал…</string>
+    <string name="direct_manager_reselect">Выбери оригинал заново в переписке.</string>
+    <string name="direct_filter_all">Все</string>
+    <string name="direct_filter_sending">Исходящие</string>
+    <string name="direct_filter_receiving">Входящие</string>
+    <string name="direct_direction_sending">Отправка</string>
+    <string name="direct_direction_receiving">Получение</string>
+    <string name="direct_group_active">Активные</string>
+    <string name="direct_group_queued">В очереди</string>
+    <string name="direct_group_held">На паузе</string>
+    <string name="direct_group_attention">Требуют внимания</string>
+    <string name="direct_group_completed">Завершённые</string>
+    <string name="direct_queue_position">Место в очереди: %1$d</string>
+    <string name="direct_queued">Ждём свободное место для передачи.</string>
+    <string name="direct_server_capacity">Ожидание доступности сервиса передач.</string>
+    <string name="direct_held_local">На паузе по твоему выбору. Оригинал или сохранённая часть остаются.</string>
+    <string name="direct_held_peer">Другой участник поставил передачу на паузу.</string>
+    <string name="direct_held_both">Оба участника поставили передачу на паузу.</string>
+    <string name="direct_confirming_continue">Подтверждаем продолжение…</string>
+    <string name="direct_sync_limit">Не удалось подтвердить продолжение. Повтори синхронизацию.</string>
+    <string name="direct_manual_pause">Пауза</string>
+    <string name="direct_manual_continue">Продолжить</string>
+    <string name="direct_retry_sync">Повторить синхронизацию</string>
+    <string name="direct_pause_save_failed">Передача остановлена, но сохранить паузу не удалось. Повторите попытку перед закрытием приложения.</string>
+    <string name="direct_continue_save_failed">Не удалось сохранить продолжение. Передача остаётся на паузе.</string>
+    <string name="direct_sync_unavailable">Синхронизация паузы недоступна для этой старой передачи. При необходимости отмени её и создай новую.</string>
+    <string name="direct_sync_cooldown">Немного подожди перед повторной синхронизацией.</string>
+    <string name="direct_pause_saving">Сохраняем паузу…</string>
+    <string name="direct_continue_saving">Сохраняем продолжение…</string>
+</resources>

@@ -1,0 +1,6 @@
+<resources>
+<string name="admin_include_installations">Include known app installations when blocking or unblocking</string>
+<string name="admin_installation_hint">This affects other accounts using these installations on this server. Changing the installation ID can bypass it. Unblocking removes only restrictions originating from this account.</string>
+<string name="auth_installation_restricted">This app installation is restricted on this server. Contact its operator.</string>
+<string name="admin_installation_count">Restricted known installations: %d</string>
+</resources>

@@ -1,0 +1,10 @@
+<resources>
+  <string name="feedback_success_hint">Спасибо. Ваш отчёт получен и будет рассмотрен.</string>
+  <string name="feedback_placeholder">Например: открываю чат, выбираю фото, но кнопка отправки не реагирует.</string>
+  <string name="feedback_optional_images">Необязательно. Можно добавить до 3 скриншотов, чтобы показать проблему.</string>
+  <string name="feedback_review_hint">Перед отправкой вы сможете проверить, какие данные будут переданы.</string>
+  <string name="feedback_review_title">Отправить этот отчёт?</string>
+  <string name="feedback_image_count">Прикреплено скриншотов: %1$d</string>
+  <string name="feedback_agree_send">Согласен, отправить</string>
+  <string name="feedback_done">Готово</string>
+</resources>

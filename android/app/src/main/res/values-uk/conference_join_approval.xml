@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="conference_join_waiting_creator">Очікуємо рішення творця…</string>
+    <string name="conference_join_denied">Творець кімнати відхилив запит.</string>
+    <string name="conference_join_expired">Час очікування минув. Спробуйте ще раз.</string>
+    <string name="conference_join_cancelled">Запит на вхід скасовано.</string>
+    <string name="conference_join_retry_time">Наступна спроба після %1$s.</string>
+    <string name="conference_join_requests">Запити на вхід</string>
+    <string name="conference_join_confirm">Підтверджувати вхід</string>
+    <string name="conference_join_explanation">Творець приймає або відхиляє запити в кімнаті. Після відмови — пауза на 1 хвилину, потім на 10 хвилин.</string>
+    <string name="conference_join_accept">Прийняти</string>
+    <string name="conference_join_reject">Відхилити</string>
+    <string name="conference_join_wants_in">%1$s хоче увійти</string>
+    <string name="conference_join_cancel">Скасувати запит</string>
+</resources>

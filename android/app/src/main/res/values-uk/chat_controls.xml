@@ -1,0 +1,24 @@
+<resources>
+    <string name="chat_controls">Налаштування чату</string>
+    <string name="chat_mute">Вимкнути сповіщення про повідомлення</string>
+    <string name="chat_unmute">Увімкнути сповіщення про повідомлення</string>
+    <string name="chat_mute_detail">Повідомлення надходитимуть. Дзвінки не вимикаються.</string>
+    <string name="chat_block">Заблокувати співрозмовника</string>
+    <string name="chat_unblock">Розблокувати співрозмовника</string>
+    <string name="chat_block_detail">Нові повідомлення та дзвінки в обидва боки будуть заблоковані до розблокування. Наявна історія збережеться.</string>
+    <string name="chat_blocked_notice">Співрозмовника заблоковано. Відкрити налаштування чату</string>
+    <string name="chat_report">Поскаржитися на співрозмовника</string>
+    <string name="chat_report_disclosure">Причину та опис буде передано адміністратору цього сервера. Повідомлення й файли автоматично не додаються.</string>
+    <string name="chat_report_description">Опишіть проблему (необов’язково)</string>
+    <string name="chat_report_sent">Скаргу надіслано на сервер</string>
+    <string name="chat_settings_saved">Налаштування чату збережено</string>
+    <string name="chat_settings_failed">Не вдалося виконати запит. Перевірте з’єднання та повторіть спробу.</string>
+    <string name="chat_reason_spam">Спам</string>
+    <string name="chat_reason_harassment">Образи та переслідування</string>
+    <string name="chat_reason_scam">Шахрайство</string>
+    <string name="chat_reason_other">Інше</string>
+    <string name="chat_controls_close">Закрити</string>
+    <string name="chat_report_send">Надіслати скаргу</string>
+    <string name="chat_report_reason">Причина</string>
+    <string name="chat_call_activity">Дзвінок</string>
+</resources>

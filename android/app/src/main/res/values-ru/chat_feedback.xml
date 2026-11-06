@@ -1,0 +1,17 @@
+<resources>
+    <string name="chat_unpin">Открепить</string>
+    <string name="chat_find_destination">Поиск чатов</string>
+    <string name="chat_show_earlier_calls">Показать звонки до этого входа</string>
+    <string name="chat_hide_earlier_calls">Скрыть звонки до этого входа</string>
+    <string name="settings_account_summary">Профиль, сервер, удаление аккаунта</string>
+    <string name="settings_appearance_summary">Язык и навигация</string>
+    <string name="settings_privacy_summary">Устройства, активность и черновик</string>
+    <string name="settings_storage_summary">Память и загрузка медиа</string>
+    <string name="settings_about_summary">Поддержка, диагностика и условия</string>
+    <string name="chat_pin_action">Закрепить у себя</string>
+    <string name="chat_select_loaded">Выбрать все загруженные</string>
+    <string name="chat_open">Открыть чат</string>
+    <string name="chat_copy_username">Скопировать ник</string>
+    <string name="admin_no_images">Скриншоты не прикреплены</string>
+    <string name="admin_search_reports">Поиск в загруженных отчётах</string>
+</resources>

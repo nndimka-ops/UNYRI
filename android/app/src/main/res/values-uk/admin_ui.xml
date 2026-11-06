@@ -1,0 +1,137 @@
+<resources>
+    <!-- Admin UX Pack 1: role-aware navigation and dashboard -->
+    <string name="admin_nav_home">Огляд</string>
+    <string name="admin_nav_reports">Скарги</string>
+    <string name="admin_nav_users">Користувачі</string>
+    <string name="admin_nav_feedback">Звіти про помилки</string>
+    <string name="admin_nav_storage">Сховище</string>
+    <string name="admin_nav_audit">Журнал дій</string>
+    <string name="admin_nav_settings">Налаштування сервера</string>
+    <string name="admin_nav_security">Безпека</string>
+    <string name="admin_role_owner">Власник</string>
+    <string name="admin_role_moderator">Модератор</string>
+    <string name="admin_session_locked">Заблоковано</string>
+    <string name="admin_session_unlocked">Розблоковано</string>
+    <string name="admin_server_id">ID сервера</string>
+    <string name="admin_overview">Підсумок</string>
+    <string name="admin_quick_actions">Керування</string>
+    <string name="admin_metric_open_reports">Відкриті скарги</string>
+    <string name="admin_metric_feedback">Звіти про помилки</string>
+    <string name="admin_metric_restrictions">Обмежені акаунти</string>
+    <string name="admin_metric_storage">Зайнято у сховищі</string>
+    <string name="admin_metric_unavailable">—</string>
+    <string name="admin_metric_hint">Числа взято із записів, уже завантажених на цьому екрані.</string>
+
+    <!-- Reports -->
+    <string name="admin_filter_all">Усі</string>
+    <string name="admin_report_reason">Причина</string>
+    <string name="admin_report_reporter">Автор скарги</string>
+    <string name="admin_report_target">Акаунт зі скарги</string>
+    <string name="admin_report_created">Створено</string>
+    <string name="admin_report_reviewed">Розглянуто</string>
+    <string name="admin_report_reviewed_by">Розглянув</string>
+    <string name="admin_report_resolve">Розглянуто</string>
+    <string name="admin_report_dismiss">Відхилити</string>
+    <string name="admin_report_open_user">Відкрити модерацію акаунта</string>
+    <string name="admin_confirm_resolve_title">Закрити скаргу як розглянуту?</string>
+    <string name="admin_confirm_resolve_body">Скаргу буде закрито як розглянуту. Спершу вкажіть причину рішення.</string>
+    <string name="admin_confirm_dismiss_title">Відхилити скаргу?</string>
+    <string name="admin_confirm_dismiss_body">Скаргу буде закрито як відхилену. Спершу вкажіть причину рішення.</string>
+    <string name="admin_reports_filter_empty">У цьому фільтрі скарг немає</string>
+
+    <!-- Users -->
+    <string name="admin_user_search_hint">Пошук за @іменем</string>
+    <string name="admin_user_idle">Введіть ім’я користувача, щоб знайти акаунт</string>
+    <string name="admin_user_empty">За цим іменем акаунтів не знайдено</string>
+    <string name="admin_user_active">Доступ є</string>
+    <string name="admin_user_restricted">Доступ обмежено</string>
+    <string name="admin_user_installations">Відомі встановлення</string>
+    <string name="admin_user_username">Ім’я користувача</string>
+    <string name="admin_user_display_name">Показане ім’я</string>
+    <string name="admin_user_diagnostics">Технічні відомості</string>
+    <string name="admin_user_self">Ваш акаунт</string>
+    <string name="admin_user_restrict">Обмежити доступ</string>
+    <string name="admin_user_restore">Відновити доступ</string>
+    <string name="admin_user_restriction_active">Доступ зараз обмежено</string>
+    <string name="admin_user_protected">Акаунти адміністраторів і ваш власний акаунт тут обмежити не можна.</string>
+
+    <!-- Restriction sheet -->
+    <string name="admin_suspend_duration">Термін</string>
+    <string name="admin_duration_1h">1 година</string>
+    <string name="admin_duration_24h">24 години</string>
+    <string name="admin_duration_7d">7 днів</string>
+    <string name="admin_duration_30d">30 днів</string>
+    <string name="admin_duration_permanent">Безстроково</string>
+    <string name="admin_duration_custom">Свій термін</string>
+    <string name="admin_duration_custom_label">Години</string>
+    <string name="admin_suspend_reason">Причина (потрапить до журналу дій)</string>
+    <string name="admin_suspend_continue">Перевірити обмеження</string>
+    <string name="admin_suspend_confirm_title">Обмежити цей акаунт?</string>
+    <string name="admin_suspend_confirm_body">Активні сеанси буде завершено. Акаунт зможе увійти знову після завершення терміну.</string>
+    <string name="admin_unsuspend_confirm_title">Відновити доступ акаунту?</string>
+    <string name="admin_unsuspend_confirm_body">Акаунт зможе увійти одразу.</string>
+
+    <!-- Feedback -->
+    <string name="admin_feedback_empty">Звітів про помилки немає</string>
+    <string name="admin_feedback_platform">Платформа</string>
+    <string name="admin_feedback_version">Версія застосунку</string>
+    <string name="admin_feedback_os">Система</string>
+    <string name="admin_feedback_description">Опис</string>
+    <string name="admin_feedback_technical">Технічні відомості</string>
+    <string name="admin_feedback_screenshots">Знімки екрана</string>
+    <string name="admin_feedback_screenshot_hint">Показано зменшені версії. Натисніть, щоб відкрити повністю.</string>
+    <string name="admin_feedback_images_loading">Завантаження знімків…</string>
+
+    <!-- Storage (owner) -->
+    <string name="admin_storage_budget">Обсяг для вкладень</string>
+    <string name="admin_storage_no_budget">Обсяг не задано</string>
+    <string name="admin_storage_top">Найбільші завантаження за акаунтами</string>
+    <string name="admin_storage_plan">Заплановано до видалення</string>
+    <string name="admin_storage_plan_item">Файлів: %1$d, %2$s</string>
+    <string name="admin_storage_plan_empty">Зараз видаляти нічого</string>
+    <string name="admin_storage_plan_ttl">План діє 10 хвилин після створення.</string>
+    <string name="admin_storage_confirm_title">Видалити заплановані файли?</string>
+    <string name="admin_storage_confirm_body">Покинуті завантаження буде видалено назавжди. Скасувати це неможливо.</string>
+    <string name="admin_storage_repreview">Побудувати план заново</string>
+
+    <!-- Audit log (owner) -->
+    <string name="admin_audit_empty">Записаних дій немає</string>
+    <string name="admin_audit_when">Коли</string>
+    <string name="admin_audit_actor">Хто</string>
+    <string name="admin_audit_target">Об’єкт</string>
+    <string name="admin_audit_details">Подробиці</string>
+    <string name="admin_action_suspend">Обмежив доступ акаунту</string>
+    <string name="admin_action_unsuspend">Відновив доступ акаунту</string>
+    <string name="admin_action_suspend_installations">Обмежив акаунт і його встановлення</string>
+    <string name="admin_action_unsuspend_installations">Відновив акаунт і його встановлення</string>
+    <string name="admin_action_report">Опрацював скаргу</string>
+    <string name="admin_action_policy">Змінив налаштування сервера</string>
+    <string name="admin_action_enroll">Налаштував доступ адміністратора</string>
+    <string name="admin_action_unlock">Увійшов до адмінки</string>
+    <string name="admin_action_rotate">Замінив ключ адміністратора</string>
+    <string name="admin_action_local">Зміна оператора (локальний інструмент)</string>
+
+    <!-- Server settings (owner) -->
+    <string name="admin_settings_card">Публічна картка сервера</string>
+    <string name="admin_settings_card_hint">Ці поля можна прочитати без входу, зокрема тим, хто не є учасником сервера.</string>
+    <string name="admin_settings_limits">Обмеження завантажень</string>
+    <string name="admin_settings_storage">Сховище та квоти</string>
+    <string name="admin_settings_invalid">Перевірте числові значення перед збереженням.</string>
+    <string name="admin_settings_saved">Налаштування сервера збережено</string>
+
+    <!-- Admin session and security -->
+    <string name="admin_security_session">Сеанс адміністратора</string>
+    <string name="admin_security_role">Роль</string>
+    <string name="admin_security_timeout">Адмінка блокується після 15 хвилин без дій, під час виходу з екрана та коли застосунок переходить у фон.</string>
+    <string name="admin_security_lock">Заблокувати адмінку</string>
+    <string name="admin_security_key">Паперовий ключ</string>
+    <string name="admin_security_rotate_hint">Заміна ключа завершує всі сеанси адміністраторів. Збережіть поточний ключ, доки не записано новий.</string>
+    <string name="admin_security_rotate_confirm">Замінити паперовий ключ адміністратора?</string>
+    <string name="admin_security_rotate_confirm_body">Введіть поточний і новий паперовий ключ. Усі сеанси адміністраторів буде завершено.</string>
+
+    <!-- Shared states -->
+    <string name="admin_loading">Завантаження…</string>
+    <string name="admin_error_title">Запит не виконано</string>
+    <string name="admin_section_empty">Поки нічого показати</string>
+    <string name="admin_back">Назад</string>
+</resources>

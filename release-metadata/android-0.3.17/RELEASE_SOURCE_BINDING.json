@@ -1,0 +1,92 @@
+{
+  "status": "MATCHED_TO_ACTUAL_ANDROID17_DEBUG_APK_SDK129_NOT_PHYSICALLY_INSTALLED",
+  "version": "0.3.17",
+  "versionCode": 2026110602,
+  "applicationId": "com.messenger.app",
+  "selectedSource1132ManifestSHA256": "884fd3f67bea896332bbbda8bf82cd1ec3fd3cf6499f2d1a4b6e424f25f6d3ea",
+  "selectedProductionBuildFiles": 801,
+  "all801InputBytesExact": true,
+  "actualAPK": {
+    "bytes": 126211135,
+    "sha256": "a7e9e83fab5fe74d1dfca47bb7ecbf912621c057e8c8fef76522b4d682a70958"
+  },
+  "actualJNI17": {
+    "lib/arm64-v8a/libandroidx.graphics.path.so": {
+      "bytes": 10096,
+      "sha256": "41e9a793c43a0f4fddb19e33f346bace464f30f888ba7b9eaf96294ea115bfb6"
+    },
+    "lib/arm64-v8a/libimage_processing_util_jni.so": {
+      "bytes": 32544,
+      "sha256": "f0e4611db0d6b68942d8ba6977519f3dd1cdbffa87b7fc16d8006696ba954af4"
+    },
+    "lib/arm64-v8a/libjingle_peerconnection_so.so": {
+      "bytes": 11541096,
+      "sha256": "4e9d2df81f7db6d184a9d0024e6f9825c6325c3ee54a8d61ef657f02ef8d85e7"
+    },
+    "lib/arm64-v8a/liblkjingle_peerconnection_so.so": {
+      "bytes": 12098392,
+      "sha256": "827922506ab840b639836ffc28ae80a33dd7c3c4a0ee33cf374989c31828e6fb"
+    },
+    "lib/arm64-v8a/libsignal_jni.so": {
+      "bytes": 74008952,
+      "sha256": "aa929c57329fa4ce4d89c64c0c1741576dc38a7d75ab597b966616e86d582f01"
+    },
+    "lib/arm64-v8a/libsurface_util_jni.so": {
+      "bytes": 4896,
+      "sha256": "6cb2eac3c68e6a82ce2a5ea5aba86749eb8c609914392e125f6cdfbc208992f8"
+    }
+  },
+  "actualSDKResult": "ACTUAL_FINAL17_APK_129_PASS_NOT_INSTALLED",
+  "privateFirebaseExcluded": true,
+  "publicBuildWithoutFirebaseLeavesFCMInactive": true,
+  "noPhysicalMain17InstallOrPerformanceClaim": true,
+  "actualSDKResultSHA256": "bd5d89eeca0beedeb36ef2e5866126c2c0693937a6dd51d1aa067a49fcbe947f",
+  "actualSDKRawExit": 0,
+  "actualJUnit": {
+    "classes": 25,
+    "tests": 129,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "actualSignerSHA256": "b91453c8e55f5f914ed727a5c0631695d68715232fe427884794196d1ce98c56",
+  "actualZIPCRCVerified": true,
+  "actualCompiledPublicTransportFields": {
+    "API_BASE_URL": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud",
+    "WS_URL": "wss://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud/ws",
+    "SIGNAL_NAMESPACE_ORIGIN": "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud"
+  },
+  "actualCompiledAllowLocalHTTP": false,
+  "actualCompiledLANTLSMigration": false,
+  "actualCompiledFCMMatchesPrivateBuildAuxiliary": true,
+  "privateFirebaseConfigurationPublished": false,
+  "publicBuildWithoutFirebaseCompiledByThisTask": false,
+  "compiledDuplexFlagWitness": {
+    "selectedAllowDuplex": true,
+    "privateFinalFieldPresent": true,
+    "constructorConstantAssignments": [
+      true
+    ],
+    "absentFalseAssignmentMeansJVMDefault": false,
+    "classSHA256": "399410f62766fa3c43c0cd9576ccb7094f51131ec1037cf38e652c7c346eb869",
+    "noSourceOrTestExpectationChange": true
+  },
+  "compiledDuplexFlagWitnessSHA256": "169edecd7c4f2baa54960714eaf6526d4962ed6099e6b30f3d078684d71c953f",
+  "duplexSelectionScope": {
+    "selectedAllowDuplex": true,
+    "nativeQAReceiptSHA256": "551248186b29991524c86a69a4a881aaf6de3acabe3b81ce727b98940c4e48bc",
+    "nativeQAStatus": "BOUNDED_R4_QA_FOUR_ID_DUPLEX_FIFO_CANCEL_ISOLATION_PASS",
+    "nativeQARecordPreservation": "39 protected baseline,43 each after case",
+    "nativeQAFIFOCancelAndSHAProof": true,
+    "fullOpaqueLeaseExternallyObserved": false,
+    "MainRuntimeQualificationNotClaimed": true
+  },
+  "APKBuildType": "debug",
+  "actualPublicVerifierRawExits": {
+    "certificate": 0,
+    "manifest": 0,
+    "badging": 0,
+    "coordinator-class": 0
+  },
+  "privateTestSourceNotIncludedInPublic801Selection": true
+}

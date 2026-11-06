@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="message_delete_scope_everyone">Повідомлення зникне в усіх учасників.</string>
+    <string name="message_delete_scope_me">Повідомлення зникне на цьому пристрої. У співрозмовника воно залишиться.</string>
+</resources>

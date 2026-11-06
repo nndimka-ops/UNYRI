@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sidebar_saved_profile">Профиль</string>
+    <string name="sidebar_saved_sign_out">Выход из аккаунта</string>
+</resources>

@@ -1,0 +1,29 @@
+<resources>
+<string name="manage_card">Картка сервера</string>
+<string name="manage_name">Назва сервера</string>
+<string name="manage_operator">Власник</string>
+<string name="manage_contact">Контакт підтримки</string>
+<string name="manage_rules">Правила сервера</string>
+<string name="manage_retention">Умови зберігання даних</string>
+<string name="manage_file">Максимальний розмір зашифрованого файлу (байти)</string>
+<string name="manage_quota">Квота на користувача (байти; 0 — без ліміту)</string>
+<string name="manage_budget">Обсяг для вкладень (байти; 0 — без ліміту)</string>
+<string name="manage_save">Зберегти налаштування</string>
+<string name="manage_storage">Сховище сервера</string>
+<string name="manage_preview">Перегляд покинутих завантажень</string>
+<string name="manage_cleanup">Видалити перелічені завантаження</string>
+<string name="manage_storage_hint">Враховано зашифровані вкладення й резерв завантажень, не весь диск. Аватари, звіти та копії не враховані. Очищення лише невідправлених завантажень старше 24 годин, до 100 за раз.</string>
+<string name="manage_warning">Використано щонайменше 90% обсягу для вкладень.</string>
+<string name="manage_unavailable">Не вдалося завантажити відомості про сервер.</string>
+<string name="manage_claim">Відомості вказав власник сервера. Переконайтеся, кому довіряєте дані.</string>
+<string name="manage_note">Нотатка модератора</string>
+<string name="manage_decision">Причина рішення</string>
+<string name="manage_progress">В роботі</string>
+<string name="manage_open">Нова</string>
+<string name="manage_review">Опрацювати скаргу</string>
+<string name="manage_evidence">Можна вставити вибраний текст повідомлення в опис. Модератор отримає опис без шифрування; решта повідомлень не передається.</string>
+<string name="manage_used">Зайнято / зарезервовано (байти)</string>
+<string name="manage_result">Видалено / пропущено / помилка</string>
+<string name="manage_resolved">Вирішена</string>
+<string name="manage_dismissed">Відхилена</string>
+</resources>

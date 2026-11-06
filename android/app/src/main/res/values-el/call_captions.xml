@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_caption_camera">Κάμερα</string>
+    <string name="call_caption_mute">Μικρόφωνο</string>
+    <string name="call_caption_end">Τέλος</string>
+    <string name="call_caption_speaker">Ηχείο</string>
+    <string name="call_caption_flip">Αλλαγή</string>
+    <string name="call_caption_video">Βίντεο</string>
+</resources>

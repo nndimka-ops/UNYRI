@@ -1,4 +1,4 @@
-# Build UNYRI for iOS 0.3.16
+# Build UNYRI for iOS 0.3.17
 
 Use macOS, Xcode26.5/iOS SDK26.5, Python3, Bash and Xcode command-line tools.
 The deployment target remains iOS16; guarded iOS26 APIs require the newer SDK.
@@ -8,7 +8,7 @@ caches are not included. Use a new build directory for each target.
 ## Checked-in package resolution
 
 The project includes the exact public `Package.resolved` used by the qualified
-0.3.16 builds (SHA256 91216ad6c5a0e871ea89b6c46b0f2b4f45426a510b9e8c110ea6dfbfa39ba727).
+0.3.16 builds and unchanged in the actual17 Device/Simulator source exports (SHA256 91216ad6c5a0e871ea89b6c46b0f2b4f45426a510b9e8c110ea6dfbfa39ba727).
 It pins three public GitHub dependencies. It is one build auxiliary, listed
 separately from the773 shipping-source inputs and original source939 manifest.
 Dependency source/artifact downloads and Apple SDKs are still not bundled; this

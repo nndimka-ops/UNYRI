@@ -1,0 +1,3206 @@
+{
+  "android/app/build.gradle.kts": {
+    "sha256": "c78e424d6df21b576b74fb9c2a2a7adb00a1e5b815f95b9a4885050b211bdf18",
+    "bytes": 12299
+  },
+  "android/app/lint.xml": {
+    "sha256": "f6ae1ab1ebec9ad363d423fd22a9b420883cdbfdeeaa2c56c79cbd92c633abd8",
+    "bytes": 2534
+  },
+  "android/app/proguard-rules.pro": {
+    "sha256": "b5258240dcab7bbc87d51f05cfee8dd1218ce1e0c7c7e07eebd9a6bd20751f1d",
+    "bytes": 1108
+  },
+  "android/app/src/alpha/res/raw/coco_lan_ca.crt": {
+    "sha256": "545f76de899525c7c7ce0aeb8bf634f7207e9bacf697a9e290c8c0ed92ea6e3d",
+    "bytes": 627
+  },
+  "android/app/src/alpha/res/xml/network_security_config.xml": {
+    "sha256": "6e391a3ec71f58c94af98be2db4028e58a7b66feded481b8a400212ea02cbc98",
+    "bytes": 846
+  },
+  "android/app/src/debug/res/xml/network_security_config.xml": {
+    "sha256": "7fda455e005c7f206fe5d6330fe38183ce05f938a8d3b4f3b61c8c80a4c60176",
+    "bytes": 224
+  },
+  "android/app/src/main/AndroidManifest.xml": {
+    "sha256": "a19f9f76d881dc0199c4695e55e88afdf61d3ce30610563044901933806470ad",
+    "bytes": 8883
+  },
+  "android/app/src/main/assets/licenses/lucide-sidebar-icons.txt": {
+    "sha256": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57",
+    "bytes": 3208
+  },
+  "android/app/src/main/java/com/messenger/app/ActiveChatTracker.kt": {
+    "sha256": "7adabeeeae85dd339e2ece678d1e706eb7ecddbeb183857a118438de1b25764b",
+    "bytes": 1251
+  },
+  "android/app/src/main/java/com/messenger/app/AppForegroundTracker.kt": {
+    "sha256": "3cafa96d050bf5edc0129ab9da788d05d9214e8762006021a2336f6ade3764f1",
+    "bytes": 1948
+  },
+  "android/app/src/main/java/com/messenger/app/call/CallForegroundService.kt": {
+    "sha256": "d05d0ea6ae127e6260cc4cc16f84a1889769a564af0220fa038862a5553e7a24",
+    "bytes": 5744
+  },
+  "android/app/src/main/java/com/messenger/app/call/CallForegroundServiceController.kt": {
+    "sha256": "48802ad95f63655c1c0613bd756168e7644d151abec9fbe2c65c320a34aac3aa",
+    "bytes": 5409
+  },
+  "android/app/src/main/java/com/messenger/app/call/CallNotificationIds.kt": {
+    "sha256": "8918d4f5bfc493dc2202e5293492604e625741db34fa1dc4d773e1911b2e8160",
+    "bytes": 743
+  },
+  "android/app/src/main/java/com/messenger/app/call/CallPermissionMessages.kt": {
+    "sha256": "205553b3249dc254401a06cc3d60762b7f05b627f8e227c1b1ac64492ef96b31",
+    "bytes": 1364
+  },
+  "android/app/src/main/java/com/messenger/app/call/CallRingbackPlayer.kt": {
+    "sha256": "af0b36371fe06ae1249bb4614e816d109e1e5e8d79ded93013e7b84bad2313be",
+    "bytes": 3412
+  },
+  "android/app/src/main/java/com/messenger/app/call/IncomingCallActionReceiver.kt": {
+    "sha256": "d6c006810a454c2587a09db659e37adbd133acb7a804b69de3d3d06359864554",
+    "bytes": 1968
+  },
+  "android/app/src/main/java/com/messenger/app/call/IncomingCallChannelSpec.kt": {
+    "sha256": "9297211fd691f4c9ae8d960fd03fedab4b45c1352a8977428975c0881dea83f1",
+    "bytes": 1437
+  },
+  "android/app/src/main/java/com/messenger/app/call/IncomingCallNotificationManager.kt": {
+    "sha256": "3d5529576ec1af7982ca6207cb67885734fd51b502492533b65945a0a3da145b",
+    "bytes": 19341
+  },
+  "android/app/src/main/java/com/messenger/app/call/IncomingCallPresentationPolicy.kt": {
+    "sha256": "d05a757dcf38dfaed24bec043fcca0efdc44275e6c708cb849612b2daecd06f9",
+    "bytes": 5195
+  },
+  "android/app/src/main/java/com/messenger/app/call/IncomingNotificationOwnerStore.kt": {
+    "sha256": "9c15a64449abe42060e14b9988fcfd121463adbe4977aa391725b29b73d05a1a",
+    "bytes": 1418
+  },
+  "android/app/src/main/java/com/messenger/app/call/NotificationAcceptToken.kt": {
+    "sha256": "585c30b72570820f85a7a661024173c1c54978206cfcfa8de3389f284ba5a5fc",
+    "bytes": 1618
+  },
+  "android/app/src/main/java/com/messenger/app/capture/DirectCameraCaptureActivity.kt": {
+    "sha256": "0d322da0683a62adf11b4d5abf8454ed482a74de161033f1241a6bde74150469",
+    "bytes": 33318
+  },
+  "android/app/src/main/java/com/messenger/app/capture/DirectCaptureFiles.kt": {
+    "sha256": "c7fa9fcaad90afee6a60ada76b1d77bff57ee9471264cd262cf07f411bef4397",
+    "bytes": 2748
+  },
+  "android/app/src/main/java/com/messenger/app/capture/DirectCaptureTransactions.kt": {
+    "sha256": "54183b20fef84ea6795d8055b72098824d0b30e344e15f56293971d3cb466bea",
+    "bytes": 4212
+  },
+  "android/app/src/main/java/com/messenger/app/capture/ExternalCaptureStore.kt": {
+    "sha256": "0aaa33670b08ea9e012c4cf5d0f295f43b0681f13bba66f0e5ddbe84c22f9579",
+    "bytes": 4418
+  },
+  "android/app/src/main/java/com/messenger/app/capture/NonCallCaptureCoordinator.kt": {
+    "sha256": "eb93ba751394e290eb4ca13ee897a7ab07ce70709984a7af7b48e5ce16ed1439",
+    "bytes": 7008
+  },
+  "android/app/src/main/java/com/messenger/app/capture/OwnedCameraCapture.kt": {
+    "sha256": "5868808d61967395378edb99843eb593a6903a9b31b05aea077054304cd25764",
+    "bytes": 7693
+  },
+  "android/app/src/main/java/com/messenger/app/capture/OwnedCameraCaptureActivity.kt": {
+    "sha256": "0518fe4103d2d6f966f67baaaa9bdc2fe91a2066a75aee7de827fad66ae09c02",
+    "bytes": 6302
+  },
+  "android/app/src/main/java/com/messenger/app/capture/OwnedDualCameraCapture.kt": {
+    "sha256": "644c9bc14d640fedb00900a47fef2c0acd48082a8022193c6866e66d11f179ec",
+    "bytes": 11225
+  },
+  "android/app/src/main/java/com/messenger/app/capture/SharedQrCaptureActivity.kt": {
+    "sha256": "cd1fe16595f6557f944c5eb69fc5d4b7e3a461afca08806bfb6508c9fe5ca5bf",
+    "bytes": 1203
+  },
+  "android/app/src/main/java/com/messenger/app/conference/ConferenceApi.kt": {
+    "sha256": "5a9bb6efbc5db1d18f9c904c9cafbe3a4501270d85d2afece62ccb409681b0f3",
+    "bytes": 14654
+  },
+  "android/app/src/main/java/com/messenger/app/conference/ConferenceController.kt": {
+    "sha256": "61346965abbc80b8dc53df2bd33f77d5cf5bfb17951d3ed17e409b5cdd1d3a2a",
+    "bytes": 57086
+  },
+  "android/app/src/main/java/com/messenger/app/conference/ConferenceDiscovery.kt": {
+    "sha256": "a084046ed92729d06e142ae3967e947bc2418e54df489d608ac9cac2fd3e9cc9",
+    "bytes": 10954
+  },
+  "android/app/src/main/java/com/messenger/app/conference/ConferenceErrorPresentation.kt": {
+    "sha256": "8753055fa01f3b2ccdd0d9562c978e2d33d0724bfd11ec8e03f320c092f8b6a4",
+    "bytes": 1967
+  },
+  "android/app/src/main/java/com/messenger/app/conference/ConferenceInvitation.kt": {
+    "sha256": "4e2672eb871b5d62c872f5ebf5d272a4ae5e6aae16bd7bd0d48f71c1667db37a",
+    "bytes": 2848
+  },
+  "android/app/src/main/java/com/messenger/app/conference/ConferenceInvitationCard.kt": {
+    "sha256": "ee4216ef600b80a9464da52d0f9a4f99ea1878f5e08d0052c7c2ab2ecb724c21",
+    "bytes": 6146
+  },
+  "android/app/src/main/java/com/messenger/app/conference/ConferenceInvite.kt": {
+    "sha256": "e54574c7b2d0684e621295138d32461cc32211954bf5433372f706a94c98eb68",
+    "bytes": 8100
+  },
+  "android/app/src/main/java/com/messenger/app/conference/ConferenceJoinApproval.kt": {
+    "sha256": "97d23e1c0c7ced2e0701531cea676bd0e7d7c562048a61c588f021fc21c5487b",
+    "bytes": 5112
+  },
+  "android/app/src/main/java/com/messenger/app/conference/ConferenceJoinApprovalUi.kt": {
+    "sha256": "7af1c691c1be4d5a5e1961981f4a7d5b1e3e441faef13539dba2bdbe23c86ee8",
+    "bytes": 3078
+  },
+  "android/app/src/main/java/com/messenger/app/conference/ConferenceKeyMailbox.kt": {
+    "sha256": "389d0071521ab9edd9b4358302acfd91737f629bdebd55522b0c40ce249fc837",
+    "bytes": 12388
+  },
+  "android/app/src/main/java/com/messenger/app/conference/ConferenceMicrophonePublication.kt": {
+    "sha256": "6ea542d92f7bcf494354b1fc09aff9116f123c11dd52afb01ffe5e0e985010b9",
+    "bytes": 1060
+  },
+  "android/app/src/main/java/com/messenger/app/conference/ConferenceOwnedRoomStore.kt": {
+    "sha256": "7b0c006945245be4e019863f8217015951e80f7a533df121332bceeb50608360",
+    "bytes": 5349
+  },
+  "android/app/src/main/java/com/messenger/app/conference/ConferencePresentation.kt": {
+    "sha256": "359a3ecc8d725e6c078f11bd8d2490fb660dd32721d0215a4d5f8b0a509199ce",
+    "bytes": 43003
+  },
+  "android/app/src/main/java/com/messenger/app/conference/ConferencePresentationPolicy.kt": {
+    "sha256": "8ece5b8941429e7d24714fe89c0101ebf319b691d06108f6c0095e831acffe49",
+    "bytes": 3879
+  },
+  "android/app/src/main/java/com/messenger/app/conference/ConferenceRecovery.kt": {
+    "sha256": "253a9fc0f5ef98ce0b8fa96c7698f4ea09052301e7d1ad16ef743097084263d5",
+    "bytes": 5718
+  },
+  "android/app/src/main/java/com/messenger/app/conference/ConferenceRoomsController.kt": {
+    "sha256": "62ed453cfc8b8373053a9e3601bfc1f6e326e9ce7262ebc602df4d5a269446c5",
+    "bytes": 9413
+  },
+  "android/app/src/main/java/com/messenger/app/conference/ConferenceRoomsScreen.kt": {
+    "sha256": "7678ac2393135124547ae771502fb460fc37c8d0567a4364ded7c7b31bfc9de7",
+    "bytes": 42230
+  },
+  "android/app/src/main/java/com/messenger/app/conference/ConferenceService.kt": {
+    "sha256": "af1144b21fe5e1b8914571f78386b386ec1d96e3778e37743b04735279b5e5ea",
+    "bytes": 2263
+  },
+  "android/app/src/main/java/com/messenger/app/conference/ConferenceUi.kt": {
+    "sha256": "63fbc28a29f8df7f4f6b17b9d31153f4e66db20ae1c67b651c335f404ab9b65c",
+    "bytes": 42475
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/AndroidSystemDns.kt": {
+    "sha256": "ee92d0a84b49eebf4fd4577999cd0aaeb84feb577c5d66f91d93ed535a0a17bb",
+    "bytes": 2856
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/ApiErrors.kt": {
+    "sha256": "a9e7f6a8a339ec4d778f525e69137ff46d7b8d9c5e8db8b230828875b794e02a",
+    "bytes": 945
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/ApiJson.kt": {
+    "sha256": "61c739db7c8e7725860a838e7be9180ee66eb07025f5295282e3e67b5dda82b9",
+    "bytes": 243
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/AttachmentsApi.kt": {
+    "sha256": "7b6a2275dd39943740f00c02277bdee8837d4c63ccf4ed1047dd0b6c79136ed2",
+    "bytes": 3458
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/AttachmentsDto.kt": {
+    "sha256": "11a25756a0db27e52a73745a5097004f622c2fd191ebf8bc7820e2675b19a63e",
+    "bytes": 1278
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/AuthApi.kt": {
+    "sha256": "a66a80385c823cb4e47dd3bf83d11a921db4b84efb1f938d6a07400ed30fc743",
+    "bytes": 3995
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/AuthApiException.kt": {
+    "sha256": "6a8ffc35f18af47882645d7d2fe333f6f9bc60019abb6bae90ca105af32d2542",
+    "bytes": 403
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/AuthDto.kt": {
+    "sha256": "5af3e6d80e86da56a706fbe67893267354ad9d64f06074a7777834ff69e6bfe4",
+    "bytes": 2944
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/BlockedUsersDto.kt": {
+    "sha256": "92297af49634e7925c0a33eb96cedde090b242e3a3780067dc6eca57e185a3c1",
+    "bytes": 789
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/CallsDto.kt": {
+    "sha256": "10f55ef83ef9f9c2663faf4888dabbb12a8a9b20e64f70369314d14738b03161",
+    "bytes": 1766
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/CancellableApiCall.kt": {
+    "sha256": "4dc9416d6809624689348e0e2fb8de10625fb3d7c75a5630243eb79a74f16f0b",
+    "bytes": 1948
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/ChatsApi.kt": {
+    "sha256": "68c1782565a939d4bceed3bb846dce8f4fb1f0311d2de02231b78bc9e5c724e6",
+    "bytes": 8272
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/ChatsDto.kt": {
+    "sha256": "e5c390ab3ef6ef7f874b91cd7b80df0f9bdfa2ef508d354cb80a9a27ed3d7a43",
+    "bytes": 1581
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/ClientDiagnostics.kt": {
+    "sha256": "d8f78873ce41d2d00ce9e569ce785bbd1629f6343aa970bb90eccfc0bfbaddd3",
+    "bytes": 2357
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/DeliveredReporter.kt": {
+    "sha256": "4609cb6796caee2890b423c3637e5be033f7da7845d17ff0ec6a99fb95c14a20",
+    "bytes": 462
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/DevicesApi.kt": {
+    "sha256": "92aee3e89bdae3413dbd7f743074394c66fb4d96937a5d4ac354db3e047a7178",
+    "bytes": 3794
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/DevicesDto.kt": {
+    "sha256": "c44522615b67912ff254ae7da6c141876948404049f0fd55af1e143f2319053d",
+    "bytes": 1437
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/HistoryBackupApi.kt": {
+    "sha256": "139cd0bff9c94d9c101e71177ef14427c0c753cd005ac64b36f51c5ba0fcb9bb",
+    "bytes": 12059
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/KeysApi.kt": {
+    "sha256": "c6911c0276c9ce17d378c7a9c65f47c389dfed38366587eb403264b8b7bc26ed",
+    "bytes": 2914
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/KeysDto.kt": {
+    "sha256": "71bcd7c433d4d9ae83c4a7c0e8b78f5f52641ebebc7d2f04ddf2b38aaa4ddc4f",
+    "bytes": 2350
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/MessagesApi.kt": {
+    "sha256": "614b33601e2441aff20d4372f93872542efe4c59d6a49bfd740f53ec09e14134",
+    "bytes": 3626
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/MessagesDto.kt": {
+    "sha256": "ffb08977cb10c797d2c4148f649f0e14f850f49d65373d69cdeba3e2ca639243",
+    "bytes": 3007
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/PerformanceDiagnostics.kt": {
+    "sha256": "e612a44262c01ac3f1f91248a82f26744aeebe7f6a31365e1e9d1a6ef4117ecb",
+    "bytes": 10825
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/PushApi.kt": {
+    "sha256": "c69e44eaaf2607627579ee2c66631ae7a9bc5c217936030202f47958a2d407aa",
+    "bytes": 2332
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/RecoveringSystemDns.kt": {
+    "sha256": "d29e180ba1fd32bb03a9263b4268e784f3b7b982c445f98f58edc13f2e5d90df",
+    "bytes": 6971
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/ServerEndpoint.kt": {
+    "sha256": "b4728ddb1c0623b0b0f2c16cb3a252be649e7b441e125b46843e0c6b9c100748",
+    "bytes": 5703
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/SyncApi.kt": {
+    "sha256": "f776010bb53d3b7dd2afb9b2889dd314f31f87f5e102b84c33a2c837d04e5556",
+    "bytes": 1726
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/SyncDto.kt": {
+    "sha256": "eccba15e4f05731c5e66b25b1884ddea5973e2b6bb1c0aa3516d4355a0f3e034",
+    "bytes": 592
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/SyncSource.kt": {
+    "sha256": "a4e381c87ef2d3a4bf9151d9a75de6323042cef36380455f54e9069bfc4d5c12",
+    "bytes": 371
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/UsersApi.kt": {
+    "sha256": "b700745dde9827e6dd95be3f30488188227f6c0a12b9b8d4aa1def0ad0e9a575",
+    "bytes": 12988
+  },
+  "android/app/src/main/java/com/messenger/app/data/api/UsersDto.kt": {
+    "sha256": "0ef6265a3b2ba562dd782a795b68dc3a5bfa65733213848e20f496d11b8870bb",
+    "bytes": 1830
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/AttachmentCrypto.kt": {
+    "sha256": "2c360393c83df6e521ffe4b286710c287f8d0ca9e64b8ce90cf4576247122fbb",
+    "bytes": 6276
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/AttachmentCryptoV2.kt": {
+    "sha256": "e80ae8155d29ec09fdabc24bd203ecff89b896787ef3a62bb3278be1a0169bad",
+    "bytes": 10236
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/AttachmentDownloadGate.kt": {
+    "sha256": "20cc30961a4b4a161292cec8a2f68c04120b9083b5a495844f65c093dd29620f",
+    "bytes": 973
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/AttachmentFormat.kt": {
+    "sha256": "7c6505dc4fc3573a5d98c26207262c86ddb8a300377c1317859f59af37f21248",
+    "bytes": 1680
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/AttachmentManager.kt": {
+    "sha256": "67495a2a08880fac30ac7e541f620027550dd665cf3f1d1beec8d0714ee99855",
+    "bytes": 41495
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/AttachmentTransfer.kt": {
+    "sha256": "4b1797563e02a8e82cda0b653e405520e2d6a233ac4cef9e02ad027d652eac24",
+    "bytes": 2723
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/AutomaticDownloadRequestPolicy.kt": {
+    "sha256": "1c7d6263eecfec7ea680698d30da9c17fd08551ea082584340ed0a68c7706404",
+    "bytes": 446
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/BoundedFileCopy.kt": {
+    "sha256": "e0f1eb8195cab76367dde205cc7242ffa3c06c185c86f85cc2f5174d6a58e4f9",
+    "bytes": 958
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/ChatMediaWork.kt": {
+    "sha256": "315341aec254337558b35753a2a456abf5c0c6e492e47c7afcae6d38362a4539",
+    "bytes": 1436
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/FilePresentation.kt": {
+    "sha256": "95f05086386c5d8d6e711729ba575ecad1652133fba8f4894a11f8f8ff38d593",
+    "bytes": 1466
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/ImageProcessor.kt": {
+    "sha256": "5a7ca7ebab5d6b64b10126d93f66d2e0ca4c1832c91dff2fb1c0d993ba0714d2",
+    "bytes": 8913
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/LocalMediaFiles.kt": {
+    "sha256": "6f6d6febbae884b33a3db705b55ca9e6deaba27f4b0553acf4a4c9a994d4fb7f",
+    "bytes": 2632
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/MediaDownloadPolicy.kt": {
+    "sha256": "eda0d22b02e6021a80ff87b70556617485faad7fa30730fd4c86c6577c69661e",
+    "bytes": 3072
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/MediaFileType.kt": {
+    "sha256": "10c7e4a8b8c9f73bef6ea7315490e27912e59f053aaa9e04fb112f161e495849",
+    "bytes": 1214
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/MediaGalleryRepository.kt": {
+    "sha256": "a24d85d2ffacca3d52430a1be77a1faeb040d062e0c4bbb5910ba7977072696c",
+    "bytes": 1517
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/MediaPreparationCoordinator.kt": {
+    "sha256": "353963828f9dca2b0537131207383c9282a4953bd562f4f5b6f1e063c07464bc",
+    "bytes": 5376
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/MessageContent.kt": {
+    "sha256": "b2f87abf6490cb1c81a68d370275f56ae626c02c1785f464bf992d3695c1f45a",
+    "bytes": 15597
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/PendingFilePresentation.kt": {
+    "sha256": "3e53ccec2839981a51a25834f130bfd91accfb244a289ccc549976834dcedd63",
+    "bytes": 441
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/PendingMediaPreview.kt": {
+    "sha256": "6904150ba773dc1f97f1f1fb7faed4f93ba52c885172c68b0dc8a3d8fde5be55",
+    "bytes": 6590
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/PreparedResourceTransfer.kt": {
+    "sha256": "b398aabc153ed75caebd303b78f10e5676b3fa3c3808dcec7c9a63dbfa48799d",
+    "bytes": 961
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/SessionMediaWork.kt": {
+    "sha256": "3bc24c4e5936551ff9c8c02d520580322344b990fc6b8eb50621af537558af0d",
+    "bytes": 761
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/VideoPreview.kt": {
+    "sha256": "199c5cb4c37bbdf3e33e055715ba2bc348fdcdc167d77e4317084205e53cacbf",
+    "bytes": 2187
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/VideoProcessor.kt": {
+    "sha256": "f8ffcc284eaec304adbfe58fe848c8b1edcfaecedec5b3ebd1aa28d5f5d317bb",
+    "bytes": 2075
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/VoiceDraftJoiner.kt": {
+    "sha256": "b34703cab084d39d097445e746cdcbb4cf258bd3491d345f5dfbd402e8a80ea1",
+    "bytes": 3624
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/VoiceFormat.kt": {
+    "sha256": "a5c040a96ff42cbda92674ce9d0475b8c874ab5aad94b3279f00813728721297",
+    "bytes": 2052
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/VoicePlayerController.kt": {
+    "sha256": "3ab577cdab794c51ae4fa175a1a755a14cc455961f73c53baf80815c4e11fbea",
+    "bytes": 7351
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/VoiceRecorder.kt": {
+    "sha256": "b19434589c88e3afdf6d6561102d74a646516f54edaa90c9d9c9da071828737f",
+    "bytes": 3741
+  },
+  "android/app/src/main/java/com/messenger/app/data/attachment/VoiceWaveformCache.kt": {
+    "sha256": "32660024abde55a9e8367083975d4189bfadd2465ab8ea04d214b989a20d76fa",
+    "bytes": 4993
+  },
+  "android/app/src/main/java/com/messenger/app/data/auth/AuthRepositoryImpl.kt": {
+    "sha256": "8678ec1b928785502322e92ac3de50dde9f52ac58073a6deb03e5ad413dd1a4b",
+    "bytes": 18024
+  },
+  "android/app/src/main/java/com/messenger/app/data/auth/InstallationCredentialCoordinator.kt": {
+    "sha256": "44f0006db5a244b74d9d0c1466612c85432d31efa88db2d010ed2e188088c722",
+    "bytes": 4604
+  },
+  "android/app/src/main/java/com/messenger/app/data/auth/PendingLogout.kt": {
+    "sha256": "3ea65e75175d936d00f3ba8086d9b88c0c92a5bb7def4deaef0177c3999fd505",
+    "bytes": 3962
+  },
+  "android/app/src/main/java/com/messenger/app/data/auth/SessionWriteGate.kt": {
+    "sha256": "6aadcc33bc701a0b5e235006762e17487ea67934a75c00bd9be3df32e8912a7c",
+    "bytes": 2239
+  },
+  "android/app/src/main/java/com/messenger/app/data/avatar/AvatarCropMath.kt": {
+    "sha256": "f99b6c8f750582f64d76072da088e8cac1215a827f94b7891d367e29e1c766da",
+    "bytes": 2072
+  },
+  "android/app/src/main/java/com/messenger/app/data/avatar/AvatarImageProcessor.kt": {
+    "sha256": "11a889a6a5e93a815c2677863cdbdcd31b634d1aac9855e889f99ef6b6c67251",
+    "bytes": 4897
+  },
+  "android/app/src/main/java/com/messenger/app/data/avatar/AvatarRepository.kt": {
+    "sha256": "f9590bf6d1e34f5b6b794f07f30ebce3eca66dbaa6700ba74c17a3983673f0c6",
+    "bytes": 5248
+  },
+  "android/app/src/main/java/com/messenger/app/data/call/CallActivityPolicy.kt": {
+    "sha256": "59717f35b2b1ad127a1940dd9190a3cd11d79ccd5d881c1c47e00812768aa08a",
+    "bytes": 1014
+  },
+  "android/app/src/main/java/com/messenger/app/data/call/CallApi.kt": {
+    "sha256": "556727921ea0fb0e2804eb6e2609553f660288b77b9d5aae357da167c0be2908",
+    "bytes": 1320
+  },
+  "android/app/src/main/java/com/messenger/app/data/call/CallApiImpl.kt": {
+    "sha256": "f129175bbc3d0cb17d45521ee4749a892e135f3badd9e2845fc47480a905aa33",
+    "bytes": 8414
+  },
+  "android/app/src/main/java/com/messenger/app/data/call/CallAudioPolicy.kt": {
+    "sha256": "7cad8b22f4c24e71d92d3d4f3a0dcc70cc3addf7983a2f629999e21fa0db172c",
+    "bytes": 7103
+  },
+  "android/app/src/main/java/com/messenger/app/data/call/CallHistoryRepository.kt": {
+    "sha256": "291f6419d712b5bcd6c5718adb5d7c346fb93bfd21e714b60663e597716b5ce7",
+    "bytes": 32033
+  },
+  "android/app/src/main/java/com/messenger/app/data/call/CallPeerIdentity.kt": {
+    "sha256": "57d8687f1da9fb8989339a7a91afe74bddade92dbc92add9e843d8a7c5f6a92a",
+    "bytes": 1824
+  },
+  "android/app/src/main/java/com/messenger/app/data/call/CallQuality.kt": {
+    "sha256": "c23b3d6b98c431500bca47e14edf9fcabcb590c03a1995e1b211a39c08d054b4",
+    "bytes": 902
+  },
+  "android/app/src/main/java/com/messenger/app/data/call/CallSignalingClient.kt": {
+    "sha256": "4cbe5e9b687fb607ea2c20659873337e20b2642ddc14d181b4db0bf509311fbc",
+    "bytes": 3112
+  },
+  "android/app/src/main/java/com/messenger/app/data/call/CallSignalingClientImpl.kt": {
+    "sha256": "142bbc343e309312cf9963e8fc2da1c5e1fe15381d1ebd1cf838eac8ba4b2ac7",
+    "bytes": 4380
+  },
+  "android/app/src/main/java/com/messenger/app/data/call/CallStats.kt": {
+    "sha256": "75aa946b77feb0bc3fb98a5c41688a3326bb39622211d4bfb3f7c324a130b35d",
+    "bytes": 6318
+  },
+  "android/app/src/main/java/com/messenger/app/data/call/LocalTextureRenderer.kt": {
+    "sha256": "417be6aea1726c58c54343847b00156af1ec064cdbb938a0e09d0a4ef3c237b9",
+    "bytes": 2182
+  },
+  "android/app/src/main/java/com/messenger/app/data/call/RendererSlot.kt": {
+    "sha256": "46ec8f03d1ad102fff55f9d732433cab41e445cc1bcb0c39a83a102c74ed317c",
+    "bytes": 1915
+  },
+  "android/app/src/main/java/com/messenger/app/data/call/WebRtcEngine.kt": {
+    "sha256": "70ae8845ffbfb987040a0e892077921b281e323a37e6aaf80cde68755b400bb2",
+    "bytes": 7450
+  },
+  "android/app/src/main/java/com/messenger/app/data/call/WebRtcEngineImpl.kt": {
+    "sha256": "ab4405f5b17e6fb487c1be10e1c072b9ba8242dce835fd2f572ff499d9a90acd",
+    "bytes": 39836
+  },
+  "android/app/src/main/java/com/messenger/app/data/call/WebRtcIceTransportPolicy.kt": {
+    "sha256": "80e4deeccecd56bf4cff563ee3eb238cc746dcd5db4c75dd771e51340abc6606",
+    "bytes": 2123
+  },
+  "android/app/src/main/java/com/messenger/app/data/chat/BoundedChatClearQueue.kt": {
+    "sha256": "08ead9bf499bc1a7e85eeeb5fa857090e4455b40a0c7eab3ff1d9ca8a0ba45c7",
+    "bytes": 3074
+  },
+  "android/app/src/main/java/com/messenger/app/data/chat/ChatRepositoryImpl.kt": {
+    "sha256": "3935e2e5e831662b9c07526a7a56176493a64030b2d5f0e36a0cd957c02204fb",
+    "bytes": 25832
+  },
+  "android/app/src/main/java/com/messenger/app/data/chat/RoomChatClearStore.kt": {
+    "sha256": "e472e4628dd0014a4d3ad5a01f77d80980c758c2635d2a0b6b2dc038942917f2",
+    "bytes": 4205
+  },
+  "android/app/src/main/java/com/messenger/app/data/delivery/ServerTransport.kt": {
+    "sha256": "19d3abc54ad2ced377e4b145855415f1a88ac49d48abb464e87b44bc71bf3a6d",
+    "bytes": 2947
+  },
+  "android/app/src/main/java/com/messenger/app/data/devices/DevicesRepositoryImpl.kt": {
+    "sha256": "fe7129dc68b3ebbc54511244c71b4519781fc8bd4a4c68dbfc035e26c0f9fc5e",
+    "bytes": 3843
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectAdmissionPolicy.kt": {
+    "sha256": "984c2b3e23ade840d0e59b54fb386375c1eadf22958ca47734f0d81d11bcbad5",
+    "bytes": 2838
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectCompletionRecovery.kt": {
+    "sha256": "3aeab2fe2df52b25f183d706b33c322a8717d5e0256cc3d87d5d2b8542dd79da",
+    "bytes": 1133
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectControlOutbox.kt": {
+    "sha256": "7e1aa5c2ce341975903941bc37479d3fe07b4455d0c3252c9d26bc410a539d70",
+    "bytes": 5064
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectControlPolicy.kt": {
+    "sha256": "3883d961cc5898909297095c87c04420a77c4543313f75f85e3297f931ec90b6",
+    "bytes": 2907
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectExecutionPolicy.kt": {
+    "sha256": "60376bb35ab8f4d1fef145f015ad235fac9a386a257a4b3167930556e32579b9",
+    "bytes": 2609
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectFileDestination.kt": {
+    "sha256": "a479f3e08c9e252eb78586425f29ea70828a52fe2cbab05a4bc0c937e0f215fb",
+    "bytes": 1636
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectFileHistory.kt": {
+    "sha256": "5b2fa490db0e13ed979fef2fc0611d847fe3a2fd1ed0254c60c8ffb178fba545",
+    "bytes": 1075
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectFileModels.kt": {
+    "sha256": "418f20f939b0d09347d92eebeed2606cea465655f45080da784f4202fa223091",
+    "bytes": 11622
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectFilePresentationFlow.kt": {
+    "sha256": "a8f0b06d444b4c082f2547d6ceccd7e8031c5f1187031324f116032625282e22",
+    "bytes": 2909
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectFilePump.kt": {
+    "sha256": "84bed70c866280c7871c77c47145c8290019321e5963f4ee5dafadab717757f4",
+    "bytes": 11266
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectFileQueueState.kt": {
+    "sha256": "340878c794c84dd565193bd57333b39f9528ba90e110f15fc20e862d4b38d8f4",
+    "bytes": 3735
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectFileStorage.kt": {
+    "sha256": "88709170167c0ec0ed2567dc6bb0e34b1147bfabd291bc91605d7dd9d0d4d2cf",
+    "bytes": 8638
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectFileWire.kt": {
+    "sha256": "fdc7dbb1f8022a119d77976348f118b867cbc3028c9107fb5d4860adc5bf8220",
+    "bytes": 5279
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectFileWorkLanes.kt": {
+    "sha256": "cb879ec5418b75fea26052fea9be08ecedb318a68375f8819cb98a7df8773fe8",
+    "bytes": 1091
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectHttpGate.kt": {
+    "sha256": "76885d8b810f2c9c02cc5fd5bb36dde55af36c951b1cee2bd189d7695bbcbf8c",
+    "bytes": 12277
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectLocalTransferStop.kt": {
+    "sha256": "e594bbdaec7c8bc11fedf9378f4ecf64b5ce78631e4b785f9de589d0f42b3e2d",
+    "bytes": 1545
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectManualRuntime.kt": {
+    "sha256": "c183b80c3790cca9a272eb81614c35977f3449226c3f85e4533fa0bb9e4126fd",
+    "bytes": 5996
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectManualTransferState.kt": {
+    "sha256": "cc34bdc6aa71a0330ced6fb0dff66aba9ac9eea59dacc1da138d4adb89eac9b0",
+    "bytes": 9807
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectPeerTransport.kt": {
+    "sha256": "919740745ffda289d1a1ef34a4943768f51db5826c0fd387c3b65734bc1b5656",
+    "bytes": 3685
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectPeerWriter.kt": {
+    "sha256": "c7f6ebebd7e400c9823078142b8fe81dc8a60ac80d55e5688738967eeda48dbd",
+    "bytes": 879
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectPollPolicy.kt": {
+    "sha256": "84bfddc99019d439b8edad656d1da53686ef748f72112bc239a50824d1d94f6b",
+    "bytes": 3565
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectReadyPublication.kt": {
+    "sha256": "1346ee43fbe7ea0245aa108ac98b6333f3129bc7d7d2f77b157be4c8efac585b",
+    "bytes": 2480
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectRecoveryInventory.kt": {
+    "sha256": "497213f53c397990b0c63e1912596d1fc8ece1208f705571c40b1726735f45c4",
+    "bytes": 13818
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectRequestBudget.kt": {
+    "sha256": "b378ad2832b39293b96baeab49b70708be744ff36e7552c9860b93c2ce79afda",
+    "bytes": 3759
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectSourceReadHandle.kt": {
+    "sha256": "c8945728ee01ce3ce9d5bd66076abdfbfb598a2019f2d9ae29adcc8c09772b21",
+    "bytes": 1238
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectTransferApi.kt": {
+    "sha256": "84d55fc8adadf6b4d807112961f83d740792bb94c8f5cbb9bdaa3603b0c5ce67",
+    "bytes": 9212
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectTransferBackgroundController.kt": {
+    "sha256": "27a8cd8a9f41be3b32cf1a872cf9b97a6b03fd09849ebd522bf9746b908fc1e7",
+    "bytes": 13048
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectTransferCallPriority.kt": {
+    "sha256": "85bbf9f342309acc01edae13067e0fdccebe662cadd93bcf2f4759c435804662",
+    "bytes": 421
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectTransferCoordinator.kt": {
+    "sha256": "cb6daf29738618e46a14ff90ae7e5837983253f512821660488a54feb0a2459a",
+    "bytes": 167323
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectTransferForegroundService.kt": {
+    "sha256": "cfdfc275ab818fa86e0c632264c4d98bdfd11e00280cd08e148f85a22e8307d0",
+    "bytes": 2744
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectTransferFormat.kt": {
+    "sha256": "17c1d93929df416ec04877b29905129d10a0050e9dfdc34a4b0521054007d4cc",
+    "bytes": 1318
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectTransferJobService.kt": {
+    "sha256": "75cd44c8a79ffcb581050bfc829166f80aa1d8c7864bda4a2c9d85b79b094827",
+    "bytes": 1914
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectTransferManagerItem.kt": {
+    "sha256": "7cf1a0d1a5db23ba057192f7a377cbcd3d5a8a804c8a40f6fa187713af8bda25",
+    "bytes": 825
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectTransferRecovery.kt": {
+    "sha256": "c1c5fbd2c25319dcc93fdac5dfa9543683be8225388e515bb91c0d849261e19d",
+    "bytes": 2864
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectTransferSlots.kt": {
+    "sha256": "fae780428fcb07ccd9ab4aef2c370fd54b938eacb3d350a31685c1986a272ec7",
+    "bytes": 2818
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectTransferStopReceiver.kt": {
+    "sha256": "34662a525ff69ec25f002e9c213a6b06fd50c58dc5e50bcb22d596b8f9c47cf4",
+    "bytes": 775
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/DirectTransferTiming.kt": {
+    "sha256": "7c4cc87201d6fd2528ec67e1c596b7ff1c3833f08c1d1d5099fd19c23adb355c",
+    "bytes": 818
+  },
+  "android/app/src/main/java/com/messenger/app/data/directtransfer/WebRtcDirectPeerTransport.kt": {
+    "sha256": "f57d33b2c358ebe52c92923d0bffe0754d7eb5a799bd97dc034691c41171bb42",
+    "bytes": 17513
+  },
+  "android/app/src/main/java/com/messenger/app/data/history/AndroidHistorySecretStorage.kt": {
+    "sha256": "c86ffbd826c945fb5965c67bdd7252719ca43a2dc48586bc291dce0399506b0a",
+    "bytes": 3522
+  },
+  "android/app/src/main/java/com/messenger/app/data/history/HistoryArchive.kt": {
+    "sha256": "e8c4de275b1b0e603bfb2596ee8e471f56179fac82fe1fb9907e7ed719c01749",
+    "bytes": 22143
+  },
+  "android/app/src/main/java/com/messenger/app/data/history/HistoryAutoBackup.kt": {
+    "sha256": "be72ae74194c02d3ef0cc5f8f2722a6123e2e92f4aa0e2d50c5180a7b289f88a",
+    "bytes": 7805
+  },
+  "android/app/src/main/java/com/messenger/app/data/history/HistoryBackupCoordinator.kt": {
+    "sha256": "ac5f60c7b6b8f366ae88c4695fd10422d70cbbece0bcad6ed311a20b45fb29e7",
+    "bytes": 11371
+  },
+  "android/app/src/main/java/com/messenger/app/data/history/HistoryBackupCrypto.kt": {
+    "sha256": "1442c8c9e18833a6db585858261667bb1bbd05413a844bcd28b97354faf7a6f8",
+    "bytes": 2697
+  },
+  "android/app/src/main/java/com/messenger/app/data/history/HistoryKeySettingsSession.kt": {
+    "sha256": "2fad8426dd1252264a0f47734b990d6c52a2a5c72182ed3d6ef917dc87b2a0e5",
+    "bytes": 11538
+  },
+  "android/app/src/main/java/com/messenger/app/data/history/HistoryLocalStore.kt": {
+    "sha256": "f56446fc337ec75131402f896d2a36be1dee9e135652e273de7b8e9b9b0c5fb0",
+    "bytes": 20790
+  },
+  "android/app/src/main/java/com/messenger/app/data/history/HistoryMedia.kt": {
+    "sha256": "8cb8d3ad2c2c5bb0365d86b432ef8c2350e8c0c2a2ba96f8dcbfdee724b5a478",
+    "bytes": 5242
+  },
+  "android/app/src/main/java/com/messenger/app/data/history/HistoryMediaTransport.kt": {
+    "sha256": "c054783f6d903771e10292c0a4bceb7f22b8782cc551c72244f10691cc3d6840",
+    "bytes": 1856
+  },
+  "android/app/src/main/java/com/messenger/app/data/history/HistoryNativeOwner.kt": {
+    "sha256": "d1f671bd7ccc274af33c2253daec0642e1973f00e6ba6050de359d98e6a1be7f",
+    "bytes": 16267
+  },
+  "android/app/src/main/java/com/messenger/app/data/history/HistoryOperationFailure.kt": {
+    "sha256": "564eeb3126ddf5cf9de79f5999479046fd12ccbc22e56dc12318678cfba30da4",
+    "bytes": 385
+  },
+  "android/app/src/main/java/com/messenger/app/data/history/HistoryRecoveryKeys.kt": {
+    "sha256": "f7290585229b614237f33c897072ee269dde36d003ffd1f1fc1c5192191e16a6",
+    "bytes": 2098
+  },
+  "android/app/src/main/java/com/messenger/app/data/history/HistoryRestoreFileTransaction.kt": {
+    "sha256": "1729627ebe74bab3a8e621b223e5e8b720a822316f1de7fb3c9b2704c39bd495",
+    "bytes": 2764
+  },
+  "android/app/src/main/java/com/messenger/app/data/history/HistorySetupStep.kt": {
+    "sha256": "7f6e655a4642ab08cd464814429be2f283fbd5e3c8b70379f5bac9b2f8ee79fc",
+    "bytes": 852
+  },
+  "android/app/src/main/java/com/messenger/app/data/history/HistoryTransfer.kt": {
+    "sha256": "a4dbc38fcd46478003c107e576239dd63bd0ba7369482b20ff6bd4ca746ba633",
+    "bytes": 7265
+  },
+  "android/app/src/main/java/com/messenger/app/data/history/HistoryTransferFeedback.kt": {
+    "sha256": "9d2a6073745361a1a3921f79780daba63e60e0d8cc0f72913361eb349ae6e33a",
+    "bytes": 3573
+  },
+  "android/app/src/main/java/com/messenger/app/data/history/HistoryUploadPlan.kt": {
+    "sha256": "9fe8cfddc8b6e4b51661b4ee45d548a35622742016c94b833913f27973582b68",
+    "bytes": 2066
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/attachment/AttachmentDao.kt": {
+    "sha256": "3581bc474d5a1ae69eed2286bca84000f6d94e320f7970fbbb74a74fe59963ca",
+    "bytes": 2580
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/attachment/AttachmentEntity.kt": {
+    "sha256": "098b4ae31b086ccde051de5e347da594a1afe997ae5bd16c41c432df339e7d7c",
+    "bytes": 2637
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/attachment/MediaDao.kt": {
+    "sha256": "294c0bf144e442774f54cc26e9900ca925399648ae769b22bed304f7127e4dd6",
+    "bytes": 1386
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/attachment/MediaItemRow.kt": {
+    "sha256": "6793edb0cc5d673782719e293d0437c5fda971867b8f36a3bf7e2cbfb7168abc",
+    "bytes": 622
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/CacheClearPolicy.kt": {
+    "sha256": "b512e9704b5c2167d75fd46f18eb2f40becb1de65a5433faf4894eb525e4727c",
+    "bytes": 749
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/chat/ChatDao.kt": {
+    "sha256": "e4d4650952ec460322eb878ee09727dcef026a872873df4448c71b776c4a186c",
+    "bytes": 13607
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/chat/ChatEntity.kt": {
+    "sha256": "0695c9e206206a8519ac22e38e74c176780d70f4ba4e53583193a9261d5235e3",
+    "bytes": 1118
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/chat/ChatListItem.kt": {
+    "sha256": "acf1bcf871982fc44b7d7d0617ca2e8c87368a58153c51782699e25befa00d11",
+    "bytes": 967
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/chat/ChatMemberEntity.kt": {
+    "sha256": "9661b59a82064dfa9aaaeb36152f27df8b14c7900ff1b387f4b27868fcb2731a",
+    "bytes": 617
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/chat/ChatParticipantEntity.kt": {
+    "sha256": "80bcf30b94de14bfbfd649cc4d60d0d0abfaf0d970b9d8730d3e40bb2b761b45",
+    "bytes": 688
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/chat/ChatWorkspace.kt": {
+    "sha256": "0a6717700149aa37c981bf67c04bc6ac0ba261a1ecc600b39784ef73dadb2b09",
+    "bytes": 7143
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/chat/DeletedChat.kt": {
+    "sha256": "863bc660fd4bcc72f9b7dfe928156752d93aeb0caccfbb93122b8d2cbb4e2ee5",
+    "bytes": 5184
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/chat/MessengerDatabase.kt": {
+    "sha256": "dc3dac3db7d2603e3f8ea1ce16c471e65ac68c2727d957c87923ef47c05b7051",
+    "bytes": 23045
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/ChatImageCache.kt": {
+    "sha256": "8b7c34980c7adc9ea3d172961f1dbcad0c6ba3ea8255edfacc84ae3dc152e78c",
+    "bytes": 1832
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/MediaCacheManager.kt": {
+    "sha256": "7ef42ff1ed648ccbac1524b54b11012d06186ad45f33e25db96eafbac5ea5cc0",
+    "bytes": 13813
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/MediaCacheUse.kt": {
+    "sha256": "86ec873b41bc773930fcd0a0a600658deb97a65e56ba06deafad699bc244648b",
+    "bytes": 2744
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/message/MessageDao.kt": {
+    "sha256": "1dd468bb4a28dea497e74c8709c3bd0eb2809a850811ed9266fbb9112680b506",
+    "bytes": 20166
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/message/MessageEntity.kt": {
+    "sha256": "cea051612d8d8c2ec171e38c12f05ef5d90840c4a7ec5d7b8f4fd1ec6d88b26d",
+    "bytes": 4234
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/message/PendingDecryptEntity.kt": {
+    "sha256": "ac3e1bf4432f96830f50b98a57fc67cd43e276f8b45db0fb128e694748f4be26",
+    "bytes": 1800
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/message/ReactionDao.kt": {
+    "sha256": "f435ad172c414a138652c348534cfa91ffbf587d899bde09ecfef8d721de047f",
+    "bytes": 2549
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/message/ReactionEntity.kt": {
+    "sha256": "bee4ab888b01b80aef247923706e1d8be81d4f20eab6cb905864090b0bb053f2",
+    "bytes": 1118
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/PrivateCachePurger.kt": {
+    "sha256": "478932a133918a2dd705aebf5ae45a463147eec8a22c40057e8efc893147d34c",
+    "bytes": 761
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/search/SearchDao.kt": {
+    "sha256": "03f7367573180657688645fc6c406c59f1e3c6bfd239183192779429a4e903b0",
+    "bytes": 920
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/search/SearchResultRow.kt": {
+    "sha256": "2bb52ba1a2dc483efe1f7d98f277fb7dd05447882db7cf60c7819c03852d0597",
+    "bytes": 375
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/signal/PeerIdentityDao.kt": {
+    "sha256": "4528c288006b2af07bf10c3c64f97318d4a198ecad96abf2a0e0e89c560a99e6",
+    "bytes": 1636
+  },
+  "android/app/src/main/java/com/messenger/app/data/local/signal/PeerIdentityEntity.kt": {
+    "sha256": "1f3d7a1eaa498f7743744c05698f00c3a215e10304af96291a3b20d404aa8136",
+    "bytes": 1178
+  },
+  "android/app/src/main/java/com/messenger/app/data/message/ChatSnapshotFlow.kt": {
+    "sha256": "5b06f4ffaa7798d16e0bd76f1d13010621c1e305d683f09b1f4d1f2fc5b036f5",
+    "bytes": 625
+  },
+  "android/app/src/main/java/com/messenger/app/data/message/MessageOutboxProcessor.kt": {
+    "sha256": "01a74159cb545dbe6f7561abf5360352c8ad6f2efc9e842afc342a6f238b1c37",
+    "bytes": 15545
+  },
+  "android/app/src/main/java/com/messenger/app/data/message/MessageRepositoryImpl.kt": {
+    "sha256": "84e9fcd33fe38bff8f7930d39d6ddbc50571150dab4f823cc95db2f39229857a",
+    "bytes": 64591
+  },
+  "android/app/src/main/java/com/messenger/app/data/message/MessageTextPolicy.kt": {
+    "sha256": "14357805b6dcf085792eeba6f6826273dc9e1a72d2f333ceffe19d7e3e07cd8b",
+    "bytes": 16025
+  },
+  "android/app/src/main/java/com/messenger/app/data/message/OutboxPolicy.kt": {
+    "sha256": "c23b1dda3c5ef8925d2bedbbbeae2762196da388ce2a6e09e1f90c9c701d233a",
+    "bytes": 5253
+  },
+  "android/app/src/main/java/com/messenger/app/data/message/PendingLifecycleProjection.kt": {
+    "sha256": "c82dc60ceefae2ee9fcef70ef2749129d0af24896a32984a91f0eac46af3ffa5",
+    "bytes": 2152
+  },
+  "android/app/src/main/java/com/messenger/app/data/message/ReadReceiptQueue.kt": {
+    "sha256": "e3e54e5e334c36092e9ee9810434e769b371f00449ae3a14f661a8d62b170f50",
+    "bytes": 1349
+  },
+  "android/app/src/main/java/com/messenger/app/data/message/TextMessagePayload.kt": {
+    "sha256": "d714f6bcbe87ddf41f73e43a6fce7da02fcbad2266ae4b6b7ef4748f81e70862",
+    "bytes": 789
+  },
+  "android/app/src/main/java/com/messenger/app/data/profile/AccountAutoDeleteRepository.kt": {
+    "sha256": "6ff071242d8080a1bc3ce22e60ee527b9679b6cab52d97e979548ba72418bb03",
+    "bytes": 5560
+  },
+  "android/app/src/main/java/com/messenger/app/data/profile/BlockedUsersRepositoryImpl.kt": {
+    "sha256": "802f56bd4e0aab66d2a52c04d410debd97c78230d6c9d61c1dbc24addcdebe51",
+    "bytes": 3473
+  },
+  "android/app/src/main/java/com/messenger/app/data/profile/DirectoryCache.kt": {
+    "sha256": "182dc814e24e5ff9789025b68dfe4dd6f6c99411188abe5849707db5faf08a9f",
+    "bytes": 1385
+  },
+  "android/app/src/main/java/com/messenger/app/data/profile/ForegroundAccountActivityReporter.kt": {
+    "sha256": "de5378bb56d74f2839eade357239fac8805fda46cfdf78889025cde61813f22e",
+    "bytes": 2098
+  },
+  "android/app/src/main/java/com/messenger/app/data/profile/PrivacyRepository.kt": {
+    "sha256": "9b6aa541587178d75c1b3fad7e576f5a4d179f18110662a99e34cee61ce277c4",
+    "bytes": 4777
+  },
+  "android/app/src/main/java/com/messenger/app/data/profile/ProfileRepositoryImpl.kt": {
+    "sha256": "bb32ad2d6606b5c080d3bf9a3d975de5cc80ee1f811874841c78984cf16fff2a",
+    "bytes": 10683
+  },
+  "android/app/src/main/java/com/messenger/app/data/profile/SelfProfileRefreshCoordinator.kt": {
+    "sha256": "4cda114ee5d277b780fc170d749b231d998690314370620e7e751338d10c5054",
+    "bytes": 3670
+  },
+  "android/app/src/main/java/com/messenger/app/data/profile/SelfProfileState.kt": {
+    "sha256": "01ad4528c176cbc1b79e99cd6495983939ceab83e62ac021aa44aea7ee521b39",
+    "bytes": 1561
+  },
+  "android/app/src/main/java/com/messenger/app/data/push/PushRegistrationRepository.kt": {
+    "sha256": "b153047dc6af03ecde3a5bc1ab18603bf46dc9e4b1aa1048452f177aa4861567",
+    "bytes": 2965
+  },
+  "android/app/src/main/java/com/messenger/app/data/push/PushTokenStore.kt": {
+    "sha256": "25f49ad912e480bc42d8853dfd55824dd12d20edbf919f3592e13bb26e856411",
+    "bytes": 1977
+  },
+  "android/app/src/main/java/com/messenger/app/data/search/MessageSearchRepositoryImpl.kt": {
+    "sha256": "8453094a192fea413e8ba4b483af19ddd2c51e1e8cbf0802daba83f13ef3e405",
+    "bytes": 2512
+  },
+  "android/app/src/main/java/com/messenger/app/data/search/SearchQueryBuilder.kt": {
+    "sha256": "2491bddead2bb9ad78c43ad74936f0a10dc1029ba2f6573d01a8a5c22e4a5f0e",
+    "bytes": 3234
+  },
+  "android/app/src/main/java/com/messenger/app/data/secure/AndroidInstallationCredentialStore.kt": {
+    "sha256": "fb3b31ce67693109721bdebe5c50d44ac6b99a2ef5acfd86e74d2b1cde5d451a",
+    "bytes": 3837
+  },
+  "android/app/src/main/java/com/messenger/app/data/secure/SecureTokenStore.kt": {
+    "sha256": "93bf13bfe399ee26e0ed7a67290ad898763800bc6e650680914f03c0a6fc8de5",
+    "bytes": 11750
+  },
+  "android/app/src/main/java/com/messenger/app/data/signal/AndroidKeystoreSignalStore.kt": {
+    "sha256": "21bc95336d11fb8ea3b421065c72e1c91c7c27a40dba7d3564ea28e4b16c41d3",
+    "bytes": 3683
+  },
+  "android/app/src/main/java/com/messenger/app/data/signal/IdentityVerificationManager.kt": {
+    "sha256": "d84c7263edcd21380275ece32ea9456bbb018c655ace24c2be65e4f6116148b2",
+    "bytes": 13878
+  },
+  "android/app/src/main/java/com/messenger/app/data/signal/MessageDecryptor.kt": {
+    "sha256": "fb1d17d3238bbd56ef157b2db026d75ec4adca90760b90e31de9fe1171834f55",
+    "bytes": 711
+  },
+  "android/app/src/main/java/com/messenger/app/data/signal/PeerVerificationRecord.kt": {
+    "sha256": "f8b4f8be68bb563f6c9a353cc6435a75612a3f70bcb9b5cdeee8ae937c013469",
+    "bytes": 1551
+  },
+  "android/app/src/main/java/com/messenger/app/data/signal/SecureKeyValueStore.kt": {
+    "sha256": "22f7adb1249c950c3e156dc6a05170a810d614d4576c4b803279e184d9b3c0d7",
+    "bytes": 1356
+  },
+  "android/app/src/main/java/com/messenger/app/data/signal/SignalKeyStore.kt": {
+    "sha256": "f621242b76b59f0a91a5b8b18f2ce5535c26d22d9b887869663a30554e4930ce",
+    "bytes": 17574
+  },
+  "android/app/src/main/java/com/messenger/app/data/signal/SignalNamespaceResolver.kt": {
+    "sha256": "516e470a7bac9bc8c2cfb6e53a3ff81dbe98744af38c764129dd13d2520868b7",
+    "bytes": 1961
+  },
+  "android/app/src/main/java/com/messenger/app/data/signal/SignalSessionManager.kt": {
+    "sha256": "570b404ca03cb3f753721ea8e299c7277ef3ae414cfe86c4af120452419e5999",
+    "bytes": 21399
+  },
+  "android/app/src/main/java/com/messenger/app/data/sync/GlobalSyncManager.kt": {
+    "sha256": "65fec23e91f095bfdee613fa3bc93672155f28e51cf8589f98133a2a221004af",
+    "bytes": 4568
+  },
+  "android/app/src/main/java/com/messenger/app/data/sync/MessageIngestionPipeline.kt": {
+    "sha256": "cc56aca9485d74c34bbe7acbd196a06ecd0fc31f4ff2012ee6bf01093f18dbfb",
+    "bytes": 28908
+  },
+  "android/app/src/main/java/com/messenger/app/data/sync/MessageIngestor.kt": {
+    "sha256": "0d46701064662b840a11fc588ee8f2fafa7f549a7409b19f0fbef7a509f52dc5",
+    "bytes": 900
+  },
+  "android/app/src/main/java/com/messenger/app/data/sync/SyncCursorStore.kt": {
+    "sha256": "8d750a6bd553d41043baf935455a304e12bf1b5704233d744ea73271deb028d4",
+    "bytes": 508
+  },
+  "android/app/src/main/java/com/messenger/app/data/websocket/IncomingSocketEvent.kt": {
+    "sha256": "dcc2c5f644be9768c1bb4be6c9c97d22a33e6df7fbf5577798a5a6506a1fb7c0",
+    "bytes": 2468
+  },
+  "android/app/src/main/java/com/messenger/app/data/websocket/LiveDraftCipher.kt": {
+    "sha256": "d10b9c09b67f9e349002ecdce14a2556a4d1a26af1e2489686bdb6c62bc2e7c4",
+    "bytes": 1219
+  },
+  "android/app/src/main/java/com/messenger/app/data/websocket/LiveDrafts.kt": {
+    "sha256": "da6f5191dfce7dd2977cfce0424e5f2a762dfd5434ed71a3a83bc9f3237a3959",
+    "bytes": 9020
+  },
+  "android/app/src/main/java/com/messenger/app/data/websocket/MessagingSocketClient.kt": {
+    "sha256": "73880cdc4d3ec84069826a76e1d10dc6adb6661fc4fa41a4dd28485a7fec9d95",
+    "bytes": 16212
+  },
+  "android/app/src/main/java/com/messenger/app/data/websocket/RealtimePresence.kt": {
+    "sha256": "326a9e52f238d3c171435b631ca3ac10538104316119f79a6c1093f290112747",
+    "bytes": 7636
+  },
+  "android/app/src/main/java/com/messenger/app/data/websocket/SelfProfileChanged.kt": {
+    "sha256": "c49f8bb939643ee9d721159ebefebab6ecdb9d6eddbabe143f0b83e15625cb29",
+    "bytes": 879
+  },
+  "android/app/src/main/java/com/messenger/app/data/websocket/WebSocketConnectionRepository.kt": {
+    "sha256": "5a15740e42acf0fcff7eca1f43d7c85e3e3c03cd466ffab2aa71c89769ac9093",
+    "bytes": 2822
+  },
+  "android/app/src/main/java/com/messenger/app/domain/call/CallController.kt": {
+    "sha256": "141bcc7332ab86e2edf349841e562765ba89eacb00860ea0cbb3173794fd8ac3",
+    "bytes": 76934
+  },
+  "android/app/src/main/java/com/messenger/app/domain/call/CallForegroundServiceTicket.kt": {
+    "sha256": "4cad7d09f8739957cf321e37327ca4db944d213d1dd83d9b07dde19550d878a6",
+    "bytes": 222
+  },
+  "android/app/src/main/java/com/messenger/app/domain/call/CallUiState.kt": {
+    "sha256": "016c49d6832fc682e50f184908fcf7c436fcd2dac325af2a9726a584c0170b26",
+    "bytes": 4756
+  },
+  "android/app/src/main/java/com/messenger/app/domain/delivery/DeliveryEngine.kt": {
+    "sha256": "eb88dabdf6fd9ab423f69961ea3cbb0b3a7b387b303edfdfd8a682ad43bcab4b",
+    "bytes": 423
+  },
+  "android/app/src/main/java/com/messenger/app/domain/delivery/MessageTransport.kt": {
+    "sha256": "bc05e728f352f2d0853d8d3a9e8c9a4e16048cb99e058d9c188496e57f2096b3",
+    "bytes": 1710
+  },
+  "android/app/src/main/java/com/messenger/app/domain/model/Attachment.kt": {
+    "sha256": "0a2c8424adf005a8b7c2e95408790ceadbb55424c274ff8e225f659ad7c9d376",
+    "bytes": 1997
+  },
+  "android/app/src/main/java/com/messenger/app/domain/model/Auth.kt": {
+    "sha256": "f27143ec13a40ea9813d6c7bc674fbc9d5b0e7118e2c1e50c8c1e0f9c61f766d",
+    "bytes": 341
+  },
+  "android/app/src/main/java/com/messenger/app/domain/model/Call.kt": {
+    "sha256": "136fc2e70a233ecc13f7b2d910981a53d90817b8ccb15dd0b966016db4c257a2",
+    "bytes": 984
+  },
+  "android/app/src/main/java/com/messenger/app/domain/model/Chat.kt": {
+    "sha256": "628458b92488d60fb82dbd5f18104183b823a325287f36378f9fbadf02285077",
+    "bytes": 2734
+  },
+  "android/app/src/main/java/com/messenger/app/domain/model/ConnectionState.kt": {
+    "sha256": "6a7bc26130b819a26ce079dc430b4a2431b194e66148d7f61e6682b7b9264725",
+    "bytes": 281
+  },
+  "android/app/src/main/java/com/messenger/app/domain/model/Devices.kt": {
+    "sha256": "fece2c62f2f3271aad22b8685650ced04a2abda22c22d3840379e0d6b41516df",
+    "bytes": 652
+  },
+  "android/app/src/main/java/com/messenger/app/domain/model/MediaItem.kt": {
+    "sha256": "3233fb1cf83043bf96caea367f444f8c34c48d52a5535997c1f3f3693ae44b1b",
+    "bytes": 592
+  },
+  "android/app/src/main/java/com/messenger/app/domain/model/Message.kt": {
+    "sha256": "6d607c7fff801a5aa89f9e695393385713a443b51baba9fc4f7c1b73a9ca0f42",
+    "bytes": 3403
+  },
+  "android/app/src/main/java/com/messenger/app/domain/model/MessageSearchResult.kt": {
+    "sha256": "be47e07ed83f4fbfbb296e816a6a75109fb8e46319023bb29b4fa099ea044bee",
+    "bytes": 362
+  },
+  "android/app/src/main/java/com/messenger/app/domain/model/Profile.kt": {
+    "sha256": "af2a540662ff60b9644659e1fdce6c7384807ca4775e00babee35d6f912bf442",
+    "bytes": 1748
+  },
+  "android/app/src/main/java/com/messenger/app/domain/repository/AuthRepository.kt": {
+    "sha256": "05a91d557539def3fae8631e0d5dde0eabd5958a7c6edc4725c291357113163e",
+    "bytes": 3595
+  },
+  "android/app/src/main/java/com/messenger/app/domain/repository/BlockedUsersRepository.kt": {
+    "sha256": "425115c0bb86a14bf55470d3ae729674773a7e9c797813805b06d5ad80689a5f",
+    "bytes": 733
+  },
+  "android/app/src/main/java/com/messenger/app/domain/repository/ChatRepository.kt": {
+    "sha256": "aa399a479565ae58fc1688d8cc7f08fab90cbcb974bc455999ee9ad0d3bbf86f",
+    "bytes": 2376
+  },
+  "android/app/src/main/java/com/messenger/app/domain/repository/ConnectionRepository.kt": {
+    "sha256": "b752005e43753b784776343bdc3d4d5bf5ce616a7e901c08a0db3261b67d174a",
+    "bytes": 446
+  },
+  "android/app/src/main/java/com/messenger/app/domain/repository/DevicesRepository.kt": {
+    "sha256": "6cdc4573e6408c1c10464d00aec8c6f342b88885f850aaf2f311cd8bcebc9bbd",
+    "bytes": 701
+  },
+  "android/app/src/main/java/com/messenger/app/domain/repository/MessageRepository.kt": {
+    "sha256": "afe75d8f1ae5fed31fe24fb35d7a5e5ecfd4fc84b88d61f96453d40f8f572a67",
+    "bytes": 9070
+  },
+  "android/app/src/main/java/com/messenger/app/domain/repository/MessageSearchRepository.kt": {
+    "sha256": "6a1ab8386113e77b5c253df787b015267322fa845a50e6c635008bed778085c2",
+    "bytes": 412
+  },
+  "android/app/src/main/java/com/messenger/app/domain/repository/ProfileRepository.kt": {
+    "sha256": "3025effbaedccac25f9f42c26a1ac90a1ab594ecd3b92a59def2c9cc3101cc2b",
+    "bytes": 2469
+  },
+  "android/app/src/main/java/com/messenger/app/local/LocalMessagingController.kt": {
+    "sha256": "c3dcaf52a397de609a87292eaee70aaf45fa75030dcc4da85e9f00225b31ec03",
+    "bytes": 1757
+  },
+  "android/app/src/main/java/com/messenger/app/local/LocalMessagingService.kt": {
+    "sha256": "3636ec9ac42cc32d53186bcb63d74161b2f6c83c070fc421e42463e3baa9d0ce",
+    "bytes": 5442
+  },
+  "android/app/src/main/java/com/messenger/app/MainActivity.kt": {
+    "sha256": "683facdabd485eefc87c462c6c1b6c1585e5555cf05812a649fc553881a946cf",
+    "bytes": 55254
+  },
+  "android/app/src/main/java/com/messenger/app/MessengerApp.kt": {
+    "sha256": "63550a3b88fc82aa75119a76bcae45f70d11115d2da73d79916344647a43c9ca",
+    "bytes": 66330
+  },
+  "android/app/src/main/java/com/messenger/app/push/CallPushHandlerImpl.kt": {
+    "sha256": "8c753d31152e2c4283334c8b18e84197b594416766f44a1f3546636a09c1ff6f",
+    "bytes": 1138
+  },
+  "android/app/src/main/java/com/messenger/app/push/ChatReminderReceiver.kt": {
+    "sha256": "d9a920b782be496f09e8aa69f242c62c72d24ef4fa38af48495d5474d7dd831b",
+    "bytes": 5464
+  },
+  "android/app/src/main/java/com/messenger/app/push/FirebaseAvailability.kt": {
+    "sha256": "0afec9222210ddcf8a735fe081cbb9aeeda64d3ddbd3379475cd6874dd60a88b",
+    "bytes": 1677
+  },
+  "android/app/src/main/java/com/messenger/app/push/ForegroundMessageBannerController.kt": {
+    "sha256": "8e3294f6fae3e7ef8d9784de1652bf6ce89d336bcf418d7200818847f8811341",
+    "bytes": 5805
+  },
+  "android/app/src/main/java/com/messenger/app/push/ForegroundMessageBannerPolicy.kt": {
+    "sha256": "82806862742405b8f7ef9bb420364bc5ac06170745fe852eee6d8c849671af0d",
+    "bytes": 2138
+  },
+  "android/app/src/main/java/com/messenger/app/push/MessagePushHandlerImpl.kt": {
+    "sha256": "87f698d80523d77ae8c3f678a4d2ecba1078473e6334780e5122f0fb944b8ab4",
+    "bytes": 11708
+  },
+  "android/app/src/main/java/com/messenger/app/push/MessengerFirebaseMessagingService.kt": {
+    "sha256": "9645d0d9596d202f80b2b26e73b376c443023b2a042baf296e162d1c98017261",
+    "bytes": 4403
+  },
+  "android/app/src/main/java/com/messenger/app/push/NotificationAvatar.kt": {
+    "sha256": "19231c62b13eaa49ff8c671cd0958496f069f4d662ce8927269e94156356b1e0",
+    "bytes": 2019
+  },
+  "android/app/src/main/java/com/messenger/app/push/NotificationBatchAlertPolicy.kt": {
+    "sha256": "2df9fa3df46d795fc8dae7c98fd6d50a19da28f081812e19335183a777e26f89",
+    "bytes": 4952
+  },
+  "android/app/src/main/java/com/messenger/app/push/NotificationChannels.kt": {
+    "sha256": "b74cc463dce66695d4c08239bd5ed11514281028c1a9676ce7ad675f3e1e6590",
+    "bytes": 2630
+  },
+  "android/app/src/main/java/com/messenger/app/push/NotificationDecoration.kt": {
+    "sha256": "55db6502050a20ed3c2288068cf8a22c2afa85b503d48794a84dc5950c13fc5f",
+    "bytes": 532
+  },
+  "android/app/src/main/java/com/messenger/app/push/NotificationDeliveryGate.kt": {
+    "sha256": "289628df82fc6a3449705541b28b011e808f4c97d40eb11823c5a0ffc9c3f330",
+    "bytes": 1147
+  },
+  "android/app/src/main/java/com/messenger/app/push/NotificationPosting.kt": {
+    "sha256": "1dea30c96a6850c97e6f4cc734c6223152047c7dad50fd19e1df14d92492e7cf",
+    "bytes": 959
+  },
+  "android/app/src/main/java/com/messenger/app/push/NotificationSequenceLedger.kt": {
+    "sha256": "b9989cf51ffd39b218b7177e5f69492b8a21adbc5b2b668209b23ca888c450bc",
+    "bytes": 1765
+  },
+  "android/app/src/main/java/com/messenger/app/push/NotificationSettings.kt": {
+    "sha256": "d6d7bb53d5dfe4f75d71ecba6e8dcbcfcbdd5d27c18929ca2542f5921289817e",
+    "bytes": 558
+  },
+  "android/app/src/main/java/com/messenger/app/push/NotificationSettingsStore.kt": {
+    "sha256": "bc4ab088c59cc7d21d1ca4fef10b9e7a8407443954f35c165d41d54dabcf8e0c",
+    "bytes": 1421
+  },
+  "android/app/src/main/java/com/messenger/app/push/PushEvent.kt": {
+    "sha256": "2153450d2f5b144031546dc202542fa8a7dd3c2148730686fb53d9a98e32c740",
+    "bytes": 1407
+  },
+  "android/app/src/main/java/com/messenger/app/push/PushPayloadParser.kt": {
+    "sha256": "f49d1bc629bf688311f49de0e37e165609e5a9473349bb85e23fbb1ebe7aa0ff",
+    "bytes": 3118
+  },
+  "android/app/src/main/java/com/messenger/app/push/PushRouter.kt": {
+    "sha256": "5ea90410c5e3abf23202cceab69734797545bf1ee64220354b09dd7b7e04a954",
+    "bytes": 1035
+  },
+  "android/app/src/main/java/com/messenger/app/security/AppLockController.kt": {
+    "sha256": "d915792572feb76aae5ae718bcf63f04284426ca33b540c8cb68c6d87c15ae37",
+    "bytes": 9658
+  },
+  "android/app/src/main/java/com/messenger/app/security/AppLockPolicy.kt": {
+    "sha256": "af51c86da6cd2d613a8557464bf3e0469d93485f148562bc207178c3f721554c",
+    "bytes": 1073
+  },
+  "android/app/src/main/java/com/messenger/app/security/AppLockSettings.kt": {
+    "sha256": "1b1dd957269fa4fb13b6c118ed8391c62c78089f7a5b861b032f74a2d6296b98",
+    "bytes": 2974
+  },
+  "android/app/src/main/java/com/messenger/app/security/MessageReadVisibility.kt": {
+    "sha256": "38e298f1e56e02de7efe6607eb0884da93f8b9c7467f5b571d42c3941a439dc2",
+    "bytes": 608
+  },
+  "android/app/src/main/java/com/messenger/app/security/PrivateContentAccess.kt": {
+    "sha256": "90667c16f40ae3d5c38aec9584733a89edd070d363bfcf94111e477c8220dfb1",
+    "bytes": 583
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/AdminCache.kt": {
+    "sha256": "ccc99fb7d4113259fea0eda1158be4c71a40e6d1e9601fcd92cd2e6d9a0f4f21",
+    "bytes": 6010
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/AdminComponents.kt": {
+    "sha256": "c38b34b6c87601d538f16b217ad173ff8727224b1ae9726170ea7575e95af08d",
+    "bytes": 13749
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/AdminConsole.kt": {
+    "sha256": "22b421f0bd62e10352b4a58b41692f90ff507ae1584d33ef6dfa1148c32bfab6",
+    "bytes": 3266
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/AdminFeedbackScreen.kt": {
+    "sha256": "62f02450e020d4b80cd82d2a484a2f5a43f77420d5d67ba82452a090d145e382",
+    "bytes": 20169
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/AdminHomeScreen.kt": {
+    "sha256": "a0987fe28fc003e362e05f9675610f1cab4f3bf39d496a4cfb81cd920ee1c37c",
+    "bytes": 12646
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/AdminListFooter.kt": {
+    "sha256": "6921b9719663fc559bdba86c2dfb368d2e754de3e5bd63bf30b6f7ff4b400411",
+    "bytes": 3267
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/AdminModels.kt": {
+    "sha256": "e27c133ad4cd1be31879f0f5aa752bea0a6c99a32d5ca4d5ffa5cb1c68269c56",
+    "bytes": 12111
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/AdminModerationScreen.kt": {
+    "sha256": "898f7b4408263d1bb2689df25114c1bb040b3bd8c510f8e366a108171bafa40d",
+    "bytes": 32019
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/AdminNavigation.kt": {
+    "sha256": "47cf28419b71f5e7f8e0085e3c8b5b2543c09acf9edcda846b009ada9373039f",
+    "bytes": 3699
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/AdminOwnerScreens.kt": {
+    "sha256": "1209862ab36862e4adeef9979c336773612c860cfaa3008c409367ee1f7c78f2",
+    "bytes": 26857
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/AdminPaging.kt": {
+    "sha256": "528fb1ed55376349ea60783f832da181961084061701123b7fe09c56fe976d65",
+    "bytes": 3345
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/AdminPanel.kt": {
+    "sha256": "232c6464b91e455320cbc58095c5134b1d840e5fd1185a211a2bedc053ebb327",
+    "bytes": 48012
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/AdminPresentation.kt": {
+    "sha256": "3960fcfe8dfa1b7f5eff81ce8845f9deafe5d9aa36f04260a8e0b0a0037f4e11",
+    "bytes": 11763
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/AdminReportsScreen.kt": {
+    "sha256": "2abe457d037abda283c114b07003b7a046131729d3faf0f086fa1ea91bd4a6d3",
+    "bytes": 14680
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/AdminSecurityScreen.kt": {
+    "sha256": "7cea7beebdf313993838000c21efb55edf64e292a39c4fecb36fa785b5cade0e",
+    "bytes": 6899
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/AdminSetupPolicy.kt": {
+    "sha256": "b6482ffce284b5c1b721eda1cc5e0f812a04f7c26e1db96dbe05403550776079",
+    "bytes": 1297
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/AdminSigningKey.kt": {
+    "sha256": "d7e30e29b64d10eb361537954bc532e27da515cc664f8f1c71b23362052e6847",
+    "bytes": 2966
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/AdminSuspensionPolicy.kt": {
+    "sha256": "985eda9ed3e10108420935e881aa22e243de617a52959e495dc6de0ea6c4d6b5",
+    "bytes": 2045
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/AdminTitles.kt": {
+    "sha256": "2d69b67c5c54a7a2e8d676f9c4cae7011911384b79bc123c8ee4cde201da3162",
+    "bytes": 2688
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/AdminTransport.kt": {
+    "sha256": "a04c86e202a3fe25cf5d3a73f7ac674814c18c924e882aed5ef0e7fe510dcf9b",
+    "bytes": 2176
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/AdminUsersScreen.kt": {
+    "sha256": "144c6294f040f65a8c9868876540d000c1dd99b3d33f7c32d7b31c390e59f0f4",
+    "bytes": 8783
+  },
+  "android/app/src/main/java/com/messenger/app/ui/admin/ServerCard.kt": {
+    "sha256": "47602f8d57bd6ae844d670dc355b4065055a964d246069247f045005fc1c507a",
+    "bytes": 4238
+  },
+  "android/app/src/main/java/com/messenger/app/ui/auth/AccountRecoveryPanel.kt": {
+    "sha256": "cd4eb8b9ec507c6383f5540b4997fe6397f29893548190fd4d6b2eef9001a03f",
+    "bytes": 11064
+  },
+  "android/app/src/main/java/com/messenger/app/ui/auth/AccountViewModelStores.kt": {
+    "sha256": "dc20db50671fec440737a0cce669a1b04c56406dd5d3c379167c06d302fe5fad",
+    "bytes": 851
+  },
+  "android/app/src/main/java/com/messenger/app/ui/auth/AuthPrimaryActionStyle.kt": {
+    "sha256": "02d6d5611b8b57c40f7a7c946bb91ba8642f67e19019178e5ce63f6494953fbc",
+    "bytes": 1476
+  },
+  "android/app/src/main/java/com/messenger/app/ui/auth/AuthViewModel.kt": {
+    "sha256": "1a1f2c12e0d639d777893d0ba16371244f6f799114c738bf8aa566fc6e676662",
+    "bytes": 3647
+  },
+  "android/app/src/main/java/com/messenger/app/ui/auth/LoginScreen.kt": {
+    "sha256": "ca29067696b172abb67aab075028718c0f69f4f718976ed61c381b1901d70c02",
+    "bytes": 17337
+  },
+  "android/app/src/main/java/com/messenger/app/ui/auth/RegisterScreen.kt": {
+    "sha256": "1212d0a2f2d87f6cc52e574f2b7cd30b26d77121d2349fabce4e48463877d857",
+    "bytes": 12943
+  },
+  "android/app/src/main/java/com/messenger/app/ui/call/CallLayoutPolicy.kt": {
+    "sha256": "17fb603a9e18c097aaa2d89ef623461736eabc2b0ab65390d5ef105673d1c3d6",
+    "bytes": 6828
+  },
+  "android/app/src/main/java/com/messenger/app/ui/call/CallMinimizePolicy.kt": {
+    "sha256": "9ace3ccdb2039d02f1d7d93133aa86e40cfc65436f12a21d68101a65fa5d2d2f",
+    "bytes": 934
+  },
+  "android/app/src/main/java/com/messenger/app/ui/call/CallPipPolicy.kt": {
+    "sha256": "528139ec7cfcb634d584550178fc6df222794ce93ce0296dc69c3cee7c3957e1",
+    "bytes": 1184
+  },
+  "android/app/src/main/java/com/messenger/app/ui/call/CallScreens.kt": {
+    "sha256": "a354a8d9a249c537109b27596ddb62cca68be7ce65fde579660d8a434e466c89",
+    "bytes": 57006
+  },
+  "android/app/src/main/java/com/messenger/app/ui/call/CallTheme.kt": {
+    "sha256": "9d65216c4514790f30ae9fbe09fdea6404f0abb5259d034e851f8c306e465e4d",
+    "bytes": 1260
+  },
+  "android/app/src/main/java/com/messenger/app/ui/call/CallTouchIsolation.kt": {
+    "sha256": "2cde3fe33bbc6a19c1ca3fba0757581c11f43a35a774c80904d0f390cc693a55",
+    "bytes": 3720
+  },
+  "android/app/src/main/java/com/messenger/app/ui/call/CallViewModel.kt": {
+    "sha256": "da35f71911b8fb5df9f9be2670987061857ebd8a6a536033feb10c1a7cd8eab9",
+    "bytes": 3193
+  },
+  "android/app/src/main/java/com/messenger/app/ui/call/VideoCallScreen.kt": {
+    "bytes": 29752,
+    "sha256": "da1dce8085728db66ca2b1795651fdafe2cc066ac147e677bebd2dbecb4c1f5c"
+  },
+  "android/app/src/main/java/com/messenger/app/ui/calls/CallHistoryCard.kt": {
+    "sha256": "20af1597aa1cbe4df9a13135fe54c09c5110215593d3dba6fd6e254356febdd2",
+    "bytes": 5325
+  },
+  "android/app/src/main/java/com/messenger/app/ui/calls/CallHistoryScreen.kt": {
+    "sha256": "1b73238a3666aa0b46f37a273dc151088e1c98096213d1837ca096e2b5db0578",
+    "bytes": 13628
+  },
+  "android/app/src/main/java/com/messenger/app/ui/calls/CallsScreen.kt": {
+    "sha256": "5bf92510a6ba48ca30b8d6be584f23ad1ffafd5db3fd188ea9f0964ddb7f10e8",
+    "bytes": 2752
+  },
+  "android/app/src/main/java/com/messenger/app/ui/calls/ChatTimeline.kt": {
+    "sha256": "8b35fce91e0c9c8bcbc5212b30d0551a20688339725079b4c3f58a9fc1075985",
+    "bytes": 5653
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/AlbumMosaicLayout.kt": {
+    "sha256": "237d6459cfa283ebb18c42d479f1b13cf7b3722cf6e13fddbb62bc74d083dde1",
+    "bytes": 2863
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/AttachmentGallery.kt": {
+    "sha256": "061950c58482a3284f28f0aaa34f9a56051d026ab2cc6be7f90df9475d018269",
+    "bytes": 27068
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/AttachmentPanelChrome.kt": {
+    "sha256": "ed11610e16b1c1b6ef76734597556cd9ff7aed914911b24972aadca6f49eedd6",
+    "bytes": 2678
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/AttachmentPickerStyle.kt": {
+    "sha256": "3bc10ddafab7ebd28c1e1707a35c523100a26d0704417878325d485910c84d2c",
+    "bytes": 824
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/CameraLaunchIntent.kt": {
+    "sha256": "6f4b812c3238bab2fb2b75f5b20914f2589a5c285755f4d227612d38f717373d",
+    "bytes": 1166
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/CapsuleChatAlbum.kt": {
+    "sha256": "63de813779effb3e7d9def6bdb4b2ba8c01e00bdb9275837572993b53ab96c6d",
+    "bytes": 10458
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/CapsuleChatChrome.kt": {
+    "sha256": "d39ee54201fb3b3a43c2195529f8eca21ef6104ea7683ebfaa145b886af02bf7",
+    "bytes": 2512
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/CapsuleChatStyle.kt": {
+    "sha256": "c8a56046888ed9103286fd2dae5d58c8a147be77fece9223c10ad12064577f47",
+    "bytes": 8770
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ChatActionGroups.kt": {
+    "sha256": "7110f8dbfec9a6e37b526dcfdcbbae1a56b1b465ee1071d30ede6f9c101f8f6c",
+    "bytes": 2616
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ChatActionMenu.kt": {
+    "sha256": "317edf4b36d76afdbbb381852d28d40ea4912f7273e742c8975660b831f73b69",
+    "bytes": 1990
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ChatCallActivity.kt": {
+    "sha256": "ce9b6eb1d07b10b1e42a1c4d4fad7cd95a4c241b4343596373ec17d8d519a41d",
+    "bytes": 2085
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ChatControls.kt": {
+    "sha256": "25b08a8732b2c5a15f34390c70697f02420c6be0ffee267b9a223b5ce554e785",
+    "bytes": 5938
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ChatDetailViewModel.kt": {
+    "sha256": "f70d686ba191cdd13dab846b95f6cfacdc8270d5b49d78496cc8409044ede68a",
+    "bytes": 50104
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ChatError.kt": {
+    "sha256": "09d5c904fce87e9fb1a0e01d92dc4e471e6ef4017f7b523cccc0ad6d365c1946",
+    "bytes": 1141
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ChatHeaderIdentity.kt": {
+    "sha256": "9668f70e443525a497d95039c869810468da2140e2ca523e606db9a669b02a4e",
+    "bytes": 428
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ChatHeaderMenu.kt": {
+    "sha256": "4dc5862b7b48e0868e9f73ac8449d07c6d824331ae8a871888efb0abcf503622",
+    "bytes": 4367
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ChatNavigationButton.kt": {
+    "sha256": "e0f965a346837ea97490c8f0ab5247de8a38efd856b78e3c8db624fb1751bb49",
+    "bytes": 4681
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ChatRichText.kt": {
+    "sha256": "b0edcce49d4210d13f2c4625b709e77204ceb0e2125fc48094ba797e21fed766",
+    "bytes": 2426
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ChatScreen.kt": {
+    "sha256": "2b7df2c2c97fb2777378dc1208191433eadeb1c85f24dde538d7376e827d1506",
+    "bytes": 266582
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ChatScrollBookmark.kt": {
+    "sha256": "a3934dfa261aefcdc7534759c493143fe1b789fb4601c76f1c15740a7272b9f4",
+    "bytes": 482
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ChatSelectionActions.kt": {
+    "sha256": "3e433e6ee802dbed21c6dd7f6b770aca51a69f15e120c2e0eaa94831fda3b5bf",
+    "bytes": 2219
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ChatSelectionBatch.kt": {
+    "sha256": "cb075cfaac2356565bb6444482d321f1bdad6872fad054aadd2231ccefaec50d",
+    "bytes": 1766
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ChatsScreen.kt": {
+    "sha256": "b1aeb3c9ab82c39f76835aa835f1ec1e8062339ff43ac2fa0d047da725fc14af",
+    "bytes": 53632
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ChatsViewModel.kt": {
+    "sha256": "e3d790a8564bd61e17cf0c520881233c02e9fa0636026051e2dd8d3e449d374b",
+    "bytes": 4693
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ChatTailTracker.kt": {
+    "sha256": "e1c9b9937d965f25b57e1ccc94206b4656afbdaaaf22660927cce3a131851554",
+    "bytes": 701
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ChatTimestamp.kt": {
+    "sha256": "e7009d38351ad028a279d3639434986be9eaaf99dc663e963394473adb8e8332",
+    "bytes": 663
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ChatViewportPolicy.kt": {
+    "sha256": "3d2e8669c726283dbe9880e1a63f465ca270b11044bb803a60268817f89f09e2",
+    "bytes": 980
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/CompactFileName.kt": {
+    "sha256": "27df1284f0114c36a2771a5f68d51f6170fdf5433786329b0586b49da50cfeb5",
+    "bytes": 7984
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/CompactMessageGroup.kt": {
+    "sha256": "f710139d8474667dec8219f91fcedc393ba8307e1549b55686a67b586ee375f5",
+    "bytes": 445
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/CompactMessageMetadata.kt": {
+    "sha256": "50f1a7d9ee09e17d332ca89ee8a870ce3fc03262e97dd42a604513dfd689d103",
+    "bytes": 3212
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/CompactMessageText.kt": {
+    "sha256": "4f2cc005447238da3eada288d8874934f50a09f7686fff02f3119bb96c9d94d9",
+    "bytes": 3484
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ContactChatMenu.kt": {
+    "sha256": "6b99ffb9f977d06572e66c2590c82c472f6cb0c484f924cf53dd45699ff5a8fe",
+    "bytes": 6302
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/DirectFileCard.kt": {
+    "sha256": "6df9997f68d7e482a1d6412b86107b03f250bba3d03f3b59c909e3a14626c38b",
+    "bytes": 11669
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/DirectOriginalSelection.kt": {
+    "sha256": "a8fcf33e259cd21b432357b2c73b4316430750a4a6f89dc72e6978f96aae2b8e",
+    "bytes": 7438
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/EmojiPickerSheet.kt": {
+    "sha256": "41987326209b0816de7fdcdb9db1d5d2a4365e46a8ee348ac70aafb39700f372",
+    "bytes": 12633
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/FailedMessageActionNotice.kt": {
+    "sha256": "aec8a018a6cb9b0bce05a9eea770e3f22a370115f3539c0a6d10385e981546c2",
+    "bytes": 863
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/FileTransferControl.kt": {
+    "sha256": "5676dd8a24f2ba935bca3cde6c8dbe4927761d78d981bb23dfbf2a74becf5cc3",
+    "bytes": 2386
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ForwardedMessageLabel.kt": {
+    "sha256": "b61681102ed1199678b80349c596dde9e056e174f0250cb61c5e5c17c5355766",
+    "bytes": 1979
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/FullMessageTextDialog.kt": {
+    "sha256": "57e750efc10c6d358c2a95e32d1a0aec274bbfe59b14ab2db728d2730f9925ee",
+    "bytes": 5729
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/GalleryCameraPreview.kt": {
+    "sha256": "80b4dac2ca92bb6fee081fdf4250d30c5ca1bce47803d6a4709cdc33477f6d67",
+    "bytes": 7450
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/GallerySendMode.kt": {
+    "sha256": "7f114c3ec014e0068faca9f42138de3d5c5c2f9145fec8adf2346ee68b725649",
+    "bytes": 977
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/MediaViewer.kt": {
+    "sha256": "ac429cc41b0f7849309dd268be9dfda43371d24f8829f789af570a95ed6bde3a",
+    "bytes": 34429
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/MediaViewerIcons.kt": {
+    "sha256": "e13005e7da1f48493cdda472f0cbf6851e895d7e91089d7edac9ef58ba63ff8c",
+    "bytes": 2426
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/MediaViewerPreview.kt": {
+    "sha256": "7484312210572fb1b6fbd3078b6c4c85ad34b29fae4b8cd341b862df56df3de3",
+    "bytes": 3173
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/MediaViewport.kt": {
+    "sha256": "d7b53a6316ef5a2320295587b13250556a3407cc0015b71b37339d60c775db84",
+    "bytes": 623
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/MessageMenuBudget.kt": {
+    "sha256": "5ea1c371c1afbe9984e4d1e6ac0ea69a4dae3a76924eb2a7aa1fac46e9794f17",
+    "bytes": 1403
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/MessageMenuPreview.kt": {
+    "sha256": "ffd1036ee7495b56dbdc96f7c217bce78fea34951aa88636f2ed2a0f8030f1e3",
+    "bytes": 2105
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/OlderHistoryLoader.kt": {
+    "sha256": "62b7c117dcff020414d57ac74172267e642bac3d4f0421e7401d6ce4e46f50c8",
+    "bytes": 507
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/PendingMessageFailureNotice.kt": {
+    "sha256": "17f89cd4ef5636386ec4c954accd38347a35cdb808629d2f6c638fca0695bdf8",
+    "bytes": 5320
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/PresenceLabel.kt": {
+    "sha256": "d4345f1a07c57d1c45984eb5101948cf5590c424cdd14fed093dcd8b6616fef0",
+    "bytes": 1489
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/QueuedMediaPresentation.kt": {
+    "sha256": "ccd24eaf1d6e56a7bd0fcbb9af54ae1ac230ec2bf172a81931811fb373c7991d",
+    "bytes": 1626
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ReactionBubbleContour.kt": {
+    "sha256": "04b19f51f75da3e574821ddd30ffc52fb84f6a222310c25e948e7ca5bb0d6bed",
+    "bytes": 7384
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ReactionTouchGuard.kt": {
+    "sha256": "0df8550eb913a8f5020a7206c18681bb227970bc5ffb467f7a94ab52b6b0455b",
+    "bytes": 309
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/ReplyPreview.kt": {
+    "sha256": "12ac2ea3e5bd0c620bffdc523422708fe5df20f441dfad5417a3f12cf26095a8",
+    "bytes": 9034
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/SavedChatBubbleShape.kt": {
+    "sha256": "d46a626d8b1a45e1a9235aebc4bf677bc83a9a46c93786f143208776ec679a05",
+    "bytes": 2319
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/SavedChatFont.kt": {
+    "sha256": "691760fd4d89f26537b711c64eb9a916ee3898bc116cd9d1db6fdfd08617fc68",
+    "bytes": 450
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/SharedFilesDialog.kt": {
+    "sha256": "fbbfea3550742d576aa827bf61914e54c2d42e4db3306be724f92a3937ed3997",
+    "bytes": 3394
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/VideoPlaybackControls.kt": {
+    "sha256": "5be38e2c00256d013fa14b1a2783dd7eda3b7f75b75eb4538f6bef4aec6db0af",
+    "bytes": 12081
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/VoiceHoldGesture.kt": {
+    "sha256": "70c787ac08cf99e6a2bb7949ea44d62ef99ec6e6462653addcf51f92ca53eced",
+    "bytes": 2538
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/VoicePhaseReveal.kt": {
+    "sha256": "c1f74111383bb50ce0667802000accf792645ae8b6c4a8123c2ccc178ad5955e",
+    "bytes": 695
+  },
+  "android/app/src/main/java/com/messenger/app/ui/components/AvatarBitmap.kt": {
+    "sha256": "9f010c484ea1253d30369c3576e5231922ab44ee13a17358b47c22682f68ddfc",
+    "bytes": 1437
+  },
+  "android/app/src/main/java/com/messenger/app/ui/components/ChatConnectionHeader.kt": {
+    "sha256": "821ef6b426eb68783e1ddc9b62b37d00e053a2c23711ac5454d7bde8af2682f1",
+    "bytes": 7277
+  },
+  "android/app/src/main/java/com/messenger/app/ui/components/CocoBackButton.kt": {
+    "sha256": "f1cce5d059009dbe579878add3ea9fb3e88e66702c92441868321ff18b04e545",
+    "bytes": 3561
+  },
+  "android/app/src/main/java/com/messenger/app/ui/components/CocoComposerSurface.kt": {
+    "sha256": "711ccd83f06752a3fe9d5cef073dbe3db6bd96bc3eb6af80c9a7ff1ac6802b3e",
+    "bytes": 4871
+  },
+  "android/app/src/main/java/com/messenger/app/ui/components/CocoPageHeader.kt": {
+    "sha256": "b5668c27c13e1dd61ea9c7fbff7dea7add9b8a73f61b94daa8bb759c57817e0a",
+    "bytes": 3553
+  },
+  "android/app/src/main/java/com/messenger/app/ui/components/ForegroundMessageBannerHost.kt": {
+    "sha256": "f2059183dd79f7e049258f62ff2b225d269d8a47d3802235d662dfe23b5b0bd5",
+    "bytes": 6997
+  },
+  "android/app/src/main/java/com/messenger/app/ui/components/SelectionOverlayLayout.kt": {
+    "sha256": "af1ddcb553676310ca32997d5a928d5d7c777ae38e38e28f53e4785a590abb99",
+    "bytes": 2872
+  },
+  "android/app/src/main/java/com/messenger/app/ui/components/UserAvatar.kt": {
+    "sha256": "5deb5ddc7170d092a77af4729c7f931260dec0678ae3d4eddccef72d922776ef",
+    "bytes": 3056
+  },
+  "android/app/src/main/java/com/messenger/app/ui/devices/DevicesScreen.kt": {
+    "sha256": "19720829e1b11717f9800024219f50bce397b1d75c0d745da61bca4740294922",
+    "bytes": 8627
+  },
+  "android/app/src/main/java/com/messenger/app/ui/devices/DevicesViewModel.kt": {
+    "sha256": "f0b821b74582968c23e298be0995f11ab4a8030fe2de96a28d633997dc7343da",
+    "bytes": 3030
+  },
+  "android/app/src/main/java/com/messenger/app/ui/devices/VerificationScreen.kt": {
+    "sha256": "52a9ea42b04c8fd40e96857ed158edf213302bb10f0e34dd751cbb69f6ff7671",
+    "bytes": 6870
+  },
+  "android/app/src/main/java/com/messenger/app/ui/devices/VerificationViewModel.kt": {
+    "sha256": "f5a894b8fa457789ff1496530ca8e9fef9e5f0b5cfb5fbfd57f2adf1251b951e",
+    "bytes": 2950
+  },
+  "android/app/src/main/java/com/messenger/app/ui/GraphiteDrawer.kt": {
+    "sha256": "b925ba745abfed0db01a04fec8dd8ec925c9f8d913dfe22ea205b851904404c6",
+    "bytes": 26534
+  },
+  "android/app/src/main/java/com/messenger/app/ui/MainScreen.kt": {
+    "sha256": "90c4ac2da66b0c4192777ebe8d4f6256719c54365677f06af10fae9eed4392d6",
+    "bytes": 16465
+  },
+  "android/app/src/main/java/com/messenger/app/ui/MainViewModel.kt": {
+    "sha256": "41cbb7c66510c983fb9bf7d2fda0d1ccfb80db898b792508ecc97ca0b702d77e",
+    "bytes": 1024
+  },
+  "android/app/src/main/java/com/messenger/app/ui/media/GalleryViewerPages.kt": {
+    "sha256": "e6e0ae076508e4c68663304b147f03c7fe8f589af550a16c924bc80bafd07dc6",
+    "bytes": 1122
+  },
+  "android/app/src/main/java/com/messenger/app/ui/media/MediaGalleryScreen.kt": {
+    "sha256": "82090fb7fa6ef8094d220d03bcec2f004575ae505f691e99c059234d5fa613b9",
+    "bytes": 12503
+  },
+  "android/app/src/main/java/com/messenger/app/ui/media/MediaGalleryViewModel.kt": {
+    "sha256": "d6c00da558709926f9bcae596a61238008d7490ffe6f3e61ce282d4d1237f86f",
+    "bytes": 6244
+  },
+  "android/app/src/main/java/com/messenger/app/ui/profile/AvatarCropScreen.kt": {
+    "sha256": "7de438a04ce796d45cfb3a92fd37f04297cac49eda0f7318dc53d7fc55dabf74",
+    "bytes": 9502
+  },
+  "android/app/src/main/java/com/messenger/app/ui/profile/AvatarImage.kt": {
+    "sha256": "ec2631e3cbfc8d1a133839b05c49d85f5c4ec4d7315b5633f68cb015d66708bc",
+    "bytes": 1556
+  },
+  "android/app/src/main/java/com/messenger/app/ui/profile/EditProfileScreen.kt": {
+    "sha256": "5c183363666ee6ede192914e940cb15563ccfac07887ba1b3607330fb5cc8f8a",
+    "bytes": 19775
+  },
+  "android/app/src/main/java/com/messenger/app/ui/profile/ProfileScreen.kt": {
+    "sha256": "cdef8bd9990848bde87a5d21be969992aca0b6658ad2cedaf146a3653d14829d",
+    "bytes": 46944
+  },
+  "android/app/src/main/java/com/messenger/app/ui/profile/ProfileViewModel.kt": {
+    "sha256": "f1b1573fe35062a54d97085f9eaa8a75b502f8f504c7c9c9e73da983745d00fa",
+    "bytes": 10035
+  },
+  "android/app/src/main/java/com/messenger/app/ui/RootDrawerPolicy.kt": {
+    "sha256": "d676337a041643f20486522d3f069f13d1ec007737b9e2075ea3a07110f67a44",
+    "bytes": 1573
+  },
+  "android/app/src/main/java/com/messenger/app/ui/RootNavIcons.kt": {
+    "sha256": "a6af2184a272dcd5c3b3f72c68c25e7300d6cc6beeca331c3123940e9c70a0e1",
+    "bytes": 5220
+  },
+  "android/app/src/main/java/com/messenger/app/ui/RootNavigation.kt": {
+    "sha256": "486aac023ea7f2860a2ce6accce727e558aa790985dac8a93000f0823956b0e9",
+    "bytes": 1174
+  },
+  "android/app/src/main/java/com/messenger/app/ui/search/MessageSearchScreen.kt": {
+    "sha256": "5f1e50163cac6c8edd8a0e5127697a73ef048fa6b23301bd6a3b82eaac6aab3c",
+    "bytes": 6674
+  },
+  "android/app/src/main/java/com/messenger/app/ui/search/MessageSearchViewModel.kt": {
+    "sha256": "efbfc09eca44e1fc8a0a71d1324b35b9174f2620a52a77449069f984113175a5",
+    "bytes": 3338
+  },
+  "android/app/src/main/java/com/messenger/app/ui/search/SearchUsersScreen.kt": {
+    "sha256": "628fb254b453ca45e3cd9853014e6f89765a343854152665f823a2dab82a9c2e",
+    "bytes": 24067
+  },
+  "android/app/src/main/java/com/messenger/app/ui/search/SearchViewModel.kt": {
+    "sha256": "7b91b37dc37e1ce1d2394fd51fdb77a26b3a74cc0cbc6759a717a5c27b3f6c88",
+    "bytes": 8374
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/AccountAutoDeleteSettingsScreen.kt": {
+    "sha256": "209d63732ec650cca8bef571ee81d9a99627844c8fc039e425efd3bd734ec846",
+    "bytes": 15808
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/AlphaSettings.kt": {
+    "sha256": "f453746c26bb305777c05e5271acde17508e25d0bd9174e696fd4e8a95fa98a0",
+    "bytes": 58963
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/AppearanceSettingsScreen.kt": {
+    "sha256": "fcf4bf33a48ef3009a1c8abee8e0ee8f9dcada341e63e7de7f1a380d50ffa8ec",
+    "bytes": 28494
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/AppVersion.kt": {
+    "sha256": "a794a266c83821f1db08ef0158fdf6232f68d04bc7d4f4b57cf995b98c395ac5",
+    "bytes": 468
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/BlockedUsersScreen.kt": {
+    "sha256": "4534e7f84560c64e902b7ace527cfad7fcdedc8b25e1f4e15b6ad7dbfe646c99",
+    "bytes": 13628
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/BlockedUsersViewModel.kt": {
+    "sha256": "6268d134f79d2929bf940581b568b5d326c26b49ae0332343e76159483bcc145",
+    "bytes": 8311
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/CallQualitySettings.kt": {
+    "sha256": "83768336d8b6089c14a8759645c6ecd6eb4f1ffd24ad84adab6b3be2e96275eb",
+    "bytes": 4587
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/ChatListPreferences.kt": {
+    "sha256": "7e0679074595e7d1fff32bbc9235425972991ac485a5f3b35c7fe31f8c46c42d",
+    "bytes": 2177
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/CocoLanguages.kt": {
+    "sha256": "ddb866354bbbbd7be2ddadaa2e1970df06d65ff43e5ba5886b2b4a5a6cf4859e",
+    "bytes": 1363
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/ConnectionPingSetting.kt": {
+    "sha256": "b81239ff031c6050fe2f78887b4cba35fdd41b9531dfab2bfa1c19c6e0162dac",
+    "bytes": 2227
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/FeedbackImportWorker.kt": {
+    "sha256": "a9741f03f56b6b4cdb5c3c388ee4a902aed21ffb9f8d641a8a2be91341877f4b",
+    "bytes": 2599
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/FileSizeFormatter.kt": {
+    "sha256": "9d02e43b2c98bb45480cf870651ea0b13255005d068336e9efa76b85b52d1e90",
+    "bytes": 1009
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/HistoryKeySettingsScreen.kt": {
+    "sha256": "e9843a1eb844309940e440b344d000ff11c99b926f7e06a17b53a0d54de5d700",
+    "bytes": 21713
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/HistoryTransferScreen.kt": {
+    "sha256": "bea15c97d4dac0856c5ddd833c66280a71063003fff76792fa0a77baad2248d9",
+    "bytes": 22808
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/LocalConnectionSettings.kt": {
+    "sha256": "1964cb191526e876884a49eed12f9fc8b25cc3969004af98bb9261d09472f653",
+    "bytes": 3869
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/MediaDownloadSettings.kt": {
+    "sha256": "772d89720ff1a31942b363d0c200eacdf7615cf0b5dad2122224fabef8084669",
+    "bytes": 1959
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/NotificationSettingsContent.kt": {
+    "sha256": "48975d22a514ca8d62dae8246cdcd51243d5f610f402dab59c7259f19e5b97d5",
+    "bytes": 10129
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/PrivacySettingsContent.kt": {
+    "sha256": "d521c2e79dccdb14c175ae19075cb45518e94c029313b7b37f3855f6966cf6a2",
+    "bytes": 9295
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/QuickReactionSettings.kt": {
+    "sha256": "8f5ba7dad7512864bb19b499b68e40c9c833b84f57e1bf1ec7fd3ed6dcbfe5e1",
+    "bytes": 3299
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/ServerPickerScreen.kt": {
+    "sha256": "bec8be55661a3cccfb5e2f08110cd643d2eb858010bfe69883fcb750e526b44c",
+    "bytes": 7263
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/SettingsButtons.kt": {
+    "sha256": "30ddbf3e17b198515c578816f1f31a8de88c5825b7dc6e6a8e8615b3fa4bd431",
+    "bytes": 3756
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/SettingsScreens.kt": {
+    "sha256": "df408e3408b00fd180c315aef1cd3a9c55d9225ee89d98e7130c4bcd6faf00b8",
+    "bytes": 4156
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/SidebarAppearanceSettingsScreen.kt": {
+    "sha256": "47cb581a5daa3a20f875ff4e64bbed7e43b90e78c2c091ad56fe45be4737a37a",
+    "bytes": 38640
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/StorageScreen.kt": {
+    "sha256": "d489ba55177b9c698b050b0ca82957e6f7c3153a18a701827fe11ff7b28e6e4c",
+    "bytes": 10548
+  },
+  "android/app/src/main/java/com/messenger/app/ui/settings/StorageViewModel.kt": {
+    "sha256": "3bc10f6b656cd4eaf3b204519bd17a0020f56ea94e34648a4c84121edbe54574",
+    "bytes": 2159
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/AppColorStylePreference.kt": {
+    "sha256": "b1d5f18e65aba868cb12bda6cbe19c7644f253d792e95ec98e8b74b381ef93a2",
+    "bytes": 1429
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/ChatAppearanceSettings.kt": {
+    "sha256": "f81109014f639f29dafedeadb3fffba9c15ba2c08364dfc71b5d9fcc7d2aa736",
+    "bytes": 10353
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/CocoBrand.kt": {
+    "sha256": "4f7a900b055350536e021df3896044d36cfc2ae53c6b968017c8d99dd92831bb",
+    "bytes": 5099
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/CocoColors.kt": {
+    "sha256": "72769d79b2b13be4cb376234ac62312c1bea7bca66b96ab5b84e4039fd8697a7",
+    "bytes": 5221
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/CocoFlowMark.kt": {
+    "sha256": "314d4b39a37549be867a70e5f76ad17ac14cc4083b4118dc8f9afacd9aa39e7e",
+    "bytes": 1910
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/CocoHaptics.kt": {
+    "sha256": "c2a99f3edec3231d3921d83c9630351e76df02e09c544093aaec40e443f39f67",
+    "bytes": 496
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/CocoIcons.kt": {
+    "sha256": "4f9c466b4144c74cdadd193ec3f6fb4e90c265e0b0609072f999054ba2755896",
+    "bytes": 33884
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/CocoSavedPattern.kt": {
+    "sha256": "0bcdae49c00203a7f571142ede42489d956157c5657d7b52cdfc9b77d862ef9a",
+    "bytes": 596
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/CocoShapes.kt": {
+    "sha256": "1cb5de43b10ca9502c2d0c9ea289a319652fc5fccf016821c5a2c54b4ee3f4ab",
+    "bytes": 1789
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/CocoSpacing.kt": {
+    "sha256": "75f56dfc4fb47deb300af65e9de44605b01f1efb0724dc56f7d19e297337da4c",
+    "bytes": 612
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/CocoTheme.kt": {
+    "sha256": "8e12110d5387e5ed5305c9e00ab088098f4493549c7f2163f2b4977c0bb42ec3",
+    "bytes": 6953
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/CocoTypography.kt": {
+    "sha256": "3354fdeac36dd94419db9dfab14eb69d4309ddf215d81365ecd38b011bd43698",
+    "bytes": 3021
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/ConferenceTheme.kt": {
+    "sha256": "90a0df95af6d20ca1b9dd48c451e74508460e0a460f20981b73ca6e71a6657fd",
+    "bytes": 806
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/ConversationBackground.kt": {
+    "sha256": "8a1f24fbaf31f4d542bf565c4c59f3f70aefd1984cbbb48d4d8fb60066cc88b1",
+    "bytes": 7734
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/FileTypeBadge.kt": {
+    "sha256": "b17fec5df665803c764ca5922028fc6e105d7a1ed620eef884a4b9452d557f30",
+    "bytes": 1699
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/GlassBackdrop.kt": {
+    "sha256": "6e15dd8ad992c4658e4700328b9860322f2801febae4ab9a3b98b9fe0d8900c9",
+    "bytes": 2722
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/LanguagePreference.kt": {
+    "sha256": "680c8822d2a5852883abacd64c17c70768a05d13a28cd6d7672a2092237ebdea",
+    "bytes": 651
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/LocaleHelper.kt": {
+    "sha256": "3687726228f2c6e39ad06f2b0528f726e3f2abdbf0f5346a0826670e8be522de",
+    "bytes": 734
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/NavigationPreference.kt": {
+    "sha256": "2363a7c52de4b0f4c80042e886225e64af432ece63efffce1cadadb78aa04180",
+    "bytes": 1414
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/SavedSidebarStyle.kt": {
+    "sha256": "fa1e3c0a036a1f0d48ba96561bae0a7b24b0109c2f8898323d40ceb698546511",
+    "bytes": 8407
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/SidebarAppearanceRoot.kt": {
+    "sha256": "b3ea8bacec6c972206c5eda0171bda86eae3e90baed9f626944f44c73d66f48d",
+    "bytes": 1904
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/SidebarAppearanceSettings.kt": {
+    "sha256": "cc6a2a1a4b852e2b5dece91e8c9d1b68fdfa255329bc76082d97e3d057f770c7",
+    "bytes": 35497
+  },
+  "android/app/src/main/java/com/messenger/app/ui/theme/ThemePreference.kt": {
+    "sha256": "04c9ca7541d3fe1c2421546069b1e5b09908fd3486a365369f0a052e57c13194",
+    "bytes": 786
+  },
+  "android/app/src/main/java/com/messenger/app/ui/transfers/DirectTransferCardBinding.kt": {
+    "sha256": "cb51440aed347bf7889e5a87cce5d2c84462f1e8a3892e6dc20f1cb4f2d03446",
+    "bytes": 777
+  },
+  "android/app/src/main/java/com/messenger/app/ui/transfers/DirectTransferManagerScreen.kt": {
+    "sha256": "c1d86a48e1cf9d306a59e5cff7aecb550a586faad98e6d94603dc537e4618304",
+    "bytes": 10541
+  },
+  "android/app/src/main/java/com/messenger/app/ui/transfers/DirectTransferStatusActions.kt": {
+    "sha256": "01de76d8b8cfc9c6791a5bc684cc6859a4a4d9f25c1eb80293e835494975821b",
+    "bytes": 11335
+  },
+  "android/app/src/main/java/com/messenger/app/ui/transfers/DirectTransferUiPolicy.kt": {
+    "sha256": "563361e9ea2a619657828eaee515666cad40b3ed2e7e463e6bfd5c0a2742397c",
+    "bytes": 9176
+  },
+  "android/app/src/main/res/drawable/coco_sidebar_archive.xml": {
+    "sha256": "7324570f4ad880a6bceb44b0cd30a42f05be6510cd02c8d8fac2e725f80ed570",
+    "bytes": 445
+  },
+  "android/app/src/main/res/drawable/ic_conference_chevron_left.xml": {
+    "sha256": "0a6ae8ce0e3d62bf12a9cd52c3d32f5396d5bb05e3e9893e17955cf842f9e5b2",
+    "bytes": 389
+  },
+  "android/app/src/main/res/drawable/ic_conference_chevron_right.xml": {
+    "sha256": "2ffe2348be2cf89a2e9fb266ec96ad81f8c21a44e2d51a8e21a6c04cc064c175",
+    "bytes": 390
+  },
+  "android/app/src/main/res/drawable/ic_conference_link.xml": {
+    "sha256": "05e1ef10207846054d0054668bbf4867392cbc73e5702f383860081dc74bd356",
+    "bytes": 596
+  },
+  "android/app/src/main/res/drawable/ic_conference_lock.xml": {
+    "sha256": "56712dc7839ef4d468d89976f9506c087e32a3ddd5e8edfd5c28c4d124bf4f1d",
+    "bytes": 401
+  },
+  "android/app/src/main/res/drawable/ic_conference_mic_off.xml": {
+    "sha256": "a6b2cb902b562d32f094f83064cf5599feebf281973377eeaaffbcac09c59f3a",
+    "bytes": 1041
+  },
+  "android/app/src/main/res/drawable/ic_conference_people.xml": {
+    "sha256": "c190157f67569f8bac303a52b8c382569daeef6c918b9373d865c9d61fbe357f",
+    "bytes": 519
+  },
+  "android/app/src/main/res/drawable/ic_conference_person_add.xml": {
+    "sha256": "78204288ef04bc13407cd5bb1f3de138d43fdca006c6cf85dd8bee6f6fc4e53a",
+    "bytes": 685
+  },
+  "android/app/src/main/res/drawable/ic_conference_videocam_off.xml": {
+    "sha256": "a2ac98be9737852ead316d95ef49586c5949cb70a76174d805fcac27b13af252",
+    "bytes": 723
+  },
+  "android/app/src/main/res/drawable/ic_conference_volume_off.xml": {
+    "sha256": "54c669587fa113aed77ce27cb0d012a01e93bab8127f22016d1b626e881b5889",
+    "bytes": 463
+  },
+  "android/app/src/main/res/drawable/ic_launcher_foreground.xml": {
+    "sha256": "e82f1cf2ea598f250a46c40faf1d93176235bd642c47681798be15741a60efa8",
+    "bytes": 296
+  },
+  "android/app/src/main/res/drawable/ic_launcher_monochrome.xml": {
+    "sha256": "96788ce5fadd3ecb879e65022764176248c85ca5416de0429292fb861a3f705a",
+    "bytes": 303
+  },
+  "android/app/src/main/res/drawable/ic_notification.xml": {
+    "sha256": "459186905af63c2262fed6bcc7aa117b496fada0308e411609c7eb542ea68897",
+    "bytes": 374
+  },
+  "android/app/src/main/res/drawable-hdpi/unyri_launcher_foreground.png": {
+    "sha256": "af7f2728f22f895b6e5abb87daf08d38a3cac2c91cc0e8519b432375398a4ab9",
+    "bytes": 4233
+  },
+  "android/app/src/main/res/drawable-hdpi/unyri_launcher_monochrome.png": {
+    "sha256": "6c9201116f99841745e43dd3be366669352592161cd156799a6adb99e8069b87",
+    "bytes": 2748
+  },
+  "android/app/src/main/res/drawable-hdpi/unyri_notification_mask.png": {
+    "sha256": "f3b5c955c303710cc1cc1ae6fe769f4c11d0b7043e133f992017a3de0cd7286e",
+    "bytes": 804
+  },
+  "android/app/src/main/res/drawable-mdpi/unyri_launcher_foreground.png": {
+    "sha256": "aced55041eccd504eb17b9f8b188a4abaac35ae6bcf2ed7c6513f273456283c0",
+    "bytes": 2164
+  },
+  "android/app/src/main/res/drawable-mdpi/unyri_launcher_monochrome.png": {
+    "sha256": "472f9110600a9fc1c29858476d9ea110580516fc520c3578ed72b307553c13c7",
+    "bytes": 1719
+  },
+  "android/app/src/main/res/drawable-mdpi/unyri_notification_mask.png": {
+    "sha256": "7bf9e55fd78e04824ef01d3d81640fb7b935577e947906208bca69ad4881d3ff",
+    "bytes": 513
+  },
+  "android/app/src/main/res/drawable-nodpi/coco_sidebar_calls.png": {
+    "sha256": "457a4a7f26d750560ab2cbca7c2c611de5f153b29e5677fe84ca15430fc82c9d",
+    "bytes": 2195
+  },
+  "android/app/src/main/res/drawable-nodpi/coco_sidebar_chats.png": {
+    "sha256": "e1aaf864997460918606c0456e49c638823db236662530ea8dbf24dc018543f1",
+    "bytes": 1061
+  },
+  "android/app/src/main/res/drawable-nodpi/coco_sidebar_chevron.png": {
+    "sha256": "0f140db722eb3bab42c1171a8bf809c79e600195a2720058cc61b9c7f148eeb6",
+    "bytes": 747
+  },
+  "android/app/src/main/res/drawable-nodpi/coco_sidebar_close.png": {
+    "sha256": "0e8924940e896fb6da10442b28fb15fd66ba70286237144d91619c434f9e1e0a",
+    "bytes": 1047
+  },
+  "android/app/src/main/res/drawable-nodpi/coco_sidebar_devices.png": {
+    "sha256": "d857ab6c4baba47e116e11194c3ce9c5e9e59ad717f1126400652687d8811bdb",
+    "bytes": 1106
+  },
+  "android/app/src/main/res/drawable-nodpi/coco_sidebar_edit.png": {
+    "sha256": "0b9accea4f54225c75b657b72a223e2dd3acb11bc0a52227d6bd3aeca1d56705",
+    "bytes": 1642
+  },
+  "android/app/src/main/res/drawable-nodpi/coco_sidebar_help.png": {
+    "sha256": "e450c47780efe65c7f50ca0f31a9e041660bfd19f638e2be2da38e28f8a91e04",
+    "bytes": 3342
+  },
+  "android/app/src/main/res/drawable-nodpi/coco_sidebar_logout.png": {
+    "sha256": "bdb5a83e596515bf758faec9bcb2c935dfed8a980ed7c95bf8fd812913cab891",
+    "bytes": 1270
+  },
+  "android/app/src/main/res/drawable-nodpi/coco_sidebar_people.png": {
+    "sha256": "24be25b872054f72d03e8a2eea93bb93b952d14fdcf14de135a6df6a93376cee",
+    "bytes": 2427
+  },
+  "android/app/src/main/res/drawable-nodpi/coco_sidebar_report.png": {
+    "sha256": "6b100c640e731d16f1e6448eac552c943db48731c8a19db8ce524facfdaaac8f",
+    "bytes": 1529
+  },
+  "android/app/src/main/res/drawable-nodpi/coco_sidebar_saved.png": {
+    "sha256": "7e2cb1d50c098dc3cef1fb96fb02886e84d55559263113a5e884819943c2635d",
+    "bytes": 1247
+  },
+  "android/app/src/main/res/drawable-nodpi/coco_sidebar_search.png": {
+    "sha256": "179078b4b7e1e1bbf3dcabe1bcf0f1e384206a85d6ae591aa7e19019bbf16d23",
+    "bytes": 2423
+  },
+  "android/app/src/main/res/drawable-nodpi/coco_sidebar_server.png": {
+    "sha256": "49c9079328f51c2c6036eba65ca29a81afb1ca0e30d9c8f2ae2246ddae9b7402",
+    "bytes": 1751
+  },
+  "android/app/src/main/res/drawable-nodpi/coco_sidebar_settings.png": {
+    "sha256": "a5c766b9f3d862e8983d6c19b9bd1924b793983da61366e6e3c4ef7db55421d6",
+    "bytes": 2061
+  },
+  "android/app/src/main/res/drawable-nodpi/unyri_brand_mark.png": {
+    "sha256": "573cbf6d32f14f360f4b8bfe5df581077d05dc024db2951bfc644c872db1b5a7",
+    "bytes": 69327
+  },
+  "android/app/src/main/res/drawable-xhdpi/unyri_launcher_foreground.png": {
+    "sha256": "ef279d095daa18d1f75c8232d376979ea308a909ce8a028084dbad5052f6dd52",
+    "bytes": 6945
+  },
+  "android/app/src/main/res/drawable-xhdpi/unyri_launcher_monochrome.png": {
+    "sha256": "fb37cb5fbde6df14072e92f5bf7e357bb993e65ea062b378012f57d7a5da5c23",
+    "bytes": 4091
+  },
+  "android/app/src/main/res/drawable-xhdpi/unyri_notification_mask.png": {
+    "sha256": "d1b9e44798b80f2f42418b97bb41fcf560c640d6d4480d1c23a203fbfabb3b29",
+    "bytes": 1055
+  },
+  "android/app/src/main/res/drawable-xxhdpi/unyri_launcher_foreground.png": {
+    "sha256": "c58eab3c975dba2d170b162e912556bc58927a59e9cb327aecb29031aa010cea",
+    "bytes": 16162
+  },
+  "android/app/src/main/res/drawable-xxhdpi/unyri_launcher_monochrome.png": {
+    "sha256": "a5075385026a4671249cc3931718e9ac733403ee78707a8decef96a4ae305953",
+    "bytes": 8201
+  },
+  "android/app/src/main/res/drawable-xxhdpi/unyri_notification_mask.png": {
+    "sha256": "a11b08ffa05834e18c9133e53b2cbbe23010f25781d886d8974555531753cf16",
+    "bytes": 1621
+  },
+  "android/app/src/main/res/drawable-xxxhdpi/unyri_launcher_foreground.png": {
+    "sha256": "aba16066af2c9ffce4f0e57b6a6c9a029b8fd31abbec7b0d9484821cb7835b11",
+    "bytes": 29473
+  },
+  "android/app/src/main/res/drawable-xxxhdpi/unyri_launcher_monochrome.png": {
+    "sha256": "06de8d78bcee32624a18766ff0b8f8f0c97766dffbcc7300271068b21ab6e4c0",
+    "bytes": 14487
+  },
+  "android/app/src/main/res/drawable-xxxhdpi/unyri_notification_mask.png": {
+    "sha256": "02324ba5401cbf757865219d7b9c14e36ca4eccfe94cfc60389f2889bd9152c0",
+    "bytes": 2298
+  },
+  "android/app/src/main/res/layout/coco_video_timebar.xml": {
+    "sha256": "7ff0b06e35020f5b8430a7194986b37c96de27dc272716d762c09b4d21defdf7",
+    "bytes": 599
+  },
+  "android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml": {
+    "sha256": "b936a640ceca8d1da24d4356afd82d0b6f4c5ca3744ae04db3b2b453b1252814",
+    "bytes": 347
+  },
+  "android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml": {
+    "sha256": "b936a640ceca8d1da24d4356afd82d0b6f4c5ca3744ae04db3b2b453b1252814",
+    "bytes": 347
+  },
+  "android/app/src/main/res/mipmap-hdpi/ic_launcher.png": {
+    "sha256": "04bd7aa168b146cf2b50e7f2f55608a7879100b36009d3957bb2e869c72e66b0",
+    "bytes": 1624
+  },
+  "android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png": {
+    "sha256": "339fdf323a74e0591e7d5a5260303d01e36f1427660c69819c9bafc8b3116b13",
+    "bytes": 2619
+  },
+  "android/app/src/main/res/mipmap-mdpi/ic_launcher.png": {
+    "sha256": "b0187d6fbac03024f93b46aaa17eb0e7c8bff15ce7ed62d40617458871c6a7ba",
+    "bytes": 1083
+  },
+  "android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png": {
+    "sha256": "429e6768f99fac73c008f45c414386aca56c7f72fa291309c1b18ef6f311cd4c",
+    "bytes": 1721
+  },
+  "android/app/src/main/res/mipmap-xhdpi/ic_launcher.png": {
+    "sha256": "cc5f6bd75badbf838b6f2f618164d65d37aa31383d310bab25a6738828ab09bd",
+    "bytes": 2275
+  },
+  "android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png": {
+    "sha256": "d92816b35ae783e480c9c95453c1388906fdc10aadefae2533861fd94b6e5f95",
+    "bytes": 3831
+  },
+  "android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png": {
+    "sha256": "3417d0692fbb7b1e4c7318437a19325bfe60acbea80f4354c23785a720018c25",
+    "bytes": 3966
+  },
+  "android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png": {
+    "sha256": "d27b7ea949a825319cce9eeafd5ffd3b0157c253e2c5955331bfece7938c960a",
+    "bytes": 6746
+  },
+  "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png": {
+    "sha256": "ac08bd1eafc841bc15ff99c0abfed6f851a6d718a12bbaccbe7c0b24ff3f74fe",
+    "bytes": 6830
+  },
+  "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png": {
+    "sha256": "329842836d37b2113b9074fb89cea43bbe85dee4381700de3dd205c28407690b",
+    "bytes": 10691
+  },
+  "android/app/src/main/res/raw/appearance_preview.jpg": {
+    "sha256": "c964d30b68b9703d20f1392413663d2d6f387cfa3523938ed474e22993bc8fc8",
+    "bytes": 23615
+  },
+  "android/app/src/main/res/raw/coco_lan_ca.pem": {
+    "sha256": "545f76de899525c7c7ce0aeb8bf634f7207e9bacf697a9e290c8c0ed92ea6e3d",
+    "bytes": 627
+  },
+  "android/app/src/main/res/values/account_auto_delete.xml": {
+    "sha256": "047286eb344cc318a4a4c26ce401ac33311be77b7ed597c6ed5b835a831b6a7b",
+    "bytes": 2949
+  },
+  "android/app/src/main/res/values/account_safety.xml": {
+    "sha256": "bdbeb9282961daf6e1a0967c0f3f834733dd0597aaeb2bfa1d8d85b1d0d4c14b",
+    "bytes": 718
+  },
+  "android/app/src/main/res/values/admin.xml": {
+    "sha256": "98e2f6cb560f718eb2610121d7a2e17b8a812e8ef1b7f211512292cd6ca59576",
+    "bytes": 2702
+  },
+  "android/app/src/main/res/values/admin_factor_policy.xml": {
+    "sha256": "bbc806971ad745647e563ad5a89712c52cb1259f440b4e09f0f294c96ea3dbcc",
+    "bytes": 1216
+  },
+  "android/app/src/main/res/values/admin_onboarding.xml": {
+    "sha256": "94c1527cf2b4e2765185a51707230fdee34482f381087180f866bd1bb1c968e0",
+    "bytes": 3654
+  },
+  "android/app/src/main/res/values/admin_pack2.xml": {
+    "sha256": "20de413ea590f5406941bde379c653a8d170ca7636a73d4fdf22e57dd1b0e5c7",
+    "bytes": 6928
+  },
+  "android/app/src/main/res/values/admin_ui.xml": {
+    "sha256": "55d60f06ca2688f8ef9549ab8e025bf841bfa52a1bb8cac290f59c7b6ebaeeee",
+    "bytes": 8936
+  },
+  "android/app/src/main/res/values/app_color_style.xml": {
+    "sha256": "5e23c87c6ec9fc687aeacee309d7af8ea953084c3eda92d827282feeba9de233",
+    "bytes": 603
+  },
+  "android/app/src/main/res/values/app_lock.xml": {
+    "sha256": "9eecdde76300eb5cf4c9574afc9979fa7e103f5716319ae348e7d783e1fb34ce",
+    "bytes": 865
+  },
+  "android/app/src/main/res/values/auth_identity.xml": {
+    "sha256": "316a56c386b3a986ac3c0e1f397961956e348700175537ecd270eb6c07e45115",
+    "bytes": 707
+  },
+  "android/app/src/main/res/values/call_history_actions.xml": {
+    "sha256": "bca0683c163b9fb158d25c772bbb9a55a15eb04dfbe8cd0e19f2812afbc06653",
+    "bytes": 838
+  },
+  "android/app/src/main/res/values/call_quality.xml": {
+    "sha256": "686b682970e6c0ca2c31a8c1fe51a3b9b9b573bbdc668e8f3709e51a7b52570d",
+    "bytes": 1236
+  },
+  "android/app/src/main/res/values/call_video_accessibility.xml": {
+    "sha256": "ab3a5a43d779985e58b7150a8b8c8e88d6a57234eb2d83337ab80826a36b9832",
+    "bytes": 330
+  },
+  "android/app/src/main/res/values/camera_direct.xml": {
+    "sha256": "fce26f773d0376d08bfdf8f7946748db3abcf6334917a5c0a198e079a15640e9",
+    "bytes": 759
+  },
+  "android/app/src/main/res/values/capsule_chat.xml": {
+    "sha256": "1151a21009cea44761361c700ea510d6224ab1e272959e1e05850ef35b7268fa",
+    "bytes": 129
+  },
+  "android/app/src/main/res/values/capsule_media.xml": {
+    "sha256": "44bb1b88094af83cfa4e5a4fbdf0b7ac68038b8e2f377d1b40bc97376f5c4757",
+    "bytes": 242
+  },
+  "android/app/src/main/res/values/chat_appearance_editor.xml": {
+    "sha256": "3259ee3d2934dbd87e5fe60fbed84616638731ed1c9d93bd870c082a59af88bd",
+    "bytes": 2574
+  },
+  "android/app/src/main/res/values/chat_controls.xml": {
+    "sha256": "3d42fa2e77bdbed692e49fcc0d6223dd701ab8953ef262850eece0bd21a250e7",
+    "bytes": 1682
+  },
+  "android/app/src/main/res/values/chat_deletion.xml": {
+    "sha256": "4e0110f9681dc4d329f3ec63f81f82e8443a6703e5d9c82c8abea31b1b6c35ea",
+    "bytes": 823
+  },
+  "android/app/src/main/res/values/chat_feedback.xml": {
+    "sha256": "39df3800f6e58dd7355fec4a8a2af46b4e67cfc42878bb0348195686becee1e0",
+    "bytes": 1085
+  },
+  "android/app/src/main/res/values/chat_filters.xml": {
+    "sha256": "6cd33845afaa54c0d5ac53e12a2b3f659dfd758b3124dac47f314798ddd19b71",
+    "bytes": 187
+  },
+  "android/app/src/main/res/values/chat_management.xml": {
+    "sha256": "158f545f5d9c86eaa62428313878278042d47eacfaca4b0fe4637ade7d558d15",
+    "bytes": 1199
+  },
+  "android/app/src/main/res/values/chat_text_size.xml": {
+    "sha256": "38180af50de1fe4dbc533c9c2fd183e8e749c932fbc678dc06dd7f6792a746ef",
+    "bytes": 537
+  },
+  "android/app/src/main/res/values/coco_text_viewer.xml": {
+    "sha256": "ed1253785f3951eb2e8db4fa24f1fcaa193a2d9361fa687be3dd6948b406972e",
+    "bytes": 343
+  },
+  "android/app/src/main/res/values/colors.xml": {
+    "sha256": "42accf34991d7c2abd461813a58e8cf0d940e9af74f150becf24497057605953",
+    "bytes": 279
+  },
+  "android/app/src/main/res/values/conference.xml": {
+    "sha256": "26505090297147c4b21886e6a57aa71d4b1d7da294b3f53487510092a5cc8138",
+    "bytes": 2756
+  },
+  "android/app/src/main/res/values/conference_discovery.xml": {
+    "sha256": "0034e550c8e50ed52eb303245b4b28e5022be825de69840b9f84f3794404496f",
+    "bytes": 1048
+  },
+  "android/app/src/main/res/values/conference_join_approval.xml": {
+    "sha256": "9098737265bdc73bb8d0d871f3cded2abea4b29b98681eef5c87f1d41059597a",
+    "bytes": 1078
+  },
+  "android/app/src/main/res/values/conference_rejoin.xml": {
+    "sha256": "b878846d1d3149bb2862420ef6c428d051d24d47146ec4f64cd8b7a47ce42f99",
+    "bytes": 222
+  },
+  "android/app/src/main/res/values/connection_header.xml": {
+    "sha256": "c793c22f91e7f7bdbb8678d38c9268e5ebcb48a92bbc55d490c1cc72ca5b9b0d",
+    "bytes": 515
+  },
+  "android/app/src/main/res/values/delete_confirmation.xml": {
+    "sha256": "6a51ae4b6915662528b0eac1168fa0ac8a909553a8c8107f7d2d7014e864c14f",
+    "bytes": 169
+  },
+  "android/app/src/main/res/values/device_confirmation.xml": {
+    "sha256": "3bb3332fc601076062512904449c154c3505f6e8f22771f9d5ee4c4b4f97cadd",
+    "bytes": 288
+  },
+  "android/app/src/main/res/values/direct_background.xml": {
+    "sha256": "58d9da8c35f037643f6411bd1c84e9c66bd6361951eea1d18587b654aab3e9f6",
+    "bytes": 665
+  },
+  "android/app/src/main/res/values/direct_file_strings.xml": {
+    "sha256": "502cc04ceda9b9404de2a4dab0cb2a7b1875714afeb1909014ba738d02e7c713",
+    "bytes": 4053
+  },
+  "android/app/src/main/res/values/direct_transfer_manager.xml": {
+    "sha256": "946d74147bc4b91aaea1a02d7ffae75191b7a02248bdb8621d05db049bc96b79",
+    "bytes": 2592
+  },
+  "android/app/src/main/res/values/feedback_redesign.xml": {
+    "sha256": "cf3fe0fac0f488d297f3a1ec297216b0218c3fc962dd77ae359881a110e19395",
+    "bytes": 716
+  },
+  "android/app/src/main/res/values/feedback_ui.xml": {
+    "sha256": "d3d8beed9a113823664d190af2750e08a17997bba66f5799d3a1663d63591448",
+    "bytes": 431
+  },
+  "android/app/src/main/res/values/feedback_validation.xml": {
+    "sha256": "b64f95b8da004e2420c9cdf26e1d296e810222683af2d5f0f5e398a66ac88c9e",
+    "bytes": 231
+  },
+  "android/app/src/main/res/values/gallery_feedback.xml": {
+    "sha256": "c3079b98b66db1395b967dafc582c2d949dd188f0d22b8d317d9227ae90aa6ed",
+    "bytes": 264
+  },
+  "android/app/src/main/res/values/gallery_send_mode.xml": {
+    "sha256": "730cb16c2d8bf2040f2cd8eddf0fcf4b325027ce69b321e0e9e81307a0c83eaa",
+    "bytes": 536
+  },
+  "android/app/src/main/res/values/history_settings.xml": {
+    "sha256": "442cb8e1102c953ea54294679e3940ea9a254e061bbbc439c34b95606ea29753",
+    "bytes": 6363
+  },
+  "android/app/src/main/res/values/history_transfer.xml": {
+    "sha256": "91eb4ea46c830dfb5b7f67195302c24c48ad73956d602415945e2407c836a105",
+    "bytes": 11170
+  },
+  "android/app/src/main/res/values/identity_help.xml": {
+    "sha256": "4392afa423ad87fbd5a46f75015d67c265392b158bd3eef60cfaf5cd611449d1",
+    "bytes": 1469
+  },
+  "android/app/src/main/res/values/inline_search.xml": {
+    "sha256": "5f4627904673549e1e432e745c1682dfa09954c4eb56a23a15b598353817ff2f",
+    "bytes": 582
+  },
+  "android/app/src/main/res/values/installation_restrictions.xml": {
+    "sha256": "265f9dc357050e490d533cff774b791ee6e9a862d73eed6b2c107aa221f7cbfb",
+    "bytes": 584
+  },
+  "android/app/src/main/res/values/interaction_audit.xml": {
+    "sha256": "0226b573268c2d2315a7718e5302d2c4816962d9baa52c5eea55aff1ed1802d3",
+    "bytes": 137
+  },
+  "android/app/src/main/res/values/local_mode.xml": {
+    "sha256": "56db02694c8bd10a1e3c0cfc99b1c738524eca372649aaed0e59c5eb01ecb3f4",
+    "bytes": 951
+  },
+  "android/app/src/main/res/values/media_conversation.xml": {
+    "sha256": "064e5d4f2bcfa94920264c889621be70f242755c8c3762be2a942356652aa90a",
+    "bytes": 753
+  },
+  "android/app/src/main/res/values/media_refinement.xml": {
+    "sha256": "c6dcb5a3c28f23a23f3c390ded37d6d630946f732db7a56914e93fd833a22ee4",
+    "bytes": 560
+  },
+  "android/app/src/main/res/values/message_delete_confirmation.xml": {
+    "sha256": "1897e70a7c77b316868eb470df3fbbdcafd83ce84ed0f96d96129abc89e2d524",
+    "bytes": 310
+  },
+  "android/app/src/main/res/values/notification_settings.xml": {
+    "sha256": "c4eca9dbb18fee6d82994e9fc66a755459669c15d985e238d09eea470d8328e0",
+    "bytes": 2730
+  },
+  "android/app/src/main/res/values/offline.xml": {
+    "sha256": "f39f21a22f1e4ce5bc2803e0a43ce72bcfed2a5c7ec9b5477bcc5301e83bcb62",
+    "bytes": 147
+  },
+  "android/app/src/main/res/values/performance.xml": {
+    "sha256": "6ec9d5f9a33efd8dbeab18a276bd4b8d38cd6caf47c3b5adc4164227507a6f40",
+    "bytes": 386
+  },
+  "android/app/src/main/res/values/presence.xml": {
+    "sha256": "deb5513550a0bd42a2f2ac58b6ffbf70516259a89dd4a4b5b2e847174ab4fd46",
+    "bytes": 490
+  },
+  "android/app/src/main/res/values/privacy_storage_settings.xml": {
+    "sha256": "f85d34aece5ff7af6c8e01968d527ba57d1f0a333d8cb1c33402d4807c6b47e2",
+    "bytes": 1880
+  },
+  "android/app/src/main/res/values/profile_editor.xml": {
+    "sha256": "d5f67bdd8da8c8d95fdf6c0aaebaca2afe618f8d0f3c292f2d00a413854e633e",
+    "bytes": 1555
+  },
+  "android/app/src/main/res/values/qa_followup.xml": {
+    "sha256": "c85506a8f2245c373d40825bdce3b548ebec142312e0ffde51ac798e6c1aef8f",
+    "bytes": 1830
+  },
+  "android/app/src/main/res/values/quick_reaction.xml": {
+    "sha256": "e9cfa013eb076f3c9229c49b805a0c9ecf12ae80eba472caf10ee75d8514420c",
+    "bytes": 353
+  },
+  "android/app/src/main/res/values/recovery.xml": {
+    "sha256": "550b8c0c15910431ac3cc51e0c80b32647d7c3276847ed6e272fe820bc56dc81",
+    "bytes": 1642
+  },
+  "android/app/src/main/res/values/reply_visual.xml": {
+    "sha256": "7f7f9370006da650ff78a75731066d99f4073208221b7d9ce00dfd57448a0a5b",
+    "bytes": 286
+  },
+  "android/app/src/main/res/values/server_management.xml": {
+    "sha256": "338e98d57864b987ef8c799fc3c66832dfabffcc88d7b73976790ad54b320f35",
+    "bytes": 2021
+  },
+  "android/app/src/main/res/values/sidebar_appearance.xml": {
+    "sha256": "8c531dbbb1f47d9ea9c01719931b0e700bde3db5edeb22fd06f582065ce9ec13",
+    "bytes": 7745
+  },
+  "android/app/src/main/res/values/sidebar_saved_style.xml": {
+    "sha256": "c108d5ee9522519a8a05168ad951aaa3ca155df77c03ca352a9c81e8c1b58dd2",
+    "bytes": 193
+  },
+  "android/app/src/main/res/values/strings.xml": {
+    "sha256": "a03a3f676e0fde220cbf5fc8cee8cc179c10977b1a8a08a1f1f5b1355293ea4a",
+    "bytes": 36121
+  },
+  "android/app/src/main/res/values/text_policy_strings.xml": {
+    "sha256": "b060fc36f696fa509deaa48f146f98cd64eee40460f0d360c02b90f3d1a136f1",
+    "bytes": 483
+  },
+  "android/app/src/main/res/values/themes.xml": {
+    "sha256": "5c7d0f550580065633c9d83d11b3d5fa693bbd4da19db1f2872af9bdfa1148e1",
+    "bytes": 347
+  },
+  "android/app/src/main/res/values/video_controls.xml": {
+    "sha256": "faf40a939e37fee24839e4f7d3dec7c5e94eb8b42625626fc959b5b8ab5e113e",
+    "bytes": 538
+  },
+  "android/app/src/main/res/values/wallpaper.xml": {
+    "sha256": "a7539c4524e92364f4033166e22231072769fa95e73faca33a3c95c585324018",
+    "bytes": 202
+  },
+  "android/app/src/main/res/values-ar/call_captions.xml": {
+    "sha256": "1246a231f2a83538fe3a4312e665e350860dcb4548b23fd0d1273866bca8a1aa",
+    "bytes": 445
+  },
+  "android/app/src/main/res/values-ar/strings.xml": {
+    "sha256": "f9c1c1dc96bd6f70a2acc711b1c8821cdadcd9b567a2f416010bd8f9b35a32a0",
+    "bytes": 14839
+  },
+  "android/app/src/main/res/values-bg/call_captions.xml": {
+    "sha256": "4948351c0063110f7941c0cad547bed3c59d0ef9a950c12b9096dd2820272c3f",
+    "bytes": 434
+  },
+  "android/app/src/main/res/values-bg/strings.xml": {
+    "sha256": "5e144a6c3cacb71e7e80d821c4ce0a10beb68345ff5b5c15e50ca4e98e86fb96",
+    "bytes": 15924
+  },
+  "android/app/src/main/res/values-cs/call_captions.xml": {
+    "sha256": "f0e3141af915d2f92957745ea6610feae6029fef76797f156086f4ad1c5bc0a1",
+    "bytes": 405
+  },
+  "android/app/src/main/res/values-cs/strings.xml": {
+    "sha256": "3386ed70c96e3e0a4a49343e14316d57b1d66573b0b0e335c7bfbd5ac378f486",
+    "bytes": 12884
+  },
+  "android/app/src/main/res/values-de/call_captions.xml": {
+    "sha256": "e737a8a05c7514b4b59c2d8305f6b394dfd0fc298b916269625965c520fc47b1",
+    "bytes": 406
+  },
+  "android/app/src/main/res/values-de/strings.xml": {
+    "sha256": "f5f579c389c6792ff0ca2d9be83a3c3f935f0a8a337b9a354388f11f0ad93f6b",
+    "bytes": 13154
+  },
+  "android/app/src/main/res/values-el/call_captions.xml": {
+    "sha256": "9aa4f72c0071863330f9675a19fda66b0a83bb76a473ed55a5159139efb904e7",
+    "bytes": 434
+  },
+  "android/app/src/main/res/values-el/strings.xml": {
+    "sha256": "3f6862d33b98ebefdf56995d86458b415e628cc1d27aa92aae53cb409fe7852d",
+    "bytes": 16567
+  },
+  "android/app/src/main/res/values-es/call_captions.xml": {
+    "sha256": "871b5ba2255dcfe6cb11caca5faa8d1491b458bd0fe9e4c8e9ece2e14a531f8c",
+    "bytes": 406
+  },
+  "android/app/src/main/res/values-es/strings.xml": {
+    "sha256": "4700cc8df878859c25f48012793fc086ce0480607c292b50df1b17e0859073f7",
+    "bytes": 12961
+  },
+  "android/app/src/main/res/values-fr/call_captions.xml": {
+    "sha256": "43e5b66bf6883a5c1848665e37430610f91a5fccabd369b7dd4d8738995c127e",
+    "bytes": 408
+  },
+  "android/app/src/main/res/values-fr/strings.xml": {
+    "sha256": "927d9366bba6c2d5cff3a9f6fd064b27341b5cf88e87d56b4078ebc235153071",
+    "bytes": 13166
+  },
+  "android/app/src/main/res/values-hu/call_captions.xml": {
+    "sha256": "643f5d17bfa4b852742712047f9d8923e8ab44236a51467bba0d094319ebe68f",
+    "bytes": 409
+  },
+  "android/app/src/main/res/values-hu/strings.xml": {
+    "sha256": "0e52fa4ab5f2c8622af98cf4804b550d707c5dd281b0b5b8431f7d3fadcf0581",
+    "bytes": 13314
+  },
+  "android/app/src/main/res/values-it/call_captions.xml": {
+    "sha256": "886fb8ea6ea07a5795bc1426afd169b038df452691d8a8036cf9d47e35fafcae",
+    "bytes": 405
+  },
+  "android/app/src/main/res/values-it/strings.xml": {
+    "sha256": "44b58ef30e77be0d51cbbe472c8d928679ff7243336f54ef631c41dca75e1a37",
+    "bytes": 12638
+  },
+  "android/app/src/main/res/values-ja/call_captions.xml": {
+    "sha256": "63b6b6bd8e61f085d208920d44fe0f08f6b5f07560c3802bd85599ebf5e42cdb",
+    "bytes": 414
+  },
+  "android/app/src/main/res/values-ja/strings.xml": {
+    "sha256": "6135756100186201ae08988a32275dc006d3e1e91c089a62287abec95e848921",
+    "bytes": 14432
+  },
+  "android/app/src/main/res/values-ko/call_captions.xml": {
+    "sha256": "024b47b3a675246a032ebdc51d8f3b2ce2a85da0243a558d569917a2cee77efa",
+    "bytes": 405
+  },
+  "android/app/src/main/res/values-ko/strings.xml": {
+    "sha256": "f22b41c1f5a1a7ff77b170de18b5a579be3b4a41ff0abbea62dba3f5f64e31c3",
+    "bytes": 13281
+  },
+  "android/app/src/main/res/values-night/colors.xml": {
+    "sha256": "053deb51937aa2a88b49e3734675e57395579cd671f430a75beaed46a998b11e",
+    "bytes": 82
+  },
+  "android/app/src/main/res/values-nl/call_captions.xml": {
+    "sha256": "c9d389535d643f0743506b7f08209d3dac800ed383871a8171ee3d01ceaf8c2f",
+    "bytes": 410
+  },
+  "android/app/src/main/res/values-nl/strings.xml": {
+    "sha256": "07bd9221f0e0a3a9e8a14ab6c9e9aa67d9d6f5544260be8f9616c9aad685c86c",
+    "bytes": 12841
+  },
+  "android/app/src/main/res/values-pl/call_captions.xml": {
+    "sha256": "5b7eb8f266f33e7515f6bc631e0dbf11026d0b7df170918fdb3ff1f4135710c7",
+    "bytes": 406
+  },
+  "android/app/src/main/res/values-pl/strings.xml": {
+    "sha256": "08b527cb7dffdeaabf2f92a6ffbf86834a097984adf0eadf35fef49e172e1f85",
+    "bytes": 12993
+  },
+  "android/app/src/main/res/values-pt/call_captions.xml": {
+    "sha256": "72b987942dbb4190ed37df7567425e53d788110d45e68444cef4405378739e18",
+    "bytes": 409
+  },
+  "android/app/src/main/res/values-pt/strings.xml": {
+    "sha256": "8868ca36a5277f9eb952b5540d5e9d8f40fc60a0bf6fe34327a527324875ee9e",
+    "bytes": 12933
+  },
+  "android/app/src/main/res/values-ro/call_captions.xml": {
+    "sha256": "79f32ea06207d11605283a739b78a21e537a38c06af343cd223f0f479b24875f",
+    "bytes": 403
+  },
+  "android/app/src/main/res/values-ro/strings.xml": {
+    "sha256": "876a3e7ad57bc776daf19e095935d664efe1586245e61f2b4ac5db501e45c653",
+    "bytes": 13946
+  },
+  "android/app/src/main/res/values-ru/account_auto_delete.xml": {
+    "sha256": "cbac767e9d0bca9b0c08c641a1533084b5225206ede630bb9ebe083e689cb7ec",
+    "bytes": 4255
+  },
+  "android/app/src/main/res/values-ru/account_safety.xml": {
+    "sha256": "f23b334b9fe61500d66cf6159b593b2ee4be87801cc5d65456a699305b02e795",
+    "bytes": 1119
+  },
+  "android/app/src/main/res/values-ru/admin.xml": {
+    "sha256": "80677530c331f5d453bc394762f526645c9e1bdb9c64f85bc45cc618a9f5aef7",
+    "bytes": 3735
+  },
+  "android/app/src/main/res/values-ru/admin_factor_policy.xml": {
+    "sha256": "562bddec8edc33f3678ce1cf6457dbc0e3b4043e31b90072f5ca05bb2bcb4d3a",
+    "bytes": 1699
+  },
+  "android/app/src/main/res/values-ru/admin_onboarding.xml": {
+    "sha256": "ab4cc6a3bc4632b2baa73a1a170958aaac7e88df52b6d06045a80d8d5dbbcb54",
+    "bytes": 5651
+  },
+  "android/app/src/main/res/values-ru/admin_pack2.xml": {
+    "sha256": "d602bcb3a860da4300762c9818170906e00445f5fe8d994f28ee8e78c497c22a",
+    "bytes": 8893
+  },
+  "android/app/src/main/res/values-ru/admin_ui.xml": {
+    "sha256": "178dc47a89291458c787d5acdcfb80b9e0bf6fb101449c26e76da371ab987f1d",
+    "bytes": 11440
+  },
+  "android/app/src/main/res/values-ru/app_color_style.xml": {
+    "sha256": "95ea16f1e79ac5a0a020134732ab0aad243643315f02d4030e5a730c4b56b9ed",
+    "bytes": 810
+  },
+  "android/app/src/main/res/values-ru/app_lock.xml": {
+    "sha256": "29ee8496269bf8352e7b36edf4a5624736b9183c68f543a80c194f14c771c859",
+    "bytes": 1181
+  },
+  "android/app/src/main/res/values-ru/auth_identity.xml": {
+    "sha256": "f1f8419ab1c8867493f1e4ad365a4ad364b0407817119bdb0ae4f81d3d8809a8",
+    "bytes": 988
+  },
+  "android/app/src/main/res/values-ru/call_captions.xml": {
+    "sha256": "c22997726c51870444559ccb038c63642159c04ee5f1ade7325acad32b6c3654",
+    "bytes": 436
+  },
+  "android/app/src/main/res/values-ru/call_history_actions.xml": {
+    "sha256": "1dc1e839084ce5ea177d2f3a6ddbf3f8e86abadd1f9b2ef517ddd07e03ba95dd",
+    "bytes": 1101
+  },
+  "android/app/src/main/res/values-ru/call_quality.xml": {
+    "sha256": "45b27b245a42bbf22945cdf89a74acf0ab5788f27b8c5b81b98aba2848f2b806",
+    "bytes": 1710
+  },
+  "android/app/src/main/res/values-ru/call_video_accessibility.xml": {
+    "sha256": "b677a2b7d60fe7036c07e06aa527503f9d6f7ccfd44bab88d5db0596cd9b02bb",
+    "bytes": 431
+  },
+  "android/app/src/main/res/values-ru/camera_direct.xml": {
+    "sha256": "6bc73d550143646ee99c9ba1c8e82b92a91bebab0bac0c4ad5448786ac2796d0",
+    "bytes": 1054
+  },
+  "android/app/src/main/res/values-ru/capsule_chat.xml": {
+    "sha256": "c969efe8cc48d454d63a79f2d010e39100502340defb76fa2d3efe75ddd3566b",
+    "bytes": 139
+  },
+  "android/app/src/main/res/values-ru/capsule_media.xml": {
+    "sha256": "502c18c2ef47420ea02dcac2f6cf56b9b238224cf7a9ae1f3c2370adc00f6aa0",
+    "bytes": 341
+  },
+  "android/app/src/main/res/values-ru/chat_appearance_editor.xml": {
+    "sha256": "a4d4e6be49e1289a5337b5a2104bfac6a01eb637da28844066cd4f7a6e19f4af",
+    "bytes": 3153
+  },
+  "android/app/src/main/res/values-ru/chat_controls.xml": {
+    "sha256": "6e3da23fe69bcbe50b7aba63c44249ac20611f3b79c303343e25ebbc18e26a64",
+    "bytes": 2436
+  },
+  "android/app/src/main/res/values-ru/chat_deletion.xml": {
+    "sha256": "38b19bcbe014316191b43f5e9ea6306c1fc78736b4c809f20cb3320affcfecd2",
+    "bytes": 1145
+  },
+  "android/app/src/main/res/values-ru/chat_feedback.xml": {
+    "sha256": "9e5d762af73493ee5366cf3f5a35c6a046dda7f60b8dd99a4f457d9c5f3afd7f",
+    "bytes": 1411
+  },
+  "android/app/src/main/res/values-ru/chat_filters.xml": {
+    "sha256": "311962f82d536516b84c30e5f065ae1c0ecf756ccb94915c0e47f85ca2682e23",
+    "bytes": 259
+  },
+  "android/app/src/main/res/values-ru/chat_management.xml": {
+    "sha256": "893c78af0b755ae8c73a8361ac91e36f353557c9f4525bc38b6d070f6ddbbd3d",
+    "bytes": 1549
+  },
+  "android/app/src/main/res/values-ru/chat_text_size.xml": {
+    "sha256": "7d77131dc9749a175d7061f23ae1307b046d85973efe40f400dc91984ccc6f77",
+    "bytes": 655
+  },
+  "android/app/src/main/res/values-ru/coco_text_viewer.xml": {
+    "sha256": "1fad0751b3b18cade78d3f3bc5da72610645dfbbb1ad2fa3304c79419c3bff24",
+    "bytes": 449
+  },
+  "android/app/src/main/res/values-ru/conference.xml": {
+    "sha256": "b14c2f7d716a3eae944b333db2d948ede1a1f9554b3a24119e7a57933aad35ae",
+    "bytes": 3974
+  },
+  "android/app/src/main/res/values-ru/conference_discovery.xml": {
+    "sha256": "2479f7c43b11f0b289e888122b8bcc0f142af65b4bcdd6fe6b97b30915631af2",
+    "bytes": 1590
+  },
+  "android/app/src/main/res/values-ru/conference_join_approval.xml": {
+    "sha256": "e4c0e362bb3960aa119b778eba445cae5a74208e8797c42a7a3d201cd26469fa",
+    "bytes": 1363
+  },
+  "android/app/src/main/res/values-ru/conference_rejoin.xml": {
+    "sha256": "b04b274f326a807392f6fb59a853b6f5ca45bc4a08c640d86d78fd8619c77cf4",
+    "bytes": 332
+  },
+  "android/app/src/main/res/values-ru/connection_header.xml": {
+    "sha256": "37b2d9284ac996518ded81985233c18ec73522d198eb83d46b5157d787455f7f",
+    "bytes": 641
+  },
+  "android/app/src/main/res/values-ru/delete_confirmation.xml": {
+    "sha256": "344bca03df93e4aeb3f70471f93ec42681437f79ae4789a6aaa449174b9df9b1",
+    "bytes": 202
+  },
+  "android/app/src/main/res/values-ru/device_confirmation.xml": {
+    "sha256": "0c93fc36e2b85bacc86e45d3e311f3c086dbd85c767b644588ecd8d6d0d0153d",
+    "bytes": 460
+  },
+  "android/app/src/main/res/values-ru/direct_background.xml": {
+    "sha256": "822332b158891db18a289dde2c22b88435a74aad4b6255ec7c36a1f95ec77e9f",
+    "bytes": 881
+  },
+  "android/app/src/main/res/values-ru/direct_file_strings.xml": {
+    "sha256": "c8b9526ec9a600ee8a0582997a5ee01d69dd0f5ebce4311f229735dc672e8fdd",
+    "bytes": 5577
+  },
+  "android/app/src/main/res/values-ru/direct_transfer_manager.xml": {
+    "sha256": "cd8272f4c7dc89e9e445e6868afbdbeef257d497c1a24bb3af7b44e552f807ab",
+    "bytes": 3484
+  },
+  "android/app/src/main/res/values-ru/feedback_redesign.xml": {
+    "sha256": "d399f11d35ead45a2b81e44a87d08eb22515abaa48bc5992e051e15aaeb4b3b9",
+    "bytes": 1016
+  },
+  "android/app/src/main/res/values-ru/feedback_ui.xml": {
+    "sha256": "d542b02355e82ca342d09b71fa56db1e8694bb8eb83de7de62cb971c4a61d2bc",
+    "bytes": 526
+  },
+  "android/app/src/main/res/values-ru/feedback_validation.xml": {
+    "sha256": "3d288c85f59ef1f5687bb81688fbed346561e3abbc4027f107480bda87a6a38f",
+    "bytes": 314
+  },
+  "android/app/src/main/res/values-ru/gallery_feedback.xml": {
+    "sha256": "730f4538a4af54ffc6e558b822836c3c8c7ed593fbbd524bccf9e16c5192840a",
+    "bytes": 401
+  },
+  "android/app/src/main/res/values-ru/gallery_send_mode.xml": {
+    "sha256": "27784d7ecccb460d1f1f150a4015d091ac93d84836564ac89d991fca2896a360",
+    "bytes": 659
+  },
+  "android/app/src/main/res/values-ru/history_settings.xml": {
+    "sha256": "3898f5e0fcc333841379bf7cdfe28771040b722de2811e51a7774b33822f009d",
+    "bytes": 9806
+  },
+  "android/app/src/main/res/values-ru/history_transfer.xml": {
+    "sha256": "212c9a0982a73ebe10cb11d2c3222665da5ddfa9eca1aefca94797f4592341fd",
+    "bytes": 17309
+  },
+  "android/app/src/main/res/values-ru/identity_help.xml": {
+    "sha256": "22f8dd3fc5c8bebc5e7075657f68716e35fefebff464ab78aca55431e3d5add1",
+    "bytes": 2254
+  },
+  "android/app/src/main/res/values-ru/inline_search.xml": {
+    "sha256": "fb4e9180c88616fa65d27b9649f81d56ecf0ef9c6a554fc6c4a7ef52d26386bf",
+    "bytes": 754
+  },
+  "android/app/src/main/res/values-ru/installation_restrictions.xml": {
+    "sha256": "6bb74c226e4586ae6a6636b1ed1676d698d0587e46f5465a58e717254bacee93",
+    "bytes": 924
+  },
+  "android/app/src/main/res/values-ru/interaction_audit.xml": {
+    "sha256": "469d57038d83e71439a92b662f1ebd460a0afd86dac682b4d426ed9012ed6afe",
+    "bytes": 149
+  },
+  "android/app/src/main/res/values-ru/local_mode.xml": {
+    "sha256": "2ef724c3638d28672f2092f04911faee5594cfeb2b1e483ee6d25fbc4e60c2df",
+    "bytes": 1328
+  },
+  "android/app/src/main/res/values-ru/media_conversation.xml": {
+    "sha256": "7e73095990aa92d8fa173db4585411e6ebf214203f564a73fce05dbe71ad06c7",
+    "bytes": 1039
+  },
+  "android/app/src/main/res/values-ru/media_refinement.xml": {
+    "sha256": "d046a061d32f015ed72a95cce3abad115f14b424bc7080f50cb05b131c856375",
+    "bytes": 722
+  },
+  "android/app/src/main/res/values-ru/message_delete_confirmation.xml": {
+    "sha256": "3be3b0ba7f0fbbe5aa8c6cf07d94be3155ed2c388786eac5fb829ce779928d19",
+    "bytes": 374
+  },
+  "android/app/src/main/res/values-ru/notification_settings.xml": {
+    "sha256": "a0dcfbd4e476ca870e4d54b33f6df2af6b6ee3d09d11df40f3df039d102aa2ae",
+    "bytes": 3899
+  },
+  "android/app/src/main/res/values-ru/offline.xml": {
+    "sha256": "d5550386bd1cd9c754254af3954710f667a0443d4701e0d3485fac2c612d1ea5",
+    "bytes": 222
+  },
+  "android/app/src/main/res/values-ru/performance.xml": {
+    "sha256": "f6b5990d8c5b1cce9189b580168bf277c803a5c2632fd2c1f91a6de3d54a65a4",
+    "bytes": 497
+  },
+  "android/app/src/main/res/values-ru/presence.xml": {
+    "sha256": "72f47cf1d16ed6077e12f25b95d120bd8fc505606c91a1cef80055b55f359b88",
+    "bytes": 583
+  },
+  "android/app/src/main/res/values-ru/privacy_storage_settings.xml": {
+    "sha256": "8641406332eaa9fcfa2060b81a5ac1c3a2ed42d52aa51e11610195dac7c754bd",
+    "bytes": 2598
+  },
+  "android/app/src/main/res/values-ru/profile_editor.xml": {
+    "sha256": "3146ced615e3f60d653de7f76a56a53352a332c2083c9687dce3bbb75925553e",
+    "bytes": 1990
+  },
+  "android/app/src/main/res/values-ru/qa_followup.xml": {
+    "sha256": "424b3ae42f4e30c010954efa6f78f370c4da65ca7d6469c98173985cd11daf0e",
+    "bytes": 2448
+  },
+  "android/app/src/main/res/values-ru/quick_reaction.xml": {
+    "sha256": "8a2db91842cfa684e7ff6a38f1fe38f02f98e264fc29adef059af756b9f743e7",
+    "bytes": 545
+  },
+  "android/app/src/main/res/values-ru/recovery.xml": {
+    "sha256": "cd947a1e482d877568a79b3d25951f7f32d21eb00f16ccb96ee335322116d9b2",
+    "bytes": 2421
+  },
+  "android/app/src/main/res/values-ru/reply_visual.xml": {
+    "sha256": "aec625cd624d7bb06c3e2373d87daca421d531b194c39e48cff6c543218726f5",
+    "bytes": 322
+  },
+  "android/app/src/main/res/values-ru/server_management.xml": {
+    "sha256": "3772840dcc44e17aca783ef90039b2675b3ab634481880c4be6bc9d333e9ba37",
+    "bytes": 2852
+  },
+  "android/app/src/main/res/values-ru/sidebar_appearance.xml": {
+    "sha256": "b9184810bba454128de6671d5b44ff3224ed2a7ff8e9238517bcc40e3161a418",
+    "bytes": 10139
+  },
+  "android/app/src/main/res/values-ru/sidebar_saved_style.xml": {
+    "sha256": "ba327ee84fdcda8e453466411364dd711c5d0ffb2a6c46f50115ae4c221f9284",
+    "bytes": 213
+  },
+  "android/app/src/main/res/values-ru/strings.xml": {
+    "sha256": "84a2aa4c084fd4957a535a64a1a3feee4be4bd6861369b8990c70f2861b009e9",
+    "bytes": 48496
+  },
+  "android/app/src/main/res/values-ru/text_policy_strings.xml": {
+    "sha256": "2b9be9d8389ddd0c367ca4f2afbcda261eba40f52a61e26d7e3425f9e1eeaa7b",
+    "bytes": 743
+  },
+  "android/app/src/main/res/values-ru/video_controls.xml": {
+    "sha256": "ec3de94afbc61632ffd35889276ee553bda9e2b6fab0f7566aae7a22012fe4f9",
+    "bytes": 724
+  },
+  "android/app/src/main/res/values-ru/wallpaper.xml": {
+    "sha256": "b7a8f1eba007254ec41f589bc62179c0b457f6def28b1c8a363b3de2573d61f8",
+    "bytes": 229
+  },
+  "android/app/src/main/res/values-tr/call_captions.xml": {
+    "sha256": "a188beb34d4a7d746eb474ff91b0cda9ef41a8cc792277c1760f6f854522d45b",
+    "bytes": 399
+  },
+  "android/app/src/main/res/values-tr/strings.xml": {
+    "sha256": "161bb1de1dbf2f1f898bd8004a56ba1d4201fbc38c97e6d00e4ba3e421b8f6e8",
+    "bytes": 12674
+  },
+  "android/app/src/main/res/values-uk/account_auto_delete.xml": {
+    "sha256": "9acfd4bdfdc818241eea1e0334eb1b2fa09426e7fda8e53cc7089b6d8be6e304",
+    "bytes": 4283
+  },
+  "android/app/src/main/res/values-uk/account_safety.xml": {
+    "sha256": "acda82e0563fdfdfab83d6b904135b08bdb8acfd2a3f5b5dd2dd994bfe49d40f",
+    "bytes": 1167
+  },
+  "android/app/src/main/res/values-uk/admin.xml": {
+    "sha256": "524c01cc254a2e2237e2a77f52336de6503c58881a61b9ea1a88cd7562a0dfbf",
+    "bytes": 3753
+  },
+  "android/app/src/main/res/values-uk/admin_factor_policy.xml": {
+    "sha256": "64597b85087bbeffa95036ddec4e20473250c2d5310e645053be4ba27f2e5917",
+    "bytes": 1721
+  },
+  "android/app/src/main/res/values-uk/admin_onboarding.xml": {
+    "sha256": "0b50bc61387ad6fc5fc443187a76350606516050ca4c2b2a836317856841a4bc",
+    "bytes": 5628
+  },
+  "android/app/src/main/res/values-uk/admin_pack2.xml": {
+    "sha256": "ee305421f353d66f4a7a085c364d83669ad7414cfdb3f99946f9b4bda07814f3",
+    "bytes": 8673
+  },
+  "android/app/src/main/res/values-uk/admin_ui.xml": {
+    "sha256": "cbb640ab097562bb86249e094540c4f0f8687bc36a04a897745f80a46db552a0",
+    "bytes": 11289
+  },
+  "android/app/src/main/res/values-uk/app_color_style.xml": {
+    "sha256": "a4f2de5f7dd8a82ace4379239331607235b1a408a47318836557861c4ea0af05",
+    "bytes": 856
+  },
+  "android/app/src/main/res/values-uk/app_lock.xml": {
+    "sha256": "45e9c1354491361bfc5f76f93aacc4ac27abfe468097b96eee889d39cef737f6",
+    "bytes": 1161
+  },
+  "android/app/src/main/res/values-uk/auth_identity.xml": {
+    "sha256": "5c6d5f786017c2c6f7135127386173c5b0e6b389913f8e74dc1408a2dedcb2e9",
+    "bytes": 1047
+  },
+  "android/app/src/main/res/values-uk/call_captions.xml": {
+    "sha256": "70593d292043bdf930e70a44126b2c567f4d0884bda87b841817455d01dc3339",
+    "bytes": 438
+  },
+  "android/app/src/main/res/values-uk/call_history_actions.xml": {
+    "sha256": "8f8cbf6ffeb6dec08c3faca451adb6c6e04de8670fd048f0d5a6630f1fc5e744",
+    "bytes": 1095
+  },
+  "android/app/src/main/res/values-uk/call_quality.xml": {
+    "sha256": "1aa3f9fde3c87a65e1fb0faa439ce6e1e428c35d8fe06c58a2ae3fdb40e9b851",
+    "bytes": 1731
+  },
+  "android/app/src/main/res/values-uk/capsule_chat.xml": {
+    "sha256": "0357de8d253b9f0c5770b33b9bfcbe410fd43115471f59aac11cab424c6715b4",
+    "bytes": 141
+  },
+  "android/app/src/main/res/values-uk/capsule_media.xml": {
+    "sha256": "3bf3dbc4ddc34ed642d4513424eb683104c2feed09a6e5bb560103b0725dca26",
+    "bytes": 355
+  },
+  "android/app/src/main/res/values-uk/chat_appearance_editor.xml": {
+    "sha256": "88914f4916e3bac46604befd4c5c44a5b0e82a7c26b90fa91a82307a007273ed",
+    "bytes": 3216
+  },
+  "android/app/src/main/res/values-uk/chat_controls.xml": {
+    "sha256": "192297221d893d74b36d573274d5f9bffa794d48ab68c6cc3e965cb3b8313278",
+    "bytes": 2441
+  },
+  "android/app/src/main/res/values-uk/chat_deletion.xml": {
+    "sha256": "e8a7e220cc63948a4334c3fef8ac6e812011c00dbdc54099c47630a7c6e45387",
+    "bytes": 1173
+  },
+  "android/app/src/main/res/values-uk/chat_feedback.xml": {
+    "sha256": "b657806b90a4da1a351195dc672a95999d8efa272bea6fe3480b6cc7d2ccfe21",
+    "bytes": 1442
+  },
+  "android/app/src/main/res/values-uk/chat_filters.xml": {
+    "sha256": "ad3e544dc32f2f4a82adcf804a681733ce9c708e891db6b25d59d96525c2db74",
+    "bytes": 257
+  },
+  "android/app/src/main/res/values-uk/chat_management.xml": {
+    "sha256": "ef5330935a56d8b59337862eecd267fcf7227d9682d64a7eb900199ca185845b",
+    "bytes": 1551
+  },
+  "android/app/src/main/res/values-uk/chat_text_size.xml": {
+    "sha256": "a924d2adedaef856fc3b10c9c4c4f9b2e43aa3dd815b24f8670048dc35ec9dd1",
+    "bytes": 649
+  },
+  "android/app/src/main/res/values-uk/coco_text_viewer.xml": {
+    "sha256": "c8c91843b94b136cb0e96ed41d807db0b68246a1fe1d204db694df72edde49fb",
+    "bytes": 446
+  },
+  "android/app/src/main/res/values-uk/conference.xml": {
+    "sha256": "aa1b5358637a29a16cefe70572a0d25536a9fb835efb2d2a1225fbc88f27c077",
+    "bytes": 4160
+  },
+  "android/app/src/main/res/values-uk/conference_join_approval.xml": {
+    "sha256": "2ca2282ec1b9f2b0e5e16f959a1d14a8fb30938cf2a21b582355c5ae79adb740",
+    "bytes": 1330
+  },
+  "android/app/src/main/res/values-uk/conference_rejoin.xml": {
+    "sha256": "d0a5f253c98a418100cb0eb7fc2ca74e8745c4762615abc37b0c740776b6ca15",
+    "bytes": 328
+  },
+  "android/app/src/main/res/values-uk/connection_header.xml": {
+    "sha256": "df6ea676eb395b9001f7942ebaf2857c098016053e71320fa7229c00a5970d6e",
+    "bytes": 654
+  },
+  "android/app/src/main/res/values-uk/delete_confirmation.xml": {
+    "sha256": "8bb42afad0a0cf2576fe53428ca1364f53bf84c7b4f444424e51fe6e85e05327",
+    "bytes": 215
+  },
+  "android/app/src/main/res/values-uk/device_confirmation.xml": {
+    "sha256": "2d687daeb8c71646a9f7baccfb24225666652fd1fb2fb29cbb2ebd82b4f2115a",
+    "bytes": 432
+  },
+  "android/app/src/main/res/values-uk/direct_background.xml": {
+    "sha256": "8153624bb7d3ee0ef75ce7d15db12667721416c700301f3c026ff3f038d50a1e",
+    "bytes": 909
+  },
+  "android/app/src/main/res/values-uk/direct_file_strings.xml": {
+    "sha256": "1092b7411383e0dd9ecee36fb5f2f2037a31649793ab440256381ce5c51864de",
+    "bytes": 5725
+  },
+  "android/app/src/main/res/values-uk/direct_transfer_manager.xml": {
+    "sha256": "5ad9afcdc7f0fbe4d703c13b995dddf684ce0da96cb69515cfa85c01a95475d3",
+    "bytes": 3482
+  },
+  "android/app/src/main/res/values-uk/feedback_redesign.xml": {
+    "sha256": "2e440b2213c652a524920f6f0277db01b9ef31cde355859a1406675d4702e09f",
+    "bytes": 1011
+  },
+  "android/app/src/main/res/values-uk/feedback_ui.xml": {
+    "sha256": "a9c2ba09c6d3c0cb20b0692ca39d97af1fd5fa96955df4329305bc9f63aae70e",
+    "bytes": 533
+  },
+  "android/app/src/main/res/values-uk/feedback_validation.xml": {
+    "sha256": "666172ba6aa3af26a2577b507acf267256bfa43af0fe22f2caecdc88bb2a1607",
+    "bytes": 312
+  },
+  "android/app/src/main/res/values-uk/gallery_feedback.xml": {
+    "sha256": "5d1fc2da0f3a44486e545f2a4d9e7ba67000d8a014b0a63928eb180ccedf4103",
+    "bytes": 405
+  },
+  "android/app/src/main/res/values-uk/gallery_send_mode.xml": {
+    "sha256": "23aa63535fd1a86b10bf453bcd98b2079e9c356cfb003541520c2aea9688b7dd",
+    "bytes": 653
+  },
+  "android/app/src/main/res/values-uk/history_settings.xml": {
+    "sha256": "b241bf4b8fcb16f657ffb2383096479156ca79d941f09ba7b82330ee08847db3",
+    "bytes": 9777
+  },
+  "android/app/src/main/res/values-uk/history_transfer.xml": {
+    "sha256": "cba972f22deee6fb195d091d62a4aa0750feb917bf1157ebb1db9dc0dea5dec2",
+    "bytes": 17617
+  },
+  "android/app/src/main/res/values-uk/identity_help.xml": {
+    "sha256": "856b90e4ab2a2eefcc7e9b4fa558258568109f62523dbb24279e14654870bbde",
+    "bytes": 2197
+  },
+  "android/app/src/main/res/values-uk/inline_search.xml": {
+    "sha256": "e3a5f2a4da78556fd64c1e22634d60967b8384190c20b0382582c1120575610c",
+    "bytes": 759
+  },
+  "android/app/src/main/res/values-uk/installation_restrictions.xml": {
+    "sha256": "d6a06d036372f2297a31bf362f6b817bddae02e0613f96d27c6ede4f9053311f",
+    "bytes": 886
+  },
+  "android/app/src/main/res/values-uk/interaction_audit.xml": {
+    "sha256": "97b209f860ae3a7fdc0f1d5bb358f34bbf494a64c103978527e924a3a86caa05",
+    "bytes": 149
+  },
+  "android/app/src/main/res/values-uk/media_conversation.xml": {
+    "sha256": "c0c687bc89d60333c4f180929f76145bcfeaeb3b414905846123b9dabd758288",
+    "bytes": 1081
+  },
+  "android/app/src/main/res/values-uk/media_refinement.xml": {
+    "sha256": "6e1d91d50590d404dfb76f02b26523a23403786df3eaf605034d73eb3eddea54",
+    "bytes": 728
+  },
+  "android/app/src/main/res/values-uk/message_delete_confirmation.xml": {
+    "sha256": "3bc55d7ed3b43621d9f7da61f05a50450a2fb0a50090b454118caea9fb304a15",
+    "bytes": 384
+  },
+  "android/app/src/main/res/values-uk/notification_settings.xml": {
+    "sha256": "58f0662f28f2bf90078ca1416fd2ede6cbf863b6ee3a8aebf38721391a0ec81f",
+    "bytes": 3945
+  },
+  "android/app/src/main/res/values-uk/offline.xml": {
+    "sha256": "1097a26cf0dd2fdf956b31b19d1d23d0fd45d209be1a07cc10dd6c4fb0773009",
+    "bytes": 218
+  },
+  "android/app/src/main/res/values-uk/performance.xml": {
+    "sha256": "ab07c9a52dcbae5e09a33cc9f242f09c1b9622f96ebaf40d994e105d4f362ec7",
+    "bytes": 490
+  },
+  "android/app/src/main/res/values-uk/presence.xml": {
+    "sha256": "dd5c98736ccd9eea45061263ae2247b8a53704b8076268dc101419cd8d207ed2",
+    "bytes": 590
+  },
+  "android/app/src/main/res/values-uk/privacy_storage_settings.xml": {
+    "sha256": "6b8ddacc5842e85dedae172b4a1fe8cf0ce773c1704e4a3f7a9027443d6cb743",
+    "bytes": 2671
+  },
+  "android/app/src/main/res/values-uk/profile_editor.xml": {
+    "sha256": "006406f0d9e5d7d963edb5fae0932d93f265d2d07b72337fbd82664bbfb2354f",
+    "bytes": 2009
+  },
+  "android/app/src/main/res/values-uk/quick_reaction.xml": {
+    "sha256": "1a725f8485e576b52aa2ed190416ed10b7abcd4aef5cd801cc5199f370ef2c8f",
+    "bytes": 544
+  },
+  "android/app/src/main/res/values-uk/recovery.xml": {
+    "sha256": "55ea36c415326060294147af4223263b676e18e0b5896b8dbe37642cd8875460",
+    "bytes": 2345
+  },
+  "android/app/src/main/res/values-uk/server_management.xml": {
+    "sha256": "6977e70e70cf0976dc2f3b702d1af807594a82b7b29314fde21427f51ee9c267",
+    "bytes": 2829
+  },
+  "android/app/src/main/res/values-uk/sidebar_appearance.xml": {
+    "sha256": "18940c39a2007c7abf37ccd9689d26b54883128c2e1da4d242156dc6f64cef69",
+    "bytes": 10219
+  },
+  "android/app/src/main/res/values-uk/sidebar_saved_style.xml": {
+    "sha256": "e8e51fd328a36e4d9bc1ab77b9062f8938272c857e29ad7bf97e57dfd2bb34d8",
+    "bytes": 228
+  },
+  "android/app/src/main/res/values-uk/strings.xml": {
+    "sha256": "572bd911903fbbd7726faefa83c737945bca7e40cfe26215ba258e15d2866fe3",
+    "bytes": 29299
+  },
+  "android/app/src/main/res/values-uk/text_policy_strings.xml": {
+    "sha256": "4c89aad61c16773d387021d1597691eeac6b1fa33a630073eca3cb7b09651057",
+    "bytes": 676
+  },
+  "android/app/src/main/res/values-uk/wallpaper.xml": {
+    "sha256": "00e61e1cd0e40de67c814a00d0ed1174a61c36105d0b0c05561159b72938777c",
+    "bytes": 235
+  },
+  "android/app/src/main/res/values-zh-rCN/call_captions.xml": {
+    "sha256": "74f33560d931763966c1a229954689d16db9000342543295e54eeb342645b6c5",
+    "bytes": 405
+  },
+  "android/app/src/main/res/values-zh-rCN/strings.xml": {
+    "sha256": "217816833d16c0fa236101a51c47d91841f18b3adff42900a95c0c2a00eb022b",
+    "bytes": 12139
+  },
+  "android/app/src/main/res/xml/file_paths.xml": {
+    "sha256": "eccd775fd5e3989b0852d9b3cb316a4ba41b98dccddd40a4299721aa7fa9f4b9",
+    "bytes": 621
+  },
+  "android/app/src/main/res/xml/network_security_config.xml": {
+    "sha256": "6e391a3ec71f58c94af98be2db4028e58a7b66feded481b8a400212ea02cbc98",
+    "bytes": 846
+  },
+  "android/app/src/release/res/raw/coco_lan_ca.pem": {
+    "sha256": "545f76de899525c7c7ce0aeb8bf634f7207e9bacf697a9e290c8c0ed92ea6e3d",
+    "bytes": 627
+  },
+  "android/app/src/release/res/xml/network_security_config.xml": {
+    "sha256": "6e391a3ec71f58c94af98be2db4028e58a7b66feded481b8a400212ea02cbc98",
+    "bytes": 846
+  },
+  "android/build.gradle.kts": {
+    "sha256": "62a6e7acfc8ee9b4ee23e56c996ab1719e7f72a2d224a73bbdbf0a98c4bb9820",
+    "bytes": 274
+  },
+  "android/gradle/libs.versions.toml": {
+    "sha256": "e26f2fea05993c28a55c2fa7c2d39bbee2024ef049b9ccf0847bf530e1ba49c3",
+    "bytes": 3389
+  },
+  "android/gradle/wrapper/gradle-wrapper.jar": {
+    "sha256": "498495120a03b9a6ab5d155f5de3c8f0d986a449153702fb80fc80e134484f17",
+    "bytes": 43504
+  },
+  "android/gradle/wrapper/gradle-wrapper.properties": {
+    "sha256": "1a6f8e431f09345eb3ab6935b63dbe9ac63a714149a7c9b045e4a21c2fca0f2d",
+    "bytes": 348
+  },
+  "android/gradle.properties": {
+    "sha256": "0c495a571fdc2d2ee3e9e1cba39b093a8723f0b73f8ce5256fcc23defb24efb4",
+    "bytes": 140
+  },
+  "android/gradlew": {
+    "sha256": "a3648413b47ef77af21d5ebc36c687c7d103aaef3e17f33de7d4f080a6f300a3",
+    "bytes": 8762
+  },
+  "android/gradlew.bat": {
+    "sha256": "57931b17dd228e5c24dac90e815d0bf82477e831a4618dfab4136f5446b42a9f",
+    "bytes": 2966
+  },
+  "android/settings.gradle.kts": {
+    "sha256": "672cd18d4f4edb45841cd0b0e1d44825c26e41c099ccf638c71903ea081acec6",
+    "bytes": 582
+  },
+  "shared/attachment-picker-style.json": {
+    "sha256": "b6bb1764764e4df1e513b0904218a6c0534cd3001ad6a78c57714fa10adf629f",
+    "bytes": 389
+  },
+  "shared/chat-appearance.json": {
+    "sha256": "a9c8bf6fa429363ab6b9749d3687a8342b5b86fd442fd52ca474fa2583d7f51f",
+    "bytes": 13871
+  },
+  "shared/chat-style-v2.json": {
+    "sha256": "e3942773b92696084405104af51ba392b705e0c026b0dec400411666b181b3ee",
+    "bytes": 2374
+  },
+  "shared/conference-contract.md": {
+    "sha256": "b23590a945097315fe8e7082de6fd2c797db48dea2cc4f61165814f14513b728",
+    "bytes": 25912
+  },
+  "shared/conference-discovery-v1-vectors.json": {
+    "sha256": "29b54b6f71834f2a9400186f7aea70ed0abf9737cd9cf6a5798120d2abdbb82d",
+    "bytes": 30555
+  },
+  "shared/conference-discovery-v1.md": {
+    "sha256": "b9bb17154d8777581ca7cc779e73d4dbc655ecd819313d4f4046dd744d0a15df",
+    "bytes": 13519
+  },
+  "shared/conference-v2-vectors.json": {
+    "sha256": "f85bc05507103b805a35567939169c873a567431cdc37741c82b73a4a50dac51",
+    "bytes": 82673
+  },
+  "shared/server-origin.json": {
+    "sha256": "dbf5d3eb31c49fc500d7b2d64506bdb9bf693f25a8c22659be0c279e2fb30cd3",
+    "bytes": 166
+  },
+  "shared/sidebar-appearance-schema.json": {
+    "sha256": "b893e602a4f20929aa975c9b50d12848b9c3dd0e442ba6766daf70a68783aff4",
+    "bytes": 7779
+  },
+  "shared/sidebar-style.json": {
+    "sha256": "e59cbee11b5a0720fd4122da1750ef02a99d9bb9d411b001f905a1aaf4680119",
+    "bytes": 4943
+  },
+  "android/app/src/main/java/com/messenger/app/ui/chats/DirectFileChatPublication.kt": {
+    "sha256": "37def19f550e3d5c17acf55dd9f71afaab5897e089ed3a232cbbf49fe671609d",
+    "bytes": 2430
+  }
+}

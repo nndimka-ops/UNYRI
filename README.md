@@ -1,4 +1,4 @@
-# UNYRI — iOS 0.3.16, self-hosted server and Windows admin alpha
+# UNYRI — iOS 0.3.17, self-hosted server and Windows admin alpha
 
 A space for family and friends, on a server you choose and control. UNYRI brings
 encrypted conversations and self-hosting together, with a Windows console for
@@ -14,11 +14,14 @@ guides below to understand the setup and current package scope.
   Docker, public ports/CGNAT and TURN/SFU requirements. Use your own generated
   secrets and provider credentials; no shared private push or signing keys are
   supplied. A self-hosted deployment is not a promise of universal push setup.
-- **iOS 0.3.16 / build 16:** [build recipe](SOURCE_BUILD.md),
+- **iOS 0.3.17 / build 17:** [build recipe](SOURCE_BUILD.md),
   [release source binding](RELEASE_SOURCE_BINDING.json) and
   [shipping selection](SOURCE_SELECTION.json). All 773 selected production inputs
-  match the qualified source. [Bundle metadata](release-metadata/ios-0.3.16/README.md)
-  accounts for the original 829-file source ZIP without replacing the operator guide.
+  match the qualified source. [Bundle metadata](release-metadata/ios-0.3.17/README.md)
+  records the exact 773 selected source17 inputs; historical16 bundle metadata is retained.
+- **Android 0.3.17 source:** [build scope](ANDROID_SOURCE_BUILD.md) and
+  [selected inputs](release-metadata/android-0.3.17/PRODUCT_INPUTS.json).
+  Firebase/provider configuration and publisher signing keys are excluded.
 - **Windows Admin Console 0.3.16 alpha:** [source and package scope](windows-admin/README.md).
   It is an unsigned .NET Framework 4.8 remote-admin alpha; optional local-stack/AI
   controls require additional setup and are not qualified by the portable package.

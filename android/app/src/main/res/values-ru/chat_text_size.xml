@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chat_text_size_title">Размер текста в чате</string>
+    <string name="chat_text_size_preview">Так будут выглядеть ваши сообщения.</string>
+    <string name="chat_text_size_small">Небольшой</string>
+    <string name="chat_text_size_default">Обычный (по умолчанию)</string>
+    <string name="chat_text_size_large">Крупный</string>
+    <string name="chat_text_size_largest">Очень крупный</string>
+    <string name="chat_text_size_maximum">Максимальный</string>
+</resources>

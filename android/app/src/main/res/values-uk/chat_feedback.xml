@@ -1,0 +1,17 @@
+<resources>
+    <string name="chat_unpin">Відкріпити</string>
+    <string name="chat_find_destination">Пошук чатів</string>
+    <string name="chat_show_earlier_calls">Показати дзвінки до цього входу</string>
+    <string name="chat_hide_earlier_calls">Сховати дзвінки до цього входу</string>
+    <string name="settings_account_summary">Профіль, сервер, видалення облікового запису</string>
+    <string name="settings_appearance_summary">Мова та навігація</string>
+    <string name="settings_privacy_summary">Пристрої, активність і чернетка</string>
+    <string name="settings_storage_summary">Пам’ять і завантаження медіа</string>
+    <string name="settings_about_summary">Підтримка, діагностика та умови</string>
+    <string name="chat_pin_action">Закріпити в себе</string>
+    <string name="chat_select_loaded">Вибрати всі завантажені</string>
+    <string name="chat_open">Відкрити чат</string>
+    <string name="chat_copy_username">Скопіювати нік</string>
+    <string name="admin_no_images">Знімки екрана не додані</string>
+    <string name="admin_search_reports">Пошук у завантажених звітах</string>
+</resources>

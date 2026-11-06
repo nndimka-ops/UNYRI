@@ -588,6 +588,8 @@ final class DirectFileTransfers: ObservableObject {
                     record.attemptId = UUID().uuidString.lowercased()
                     record.phase = .accepted; record.consentGiven = true
                     try await self.save(record)
+                    // The explicit zero restart invalidates every sample from the old attempt.
+                    self.publishProgress(id, snapshot: DirectFileProgress(offset: record.durableOffset), force: true)
                     try await self.beginReceiverRequest(record, resume: true)
                 }
                 self.start()
@@ -2143,8 +2145,11 @@ final class DirectFileTransfers: ObservableObject {
     }
 
     func fileURL(_ id: String) async -> URL? {
-        guard current, let record = stateRecords[id], record.phase == .completed else { return nil }
-        return try? await disk.completedURL(record)
+        guard current, !Task.isCancelled, let record = stateRecords[id], record.phase == .completed else { return nil }
+        let url = try? await disk.completedURL(record)
+        guard current, !Task.isCancelled, let latest = stateRecords[id], latest.phase == .completed,
+              latest.offer == record.offer else { return nil }
+        return url
     }
 
     func shareURL(_ id: String) async -> URL? {

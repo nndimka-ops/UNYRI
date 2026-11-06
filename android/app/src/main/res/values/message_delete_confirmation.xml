@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="message_delete_scope_everyone">This message will be removed for all participants.</string>
+    <string name="message_delete_scope_me">This message will be removed from this device. Other participants will keep it.</string>
+</resources>

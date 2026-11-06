@@ -6,7 +6,7 @@
       "classification": "Public generated SwiftPM build auxiliary used by the qualified source16 builds; separate from773 selected shipping source files and source939 manifest."
     }
   },
-  "source939ManifestSHA256": "f32341354f73f9b2f0f1adfd18a0aed7f3187f75710ce5d11635ad73262c71ce",
+  "source939ManifestSHA256": "ca69e5a7b7d2680ef506b98bd0c36427e88e4e32e71286115780c2d6da70a63d",
   "productBuildInputs": {
     "ios/.gitignore": {
       "bytes": 313,
@@ -1906,7 +1906,7 @@
     },
     "ios/UNYRI.xcodeproj/project.pbxproj": {
       "bytes": 111120,
-      "sha256": "e38d24d15b5d3e6fdf8be892bb62e669e0123854ae084c622609db4cd692449b"
+      "sha256": "a03c5088048aaf21e4601869e9844c15bebf91e46084ca5f8d2ac7ab2f5e9789"
     },
     "ios/UNYRI.xcodeproj/project.xcworkspace/contents.xcworkspacedata": {
       "bytes": 142,
@@ -2361,8 +2361,8 @@
       "sha256": "722f596bdb7093b74b1419d6fe039edbcc7115ef3c420ee0df0dfcbba55ba87c"
     },
     "ios/UNYRI/DirectTransfer/DirectFileTransfers.swift": {
-      "bytes": 146802,
-      "sha256": "c914478ad6d1684ea1209719985682dcc83a16bfea2d0daee45f5ed93015078a"
+      "bytes": 147221,
+      "sha256": "ee15d0b4759e66ff651fdee29765db1cd2278eaea25030e748afea97128af62a"
     },
     "ios/UNYRI/DirectTransfer/DirectFileViews.swift": {
       "bytes": 18684,
@@ -2781,8 +2781,8 @@
       "sha256": "ef5d59551a5f9dcdad2066aaae040cb1e10ba856441aad1d99cdd4a100c0032d"
     },
     "ios/UNYRI/UI/Calls/CallScreen.swift": {
-      "bytes": 48944,
-      "sha256": "bb856779ad55638b7565192e51f41f2f7d61422f11963c20635c601ceccd3f60"
+      "bytes": 48942,
+      "sha256": "9d8c9d68708ba9e82a812e9b1fe453c1817cf0de72a116a103328570c15b45fb"
     },
     "ios/UNYRI/UI/Calls/VideoRenderViews.swift": {
       "bytes": 4344,

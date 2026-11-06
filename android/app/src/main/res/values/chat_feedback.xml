@@ -1,0 +1,17 @@
+<resources>
+    <string name="chat_unpin">Unpin</string>
+    <string name="chat_find_destination">Search chats</string>
+    <string name="chat_show_earlier_calls">Show earlier calls</string>
+    <string name="chat_hide_earlier_calls">Hide earlier calls</string>
+    <string name="settings_account_summary">Profile, server, account deletion</string>
+    <string name="settings_appearance_summary">Language and navigation</string>
+    <string name="settings_privacy_summary">Devices, activity and live draft</string>
+    <string name="settings_storage_summary">Storage and media downloads</string>
+    <string name="settings_about_summary">Support, diagnostics and terms</string>
+    <string name="chat_pin_action">Pin for me</string>
+    <string name="chat_select_loaded">Select all loaded messages</string>
+    <string name="chat_open">Open chat</string>
+    <string name="chat_copy_username">Copy username</string>
+    <string name="admin_no_images">No screenshots attached</string>
+    <string name="admin_search_reports">Search loaded reports</string>
+</resources>
