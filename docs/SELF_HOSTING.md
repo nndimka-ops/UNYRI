@@ -1,19 +1,243 @@
-# Server scope of this iOS-only source package
+# Свой сервер UNYRI для семьи и друзей
 
-This packet contains an iOS client, not the backend or a complete self-hosting
-installer. Connect only to a compatible server whose operator you trust. The
-operator controls their server-side access rules, storage and processing.
-HTTPS protects the connection but does not establish the operator's reliability.
+Это руководство для **новой** самостоятельной Linux-установки alpha-версии.
+Исходники backend соответствуют развёрнутой версии a31; пример конфигурации
+проверен статически, но новая установка по нему ещё не квалифицирована целиком.
+Это не установщик в один клик. Нужен оператор, умеющий обновлять Linux, Docker,
+DNS/TLS и восстанавливать резервные копии. Не приглашайте людей до проверок ниже.
 
-Choose the server through the client login/server screen or supply a default with
-`UNYRI_API_BASE_URL`. Independent servers have separate accounts and histories.
-Do not disable TLS checks, copy provider secrets into the app, or clear existing
-accounts/Keychain to work around an address error. The client source's local-network
-compatibility identifiers remain unchanged.
+Подключайтесь только к серверам доверенных владельцев. Оператор управляет
+учётными записями, доступом, хранением и доступностью. Он видит IP подключения
+и служебные данные: время, размеры, аккаунты и необходимые для доставки
+метаданные. Шифрование переписки не скрывает все эти сведения. HTTPS защищает
+соединение, но не подтверждает добросовестность оператора. Независимые серверы
+имеют отдельные аккаунты и историю; автоматической федерации между ними нет.
 
-Actual self-hosting additionally needs backend source/configuration, HTTPS,
-database/object storage, backups, and separate TURN/SFU and provider setup where
-used. Those components and operational instructions are outside this iOS-only
-snapshot. No public backend repository or universal push gateway is invented by
-this document. APNs/PushKit and complete physical background-transfer
-qualification are not supplied by publishing the client source.
+## 1. Выберите место и адреса
+
+- Отдельный Linux-сервер x86_64 с постоянным диском, Docker Engine и Compose.
+  В проверенной установке использовались Ubuntu 24.04, 3 vCPU / 4 ГБ RAM. Это пример
+  окружения, не минимальное требование и не обещание числа пользователей.
+- Два DNS-имени: например `chat.example.com` и `files.example.com`. Оба должны
+  указывать на ваш сервер и иметь действительные публичные TLS-сертификаты.
+- Публично доступный адрес. Домашняя сеть за CGNAT обычно не принимает входящие
+  соединения из интернета: одной записи DNS недостаточно. Потребуется доступный
+  внешний сервер либо отдельно настроенный маршрут/туннель. Обычный HTTP-туннель
+  не обеспечивает UDP relay для звонков автоматически.
+- Место под базу, объекты, журналы и отдельную резервную копию. Ограничьте общую
+  квоту приложения ниже доступного диска с запасом для ОС и обслуживания.
+
+В примере открываются только TCP 80/443 для HTTPS, TCP/UDP 3478 и
+UDP 49152–49200 для TURN. Это выбранный пример relay-диапазона, не требование
+открывать все высокие порты. SSH ограничьте своим административным доступом.
+PostgreSQL, Redis и backend не публикуются; MinIO API доступен только proxy,
+его console — только на localhost. Порт5349 здесь не используется: `turns:`
+потребует собственного TLS listener/сертификата, а не замены строки URL.
+
+## 2. Возьмите согласованный исходный снимок и соберите backend
+
+Используйте отдельную копию опубликованного репозитория и сохраните commit.
+Предыдущий тег `ios-0.3.15` — выпуск iOS-исходников; серверные дополнения не
+появляются задним числом в его ZIP. Используйте публикацию, содержащую
+[SERVER_SOURCE_BINDING.json](../SERVER_SOURCE_BINDING.json).
+
+```sh
+docker build --pull -f server/Dockerfile -t unyri-server:a31-source .
+```
+
+Команда выполняется из корня исходников. Dockerfile использует Rust 1.98,
+`cargo build --locked --release` и собирает `messenger-server` и `coco-admin`.
+Cargo.lock закреплён; зависимости берутся из указанных в нём источников с
+контрольными суммами. Нужен интернет для первоначальной сборки. Это не обещание
+офлайн-сборки или побитового повторения чужого runtime-образа. При нехватке
+памяти собирайте на отдельной машине совместимой архитектуры.
+
+[.dockerignore](../.dockerignore) пропускает только входы серверной сборки.
+Рабочую конфигурацию, ключи и резервные копии всё равно храните **вне Git**.
+`server/.env.example` предназначен исключительно для локальной разработки;
+его демонстрационные пароли и `development` нельзя переносить в интернет.
+
+## 3. Подготовьте конфигурацию и собственные секреты
+
+В [compose.example.yaml](self-hosting/compose.example.yaml) есть все шесть
+базовых служб: backend, PostgreSQL, Redis, MinIO, Caddy и Coturn. Комнаты/SFU и
+push в него намеренно не включены. Службы не получают фиксированных общих имён
+контейнеров; `-p unyri-family` создаёт отдельный проект и постоянные тома.
+
+Выберите совместимые официальные версии образов: PostgreSQL 16, Redis 7, MinIO,
+Caddy 2 и Coturn. Запишите **публичные repository manifest digests**
+`repository@sha256:...`; локальный Docker imageID не является адресом скачивания.
+Обновления upstream и проверки proxy/storage остаются обязанностью оператора.
+Пример не скачивает образы и не подтверждает безопасность произвольного тега.
+
+Создайте root-owned 0700 каталог `/etc/unyri` и скопируйте туда
+[Caddyfile.example](self-hosting/Caddyfile.example) как `Caddyfile`. Затем запустите
+[generate_secrets.py](self-hosting/generate_secrets.py), подставив свои домены,
+контакт, публичный IPv4 TURN и пять выбранных digest-адресов:
+
+```sh
+sudo install -d -m0700 /etc/unyri
+sudo install -m0600 docs/self-hosting/Caddyfile.example /etc/unyri/Caddyfile
+sudo python3 docs/self-hosting/generate_secrets.py \
+  --output /etc/unyri/server.env \
+  --app-domain chat.example.com --files-domain files.example.com \
+  --turn-host turn.example.com --turn-public-ipv4 YOUR_PUBLIC_IPV4 \
+  --tls-email operator@example.com --caddyfile /etc/unyri/Caddyfile \
+  --postgres-image POSTGRES_REPOSITORY_AT_DIGEST \
+  --redis-image REDIS_REPOSITORY_AT_DIGEST \
+  --minio-image MINIO_REPOSITORY_AT_DIGEST \
+  --caddy-image CADDY_REPOSITORY_AT_DIGEST \
+  --coturn-image COTURN_REPOSITORY_AT_DIGEST
+```
+
+Замените все значения-заглушки перед запуском. Скрипт не перезаписывает файл,
+создаёт независимые случайные секреты, задаёт 0600 и не выводит их. Он не
+создаёт пользователей S3, не запускает контейнеры и не настраивает DNS/firewall.
+Сделайте защищённую резервную копию конфигурации, особенно `COCO_ADMIN_KEY`:
+это ключ шифрования административных факторов, а не пароль для пользователей.
+
+Имена `COCO_ENV=production`, `COCO_ADMIN_KEY` и бинарник `coco-admin` сохранены
+в этой версии для совместимости. `UNYRI_ENV`/`UNYRI_ADMIN_KEY` и `unyri-admin`
+здесь не объявляются рабочими заменами. Название продукта от этого не меняется.
+
+## 4. Создайте закрытое хранилище до запуска приложения
+
+Сначала проверьте подстановки без вывода секретов и запустите только зависимости:
+
+```sh
+sudo docker compose -p unyri-family --env-file /etc/unyri/server.env \
+  -f docs/self-hosting/compose.example.yaml config --quiet
+sudo docker compose -p unyri-family --env-file /etc/unyri/server.env \
+  -f docs/self-hosting/compose.example.yaml pull postgres redis minio caddy coturn
+sudo docker compose -p unyri-family --env-file /etc/unyri/server.env \
+  -f docs/self-hosting/compose.example.yaml up -d --pull never postgres redis minio coturn
+```
+
+Откройте MinIO console только через свой SSH-туннель к localhost 9001.
+Локально оператору понадобятся сгенерированные значения из 0600 конфигурации;
+не пересылайте файл в чат, тикет или Git и не публикуйте полный `compose config`.
+
+В console создайте приватный bucket `unyri-attachments`, **никогда не включайте
+versioning** и не делайте bucket анонимно доступным. Даже Suspended versioning
+эта версия отклоняет. Для существующего bucket нужна отдельная проверка
+истории версий и миграции; руководство рассчитано на новый пустой bucket.
+
+Создайте двух разных пользователей S3 (principal) и их access key с точными сгенерированными ID/секретами:
+
+1. Серверный `S3_ACCESS_KEY_ID`: доступ к своему bucket и объектам, включая
+   backend-запись аватаров и удаление. Пример прав:
+   [storage-server-policy.example.json](self-hosting/storage-server-policy.example.json).
+2. Клиентский `S3_UPLOAD_ACCESS_KEY_ID`: только PutObject в этот bucket и явный
+   запрет GetObject/GetObjectVersion для всех bucket. Используйте точный
+   [storage-client-uploads-policy.template.json](../server/storage-client-uploads-policy.template.json).
+
+В обоих JSON замените `__COCO_BUCKET__` на `unyri-attachments`.
+Не используйте root-ключи MinIO вместо разделённых principal. Запрет чтения
+клиентского principal также предотвращает S3 CopyObject/UploadPartCopy с чужим источником.
+Проверьте права на выбранном S3-провайдере; похожий JSON сам по себе не доказывает
+его поведение. Серверному principal не нужен CreateBucket, если bucket уже создан.
+
+Публичный files-host должен идти только через приведённый Caddy ingress:
+он ограничивает абсолютный срок body до 30 минут, upstream response до 1 минуты
+и отклоняет старые privileged PUT/неподдерживаемые режимы. Значение
+`S3_MAX_UPLOAD_DURATION_SECONDS=1860` соответствует именно этому маршруту.
+Не меняйте его наугад и не открывайте обходной порт 9000. Конфигурация сохраняет
+Host/path/query подписанного URL. Действительное ограничение срока следует
+проверить на выбранном proxy-бинарнике, а не по наличию строки в конфигурации.
+
+## 5. Запустите HTTPS и приложение, назначьте владельца
+
+```sh
+sudo docker compose -p unyri-family --env-file /etc/unyri/server.env \
+  -f docs/self-hosting/compose.example.yaml up -d --pull never backend caddy
+```
+
+Backend применяет миграции при старте. `/health` должен возвращать
+`status=ok`, `database=true`, `redis=true`; один HTTP 200 недостаточен.
+Убедитесь, что TLS действителен с внешней сети и оба hostname ведут на нужный
+proxy. Настройте `TRUSTED_PROXIES` только на фактический непосредственный proxy
+и проверьте реальные клиентские IP; не доверяйте всему интернету/произвольному XFF.
+
+На телефоне откройте выбор сервера на экране входа UNYRI, введите
+`https://chat.example.com` и создайте **новый аккаунт этой установки**.
+Не очищайте существующие аккаунты/Keychain и не отключайте проверку TLS.
+После регистрации назначьте своему аккаунту роль владельца:
+
+```sh
+sudo docker compose -p unyri-family --env-file /etc/unyri/server.env \
+  -f docs/self-hosting/compose.example.yaml \
+  exec backend /usr/local/bin/coco-admin grant-owner YOUR_USERNAME
+```
+
+Войдите в веб-админку `/administration` и настройте факторы защиты. Сохраните
+свои восстановительные материалы приватно. Изменить имя, оператора, контакт,
+правила и квоты можно существующим экраном политики сервера. Начальное старое
+имя вроде COCO Cloud меняется этой настройкой; не правьте seed-миграцию/таблицы
+ради переименования. Приглашайте близких только после установки лимитов и проверок.
+
+## Звонки, комнаты и уведомления — отдельные настройки
+
+**1:1 звонки.** Проверьте приём/отклонение, звук в обе стороны, завершение и
+разные внешние сети. Coturn и backend используют один уникальный TURN-секрет;
+клиенты получают временные credentials, а не постоянный секрет. Проверьте
+reachability public-IP/relay-диапазона; CGNAT и firewall могут блокировать медиа.
+В примере TURN без TLS; TLS/DTLS и SFU в нём не настроены.
+
+**Комнаты.** Нужен отдельно настроенный LiveKit/SFU с `room.auto_create=false`,
+обязательным backend authorize-sfu gateway и без обходного публичного Twirp/API.
+Установите реальные `CONFERENCE_LIVEKIT_*`, затем подтверждения
+`CONFERENCE_LIVEKIT_AUTOCREATE_DISABLED` и `CONFERENCE_GATEWAY_REQUIRED` только
+после проверки инфраструктуры. Без них не обещайте рабочие комнаты.
+
+**Push.** Backend содержит FCM и нативные APNs alert/VoIP. Публикация исходников
+не даёт самостоятельному серверу credentials для официального клиента.
+
+- FCM требует серверный service account именно Firebase-проекта установленного
+  Android-клиента. Собственная сборка использует собственный Firebase-проект.
+- APNs требует собственную Apple app/bundle/team конфигурацию, подходящие
+  entitlements и ключ, разрешённый для соответствующих тем. TestFlight/AppStore
+  используют production; development/sandbox настраивается отдельно.
+- `APNS_ALLOWED_ENVIRONMENTS`/`APNS_ALLOWED_TOPICS` — серверный allowlist;
+  реальные `APNS_PRODUCTION_TEAM_ID`, `_KEY_ID`, `_KEY_FILE` остаются у оператора.
+  Ключ монтируется read-only, читается UID/GID 10001, но не раздаётся пользователям.
+- Для регулярных alerts и live incoming-call VoIP проверяйте темы по отдельности.
+  Нельзя подменять PushKit обычным background-трюком или посылать VoIP call_ended.
+- Общий готовый push-шлюз для произвольных серверов **в этот снимок не входит**.
+  Не копируйте ключи разработчика/другого сервера. Без своих подходящих credentials
+  текущий официальный клиент может работать online, но универсальный push не обещан.
+
+В Compose-примере push по умолчанию не настроен. Для своего клиента добавляйте
+credentials только приватным операторским override с read-only bind; сохраните
+все прежние настройки/FCM. Проверьте настоящий callback токена и actual native
+presentation: HTTP 200 провайдера означает принятие запроса, не уведомление на экране.
+Заблокированный экран, остановка приложения, разрешения ОС и фоновая передача
+крупных файлов имеют отдельные ограничения; alpha не обещает полный OS matrix.
+
+## Перед приглашением и при обновлениях
+
+На двух собственных тестовых аккаунтах проверьте HTTPS/health, вход/выход,
+обычный текст/фото/видео/файл и открытие у получателя, нехватку места и отмену,
+1:1 звонок в разных сетях и отдельно настроенные push/комнаты. Снаружи не должны
+открываться DB/Redis/backend/MinIO console или прямой S3 API в обход ingress.
+
+Храните вне сервера резервные копии PostgreSQL, S3-объектов и защищённой
+конфигурации/ключей. Проверяйте восстановление в отдельном окружении. Docker-том
+не является резервной копией. `docker compose down -v` удаляет постоянные тома;
+не используйте эту команду для обновления. Новый пароль в env не меняет пароль
+существующей PostgreSQL-роли автоматически.
+
+Сохраняйте согласованные версии клиента/backend, исходники и изменения своего
+выпуска. После миграции 0062 нельзя слепо возвращать старый pre-APNs backend:
+его конфликт по device_id несовместим с новым typed-slot constraint. Безопасное
+отключение APNs сохраняет новый совместимый код/схему и все записи. Не удаляйте
+аккаунты или push-строки ради отката.
+
+Код UNYRI опубликован под [AGPL-3.0-only](../LICENSE); сторонние зависимости
+сохраняют собственные лицензии. См. [server/README.md](../server/README.md) и
+закреплённые источники Cargo. Windows-консоль/установщик в этот пакет не входят;
+доступны существующие веб-админка и локальная CLI. Публичного готового Windows
+инсталлятора этот документ не объявляет.
+
+Контакт проекта: `bbdimka@gmail.com`. Для своей установки укажите собственный
+контакт/правила. В отчётах об ошибках оставляйте версии, этап, время/часовой пояс
+и ограниченное наблюдение; удаляйте токены, пароли, ключи и личную переписку.

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="referrer" content="no-referrer">
+<title>UNYRI · Server administration</title>
+<link rel="icon" type="image/png" href="/brand-icon.png">
+<link rel="stylesheet" href="/administration/assets/app.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+
+<!-- Unauthenticated / waiting states. No privileged data is present in this
+     document: it is a static shell that requests nothing until a browser
+     session exists. -->
+<div id="gate" class="gate">
+  <div class="gate-card" role="region" aria-labelledby="gate-title">
+    <div class="gate-brand"><img class="brand-icon" src="/brand-icon.png" width="36" height="36" alt="">UNYRI <span>ADMINISTRATION</span></div>
+    <h1 id="gate-title">Server administration</h1>
+    <p id="gate-message" role="status" aria-live="polite">Checking this browser session…</p>
+    <ol class="gate-steps" id="gate-steps" hidden>
+      <li>Open UNYRI Admin Console on Windows, or administration in UNYRI on your phone.</li>
+      <li>Sign in using the protection methods selected for your administrator account.</li>
+      <li>Choose <strong>Open administration console</strong>.</li>
+    </ol>
+    <button type="button" id="gate-retry" class="btn btn-primary" hidden>Try again</button>
+  </div>
+</div>
+
+<div id="app" hidden>
+  <header class="topbar">
+    <button type="button" id="nav-toggle" class="icon-btn nav-toggle" aria-expanded="false" aria-controls="nav">
+      <span class="icon-btn-glyph" aria-hidden="true">☰</span>
+      <span class="sr-only">Show sections</span>
+    </button>
+    <div class="brand">
+      <span class="brand-dot" aria-hidden="true"></span>
+      <span class="brand-name"><img class="brand-icon" src="/brand-icon.png" width="32" height="32" alt="">UNYRI</span>
+      <span class="brand-sub">Administration</span>
+    </div>
+    <div class="topbar-end">
+      <span id="role-chip" class="chip chip-accent" hidden></span>
+      <button type="button" id="refresh" class="btn btn-quiet">Refresh</button>
+      <button type="button" id="close-console" class="btn btn-quiet">Lock console</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav id="nav" class="nav" aria-label="Administration sections">
+      <div class="nav-caption">WORKSPACE</div>
+      <ul id="nav-list" class="nav-list"></ul>
+      <div class="server-context"><span class="server-context-label">CONNECTED SERVER</span><strong id="server-origin"></strong><span>Browser session · private</span></div>
+      <p class="nav-foot" id="session-note"></p>
+    </nav>
+
+    <main id="content" class="content" tabindex="-1" aria-live="polite">
+      <div class="page-heading"><div><p class="eyebrow">UNYRI CONTROL CENTER</p><h1 id="section-title">Overview</h1><p id="section-description" class="page-description"></p></div><span id="session-status" class="chip chip-ok">Session active</span></div>
+      <div id="view" class="view"></div>
+    </main>
+  </div>
+</div>
+
+<div id="modal" class="modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <h2 id="modal-title" class="modal-title"></h2>
+    <div id="modal-body" class="modal-body"></div>
+    <div class="modal-actions">
+      <button type="button" id="modal-cancel" class="btn btn-quiet">Cancel</button>
+      <button type="button" id="modal-confirm" class="btn btn-primary"></button>
+    </div>
+  </div>
+</div>
+
+<div id="lightbox" class="lightbox" hidden role="dialog" aria-modal="true" aria-label="Screenshot preview">
+  <button type="button" id="lightbox-close" class="lightbox-close">Close</button>
+  <img id="lightbox-image" alt="Feedback screenshot" src="">
+</div>
+
+<div id="banner" class="banner" hidden role="status" aria-live="polite"></div>
+
+<script src="/administration/assets/app.js" type="module"></script>
+</body>
+</html>

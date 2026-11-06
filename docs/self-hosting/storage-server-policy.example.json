@@ -1,0 +1,17 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "InspectExistingUnversionedUNYRIBucket",
+      "Effect": "Allow",
+      "Action": ["s3:ListBucket", "s3:GetBucketVersioning"],
+      "Resource": ["arn:aws:s3:::__COCO_BUCKET__"]
+    },
+    {
+      "Sid": "PrivateBackendObjectsAndAvatars",
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
+      "Resource": ["arn:aws:s3:::__COCO_BUCKET__/*"]
+    }
+  ]
+}

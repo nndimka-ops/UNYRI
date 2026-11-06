@@ -1,0 +1,45 @@
+[package]
+name = "messenger-server"
+version = "0.1.0"
+edition = "2021"
+license = "AGPL-3.0-only"
+publish = false
+default-run = "messenger-server"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+axum = { version = "0.7", features = ["ws"] }
+tower-http = { version = "0.5", features = ["trace"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+sqlx = { version = "0.7", features = ["postgres", "runtime-tokio-rustls", "macros", "migrate", "uuid", "chrono"] }
+redis = { version = "0.25", features = ["tokio-comp", "connection-manager"] }
+dotenvy = "0.15"
+uuid = { version = "1", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+anyhow = "1"
+argon2 = "0.5"
+jsonwebtoken = "9"
+rand = "0.8"
+base64 = "0.22"
+sha2 = "0.10"
+sha1 = "0.10"
+hmac = "0.12"
+hex = "0.4"
+ring = "0.17"
+reqwest = { version = "=0.12.28", default-features = false, features = ["rustls-tls", "http2"] }
+async-trait = "0.1"
+quick-xml = { version = "0.37", features = ["serialize"] }
+totp-rs = { version = "6", features = ["otpauth", "qr", "gen_secret"] }
+aes-gcm = "0.10.3"
+image = { version = "0.25", default-features = false, features = ["jpeg", "png", "webp"] }
+
+[dev-dependencies]
+h2 = "=0.4.20"
+tokio-rustls = { version = "=0.26.4", default-features = false, features = ["ring", "tls12"] }
+tower = { version = "0.5", features = ["util"] }
+http-body-util = "0.1"
+tokio-tungstenite = "0.24"
+futures-util = "0.3"

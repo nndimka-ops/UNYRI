@@ -1,0 +1,13 @@
+# Import this inside the existing global Caddy options block. The S3 service
+# must be private and reachable by clients ONLY through this ingress.
+# Together with storage-proxy-transport.caddy, set
+# S3_MAX_UPLOAD_DURATION_SECONDS=1860 (1800 body + 60 upstream processing).
+# HTTP/1.1 enforces this through Go's absolute request deadline. Keep h2
+# disabled for unverified proxy binaries (GO-2026-6611). The cloud deployment
+# enables h2 separately only after verifying patched Go and x/net build info.
+servers {
+    protocols h1
+    timeouts {
+        read_body 30m
+    }
+}

@@ -1,0 +1,4 @@
+0041_device_call_history_restore.sql text eol=lf
+0042_user_presence.sql text eol=lf
+0043_call_activity_reads.sql text eol=lf
+0044_bounded_chat_clear.sql text eol=lf

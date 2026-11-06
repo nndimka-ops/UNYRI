@@ -1,0 +1,19 @@
+# Send only backend build inputs to Docker. Local credentials, databases,
+# media, platform builds and Windows tools must never enter the build context.
+**
+!server/
+server/*
+!server/Cargo.toml
+!server/Cargo.lock
+!server/src/
+!server/src/**
+!server/migrations/
+!server/migrations/**
+!server/Dockerfile
+!server/console/
+!server/console/**
+!server/legal/
+!server/legal/**
+!shared/
+shared/*
+!shared/chat-appearance.json

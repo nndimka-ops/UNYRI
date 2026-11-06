@@ -1,4 +1,4 @@
-# UNYRI for iOS — 0.3.15 source
+# UNYRI — iOS 0.3.15 and self-hosted backend source
 
 This source snapshot contains the app, share extension, local Swift packages,
 resources, shared schemas/vectors and retained licenses. The selected production
@@ -17,10 +17,17 @@ distribution binaries. No CI workflow is activated at this repository root.
 - [Local modifications](LOCAL_MODIFICATIONS.md)
 - [Shipping inputs and explicit QA exclusions](SOURCE_SELECTION.json)
 - [AGPL-3.0-only](LICENSE), [copyright](COPYRIGHT)
-- [Public file hashes](PUBLIC_FILE_MANIFEST.json)
+- [Original iOS-release public file hashes](PUBLIC_FILE_MANIFEST.json)
+- [Backend source/build scope](server/README.md)
+- [Свой сервер для семьи и друзей](docs/SELF_HOSTING.md)
+- [Backend source binding](SERVER_SOURCE_BINDING.json)
+- [Server additions file hashes](SERVER_PUBLIC_FILE_MANIFEST.json)
 
-This is an iOS client source package. The hosted backend and its provider
-credentials are separate; see [the self-hosting scope](docs/SELF_HOSTING.md).
+The 773 iOS shipping inputs remain exact. A separately bound backend source
+addition is now included; provider credentials remain operator-private. See
+[the self-hosting guide](docs/SELF_HOSTING.md). The existing ios-0.3.15 release
+asset remains the original iOS-only source package; server additions need their
+own reviewed publication.
 Source publication does not prove physical push delivery, large-file background
 grants or a complete physical-device test matrix. The exact signed15 source build, exported IPA and compiled framework UUIDs
 are bound in [SIGNED_RELEASE_BINDING.json](SIGNED_RELEASE_BINDING.json). Source

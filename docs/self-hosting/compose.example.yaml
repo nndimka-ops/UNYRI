@@ -1,0 +1,113 @@
+# Fresh Linux installation EXAMPLE, not an executed installer.
+# Supply reviewed public image tags/digests and generated secrets externally.
+services:
+  postgres:
+    image: ${POSTGRES_IMAGE:?Select a reviewed PostgreSQL16 image tag/digest}
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: unyri
+      POSTGRES_USER: unyri
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Generate a unique password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U unyri -d unyri"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  redis:
+    image: ${REDIS_IMAGE:?Select a reviewed Redis7 image tag/digest}
+    restart: unless-stopped
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?Generate a unique password}
+    command: [redis-server, --appendonly, "yes", --requirepass, "${REDIS_PASSWORD:?Generate a unique password}"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: [CMD-SHELL, "REDISCLI_AUTH=$$REDIS_PASSWORD redis-cli ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  minio:
+    image: ${MINIO_IMAGE:?Select a reviewed S3-compatible MinIO image tag/digest}
+    restart: unless-stopped
+    command: [server, /data, --console-address, ":9001"]
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:?Generate a unique root access ID}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?Generate a unique root password}
+    # Administrative console only, available through an operator SSH tunnel.
+    ports: ["127.0.0.1:9001:9001"]
+    volumes:
+      - minio_data:/data
+  backend:
+    image: unyri-server:a31-source
+    restart: unless-stopped
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+    environment:
+      # This exact source reads COCO_ENV, not UNYRI_ENV.
+      COCO_ENV: production
+      COCO_ADMIN_KEY: ${COCO_ADMIN_KEY:?Generate and retain a32-byte hex administrative encryption key}
+      SERVER_HOST: 0.0.0.0
+      SERVER_PORT: "8080"
+      DATABASE_URL: postgres://unyri:${POSTGRES_PASSWORD:?Required}@postgres:5432/unyri
+      DATABASE_MAX_CONNECTIONS: "10"
+      REDIS_URL: redis://:${REDIS_PASSWORD:?Required}@redis:6379/0
+      JWT_SECRET: ${JWT_SECRET:?Generate a unique secret}
+      RUST_LOG: info
+      S3_ENDPOINT_URL: http://minio:9000
+      S3_PUBLIC_ENDPOINT_URL: https://${FILES_DOMAIN:?Set public files hostname}
+      S3_REGION: us-east-1
+      S3_BUCKET: unyri-attachments
+      S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID:?Create the matching private reader principal}
+      S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY:?Required}
+      S3_UPLOAD_ACCESS_KEY_ID: ${S3_UPLOAD_ACCESS_KEY_ID:?Create a separate write-only principal}
+      S3_UPLOAD_SECRET_ACCESS_KEY: ${S3_UPLOAD_SECRET_ACCESS_KEY:?Required}
+      S3_MAX_UPLOAD_DURATION_SECONDS: "1860"
+      TURN_STUN_URLS: stun:${TURN_HOST:?Set a reachable TURN hostname}:3478
+      TURN_TURN_URLS: turn:${TURN_HOST:?Required}:3478?transport=udp,turn:${TURN_HOST:?Required}:3478?transport=tcp
+      TURN_SHARED_SECRET: ${TURN_SHARED_SECRET:?Generate a unique shared secret}
+      # Caddy does not forward a client-supplied X-Forwarded-For unchanged.
+      # No proxy range is trusted until the operator sets its actual subnet.
+      TRUSTED_PROXIES: ${TRUSTED_PROXIES:-}
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+      minio: {condition: service_started}
+  caddy:
+    image: ${CADDY_IMAGE:?Select a reviewed Caddy2 image with the required deadline behavior}
+    restart: unless-stopped
+    environment:
+      APP_DOMAIN: ${APP_DOMAIN:?Set public application hostname}
+      FILES_DOMAIN: ${FILES_DOMAIN:?Set public files hostname}
+      TLS_EMAIL: ${TLS_EMAIL:?Set operator contact for certificates}
+      S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID:?Required for old privileged-PUT guard}
+    ports: ["80:80", "443:443"]
+    volumes:
+      - ${UNYRI_CADDYFILE:?Select the absolute reviewed Caddyfile path}:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on: [backend, minio]
+  coturn:
+    image: ${COTURN_IMAGE:?Select a reviewed Coturn image tag/digest}
+    restart: unless-stopped
+    # This example is Linux-only. Host mode avoids an extra Docker relay NAT.
+    network_mode: host
+    command:
+      - -n
+      - --listening-port=3478
+      - --min-port=49152
+      - --max-port=49200
+      - --realm=${TURN_HOST:?Required}
+      - --external-ip=${TURN_EXTERNAL_IP:?Set the reachable public IPv4}
+      - --use-auth-secret
+      - --static-auth-secret=${TURN_SHARED_SECRET:?Required}
+      - --no-tls
+      - --no-dtls
+      - --log-file=stdout
+volumes:
+  postgres_data:
+  redis_data:
+  minio_data:
+  caddy_data:
+  caddy_config:

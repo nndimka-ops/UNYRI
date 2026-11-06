@@ -1,0 +1,1057 @@
+{
+  "scope": "Server249 plus deployment/docs and upstream SVG notices; excludes generated manifests themselves. Original iOS-release manifests remain historical artifacts.",
+  "files": {
+    ".dockerignore": {
+      "sha256": "9eedbf286620618258c4a5046538f17260e470f7e573c68e50a1b9bb69d0be57",
+      "bytes": 416
+    },
+    "COPYRIGHT": {
+      "sha256": "9b96877a43544bbf46efe0ceef28d8a38b09ddee5a2cd3804cec7c36c5f3c8e0",
+      "bytes": 453
+    },
+    "LICENSE": {
+      "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0",
+      "bytes": 34523
+    },
+    "README.md": {
+      "sha256": "fc33cc4c670a8ba7d7a72495f538044d0faca2e582f8f42c6c1e32df54470e31",
+      "bytes": 2547
+    },
+    "SERVER_SOURCE_BINDING.json": {
+      "sha256": "0465a2945a5973bc5570a38002eaaed1376d20c2e6d337612451007d488dec93",
+      "bytes": 78424
+    },
+    "docs/SELF_HOSTING.md": {
+      "sha256": "a639310a3f29a9b59e638153cb58604884fa860bc3554b228b6910e3c935d8ed",
+      "bytes": 21547
+    },
+    "docs/self-hosting/Caddyfile.example": {
+      "sha256": "85d286d652ac38c90d3ca838c984c11299f5731a63384055d77b8d13bcc6b563",
+      "bytes": 988
+    },
+    "docs/self-hosting/compose.example.yaml": {
+      "sha256": "0479f2280640f07f80be91c85772dbd6b8a5a43472c3b4900e5c317edb5d8741",
+      "bytes": 4738
+    },
+    "docs/self-hosting/generate_secrets.py": {
+      "sha256": "7fe4e4fbe028f18e161ece5e18116dba5cf007df363798a512eb7d27fbaaf1d9",
+      "bytes": 3764
+    },
+    "docs/self-hosting/storage-server-policy.example.json": {
+      "sha256": "559a3cee29f7e627fac19d37cd2663c4e51ad72a8e90310ba765b1d08bfce782",
+      "bytes": 463
+    },
+    "server/.env.example": {
+      "sha256": "778b9dd39afac02eb2a418c7393fddf97dc19d14debb54c762d0ac412c2b381f",
+      "bytes": 4721
+    },
+    "server/Cargo.lock": {
+      "sha256": "ae3b754518e820de04e7a690cdcf0abcc8662d6eb755a2dca1b7ff4f864eddf2",
+      "bytes": 88170
+    },
+    "server/Cargo.toml": {
+      "sha256": "e4138af7c4dc8735157d7af4c427146fbabb5d551d94d254116704acbbf47846",
+      "bytes": 1526
+    },
+    "server/DEPENDENCY_SOURCE_LOCK.json": {
+      "sha256": "c3cb067ea581c59f598f5f53df17f82184382833abab4d2b674632d967f24121",
+      "bytes": 82457
+    },
+    "server/Dockerfile": {
+      "sha256": "47930d20ed2cc8733120c64b6fec7e2a3f8119bd917f941bd44447b36bd4a6b2",
+      "bytes": 1135
+    },
+    "server/README.md": {
+      "sha256": "4ceaef1ac5b136e710c04e3d63f24a991ba7d972b728a9cbae33b4d111e8f7e9",
+      "bytes": 3764
+    },
+    "server/console/app.css": {
+      "sha256": "f7b68bdc015dc10407233b1469d70bbf5c9de7fd5fe8906a4ad0648821e3722a",
+      "bytes": 18217
+    },
+    "server/console/app.js": {
+      "sha256": "39619804e4fcb58a694f0a809f03e279349e80a3040318a9f3443d0aa2460baf",
+      "bytes": 74709
+    },
+    "server/console/index.html": {
+      "sha256": "f631ddc672d87beb47f402127a0b88509ddbded5876801e6d17b11365bb3fcbb",
+      "bytes": 4085
+    },
+    "server/legal/brand-icon.png": {
+      "sha256": "30a1b98455bfa273d8530e86bceb9211880a5fbe6392f1e81819a47f72a63f16",
+      "bytes": 13323
+    },
+    "server/legal/legal.css": {
+      "sha256": "e8151dbfd9b1d10574860f4f6307ba37e751ec756c4574691f6c0880776c9da3",
+      "bytes": 1084
+    },
+    "server/legal/privacy.html": {
+      "sha256": "4be20f5c1b571ed0444e57df5b4da917239ccce4b863dbc47774f7288f163fdb",
+      "bytes": 26067
+    },
+    "server/legal/support.html": {
+      "sha256": "1d5d2600feaf36593f64ce4740b5ca59bf1481028c58f87edca290d0bd359b3c",
+      "bytes": 8052
+    },
+    "server/legal/terms.html": {
+      "sha256": "dae1f084547ae12e2ecffc6aed6ddc4b2acd6ce8190eb011e8545e39699502b5",
+      "bytes": 11672
+    },
+    "server/migrations/.gitattributes": {
+      "sha256": "5f16a9ec869b670939cb3781cf78c0a0a60d0184a231ecdceebb0836b8f1bddb",
+      "bytes": 165
+    },
+    "server/migrations/0001_initial_schema.sql": {
+      "sha256": "1e492649707bd77dd01984cc89238b5a8bae8230076b2b4be22d339ec43bf366",
+      "bytes": 9755
+    },
+    "server/migrations/0002_profile_search.sql": {
+      "sha256": "04e451b6747035cbee2b1179bc398f4a405de98cb073b4999466c3e3ebbb1a96",
+      "bytes": 1338
+    },
+    "server/migrations/0003_e2e_keys.sql": {
+      "sha256": "f17c3a453dcda1e2969c1854804df710b0b69e02e9ecd1e496bb8a73f7348c2f",
+      "bytes": 4638
+    },
+    "server/migrations/0004_attachments.sql": {
+      "sha256": "6bb67b7f4d57fcbe7bdfa59f69c801b5171a98e8e1a8f5fd8c186ac88319b9f6",
+      "bytes": 2447
+    },
+    "server/migrations/0005_message_lifecycle.sql": {
+      "sha256": "4844f41a2f4a0dc7953ed4dbf6f025f3e980712fffe8f625eb358bbb5f136767",
+      "bytes": 1258
+    },
+    "server/migrations/0006_calls.sql": {
+      "sha256": "27a0dd25cae6512850a8f15800dfebeb3716f7fcfb91481a59cd5cef98f72dd6",
+      "bytes": 2710
+    },
+    "server/migrations/0007_push_outbox.sql": {
+      "sha256": "2a80713dcdf37051924e47804858a6bccc37e846a4857b9548b3ee1df73463a4",
+      "bytes": 1603
+    },
+    "server/migrations/0008_security.sql": {
+      "sha256": "7d2d1bfa49ce3467a4be7441a76c71260649ae019a628f957460ccc0300a9663",
+      "bytes": 2513
+    },
+    "server/migrations/0009_saved_chats.sql": {
+      "sha256": "d1004183a448b5f1bb6b7d8add35478ced258b78e0ca8c0efe1f40d5cb87c4ba",
+      "bytes": 819
+    },
+    "server/migrations/0010_saved_chats_constraints.sql": {
+      "sha256": "8234bfd36157a4ec600f7bb31bf323a049df7fd3c3eb4e2fae151507ea43e1ad",
+      "bytes": 1144
+    },
+    "server/migrations/0011_call_liveness.sql": {
+      "sha256": "36d9855cab9df72dc0c29ad81a0ca4d3cdda45be700b087324bce132ed73c9db",
+      "bytes": 615
+    },
+    "server/migrations/0012_profile_bio.sql": {
+      "sha256": "f3b5bcb13316e4aec63735c995d3edd2df3bdcfa03150ec6d37723fb8fbdc0d2",
+      "bytes": 326
+    },
+    "server/migrations/0013_account_scoped_devices.sql": {
+      "sha256": "ebde75d2f0fd8cc31cefd7ecd18668e497c3250b91b6aae26186075513905467",
+      "bytes": 799
+    },
+    "server/migrations/0014_profile_versioning.sql": {
+      "sha256": "702d42e23b3053a06e51fa6f4f092196e22b6d7596ccd6a670f575b31e02c606",
+      "bytes": 1682
+    },
+    "server/migrations/0015_avatar_ownership.sql": {
+      "sha256": "3ec544b5ec27f4e2b18cf228af7ff61478fc4d9e5ab789ba0291d008609d06bc",
+      "bytes": 503
+    },
+    "server/migrations/0016_call_history_indexes.sql": {
+      "sha256": "a791e1f6dcfe51df894ecfac290882dab61c9b796231d7ffcc1e350044fe0455",
+      "bytes": 226
+    },
+    "server/migrations/0017_refresh_retry_identity.sql": {
+      "sha256": "4593844545091bfda87a1fe5020a64b0f11032d6d1b4933becfe11a4bcc1ea22",
+      "bytes": 203
+    },
+    "server/migrations/0018_session_history_lineage.sql": {
+      "sha256": "d0d6ea183dd0e2e4a9ebe95fa8e766ee2420f8b2ddfef35f1906c6333907d465",
+      "bytes": 173
+    },
+    "server/migrations/0019_bug_reports.sql": {
+      "sha256": "14edcf5a4a043525e477ade15fec36c1a86dad769b01593349c5311655b4ea85",
+      "bytes": 337
+    },
+    "server/migrations/0020_attachment_multipart.sql": {
+      "sha256": "ad4f8b127712739c33f3fabcc8b4a06f878b041ad8c0c074527b229dcd816998",
+      "bytes": 321
+    },
+    "server/migrations/0021_account_deletion.sql": {
+      "sha256": "b377c7a662d1a0400bd7db28cef02153d39706bf871b811defe2af10a906ff96",
+      "bytes": 527
+    },
+    "server/migrations/0022_chat_moderation.sql": {
+      "sha256": "0ae56a80a3050e9e3adb50042d98b879d769a8a044dff040db6d84aaa8651747",
+      "bytes": 2029
+    },
+    "server/migrations/0023_server_administration.sql": {
+      "sha256": "91f149e428804b7c61fa5ecb29b6a3603f4e39fa7a8cfb661f5494afee87e630",
+      "bytes": 1620
+    },
+    "server/migrations/0024_admin_signing_keys.sql": {
+      "sha256": "5f864e184c0db4236403267c08186baf46fbc70516416aaf7b158afb0d7aed0d",
+      "bytes": 1155
+    },
+    "server/migrations/0025_account_recovery.sql": {
+      "sha256": "70418a5b7fa396a9fe375a77dde888a3711822f7e24877a1e6cdc415d0db93af",
+      "bytes": 221
+    },
+    "server/migrations/0026_server_management.sql": {
+      "sha256": "a481d994e8f79e782f907d9289e7f94b8a48acf4ff3672311fb114f08949d25b",
+      "bytes": 1328
+    },
+    "server/migrations/0027_attachment_cleanup_leases.sql": {
+      "sha256": "4eecf48bad9944abe220bdeeed83e96c22922ece3c87d31cfef267ef06544dcd",
+      "bytes": 175
+    },
+    "server/migrations/0028_existing_upload_grace.sql": {
+      "sha256": "f5f327f10a0be83a7275614c6fee2023556bdb9df53807f6d15bb6441396e2bc",
+      "bytes": 146
+    },
+    "server/migrations/0029_installation_suspensions.sql": {
+      "sha256": "8355a5319ee3686049e3c76c3036be3d398036be740087b50b3005ba4748fd70",
+      "bytes": 539
+    },
+    "server/migrations/0030_history_clear_watermark.sql": {
+      "sha256": "c540171fd6bc6b9895dafa51db00b177e47463d23149e8cb3810f84360c101d4",
+      "bytes": 849
+    },
+    "server/migrations/0031_conversation_security_events.sql": {
+      "sha256": "6f37303205b0c4634d547f3ff23cee7def35d9ea6758fa281187f536546dadd7",
+      "bytes": 1366
+    },
+    "server/migrations/0032_conversation_security_invariants.sql": {
+      "sha256": "6f602160599a6c08d80f3ac8024382f45f7f38869607a44e81683bdb858479d5",
+      "bytes": 1458
+    },
+    "server/migrations/0033_admin_product_pack2.sql": {
+      "sha256": "6c4d8f988482180c725b19456880cdb97d085e5540bc5c0f60c1d3392ddfee01",
+      "bytes": 5976
+    },
+    "server/migrations/0034_admin_console.sql": {
+      "sha256": "545d86d3ff4b5fca835ea5fb73d494da52de791dfa8e790f50ac4eb4cd29868b",
+      "bytes": 3126
+    },
+    "server/migrations/0035_chat_pins.sql": {
+      "sha256": "35913ee52abdd00381f162197a635bbd49412ea3b9493a3fd69c340241f29980",
+      "bytes": 175
+    },
+    "server/migrations/0036_personal_chat_clear.sql": {
+      "sha256": "f28ff9b20c92215b9b49c65f402da4d67adfa0dc25006e30990ea91c3427ff1d",
+      "bytes": 458
+    },
+    "server/migrations/0037_encrypted_history_backups.sql": {
+      "sha256": "46078d664ef010505d28740682883e6918253e2a92d804b7a0cbbbf9cac12095",
+      "bytes": 1344
+    },
+    "server/migrations/0038_history_backup_media.sql": {
+      "sha256": "28882a8633dfae08bd0cc037e2786696eb0953e25bd4252e4012246052a321ab",
+      "bytes": 2227
+    },
+    "server/migrations/0039_history_transfer.sql": {
+      "sha256": "df453c959406f5cb3c62a1f1bba9ee27a2364c838e24dd96511ce2354dcc69db",
+      "bytes": 1062
+    },
+    "server/migrations/0040_call_history_deletions.sql": {
+      "sha256": "c35e3d996b8f2538702d34c1750ffbf559d95ca974051cb1a3132a4938697d28",
+      "bytes": 423
+    },
+    "server/migrations/0041_device_call_history_restore.sql": {
+      "sha256": "1c88925922b1b6daf447b408aa4a7c3bcccef304fc6c86d81dca387d36bb13da",
+      "bytes": 285
+    },
+    "server/migrations/0042_user_presence.sql": {
+      "sha256": "7f72bf1b1c0a9c301311d80354f965f9c1ae8a3fae90032f5f377e43b76709be",
+      "bytes": 135
+    },
+    "server/migrations/0043_call_activity_reads.sql": {
+      "sha256": "245a1d0074d0e5969add7662ee97b9f62b02f1203ec50a9b41d5f1b0bb7bed5e",
+      "bytes": 629
+    },
+    "server/migrations/0044_bounded_chat_clear.sql": {
+      "sha256": "7cb4832b2c669f46c78dae3b4bb46f07f798b3f045e5b2d48770f7c3cc787353",
+      "bytes": 422
+    },
+    "server/migrations/0045_admin_operations.sql": {
+      "sha256": "29f01a3bd7518b935208bcf5841c7b0128bced8db7ffb350925280f9d870939d",
+      "bytes": 1556
+    },
+    "server/migrations/0046_chat_appearance.sql": {
+      "sha256": "062f40309deb8582520e4e9accbb761c3d5552d90004389f8cf7983106fe3076",
+      "bytes": 307
+    },
+    "server/migrations/0047_admin_user_controls.sql": {
+      "sha256": "195c3734c037e20830ffcf976ddf63c259e80a055e812011e12a952f5d0f5ab1",
+      "bytes": 1170
+    },
+    "server/migrations/0048_admin_authentication_policy.sql": {
+      "sha256": "ba6ddf84ca8c653a9331186a7a099121be9268813683dcf5633beef1017b471b",
+      "bytes": 1292
+    },
+    "server/migrations/0049_user_blocks.sql": {
+      "sha256": "42bda80382067258f836dddd5fbbfdc490a89a3d51b3a12690c8bf00c3bd7267",
+      "bytes": 2218
+    },
+    "server/migrations/0050_verified_installation_blocks.sql": {
+      "sha256": "7dc919c49412352381bed36365105dcafb859f0a2ea5cbfbb13dd4301887b248",
+      "bytes": 3510
+    },
+    "server/migrations/0051_conferences.sql": {
+      "sha256": "6776fb4025c7214ac888d3fc664b9217c1f1e70ff0d8ebb8f199b5d738ebd2ae",
+      "bytes": 3925
+    },
+    "server/migrations/0052_conference_host_controls.sql": {
+      "sha256": "b76d756d1fca39ad2ab5db59f88dfa2ccd882b35124267e68fe3f369bad40f25",
+      "bytes": 237
+    },
+    "server/migrations/0053_conference_participant_moderation.sql": {
+      "sha256": "83cb257f033ab1acfa662bd36483add5b0fb73f3b2a55f822f4544e1e68c2159",
+      "bytes": 734
+    },
+    "server/migrations/0054_conference_directory_access.sql": {
+      "sha256": "c3a24b509c9f906d880b0ce82a29a8b18279bfbec14e2acf0807998cbffadedf",
+      "bytes": 3630
+    },
+    "server/migrations/0055_avatar_storage_admission.sql": {
+      "sha256": "b66f930ab5d08ea9bcc3271237ab128e5cd2912e3dec4804454a2e3433b566d7",
+      "bytes": 2123
+    },
+    "server/migrations/0056_conference_join_approval.sql": {
+      "sha256": "b9b72a70575d0b5b39eceb26208e02fb8cb0df9e4c3eb37a1d42cb37135d096e",
+      "bytes": 2181
+    },
+    "server/migrations/0057_database_payload_admission.sql": {
+      "sha256": "823068020f3867a46f70e7e511fd1cea34ac8077e0f4bb4bad30dc952acbc983",
+      "bytes": 8768
+    },
+    "server/migrations/0058_user_privacy.sql": {
+      "sha256": "be0d6448ecc5ea90c347fb258aaec7b42c248658e2759b6514ca3c729ba22ef5",
+      "bytes": 1695
+    },
+    "server/migrations/0059_account_auto_delete.sql": {
+      "sha256": "59483d2c5a022daa55ecf4815eccd4f1dcbf7f3ce50c4f0970e20c3e7ae7b181",
+      "bytes": 1251
+    },
+    "server/migrations/0060_chat_archives.sql": {
+      "sha256": "5fe206cde13e47bac18cf2d1e60b345421ca877b8692967f203bf1d775d907f1",
+      "bytes": 329
+    },
+    "server/migrations/0061_direct_file_signaling.sql": {
+      "sha256": "c2167a3ee7ed19f47bcfc1dcd3818a3b9bc398e33adbee239936d2f3ef83871e",
+      "bytes": 1867
+    },
+    "server/migrations/0062_apns_typed_slots.sql": {
+      "sha256": "267a80e96297f49383e1e7c720784e0d22e335aca59166a265ed2cfbcfd52b51",
+      "bytes": 1432
+    },
+    "server/src/admin.rs": {
+      "sha256": "075bb87ed77caa9aa31fa0c3df119d4bf7743001132ac89ea36e2fac8a3bee5b",
+      "bytes": 103656
+    },
+    "server/src/admin/cursor.rs": {
+      "sha256": "e25cad2207a6251dafce7a6ef997bd3ac7a9fa2da9c5508cfbb1c7a19abcc875",
+      "bytes": 14301
+    },
+    "server/src/admin/signing.rs": {
+      "sha256": "f5ba9542edf26889b4c6d7a3b6daded5b78afdfc1d69b7798299fc4bf8985ef8",
+      "bytes": 9562
+    },
+    "server/src/admin_operations.rs": {
+      "sha256": "d6411369e8658988465251627f6fc1a765a5024f4970ca546d5190f7d01f5b14",
+      "bytes": 15764
+    },
+    "server/src/api/health.rs": {
+      "sha256": "cf9ba1b8c5dca3f8d01451b942af77fca11f63985441aac8d4fc92c8ba7725ba",
+      "bytes": 800
+    },
+    "server/src/api/mod.rs": {
+      "sha256": "c9027f406f87ae806cab87ab3ced7e112313c0d4f3f0da21231be018bf9010bb",
+      "bytes": 17
+    },
+    "server/src/attachments/cleanup.rs": {
+      "sha256": "acae0656dcc6fd55b94dafde9c527d7efb735fa3a760fd2994bb90563bbd10bf",
+      "bytes": 4693
+    },
+    "server/src/attachments/handlers.rs": {
+      "sha256": "78e0712baacb0bde1d2b387fd835fbca98a52de8005c4571c76ef8e751327070",
+      "bytes": 9222
+    },
+    "server/src/attachments/mod.rs": {
+      "sha256": "2910dee890f554637183ef9bec691cbf67aa64878dd95ce4355f4f59e86b57e0",
+      "bytes": 72
+    },
+    "server/src/attachments/models.rs": {
+      "sha256": "7d54462ad60db2293b25a2e9cbfc8ff3806e2618ae1ad343c7fb118f60d2de22",
+      "bytes": 1116
+    },
+    "server/src/attachments/multipart.rs": {
+      "sha256": "69abbd8a3c761d618bc3c9eed17f3f7a6cd743314460a50460bbf1a05a5e22ac",
+      "bytes": 5286
+    },
+    "server/src/auth/admission.rs": {
+      "sha256": "1af6d3bd57b1bf6c2982534c0932892690361920806b6f90470fa77a6d13e117",
+      "bytes": 1050
+    },
+    "server/src/auth/handlers.rs": {
+      "sha256": "c63fb170bc6bc234d49d0eab963e4542944bd2ee086a446d03988c92032d982e",
+      "bytes": 23782
+    },
+    "server/src/auth/history.rs": {
+      "sha256": "44787b63c789909f60946d86edc5132de56c6306c835230ba5b74cb7f7a8825e",
+      "bytes": 898
+    },
+    "server/src/auth/installations.rs": {
+      "sha256": "86a0fca6caf4a897f72d66806af2dc69e04aeaa3a5e4327e4563f8d3d08b8fcd",
+      "bytes": 4014
+    },
+    "server/src/auth/jwt.rs": {
+      "sha256": "36efd68fc06a9df4f5f4c2b81b9a55cca2dbad54439803e29277a2f2ef4a612c",
+      "bytes": 2124
+    },
+    "server/src/auth/middleware.rs": {
+      "sha256": "a52dfde39166087626ee250d5d7e73608d40aecd1c5fd7cc0534986121b6e4a3",
+      "bytes": 8258
+    },
+    "server/src/auth/mod.rs": {
+      "sha256": "133c30fa89ae27a9e3961c90c0cec2c7aaf576efdac2b44e3fb66133f58d11b9",
+      "bytes": 251
+    },
+    "server/src/auth/models.rs": {
+      "sha256": "bf786870ce8a101e1dee89132fad60665acde0ca41f2493154cfa32be99824ef",
+      "bytes": 2452
+    },
+    "server/src/auth/password.rs": {
+      "sha256": "88ede4401f5644376356955ad6b277f78a46f84ce74f0898caa2f0e51bfe4bee",
+      "bytes": 3358
+    },
+    "server/src/auth/rate_limit.rs": {
+      "sha256": "0e020b3def73744a378bdb57ee81831cccfc49daaadad2d3a2e72625c09af038",
+      "bytes": 1917
+    },
+    "server/src/auth/recovery.rs": {
+      "sha256": "1f2b0466d973b710397946fed3c85e3e65a01d9f9abddea16603b1a0f825c1b0",
+      "bytes": 10886
+    },
+    "server/src/auth/refresh_token.rs": {
+      "sha256": "bee3cf5339eb3fea3f7d984bcd526ba8f7c5c58897003320edd639de1aed35c8",
+      "bytes": 2435
+    },
+    "server/src/bin/coco-admin.rs": {
+      "sha256": "72fad27d79834df694398e7b2cf9e4e4d55c6eb65ad847c8351cc0d1947d1da6",
+      "bytes": 4697
+    },
+    "server/src/calls/handlers.rs": {
+      "sha256": "567c6cc029afdf44afbb0c72d746cdf6bd839928846cb69210d30acba871f75f",
+      "bytes": 32547
+    },
+    "server/src/calls/mod.rs": {
+      "sha256": "7d6287487cbbb4a399201b6868a275cdc4f2d22885451f452cb8aa5a02c40714",
+      "bytes": 71
+    },
+    "server/src/calls/models.rs": {
+      "sha256": "cdbc73359269e4f2e8931392db79432196e94bb55a231e07aac46a61a1be251d",
+      "bytes": 1703
+    },
+    "server/src/calls/signaling.rs": {
+      "sha256": "cbbc391b8cd2032d7e884254a3e1a31c47e5385322f76402c4bccbef8e50e668",
+      "bytes": 8182
+    },
+    "server/src/calls/turn.rs": {
+      "sha256": "9faa48c2960ed2079e4d1a7ca21997f6c3e9612bd8b7f0084fa25e2595da9067",
+      "bytes": 2283
+    },
+    "server/src/chats/handlers.rs": {
+      "sha256": "32645ef838e4b13c8910f22e22cf8e8d816394838488bc7226f69625a1399f8b",
+      "bytes": 25980
+    },
+    "server/src/chats/management.rs": {
+      "sha256": "3fb2e6f7763cc3a58418375c7928077b84b449117e8466a68e04ce273c9aa575",
+      "bytes": 18321
+    },
+    "server/src/chats/mod.rs": {
+      "sha256": "61fb7949c1ceb3eceb96521653a8c9cb52114e003edfdad44d3913d7761395b4",
+      "bytes": 76
+    },
+    "server/src/chats/models.rs": {
+      "sha256": "4c9f50c195e194ddd6f94e6743d16e383b04e8118933ba40813b3b8d6cb75ad3",
+      "bytes": 1931
+    },
+    "server/src/chats/policy.rs": {
+      "sha256": "19e90b2b99459def03e785c5c6495b3e6201fa8627ae34baa25c8a013d253bb0",
+      "bytes": 2029
+    },
+    "server/src/conferences/approval.rs": {
+      "sha256": "6da8a0e5e589d0844a94a6020b200d6f034cec0dbef6f0ab751751faf4484716",
+      "bytes": 21534
+    },
+    "server/src/conferences/approval_tests.rs": {
+      "sha256": "544feffbabf6ad71686d0de066d8809408244080d1fe1d7039483dadb13c1bda",
+      "bytes": 16477
+    },
+    "server/src/conferences/closure_queue.rs": {
+      "sha256": "6cfe881b877dd219227b68479d64d9cdb29cb0b810108f79188d25c67aa357f2",
+      "bytes": 3854
+    },
+    "server/src/conferences/config.rs": {
+      "sha256": "7bec19d40170bcec44bfb9763031acf55bed83bebd915ce8998c780db2eec64f",
+      "bytes": 6108
+    },
+    "server/src/conferences/discovery.rs": {
+      "sha256": "d1f41b0499fd17c582022e5b41d5977816577ce9807027414b32440764945b8c",
+      "bytes": 47011
+    },
+    "server/src/conferences/discovery_tests.rs": {
+      "sha256": "8bdfff75a9552b4292f62360cdb5369647d7e921e38ca925eae6dee7a9858349",
+      "bytes": 43299
+    },
+    "server/src/conferences/integration_tests.rs": {
+      "sha256": "498f4aa13cae5593599729a58e82fc46bd949a3d9f1d3cac42caa795bd1ecae6",
+      "bytes": 84849
+    },
+    "server/src/conferences/livekit.rs": {
+      "sha256": "8309c5a7b43c7a86e334d78c250701b4c95e6130fcc20db658c83435838cc860",
+      "bytes": 13700
+    },
+    "server/src/conferences/mod.rs": {
+      "sha256": "7b4ca2c9b2f67fcbab47944e7cd70fb72e4ce4c1c7faa32fe128c729b850e4a4",
+      "bytes": 49797
+    },
+    "server/src/conferences/moderation.rs": {
+      "sha256": "ab91a0639332c46f80cb934dfddcae6b582371a0b1c352c8c0edf71cfdc0b127",
+      "bytes": 13746
+    },
+    "server/src/config.rs": {
+      "sha256": "9fb87eb837e0f75f004b58347b7dccba0333fd9fb2221f87afb96af04f10ef62",
+      "bytes": 13190
+    },
+    "server/src/console.rs": {
+      "sha256": "f52b060318106fa78ea98b6d92c82a5df372c86cc4daf87554d5f6ec00f6bde6",
+      "bytes": 21332
+    },
+    "server/src/database_payload.rs": {
+      "sha256": "389e5a89b0a6b92d3e97cf2c53f1ee465ed74a66c62d36e9590bf8108e644d39",
+      "bytes": 3763
+    },
+    "server/src/database_payload_tests.rs": {
+      "sha256": "077bfbed6f4e70a143251f0850cdca9a5d3e5fbe89c03540bf5891422cc63611",
+      "bytes": 26300
+    },
+    "server/src/devices/handlers.rs": {
+      "sha256": "d8b84f3750331a43e0c124706320914896b96f0d90403b096e935dc4592c9a0b",
+      "bytes": 21091
+    },
+    "server/src/devices/mod.rs": {
+      "sha256": "64a58586fa470a90142e6e3667550208fa46d8c4022612b4d90ed334660d1989",
+      "bytes": 36
+    },
+    "server/src/devices/models.rs": {
+      "sha256": "38e414c34b436d79938d03774ec57c47d82bd4e4e5dc18d5252d11f0f9e21700",
+      "bytes": 2860
+    },
+    "server/src/diagnostics.rs": {
+      "sha256": "e0232417b88e4ba8a7ef408bf42d38c8dcd41f0d329571c0353330b5300ecb94",
+      "bytes": 2707
+    },
+    "server/src/direct_transfers.rs": {
+      "sha256": "c4ac35d4e195b82e1094fad2b00db9b947008b67a436b0217a31ad5e536efe26",
+      "bytes": 22527
+    },
+    "server/src/error.rs": {
+      "sha256": "dec2390ea6cfd4c27dd2ad3832646782817cd454d2e253afc6f7065d831187ff",
+      "bytes": 5484
+    },
+    "server/src/feedback.rs": {
+      "sha256": "12f92501774091ad5358af52aaf0cd163e2083bf56caebe6c39de3580995468e",
+      "bytes": 6288
+    },
+    "server/src/history_backups.rs": {
+      "sha256": "1143a92084930a3096fbf7d40cc38cd081e2dbabd91cfa0b9ef1d65c5a99de44",
+      "bytes": 22773
+    },
+    "server/src/history_backups/media.rs": {
+      "sha256": "b300122731f7cb78151f04d473719df8edb10482ac7b255b2429bb2b7b075d9a",
+      "bytes": 14805
+    },
+    "server/src/history_transfer.rs": {
+      "sha256": "db491ac727f02ec7abd03cde3598623dd0b06c689c720e6442e0de0add85b8a8",
+      "bytes": 13933
+    },
+    "server/src/keys/discovery_tests.rs": {
+      "sha256": "42e6169757fab4b7f1d4dc3f95a798916896d92d58b197649f26cc76492ddd90",
+      "bytes": 7307
+    },
+    "server/src/keys/handlers.rs": {
+      "sha256": "a78b70049de7a2b3d20e338cad9ee2b4e9b05fa40ae3ac42e35e00f41366932e",
+      "bytes": 19142
+    },
+    "server/src/keys/mod.rs": {
+      "sha256": "b0d4f006245b5184343a1cc02a61a615b9380ab82df146f56ed635eb4c9c9e9d",
+      "bytes": 72
+    },
+    "server/src/keys/models.rs": {
+      "sha256": "e7d746f4ea15df9dfc8d41e40d79968b1b6e0b1eafb211741a0892df8dec1e8c",
+      "bytes": 1832
+    },
+    "server/src/legal.rs": {
+      "sha256": "79b6dac04f9187231b9200766483e55e0957d7b023a1bea02e14f05f5273e85f",
+      "bytes": 2082
+    },
+    "server/src/lib.rs": {
+      "sha256": "69608993e5a5d7a371852d37c773e6881982d943a4351d79e9f5380c1257170b",
+      "bytes": 10624
+    },
+    "server/src/main.rs": {
+      "sha256": "740ef3b6325b28d1694c0f99bdecba33d7a4ae35a9dd86f549c03fd3f8197d3c",
+      "bytes": 5737
+    },
+    "server/src/messages/handlers.rs": {
+      "sha256": "9a6dbf3c7843e5b629957fe5e0fed0918850f6eb5d2d8b7ae1d604583990ec59",
+      "bytes": 32088
+    },
+    "server/src/messages/mod.rs": {
+      "sha256": "64a58586fa470a90142e6e3667550208fa46d8c4022612b4d90ed334660d1989",
+      "bytes": 36
+    },
+    "server/src/messages/models.rs": {
+      "sha256": "f3da4cd27b42283f85b0afd06f8918c4ff39335f0064c03ad382ac86a4ec90b0",
+      "bytes": 6643
+    },
+    "server/src/net.rs": {
+      "sha256": "2732a50eb614fa3939e620e5e4b1b91e94655582b55f93c04cf0c5e9bb61abf2",
+      "bytes": 8416
+    },
+    "server/src/performance.rs": {
+      "sha256": "a5d8d2c52acad9d623b7ee017b60d96ee1af15f2935cc24858cfc9d0664a616b",
+      "bytes": 20900
+    },
+    "server/src/presence.rs": {
+      "sha256": "bceb7fdd06f00b6cdf2020e45272402cb3dd72c8fb8c82f3433b18c2864d5aac",
+      "bytes": 7137
+    },
+    "server/src/push/apns.rs": {
+      "sha256": "560b89c84e051403a2dcfffc5a75d564e347b858a688b6ef3b0dad6206a1ebf3",
+      "bytes": 23256
+    },
+    "server/src/push/fcm.rs": {
+      "sha256": "23508be3e8bea48cb85669f21d2babced493e2b26f08acda5e3cceb343f617ea",
+      "bytes": 11407
+    },
+    "server/src/push/handlers.rs": {
+      "sha256": "29e8b768d5607a50a4eb56b82ce3d5a74f377fd97dd7b28ef27ae1c759e271bf",
+      "bytes": 10343
+    },
+    "server/src/push/mod.rs": {
+      "sha256": "2a8e425ecf12d70811a1bb8d0675a119aba3d8ae5fa1f92a9df81a0b7cccf326",
+      "bytes": 2900
+    },
+    "server/src/push/models.rs": {
+      "sha256": "a306077e2f182e7f508f89883ecd2dae39a04dc59f03ccce2ad7d3201bd0de88",
+      "bytes": 6829
+    },
+    "server/src/push/outbox.rs": {
+      "sha256": "6303481ab6337fd53639cde3014d6833ebe3415e93405ec42de0b749781dfc6a",
+      "bytes": 23428
+    },
+    "server/src/resources.rs": {
+      "sha256": "06401a9bc809f0d7ef313438d8d9d797bf6c99323693fa36fae882b419c0e382",
+      "bytes": 10036
+    },
+    "server/src/server_management.rs": {
+      "sha256": "b571fdcd9a3a6c5bd4311891840c1480236d01d6d2ad2beb32f03c4ebe7c09dd",
+      "bytes": 7102
+    },
+    "server/src/state.rs": {
+      "sha256": "3b184e23c78e5d77393cf92e6eef9761aaeed035da49c67f8761c34948e107df",
+      "bytes": 604
+    },
+    "server/src/storage.rs": {
+      "sha256": "f9e750e617f877e9b7660efe07050b5462aaad5adb44d1fe8a64edc9179f9cb9",
+      "bytes": 23532
+    },
+    "server/src/sync/handlers.rs": {
+      "sha256": "afb470aa7d7838c450f5f73cd024269b12ec03be6dc84bc033fee6c93e994216",
+      "bytes": 4906
+    },
+    "server/src/sync/mod.rs": {
+      "sha256": "64a58586fa470a90142e6e3667550208fa46d8c4022612b4d90ed334660d1989",
+      "bytes": 36
+    },
+    "server/src/sync/models.rs": {
+      "sha256": "8f930c20ad559d53581953fd6d1a5c6179aba5e587933fb312693b1f9d9fba30",
+      "bytes": 798
+    },
+    "server/src/users/appearance.rs": {
+      "sha256": "7f3789a2b34d2807afd91bf7bfd4829582127496bf6e98cc03769c6f460ebb8c",
+      "bytes": 6244
+    },
+    "server/src/users/auto_delete.rs": {
+      "sha256": "258a789f2276c2681776b658f8af21f949656f43f00660a77989e651dfb32cec",
+      "bytes": 11874
+    },
+    "server/src/users/avatar_sizes.rs": {
+      "sha256": "644999924509f9cba59bbd5881483f5aef64e8bd3be2444e1982f8812a11da99",
+      "bytes": 6046
+    },
+    "server/src/users/avatar_uploads.rs": {
+      "sha256": "1a6c49f872bafd3801203fb2a36339b2dd7ff227b985970526a90e1920f45be0",
+      "bytes": 14362
+    },
+    "server/src/users/blocks.rs": {
+      "sha256": "09000c0935dff3cca88328aed1c71842f96ca3c5ee57317bd994fb452cbb0405",
+      "bytes": 12233
+    },
+    "server/src/users/deletion.rs": {
+      "sha256": "675ad4eeb9de532d669bf939c1568b6578aeac2edb9b02d88528986a43972652",
+      "bytes": 11342
+    },
+    "server/src/users/handlers.rs": {
+      "sha256": "614686046b2c257e1fea30beb3fc0341f001325801a5c9ca132b583c08877d61",
+      "bytes": 19132
+    },
+    "server/src/users/mod.rs": {
+      "sha256": "2826e156838d029178707d5b3a741074ba026691850abb12bf2d62903f41764a",
+      "bytes": 199
+    },
+    "server/src/users/models.rs": {
+      "sha256": "587d44f14d3850f8dba55acc2c5eb97f3d0626654a40af2c6bf7632c351def16",
+      "bytes": 3824
+    },
+    "server/src/users/privacy.rs": {
+      "sha256": "934a1c69f0aa311e6a7768cbde9eb003933ea3c911faf86d57b96c4fa1c6b824",
+      "bytes": 4780
+    },
+    "server/src/validation.rs": {
+      "sha256": "cbdc7906b87afd92dfd779093c3b1ca8e771ebdf1d781eeb7ed6678175bb292a",
+      "bytes": 2636
+    },
+    "server/src/websocket/handler.rs": {
+      "sha256": "cd84ca7f5b3b8ecb116ed942277f62fd9f5dfe1892f5db9fb367c018e4e6757c",
+      "bytes": 17352
+    },
+    "server/src/websocket/mod.rs": {
+      "sha256": "0c455a48778e531cc07e2b16d72d2d66844f93b07d53ff2650cc25cb48c63cbb",
+      "bytes": 5044
+    },
+    "server/src/websocket/protocol.rs": {
+      "sha256": "2250c731294f89dfc5dc51ec28ee08635f986167b5b96b0e6ffbbfc42464a8d2",
+      "bytes": 7517
+    },
+    "server/src/websocket/registry.rs": {
+      "sha256": "d534db9d8035a99f152d625431eff9d47e666b2eea8845e44d2eff9164f5b123",
+      "bytes": 14246
+    },
+    "server/storage-client-uploads-policy.template.json": {
+      "sha256": "99e835d46121bdf18fa1861bc74ccfed2e7622cec5943925a565eb2ce1f9413f",
+      "bytes": 414
+    },
+    "server/storage-ingress.caddy": {
+      "sha256": "2b2bff240d7ce0c0f2601e5c4996611e4feb295b39372cb5212c067dafec570b",
+      "bytes": 575
+    },
+    "server/storage-proxy-transport.caddy": {
+      "sha256": "8e995c4868c95202941a8dd052747c92839a450b4db6651e1a6b88ebdbd6a23a",
+      "bytes": 126
+    },
+    "server/storage-root-put-guard.caddy": {
+      "sha256": "cdac140f47ba575a083605f7ce2b890118ebdb21d29acd23c12dd0eff15fba45",
+      "bytes": 901
+    },
+    "server/tests/admin_auth_policy_test.rs": {
+      "sha256": "e1846b53fbe563345bcadfce92f616c9a31fcd1a141c9b8ac546d73726109b77",
+      "bytes": 52526
+    },
+    "server/tests/admin_console_test.rs": {
+      "sha256": "1bb3b00ec806def7797b9214158fbd0bf8f0b303b7545bb2c7a448ddc453d05e",
+      "bytes": 40059
+    },
+    "server/tests/admin_pack2_test.rs": {
+      "sha256": "76930a9b579bc4a480d2cb2fdd4aa36191981b6593594305e00ece85d7e3c92a",
+      "bytes": 97238
+    },
+    "server/tests/apns_common/mod.rs": {
+      "sha256": "d1201aa469ea8b7e8e876be06bd0e87ffa5db201b1319b371fcb3d916be88718",
+      "bytes": 6405
+    },
+    "server/tests/appearance_test.rs": {
+      "sha256": "ae554bce3ed6a992a26f90904bbc5248f46494f37590d5a9333ebc85f19005b8",
+      "bytes": 11784
+    },
+    "server/tests/attachments_test.rs": {
+      "sha256": "07f9d2289f31f3910513c4262eb6efd1ee65e21f38b2a0707c1501c0aeffb76d",
+      "bytes": 28922
+    },
+    "server/tests/auth_test.rs": {
+      "sha256": "20c5296e69c7540976e160bf8e1ecee32821f118e09622759855a439d360914e",
+      "bytes": 46508
+    },
+    "server/tests/auto_delete_test.rs": {
+      "sha256": "338249729b5db97e3a4d5de379087c62acb67bf98615c772c16dc2e2b8994a7b",
+      "bytes": 43170
+    },
+    "server/tests/blocked_users_test.rs": {
+      "sha256": "014e465c3be8cb84cf13886106f96e0551bd8939d84cc4e27b863cd8b071b353",
+      "bytes": 61365
+    },
+    "server/tests/calls_test.rs": {
+      "sha256": "d91e3cd8f7b29c3969391943ca30b42883e35ec985b3aa4c4c32954ae87f0f74",
+      "bytes": 61474
+    },
+    "server/tests/chat_archive_test.rs": {
+      "sha256": "0bc0ae16edd41c076a7c1b174275c0b2dfd0a67ce078f13fc0239fc20f0cf3d2",
+      "bytes": 22448
+    },
+    "server/tests/chats_test.rs": {
+      "sha256": "566ecc53ff8b856ae5e39c9dffa8353091491541307e9afa2c96fb5016246fe6",
+      "bytes": 73388
+    },
+    "server/tests/devices_test.rs": {
+      "sha256": "0bceafaf7f89d43a30d232cf7363506e1968753eb1bca6aaca6f39799aa8431e",
+      "bytes": 27871
+    },
+    "server/tests/direct_transfers_test.rs": {
+      "sha256": "ea1ee1a94722fccf5e086b29a55a56ee6237f882263a94d685126cc5debf26e5",
+      "bytes": 15907
+    },
+    "server/tests/history_backups_test.rs": {
+      "sha256": "cb31cd9835af0cdc73c5ea716e37e7f5f3c5aea7575b30224c8f676dd37d47d6",
+      "bytes": 81717
+    },
+    "server/tests/keys_test.rs": {
+      "sha256": "f9522bbd4b41642519a22e7ffc683547356d978ce7ef3848fb42c54c273110b4",
+      "bytes": 19237
+    },
+    "server/tests/lifecycle_test.rs": {
+      "sha256": "9c6285979b12f5beede78be750b1fb1ca56f1b6cc8d4207fa3284ec67db48ef3",
+      "bytes": 34336
+    },
+    "server/tests/messages_test.rs": {
+      "sha256": "be644542e905ac0ea3ba3960aa9a94747bbcbde98f14a432fbe2a49649ad6314",
+      "bytes": 46925
+    },
+    "server/tests/presence_test.rs": {
+      "sha256": "3e5694cb5988f18123e9db04a8f6b89da0fb6d1183f5b25b008d8904589ef2c4",
+      "bytes": 10930
+    },
+    "server/tests/privacy_test.rs": {
+      "sha256": "b4233885d6e84589567347c2d288121da7b9f1e76f1b00c95543262665b9540b",
+      "bytes": 24632
+    },
+    "server/tests/push_apns_priority_test.rs": {
+      "sha256": "c417e84c880707821ea1b995dfbad7109020e1575828c1d0dc9da5470173ca28",
+      "bytes": 12510
+    },
+    "server/tests/push_apns_provider_test.rs": {
+      "sha256": "047e2618cbdbf0a5f6cc0591c383ac39aec2a90653ce12113f72a28e3c80c135",
+      "bytes": 9666
+    },
+    "server/tests/push_apns_test.rs": {
+      "sha256": "4714d156d77cba21a66cc3f97b71329a28ca30d41e051dbc0b34eb16ca97d8e2",
+      "bytes": 26838
+    },
+    "server/tests/push_call_test.rs": {
+      "sha256": "84f3467b04247660a87e581dd380ce545c2d5c74f9cfb0547528bcb3b7cf57fc",
+      "bytes": 9808
+    },
+    "server/tests/push_common/mod.rs": {
+      "sha256": "3cf404dfc02d9188347f6266fbd67bb9cb856f78859162cd7a0f4bd7b0d92887",
+      "bytes": 16135
+    },
+    "server/tests/push_fcm_test.rs": {
+      "sha256": "c54a9d8a4374a312c6c61b4ebf2ecaf9be136632580030c4689eb36426f68854",
+      "bytes": 8024
+    },
+    "server/tests/push_message_test.rs": {
+      "sha256": "3550177284ffea96143ec91737935f964d3f25074b6aa44b35d52779841c809c",
+      "bytes": 7779
+    },
+    "server/tests/push_oauth_live_test.rs": {
+      "sha256": "a28851fdf484f7459b4678e7e7edd351dd3ae44309e4c33403d9797df5f514ff",
+      "bytes": 2674
+    },
+    "server/tests/push_outbox_test.rs": {
+      "sha256": "67a67b4e6b8ca48b95520fc22205d42eeb1f4d27a6ee182519af39ca8cda6855",
+      "bytes": 7761
+    },
+    "server/tests/push_registration_test.rs": {
+      "sha256": "6c8ca68188b0b642e1b4c031834185992a7816dde00bc40c5e5b931a67a3b28d",
+      "bytes": 6804
+    },
+    "server/tests/quota_runtime_test.rs": {
+      "sha256": "6552115cab17b335a73b376e2ac73ba205404ec3355b17189fab158c60532908",
+      "bytes": 9333
+    },
+    "server/tests/receipts_test.rs": {
+      "sha256": "ebd429bb930920dbae9253fa12896c3bfcf9e63c996c365dc7db82778a92d5c0",
+      "bytes": 24688
+    },
+    "server/tests/resource_bounds_test.rs": {
+      "sha256": "b183f825673f50499a99ca401076eda12c714c4bbedfd35c66caa60516db7218",
+      "bytes": 41378
+    },
+    "server/tests/saved_chats_test.rs": {
+      "sha256": "34ccc4ff622271805eb2f35fe6980a014551cf90e32967c8424767ac9dfdfe74",
+      "bytes": 23893
+    },
+    "server/tests/scale_test.rs": {
+      "sha256": "300134d9c14f9bb431f86242355f292444f2d88413cd8dd7e27e9589c79fc92e",
+      "bytes": 11342
+    },
+    "server/tests/security_event_emission_test.rs": {
+      "sha256": "2defc9f131932a5b529a9d00ad5f2c84555f0baf651ae5e7b03f0b4d74ab6520",
+      "bytes": 18564
+    },
+    "server/tests/security_events_scope_filter_test.rs": {
+      "sha256": "e7bcf74d5609a30c9be4562079560b86c2dc8fe5023e35f3e55f05b018732cbd",
+      "bytes": 9384
+    },
+    "server/tests/security_events_test.rs": {
+      "sha256": "c87b34c291f71edcc902cad77927deb4ae48eb02ecb1a46ed554f6d952639cf2",
+      "bytes": 27128
+    },
+    "server/tests/sync_test.rs": {
+      "sha256": "6991b60797c967f53b1e59b7e11ee849af8046339472e104f6a7d7b0055536ac",
+      "bytes": 22144
+    },
+    "server/tests/users_test.rs": {
+      "sha256": "0aab2e8d68cd285c191b01368639d600f7c3b3f190b41bd7c86c63b1b73ede84",
+      "bytes": 57547
+    },
+    "shared/attachment-picker-style.json": {
+      "sha256": "b6bb1764764e4df1e513b0904218a6c0534cd3001ad6a78c57714fa10adf629f",
+      "bytes": 389
+    },
+    "shared/chat-appearance.json": {
+      "sha256": "a9c8bf6fa429363ab6b9749d3687a8342b5b86fd442fd52ca474fa2583d7f51f",
+      "bytes": 13871
+    },
+    "shared/chat-style-v2.json": {
+      "sha256": "e3942773b92696084405104af51ba392b705e0c026b0dec400411666b181b3ee",
+      "bytes": 2374
+    },
+    "shared/conference-contract.md": {
+      "sha256": "b23590a945097315fe8e7082de6fd2c797db48dea2cc4f61165814f14513b728",
+      "bytes": 25912
+    },
+    "shared/conference-discovery-v1-vectors.json": {
+      "sha256": "29b54b6f71834f2a9400186f7aea70ed0abf9737cd9cf6a5798120d2abdbb82d",
+      "bytes": 30555
+    },
+    "shared/conference-discovery-v1.md": {
+      "sha256": "b9bb17154d8777581ca7cc779e73d4dbc655ecd819313d4f4046dd744d0a15df",
+      "bytes": 13519
+    },
+    "shared/conference-v2-vectors.json": {
+      "sha256": "f85bc05507103b805a35567939169c873a567431cdc37741c82b73a4a50dac51",
+      "bytes": 82673
+    },
+    "shared/server-origin.json": {
+      "sha256": "dbf5d3eb31c49fc500d7b2d64506bdb9bf693f25a8c22659be0c279e2fb30cd3",
+      "bytes": 166
+    },
+    "shared/sidebar-appearance-schema.json": {
+      "sha256": "b893e602a4f20929aa975c9b50d12848b9c3dd0e442ba6766daf70a68783aff4",
+      "bytes": 7779
+    },
+    "shared/sidebar-icons/README.md": {
+      "sha256": "0cf05e61b65b264634236d2af0cc42b7de91bb48efcedc9b2247844a8ade0872",
+      "bytes": 1802
+    },
+    "shared/sidebar-icons/bookmark.svg": {
+      "sha256": "4dfa4e2393f44ed546f947c3c37cfc0b2998b10616be756ca90dfa7e887fb933",
+      "bytes": 340
+    },
+    "shared/sidebar-icons/chevron-right.svg": {
+      "sha256": "83687b97faae8196b9cc76b640668d1427e13a0c72f1d9e3e12632cc84fe6c03",
+      "bytes": 235
+    },
+    "shared/sidebar-icons/circle-help.svg": {
+      "sha256": "04c9f54bdf80eb4fba74260989f24b72243a0f82fbe27085e15563f5a56b93f2",
+      "bytes": 326
+    },
+    "shared/sidebar-icons/flag.svg": {
+      "sha256": "a96f8c705e55ecf3ed1d2b03674c056be2a84aa78f033dc0c683d2ec47a69c20",
+      "bytes": 368
+    },
+    "shared/sidebar-icons/laptop.svg": {
+      "sha256": "38e78c7410dcbfb1a9fc13c1d50ed747016afa156da16c7470c3c2cf8f426c61",
+      "bytes": 405
+    },
+    "shared/sidebar-icons/log-out.svg": {
+      "sha256": "4795bb0ea87868c2998c3b1308fe91258b56d7434e4d9aeb54f8a0f8e352d8e3",
+      "bytes": 319
+    },
+    "shared/sidebar-icons/manifest.json": {
+      "sha256": "cf32936cf2e007c5c8a263bcfd5c56435e211de74f9a373c7f76855675a58cb5",
+      "bytes": 3639
+    },
+    "shared/sidebar-icons/message-square.svg": {
+      "sha256": "e160f5ca8dd06830e9d72edaee31588bb32810d3cf3942ab67beb198783daead",
+      "bytes": 337
+    },
+    "shared/sidebar-icons/pencil.svg": {
+      "sha256": "c70f4edc9705cc0eb21c4bd31ddf702213cff3117f63d48ea31c293c9da31b09",
+      "bytes": 377
+    },
+    "shared/sidebar-icons/phone.svg": {
+      "sha256": "9d245fd7573823afd2bde451d708f7894776a872b457287ecbf178f578e370df",
+      "bytes": 435
+    },
+    "shared/sidebar-icons/search.svg": {
+      "sha256": "1f4bc740fa6623e56084916572a94e6b8b94ba5ff294e8b591f4ab2d767e8eaa",
+      "bytes": 277
+    },
+    "shared/sidebar-icons/server.svg": {
+      "sha256": "37a36909efedd9196236d1618994385a7d5c9ab26e4fa0f6eba1b37d1c246553",
+      "bytes": 417
+    },
+    "shared/sidebar-icons/settings-2.svg": {
+      "sha256": "8223d81cf6c46080f40801ec70ef36e3d4a309830bc1b1a4a14970bfd6bf245d",
+      "bytes": 332
+    },
+    "shared/sidebar-icons/users.svg": {
+      "sha256": "c7b73f2de4760e25e01a0e8c9d805fa7129661ff5409bc22ac03c2604c183be4",
+      "bytes": 389
+    },
+    "shared/sidebar-icons/x.svg": {
+      "sha256": "946b206191275d880c8955c90c9a67fc34cb2e580b9e8c5a879ceeaf62a04394",
+      "bytes": 260
+    },
+    "shared/sidebar-style.json": {
+      "sha256": "e59cbee11b5a0720fd4122da1750ef02a99d9bb9d411b001f905a1aaf4680119",
+      "bytes": 4943
+    },
+    "shared/test-vectors/history-archive-v1.json": {
+      "sha256": "088bb081ba8393de6c463e73c25a2130f2db05d1b199944be80cd77e7e214a9a",
+      "bytes": 569
+    },
+    "shared/test-vectors/history-archive-v2-call-only-legacy.json": {
+      "sha256": "945b3a543a34c38e4ca1c8e1b5dbdb7c5fba4f74b8ad6bbf10e4e580c89f2efe",
+      "bytes": 1619
+    },
+    "shared/test-vectors/history-archive-v2-complete.json": {
+      "sha256": "9c569a5b64f8ca2c5855ff3af6fdd189cd9b7ae1f8725c14a95c605d8c51d6c7",
+      "bytes": 2577
+    },
+    "shared/test-vectors/history-archive-v2.json": {
+      "sha256": "437eb9f01f7b020d38157b6e3c9db268c287fea8b57d3188a809461ee1127c57",
+      "bytes": 1263
+    },
+    "shared/test-vectors/history-media-v1.json": {
+      "sha256": "450ac0f6a2ef92651b3e1e2a9daf55e377555862d13314f43760ae36ba5b52d3",
+      "bytes": 187
+    },
+    "shared/test-vectors/history-transfer-v1.json": {
+      "sha256": "bd498c443b2cec18a86d206d05592298c961a34a24e44556579299a1e4f4f6c4",
+      "bytes": 1354
+    },
+    "third_party/lucide/LICENSE": {
+      "sha256": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57",
+      "bytes": 3208
+    }
+  }
+}

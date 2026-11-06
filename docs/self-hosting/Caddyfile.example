@@ -1,0 +1,33 @@
+# Fresh-install example. Validate with the selected Caddy binary before use.
+# HTTP/1.1 is deliberate: do not assume an unverified HTTP/2 body deadline.
+{
+    email {$TLS_EMAIL}
+    servers {
+        protocols h1
+        timeouts {
+            read_body 30m
+        }
+    }
+}
+
+{$APP_DOMAIN} {
+    reverse_proxy backend:8080
+}
+
+{$FILES_DOMAIN} {
+    @unsignedTrailer header_regexp X-Amz-Content-Sha256 (?i)STREAMING-UNSIGNED-PAYLOAD-TRAILER
+    respond @unsignedTrailer "Unsupported storage upload mode." 403
+    @snowball header X-Amz-Meta-Snowball-Auto-Extract *
+    respond @snowball "Unsupported storage upload mode." 403
+    @privilegedPut {
+        method PUT
+        expression {http.request.uri.query.X-Amz-Credential}.startsWith('{$S3_ACCESS_KEY_ID}/')
+    }
+    respond @privilegedPut 403
+    # Preserve request Host/path/query: changing them breaks signed S3 URLs.
+    reverse_proxy minio:9000 {
+        transport http {
+            response_header_timeout 1m
+        }
+    }
+}
