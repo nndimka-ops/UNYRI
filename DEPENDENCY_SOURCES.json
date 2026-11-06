@@ -1,7 +1,7 @@
 {
   "status": "EXACT_VERSION_SOURCE_AND_RECIPE_MAP_NETWORK_DEPENDENCIES_NOT_VENDORED",
-  "firstPartyAppVersion": "0.3.15",
-  "firstPartyBuild": "15",
+  "firstPartyAppVersion": "0.3.16",
+  "firstPartyBuild": "16",
   "components": [
     {
       "component": "Signal Swift/RustFFI",

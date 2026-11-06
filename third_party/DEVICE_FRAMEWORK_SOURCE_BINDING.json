@@ -1,6 +1,6 @@
 {
-  "scope": "Actual unsigned Release iPhoneOS0.3.15/build15 compiler outputs, not a distribution-signature/source reproduction claim",
-  "source939ManifestSHA256": "7f26917fdfcadaaeeb0eab3dc5d547124aba2365bac4ea3d739237422a93daad",
+  "scope": "Actual unsigned Release iPhoneOS0.3.16/build16 compiler outputs; no signed16 archive/export or upstream bit-identical reproduction claim",
+  "source939ManifestSHA256": "f32341354f73f9b2f0f1adfd18a0aed7f3187f75710ce5d11635ad73262c71ce",
   "frameworks": {
     "Frameworks/WebRTC.framework/WebRTC": {
       "bytes": 12197964,
@@ -41,5 +41,10 @@
   },
   "deviceSignalStaticLibrarySHA256": "9e91aac4046830e1b4988f18f476eac220e21ac3fa69dbada88dc2be966d1339",
   "binaryPackageManifestBytesMatchActuallyUsedCache": true,
-  "signed15Comparison": "Record the final signed archive framework UUIDs separately; code signing changes whole-file hashes."
+  "signed16Comparison": {
+    "actualRootReceiptSHA256": "16c8dde34cfaabe9eddded63f844a7b7ed9ec40d057974f9a9b9dabdb3444914",
+    "actualSignedIPASHA256": "a9c96caa285b5c5c5006aa79b3dbbd10c6c06a61c98f50e572896c11ce5bf9f1",
+    "allThreeFrameworkUUIDsMatchPinnedUnsignedDeviceArtifacts": true,
+    "signingChangesWholeFileHashes": true
+  }
 }

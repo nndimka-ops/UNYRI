@@ -1,5 +1,12 @@
 {
-  "source939ManifestSHA256": "7f26917fdfcadaaeeb0eab3dc5d547124aba2365bac4ea3d739237422a93daad",
+  "publicBuildAuxiliaries": {
+    "ios/UNYRI.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved": {
+      "bytes": 964,
+      "sha256": "91216ad6c5a0e871ea89b6c46b0f2b4f45426a510b9e8c110ea6dfbfa39ba727",
+      "classification": "Public generated SwiftPM build auxiliary used by the qualified source16 builds; separate from773 selected shipping source files and source939 manifest."
+    }
+  },
+  "source939ManifestSHA256": "f32341354f73f9b2f0f1adfd18a0aed7f3187f75710ce5d11635ad73262c71ce",
   "productBuildInputs": {
     "ios/.gitignore": {
       "bytes": 313,
@@ -1899,7 +1906,7 @@
     },
     "ios/UNYRI.xcodeproj/project.pbxproj": {
       "bytes": 111120,
-      "sha256": "2008ad78bc0bba4601c3b7690bfb6ce89c056538188df423a9ac354472f943bc"
+      "sha256": "e38d24d15b5d3e6fdf8be892bb62e669e0123854ae084c622609db4cd692449b"
     },
     "ios/UNYRI.xcodeproj/project.xcworkspace/contents.xcworkspacedata": {
       "bytes": 142,
@@ -2358,8 +2365,8 @@
       "sha256": "c914478ad6d1684ea1209719985682dcc83a16bfea2d0daee45f5ed93015078a"
     },
     "ios/UNYRI/DirectTransfer/DirectFileViews.swift": {
-      "bytes": 16513,
-      "sha256": "f3b478cf80402572fad9726a9114ec5b2cb98d3a239a57ca12a9ae11f72ec9e4"
+      "bytes": 18684,
+      "sha256": "9a666f3a4db1b766dd7e81f0d71175f9a9fb56df872e1f09602a14b622f373cd"
     },
     "ios/UNYRI/DirectTransfer/DirectManualTransferState.swift": {
       "bytes": 9260,

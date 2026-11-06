@@ -111,7 +111,6 @@ private struct DirectFileStatusCard: View {
     @State private var confirmRestart = false
     private enum CompletedFileAction { case open, share }
     @State private var failedFileAction: CompletedFileAction?
-    @ScaledMetric(relativeTo: .caption) private var footerHeight: CGFloat = 44
     @Environment(\.dynamicTypeSize) private var typeSize
     private var record: DirectFileRecord? {
         guard let value = transfers.records[offer.transferId],
@@ -129,55 +128,26 @@ private struct DirectFileStatusCard: View {
     private var byteUnits: [String] { ["B", "KB", "MB", "GB"].map { UnyriL10n.string($0) } }
     private var rateUnits: [String] { ["B/s", "KB/s", "MB/s", "GB/s"].map { UnyriL10n.string($0) } }
     private var pauseReason: String { live?.status ?? DirectFileFailureText.status(record?.errorCode, outgoing: outgoing) }
+    private var hasContextActions: Bool {
+        guard let live else { return false }
+        return live.backgroundStatus != nil || live.actions.contains(.allowBackground) || live.actions.contains(.retrySync) || live.actions.contains(.retryPauseSave) || live.actions.contains(.retryContinueSave)
+    }
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(alignment: .top, spacing: 10) {
-                Image(systemName: offer.mimeType.hasPrefix("video/") ? "video" : "doc")
-                    .font(.system(size: 24, weight: .medium)).frame(width: 34, height: 38)
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(offer.filename).font(.subheadline.weight(.semibold)).lineLimit(2)
-                    Text(DirectFileDisplay.bytes(UInt64(offer.size), locale: locale, units: byteUnits))
-                        .font(.caption).foregroundStyle(.secondary)
+        VStack(alignment: .leading, spacing: 6) {
+            if typeSize.isAccessibilitySize {
+                fileIdentity
+                HStack(spacing: 0) { Spacer(minLength: 0); headerActions }
+            } else {
+                HStack(alignment: .top, spacing: 6) {
+                    fileIdentity
+                    headerActions.fixedSize(horizontal: true, vertical: false)
                 }
-                Spacer(minLength: 0)
-                if let live { DirectFileHoldActions(value: live, transfers: transfers, showStatus: false) }
-                if live?.actions.contains(.cancel) == true {
-                    icon("xmark", label: "Cancel transfer") { transfers.perform(.cancel, id: offer.transferId) }
-                } else { Color.clear.frame(width: 44, height: 44).accessibilityHidden(true) }
             }
-            HStack(spacing: 8) {
-                if record == nil {
-                    Text(UnyriL10n.string(historyOnly ? "File not copied with history. Ask the sender to send it again." : "Waiting for transfer informationвЂ¦"))
-                        .font(.caption).foregroundStyle(.secondary).lineLimit(3)
-                } else if phase == .offered, !outgoing {
-                    Button("Decline") { transfers.perform(.reject, id: offer.transferId) }.buttonStyle(.bordered)
-                    Button("Accept") { transfers.perform(.accept, id: offer.transferId) }.unyriProminentAction()
-                } else if phase == .transferring || phase == .verifying {
-                    progressFooter
-                } else if phase == .completed {
-                    if let failedFileAction {
-                        Text(UnyriL10n.string("Could not open this file. Check that it is available on this device, then try again."))
-                            .font(.caption).foregroundStyle(.secondary).lineLimit(3)
-                        icon("arrow.clockwise", label: "Retry") { requestFile(failedFileAction) }
-                    } else {
-                        Button("Open") { requestFile(.open) }.buttonStyle(.bordered)
-                        icon("square.and.arrow.up", label: "Share") { requestFile(.share) }
-                    }
-                } else if phase == .paused || phase == .failed {
-                    Text(UnyriL10n.string(live.map { $0.status == phase.label ? pauseReason : $0.status } ?? pauseReason)).font(.caption).foregroundStyle(.secondary).lineLimit(3)
-                    Spacer(minLength: 0)
-                    if outgoing, live?.actions.contains(.retry) == true {
-                        icon("arrow.clockwise", label: "Retry") { transfers.perform(.retry, id: offer.transferId) }
-                    } else if !outgoing, live?.actions.contains(.retry) == true || live?.actions.contains(.restart) == true {
-                        icon("arrow.clockwise", label: record?.errorCode == "prefix_mismatch" ? "Start again" : "Retry") {
-                            if record?.errorCode == "prefix_mismatch" { confirmRestart = true }
-                            else { transfers.perform(.retry, id: offer.transferId) }
-                        }
-                    }
-                } else {
-                    Text(LocalizedStringKey(live?.status ?? phase.label)).font(.caption).foregroundStyle(.secondary).lineLimit(2)
-                }
-            }.frame(minHeight: footerHeight)
+            if phase == .transferring || phase == .verifying { progressFooter }
+            else { statusFooter }
+            if let live, hasContextActions {
+                DirectFileHoldActions(value: live, transfers: transfers, showStatus: false, placement: .context)
+            }
             if let caption = DirectFileOffer.caption(in: text) { Text(caption).font(.subheadline) }
         }
         .tint(UnyriColors.accentSoft)
@@ -190,20 +160,89 @@ private struct DirectFileStatusCard: View {
             Button("Start again", role: .destructive) { transfers.restartFromZero(offer.transferId) }
         } message: { Text("The saved partial file does not match. Only this unfinished copy will be replaced.") }
     }
+    private var fileIdentity: some View {
+        HStack(alignment: .top, spacing: 8) {
+            Image(systemName: offer.mimeType.hasPrefix("video/") ? "video" : "doc")
+                .font(.system(size: 22, weight: .medium)).frame(width: 28, height: 38)
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 3) {
+                Text(offer.filename).font(.subheadline.weight(.semibold)).lineLimit(2)
+                    .accessibilityLabel(Text(offer.filename))
+                Text(DirectFileDisplay.bytes(UInt64(offer.size), locale: locale, units: byteUnits))
+                    .font(.caption.monospacedDigit()).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }.frame(maxWidth: .infinity, alignment: .leading)
+        }.frame(maxWidth: .infinity, alignment: .leading)
+    }
+    private var headerActions: some View {
+        HStack(spacing: 0) {
+            if let live, live.actions.contains(.pause) || live.actions.contains(.resume) {
+                DirectFileHoldActions(value: live, transfers: transfers, showStatus: false, placement: .header)
+            }
+            if live?.actions.contains(.cancel) == true {
+                icon("xmark", label: "Cancel transfer") { transfers.perform(.cancel, id: offer.transferId) }
+            } else if phase == .completed, failedFileAction == nil {
+                Button { requestFile(.open) } label: {
+                    Text("Open").font(.caption.weight(.medium)).frame(minWidth: 44, minHeight: 44)
+                        .contentShape(Rectangle())
+                }.buttonStyle(.plain)
+                icon("square.and.arrow.up", label: "Share") { requestFile(.share) }
+            }
+        }
+    }
+    @ViewBuilder private var statusFooter: some View {
+        if record == nil {
+            Text(UnyriL10n.string(historyOnly ? "File not copied with history. Ask the sender to send it again." : "Waiting for transfer information…"))
+                .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+        } else if phase == .offered, !outgoing {
+            HStack(spacing: 8) {
+                Button { transfers.perform(.reject, id: offer.transferId) } label: {
+                    Text("Decline").frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
+                }.buttonStyle(.bordered)
+                Button { transfers.perform(.accept, id: offer.transferId) } label: {
+                    Text("Accept").frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
+                }.unyriProminentAction()
+            }
+        } else if phase == .completed {
+            if let failedFileAction {
+                HStack(spacing: 6) {
+                    Text(UnyriL10n.string("Could not open this file. Check that it is available on this device, then try again."))
+                        .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+                    icon("arrow.clockwise", label: "Retry") { requestFile(failedFileAction) }
+                }
+            }
+        } else if phase == .paused || phase == .failed {
+            HStack(spacing: 6) {
+                Text(UnyriL10n.string(live.map { $0.status == phase.label ? pauseReason : $0.status } ?? pauseReason))
+                    .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+                if outgoing, live?.actions.contains(.retry) == true {
+                    icon("arrow.clockwise", label: "Retry") { transfers.perform(.retry, id: offer.transferId) }
+                } else if !outgoing, live?.actions.contains(.retry) == true || live?.actions.contains(.restart) == true {
+                    icon("arrow.clockwise", label: record?.errorCode == "prefix_mismatch" ? "Start again" : "Retry") {
+                        if record?.errorCode == "prefix_mismatch" { confirmRestart = true }
+                        else { transfers.perform(.retry, id: offer.transferId) }
+                    }
+                }
+            }
+        } else {
+            Text(LocalizedStringKey(live?.status ?? phase.label)).font(.caption).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
     private var progressFooter: some View {
         VStack(alignment: .leading, spacing: 4) {
             ProgressView(value: Double(received), total: Double(offer.size)).tint(UnyriColors.accentSoft)
                 .accessibilityLabel("Direct file transfer")
                 .accessibilityValue(Text("\(DirectFileDisplay.percent(offset: received, total: offer.size))%"))
             if typeSize.isAccessibilitySize {
-                Text("\(DirectFileDisplay.percent(offset: received, total: offer.size))% В· \(DirectFileDisplay.bytes(UInt64(received), locale: locale, units: byteUnits))")
+                Text("\(DirectFileDisplay.percent(offset: received, total: offer.size))% · \(DirectFileDisplay.bytes(UInt64(received), locale: locale, units: byteUnits))")
                 if snapshot.speedBytesPerSecond > 0 {
                     Text(DirectFileDisplay.bytes(snapshot.speedBytesPerSecond, locale: locale, units: rateUnits))
                     if let eta = DirectFileDisplay.eta(snapshot.remainingSeconds(total: offer.size), overOneDay: UnyriL10n.string(">24h")) { Text(eta) }
                 } else if received == offer.size { Text("Verifying file") }
             } else {
                 HStack(spacing: 6) {
-                    Text("\(DirectFileDisplay.percent(offset: received, total: offer.size))% В· \(DirectFileDisplay.bytes(UInt64(received), locale: locale, units: byteUnits))")
+                    Text("\(DirectFileDisplay.percent(offset: received, total: offer.size))% · \(DirectFileDisplay.bytes(UInt64(received), locale: locale, units: byteUnits))")
                     Spacer(minLength: 0)
                     if snapshot.speedBytesPerSecond > 0 {
                         Text(DirectFileDisplay.bytes(snapshot.speedBytesPerSecond, locale: locale, units: rateUnits))
@@ -214,7 +253,7 @@ private struct DirectFileStatusCard: View {
         }.font(.caption.monospacedDigit()).foregroundStyle(.secondary)
     }
     private func icon(_ image: String, label: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) { Image(systemName: image).font(.system(size: 17, weight: .medium)).frame(width: 44, height: 44) }
+        Button(action: action) { Image(systemName: image).font(.system(size: 17, weight: .medium)).frame(width: 44, height: 44).contentShape(Rectangle()) }
             .buttonStyle(.plain).accessibilityLabel(Text(LocalizedStringKey(label)))
     }
     private func requestFile(_ action: CompletedFileAction) {
@@ -237,47 +276,57 @@ private struct DirectFileStatusCard: View {
     }
 }
 
+enum DirectFileHoldPlacement: Equatable { case full, header, context }
+
 struct DirectFileHoldActions: View {
     let value: DirectFilePresentation
     let transfers: DirectFileTransfers
     var showStatus = true
+    var placement: DirectFileHoldPlacement = .full
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            if let status = value.backgroundStatus {
-                Text(UnyriL10n.string(status)).font(.caption).foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            if value.actions.contains(.allowBackground) {
-                Button { transfers.perform(.allowBackground, id: value.id) } label: {
-                    Label("Allow background", systemImage: "arrow.up.forward.app")
-                        .font(.caption.weight(.medium)).frame(minHeight: 44)
-                }.buttonStyle(.plain).accessibilityIdentifier("transfer-allow-background")
-            }
-        if value.actions.contains(.pause) || value.actions.contains(.resume) || value.actions.contains(.retrySync) || value.actions.contains(.retryPauseSave) || value.actions.contains(.retryContinueSave) {
-            HStack(spacing: 8) {
-                if showStatus, value.status != value.phase.label {
-                    Text(UnyriL10n.string(value.status)).font(.caption).foregroundStyle(.secondary).lineLimit(3)
+            if placement != .header {
+                if let status = value.backgroundStatus {
+                    Text(UnyriL10n.string(status)).font(.caption).foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
-                if showStatus { Spacer(minLength: 0) }
-                if value.actions.contains(.resume) {
-                    action("play.fill", label: "Continue transfer", kind: .resume)
-                } else if value.actions.contains(.pause) {
-                    action("pause.fill", label: "Pause transfer", kind: .pause)
+                if value.actions.contains(.allowBackground) {
+                    Button { transfers.perform(.allowBackground, id: value.id) } label: {
+                        Label("Allow background", systemImage: "arrow.up.forward.app")
+                            .font(.caption.weight(.medium)).frame(minHeight: 44)
+                    }.buttonStyle(.plain).accessibilityIdentifier("transfer-allow-background")
                 }
-                if value.actions.contains(.retryPauseSave) {
-                    action("arrow.clockwise", label: "Retry saving pause", kind: .retryPauseSave)
-                } else if value.actions.contains(.retryContinueSave) {
-                    action("arrow.clockwise", label: "Retry continuation", kind: .retryContinueSave)
-                } else if value.actions.contains(.retrySync) {
-                    action("arrow.clockwise", label: "Retry synchronization", kind: .retrySync)
+            }
+            if placement == .context {
+                HStack(spacing: 8) { repairActions }
+            } else if value.actions.contains(.pause) || value.actions.contains(.resume) || value.actions.contains(.retrySync) || value.actions.contains(.retryPauseSave) || value.actions.contains(.retryContinueSave) {
+                HStack(spacing: placement == .header ? 0 : 8) {
+                    if showStatus, value.status != value.phase.label {
+                        Text(UnyriL10n.string(value.status)).font(.caption).foregroundStyle(.secondary).lineLimit(3)
+                    }
+                    if showStatus { Spacer(minLength: 0) }
+                    if value.actions.contains(.resume) {
+                        action("play.fill", label: "Continue transfer", kind: .resume)
+                    } else if value.actions.contains(.pause) {
+                        action("pause.fill", label: "Pause transfer", kind: .pause)
+                    }
+                    if placement == .full { repairActions }
                 }
             }
         }
+    }
+    @ViewBuilder private var repairActions: some View {
+        if value.actions.contains(.retryPauseSave) {
+            action("arrow.clockwise", label: "Retry saving pause", kind: .retryPauseSave)
+        } else if value.actions.contains(.retryContinueSave) {
+            action("arrow.clockwise", label: "Retry continuation", kind: .retryContinueSave)
+        } else if value.actions.contains(.retrySync) {
+            action("arrow.clockwise", label: "Retry synchronization", kind: .retrySync)
         }
     }
     private func action(_ image: String, label: String, kind: DirectFileAction) -> some View {
         Button { transfers.perform(kind, id: value.id) } label: {
-            Image(systemName: image).font(.system(size: 17, weight: .medium)).frame(width: 44, height: 44)
+            Image(systemName: image).font(.system(size: 17, weight: .medium)).frame(width: 44, height: 44).contentShape(Rectangle())
         }.buttonStyle(.plain).accessibilityLabel(Text(LocalizedStringKey(label)))
     }
 }

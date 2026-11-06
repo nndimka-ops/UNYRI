@@ -1,8 +1,10 @@
 # Local modifications
 
-- First-party UNYRI 0.3.15/build15: APNs/PushKit client lifecycle, the accepted
+- First-party UNYRI 0.3.16/build16: APNs/PushKit client lifecycle, the accepted
   chat-composer type boundary hotfix, ledger relocation protection, localization
-  and iPad orientation metadata/runtime mask. Packaging changes no app code.
+  and iPad orientation metadata/runtime mask. Version16 additionally contains the
+  compact direct-file card and two explicit 44-point icon hit shapes. Packaging
+  changes no app code.
 - Signal wrapper: 125 files, 124 byte-identical to Signal v0.86.5; the sole
   Package.swift change and full upstream source are retained under
   `third_party/libsignal`.

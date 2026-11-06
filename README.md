@@ -1,40 +1,50 @@
-# UNYRI — iOS 0.3.15 and self-hosted backend source
+# UNYRI — iOS 0.3.16, self-hosted server and Windows admin alpha
 
-This source snapshot contains the app, share extension, local Swift packages,
-resources, shared schemas/vectors and retained licenses. The selected production
-inputs match the qualified 0.3.15 / build 15 source manifest exactly. The APNs and
-PushKit client implementation and the accepted chat hotfix are included.
+A space for family and friends, on a server you choose and control. UNYRI brings
+encrypted conversations and self-hosting together, with a Windows console for
+server administration.
 
-There are no signing keys, provider keys, profiles, account data, private QA
-receipts, Git history, app/IPA or compiled framework/static-library distributions.
-Images and the upstream source archives are source inputs. Some upstream source
-archives include normal example/model assets and CI recipes; they are not app
-distribution binaries. No CI workflow is activated at this repository root.
+UNYRI is alpha software. Choose a server that you operate or trust, and use the
+guides below to understand the setup and current package scope.
 
-- [Build and dependency-source recipes](SOURCE_BUILD.md)
-- [Exact versions, source commits and binary checksums](DEPENDENCY_SOURCES.json)
-- [Third-party notices](THIRD_PARTY_NOTICES.md)
-- [Local modifications](LOCAL_MODIFICATIONS.md)
-- [Shipping inputs and explicit QA exclusions](SOURCE_SELECTION.json)
-- [AGPL-3.0-only](LICENSE), [copyright](COPYRIGHT)
-- [Original iOS-release public file hashes](PUBLIC_FILE_MANIFEST.json)
-- [Backend source/build scope](server/README.md)
-- [Свой сервер для семьи и друзей](docs/SELF_HOSTING.md)
-- [Backend source binding](SERVER_SOURCE_BINDING.json)
-- [Server additions file hashes](SERVER_PUBLIC_FILE_MANIFEST.json)
+## Start here
 
-The 773 iOS shipping inputs remain exact. A separately bound backend source
-addition is now included; provider credentials remain operator-private. See
-[the self-hosting guide](docs/SELF_HOSTING.md). The existing ios-0.3.15 release
-asset remains the original iOS-only source package; server additions need their
-own reviewed publication.
-Source publication does not prove physical push delivery, large-file background
-grants or a complete physical-device test matrix. The exact signed15 source build, exported IPA and compiled framework UUIDs
-are bound in [SIGNED_RELEASE_BINDING.json](SIGNED_RELEASE_BINDING.json). Source
-publication and physical delivery qualification remain separate owner actions.
+- **Family and friends server:** [Свой сервер для семьи и друзей](docs/SELF_HOSTING.md).
+  Start with its prerequisites and backup/storage plan. It covers HTTPS/TLS,
+  Docker, public ports/CGNAT and TURN/SFU requirements. Use your own generated
+  secrets and provider credentials; no shared private push or signing keys are
+  supplied. A self-hosted deployment is not a promise of universal push setup.
+- **iOS 0.3.16 / build 16:** [build recipe](SOURCE_BUILD.md),
+  [release source binding](RELEASE_SOURCE_BINDING.json) and
+  [shipping selection](SOURCE_SELECTION.json). All 773 selected production inputs
+  match the qualified source. [Bundle metadata](release-metadata/ios-0.3.16/README.md)
+  accounts for the original 829-file source ZIP without replacing the operator guide.
+- **Windows Admin Console 0.3.16 alpha:** [source and package scope](windows-admin/README.md).
+  It is an unsigned .NET Framework 4.8 remote-admin alpha; optional local-stack/AI
+  controls require additional setup and are not qualified by the portable package.
 
-WebRTC source versions and recipes are pinned, rather than inferred from wrapper
-names. WebRTC DEPS trees and Cargo dependency sources require network retrieval;
-they are not hidden private build inputs. The package is not an offline build or
-a claim of byte-for-byte recreation of upstream prebuilt frameworks. Third-party
-licenses/notices remain in force; the root license does not replace them.
+## Alpha, trust and testing
+
+Message content encryption does not hide every IP address, connection or
+account-routing metadata item from networks and services. This repository makes
+the selected source and build instructions available; it is not a claim that
+every physical push, large-file background or device combination has passed testing.
+
+## Source and compatibility
+
+- [Server build scope](server/README.md), [deployed-source binding](SERVER_SOURCE_BINDING.json)
+  and [server publication file hashes](SERVER_PUBLIC_FILE_MANIFEST.json).
+- [Dependency sources](DEPENDENCY_SOURCES.json), [third-party notices](THIRD_PARTY_NOTICES.md),
+  [local modifications](LOCAL_MODIFICATIONS.md), [AGPL-3.0-only](LICENSE) and [copyright](COPYRIGHT).
+- [Original iOS 0.3.15 bundle manifest](PUBLIC_FILE_MANIFEST.json) and
+  [signed15 binding](SIGNED_RELEASE_BINDING.json) are historical records. Existing
+  release tags/assets retain their original source versions.
+
+The server/operator guide and compatibility names are preserved. Third-party
+licenses remain in force. Pinned WebRTC DEPS/Cargo sources can require network
+retrieval; this source bundle does not promise a fully offline or byte-identical
+rebuild of upstream prebuilt frameworks.
+
+No credentials, provider/signing keys, profiles, account data, private QA receipts
+or app/IPA/framework binaries are included in this source tree. The Windows
+portable package belongs in release assets. No root CI workflow is activated.

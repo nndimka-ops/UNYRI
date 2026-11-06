@@ -1,0 +1,12 @@
+{
+  "version": "2.7.0",
+  "packageURL": "https://api.nuget.org/v3-flatcontainer/bouncycastle.cryptography/2.7.0/bouncycastle.cryptography.2.7.0.nupkg",
+  "packageSHA256": "f091ffccab4d03993e660bace277659a79dee0972f54d7f1f4bd46d680966241",
+  "net461DLLSHA256": "4f96977e9c67334742c683410b3a361258219f0d3084a5e0bc10fba96cf23a0d",
+  "licenseSHA256": "be0592a6c76f398356fbf252a4fb43476fb3ca3c45331428c2f4f22c499e8311",
+  "additionalLicenseURL": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+  "additionalLicenseSHA256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+  "upstreamRepository": "https://github.com/bcgit/bc-csharp",
+  "licensePage": "https://www.bouncycastle.org/about/license/",
+  "unchangedLibrary": true
+}

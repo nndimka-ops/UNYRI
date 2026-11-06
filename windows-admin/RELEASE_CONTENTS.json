@@ -1,0 +1,243 @@
+{
+  "product": "UNYRI Admin Console",
+  "version": "0.3.16",
+  "unsigned": true,
+  "source": {
+    "directory": "source",
+    "files": {
+      "COPYRIGHT": {
+        "bytes": 453,
+        "sha256": "9b96877a43544bbf46efe0ceef28d8a38b09ddee5a2cd3804cec7c36c5f3c8e0"
+      },
+      "desktop/assets/unyri.ico": {
+        "bytes": 22350,
+        "sha256": "ec94d0bd1883ad943df13187e258103a6fce9ee118f044b8a9e1dfd2ed0aea7c"
+      },
+      "desktop/Build-CocoAdmin.ps1": {
+        "bytes": 2609,
+        "sha256": "8480c5b124b0ae6d9fd586d062620cdea7d0505deb4b5de879b4340b581c8dcd"
+      },
+      "desktop/CocoAdminConsole/AdminAuth.cs": {
+        "bytes": 29811,
+        "sha256": "ef0056c1ed62279044ec960d2e580ab11a5b8ef1b7f38dcd8a515ecdd42e5bb2"
+      },
+      "desktop/CocoAdminConsole/AdminConsoleLink.cs": {
+        "bytes": 1186,
+        "sha256": "3090f089ec2d25a9dc10c8bb49fd4f34e39fabb25e4c77d28cabafb889c0118c"
+      },
+      "desktop/CocoAdminConsole/AdminSecurityDialog.cs": {
+        "bytes": 15108,
+        "sha256": "b1f79cbc93bba65935151cf2f17bd2e399dec0d3d42f29814903cd756ca8a51a"
+      },
+      "desktop/CocoAdminConsole/AdminSecurityPolicy.cs": {
+        "bytes": 2850,
+        "sha256": "6741197488431d1230ee28cf3198a648d987fe1c052ef34fcf0901b67a8499fd"
+      },
+      "desktop/CocoAdminConsole/AdminSecurityUi.cs": {
+        "bytes": 9376,
+        "sha256": "f0ce379fbe76bf23ae90b09c6254b77a6f3a67dae4235bfc58755cb487e15dcc"
+      },
+      "desktop/CocoAdminConsole/AdminServerTarget.cs": {
+        "bytes": 1036,
+        "sha256": "b906231a61b8c536d04ffbc9b553f22ffd8d10c68821cd028abc775caa19bb59"
+      },
+      "desktop/CocoAdminConsole/AiSettingsDialog.cs": {
+        "bytes": 9429,
+        "sha256": "bc592bfbbfe7fe32267702cace480308ebc5da6d781b7e0baf234b48261b8bbe"
+      },
+      "desktop/CocoAdminConsole/AiSettingsStore.cs": {
+        "bytes": 2839,
+        "sha256": "ee3778a62c1f57c6d912cda78eb2ae62049dab10fe0a4af6b66586148fe989c1"
+      },
+      "desktop/CocoAdminConsole/AppPaths.cs": {
+        "bytes": 4130,
+        "sha256": "481c0e43ea8a618cd889f316e2738a1f33b067644f5599a7e7c2dad20eda13fe"
+      },
+      "desktop/CocoAdminConsole/AssemblyInfo.cs": {
+        "bytes": 267,
+        "sha256": "5cf0cb37b59d7f1b0f82c15f8782678f9c7ac11af68114a8e0d98f1bfd0a7467"
+      },
+      "desktop/CocoAdminConsole/BrandIconData.cs": {
+        "bytes": 21054,
+        "sha256": "02d6d74db202a7629980ef419d93e34b41a3841af6c59ac8bde08ee044ae656e"
+      },
+      "desktop/CocoAdminConsole/ConsoleDialog.cs": {
+        "bytes": 10215,
+        "sha256": "78d67542e0cc673dee7d2aeb7e16d4f46f42e46d3431a8334ee66e4948a9bda9"
+      },
+      "desktop/CocoAdminConsole/CryptoAdmin.cs": {
+        "bytes": 5835,
+        "sha256": "75d5f3e4e1c484a41b06bc7a6adf0bbcdaf6d4ead7f7f9d36ffc117d807c39bf"
+      },
+      "desktop/CocoAdminConsole/DbReader.cs": {
+        "bytes": 6589,
+        "sha256": "4a3ae3d784e320a37aab5fc74bc5eaf82afc46240a4ec3cf5983ef217ceed352"
+      },
+      "desktop/CocoAdminConsole/DependencyChecker.cs": {
+        "bytes": 13117,
+        "sha256": "b725d87b49bdcc1793b63090b94b59c273a85a3184f1aee4cc9452d66c817a7e"
+      },
+      "desktop/CocoAdminConsole/IconFactory.cs": {
+        "bytes": 5347,
+        "sha256": "b0bfcdda9481d65fbe36a905529be54e0c80c5fb6d5c822befc9cedc1bfe9d82"
+      },
+      "desktop/CocoAdminConsole/LoginForm.cs": {
+        "bytes": 19951,
+        "sha256": "a1cf933ef0b78991506aa7a20ff287a033f23a7ee77b97738edb0379e0509ca1"
+      },
+      "desktop/CocoAdminConsole/MainForm.cs": {
+        "bytes": 129979,
+        "sha256": "644600f7ed9123b60488703637dd3be0619edb3b116a16e79af6551c45835558"
+      },
+      "desktop/CocoAdminConsole/NativeAdminPanel.cs": {
+        "bytes": 338840,
+        "sha256": "868a2d4d87be71148a3921785ff846082056b02bde5311d0d15070bcd9f85881"
+      },
+      "desktop/CocoAdminConsole/OperationResultDialog.cs": {
+        "bytes": 8144,
+        "sha256": "33953f1f11d2039fa59d731fdc606af9475c2372bcf0e152483c41fbad27ded7"
+      },
+      "desktop/CocoAdminConsole/PerformanceDiagnosticsPanel.cs": {
+        "bytes": 8195,
+        "sha256": "841a8ec4925c97ad3fa2e13fe8b8870e6a7cde3e54893058318fc8555c5840a0"
+      },
+      "desktop/CocoAdminConsole/ProcessRunner.cs": {
+        "bytes": 9366,
+        "sha256": "723873fd9e4978ef63c5151be1cc7145823280f7620eae402d5ab7b0d46015e5"
+      },
+      "desktop/CocoAdminConsole/Program.cs": {
+        "bytes": 8014,
+        "sha256": "29c7abdc5892f0dffee19c267e10791f6f1f088f8cfd64b2c682fd634a266bdf"
+      },
+      "desktop/CocoAdminConsole/ServerControl.cs": {
+        "bytes": 20026,
+        "sha256": "72b4c2b730187236f73bc9580a038baa6a6a98f32121d75e9c56bcf529e32538"
+      },
+      "desktop/CocoAdminConsole/UiTheme.cs": {
+        "bytes": 16392,
+        "sha256": "a20756934a23dd9ceb47c18bc958d138de86046f5134ca67bcdda68484917a72"
+      },
+      "desktop/CocoAdminConsole.exe.config": {
+        "bytes": 715,
+        "sha256": "de6d02074bbf7d23f151e1a71ff6244389792d4aabaecfdc0ce87d6ce5af732f"
+      },
+      "desktop/CocoAdminConsole.exe.manifest": {
+        "bytes": 959,
+        "sha256": "f5a23dd053a5c2a349a42f14d200becaf18896816675a2cdcd4631ca80ecabc2"
+      },
+      "desktop/README.md": {
+        "bytes": 8718,
+        "sha256": "50cfec4afea2b730051374632fb79d53a189b1cd6e7cd83ab51be31bb920a15b"
+      },
+      "desktop/Restore-Dependencies.ps1": {
+        "bytes": 4923,
+        "sha256": "81c1197744d5f02d8721c90fc5af33aefdde3e8467bf9145cf0078cfc2955edb"
+      },
+      "LICENSE": {
+        "bytes": 34523,
+        "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0"
+      },
+      "PUBLIC_FILE_MANIFEST.json": {
+        "bytes": 5838,
+        "sha256": "28f51e44efc06818aea5b6ff180443f83ff29972f785110f0ad06cb8cba9c074"
+      },
+      "README_SOURCE.md": {
+        "bytes": 1924,
+        "sha256": "f336c495eec8279034db86ae400913b41231437638b3a84e86b0330d3b2b2085"
+      },
+      "RELEASE_SOURCE_BINDING.json": {
+        "bytes": 7250,
+        "sha256": "61fe0bb5f3a7fffef85db4f4a43dba584c4338634772d792bcf78901ea36b9fe"
+      },
+      "third_party/bouncycastle/APACHE-2.0.txt": {
+        "bytes": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "third_party/bouncycastle/LICENSE.md": {
+        "bytes": 1186,
+        "sha256": "be0592a6c76f398356fbf252a4fb43476fb3ca3c45331428c2f4f22c499e8311"
+      },
+      "third_party/bouncycastle/PROVENANCE.json": {
+        "bytes": 756,
+        "sha256": "35a01522fa5e5b4393f0bdefb7f1ab12dcbfc5b904477e98978ba9249477da18"
+      },
+      "third_party/bouncycastle/README.md": {
+        "bytes": 997,
+        "sha256": "90abc3049d2e264f5abdc7173c81f6393e47b536c2f07cb4f4933ad76cefa538"
+      }
+    },
+    "zip": {
+      "name": "UNYRI-AdminConsole-0.3.16-source.zip",
+      "bytes": 208934,
+      "sha256": "47e950eeb77930d0f877d4eedc1e77605e7dbddff1a13c9da92677b8085be8a0",
+      "files": 40
+    }
+  },
+  "portableReleaseAsset": {
+    "zip": {
+      "name": "UNYRI-AdminConsole-0.3.16-win-x64-alpha.zip",
+      "bytes": 2815588,
+      "sha256": "156cbff688125f584f07117080fe9f437131c9050cc7fdf9a5fcdb1b66932301",
+      "files": 12
+    },
+    "files": {
+      "BouncyCastle.Cryptography.dll": {
+        "bytes": 4885392,
+        "sha256": "4f96977e9c67334742c683410b3a361258219f0d3084a5e0bc10fba96cf23a0d"
+      },
+      "COPYRIGHT": {
+        "bytes": 453,
+        "sha256": "9b96877a43544bbf46efe0ceef28d8a38b09ddee5a2cd3804cec7c36c5f3c8e0"
+      },
+      "LICENSE": {
+        "bytes": 34523,
+        "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0"
+      },
+      "README.md": {
+        "bytes": 2057,
+        "sha256": "62d678b962b119debb5085e7dc249311c560ebb73bbddcf55791ccc998a9ae68"
+      },
+      "SHA256SUMS": {
+        "bytes": 1001,
+        "sha256": "3087e396845ad1d0af3f61b6fab650a65a6932cf0d330ce4409a083fb62fd021"
+      },
+      "SOURCE.json": {
+        "bytes": 676,
+        "sha256": "d085c377f658598447cbd919e06b332daca6df0d1e27dc4716006f396bf8e61f"
+      },
+      "third_party/bouncycastle/APACHE-2.0.txt": {
+        "bytes": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "third_party/bouncycastle/LICENSE.md": {
+        "bytes": 1186,
+        "sha256": "be0592a6c76f398356fbf252a4fb43476fb3ca3c45331428c2f4f22c499e8311"
+      },
+      "third_party/bouncycastle/PROVENANCE.json": {
+        "bytes": 756,
+        "sha256": "35a01522fa5e5b4393f0bdefb7f1ab12dcbfc5b904477e98978ba9249477da18"
+      },
+      "third_party/bouncycastle/README.md": {
+        "bytes": 997,
+        "sha256": "90abc3049d2e264f5abdc7173c81f6393e47b536c2f07cb4f4933ad76cefa538"
+      },
+      "UNYRI-AdminConsole.exe": {
+        "bytes": 620544,
+        "sha256": "20def4eb85967b54e1bbd6d5c17c1f4558bbb9170c1da65445ecddcc653ba567"
+      },
+      "UNYRI-AdminConsole.exe.config": {
+        "bytes": 715,
+        "sha256": "de6d02074bbf7d23f151e1a71ff6244389792d4aabaecfdc0ce87d6ce5af732f"
+      }
+    },
+    "GitTreeIncludesPortableBinaries": false
+  },
+  "qualificationScope": {
+    "actualOfflineBuild": true,
+    "PEMetadataAndConstructorBrandingChecked": true,
+    "freshOwnerLoginLiveModerationLocalStackRecovery": false,
+    "optionalLocalHelpersIncluded": 0,
+    "localStackAIQualified": false
+  },
+  "noCredentialsOrProviderKeysIncluded": true
+}

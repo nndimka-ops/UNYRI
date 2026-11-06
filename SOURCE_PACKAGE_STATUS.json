@@ -1,20 +1,22 @@
 {
   "app": "UNYRI for iOS",
-  "version": "0.3.15",
-  "build": "15",
-  "sourceSnapshotManifestSHA256": "7f26917fdfcadaaeeb0eab3dc5d547124aba2365bac4ea3d739237422a93daad",
+  "version": "0.3.16",
+  "build": "16",
+  "sourceSnapshotManifestSHA256": "f32341354f73f9b2f0f1adfd18a0aed7f3187f75710ce5d11635ad73262c71ce",
   "selectedProductBuildSourceFiles": 773,
   "excludedQAOrHistoricalFiles": 166,
   "allCopiedProductBytesExact": true,
   "sourceRecipeMappingEstablished": true,
   "networkDependencySourcesVendored": false,
-  "signed15BinaryMatchedByThisPackagingTask": true,
+  "signed16BinaryMatchedByThisPackagingTask": true,
   "publicationExecuted": false,
   "technicalSourcePublicationCandidateReady": true,
-  "reproductionClaim": "Exact shipping source input and pinned upstream source/recipe map; not an offline or bit-identical binary reproduction certification.",
+  "binaryDistributionBindingStatus": "MATCHED_LOCAL_SIGNED16_ARCHIVE_AND_EXPORTED_IPA",
+  "reproductionClaim": "Exact app input bytes and pinned upstream source/recipe map; not offline or bit-identical upstream binary reproduction certification.",
   "remainingReleaseActions": [
-    "Publish the approved source/release URL and retain it with the distributed release"
+    "Owner review/publication of approved source URL",
+    "Separate Apple16 authorization/validation/upload if requested"
   ],
-  "scope": "iOS client, extension and local packages; server source/deployment is a separate project scope.",
-  "signed15Binding": "SIGNED_RELEASE_BINDING.json"
+  "scope": "iOS client, extension and local packages; backend source/deployment separate.",
+  "sourceBinding": "RELEASE_SOURCE_BINDING.json"
 }
