@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>UNYRI_APS_ENVIRONMENT</key>
+	<string>$(UNYRI_APS_ENVIRONMENT)</string>
+	<key>UNYRI_APP_GROUP_IDENTIFIER</key>
+	<string>$(UNYRI_APP_GROUP_IDENTIFIER)</string>
+    <key>NSFaceIDUsageDescription</key><string>Unlock UNYRI and protect your privacy settings.</string>
+    <key>CFBundleURLTypes</key>
+    <array><dict><key>CFBundleURLName</key><string>UNYRI room invitation</string><key>CFBundleURLSchemes</key><array><string>unyri</string><string>coco</string></array></dict></array>
+    <key>UNYRI_GIT_REVISION</key><string>$(UNYRI_GIT_REVISION)</string>
+    <key>CFBundleDocumentTypes</key>
+    <array><dict>
+        <key>CFBundleTypeName</key><string>Files for UNYRI</string>
+        <key>CFBundleTypeRole</key><string>Viewer</string>
+        <key>LSHandlerRank</key><string>Alternate</string>
+        <key>LSItemContentTypes</key><array><string>public.data</string><string>public.content</string></array>
+    </dict></array>
+    <key>LSSupportsOpeningDocumentsInPlace</key><true/>
+
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>UNYRI</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>UNYRI</string>
+	<key>CFBundlePackageType</key>
+	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>UILaunchScreen</key>
+	<dict/>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>UNYRI_API_BASE_URL</key>
+	<string>$(UNYRI_API_BASE_URL)</string>
+	<key>UNYRIBuildPurpose</key>
+	<string>Debug LAN testing</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>UNYRI connects to your selected local server and direct file-transfer peers over your local network.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>UNYRI uses your microphone for voice messages and voice and video calls.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>UNYRI uses your camera for photos and videos in messages, profile photos, QR code scanning, and video calls.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>UNYRI saves photos and videos only when you choose Save to Photos.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>UNYRI lets you choose photos and videos to send in messages and choose and crop a profile photo.</string>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array><string>$(PRODUCT_BUNDLE_IDENTIFIER).history-backup</string>
+        <string>$(PRODUCT_BUNDLE_IDENTIFIER).direct-file.*</string></array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>processing</string>
+		<string>voip</string>
+		<string>audio</string>
+	</array>
+</dict>
+</plist>

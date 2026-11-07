@@ -1,0 +1,279 @@
+--- a/Sources/LiveKit/Core/Room+Engine.swift
++++ b/Sources/LiveKit/Core/Room+Engine.swift
+@@ -413,6 +413,15 @@
+     func startReconnect(reason: StartReconnectReason, nextReconnectMode: ReconnectMode? = nil) async throws {
+         log("[Connect] Starting, reason: \(reason)")
+ 
++        // COCO's account-scoped owner can opt out of SDK retry/republication.
++        // AsyncRetry otherwise still invokes its last operation for zero attempts.
++        // Close this transport and let the owner obtain a fresh admission and
++        // encryption provider instead of reusing a short-lived SFU grant.
++        if _state.connectOptions.reconnectAttempts <= 0 {
++            await cleanUp(withError: LiveKitError(.network))
++            return
++        }
++
+         guard case .connected = _state.connectionState else {
+             log("[Connect] Must be called with connected state", .error)
+             throw LiveKitError(.invalidState)
+--- a/Sources/LiveKit/Core/Transport.swift
++++ b/Sources/LiveKit/Core/Transport.swift
+@@ -86,6 +86,7 @@
+ 
+     // forbid direct access to PeerConnection; the box parks its blocking release on deinit
+     private let _pcBox: RTCBox<LKRTCPeerConnection>
++    private let requiresFrameEncryption: Bool
+ 
+     @RTC private var _pc: LKRTCPeerConnection { _pcBox.value }
+ 
+@@ -120,6 +121,9 @@
+         }
+ 
+         self.target = target
++        if let room = delegate as? Room {
++            requiresFrameEncryption = room._state.roomOptions.e2eeOptions != nil || room._state.roomOptions.encryptionOptions != nil
++        } else { requiresFrameEncryption = false }
+         isPrimary = primary
+         self.singlePCMode = singlePCMode
+         _pcBox = RTCBox(pc)
+@@ -685,6 +689,11 @@
+             return
+         }
+ 
++        // COCO: the signaling callback disables reception before it crosses
++        // the asynchronous delegate pipeline. RemoteParticipant enables it only
++        // after the required receiver cryptor has been attached and enabled.
++        if requiresFrameEncryption { track.isEnabled = false }
++
+         log("type: \(type(of: track)), track.id: \(track.trackId), streams: \(streams.map { "Stream(hash: \($0.hash), id: \($0.streamId), videoTracks: \($0.videoTracks.count), audioTracks: \($0.audioTracks.count))" })")
+         let receiver = RTCReceiver(rtpReceiver)
+         let mediaTrack = RTCMediaTrack(track)
+@@ -795,7 +804,8 @@
+     }
+ 
+     func addTransceiver(ofType mediaType: LKRTCRtpMediaType,
+-                        transceiverInit: LKRTCRtpTransceiverInit) throws -> LKRTCRtpTransceiver
++                        transceiverInit: LKRTCRtpTransceiverInit,
++                        startBitrateKbps: Int? = nil) throws -> LKRTCRtpTransceiver
+     {
+         guard !_isClosed else {
+             throw LiveKitError(.invalidState, message: "Transport is closed")
+@@ -803,6 +813,10 @@
+ 
+         guard let transceiver = _pc.addTransceiver(of: mediaType, init: transceiverInit) else {
+             throw LiveKitError(.webRTC, message: "Failed to add transceiver")
++        }
++
++        if let startBitrateKbps {
++            _startBitrateKbpsBySenderId[transceiver.sender.senderId] = startBitrateKbps
+         }
+ 
+         return transceiver
+--- a/Sources/LiveKit/E2EE/E2EEManager.swift
++++ b/Sources/LiveKit/E2EE/E2EEManager.swift
+@@ -80,6 +80,9 @@
+         var enabled: Bool = true
+         var frameCryptors = [CryptorKey: LKRTCFrameCryptor]()
+         var trackPublications = [LKRTCFrameCryptor: TrackPublication]()
++        // COCO: retain the enabled cryptor before attaching any source track.
++        // didPublish later associates it with the server publication identity.
++        var preparedSenderCryptors = [String: LKRTCFrameCryptor]()
+         var dataCryptor: LKRTCDataPacketCryptor?
+         var keyIndexGeneration: UInt64 = 0
+     }
+@@ -221,6 +224,7 @@
+     }
+ 
+     func addRtpSender(publication: LocalTrackPublication, participantIdentity: Participant.Identity) async {
++        if _state.frameCryptors[[participantIdentity: publication.sid]] != nil { return }
+         guard publication.encryptionType != .none else {
+             log("encryptionType is .none, skipping creating frame cryptor...", .warning)
+             return
+@@ -234,6 +238,10 @@
+         // The raw sender is `@RTC`-confined and `LKRTCFrameCryptor` is not `Sendable`, so build
+         // and install it entirely on the RTC executor.
+         await RTC.run {
++            if let prepared = _state.mutate({ $0.preparedSenderCryptors.removeValue(forKey: sender.raw.senderId) }) {
++                install(frameCryptor: prepared, for: publication, participantIdentity: participantIdentity)
++                return
++            }
+             guard let frameCryptor = LKRTCFrameCryptor(factory: RTC.peerConnectionFactory,
+                                                        rtpSender: sender.raw,
+                                                        participantId: participantIdentity.stringValue,
+@@ -248,7 +256,28 @@
+         }
+     }
+ 
++    /// COCO: called on the RTC executor with a disabled inert placeholder.
++    /// Only after this succeeds may the source track be attached. This covers
++    /// initial publication, later camera/mic toggles and automatic republishing.
++    @RTC
++    func prepareRtpSender(_ sender: LKRTCRtpSender, participantIdentity: Participant.Identity) throws {
++        guard _state.enabled, frameEncryptionType == .gcm, sender.track?.isEnabled == false,
++              keyProvider.options.discardFrameWhenCryptorNotReady,
++              keyProvider.options.uncryptedMagicBytes.isEmpty,
++              let cryptor = LKRTCFrameCryptor(factory: RTC.peerConnectionFactory,
++                  rtpSender: sender, participantId: participantIdentity.stringValue,
++                  algorithm: .aesGcm, keyProvider: keyProvider.rtcKeyProvider) else {
++            throw LiveKitError(.invalidState, message: "Required sender encryption could not be attached")
++        }
++        cryptor.delegate = delegateAdapter
++        cryptor.keyIndex = keyProvider.getCurrentKeyIndex()
++        cryptor.enabled = true
++        guard cryptor.enabled else { throw LiveKitError(.invalidState, message: "Sender encryption is disabled") }
++        _state.mutate { $0.preparedSenderCryptors[sender.senderId] = cryptor }
++    }
++
+     func addRtpReceiver(publication: RemoteTrackPublication, participantIdentity: Participant.Identity) async {
++        if _state.frameCryptors[[participantIdentity: publication.sid]] != nil { return }
+         guard publication.encryptionType != .none else {
+             log("encryptionType is .none, skipping creating frame cryptor...", .warning)
+             return
+@@ -276,6 +305,24 @@
+         }
+     }
+ 
++    func prepareRtpReceiver(publication: RemoteTrackPublication, participantIdentity: Participant.Identity) async throws {
++        guard publication.encryptionType == .gcm, _state.enabled,
++              keyProvider.options.discardFrameWhenCryptorNotReady,
++              keyProvider.options.uncryptedMagicBytes.isEmpty,
++              let receiver = publication.track?._state.rtpReceiver else {
++            throw LiveKitError(.invalidState, message: "Required receiver encryption is unavailable")
++        }
++        try await RTC.run {
++            guard let cryptor = LKRTCFrameCryptor(factory: RTC.peerConnectionFactory,
++                rtpReceiver: receiver.raw, participantId: participantIdentity.stringValue,
++                algorithm: .aesGcm, keyProvider: keyProvider.rtcKeyProvider) else {
++                throw LiveKitError(.invalidState, message: "Required receiver encryption could not be attached")
++            }
++            install(frameCryptor: cryptor, for: publication, participantIdentity: participantIdentity)
++            guard cryptor.enabled else { throw LiveKitError(.invalidState, message: "Receiver encryption is disabled") }
++        }
++    }
++
+     private func addDataChannelCryptor() {
+         _state.mutate {
+             $0.dataCryptor = LKRTCDataPacketCryptor(algorithm: .aesGcm, keyProvider: keyProvider.rtcKeyProvider)
+@@ -293,6 +340,7 @@
+             }
+             $0.frameCryptors.removeAll()
+             $0.trackPublications.removeAll()
++            $0.preparedSenderCryptors.removeAll()
+             // The data cryptor is key-provider-scoped (not bound to a transport), and its users —
+             // encrypted data payloads and the data-track subsystem — survive a full reconnect, so
+             // keep it: nothing re-runs setup() until the next explicit connect.
+--- a/Sources/LiveKit/Participant/LocalParticipant.swift
++++ b/Sources/LiveKit/Participant/LocalParticipant.swift
+@@ -613,6 +613,12 @@
+                  for localTrackPublication: LocalTrackPublication) async throws
+     {
+         let room = try requireRoom()
++        // COCO conferences use VP8, which every supported native peer can
++        // receive. The upstream secondary-codec path has no cryptor lifecycle;
++        // reject it before it can create a plaintext sender.
++        guard room._state.roomOptions.e2eeOptions == nil && room._state.roomOptions.encryptionOptions == nil else {
++            throw LiveKitError(.invalidState, message: "Secondary video senders require an encrypted lifecycle")
++        }
+ 
+         guard let videoCodec = subscribedCodec.toVideoCodec() else { return }
+ 
+@@ -746,6 +752,11 @@
+         let room = try requireRoom()
+         let publisher = try room.requirePublisher()
+ 
++        let requiresEncryption = room._state.roomOptions.e2eeOptions != nil || room._state.roomOptions.encryptionOptions != nil
++        guard !requiresEncryption || room.e2eeManager?.frameEncryptionType == .gcm else {
++            throw LiveKitError(.invalidState, message: "Required frame encryption manager is unavailable")
++        }
++
+         try checkPermissions(toPublish: track)
+ 
+         guard _state.trackPublications.values.first(where: { $0.track === track }) == nil else {
+@@ -756,13 +767,11 @@
+             throw LiveKitError(.invalidState, message: "Unknown LocalTrack type")
+         }
+ 
+-        // Try to start the Track
+-        try await track.start()
+-        // Starting the Track could be time consuming especially for camera etc.
+-        // Check cancellation after track starts.
+-        try Task.checkCancellation()
+-
+         do {
++            // Starting capture can finish after cancellation. Keep it inside
++            // rollback so an unpublished camera/microphone is always stopped.
++            try await track.start()
++            try Task.checkCancellation()
+             var dimensions: Dimensions? // Only for Video
+             var publishName: String?
+ 
+@@ -881,9 +890,33 @@
+                         ? Transport.startBitrateKbps(for: transInit.sendEncodings, isScreenShare: track.source == .screenShareVideo,
+                                                      connectionSetupTime: publisher.connectionSetupTime)
+                         : nil
+-                    let transceiver = try publisher.addTransceiver(with: track.mediaTrack.raw,
+-                                                                   transceiverInit: transInit,
+-                                                                   startBitrateKbps: startBitrateKbps)
++                    let transceiver: LKRTCRtpTransceiver
++                    if requiresEncryption {
++                        guard let encryption = room.e2eeManager, encryption.frameEncryptionType == .gcm,
++                              let identity = self.identity else {
++                            throw LiveKitError(.invalidState, message: "Missing identity for required encryption")
++                        }
++                        // The native cryptor requires a track to determine kind.
++                        // This disabled inert placeholder has the actual track's
++                        // ID but never its capture source. Real capture is only
++                        // assigned after the enabled cryptor is installed.
++                        let placeholder: LKRTCMediaStreamTrack
++                        if track.kind == .audio {
++                            placeholder = RTC.peerConnectionFactory.audioTrack(with: RTC.createAudioSource(nil),
++                                trackId: track.mediaTrack.trackId)
++                        } else {
++                            placeholder = RTC.peerConnectionFactory.videoTrack(with: RTC.createVideoSource(forScreenShare: false),
++                                trackId: track.mediaTrack.trackId)
++                        }
++                        placeholder.isEnabled = false
++                        transceiver = try publisher.addTransceiver(with: placeholder,
++                            transceiverInit: transInit, startBitrateKbps: startBitrateKbps)
++                        try encryption.prepareRtpSender(transceiver.sender, participantIdentity: identity)
++                        transceiver.sender.track = track.mediaTrack.raw
++                    } else {
++                        transceiver = try publisher.addTransceiver(with: track.mediaTrack.raw,
++                            transceiverInit: transInit, startBitrateKbps: startBitrateKbps)
++                    }
+ 
+                     if track is LocalVideoTrack {
+                         let publishOptions = (options as? VideoPublishOptions) ?? room._state.roomOptions.defaultVideoPublishOptions
+@@ -945,6 +978,7 @@
+             // Store publishOptions used for this track...
+             track._state.mutate { $0.lastPublishOptions = options }
+ 
++            try Task.checkCancellation()
+             let publication = LocalTrackPublication(info: trackInfo, participant: self)
+             await publication.set(track: track)
+ 
+--- a/Sources/LiveKit/Participant/RemoteParticipant.swift
++++ b/Sources/LiveKit/Participant/RemoteParticipant.swift
+@@ -167,6 +167,12 @@
+ 
+         add(publication: publication)
+ 
++        if room._state.roomOptions.e2eeOptions != nil || room._state.roomOptions.encryptionOptions != nil {
++            guard let encryption = room.e2eeManager, encryption.frameEncryptionType == .gcm, let identity else {
++                throw LiveKitError(.invalidState, message: "Missing required receiver encryption")
++            }
++            try await encryption.prepareRtpReceiver(publication: publication, participantIdentity: identity)
++        }
+         try await track.start()
+ 
+         delegates.notify(label: { "participant.didSubscribe \(publication)" }) {
+--- a/Sources/LiveKit/Types/Options/ConnectOptions.swift
++++ b/Sources/LiveKit/Types/Options/ConnectOptions.swift
+@@ -24,6 +24,7 @@
+     public let autoSubscribe: Bool
+ 
+     /// The number of attempts to reconnect when the network disconnects.
++    /// Zero disables SDK retries and closes the transport on a network failure.
+     public let reconnectAttempts: Int
+ 
+     /// The minimum delay value for reconnection attempts.

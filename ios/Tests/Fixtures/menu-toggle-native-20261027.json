@@ -1,0 +1,8 @@
+{
+  "source": "menus-second-final-tree.txt, native application871/iOS27.0",
+  "label": "Show Saved Messages in menu",
+  "wrapper": { "frame": [56, 395, 318, 28], "value": "1" },
+  "nativeSwitch": { "frame": [313, 395, 63, 28], "value": "1" },
+  "callsWrapper": { "frame": [56, 431, 318, 35.7], "value": "1" },
+  "callsNativeSwitch": { "frame": [313, 435, 63, 28], "value": "1" }
+}

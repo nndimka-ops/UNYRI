@@ -1,0 +1,91 @@
+name: iOS compile check
+
+# Compile-only verification of the current iOS tree on a macOS runner.
+# This does NOT replace the repository's full iOS Build/QA workflows (those run
+# contract bundles and simulator QA). It exists so a compile result and an
+# unsigned .ipa can be produced for a source branch without Apple signing.
+#
+# Triggered by pushes to branches named ci/compile-*. Nothing is published: the
+# app is built with CODE_SIGNING_ALLOWED=NO and only an Actions artifact is kept.
+
+on:
+  push:
+    branches:
+      - 'ci/compile-*'
+
+permissions:
+  contents: read
+
+jobs:
+  compile:
+    name: Build UNYRI (unsigned)
+    runs-on: macos-latest
+    timeout-minutes: 40
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Show toolchain
+        run: |
+          xcodebuild -version
+          xcode-select -p
+          xcrun --sdk iphoneos --show-sdk-version
+
+      - name: Verify Xcode project object identities
+        run: python3 scripts/check_ios_project.py
+
+      - name: Fetch and verify LibSignalClient FFI binary
+        run: |
+          set -euo pipefail
+          URL="https://build-artifacts.signal.org/libraries/libsignal-client-ios-build-v0.86.5.tar.gz"
+          SHA256="a3df979aa39b307ac4ef0f3fd59536daab5d6b3f8257c7aefe5f0470625f2582"
+          mkdir -p ios/libsignal-ffi
+          curl -fL --retry 3 -o /tmp/libsignal-ffi.tar.gz "$URL"
+          ACTUAL="$(shasum -a 256 /tmp/libsignal-ffi.tar.gz | awk '{print $1}')"
+          if [ "$ACTUAL" != "$SHA256" ]; then
+            echo "::error::LibSignalClient FFI checksum mismatch: expected $SHA256, got $ACTUAL"
+            exit 1
+          fi
+          tar -xzf /tmp/libsignal-ffi.tar.gz -C /tmp target/aarch64-apple-ios/release/libsignal_ffi.a
+          cp /tmp/target/aarch64-apple-ios/release/libsignal_ffi.a ios/libsignal-ffi/libsignal_ffi.a
+          ls -l ios/libsignal-ffi/libsignal_ffi.a
+
+      - name: Build UNYRI (unsigned Release)
+        timeout-minutes: 25
+        run: |
+          set -euo pipefail
+          xcodebuild \
+            -project ios/UNYRI.xcodeproj \
+            -scheme UNYRI \
+            -destination 'generic/platform=iOS' \
+            -configuration Release \
+            SWIFT_COMPILATION_MODE=singlefile \
+            UNYRI_GIT_REVISION="$GITHUB_SHA" \
+            -derivedDataPath ios/build \
+            ONLY_ACTIVE_ARCH=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            build
+
+      - name: Package unsigned .ipa
+        run: |
+          set -euo pipefail
+          APP_PATH="ios/build/Build/Products/Release-iphoneos/UNYRI.app"
+          if [ ! -d "$APP_PATH" ]; then
+            echo "::error::Expected app bundle not found at ${APP_PATH}"
+            exit 1
+          fi
+          rm -rf ios/build/Payload
+          mkdir -p ios/build/Payload
+          cp -R "$APP_PATH" ios/build/Payload/
+          python3 -c 'import plistlib,sys; p=plistlib.load(open(sys.argv[1], "rb")); assert {"voip", "audio"}.issubset(set(p.get("UIBackgroundModes", []))), "CallKit background modes missing"' "$APP_PATH/Info.plist"
+          (cd ios/build && zip -qry UNYRI-unsigned.ipa Payload)
+          shasum -a 256 ios/build/UNYRI-unsigned.ipa
+
+      - name: Upload unsigned IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: UNYRI-iOS-unsigned
+          path: ios/build/UNYRI-unsigned.ipa
+          if-no-files-found: error
+          retention-days: 7

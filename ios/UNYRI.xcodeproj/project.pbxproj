@@ -1,0 +1,1264 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+        2F380E1E1BF3445D345641E1 /* UnyriNamedQuickLook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3196112BB4DA893C7F55077E; };
+        BF071026F11EB00000000001 /* UnyriFolderAttachmentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF071026F11EB00000000001; };
+        B6E12A18C899C51182C43D00 /* DirectSendPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E12A18C899C51182C43D00; };
+        D3C3E7E4B6D06C77F91C63AF /* DirectFileMediaPreviewGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBA896539328D2DBB274DCD; };
+		EC5103BAA9940822C1E09C35 /* UNYRI PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 5F3697B510FDE2AD933CBB97 /* UNYRI PrivacyInfo.xcprivacy */; };
+		F763E77D525A5F202DAED418 /* UNYRIShare PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F56B6BCE4359EC0A9376D99D /* UNYRIShare PrivacyInfo.xcprivacy */; };
+        BCF110100000000000000004 = {isa = PBXBuildFile; fileRef = ACF110100000000000000004; };
+        BCF110100000000000000005 = {isa = PBXBuildFile; fileRef = ACF110100000000000000005; };
+        BCF110100000000000000000 = {isa = PBXBuildFile; fileRef = ACF110100000000000000000; };
+        BCF110100000000000000001 = {isa = PBXBuildFile; fileRef = ACF110100000000000000001; };
+        BCF110100000000000000002 = {isa = PBXBuildFile; fileRef = ACF110100000000000000002; };
+        BCF110100000000000000003 = {isa = PBXBuildFile; fileRef = ACF110100000000000000003; };
+        BC1101000000000000000001 /* NotificationPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1101000000000000000001; };
+        BC1101000000000000000002 /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1101000000000000000002; };
+        BC3100000000000000000001 /* CrashDiagnostics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3100000000000000000001; };
+        BC3100000000000000000002 /* CrashDiagnosticsSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3100000000000000000002; };
+        BC3100000000000000000003 /* ChatBackSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3100000000000000000003; };
+        ED3000000000000000000004 /* ConferenceOwnedAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3000000000000000000004; };
+        ED3000000000000000000003 /* ConferenceDirectoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3000000000000000000003; };
+        ED3000000000000000000002 /* ConferenceKeyHandoff.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3000000000000000000002; };
+        ED3000000000000000000001 /* ConferenceDirectoryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3000000000000000000001; };
+        ED2900000000000000000005 /* NonCallCaptureOwnership.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2900000000000000000005; };
+        EE2900000000000000000003 /* LiveKit in Frameworks */ = {isa = PBXBuildFile; productRef = EE2900000000000000000002 /* LiveKit */; };
+        ED2900000000000000000004 /* ConferenceViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2900000000000000000004; };
+        ED2900000000000000000006 /* ConferenceMessageViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2900000000000000000006; };
+        ED2900000000000000000007 /* ConferenceRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2900000000000000000007; };
+        ED2900000000000000000003 /* ConferenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2900000000000000000003; };
+        ED2900000000000000000002 /* ConferencesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2900000000000000000002; };
+        ED2900000000000000000001 /* ConferenceInvite.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2900000000000000000001; };
+        BFB028000000000000000203 /* InstallationProof.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB028000000000000000203; };
+        BFB028000000000000000202 /* BlockedAccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB028000000000000000202 /* BlockedAccountsView.swift */; };
+        BFB028000000000000000201 /* BlockedAccountsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB028000000000000000201 /* BlockedAccountsModel.swift */; };
+        BFA928000000000000000001 /* AdminFactorPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA928000000000000000001 /* AdminFactorPolicy.swift */; };
+        B02700000000000000000001 /* UnyriSavedChatStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02700000000000000000001; };
+        B02700000000000000000002 /* UnyriChatAppearanceSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02700000000000000000002; };
+        B02700000000000000000003 /* ChatAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02700000000000000000003; };
+        B03800000000000000000001 /* UnyriAttachmentPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03800000000000000000001; };
+        B03800000000000000000002 /* UnyriBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03800000000000000000002; };
+        B02700000000000000000004 /* UnyriAppearanceCornerMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02700000000000000000004; };
+        B02700000000000000000005 /* UnyriChatAppearanceSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02700000000000000000005; };
+        B02700000000000000000006 /* AlbumMosaicLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02700000000000000000006; };
+        B02700000000000000000007 /* appearance_preview.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A02700000000000000000007; };
+        BFA925000000000000000001 = {isa = PBXBuildFile; fileRef = AFA925000000000000000001; };
+        BFA925000000000000000002 = {isa = PBXBuildFile; fileRef = AFA925000000000000000002; };
+        BFA925000000000000000003 = {isa = PBXBuildFile; fileRef = AFA925000000000000000003; };
+        BFA925000000000000000004 = {isa = PBXBuildFile; fileRef = AFA925000000000000000004; };
+        EA0B8C747FB341A4BB68C97B /* SearchPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD077525B7D46A1B491DEB3 /* SearchPresentation.swift */; };
+        BC0000000000000000000107 /* HistoryTransferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000107 /* HistoryTransferView.swift */; };
+        BCF028000000000000000101 /* HistorySetupPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF028000000000000000101 /* HistorySetupPolicy.swift */; };
+        BCF028000000000000000102 /* AppColorStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF028000000000000000102 /* AppColorStyle.swift */; };
+        BC0000000000000000000106 /* HistoryAutoPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000106 /* HistoryAutoPolicy.swift */; };
+        BC0000000000000000000105 /* HistoryAutomaticBackup.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000105 /* HistoryAutomaticBackup.swift */; };
+        BC0000000000000000000104 /* HistoryTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000104 /* HistoryTransfer.swift */; };
+		BBD320000000000000000004 /* MediaPreparationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD320000000000000000004; };
+		BC0330000000000000000001 /* ChatAlbumSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0330000000000000000001; };
+		BBD320000000000000000003 /* QuickReactionPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD320000000000000000003; };
+		BBD320000000000000000002 /* QuickReaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD320000000000000000002; };
+		BBD320000000000000000001 /* IdentityVerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD320000000000000000001; };
+        BDAA20260920000000000002 /* AccountRecoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAA20260920000000000002 /* AccountRecoveryView.swift */; };
+		BBD300000000000000000001 /* UnyriMediaViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD300000000000000000001; };
+		BBA200000000000000000001 /* CallPictureInPicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA200000000000000000001 /* CallPictureInPicture.swift */; };
+		BBA100000000000000000001 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = AAA100000000000000000001; };
+		BB0000000000000000000001 /* UNYRIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000001 /* UNYRIApp.swift */; };
+		BB0000000000000000000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000002 /* ContentView.swift */; };
+		BB0000000000000000000003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000003 /* Assets.xcassets */; };
+		BB0000000000000000000012 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000006 /* AppConfig.swift */; };
+		BB0000000000000000000013 /* AuthModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000007 /* AuthModels.swift */; };
+		BB0000000000000000000014 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000008 /* APIClient.swift */; };
+		BB0000000000000000000015 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000009 /* AuthAPI.swift */; };
+		BB0000000000000000000016 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000000A /* SessionStore.swift */; };
+		BB0000000000000000000017 /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000000B /* DeviceInfo.swift */; };
+		BB0000000000000000000018 /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000000C /* AuthRepository.swift */; };
+		BB0000000000000000000019 /* UnyriTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000000D /* UnyriTheme.swift */; };
+		BB000000000000000000001A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000000E /* LoginView.swift */; };
+		BB000000000000000000001B /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000000F /* RegisterView.swift */; };
+		BB000000000000000000001C /* LoggedInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000010 /* LoggedInView.swift */; };
+		BC0000000000000000000001 /* UserModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000001 /* UserModels.swift */; };
+		BC0000000000000000000002 /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000002 /* Validation.swift */; };
+		BC00000000000000000000F9 /* ChatOpeningGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC00000000000000000000F9 /* ChatOpeningGate.swift */; };
+		BC00000000000000000000FA /* ChatViewportPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC00000000000000000000FA /* ChatViewportPolicy.swift */; };
+		B03500000000000000000001 /* UnyriPendingAlbumPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03500000000000000000001 /* UnyriPendingAlbumPresentation.swift */; };
+		BC00000000000000000000FB /* HistoryBackupCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC00000000000000000000FB /* HistoryBackupCrypto.swift */; };
+		BC00000000000000000000FC /* HistoryArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC00000000000000000000FC /* HistoryArchive.swift */; };
+		BC00000000000000000000FD /* HistoryAttachmentRestorer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC00000000000000000000FD /* HistoryAttachmentRestorer.swift */; };
+		BC00000000000000000000FE /* HistoryBackupCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC00000000000000000000FE /* HistoryBackupCoordinator.swift */; };
+		BC00000000000000000000FF /* HistoryBackupAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC00000000000000000000FF /* HistoryBackupAPI.swift */; };
+		BC0000000000000000000100 /* HistoryRecoveryKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000100 /* HistoryRecoveryKeys.swift */; };
+		BC0000000000000000000101 /* HistoryKeySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000101 /* HistoryKeySettingsView.swift */; };
+        BC0000000000000000000102 /* HistoryMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000102 /* HistoryMedia.swift */; };
+        BC0000000000000000000103 /* HistoryNativeOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000103 /* HistoryNativeOwner.swift */; };
+		BC0000000000000000000003 /* UsersAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000003 /* UsersAPI.swift */; };
+		BC0000000000000000000004 /* UsersRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000004 /* UsersRepository.swift */; };
+		BC0000000000000000000005 /* UserAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000005 /* UserAvatar.swift */; };
+		BC0000000000000000000006 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000006 /* ProfileView.swift */; };
+		BC0000000000000000000007 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000007 /* EditProfileView.swift */; };
+		BC0000000000000000000008 /* SearchUsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000008 /* SearchUsersView.swift */; };
+		BC0000000000000000000009 /* ChatModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000009 /* ChatModels.swift */; };
+		BC000000000000000000000A /* RelativeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC000000000000000000000A /* RelativeTime.swift */; };
+		BC000000000000000000000B /* ChatsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC000000000000000000000B /* ChatsAPI.swift */; };
+		BC000000000000000000000C /* ChatsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC000000000000000000000C /* ChatsRepository.swift */; };
+		BC000000000000000000000D /* ChatsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC000000000000000000000D /* ChatsListView.swift */; };
+		BC000000000000000000000E /* ChatPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC000000000000000000000E /* ChatPlaceholderView.swift */; };
+		BC000000000000000000000F /* KeysModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC000000000000000000000F /* KeysModels.swift */; };
+		BC0000000000000000000010 /* SignalModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000010 /* SignalModels.swift */; };
+		BC0000000000000000000011 /* KeysAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000011 /* KeysAPI.swift */; };
+		BC0000000000000000000012 /* KeysRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000012 /* KeysRepository.swift */; };
+		BC0000000000000000000013 /* SignalStateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000013 /* SignalStateStore.swift */; };
+		BC0000000000000000000014 /* SignalMetadataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000014 /* SignalMetadataStore.swift */; };
+		BC0000000000000000000015 /* SignalBootstrapPlanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000015 /* SignalBootstrapPlanner.swift */; };
+		BC0000000000000000000016 /* SignalCryptoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000016 /* SignalCryptoProvider.swift */; };
+		BC0000000000000000000017 /* Base64.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000017 /* Base64.swift */; };
+		BD0000000000000000000079 /* LibSignalProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000079 /* LibSignalProbe.swift */; };
+		BD000000000000000000007A /* SignalStorageKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD000000000000000000007A /* SignalStorageKeys.swift */; };
+		BD000000000000000000007B /* UnyriSignalStores.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD000000000000000000007B /* UnyriSignalStores.swift */; };
+		BD000000000000000000007C /* SignalKeyBootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD000000000000000000007C /* SignalKeyBootstrap.swift */; };
+		BD000000000000000000007D /* SignalKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD000000000000000000007D /* SignalKeyManager.swift */; };
+		BD000000000000000000007E /* SignalBundleDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD000000000000000000007E /* SignalBundleDecoder.swift */; };
+		BD000000000000000000007F /* SignalSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD000000000000000000007F /* SignalSessionManager.swift */; };
+		BD000000000000000000009A /* SignalDeviceIdCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD000000000000000000009A /* SignalDeviceIdCache.swift */; };
+		BD0000000000000000000080 /* MessageContentCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000080 /* MessageContentCodec.swift */; };
+		BDAA20260920000000000001 /* AdminSigningKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAA20260920000000000001 /* AdminSigningKey.swift */; };
+		BD0000000000000000000081 /* MessageModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000081 /* MessageModels.swift */; };
+		BD0000000000000000000082 /* MessagesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000082 /* MessagesAPI.swift */; };
+		BD0000000000000000000083 /* MessageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000083 /* MessageStore.swift */; };
+		BD0000000000000000000084 /* MessagesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000084 /* MessagesRepository.swift */; };
+		BD0000000000000000000085 /* ChatScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000085 /* ChatScreen.swift */; };
+		BD0000000000000000000086 /* CallsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000086 /* CallsAPI.swift */; };
+		BD0000000000000000000087 /* CallMediaPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000087 /* CallMediaPermissions.swift */; };
+		BD0000000000000000000088 /* RealtimeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000088 /* RealtimeModels.swift */; };
+		BD0000000000000000000089 /* SyncAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000089 /* SyncAPI.swift */; };
+		BD0000000000000000000090 /* RealtimeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000090 /* RealtimeClient.swift */; };
+		96D924E715DDE18E815FF90D /* RealtimeApplicationProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845418C472FCAC7CC920EB65 /* RealtimeApplicationProbe.swift */; };
+		BD0000000000000000000091 /* MessageIngestor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000091 /* MessageIngestor.swift */; };
+		BD0000000000000000000092 /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000092 /* SyncManager.swift */; };
+		BD0000000000000000000093 /* OutboxPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000093 /* OutboxPolicy.swift */; };
+		BD0000000000000000000094 /* MessageOutbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000094 /* MessageOutbox.swift */; };
+		BD0000000000000000000095 /* MessageSendComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000095 /* MessageSendComposer.swift */; };
+		BD0000000000000000000096 /* AttachmentModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000096 /* AttachmentModels.swift */; };
+		BD0000000000000000000097 /* AttachmentsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000097 /* AttachmentsAPI.swift */; };
+		BD0000000000000000000098 /* AttachmentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000098 /* AttachmentStore.swift */; };
+		BD0000000000000000000099 /* AttachmentCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000099 /* AttachmentCrypto.swift */; };
+		BD0000000000000000000100 /* AttachmentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000100 /* AttachmentManager.swift */; };
+		BE0000000000000000000901 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0000000000000000000901 /* StorageService.swift */; };
+		BE0000000000000000000902 /* ForegroundMessageBannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0000000000000000000902 /* ForegroundMessageBannerController.swift */; };
+		BD0000000000000000000101 /* ImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000101 /* ImageProcessor.swift */; };
+		BD0000000000000000000102 /* VoiceRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000102 /* VoiceRecorder.swift */; };
+		BD0000000000000000000103 /* VoicePlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000103 /* VoicePlayerController.swift */; };
+		BD0000000000000000000104 /* VoiceFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000104 /* VoiceFormat.swift */; };
+		BD0000000000000000000105 /* WebRTCProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000105 /* WebRTCProbe.swift */; };
+		BD0000000000000000000106 /* CallModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000106 /* CallModels.swift */; };
+		BD0000000000000000000107 /* CallSignaling.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000107 /* CallSignaling.swift */; };
+		BD0000000000000000000108 /* CallStateReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000108 /* CallStateReducer.swift */; };
+		BD0000000000000000000109 /* WebRTCEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000109 /* WebRTCEngine.swift */; };
+		BD0000000000000000000110 /* CallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000110 /* CallController.swift */; };
+		BD0000000000000000000111 /* SocketCallSignaling.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000111 /* SocketCallSignaling.swift */; };
+		BD0000000000000000000112 /* WebRTCEngineImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000112 /* WebRTCEngineImpl.swift */; };
+		BD0000000000000000000113 /* CallScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000113 /* CallScreen.swift */; };
+		BD0000000000000000000114 /* CameraCaptureFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000114 /* CameraCaptureFormat.swift */; };
+		BD0000000000000000000115 /* VideoRenderViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000115 /* VideoRenderViews.swift */; };
+		BD0000000000000000000116 /* CallReconciliation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000116 /* CallReconciliation.swift */; };
+		BD0000000000000000000117 /* CallKitPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000117 /* CallKitPolicy.swift */; };
+		BD0000000000000000000118 /* CallKitCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000118 /* CallKitCoordinator.swift */; };
+		BD0000000000000000000258 /* CallAudioSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0000000000000000000258 /* CallAudioSession.swift */; };
+
+ E11000000000000000000001 = {isa = PBXBuildFile; fileRef = E12000000000000000000001; };
+ E11000000000000000000002 = {isa = PBXBuildFile; fileRef = E12000000000000000000002; };
+ E11000000000000000000003 = {isa = PBXBuildFile; fileRef = E12000000000000000000002; };
+ E11000000000000000000004 = {isa = PBXBuildFile; fileRef = E12000000000000000000003; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+E21000000000000000000001 = {isa = PBXBuildFile; fileRef = E22000000000000000000001; };
+E21000000000000000000002 = {isa = PBXBuildFile; fileRef = E22000000000000000000002; };
+        BCF028000000000000000103 /* SavedSidebarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF028000000000000000103 /* SavedSidebarStyle.swift */; };
+        BCF028000000000000000110 /* AttachmentPickerStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF028000000000000000110 /* AttachmentPickerStyle.swift */; };
+        BCF028000000000000000104 /* UnyriSavedSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF028000000000000000104 /* UnyriSavedSidebarView.swift */; };
+        BCF028000000000000000105 /* CallDisplayWakePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF028000000000000000105 /* CallDisplayWakePolicy.swift */; };
+        BCF028000000000000000106 /* CallDisplayAwake.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF028000000000000000106 /* CallDisplayAwake.swift */; };
+        BCF028000000000000000107 /* SidebarAppearanceSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF028000000000000000107 /* SidebarAppearanceSettings.swift */; };
+        BCF028000000000000000108 /* SidebarAppearanceRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF028000000000000000108 /* SidebarAppearanceRoot.swift */; };
+        BCF028000000000000000109 /* UnyriSidebarAppearanceSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF028000000000000000109 /* UnyriSidebarAppearanceSettingsView.swift */; };
+		708EFA8C79F6B55E0C9B20C6 /* MessageTextPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AC792C40E7E5C956245026 /* MessageTextPolicy.swift */; };
+		374F4532E9D6AB935DFBA210 /* UnyriFullMessageTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C965B007F2DA25B5C3DCD7A /* UnyriFullMessageTextView.swift */; };
+        3FB4A1410160A89CEB508331 /* DirectFileAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728005056591F70A52ED783E; };
+        4F649DEFB2A6884334B94159 /* DirectFileDisk.swift in Sources */ = {isa = PBXBuildFile; fileRef = E678AB1A7345AC44C510FC57; };
+        2EF35BF233A2DE4A2E8ED84D /* DirectFileModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6691BC603E97C3D512EEC07D; };
+        C12451D314F947DC5A927F59 /* DirectFilePeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E0D185FFE49B12541F30B6; };
+        DDD9C825922BB21253C5771A /* DirectFilePeerPipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16158E9C38CE4D6D1EF64D8A; };
+        8FBB743D700A01D8A512C55B /* DirectFileStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383DD3526A344A3B811F235E; };
+        447571843D1B4ED417D4C9CE /* DirectFileTransfers.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6663A8F51B0FEDDE7367B5; };
+        7B8737B950AFF1983C6B96F1 /* DirectComposerOriginal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A588DBD3CCEECA4880CEE0; };
+        60B344F0F61D3B5B07427B37 /* DirectFileViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A509D5A12E8F1FC6811483CA; };
+        11662BF8748F85AA4D1A587F /* DirectPhotoOriginal.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8614FE0839DEA023AE0317; };
+
+        72E6432A5ACBE4B852AAFA49 /* DirectFileJournal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551417DF9AB6CD41458139F0; };
+        47B2074686DA82E2095E2454 /* DirectFileDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50651BC467A626B3EC92882; };
+        179469A541C625D677CCE23B /* ChatKeyboardTailAnchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509E25B36FB1A62826D05479; };
+
+
+
+
+
+
+
+
+
+
+
+        1064D6E8AC01291E0869F60A /* DirectFileAllocationLedger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC79A8121B1E8042E77BD1; };
+        B7FD8506114435E5D7EC8861 /* DirectFileBulkIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8688ED7C29396660AF28E1; };
+        9CF78FBC356720219E50DDCD /* DirectFileContinuedProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69A4849CDE2EEB5CAC5EE5D; };
+        3920EAEF186A39475EC69E8C /* DirectFileExecutionPermit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A539B9152A56B6F83C7FE9; };
+        E4F7833E2C82CFA06E74222F /* DirectFileHTTPGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25F7A1C4BC261F427F4B762; };
+        D0DB2F014FAE98B0EA45638C /* DirectFileManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8AEA91C56B6C987DE0572D; };
+        8DF23122CF171E29568D0265 /* DirectFilePollPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099F9174085ECB7CB77F94D5; };
+        491C728A5767BCED7A2EB4BD /* DirectFilePresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E41EA304821B7CE8D964DB; };
+        064DCD3743C646FC1DB0B6FF /* DirectFileQueueState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0550899858E47F0D86CADB95; };
+        40DABA3C5958E4CB92F69647 /* DirectManualTransferState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D2777A462D379C2D412302; };
+        DBBB852748F8B2E359722651 /* PushRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8A74F28E6FB1695B1774C35; };
+        567DA2BCCBFBBCC07607D6E3 /* PushAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63AB996C7D68C52ADDC7853; };
+        2C1A664B85E15D454002D06B /* CallKitProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B04C8E3A26941C4A0AC8CB; };
+        B616E7BADEEBF0249872A8E6 /* PushNotificationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FDAF4767C2320E6E0F4683; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+        3196112BB4DA893C7F55077E /* UnyriNamedQuickLook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Chats/UnyriNamedQuickLook.swift"; sourceTree = "<group>"; };
+        AF071026F11EB00000000001 /* UnyriFolderAttachmentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Chats/UnyriFolderAttachmentPicker.swift"; sourceTree = "<group>"; };
+        5CBA896539328D2DBB274DCD /* DirectFileMediaPreviewGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectFileMediaPreviewGenerator.swift; sourceTree = SOURCE_ROOT; };
+        A6E12A18C899C51182C43D00 /* DirectSendPreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectSendPreference.swift; sourceTree = SOURCE_ROOT; };
+		5F3697B510FDE2AD933CBB97 /* UNYRI PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = UNYRI/PrivacyInfo.xcprivacy; sourceTree = SOURCE_ROOT; };
+		F56B6BCE4359EC0A9376D99D /* UNYRIShare PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = UNYRIShare/PrivacyInfo.xcprivacy; sourceTree = SOURCE_ROOT; };
+        ACF110100000000000000004 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/AccountAutoDelete.swift; sourceTree = SOURCE_ROOT; };
+        ACF110100000000000000005 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/UI/Profile/AccountAutoDeleteSettingsView.swift; sourceTree = SOURCE_ROOT; };
+        ACF110100000000000000000 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/UserSettingsPolicy.swift; sourceTree = SOURCE_ROOT; };
+        ACF110100000000000000001 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/UserSettings.swift; sourceTree = SOURCE_ROOT; };
+        ACF110100000000000000002 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/MediaCacheLease.swift; sourceTree = SOURCE_ROOT; };
+        ACF110100000000000000003 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/UI/Profile/PrivacyStorageSettingsView.swift; sourceTree = SOURCE_ROOT; };
+        AC1101000000000000000001 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/NotificationPreferences.swift; sourceTree = SOURCE_ROOT; };
+        AC1101000000000000000002 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/UI/Profile/NotificationSettingsView.swift; sourceTree = SOURCE_ROOT; };
+        AC3100000000000000000001 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/CrashDiagnostics.swift; sourceTree = SOURCE_ROOT; };
+        AC3100000000000000000002 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/CrashDiagnosticsSession.swift; sourceTree = SOURCE_ROOT; };
+        AC3100000000000000000003 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/ChatBackSwipe.swift; sourceTree = SOURCE_ROOT; };
+        EC3000000000000000000004 /* ConferenceOwnedAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conferences/ConferenceOwnedAccess.swift"; sourceTree = "<group>"; };
+        EC3000000000000000000003 /* ConferenceDirectoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conferences/ConferenceDirectoryView.swift"; sourceTree = "<group>"; };
+        EC3000000000000000000002 /* ConferenceKeyHandoff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conferences/ConferenceKeyHandoff.swift"; sourceTree = "<group>"; };
+        EC3000000000000000000001 /* ConferenceDirectoryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conferences/ConferenceDirectoryModels.swift"; sourceTree = "<group>"; };
+        EC2900000000000000000005 /* NonCallCaptureOwnership.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/NonCallCaptureOwnership.swift; sourceTree = SOURCE_ROOT; };
+        EC2900000000000000000004 /* ConferenceViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conferences/ConferenceViews.swift"; sourceTree = "<group>"; };
+        EC2900000000000000000006 /* ConferenceMessageViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conferences/ConferenceMessageViews.swift"; sourceTree = "<group>"; };
+        EC2900000000000000000007 /* ConferenceRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conferences/ConferenceRoomView.swift"; sourceTree = "<group>"; };
+        EC2900000000000000000003 /* ConferenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conferences/ConferenceController.swift"; sourceTree = "<group>"; };
+        EC2900000000000000000002 /* ConferencesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conferences/ConferencesAPI.swift"; sourceTree = "<group>"; };
+        EC2900000000000000000001 /* ConferenceInvite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conferences/ConferenceInvite.swift"; sourceTree = "<group>"; };
+        AFB028000000000000000203 /* InstallationProof.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Auth/InstallationProof.swift"; sourceTree = "<group>"; };
+        AFB028000000000000000202 /* BlockedAccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Profile/BlockedAccountsView.swift"; sourceTree = "<group>"; };
+        AFB028000000000000000201 /* BlockedAccountsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Users/BlockedAccountsModel.swift"; sourceTree = "<group>"; };
+        AFA928000000000000000001 /* AdminFactorPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/AdminFactorPolicy.swift"; sourceTree = "<group>"; };
+        A02700000000000000000001 /* UnyriSavedChatStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Theme/UnyriSavedChatStyle.swift"; sourceTree = "<group>"; };
+        A02700000000000000000002 /* UnyriChatAppearanceSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Theme/UnyriChatAppearanceSettings.swift"; sourceTree = "<group>"; };
+        A02700000000000000000003 /* ChatAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Theme/ChatAppearance.swift"; sourceTree = "<group>"; };
+        A03800000000000000000001 /* UnyriAttachmentPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Components/UnyriAttachmentPopover.swift"; sourceTree = "<group>"; };
+        A03800000000000000000002 /* UnyriBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Components/UnyriBackButton.swift"; sourceTree = "<group>"; };
+        A02700000000000000000004 /* UnyriAppearanceCornerMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Theme/UnyriAppearanceCornerMetrics.swift"; sourceTree = "<group>"; };
+        A02700000000000000000005 /* UnyriChatAppearanceSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Profile/UnyriChatAppearanceSettingsView.swift"; sourceTree = "<group>"; };
+        A02700000000000000000006 /* AlbumMosaicLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/AlbumMosaicLayout.swift"; sourceTree = "<group>"; };
+        A02700000000000000000007 /* appearance_preview.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Resources/appearance_preview.jpg"; sourceTree = "<group>"; };
+        AFA925000000000000000001 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/PerformanceDiagnostics.swift; sourceTree = SOURCE_ROOT; };
+        AFA925000000000000000002 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/PerformanceDiagnosticsUIKit.swift; sourceTree = SOURCE_ROOT; };
+        AFA925000000000000000003 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/PerformanceDiagnosticsSession.swift; sourceTree = SOURCE_ROOT; };
+        AFA925000000000000000004 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/UI/Profile/PerformanceDiagnosticsView.swift; sourceTree = SOURCE_ROOT; };
+        0FD077525B7D46A1B491DEB3 /* SearchPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/SearchPresentation.swift"; sourceTree = "<group>"; };
+        AC0000000000000000000107 /* HistoryTransferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Profile/HistoryTransferView.swift"; sourceTree = "<group>"; };
+        ACF028000000000000000101 /* HistorySetupPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/HistorySetupPolicy.swift"; sourceTree = "<group>"; };
+        ACF028000000000000000102 /* AppColorStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/AppColorStyle.swift"; sourceTree = "<group>"; };
+        AC0000000000000000000106 /* HistoryAutoPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/HistoryAutoPolicy.swift"; sourceTree = "<group>"; };
+        AC0000000000000000000105 /* HistoryAutomaticBackup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/HistoryAutomaticBackup.swift"; sourceTree = "<group>"; };
+        AC0000000000000000000104 /* HistoryTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/HistoryTransfer.swift"; sourceTree = "<group>"; };
+		AAD320000000000000000004 /* MediaPreparationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/MediaPreparationState.swift; sourceTree = SOURCE_ROOT; };
+		AC0330000000000000000001 /* ChatAlbumSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/ChatAlbumSelection.swift; sourceTree = SOURCE_ROOT; };
+		AAD320000000000000000003 /* QuickReactionPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/QuickReactionPolicy.swift; sourceTree = SOURCE_ROOT; };
+		AAD320000000000000000002 /* QuickReaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/UI/Chats/QuickReaction.swift; sourceTree = SOURCE_ROOT; };
+		AAD320000000000000000001 /* IdentityVerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/UI/Chats/IdentityVerificationView.swift; sourceTree = SOURCE_ROOT; };
+        ADAA20260920000000000002 /* AccountRecoveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Auth/AccountRecoveryView.swift"; sourceTree = "<group>"; };
+		AAD300000000000000000001 /* UnyriMediaViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/UI/Chats/UnyriMediaViewer.swift; sourceTree = SOURCE_ROOT; };
+		AAA200000000000000000001 /* CallPictureInPicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Calls/CallPictureInPicture.swift"; sourceTree = "<group>"; };
+		AAA100000000000000000001 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		AA0000000000000000000001 /* UNYRIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRIApp.swift; sourceTree = "<group>"; };
+		AA0000000000000000000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		AA0000000000000000000003 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AA0000000000000000000004 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA0000000000000000000005 /* UNYRI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UNYRI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA0000000000000000000006 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/AppConfig.swift"; sourceTree = "<group>"; };
+		AA0000000000000000000007 /* AuthModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models/AuthModels.swift"; sourceTree = "<group>"; };
+		AA0000000000000000000008 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Networking/APIClient.swift"; sourceTree = "<group>"; };
+		AA0000000000000000000009 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Networking/AuthAPI.swift"; sourceTree = "<group>"; };
+		AA000000000000000000000A /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Auth/SessionStore.swift"; sourceTree = "<group>"; };
+		AA000000000000000000000B /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Auth/DeviceInfo.swift"; sourceTree = "<group>"; };
+		AA000000000000000000000C /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Auth/AuthRepository.swift"; sourceTree = "<group>"; };
+		AA000000000000000000000D /* UnyriTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Theme/UnyriTheme.swift"; sourceTree = "<group>"; };
+		AA000000000000000000000E /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Auth/LoginView.swift"; sourceTree = "<group>"; };
+		AA000000000000000000000F /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Auth/RegisterView.swift"; sourceTree = "<group>"; };
+		AA0000000000000000000010 /* LoggedInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/LoggedInView.swift"; sourceTree = "<group>"; };
+		AC0000000000000000000001 /* UserModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models/UserModels.swift"; sourceTree = "<group>"; };
+		AC0000000000000000000002 /* Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/Validation.swift"; sourceTree = "<group>"; };
+		AC00000000000000000000F9 /* ChatOpeningGate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/ChatOpeningGate.swift"; sourceTree = "<group>"; };
+		AC00000000000000000000FA /* ChatViewportPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/ChatViewportPolicy.swift"; sourceTree = "<group>"; };
+		A03500000000000000000001 /* UnyriPendingAlbumPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/UnyriPendingAlbumPresentation.swift"; sourceTree = "<group>"; };
+		AC00000000000000000000FB /* HistoryBackupCrypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/HistoryBackupCrypto.swift"; sourceTree = "<group>"; };
+		AC00000000000000000000FC /* HistoryArchive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/HistoryArchive.swift"; sourceTree = "<group>"; };
+		AC00000000000000000000FD /* HistoryAttachmentRestorer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/HistoryAttachmentRestorer.swift"; sourceTree = "<group>"; };
+		AC00000000000000000000FE /* HistoryBackupCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/HistoryBackupCoordinator.swift"; sourceTree = "<group>"; };
+		AC00000000000000000000FF /* HistoryBackupAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Networking/HistoryBackupAPI.swift"; sourceTree = "<group>"; };
+		AC0000000000000000000100 /* HistoryRecoveryKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/HistoryRecoveryKeys.swift"; sourceTree = "<group>"; };
+		AC0000000000000000000101 /* HistoryKeySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Profile/HistoryKeySettingsView.swift"; sourceTree = "<group>"; };
+        AC0000000000000000000102 /* HistoryMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/HistoryMedia.swift"; sourceTree = "<group>"; };
+        AC0000000000000000000103 /* HistoryNativeOwner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/HistoryNativeOwner.swift"; sourceTree = "<group>"; };
+		AC0000000000000000000003 /* UsersAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Networking/UsersAPI.swift"; sourceTree = "<group>"; };
+		AC0000000000000000000004 /* UsersRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Users/UsersRepository.swift"; sourceTree = "<group>"; };
+		AC0000000000000000000005 /* UserAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Components/UserAvatar.swift"; sourceTree = "<group>"; };
+		AC0000000000000000000006 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Profile/ProfileView.swift"; sourceTree = "<group>"; };
+		AC0000000000000000000007 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Profile/EditProfileView.swift"; sourceTree = "<group>"; };
+		AC0000000000000000000008 /* SearchUsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Search/SearchUsersView.swift"; sourceTree = "<group>"; };
+		AC0000000000000000000009 /* ChatModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models/ChatModels.swift"; sourceTree = "<group>"; };
+		AC000000000000000000000A /* RelativeTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/RelativeTime.swift"; sourceTree = "<group>"; };
+		AC000000000000000000000B /* ChatsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Networking/ChatsAPI.swift"; sourceTree = "<group>"; };
+		AC000000000000000000000C /* ChatsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Chats/ChatsRepository.swift"; sourceTree = "<group>"; };
+		AC000000000000000000000D /* ChatsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Chats/ChatsListView.swift"; sourceTree = "<group>"; };
+		AC000000000000000000000E /* ChatPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Chats/ChatPlaceholderView.swift"; sourceTree = "<group>"; };
+		AC000000000000000000000F /* KeysModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models/KeysModels.swift"; sourceTree = "<group>"; };
+		AC0000000000000000000010 /* SignalModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models/SignalModels.swift"; sourceTree = "<group>"; };
+		AC0000000000000000000011 /* KeysAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Networking/KeysAPI.swift"; sourceTree = "<group>"; };
+		AC0000000000000000000012 /* KeysRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal/KeysRepository.swift"; sourceTree = "<group>"; };
+		AC0000000000000000000013 /* SignalStateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal/SignalStateStore.swift"; sourceTree = "<group>"; };
+		AC0000000000000000000014 /* SignalMetadataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal/SignalMetadataStore.swift"; sourceTree = "<group>"; };
+		AC0000000000000000000015 /* SignalBootstrapPlanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal/SignalBootstrapPlanner.swift"; sourceTree = "<group>"; };
+		AC0000000000000000000016 /* SignalCryptoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal/SignalCryptoProvider.swift"; sourceTree = "<group>"; };
+		AC0000000000000000000017 /* Base64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/Base64.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000079 /* LibSignalProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal/LibSignalProbe.swift"; sourceTree = "<group>"; };
+		AD000000000000000000007A /* SignalStorageKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal/SignalStorageKeys.swift"; sourceTree = "<group>"; };
+		AD000000000000000000007B /* UnyriSignalStores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal/UnyriSignalStores.swift"; sourceTree = "<group>"; };
+		AD000000000000000000007C /* SignalKeyBootstrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal/SignalKeyBootstrap.swift"; sourceTree = "<group>"; };
+		AD000000000000000000007D /* SignalKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal/SignalKeyManager.swift"; sourceTree = "<group>"; };
+		AD000000000000000000007E /* SignalBundleDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal/SignalBundleDecoder.swift"; sourceTree = "<group>"; };
+		AD000000000000000000007F /* SignalSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal/SignalSessionManager.swift"; sourceTree = "<group>"; };
+		AD000000000000000000009A /* SignalDeviceIdCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal/SignalDeviceIdCache.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000080 /* MessageContentCodec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal/MessageContentCodec.swift"; sourceTree = "<group>"; };
+		ADAA20260920000000000001 /* AdminSigningKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/AdminSigningKey.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000081 /* MessageModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models/MessageModels.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000082 /* MessagesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Networking/MessagesAPI.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000083 /* MessageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data/MessageStore.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000084 /* MessagesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Messages/MessagesRepository.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000085 /* ChatScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Chats/ChatScreen.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000086 /* CallsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Networking/CallsAPI.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000087 /* CallMediaPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calls/CallMediaPermissions.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000088 /* RealtimeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models/RealtimeModels.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000089 /* SyncAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Networking/SyncAPI.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000090 /* RealtimeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Networking/RealtimeClient.swift"; sourceTree = "<group>"; };
+		845418C472FCAC7CC920EB65 /* RealtimeApplicationProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Networking/RealtimeApplicationProbe.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000091 /* MessageIngestor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Messages/MessageIngestor.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000092 /* SyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Messages/SyncManager.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000093 /* OutboxPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Messages/OutboxPolicy.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000094 /* MessageOutbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Messages/MessageOutbox.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000095 /* MessageSendComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Messages/MessageSendComposer.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000096 /* AttachmentModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models/AttachmentModels.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000097 /* AttachmentsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Networking/AttachmentsAPI.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000098 /* AttachmentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data/AttachmentStore.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000099 /* AttachmentCrypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal/AttachmentCrypto.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000100 /* AttachmentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attachments/AttachmentManager.swift"; sourceTree = "<group>"; };
+		AE0000000000000000000901 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attachments/StorageService.swift"; sourceTree = "<group>"; };
+		AE0000000000000000000902 /* ForegroundMessageBannerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Messages/ForegroundMessageBannerController.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000101 /* ImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attachments/ImageProcessor.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000102 /* VoiceRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attachments/VoiceRecorder.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000103 /* VoicePlayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attachments/VoicePlayerController.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000104 /* VoiceFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/VoiceFormat.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000105 /* WebRTCProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebRTC/WebRTCProbe.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000106 /* CallModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calls/CallModels.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000107 /* CallSignaling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calls/CallSignaling.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000108 /* CallStateReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calls/CallStateReducer.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000109 /* WebRTCEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calls/WebRTCEngine.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000110 /* CallController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calls/CallController.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000111 /* SocketCallSignaling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calls/SocketCallSignaling.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000112 /* WebRTCEngineImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebRTC/WebRTCEngineImpl.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000113 /* CallScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Calls/CallScreen.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000114 /* CameraCaptureFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calls/CameraCaptureFormat.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000115 /* VideoRenderViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Calls/VideoRenderViews.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000116 /* CallReconciliation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calls/CallReconciliation.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000117 /* CallKitPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calls/CallKitPolicy.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000118 /* CallKitCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calls/CallKitCoordinator.swift"; sourceTree = "<group>"; };
+		AD0000000000000000000258 /* CallAudioSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calls/CallAudioSession.swift"; sourceTree = "<group>"; };
+
+ E12000000000000000000001 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRIShare/ShareViewController.swift; sourceTree = SOURCE_ROOT; };
+ E12000000000000000000002 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared/UnyriShareStore.swift; sourceTree = SOURCE_ROOT; };
+ E12000000000000000000003 = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; path = UNYRIShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+E22000000000000000000001 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/AppLanguage.swift; sourceTree = SOURCE_ROOT; };
+E22000000000000000000002 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/UI/Profile/AlphaSettings.swift; sourceTree = SOURCE_ROOT; };
+        ACF028000000000000000103 /* SavedSidebarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/SavedSidebarStyle.swift"; sourceTree = "<group>"; };
+        ACF028000000000000000110 /* AttachmentPickerStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/AttachmentPickerStyle.swift"; sourceTree = "<group>"; };
+        ACF028000000000000000104 /* UnyriSavedSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Theme/UnyriSavedSidebarView.swift"; sourceTree = "<group>"; };
+        ACF028000000000000000105 /* CallDisplayWakePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/CallDisplayWakePolicy.swift"; sourceTree = "<group>"; };
+        ACF028000000000000000106 /* CallDisplayAwake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Calls/CallDisplayAwake.swift"; sourceTree = "<group>"; };
+        ACF028000000000000000107 /* SidebarAppearanceSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/SidebarAppearanceSettings.swift"; sourceTree = "<group>"; };
+        ACF028000000000000000108 /* SidebarAppearanceRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Theme/SidebarAppearanceRoot.swift"; sourceTree = "<group>"; };
+        ACF028000000000000000109 /* UnyriSidebarAppearanceSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Profile/UnyriSidebarAppearanceSettingsView.swift"; sourceTree = "<group>"; };
+		63AC792C40E7E5C956245026 /* MessageTextPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/MessageTextPolicy.swift"; sourceTree = "<group>"; };
+		4C965B007F2DA25B5C3DCD7A /* UnyriFullMessageTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Chats/UnyriFullMessageTextView.swift"; sourceTree = "<group>"; };
+        728005056591F70A52ED783E /* DirectFileAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectFileAPI.swift; sourceTree = SOURCE_ROOT; };
+        E678AB1A7345AC44C510FC57 /* DirectFileDisk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectFileDisk.swift; sourceTree = SOURCE_ROOT; };
+        6691BC603E97C3D512EEC07D /* DirectFileModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectFileModels.swift; sourceTree = SOURCE_ROOT; };
+        C1E0D185FFE49B12541F30B6 /* DirectFilePeer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectFilePeer.swift; sourceTree = SOURCE_ROOT; };
+        16158E9C38CE4D6D1EF64D8A /* DirectFilePeerPipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectFilePeerPipe.swift; sourceTree = SOURCE_ROOT; };
+        383DD3526A344A3B811F235E /* DirectFileStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectFileStream.swift; sourceTree = SOURCE_ROOT; };
+        FD6663A8F51B0FEDDE7367B5 /* DirectFileTransfers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectFileTransfers.swift; sourceTree = SOURCE_ROOT; };
+        36A588DBD3CCEECA4880CEE0 /* DirectComposerOriginal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectComposerOriginal.swift; sourceTree = SOURCE_ROOT; };
+        A509D5A12E8F1FC6811483CA /* DirectFileViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectFileViews.swift; sourceTree = SOURCE_ROOT; };
+        AF8614FE0839DEA023AE0317 /* DirectPhotoOriginal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectPhotoOriginal.swift; sourceTree = SOURCE_ROOT; };
+
+        551417DF9AB6CD41458139F0 /* DirectFileJournal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectFileJournal.swift; sourceTree = SOURCE_ROOT; };
+        C50651BC467A626B3EC92882 /* DirectFileDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectFileDisplay.swift; sourceTree = SOURCE_ROOT; };
+        509E25B36FB1A62826D05479 /* ChatKeyboardTailAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/ChatKeyboardTailAnchor.swift; sourceTree = SOURCE_ROOT; };
+
+
+
+
+
+
+
+
+
+
+
+        4AAC79A8121B1E8042E77BD1 /* DirectFileAllocationLedger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectFileAllocationLedger.swift; sourceTree = SOURCE_ROOT; };
+        AD8688ED7C29396660AF28E1 /* DirectFileBulkIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectFileBulkIO.swift; sourceTree = SOURCE_ROOT; };
+        B69A4849CDE2EEB5CAC5EE5D /* DirectFileContinuedProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectFileContinuedProcessing.swift; sourceTree = SOURCE_ROOT; };
+        28A539B9152A56B6F83C7FE9 /* DirectFileExecutionPermit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectFileExecutionPermit.swift; sourceTree = SOURCE_ROOT; };
+        A25F7A1C4BC261F427F4B762 /* DirectFileHTTPGate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectFileHTTPGate.swift; sourceTree = SOURCE_ROOT; };
+        5B8AEA91C56B6C987DE0572D /* DirectFileManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectFileManagerView.swift; sourceTree = SOURCE_ROOT; };
+        099F9174085ECB7CB77F94D5 /* DirectFilePollPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectFilePollPlan.swift; sourceTree = SOURCE_ROOT; };
+        87E41EA304821B7CE8D964DB /* DirectFilePresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectFilePresentation.swift; sourceTree = SOURCE_ROOT; };
+        0550899858E47F0D86CADB95 /* DirectFileQueueState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectFileQueueState.swift; sourceTree = SOURCE_ROOT; };
+        52D2777A462D379C2D412302 /* DirectManualTransferState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectManualTransferState.swift; sourceTree = SOURCE_ROOT; };
+        A8A74F28E6FB1695B1774C35 /* PushRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/PushRegistration.swift; sourceTree = SOURCE_ROOT; };
+        F63AB996C7D68C52ADDC7853 /* PushAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Networking/PushAPI.swift; sourceTree = SOURCE_ROOT; };
+        79B04C8E3A26941C4A0AC8CB /* CallKitProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Calls/CallKitProvider.swift; sourceTree = SOURCE_ROOT; };
+        A9FDAF4767C2320E6E0F4683 /* PushNotificationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/PushNotificationCoordinator.swift; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DD0000000000000000000002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+                EE2900000000000000000003 /* LiveKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CC0000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+                ACF110100000000000000000,
+                ACF110100000000000000001,
+                ACF110100000000000000002,
+                ACF110100000000000000003,
+                ACF110100000000000000004,
+                ACF110100000000000000005,
+				CC0000000000000000000002 /* UNYRI */,
+ E12000000000000000000001 /* ShareViewController.swift */,
+ E12000000000000000000002 /* UnyriShareStore.swift */,
+				5F3697B510FDE2AD933CBB97 /* UNYRI PrivacyInfo.xcprivacy */,
+				F56B6BCE4359EC0A9376D99D /* UNYRIShare PrivacyInfo.xcprivacy */,
+				CC0000000000000000000003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CC0000000000000000000002 /* UNYRI */ = {
+			isa = PBXGroup;
+			children = (
+                728005056591F70A52ED783E /* DirectFileAPI.swift */,
+                E678AB1A7345AC44C510FC57 /* DirectFileDisk.swift */,
+                6691BC603E97C3D512EEC07D /* DirectFileModels.swift */,
+                C1E0D185FFE49B12541F30B6 /* DirectFilePeer.swift */,
+                16158E9C38CE4D6D1EF64D8A /* DirectFilePeerPipe.swift */,
+                383DD3526A344A3B811F235E /* DirectFileStream.swift */,
+                FD6663A8F51B0FEDDE7367B5 /* DirectFileTransfers.swift */,
+                36A588DBD3CCEECA4880CEE0 /* DirectComposerOriginal.swift */,
+                A6E12A18C899C51182C43D00 /* DirectSendPreference.swift */,
+                A509D5A12E8F1FC6811483CA /* DirectFileViews.swift */,
+                5CBA896539328D2DBB274DCD /* DirectFileMediaPreviewGenerator.swift */,
+                AF8614FE0839DEA023AE0317 /* DirectPhotoOriginal.swift */,
+
+                551417DF9AB6CD41458139F0 /* DirectFileJournal.swift */,
+                C50651BC467A626B3EC92882 /* DirectFileDisplay.swift */,
+                509E25B36FB1A62826D05479 /* ChatKeyboardTailAnchor.swift */,
+
+
+
+
+
+
+
+
+
+
+
+                EC2900000000000000000004 /* ConferenceViews.swift */,
+                EC2900000000000000000006 /* ConferenceMessageViews.swift */,
+                EC2900000000000000000007 /* ConferenceRoomView.swift */,
+                EC3000000000000000000004 /* ConferenceOwnedAccess.swift */,
+                EC3000000000000000000003 /* ConferenceDirectoryView.swift */,
+                EC3000000000000000000002 /* ConferenceKeyHandoff.swift */,
+                EC3000000000000000000001 /* ConferenceDirectoryModels.swift */,
+                EC2900000000000000000005 /* NonCallCaptureOwnership.swift */,
+                EC2900000000000000000003 /* ConferenceController.swift */,
+                EC2900000000000000000002 /* ConferencesAPI.swift */,
+                EC2900000000000000000001 /* ConferenceInvite.swift */,
+				AA0000000000000000000001 /* UNYRIApp.swift */,
+				AAD320000000000000000004 /* MediaPreparationState.swift */,
+				AC0330000000000000000001 /* ChatAlbumSelection.swift */,
+				AAD320000000000000000003 /* QuickReactionPolicy.swift */,
+				AAD320000000000000000002 /* QuickReaction.swift */,
+				AAD320000000000000000001 /* IdentityVerificationView.swift */,
+				AA0000000000000000000002 /* ContentView.swift */,
+				AA0000000000000000000003 /* Assets.xcassets */,
+				AAA100000000000000000001 /* Localizable.xcstrings */,
+				AA0000000000000000000004 /* Info.plist */,
+				AA0000000000000000000006 /* AppConfig.swift */,
+				AA0000000000000000000007 /* AuthModels.swift */,
+				AA0000000000000000000008 /* APIClient.swift */,
+				AA0000000000000000000009 /* AuthAPI.swift */,
+				AA000000000000000000000A /* SessionStore.swift */,
+				AA000000000000000000000B /* DeviceInfo.swift */,
+				AA000000000000000000000C /* AuthRepository.swift */,
+				AA000000000000000000000D /* UnyriTheme.swift */,
+                A02700000000000000000001 /* UnyriSavedChatStyle.swift */,
+                A02700000000000000000002 /* UnyriChatAppearanceSettings.swift */,
+                A02700000000000000000003 /* ChatAppearance.swift */,
+                A03800000000000000000001 /* UnyriAttachmentPopover.swift */,
+                A03800000000000000000002 /* UnyriBackButton.swift */,
+                A02700000000000000000004 /* UnyriAppearanceCornerMetrics.swift */,
+                A02700000000000000000005 /* UnyriChatAppearanceSettingsView.swift */,
+                A02700000000000000000006 /* AlbumMosaicLayout.swift */,
+                A02700000000000000000007 /* appearance_preview.jpg */,
+				AA000000000000000000000E /* LoginView.swift */,
+				AA000000000000000000000F /* RegisterView.swift */,
+				AA0000000000000000000010 /* LoggedInView.swift */,
+				AC0000000000000000000001 /* UserModels.swift */,
+				AC0000000000000000000002 /* Validation.swift */,
+				AC00000000000000000000F9 /* ChatOpeningGate.swift */,
+				AC00000000000000000000FA /* ChatViewportPolicy.swift */,
+				A03500000000000000000001 /* UnyriPendingAlbumPresentation.swift */,
+				AC00000000000000000000FB /* HistoryBackupCrypto.swift */,
+				AC00000000000000000000FC /* HistoryArchive.swift */,
+				AC00000000000000000000FD /* HistoryAttachmentRestorer.swift */,
+				AC00000000000000000000FE /* HistoryBackupCoordinator.swift */,
+				AC00000000000000000000FF /* HistoryBackupAPI.swift */,
+				AC0000000000000000000100 /* HistoryRecoveryKeys.swift */,
+				AC0000000000000000000101 /* HistoryKeySettingsView.swift */,
+                AC0000000000000000000102 /* HistoryMedia.swift */,
+                AC0000000000000000000103 /* HistoryNativeOwner.swift */,
+                AC0000000000000000000107 /* HistoryTransferView.swift */,
+                0FD077525B7D46A1B491DEB3 /* SearchPresentation.swift */,
+                AFA925000000000000000001,
+                AFA925000000000000000002,
+                AFA925000000000000000003,
+                AC3100000000000000000001,
+                AC1101000000000000000001,
+                A9FDAF4767C2320E6E0F4683 /* PushNotificationCoordinator.swift */,
+                79B04C8E3A26941C4A0AC8CB /* CallKitProvider.swift */,
+                F63AB996C7D68C52ADDC7853 /* PushAPI.swift */,
+                A8A74F28E6FB1695B1774C35 /* PushRegistration.swift */,
+                AC1101000000000000000002,
+                AC3100000000000000000002,
+                AC3100000000000000000003,
+                AFA925000000000000000004,
+                AC0000000000000000000106 /* HistoryAutoPolicy.swift */,
+                ACF028000000000000000101 /* HistorySetupPolicy.swift */,
+                ACF028000000000000000102 /* AppColorStyle.swift */,
+                AFA928000000000000000001 /* AdminFactorPolicy.swift */,
+                ACF028000000000000000109 /* UnyriSidebarAppearanceSettingsView.swift */,
+                ACF028000000000000000108 /* SidebarAppearanceRoot.swift */,
+                ACF028000000000000000107 /* SidebarAppearanceSettings.swift */,
+                ACF028000000000000000106 /* CallDisplayAwake.swift */,
+                ACF028000000000000000105 /* CallDisplayWakePolicy.swift */,
+                ACF028000000000000000104 /* UnyriSavedSidebarView.swift */,
+                ACF028000000000000000103 /* SavedSidebarStyle.swift */,
+                ACF028000000000000000110 /* AttachmentPickerStyle.swift */,
+                AC0000000000000000000105 /* HistoryAutomaticBackup.swift */,
+                AC0000000000000000000104 /* HistoryTransfer.swift */,
+				AC0000000000000000000003 /* UsersAPI.swift */,
+				AC0000000000000000000004 /* UsersRepository.swift */,
+				AC0000000000000000000005 /* UserAvatar.swift */,
+				AC0000000000000000000006 /* ProfileView.swift */,
+                AFB028000000000000000203 /* InstallationProof.swift */,
+                AFB028000000000000000202 /* BlockedAccountsView.swift */,
+                AFB028000000000000000201 /* BlockedAccountsModel.swift */,
+				AC0000000000000000000007 /* EditProfileView.swift */,
+				AC0000000000000000000008 /* SearchUsersView.swift */,
+				AC0000000000000000000009 /* ChatModels.swift */,
+				AC000000000000000000000A /* RelativeTime.swift */,
+				AC000000000000000000000B /* ChatsAPI.swift */,
+				AC000000000000000000000C /* ChatsRepository.swift */,
+				AC000000000000000000000D /* ChatsListView.swift */,
+				AC000000000000000000000E /* ChatPlaceholderView.swift */,
+				AC000000000000000000000F /* KeysModels.swift */,
+				AC0000000000000000000010 /* SignalModels.swift */,
+				AC0000000000000000000011 /* KeysAPI.swift */,
+				AC0000000000000000000012 /* KeysRepository.swift */,
+				AC0000000000000000000013 /* SignalStateStore.swift */,
+				AC0000000000000000000014 /* SignalMetadataStore.swift */,
+				AC0000000000000000000015 /* SignalBootstrapPlanner.swift */,
+				AC0000000000000000000016 /* SignalCryptoProvider.swift */,
+				AC0000000000000000000017 /* Base64.swift */,
+				AD0000000000000000000079 /* LibSignalProbe.swift */,
+				AD000000000000000000007A /* SignalStorageKeys.swift */,
+				AD000000000000000000007B /* UnyriSignalStores.swift */,
+				AD000000000000000000007C /* SignalKeyBootstrap.swift */,
+				AD000000000000000000007D /* SignalKeyManager.swift */,
+				AD000000000000000000007E /* SignalBundleDecoder.swift */,
+				AD000000000000000000007F /* SignalSessionManager.swift */,
+				AD000000000000000000009A /* SignalDeviceIdCache.swift */,
+				AD0000000000000000000080 /* MessageContentCodec.swift */,
+		ADAA20260920000000000001 /* AdminSigningKey.swift */,
+        ADAA20260920000000000002 /* AccountRecoveryView.swift */,
+				AD0000000000000000000081 /* MessageModels.swift */,
+				AD0000000000000000000082 /* MessagesAPI.swift */,
+				AD0000000000000000000083 /* MessageStore.swift */,
+				AD0000000000000000000084 /* MessagesRepository.swift */,
+				AD0000000000000000000085 /* ChatScreen.swift */,
+				AF071026F11EB00000000001 /* UnyriFolderAttachmentPicker.swift */,
+				3196112BB4DA893C7F55077E /* UnyriNamedQuickLook.swift */,
+				4C965B007F2DA25B5C3DCD7A /* UnyriFullMessageTextView.swift */,
+				63AC792C40E7E5C956245026 /* MessageTextPolicy.swift */,
+				AD0000000000000000000087 /* CallMediaPermissions.swift */,
+				AD0000000000000000000086 /* CallsAPI.swift */,
+				AD0000000000000000000088 /* RealtimeModels.swift */,
+				AD0000000000000000000089 /* SyncAPI.swift */,
+				AD0000000000000000000090 /* RealtimeClient.swift */,
+				845418C472FCAC7CC920EB65 /* RealtimeApplicationProbe.swift */,
+				AD0000000000000000000091 /* MessageIngestor.swift */,
+				AD0000000000000000000092 /* SyncManager.swift */,
+				AD0000000000000000000093 /* OutboxPolicy.swift */,
+				AD0000000000000000000094 /* MessageOutbox.swift */,
+				AD0000000000000000000095 /* MessageSendComposer.swift */,
+				AD0000000000000000000096 /* AttachmentModels.swift */,
+				AD0000000000000000000097 /* AttachmentsAPI.swift */,
+				AD0000000000000000000098 /* AttachmentStore.swift */,
+				AD0000000000000000000099 /* AttachmentCrypto.swift */,
+				AD0000000000000000000100 /* AttachmentManager.swift */,
+				AE0000000000000000000901 /* StorageService.swift */,
+				AE0000000000000000000902 /* ForegroundMessageBannerController.swift */,
+				AD0000000000000000000101 /* ImageProcessor.swift */,
+				AD0000000000000000000102 /* VoiceRecorder.swift */,
+				AD0000000000000000000103 /* VoicePlayerController.swift */,
+				AD0000000000000000000104 /* VoiceFormat.swift */,
+				AD0000000000000000000105 /* WebRTCProbe.swift */,
+				AD0000000000000000000106 /* CallModels.swift */,
+				AD0000000000000000000107 /* CallSignaling.swift */,
+				AD0000000000000000000108 /* CallStateReducer.swift */,
+				AD0000000000000000000109 /* WebRTCEngine.swift */,
+				AD0000000000000000000110 /* CallController.swift */,
+				AD0000000000000000000111 /* SocketCallSignaling.swift */,
+				AD0000000000000000000112 /* WebRTCEngineImpl.swift */,
+				AD0000000000000000000113 /* CallScreen.swift */,
+				AD0000000000000000000114 /* CameraCaptureFormat.swift */,
+				AD0000000000000000000115 /* VideoRenderViews.swift */,
+				AAA200000000000000000001 /* CallPictureInPicture.swift */,
+				AD0000000000000000000116 /* CallReconciliation.swift */,
+				AD0000000000000000000117 /* CallKitPolicy.swift */,
+				AD0000000000000000000118 /* CallKitCoordinator.swift */,
+				AD0000000000000000000258 /* CallAudioSession.swift */,
+			);
+			path = UNYRI;
+			sourceTree = "<group>";
+		};
+		CC0000000000000000000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA0000000000000000000005 /* UNYRI.app */,
+ E12000000000000000000003 /* UNYRIShare.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EE0000000000000000000001 /* UNYRI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA0000000000000000000016 /* Build configuration list for PBXNativeTarget "UNYRI" */;
+			buildPhases = (
+				DD0000000000000000000001 /* Sources */,
+				DD0000000000000000000002 /* Frameworks */,
+				DD0000000000000000000003 /* Resources */,
+ E14000000000000000000002 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (E15000000000000000000001,
+			);
+			name = UNYRI;
+			packageProductDependencies = (
+                EE2900000000000000000002 /* LiveKit */,
+				CF0000000000000000000002 /* LibSignalClient */,
+				CF0000000000000000000004 /* WebRTC */,
+			);
+			productName = UNYRI;
+			productReference = AA0000000000000000000005 /* UNYRI.app */;
+			productType = "com.apple.product-type.application";
+		};
+
+ E13000000000000000000001 = {isa = PBXNativeTarget; buildConfigurationList = E17000000000000000000001; buildPhases = (E14000000000000000000001, A7FAA44AE6A81C01279F9A7D /* Resources */, ); buildRules = (); dependencies = (); name = UNYRIShare; productName = UNYRIShare; productReference = E12000000000000000000003; productType = "com.apple.product-type.app-extension"; };
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FF0000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					EE0000000000000000000001 = {
+                        CreatedOnToolsVersion = 16.0;
+                        SystemCapabilities = {com.apple.ApplicationGroups.iOS = {enabled = 1; }; com.apple.Push = {enabled = 1; }; };
+                    };
+                    E13000000000000000000001 = {
+                        CreatedOnToolsVersion = 16.0;
+                        SystemCapabilities = {com.apple.ApplicationGroups.iOS = {enabled = 1; }; };
+                    };
+				};
+			};
+			buildConfigurationList = AA0000000000000000000015 /* Build configuration list for PBXProject "UNYRI" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				ru,
+				uk,
+				en,
+				Base,
+			);
+			mainGroup = CC0000000000000000000001;
+			packageReferences = (
+                EE2900000000000000000001 /* LiveKit */,
+				CF0000000000000000000001 /* XCLocalSwiftPackageReference "LibSignalClient" */,
+				CF0000000000000000000003 /* XCRemoteSwiftPackageReference "WebRTC" */,
+			);
+			productRefGroup = CC0000000000000000000003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EE0000000000000000000001 /* UNYRI */,
+ E13000000000000000000001 /* UNYRIShare */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DD0000000000000000000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BB0000000000000000000003 /* Assets.xcassets in Resources */,
+				BBA100000000000000000001 /* Localizable.xcstrings in Resources */,
+                B02700000000000000000007 /* appearance_preview.jpg in Resources */,
+				EC5103BAA9940822C1E09C35 /* UNYRI PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A7FAA44AE6A81C01279F9A7D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F763E77D525A5F202DAED418 /* UNYRIShare PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+ E14000000000000000000002 = {isa = PBXCopyFilesBuildPhase; buildActionMask = 2147483647; dstPath = ""; dstSubfolderSpec = 13; files = (E11000000000000000000004, ); name = "Embed App Extensions"; runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXCopyFilesBuildPhase section */
+/* Begin PBXContainerItemProxy section */
+ E15000000000000000000002 = {isa = PBXContainerItemProxy; containerPortal = FF0000000000000000000001; proxyType = 1; remoteGlobalIDString = E13000000000000000000001; remoteInfo = UNYRIShare; };
+/* End PBXContainerItemProxy section */
+/* Begin PBXTargetDependency section */
+ E15000000000000000000001 = {isa = PBXTargetDependency; target = E13000000000000000000001; targetProxy = E15000000000000000000002; };
+/* End PBXTargetDependency section */
+/* Begin PBXSourcesBuildPhase section */
+		DD0000000000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+                BCF110100000000000000000,
+                BCF110100000000000000001,
+                BCF110100000000000000002,
+                BCF110100000000000000003,
+                BCF110100000000000000004,
+                BCF110100000000000000005,
+                ED2900000000000000000004 /* ConferenceViews.swift in Sources */,
+                ED2900000000000000000006 /* ConferenceMessageViews.swift in Sources */,
+                ED2900000000000000000007 /* ConferenceRoomView.swift in Sources */,
+                ED3000000000000000000004 /* ConferenceOwnedAccess.swift in Sources */,
+                ED3000000000000000000003 /* ConferenceDirectoryView.swift in Sources */,
+                ED3000000000000000000002 /* ConferenceKeyHandoff.swift in Sources */,
+                ED3000000000000000000001 /* ConferenceDirectoryModels.swift in Sources */,
+                ED2900000000000000000005 /* NonCallCaptureOwnership.swift in Sources */,
+                ED2900000000000000000003 /* ConferenceController.swift in Sources */,
+                ED2900000000000000000002 /* ConferencesAPI.swift in Sources */,
+                ED2900000000000000000001 /* ConferenceInvite.swift in Sources */,
+				BBD300000000000000000001 /* UnyriMediaViewer.swift in Sources */,
+				BBD320000000000000000004 /* MediaPreparationState.swift in Sources */,
+				BC0330000000000000000001 /* ChatAlbumSelection.swift in Sources */,
+				BBD320000000000000000003 /* QuickReactionPolicy.swift in Sources */,
+				BBD320000000000000000002 /* QuickReaction.swift in Sources */,
+				BBD320000000000000000001 /* IdentityVerificationView.swift in Sources */,
+ E11000000000000000000003,
+E21000000000000000000002,
+E21000000000000000000001,
+                3FB4A1410160A89CEB508331 /* DirectFileAPI.swift in Sources */,
+                4F649DEFB2A6884334B94159 /* DirectFileDisk.swift in Sources */,
+                2EF35BF233A2DE4A2E8ED84D /* DirectFileModels.swift in Sources */,
+                C12451D314F947DC5A927F59 /* DirectFilePeer.swift in Sources */,
+                DDD9C825922BB21253C5771A /* DirectFilePeerPipe.swift in Sources */,
+                8FBB743D700A01D8A512C55B /* DirectFileStream.swift in Sources */,
+                1064D6E8AC01291E0869F60A /* DirectFileAllocationLedger.swift in Sources */,
+                B7FD8506114435E5D7EC8861 /* DirectFileBulkIO.swift in Sources */,
+                9CF78FBC356720219E50DDCD /* DirectFileContinuedProcessing.swift in Sources */,
+                3920EAEF186A39475EC69E8C /* DirectFileExecutionPermit.swift in Sources */,
+                E4F7833E2C82CFA06E74222F /* DirectFileHTTPGate.swift in Sources */,
+                D0DB2F014FAE98B0EA45638C /* DirectFileManagerView.swift in Sources */,
+                8DF23122CF171E29568D0265 /* DirectFilePollPlan.swift in Sources */,
+                491C728A5767BCED7A2EB4BD /* DirectFilePresentation.swift in Sources */,
+                064DCD3743C646FC1DB0B6FF /* DirectFileQueueState.swift in Sources */,
+                40DABA3C5958E4CB92F69647 /* DirectManualTransferState.swift in Sources */,
+
+                447571843D1B4ED417D4C9CE /* DirectFileTransfers.swift in Sources */,
+                7B8737B950AFF1983C6B96F1 /* DirectComposerOriginal.swift in Sources */,
+                B6E12A18C899C51182C43D00 /* DirectSendPreference.swift in Sources */,
+                60B344F0F61D3B5B07427B37 /* DirectFileViews.swift in Sources */,
+                D3C3E7E4B6D06C77F91C63AF /* DirectFileMediaPreviewGenerator.swift in Sources */,
+                11662BF8748F85AA4D1A587F /* DirectPhotoOriginal.swift in Sources */,
+
+                72E6432A5ACBE4B852AAFA49 /* DirectFileJournal.swift in Sources */,
+                47B2074686DA82E2095E2454 /* DirectFileDisplay.swift in Sources */,
+                179469A541C625D677CCE23B /* ChatKeyboardTailAnchor.swift in Sources */,
+
+
+
+
+
+
+
+
+
+
+
+				BB0000000000000000000001 /* UNYRIApp.swift in Sources */,
+				BB0000000000000000000002 /* ContentView.swift in Sources */,
+				BB0000000000000000000012 /* AppConfig.swift in Sources */,
+				BB0000000000000000000013 /* AuthModels.swift in Sources */,
+				BB0000000000000000000014 /* APIClient.swift in Sources */,
+				BB0000000000000000000015 /* AuthAPI.swift in Sources */,
+				BB0000000000000000000016 /* SessionStore.swift in Sources */,
+				BB0000000000000000000017 /* DeviceInfo.swift in Sources */,
+				BB0000000000000000000018 /* AuthRepository.swift in Sources */,
+				BB0000000000000000000019 /* UnyriTheme.swift in Sources */,
+                B02700000000000000000001 /* UnyriSavedChatStyle.swift in Sources */,
+                B02700000000000000000002 /* UnyriChatAppearanceSettings.swift in Sources */,
+                B02700000000000000000003 /* ChatAppearance.swift in Sources */,
+                B03800000000000000000001 /* UnyriAttachmentPopover.swift in Sources */,
+                B03800000000000000000002 /* UnyriBackButton.swift in Sources */,
+                B02700000000000000000004 /* UnyriAppearanceCornerMetrics.swift in Sources */,
+                B02700000000000000000005 /* UnyriChatAppearanceSettingsView.swift in Sources */,
+                B02700000000000000000006 /* AlbumMosaicLayout.swift in Sources */,
+				BB000000000000000000001A /* LoginView.swift in Sources */,
+				BB000000000000000000001B /* RegisterView.swift in Sources */,
+				BB000000000000000000001C /* LoggedInView.swift in Sources */,
+				BC0000000000000000000001 /* UserModels.swift in Sources */,
+				BC0000000000000000000002 /* Validation.swift in Sources */,
+				BC00000000000000000000F9 /* ChatOpeningGate.swift in Sources */,
+				BC00000000000000000000FA /* ChatViewportPolicy.swift in Sources */,
+				B03500000000000000000001 /* UnyriPendingAlbumPresentation.swift in Sources */,
+				BC00000000000000000000FB /* HistoryBackupCrypto.swift in Sources */,
+				BC00000000000000000000FC /* HistoryArchive.swift in Sources */,
+				BC00000000000000000000FD /* HistoryAttachmentRestorer.swift in Sources */,
+				BC00000000000000000000FE /* HistoryBackupCoordinator.swift in Sources */,
+				BC00000000000000000000FF /* HistoryBackupAPI.swift in Sources */,
+				BC0000000000000000000100 /* HistoryRecoveryKeys.swift in Sources */,
+				BC0000000000000000000101 /* HistoryKeySettingsView.swift in Sources */,
+                BC0000000000000000000102 /* HistoryMedia.swift in Sources */,
+                BC0000000000000000000103 /* HistoryNativeOwner.swift in Sources */,
+                BC0000000000000000000107 /* HistoryTransferView.swift in Sources */,
+                EA0B8C747FB341A4BB68C97B /* SearchPresentation.swift in Sources */,
+                BFA925000000000000000001,
+                BFA925000000000000000002,
+                BFA925000000000000000003,
+                BC3100000000000000000001,
+                BC1101000000000000000001,
+                B616E7BADEEBF0249872A8E6 /* PushNotificationCoordinator.swift in Sources */,
+                2C1A664B85E15D454002D06B /* CallKitProvider.swift in Sources */,
+                567DA2BCCBFBBCC07607D6E3 /* PushAPI.swift in Sources */,
+                DBBB852748F8B2E359722651 /* PushRegistration.swift in Sources */,
+                BC1101000000000000000002,
+                BC3100000000000000000002,
+                BC3100000000000000000003,
+                BFA925000000000000000004,
+                BC0000000000000000000106 /* HistoryAutoPolicy.swift in Sources */,
+                BCF028000000000000000101 /* HistorySetupPolicy.swift in Sources */,
+                BCF028000000000000000102 /* AppColorStyle.swift in Sources */,
+                BFA928000000000000000001 /* AdminFactorPolicy.swift in Sources */,
+                BCF028000000000000000109 /* UnyriSidebarAppearanceSettingsView.swift in Sources */,
+                BCF028000000000000000108 /* SidebarAppearanceRoot.swift in Sources */,
+                BCF028000000000000000107 /* SidebarAppearanceSettings.swift in Sources */,
+                BCF028000000000000000106 /* CallDisplayAwake.swift in Sources */,
+                BCF028000000000000000105 /* CallDisplayWakePolicy.swift in Sources */,
+                BCF028000000000000000104 /* UnyriSavedSidebarView.swift in Sources */,
+                BCF028000000000000000103 /* SavedSidebarStyle.swift in Sources */,
+                BCF028000000000000000110 /* AttachmentPickerStyle.swift in Sources */,
+                BC0000000000000000000105 /* HistoryAutomaticBackup.swift in Sources */,
+                BC0000000000000000000104 /* HistoryTransfer.swift in Sources */,
+				BC0000000000000000000003 /* UsersAPI.swift in Sources */,
+				BC0000000000000000000004 /* UsersRepository.swift in Sources */,
+				BC0000000000000000000005 /* UserAvatar.swift in Sources */,
+				BC0000000000000000000006 /* ProfileView.swift in Sources */,
+                BFB028000000000000000203 /* InstallationProof.swift in Sources */,
+                BFB028000000000000000202 /* BlockedAccountsView.swift in Sources */,
+                BFB028000000000000000201 /* BlockedAccountsModel.swift in Sources */,
+				BC0000000000000000000007 /* EditProfileView.swift in Sources */,
+				BC0000000000000000000008 /* SearchUsersView.swift in Sources */,
+				BC0000000000000000000009 /* ChatModels.swift in Sources */,
+				BC000000000000000000000A /* RelativeTime.swift in Sources */,
+				BC000000000000000000000B /* ChatsAPI.swift in Sources */,
+				BC000000000000000000000C /* ChatsRepository.swift in Sources */,
+				BC000000000000000000000D /* ChatsListView.swift in Sources */,
+				BC000000000000000000000E /* ChatPlaceholderView.swift in Sources */,
+				BC000000000000000000000F /* KeysModels.swift in Sources */,
+				BC0000000000000000000010 /* SignalModels.swift in Sources */,
+				BC0000000000000000000011 /* KeysAPI.swift in Sources */,
+				BC0000000000000000000012 /* KeysRepository.swift in Sources */,
+				BC0000000000000000000013 /* SignalStateStore.swift in Sources */,
+				BC0000000000000000000014 /* SignalMetadataStore.swift in Sources */,
+				BC0000000000000000000015 /* SignalBootstrapPlanner.swift in Sources */,
+				BC0000000000000000000016 /* SignalCryptoProvider.swift in Sources */,
+				BC0000000000000000000017 /* Base64.swift in Sources */,
+				BD0000000000000000000079 /* LibSignalProbe.swift in Sources */,
+				BD000000000000000000007A /* SignalStorageKeys.swift in Sources */,
+				BD000000000000000000007B /* UnyriSignalStores.swift in Sources */,
+				BD000000000000000000007C /* SignalKeyBootstrap.swift in Sources */,
+				BD000000000000000000007D /* SignalKeyManager.swift in Sources */,
+				BD000000000000000000007E /* SignalBundleDecoder.swift in Sources */,
+				BD000000000000000000007F /* SignalSessionManager.swift in Sources */,
+				BD000000000000000000009A /* SignalDeviceIdCache.swift in Sources */,
+				BD0000000000000000000080 /* MessageContentCodec.swift in Sources */,
+		BDAA20260920000000000001 /* AdminSigningKey.swift in Sources */,
+        BDAA20260920000000000002 /* AccountRecoveryView.swift in Sources */,
+				BD0000000000000000000081 /* MessageModels.swift in Sources */,
+				BD0000000000000000000082 /* MessagesAPI.swift in Sources */,
+				BD0000000000000000000083 /* MessageStore.swift in Sources */,
+				BD0000000000000000000084 /* MessagesRepository.swift in Sources */,
+				BD0000000000000000000085 /* ChatScreen.swift in Sources */,
+				BF071026F11EB00000000001 /* UnyriFolderAttachmentPicker.swift in Sources */,
+				2F380E1E1BF3445D345641E1 /* UnyriNamedQuickLook.swift in Sources */,
+				374F4532E9D6AB935DFBA210 /* UnyriFullMessageTextView.swift in Sources */,
+				708EFA8C79F6B55E0C9B20C6 /* MessageTextPolicy.swift in Sources */,
+				BD0000000000000000000087 /* CallMediaPermissions.swift in Sources */,
+				BD0000000000000000000086 /* CallsAPI.swift in Sources */,
+				BD0000000000000000000088 /* RealtimeModels.swift in Sources */,
+				BD0000000000000000000089 /* SyncAPI.swift in Sources */,
+				BD0000000000000000000090 /* RealtimeClient.swift in Sources */,
+				96D924E715DDE18E815FF90D /* RealtimeApplicationProbe.swift in Sources */,
+				BD0000000000000000000091 /* MessageIngestor.swift in Sources */,
+				BD0000000000000000000092 /* SyncManager.swift in Sources */,
+				BD0000000000000000000093 /* OutboxPolicy.swift in Sources */,
+				BD0000000000000000000094 /* MessageOutbox.swift in Sources */,
+				BD0000000000000000000095 /* MessageSendComposer.swift in Sources */,
+				BD0000000000000000000096 /* AttachmentModels.swift in Sources */,
+				BD0000000000000000000097 /* AttachmentsAPI.swift in Sources */,
+				BD0000000000000000000098 /* AttachmentStore.swift in Sources */,
+				BD0000000000000000000099 /* AttachmentCrypto.swift in Sources */,
+				BD0000000000000000000100 /* AttachmentManager.swift in Sources */,
+				BE0000000000000000000901 /* StorageService.swift in Sources */,
+				BE0000000000000000000902 /* ForegroundMessageBannerController.swift in Sources */,
+				BD0000000000000000000101 /* ImageProcessor.swift in Sources */,
+				BD0000000000000000000102 /* VoiceRecorder.swift in Sources */,
+				BD0000000000000000000103 /* VoicePlayerController.swift in Sources */,
+				BD0000000000000000000104 /* VoiceFormat.swift in Sources */,
+				BD0000000000000000000105 /* WebRTCProbe.swift in Sources */,
+				BD0000000000000000000106 /* CallModels.swift in Sources */,
+				BD0000000000000000000107 /* CallSignaling.swift in Sources */,
+				BD0000000000000000000108 /* CallStateReducer.swift in Sources */,
+				BD0000000000000000000109 /* WebRTCEngine.swift in Sources */,
+				BD0000000000000000000110 /* CallController.swift in Sources */,
+				BD0000000000000000000111 /* SocketCallSignaling.swift in Sources */,
+				BD0000000000000000000112 /* WebRTCEngineImpl.swift in Sources */,
+				BD0000000000000000000113 /* CallScreen.swift in Sources */,
+				BD0000000000000000000114 /* CameraCaptureFormat.swift in Sources */,
+				BD0000000000000000000115 /* VideoRenderViews.swift in Sources */,
+				BBA200000000000000000001 /* CallPictureInPicture.swift in Sources */,
+				BD0000000000000000000116 /* CallReconciliation.swift in Sources */,
+				BD0000000000000000000117 /* CallKitPolicy.swift in Sources */,
+				BD0000000000000000000118 /* CallKitCoordinator.swift in Sources */,
+				BD0000000000000000000258 /* CallAudioSession.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+
+ E14000000000000000000001 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (E11000000000000000000001, E11000000000000000000002, ); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		AA0000000000000000000011 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				UNYRI_APP_BUNDLE_IDENTIFIER = com.messenger.unyri.X7G7M9PFJ3;
+				UNYRI_APP_GROUP_IDENTIFIER = group.com.messenger.unyri.X7G7M9PFJ3.share;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AA0000000000000000000012 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				UNYRI_APP_BUNDLE_IDENTIFIER = com.messenger.unyri.X7G7M9PFJ3;
+				UNYRI_APP_GROUP_IDENTIFIER = group.com.messenger.unyri.X7G7M9PFJ3.share;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AA0000000000000000000013 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+ CODE_SIGN_ENTITLEMENTS = UNYRI/UNYRI.entitlements; PROVISIONING_PROFILE_SPECIFIER = "$(UNYRI_MAIN_PROVISIONING_PROFILE_SPECIFIER)";
+				CURRENT_PROJECT_VERSION = 20;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = UNYRI/Info.plist;
+                UNYRI_APS_ENVIRONMENT = development;
+				UNYRI_API_BASE_URL = "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.3.18;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(UNYRI_APP_BUNDLE_IDENTIFIER)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/libsignal-ffi",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lz",
+					"$(SRCROOT)/libsignal-ffi/libsignal_ffi.a",
+				);
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AA0000000000000000000014 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+ CODE_SIGN_ENTITLEMENTS = UNYRI/UNYRI.entitlements; PROVISIONING_PROFILE_SPECIFIER = "$(UNYRI_MAIN_PROVISIONING_PROFILE_SPECIFIER)";
+				CURRENT_PROJECT_VERSION = 20;
+				GENERATE_INFOPLIST_FILE = NO;
+				UNYRI_MAIN_INFO_PLIST = "UNYRI/Info-Release.plist";
+                UNYRI_APS_ENVIRONMENT = production;
+                INFOPLIST_FILE = "$(UNYRI_MAIN_INFO_PLIST)";
+				UNYRI_API_BASE_URL = "https://8c86b74c-0d0f-4ee0-9b74-bbfcf06d3f9f.pub.instances.scw.cloud";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.3.18;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(UNYRI_APP_BUNDLE_IDENTIFIER)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/libsignal-ffi",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lz",
+					"$(SRCROOT)/libsignal-ffi/libsignal_ffi.a",
+				);
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+E16000000000000000000001 = {isa = XCBuildConfiguration; buildSettings = {APPLICATION_EXTENSION_API_ONLY = YES; CODE_SIGN_STYLE = Automatic; CODE_SIGN_ENTITLEMENTS = UNYRIShare/UNYRIShare.entitlements; PROVISIONING_PROFILE_SPECIFIER = "$(UNYRI_SHARE_PROVISIONING_PROFILE_SPECIFIER)"; CURRENT_PROJECT_VERSION = 20; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = UNYRIShare/Info.plist; IPHONEOS_DEPLOYMENT_TARGET = 16.0; LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@executable_path/../../Frameworks", ); MARKETING_VERSION = 0.3.18; PRODUCT_BUNDLE_IDENTIFIER = "$(UNYRI_APP_BUNDLE_IDENTIFIER).share"; PRODUCT_NAME = "$(TARGET_NAME)"; SKIP_INSTALL = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Debug; };
+E16000000000000000000002 = {isa = XCBuildConfiguration; buildSettings = {APPLICATION_EXTENSION_API_ONLY = YES; CODE_SIGN_STYLE = Automatic; CODE_SIGN_ENTITLEMENTS = UNYRIShare/UNYRIShare.entitlements; PROVISIONING_PROFILE_SPECIFIER = "$(UNYRI_SHARE_PROVISIONING_PROFILE_SPECIFIER)"; CURRENT_PROJECT_VERSION = 20; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = UNYRIShare/Info.plist; IPHONEOS_DEPLOYMENT_TARGET = 16.0; LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@executable_path/../../Frameworks", ); MARKETING_VERSION = 0.3.18; PRODUCT_BUNDLE_IDENTIFIER = "$(UNYRI_APP_BUNDLE_IDENTIFIER).share"; PRODUCT_NAME = "$(TARGET_NAME)"; SKIP_INSTALL = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Release; };
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AA0000000000000000000015 /* Build configuration list for PBXProject "UNYRI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000000000000000000011 /* Debug */,
+				AA0000000000000000000012 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA0000000000000000000016 /* Build configuration list for PBXNativeTarget "UNYRI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000000000000000000013 /* Debug */,
+				AA0000000000000000000014 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+E17000000000000000000001 = {isa = XCConfigurationList; buildConfigurations = (E16000000000000000000001, E16000000000000000000002, ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+/* End XCConfigurationList section */
+/* Begin XCLocalSwiftPackageReference section */
+		CF0000000000000000000001 /* XCLocalSwiftPackageReference "LibSignalClient" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = LibSignalClient;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+        EE2900000000000000000001 /* LiveKit */ = {isa = XCLocalSwiftPackageReference; relativePath = ConferenceLiveKit; };
+		CF0000000000000000000003 /* XCRemoteSwiftPackageReference "WebRTC" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stasel/WebRTC.git";
+			requirement = {
+				kind = exactVersion;
+				version = 152.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+        EE2900000000000000000002 /* LiveKit */ = {isa = XCSwiftPackageProductDependency; package = EE2900000000000000000001; productName = LiveKit; };
+		CF0000000000000000000002 /* LibSignalClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CF0000000000000000000001 /* XCLocalSwiftPackageReference "LibSignalClient" */;
+			productName = LibSignalClient;
+		};
+		CF0000000000000000000004 /* WebRTC */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CF0000000000000000000003 /* XCRemoteSwiftPackageReference "WebRTC" */;
+			productName = WebRTC;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = FF0000000000000000000001 /* Project object */;
+}

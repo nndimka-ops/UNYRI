@@ -1,0 +1,10 @@
+UNYRI
+Copyright (C) 2026 Dmytro Novopolskyi
+
+The original UNYRI application, server and Windows administration code is
+licensed under the GNU Affero General Public License, version 3 only.
+See LICENSE for the full terms.
+
+Third-party components retain their respective copyright notices and licenses.
+The root license does not replace the licenses of vendored libraries, system
+libraries, bundled fonts, icons or other separately attributed components.
