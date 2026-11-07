@@ -118,9 +118,16 @@ struct ChatsListView: View {
     }
     private func refreshVisibleList() async {
         guard refreshContext.active, refreshContext.visible else { return }
-        // Scene activation, socket connection and management changes often
-        // arrive together. Cancellation coalesces them into one refresh.
-        do { try await Task.sleep(nanoseconds: 100_000_000) } catch { return }
+        // This 100 ms window exists only to coalesce a burst of triggers that
+        // often arrive together (scene activation, socket connection, management
+        // revision): `.task(id: refreshContext)` cancels the previous invocation,
+        // so only the last trigger of the burst pays for the refresh. The first
+        // paint must not pay it — when `chats` is still empty there are no cached
+        // rows to protect and a duplicate refresh is already suppressed by the
+        // `isLoading` guard inside `load(reset:)`.
+        if !chats.isEmpty {
+            do { try await Task.sleep(nanoseconds: 100_000_000) } catch { return }
+        }
         await refreshPins()
         guard !Task.isCancelled else { return }
         await load(reset: true)
