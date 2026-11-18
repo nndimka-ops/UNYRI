@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hostile_new_device">%1$s tem um novo dispositivo — comparem o código de segurança</string>
+    <string name="hostile_chat_frozen">A identidade na conversa mudou. Envio desativado.</string>
+    <string name="hostile_call_unverified">Não verificado: a outra pessoa não tem código de comparação.</string>
+    <string name="hostile_call_compare">Comparem estes quatro símbolos em voz alta. Até lá, a chamada permanece não verificada.</string>
+    <string name="hostile_room_approve">Compare o código deste utilizador e dispositivo antes de trocar a chave.</string>
+    <string name="hostile_room_limit">Os membros mantêm as chaves partilhadas. O servidor pode ocultar remoções; a revogação total não é garantida.</string>
+    <string name="hostile_room_remove">A remoção cria uma nova sala privada com uma nova chave. Convide novamente as pessoas de confiança.</string>
+    <string-array name="hostile_sas_names">
+        <item>Estrela</item>
+        <item>Coração</item>
+        <item>Lua</item>
+        <item>Sol</item>
+        <item>Nuvem</item>
+        <item>Relâmpago</item>
+        <item>Floco de neve</item>
+        <item>Gota</item>
+        <item>Fogo</item>
+        <item>Folha</item>
+        <item>Globo</item>
+        <item>Sino</item>
+        <item>Chave</item>
+        <item>Casa</item>
+        <item>Carro</item>
+        <item>Avião</item>
+        <item>Bicicleta</item>
+        <item>Bilhete</item>
+        <item>Autocarro</item>
+        <item>Guarda-chuva</item>
+        <item>Presente</item>
+        <item>Coroa</item>
+        <item>Bandeira</item>
+        <item>Livro</item>
+        <item>Marcador</item>
+        <item>Clipe</item>
+        <item>Lápis</item>
+        <item>Tesoura</item>
+        <item>Pincel</item>
+        <item>Martelo</item>
+        <item>Lupa</item>
+        <item>Olho</item>
+        <item>Palma</item>
+        <item>Nota</item>
+        <item>Guitarra</item>
+        <item>Comando</item>
+        <item>Puzzle</item>
+        <item>Dado</item>
+        <item>Tartaruga</item>
+        <item>Lebre</item>
+        <item>Formiga</item>
+        <item>Joaninha</item>
+        <item>Pata</item>
+        <item>Chávena</item>
+        <item>Talheres</item>
+        <item>Carrinho</item>
+        <item>Saco</item>
+        <item>Etiqueta</item>
+        <item>Lâmpada</item>
+        <item>Envelope</item>
+        <item>Binóculos</item>
+        <item>Mapa</item>
+        <item>Montanhas</item>
+        <item>Faíscas</item>
+        <item>Ampulheta</item>
+        <item>Despertador</item>
+        <item>Megafone</item>
+        <item>Máscaras</item>
+        <item>Filme</item>
+        <item>Átomo</item>
+        <item>Engrenagem</item>
+        <item>Espadas</item>
+        <item>Camiseta</item>
+        <item>Óculos</item>
+    </string-array>
+</resources>

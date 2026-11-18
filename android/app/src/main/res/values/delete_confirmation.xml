@@ -1,0 +1,4 @@
+<resources>
+<string name="delete_also_peer">Also delete for the other participant</string>
+<string name="delete_only_you">Only deleted for you</string>
+</resources>

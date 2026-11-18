@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inline_search_chats">Sohbetler ve kişiler</string>
+    <string name="inline_search_global">Genel arama</string>
+    <string name="inline_search_privacy">Ad veya @kullanıcı adıyla ara. Sorgu sunucunuza gönderilir.</string>
+    <string name="inline_search_media">Medya</string>
+    <string name="inline_search_links">Bağlantılar</string>
+    <string name="inline_search_files">Dosyalar</string>
+    <string name="inline_search_offline">Bağlantı yok</string>
+    <string name="inline_notification_banners">Bantlar</string>
+    <string name="inline_notification_sound">Ses</string>
+    <string name="inline_notification_vibration">Titreşim</string>
+    <string name="inline_search_unavailable">Sunucu dizini kullanılamıyor. Sahibinden sunucuyu güncellemesini isteyin.</string>
+    <string name="inline_notification_header">Uygulama içinde</string>
+    <string name="inline_search_voice">Sesli mesajlar</string>
+    <string name="directory_cached_hint">Kayıtlı kişiler. Uygunluk bağlanınca güncellenir.</string>
+    <string name="search_clear">Aramayı temizle</string>
+    <string name="search_open_failed">Sohbet açılamadı. Arama sonuçlarınız korunuyor. Kişiye tekrar dokunun.</string>
+    <string name="search_recent">Son aramalar</string>
+    <string name="search_scope_messages">Mesajlar</string>
+    <string name="settings_search_label">Ara</string>
+    <string name="unified_search_hint">Kayıtlı sohbet ve mesajları çevrimdışı arayın. Bu sunucudaki kişileri kullanıcı adıyla bulun.</string>
+    <string name="unified_search_network">Sunucuda arama kullanılamıyor. Yerel sonuçlar kullanılabilir durumda.</string>
+    <string name="unified_search_local_error">Kayıtlı mesajlar yüklenemedi. Tekrar aramayı deneyin.</string>
+</resources>

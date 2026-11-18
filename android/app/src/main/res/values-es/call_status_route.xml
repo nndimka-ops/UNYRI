@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_route_direct">Directa</string>
+    <string name="call_route_relay">A través del servidor</string>
+    <string name="call_waiting_for_peer_online">Esperando a que se conecte</string>
+</resources>

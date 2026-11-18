@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hostile_new_device">%1$s tiene un dispositivo nuevo — comparad el código de seguridad</string>
+    <string name="hostile_chat_frozen">La identidad del chat cambió. El envío está desactivado.</string>
+    <string name="hostile_call_unverified">Sin verificar: la otra persona no tiene código de comparación.</string>
+    <string name="hostile_call_compare">Comparad estos cuatro símbolos en voz alta. La llamada seguirá sin verificar hasta compararlos.</string>
+    <string name="hostile_room_approve">Compara el código de este usuario y dispositivo antes de intercambiar la clave.</string>
+    <string name="hostile_room_limit">Los miembros conservan las claves compartidas. El servidor puede ocultar expulsiones; no se garantiza la revocación total.</string>
+    <string name="hostile_room_remove">La expulsión crea una sala privada nueva con otra clave. Invita de nuevo a las personas de confianza.</string>
+    <string-array name="hostile_sas_names">
+        <item>Estrella</item>
+        <item>Corazón</item>
+        <item>Luna</item>
+        <item>Sol</item>
+        <item>Nube</item>
+        <item>Rayo</item>
+        <item>Copo de nieve</item>
+        <item>Gota</item>
+        <item>Fuego</item>
+        <item>Hoja</item>
+        <item>Globo</item>
+        <item>Campana</item>
+        <item>Llave</item>
+        <item>Casa</item>
+        <item>Coche</item>
+        <item>Avión</item>
+        <item>Bicicleta</item>
+        <item>Billete</item>
+        <item>Autobús</item>
+        <item>Paraguas</item>
+        <item>Regalo</item>
+        <item>Corona</item>
+        <item>Bandera</item>
+        <item>Libro</item>
+        <item>Marcador</item>
+        <item>Clip</item>
+        <item>Lápiz</item>
+        <item>Tijeras</item>
+        <item>Pincel</item>
+        <item>Martillo</item>
+        <item>Lupa</item>
+        <item>Ojo</item>
+        <item>Palma</item>
+        <item>Nota</item>
+        <item>Guitarra</item>
+        <item>Mando</item>
+        <item>Puzle</item>
+        <item>Dado</item>
+        <item>Tortuga</item>
+        <item>Liebre</item>
+        <item>Hormiga</item>
+        <item>Mariquita</item>
+        <item>Pata</item>
+        <item>Taza</item>
+        <item>Cubiertos</item>
+        <item>Carrito</item>
+        <item>Bolsa</item>
+        <item>Etiqueta</item>
+        <item>Bombilla</item>
+        <item>Sobre</item>
+        <item>Prismáticos</item>
+        <item>Mapa</item>
+        <item>Montañas</item>
+        <item>Destellos</item>
+        <item>Reloj de arena</item>
+        <item>Despertador</item>
+        <item>Megáfono</item>
+        <item>Máscaras</item>
+        <item>Película</item>
+        <item>Átomo</item>
+        <item>Engranaje</item>
+        <item>Pica</item>
+        <item>Camiseta</item>
+        <item>Gafas</item>
+    </string-array>
+</resources>

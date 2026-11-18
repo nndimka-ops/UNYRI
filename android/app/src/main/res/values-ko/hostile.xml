@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hostile_new_device">%1$s 님에게 새 기기가 있습니다 — 보안 코드를 비교하세요</string>
+    <string name="hostile_chat_frozen">채팅 상대의 신원이 변경되었습니다. 전송이 중지되었습니다.</string>
+    <string name="hostile_call_unverified">미확인: 상대방에게 비교 코드가 없습니다.</string>
+    <string name="hostile_call_compare">이 네 기호를 소리 내어 비교하세요. 비교 전까지 통화는 확인되지 않습니다.</string>
+    <string name="hostile_room_approve">키를 교환하기 전에 이 사용자와 기기의 보안 코드를 비교하세요.</string>
+    <string name="hostile_room_limit">참가자는 공유 키를 보유합니다. 서버가 삭제 사실을 숨길 수 있어 완전한 접근 취소는 보장되지 않습니다.</string>
+    <string name="hostile_room_remove">삭제하면 새 키로 비공개 방을 만듭니다. 신뢰하는 사람을 다시 초대하세요.</string>
+    <string-array name="hostile_sas_names">
+        <item>별</item>
+        <item>하트</item>
+        <item>달</item>
+        <item>태양</item>
+        <item>구름</item>
+        <item>번개</item>
+        <item>눈송이</item>
+        <item>물방울</item>
+        <item>불꽃</item>
+        <item>잎</item>
+        <item>지구</item>
+        <item>종</item>
+        <item>열쇠</item>
+        <item>집</item>
+        <item>자동차</item>
+        <item>비행기</item>
+        <item>자전거</item>
+        <item>표</item>
+        <item>버스</item>
+        <item>우산</item>
+        <item>선물</item>
+        <item>왕관</item>
+        <item>깃발</item>
+        <item>책</item>
+        <item>책갈피</item>
+        <item>클립</item>
+        <item>연필</item>
+        <item>가위</item>
+        <item>붓</item>
+        <item>망치</item>
+        <item>돋보기</item>
+        <item>눈</item>
+        <item>손바닥</item>
+        <item>음표</item>
+        <item>기타</item>
+        <item>게임패드</item>
+        <item>퍼즐</item>
+        <item>주사위</item>
+        <item>거북이</item>
+        <item>토끼</item>
+        <item>개미</item>
+        <item>무당벌레</item>
+        <item>발자국</item>
+        <item>컵</item>
+        <item>식기</item>
+        <item>카트</item>
+        <item>가방</item>
+        <item>태그</item>
+        <item>전구</item>
+        <item>봉투</item>
+        <item>쌍안경</item>
+        <item>지도</item>
+        <item>산</item>
+        <item>반짝임</item>
+        <item>모래시계</item>
+        <item>알람시계</item>
+        <item>확성기</item>
+        <item>가면</item>
+        <item>필름</item>
+        <item>원자</item>
+        <item>톱니바퀴</item>
+        <item>스페이드</item>
+        <item>티셔츠</item>
+        <item>안경</item>
+    </string-array>
+</resources>

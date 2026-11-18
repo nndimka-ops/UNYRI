@@ -1,0 +1,21 @@
+<resources>
+    <string name="drawer_choice_a">Sütun (A)</string>
+    <string name="drawer_choice_c">Kart (C)</string>
+    <string name="drawer_version">Sürüm %1$s (%2$d)</string>
+    <string name="drawer_my_qr">QR kodum</string>
+    <string name="drawer_count_description">%1$s, %2$d</string>
+    <string name="drawer_switch_to">%1$s hesabına geç</string>
+    <string name="drawer_account_unread">%1$d okunmamış</string>
+    <string name="drawer_remove_account">Hesabı kaldır</string>
+    <string name="contacts_invite">Davet et</string>
+    <string name="contacts_search">Kişilerde ara</string>
+    <string name="contacts_find_server">Sunucuda bul</string>
+    <string name="contacts_offline_retry">Bağlantı yok · Yeniden dene</string>
+    <string name="contacts_add_username">Sunucunuzda aramak için bir @username girin, ardından menüden kişi eklemeyi seçin.</string>
+    <string name="contacts_write">Mesaj</string>
+    <string name="contacts_call">Ara</string>
+    <string name="contacts_video">Görüntülü arama</string>
+    <string name="contacts_status_hidden">Durum gizli</string>
+    <string name="drawer_choice_hint">Bu cihazda hemen uygulanır.</string>
+    <string name="drawer_appearance_summary">Sütun veya kart, hareketler</string>
+</resources>

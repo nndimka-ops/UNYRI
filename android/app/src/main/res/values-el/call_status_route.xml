@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_route_direct">Απευθείας</string>
+    <string name="call_route_relay">Μέσω διακομιστή</string>
+    <string name="call_waiting_for_peer_online">Αναμονή να συνδεθεί</string>
+</resources>

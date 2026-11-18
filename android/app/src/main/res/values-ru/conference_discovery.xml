@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="conference_directory_error">Не удалось загрузить комнаты. Повторите попытку.</string>
+    <string name="conference_key_wait_timeout">Никто из подключённых участников не передал ключ. Повторите попытку, когда кто-нибудь будет в комнате.</string>
+    <string name="conference_key_wait_error">Не удалось получить зашифрованный ключ комнаты. Проверьте соединение и повторите попытку.</string>
+    <string name="conference_password_required">Введите пароль комнаты.</string>
+    <string name="conference_password_incorrect">Неверный пароль комнаты. Попробуйте ещё раз.</string>
+    <string name="conference_settings_changed">Настройки комнаты изменились на другом устройстве. Проверьте новые значения и повторите попытку.</string>
+    <string name="conference_invite_requires_original">Вы вошли через каталог. Чтобы пригласить человека, нужно исходное приглашение. Один ключ комнаты не даёт права создавать ссылки-приглашения.</string>
+    <string name="conference_settings_summary">Название, видимость и вход</string>
+</resources>

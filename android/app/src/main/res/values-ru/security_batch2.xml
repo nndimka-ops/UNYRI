@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_device_relisted">Устройство снова в списке. Оно по-прежнему исключено на этом телефоне.</string>
+</resources>

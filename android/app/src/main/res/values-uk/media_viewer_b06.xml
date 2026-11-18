@@ -1,0 +1,15 @@
+<resources>
+    <string name="viewer_today_at">сьогодні о %1$s</string>
+    <string name="viewer_yesterday_at">вчора о %1$s</string>
+    <string name="viewer_text_in_photo">Текст на фото</string>
+    <string name="viewer_you">Ви</string>
+    <string name="viewer_forward_chat">Переслати в чат</string>
+    <string name="viewer_share">Поділитися</string>
+    <string name="viewer_open_with">Відкрити за допомогою…</string>
+    <string name="viewer_save_device">Зберегти на пристрій</string>
+    <string name="viewer_more">Ще</string>
+    <string name="viewer_photo">Фото</string>
+    <string name="viewer_zoom_in">Збільшити</string>
+    <string name="viewer_zoom_reset">Скинути масштаб</string>
+    <string name="viewer_toggle_controls">Показати або приховати елементи керування</string>
+</resources>

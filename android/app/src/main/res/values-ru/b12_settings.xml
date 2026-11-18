@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="history_list_yesterday">Вчера</string>
+    <string name="settings_group_account_privacy">Аккаунт и приватность</string>
+    <string name="settings_home_privacy_title">Приватность и защита</string>
+    <string name="settings_home_account_summary">Профиль и доступ к аккаунту</string>
+    <string name="settings_home_notifications_summary">Сообщения, напоминания и разрешение Android</string>
+    <string name="settings_home_appearance_summary">Текст, фон и язык</string>
+    <string name="settings_home_chat_summary">Реакции, медиа, голосовые и чтение</string>
+    <string name="settings_group_personalize">Оформление и чат</string>
+    <string name="settings_group_app_connection">Приложение и связь</string>
+    <string name="settings_current_server">Текущий сервер</string>
+    <string name="settings_server_connected">Соединение установлено</string>
+    <string name="settings_search_label">Поиск</string>
+    <string name="settings_people_local_hint">Люди, с которыми у вас есть чаты. Чтобы найти любого на вашем сервере, введите 3 символа или больше.</string>
+    <string name="history_status_unavailable">Статус резервной копии недоступен</string>
+    <string name="history_recovery_section">Ключ восстановления</string>
+    <string name="history_recovery_footer">Открыть копию можно только этим ключом. Это не пароль от аккаунта. Храните его вне UNYRI.</string>
+    <string name="history_automatic_section">Автоматическая копия</string>
+    <string name="history_auto_unavailable">Доступно после сохранения ключа восстановления и включения резервных копий.</string>
+    <string name="history_restore_section">Восстановление из копии</string>
+    <string name="history_move_section">Переход на другой телефон</string>
+    <string name="history_move_step_one">На старом телефоне нажмите «%1$s».</string>
+    <string name="history_move_step_two">На новом телефоне нажмите «Получить на этот телефон» — появится QR-код.</string>
+    <string name="history_move_step_three">Отсканируйте его старым телефоном, сверьте коды и подтвердите.</string>
+    <string name="history_backup_send">Отправить с этого телефона</string>
+    <string name="history_how_it_works">Как это работает</string>
+    <string name="history_pause_footer">После выключения новые копии не создаются. Последняя копия сохраняется.</string>
+    <string name="history_refresh">Обновить</string>
+    <string name="history_transfer_entry_heading">Перенести историю по QR-коду</string>
+    <string name="history_transfer_account_label">Аккаунт на этом телефоне</string>
+    <string name="history_transfer_server_label">Сервер на этом телефоне</string>
+    <string name="history_transfer_choose_phone">Какой это телефон?</string>
+    <string name="history_transfer_choose_detail">Старый телефон — на нём уже есть ваши сообщения. Новый телефон — вы хотите получить сообщения сюда. Держите оба телефона рядом и подключёнными к сети.</string>
+    <string name="history_transfer_choose_old">Это СТАРЫЙ телефон · передать историю</string>
+    <string name="history_transfer_choose_new">Это НОВЫЙ телефон · получить историю</string>
+    <string name="history_transfer_choose_footer">Перед переносом откройте «История и резервные копии» на старом телефоне. Подготовьте историю и сохраните ключ восстановления вне UNYRI.</string>
+</resources>

@@ -1,0 +1,33 @@
+<resources>
+    <string name="call_ui_cancelled">Скасовано</string>
+    <string name="call_encrypted">Зашифровано</string>
+    <string name="call_waiting_network">Очікування мережі…</string>
+    <string name="call_route_direct">Напряму</string>
+    <string name="call_route_relay">Через сервер</string>
+    <string name="call_encryption_title">Шифрування дзвінка</string>
+    <string name="call_encryption_pending">Встановлюється зашифроване з’єднання для звуку та відео.</string>
+    <string name="call_encryption_direct">Звук і відео передаються між телефонами в зашифрованому вигляді. Сервер лише допомагає телефонам знайти один одного.</string>
+    <string name="call_encryption_relay">Цей дзвінок іде через сервер UNYRI. Сервер лише передає зашифровані звук і відео та не може їх прочитати.</string>
+    <string name="call_quality_measuring">Вимірювання якості зв’язку…</string>
+    <string name="call_quality_excellent">Відмінне з’єднання</string>
+    <string name="call_quality_good">Добре з’єднання</string>
+    <string name="call_quality_weak">Слабке з’єднання</string>
+    <string name="call_quality_poor">Погане з’єднання</string>
+    <string name="call_statistics">Статистика дзвінка</string>
+    <string name="call_mini_return">Повернутися до дзвінка: %1$s</string>
+    <string name="call_mini_hide">Сховати вікно</string>
+    <string name="call_mini_show">Показати вікно дзвінка</string>
+    <string name="call_mini_hint">Натисніть, щоб відкрити дзвінок. Перетягніть, щоб перемістити.</string>
+    <string name="call_torch">Ліхтарик</string>
+    <string name="call_stat_video_codec">Відеокодек вхід / вихід</string>
+    <string name="call_stat_incoming_video">Вхідне відео</string>
+    <string name="call_stat_outgoing_video">Вихідне відео</string>
+    <string name="call_stat_camera">Камера</string>
+    <string name="call_stat_encode">Кодування, мс</string>
+    <string name="call_stat_pacer">Затримка надсилання, мс</string>
+    <string name="call_stat_rtt">Кругова затримка, мс</string>
+    <string name="call_stat_audio_delay">Затримка аудіо, мс</string>
+    <string name="call_stat_video_delay">Затримка відео, мс</string>
+    <string name="call_stat_sync">Синхронізація A/V, мс</string>
+    <string name="call_stat_packet">Аудіопакет, мс</string>
+</resources>

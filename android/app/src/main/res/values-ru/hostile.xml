@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hostile_new_device">У %1$s новое устройство — сравните код безопасности</string>
+    <string name="hostile_chat_frozen">Личность собеседника в этом чате изменилась. Отправка отключена.</string>
+    <string name="hostile_call_unverified">Не проверено: у собеседника нет кода сравнения.</string>
+    <string name="hostile_call_compare">Сравните эти четыре символа голосом. До сравнения звонок не проверен.</string>
+    <string name="hostile_room_approve">Сравните код безопасности именно этого пользователя и устройства перед передачей или получением ключа комнаты.</string>
+    <string name="hostile_room_limit">Участники сохраняют общие ключи. Сервер может скрыть удаление от других телефонов; полное лишение доступа не гарантируется.</string>
+    <string name="hostile_room_remove">После удаления создаётся новая закрытая комната с новым ключом. Пригласите доверенных людей заново.</string>
+    <string-array name="hostile_sas_names">
+        <item>Звезда</item>
+        <item>Сердце</item>
+        <item>Луна</item>
+        <item>Солнце</item>
+        <item>Облако</item>
+        <item>Молния</item>
+        <item>Снежинка</item>
+        <item>Капля</item>
+        <item>Огонь</item>
+        <item>Лист</item>
+        <item>Глобус</item>
+        <item>Колокольчик</item>
+        <item>Ключ</item>
+        <item>Дом</item>
+        <item>Машина</item>
+        <item>Самолёт</item>
+        <item>Велосипед</item>
+        <item>Билет</item>
+        <item>Автобус</item>
+        <item>Зонт</item>
+        <item>Подарок</item>
+        <item>Корона</item>
+        <item>Флаг</item>
+        <item>Книга</item>
+        <item>Закладка</item>
+        <item>Скрепка</item>
+        <item>Карандаш</item>
+        <item>Ножницы</item>
+        <item>Кисть</item>
+        <item>Молоток</item>
+        <item>Лупа</item>
+        <item>Глаз</item>
+        <item>Ладонь</item>
+        <item>Нота</item>
+        <item>Гитара</item>
+        <item>Геймпад</item>
+        <item>Пазл</item>
+        <item>Кубик</item>
+        <item>Черепаха</item>
+        <item>Заяц</item>
+        <item>Муравей</item>
+        <item>Божья коровка</item>
+        <item>Лапа</item>
+        <item>Чашка</item>
+        <item>Приборы</item>
+        <item>Тележка</item>
+        <item>Сумка</item>
+        <item>Бирка</item>
+        <item>Лампочка</item>
+        <item>Конверт</item>
+        <item>Бинокль</item>
+        <item>Карта</item>
+        <item>Горы</item>
+        <item>Искры</item>
+        <item>Песочные часы</item>
+        <item>Будильник</item>
+        <item>Рупор</item>
+        <item>Маски</item>
+        <item>Плёнка</item>
+        <item>Атом</item>
+        <item>Шестерёнка</item>
+        <item>Пики</item>
+        <item>Футболка</item>
+        <item>Очки</item>
+    </string-array>
+</resources>

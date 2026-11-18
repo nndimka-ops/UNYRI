@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_quality_title">Качество звонков</string>
+    <string name="call_quality_video">Качество видео</string>
+    <string name="call_quality_audio">Качество звука</string>
+    <string name="call_quality_auto">Авто</string>
+    <string name="call_quality_economy">Экономия</string>
+    <string name="call_quality_high">Высокое</string>
+    <string name="call_quality_auto_detail">Баланс качества и доступной скорости сети. Рекомендуется.</string>
+    <string name="call_quality_video_economy">До 360p, 15 кадров/с. Меньше трафика и нагрузки на камеру.</string>
+    <string name="call_quality_audio_economy">Меньше трафика для голоса. Звук может быть менее детальным.</string>
+    <string name="call_quality_video_high">До 1080p, 30 кадров/с, если позволяют камера и сеть. Больше трафика.</string>
+    <string name="call_quality_audio_high">Больше трафика для детализации голоса. Не исправляет плохую связь.</string>
+    <string name="call_quality_scope">Для отправляемого звука и видео со следующего звонка на этом телефоне. В любом режиме качество может снижаться при плохой сети. Входящее качество и расход трафика зависят также от собеседника.</string>
+</resources>

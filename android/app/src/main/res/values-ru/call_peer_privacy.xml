@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_p2p_title">Звонки напрямую</string>
+    <string name="call_p2p_everyone">Все</string>
+    <string name="call_p2p_contacts">Мои контакты</string>
+    <string name="call_p2p_nobody">Никто</string>
+    <string name="call_p2p_note">Прямое соединение обычно быстрее, но устройство собеседника видит ваш IP-адрес. При звонке через сервер виден только адрес сервера. «Мои контакты» разрешает прямое соединение только с людьми из Контактов. Применяется со следующего звонка.</string>
+</resources>

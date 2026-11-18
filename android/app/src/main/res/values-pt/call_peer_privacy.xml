@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_p2p_title">Chamadas ponto a ponto</string>
+    <string name="call_p2p_everyone">Todos</string>
+    <string name="call_p2p_contacts">Meus contatos</string>
+    <string name="call_p2p_nobody">Ninguém</string>
+    <string name="call_p2p_note">A conexão direta costuma ser mais rápida, mas o outro dispositivo vê seu endereço IP. Pelo servidor, só o endereço do servidor fica visível. Meus contatos permite conexões diretas apenas com pessoas em Contatos. Vale a partir da próxima chamada.</string>
+</resources>

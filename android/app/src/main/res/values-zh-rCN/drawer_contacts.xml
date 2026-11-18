@@ -1,0 +1,21 @@
+<resources>
+    <string name="drawer_choice_a">列式 (A)</string>
+    <string name="drawer_choice_c">卡片 (C)</string>
+    <string name="drawer_version">版本 %1$s (%2$d)</string>
+    <string name="drawer_my_qr">我的二维码</string>
+    <string name="drawer_count_description">%1$s，%2$d</string>
+    <string name="drawer_switch_to">切换到 %1$s</string>
+    <string name="drawer_account_unread">%1$d 条未读</string>
+    <string name="drawer_remove_account">移除账户</string>
+    <string name="contacts_invite">邀请</string>
+    <string name="contacts_search">搜索联系人</string>
+    <string name="contacts_find_server">在服务器上查找</string>
+    <string name="contacts_offline_retry">未连接 · 重试</string>
+    <string name="contacts_add_username">输入 @username 在你的服务器上搜索，然后在菜单中选择添加联系人。</string>
+    <string name="contacts_write">发消息</string>
+    <string name="contacts_call">语音通话</string>
+    <string name="contacts_video">视频通话</string>
+    <string name="contacts_status_hidden">状态已隐藏</string>
+    <string name="drawer_choice_hint">立即应用到此设备。</string>
+    <string name="drawer_appearance_summary">列式或卡片、手势</string>
+</resources>

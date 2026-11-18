@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="performance_online">Live performance diagnostics</string>
+    <string name="performance_online_detail">When diagnostics are enabled, send numeric performance data to your server. No message content or touch coordinates.</string>
+    <string name="performance_mark">A problem just happened</string>
+</resources>

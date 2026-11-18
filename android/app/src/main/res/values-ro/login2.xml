@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login2_private_login">Autentificare privată</string>
+    <string name="login2_private_help">Folosește identificatorul privat, nu numărul public sau @numele.</string>
+    <string name="login2_strength_weak">Slabă</string>
+    <string name="login2_strength_fair">Medie</string>
+    <string name="login2_strength_strong">Puternică</string>
+    <string name="login2_continue">Continuă</string>
+    <string name="login2_number">Numărul tău public</string>
+    <string name="login2_username">@Nume public</string>
+    <string name="login2_username_rules">5–32 litere ASCII, cifre sau _. Începe cu o literă, fără __. Schimbare la 7 zile; numele vechi blocat 30 de zile.</string>
+    <string name="login2_discoverability">Cine mă poate găsi</string>
+    <string name="login2_everyone">Toată lumea</string>
+    <string name="login2_contacts">Contacte</string>
+    <string name="login2_nobody">Nimeni</string>
+    <string name="login2_unavailable">Nume indisponibil</string>
+    <string name="login2_conflict">Setările s-au schimbat. Reîncarcă și încearcă din nou.</string>
+    <string name="login2_cooldown">Prea multe încercări sau schimbare în ultimele 7 zile. Încearcă mai târziu.</string>
+    <string name="login2_notice">Autentificarea ta este acum privată. Acesta este numărul tău. Poți alege un @nume; identificatorul privat nu este publicat.</string>
+    <string name="login2_recovery_help">Salvează cheia în afara UNYRI. Confirmă trei grupuri. O cheie nouă o înlocuiește pe cea veche. Contul este deja înregistrat.</string>
+    <string name="login2_recovery_create">Creează cheia de recuperare</string>
+    <string name="login2_recovery_group">Grupul %1$d</string>
+</resources>

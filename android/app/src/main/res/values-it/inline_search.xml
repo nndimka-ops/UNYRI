@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inline_search_chats">Chat e contatti</string>
+    <string name="inline_search_global">Ricerca globale</string>
+    <string name="inline_search_privacy">Cerca per nome o @utente. La richiesta viene inviata al tuo server.</string>
+    <string name="inline_search_media">Media</string>
+    <string name="inline_search_links">Link</string>
+    <string name="inline_search_files">File</string>
+    <string name="inline_search_offline">Nessuna connessione</string>
+    <string name="inline_notification_banners">Banner</string>
+    <string name="inline_notification_sound">Suono</string>
+    <string name="inline_notification_vibration">Vibrazione</string>
+    <string name="inline_search_unavailable">Elenco del server non disponibile. Chiedi al proprietario di aggiornare il server.</string>
+    <string name="inline_notification_header">Nell’app</string>
+    <string name="inline_search_voice">Messaggi vocali</string>
+    <string name="directory_cached_hint">Persone salvate. La disponibilità verrà aggiornata alla connessione.</string>
+    <string name="search_clear">Cancella ricerca</string>
+    <string name="search_open_failed">Impossibile aprire la conversazione. I risultati sono conservati. Tocca di nuovo la persona.</string>
+    <string name="search_recent">Ricerche recenti</string>
+    <string name="search_scope_messages">Messaggi</string>
+    <string name="settings_search_label">Cerca</string>
+    <string name="unified_search_hint">Cerca offline nelle chat e nei messaggi salvati. Trova persone su questo server per nome utente.</string>
+    <string name="unified_search_network">La ricerca sul server non è disponibile. I risultati locali restano disponibili.</string>
+    <string name="unified_search_local_error">Impossibile caricare i messaggi salvati. Ripeti la ricerca.</string>
+</resources>

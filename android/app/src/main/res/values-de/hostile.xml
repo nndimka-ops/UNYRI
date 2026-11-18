@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hostile_new_device">%1$s hat ein neues Gerät — Sicherheitscode vergleichen</string>
+    <string name="hostile_chat_frozen">Die Identität im Chat hat sich geändert. Senden ist gesperrt.</string>
+    <string name="hostile_call_unverified">Ungeprüft: Die andere Person hat keinen Vergleichscode.</string>
+    <string name="hostile_call_compare">Vergleicht diese vier Symbole laut. Bis dahin bleibt der Anruf ungeprüft.</string>
+    <string name="hostile_room_approve">Vergleiche den Sicherheitscode dieses Nutzers und Geräts vor dem Schlüsselaustausch.</string>
+    <string name="hostile_room_limit">Mitglieder behalten gemeinsame Schlüssel. Ein Server kann Entfernungen verbergen; vollständiger Entzug ist nicht garantiert.</string>
+    <string name="hostile_room_remove">Das Entfernen erstellt einen neuen privaten Raum mit neuem Schlüssel. Lade vertrauenswürdige Personen erneut ein.</string>
+    <string-array name="hostile_sas_names">
+        <item>Stern</item>
+        <item>Herz</item>
+        <item>Mond</item>
+        <item>Sonne</item>
+        <item>Wolke</item>
+        <item>Blitz</item>
+        <item>Schneeflocke</item>
+        <item>Tropfen</item>
+        <item>Feuer</item>
+        <item>Blatt</item>
+        <item>Globus</item>
+        <item>Glocke</item>
+        <item>Schlüssel</item>
+        <item>Haus</item>
+        <item>Auto</item>
+        <item>Flugzeug</item>
+        <item>Fahrrad</item>
+        <item>Fahrkarte</item>
+        <item>Bus</item>
+        <item>Regenschirm</item>
+        <item>Geschenk</item>
+        <item>Krone</item>
+        <item>Flagge</item>
+        <item>Buch</item>
+        <item>Lesezeichen</item>
+        <item>Büroklammer</item>
+        <item>Bleistift</item>
+        <item>Schere</item>
+        <item>Pinsel</item>
+        <item>Hammer</item>
+        <item>Lupe</item>
+        <item>Auge</item>
+        <item>Handfläche</item>
+        <item>Note</item>
+        <item>Gitarre</item>
+        <item>Gamepad</item>
+        <item>Puzzle</item>
+        <item>Würfel</item>
+        <item>Schildkröte</item>
+        <item>Hase</item>
+        <item>Ameise</item>
+        <item>Marienkäfer</item>
+        <item>Pfote</item>
+        <item>Tasse</item>
+        <item>Besteck</item>
+        <item>Einkaufswagen</item>
+        <item>Tasche</item>
+        <item>Etikett</item>
+        <item>Glühbirne</item>
+        <item>Umschlag</item>
+        <item>Fernglas</item>
+        <item>Karte</item>
+        <item>Berge</item>
+        <item>Funkeln</item>
+        <item>Sanduhr</item>
+        <item>Wecker</item>
+        <item>Megafon</item>
+        <item>Masken</item>
+        <item>Film</item>
+        <item>Atom</item>
+        <item>Zahnrad</item>
+        <item>Pik</item>
+        <item>T-Shirt</item>
+        <item>Brille</item>
+    </string-array>
+</resources>

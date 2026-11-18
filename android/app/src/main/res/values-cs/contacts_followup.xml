@@ -1,0 +1,10 @@
+<resources>
+    <string name="contacts_empty_book">Zde se objeví vaše kontakty. Přidejte někoho pomocí @jména nebo ho pozvěte do UNYRI.</string>
+    <string name="contacts_load_failed">Kontakty se nepodařilo načíst.</string>
+    <string name="contacts_short_query">Lidé, se kterými chatujete. Zadejte alespoň 3 znaky a vyhledejte kohokoli na svém serveru.</string>
+    <string name="contacts_connect_search">Připojte se a vyhledejte lidi na tomto serveru.</string>
+    <string name="contacts_no_users">Žádní uživatelé nenalezeni.</string>
+    <string name="contacts_invite_unyri">Pozvat do UNYRI</string>
+    <string name="contacts_search_failed">Lidi se nepodařilo vyhledat.</string>
+    <string name="contacts_scan_qr">Naskenovat QR kód</string>
+</resources>

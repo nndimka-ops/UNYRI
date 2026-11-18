@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_scope_messages">Messages</string>
+    <string name="search_scope_people">People</string>
+    <string name="search_clear">Clear search</string>
+    <string name="search_people_action">Find someone on this server</string>
+    <string name="inline_search_people_hint">Search by name or @username. This query is sent to your server.</string>
+    <string name="search_open_failed">Could not open the conversation. Your search results are still here. Try tapping the person again.</string>
+    <string name="inline_search_chats">Chats and contacts</string>
+    <string name="inline_search_global">Global Search</string>
+    <string name="inline_search_privacy">Search by name or @username. This query is sent to your server.</string>
+    <string name="inline_search_media">Media</string>
+    <string name="inline_search_links">Links</string>
+    <string name="inline_search_files">Files</string>
+    <string name="inline_search_offline">No connection</string>
+    <string name="inline_notification_banners">Banners</string>
+    <string name="inline_notification_sound">Sound</string>
+    <string name="inline_notification_vibration">Vibration</string>
+    <string name="inline_search_unavailable">Server directory is unavailable. Ask the server owner to update it.</string>
+    <string name="inline_notification_header">In app</string>
+    <string name="inline_search_voice">Voice</string>
+</resources>

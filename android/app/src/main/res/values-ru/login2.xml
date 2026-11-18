@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login2_private_login">Личный логин</string>
+    <string name="login2_private_help">Для входа используйте личный логин, а не публичный номер или @имя.</string>
+    <string name="login2_strength_weak">Слабый</string>
+    <string name="login2_strength_fair">Средний</string>
+    <string name="login2_strength_strong">Надёжный</string>
+    <string name="login2_continue">Продолжить</string>
+    <string name="login2_number">Ваш публичный номер</string>
+    <string name="login2_username">Публичное @имя</string>
+    <string name="login2_username_rules">5–32 символа: латинские буквы, цифры или _. Начните с буквы, без __. Смена раз в 7 дней; старое имя заморожено 30 дней.</string>
+    <string name="login2_discoverability">Кто может меня найти</string>
+    <string name="login2_everyone">Все</string>
+    <string name="login2_contacts">Контакты</string>
+    <string name="login2_nobody">Никто</string>
+    <string name="login2_unavailable">Имя недоступно</string>
+    <string name="login2_conflict">Настройки изменились. Обновите и повторите.</string>
+    <string name="login2_cooldown">Слишком много попыток или имя менялось за последние 7 дней. Повторите позже.</string>
+    <string name="login2_notice">Ваш логин теперь личный. Вот ваш номер. Можно выбрать @имя; логин не публикуется как имя.</string>
+    <string name="login2_recovery_help">Сохраните ключ вне UNYRI. Затем введите три группы для проверки. Новый ключ заменяет прежний. Аккаунт уже создан.</string>
+    <string name="login2_recovery_create">Создать ключ восстановления</string>
+    <string name="login2_recovery_group">Группа %1$d</string>
+</resources>

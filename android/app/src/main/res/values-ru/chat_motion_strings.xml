@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chat_list_typing">печатает</string>
+    <string name="chat_list_recording">записывает голосовое</string>
+    <string name="chat_list_sending_file">отправляет файл</string>
+    <string name="chat_list_unread_count">Непрочитанных сообщений: %1$d</string>
+</resources>

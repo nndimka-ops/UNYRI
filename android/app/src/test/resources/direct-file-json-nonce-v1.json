@@ -1,0 +1,2022 @@
+{
+  "schema_version": 1,
+  "fixed_now_unix": 1793707200,
+  "bindings": {
+    "sender_user": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+    "sender_device": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+    "receiver_user": "cccccccc-3333-4333-8333-ccccccccccc3",
+    "receiver_device": "dddddddd-4444-4444-8444-ddddddddddd4",
+    "chat": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+    "transfer": "ffffffff-6666-4666-8666-fffffffffff6",
+    "offer_client": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+    "attempt": "fedcfedc-9999-4999-8999-fedcfedcfed9"
+  },
+  "reasons": [
+    "network_waiting",
+    "connection_lost",
+    "direct_unavailable",
+    "prefix_mismatch",
+    "source_missing",
+    "source_changed",
+    "disk_full",
+    "integrity_failed",
+    "busy",
+    "call_in_progress",
+    "reconnect_required",
+    "security_error",
+    "storage_error",
+    "user_cancelled",
+    "user_declined",
+    "background",
+    "disconnected",
+    "no_direct_route",
+    "integrity_mismatch",
+    "expired",
+    "retry",
+    "verification_failed",
+    "unsupported",
+    "account_changed",
+    "permission_denied"
+  ],
+  "offer": {
+    "version": 1,
+    "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+    "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+    "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+    "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+    "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+    "filename": "COCO original — café.mp4",
+    "mime_type": "video/mp4",
+    "size": 5368709120,
+    "sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+    "expires_at": 1793710800,
+    "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+  },
+  "nested_message_content": {
+    "version": 1,
+    "kind": "text",
+    "text": "Direct file transfer",
+    "direct_file": {
+      "version": 1,
+      "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+      "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+      "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+      "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+      "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+      "filename": "COCO original — café.mp4",
+      "mime_type": "video/mp4",
+      "size": 5368709120,
+      "sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+      "expires_at": 1793710800,
+      "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+    },
+    "authentication": {
+      "version": 1,
+      "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+      "client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+      "operation": "content"
+    }
+  },
+  "controls": [
+    {
+      "id": "control_accept",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000001",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "accept",
+        "offset": 4294967296,
+        "prefix_sha256": "3f4ecf8dce14fe5a261600d069529ab09f058a270890d5aa791f4e3132a6c2da",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "control_resume",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000002",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "resume",
+        "offset": 4294967296,
+        "prefix_sha256": "3f4ecf8dce14fe5a261600d069529ab09f058a270890d5aa791f4e3132a6c2da",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "control_offer",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000003",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "offer",
+        "sdp": "v=0\r\no=- 1 2 IN IP4 127.0.0.1\r\ns=-\r\nt=0 0\r\na=group:BUNDLE 0\r\nm=application 9 UDP/DTLS/SCTP webrtc-datachannel\r\nc=IN IP4 0.0.0.0\r\na=mid:0\r\na=ice-ufrag:cocoQA\r\na=ice-pwd:cocoQAFixed1234567890123456\r\na=fingerprint:sha-256 7A:E8:90:07:31:5F:15:58:AA:A7:F1:64:02:2A:5C:0D:39:72:F3:02:C6:5E:43:C6:6C:2D:8A:9C:40:83:A5:BA\r\na=setup:actpass\r\na=sctp-port:5000\r\na=max-message-size:262144\r\na=candidate:1234 1 udp 2122260223 192.0.2.10 50000 typ host generation 0 network-id 1 network-cost 10\r\na=end-of-candidates\r\n",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "control_answer",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000004",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "answer",
+        "sdp": "v=0\r\no=- 1 2 IN IP4 127.0.0.1\r\ns=-\r\nt=0 0\r\na=group:BUNDLE 0\r\nm=application 9 UDP/DTLS/SCTP webrtc-datachannel\r\nc=IN IP4 0.0.0.0\r\na=mid:0\r\na=ice-ufrag:cocoQA\r\na=ice-pwd:cocoQAFixed1234567890123456\r\na=fingerprint:sha-256 7A:E8:90:07:31:5F:15:58:AA:A7:F1:64:02:2A:5C:0D:39:72:F3:02:C6:5E:43:C6:6C:2D:8A:9C:40:83:A5:BA\r\na=setup:active\r\na=sctp-port:5000\r\na=max-message-size:262144\r\na=candidate:1234 1 udp 2122260223 192.0.2.10 50000 typ host generation 0 network-id 1 network-cost 10\r\na=end-of-candidates\r\n",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "control_pause",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000005",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "control_cancel",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000006",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "cancel",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "control_reject",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000007",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "reject",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "control_complete",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000008",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "complete",
+        "offset": 5368709120,
+        "prefix_sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "control_complete_ack",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000009",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "complete_ack",
+        "offset": 5368709120,
+        "prefix_sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_network_waiting_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000c8",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "network_waiting",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_network_waiting_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000c9",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "network_waiting",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_connection_lost_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000ca",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "connection_lost",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_connection_lost_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000cb",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "connection_lost",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_direct_unavailable_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000cc",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "direct_unavailable",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_direct_unavailable_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000cd",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "direct_unavailable",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_prefix_mismatch_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000ce",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "prefix_mismatch",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_prefix_mismatch_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000cf",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "prefix_mismatch",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_source_missing_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000d0",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "source_missing",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_source_missing_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000d1",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "source_missing",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_source_changed_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000d2",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "source_changed",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_source_changed_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000d3",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "source_changed",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_disk_full_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000d4",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "disk_full",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_disk_full_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000d5",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "disk_full",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_integrity_failed_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000d6",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "integrity_failed",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_integrity_failed_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000d7",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "integrity_failed",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_busy_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000d8",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "busy",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_busy_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000d9",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "busy",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_call_in_progress_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000da",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "call_in_progress",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_call_in_progress_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000db",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "call_in_progress",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_reconnect_required_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000dc",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "reconnect_required",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_reconnect_required_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000dd",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "reconnect_required",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_security_error_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000de",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "security_error",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_security_error_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000df",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "security_error",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_storage_error_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000e0",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "storage_error",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_storage_error_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000e1",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "storage_error",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_user_cancelled_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000e2",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "user_cancelled",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_user_cancelled_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000e3",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "user_cancelled",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_user_declined_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000e4",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "user_declined",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_user_declined_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000e5",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "user_declined",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_background_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000e6",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "background",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_background_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000e7",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "background",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_disconnected_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000e8",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "disconnected",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_disconnected_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000e9",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "disconnected",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_no_direct_route_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000ea",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "no_direct_route",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_no_direct_route_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000eb",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "no_direct_route",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_integrity_mismatch_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000ec",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "integrity_mismatch",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_integrity_mismatch_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000ed",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "integrity_mismatch",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_expired_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000ee",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "expired",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_expired_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000ef",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "expired",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_retry_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000f0",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "retry",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_retry_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000f1",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "retry",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_verification_failed_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000f2",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "verification_failed",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_verification_failed_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000f3",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "verification_failed",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_unsupported_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000f4",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "unsupported",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_unsupported_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000f5",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "unsupported",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_account_changed_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000f6",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "account_changed",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_account_changed_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000f7",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "account_changed",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_permission_denied_tx",
+      "direction": "sender_to_receiver",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000f8",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "permission_denied",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "pause_permission_denied_rx",
+      "direction": "receiver_to_sender",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-0000000000f9",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "reason": "permission_denied",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    }
+  ],
+  "negative_offers": [
+    {
+      "id": "unsupported_version",
+      "payload": {
+        "version": 2,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "filename": "COCO original — café.mp4",
+        "mime_type": "video/mp4",
+        "size": 5368709120,
+        "sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "expires_at": 1793710800,
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "zero_size",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "filename": "COCO original — café.mp4",
+        "mime_type": "video/mp4",
+        "size": 0,
+        "sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "expires_at": 1793710800,
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "oversize",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "filename": "COCO original — café.mp4",
+        "mime_type": "video/mp4",
+        "size": 68719476737,
+        "sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "expires_at": 1793710800,
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "path_name",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "filename": "../original.mp4",
+        "mime_type": "video/mp4",
+        "size": 5368709120,
+        "sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "expires_at": 1793710800,
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "bidi_name",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "filename": "original‮mp4",
+        "mime_type": "video/mp4",
+        "size": 5368709120,
+        "sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "expires_at": 1793710800,
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "utf8_name_budget",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "filename": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀",
+        "mime_type": "video/mp4",
+        "size": 5368709120,
+        "sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "expires_at": 1793710800,
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "bad_hash",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "filename": "COCO original — café.mp4",
+        "mime_type": "video/mp4",
+        "size": 5368709120,
+        "sha256": "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
+        "expires_at": 1793710800,
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    },
+    {
+      "id": "noncanonical_uuid",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "sender_user_id": "AAAAAAAA-1111-4111-8111-AAAAAAAAAAA1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "filename": "COCO original — café.mp4",
+        "mime_type": "video/mp4",
+        "size": 5368709120,
+        "sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "expires_at": 1793710800,
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      }
+    }
+  ],
+  "interop_requirements": [
+    "Every actual producer MUST include explicit integer version:1, including nested offer under the existing MessageContent serializer.",
+    "Consume actual Kotlin exports with actual Swift decoders and actual Swift exports with actual Kotlin decoders.",
+    "Compare all typed identity, offset, hash, SDP and reason fields; do not require JSON key ordering or optional null serialization byte equality.",
+    "The fixed-now field is for deterministic metadata validation, not permission to bypass runtime offer expiry.",
+    "Required offer_nonce must survive actual nested MessageContent and every actual control producer/consumer; missing old pre-release offers safely fall back, never activate."
+  ],
+  "claim_boundary": "Typed serialization/validation fixtures only; synthetic hashes and fingerprint are not file-content or live Signal/DTLS evidence.",
+  "nonce_contract": {
+    "encoding": "standard canonical RFC4648 base64, exactly 32 decoded bytes and 44 ASCII characters including padding",
+    "test_nonce_only_not_secret": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8=",
+    "decoded_nonce_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "generation": "32 cryptographically random bytes per new production offer, generated before durable offer enqueue",
+    "scope": "inside existing Signal offer and every pairwise Signal control only; never HTTP metadata, URL, logs, or diagnostics",
+    "binding": "compare decoded bytes against immutable local original offer before any control effects, RTC, source or partial-file access",
+    "limitations": "Proves original-offer possession against post-offer newly inserted device keys; original Signal directory/TOFU verification remains a separate trust boundary."
+  },
+  "negative_nonce_shapes": [
+    {
+      "id": "nonce_missing",
+      "offer": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "filename": "COCO original — café.mp4",
+        "mime_type": "video/mp4",
+        "size": 5368709120,
+        "sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "expires_at": 1793710800
+      },
+      "control": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000001",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "accept",
+        "offset": 4294967296,
+        "prefix_sha256": "3f4ecf8dce14fe5a261600d069529ab09f058a270890d5aa791f4e3132a6c2da"
+      },
+      "expected": "reject_shape_before_any_effect"
+    },
+    {
+      "id": "nonce_null",
+      "offer": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "filename": "COCO original — café.mp4",
+        "mime_type": "video/mp4",
+        "size": 5368709120,
+        "sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "expires_at": 1793710800,
+        "offer_nonce": null
+      },
+      "control": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000001",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "accept",
+        "offset": 4294967296,
+        "prefix_sha256": "3f4ecf8dce14fe5a261600d069529ab09f058a270890d5aa791f4e3132a6c2da",
+        "offer_nonce": null
+      },
+      "expected": "reject_shape_before_any_effect"
+    },
+    {
+      "id": "nonce_empty",
+      "offer": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "filename": "COCO original — café.mp4",
+        "mime_type": "video/mp4",
+        "size": 5368709120,
+        "sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "expires_at": 1793710800,
+        "offer_nonce": ""
+      },
+      "control": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000001",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "accept",
+        "offset": 4294967296,
+        "prefix_sha256": "3f4ecf8dce14fe5a261600d069529ab09f058a270890d5aa791f4e3132a6c2da",
+        "offer_nonce": ""
+      },
+      "expected": "reject_shape_before_any_effect"
+    },
+    {
+      "id": "nonce_31_bytes",
+      "offer": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "filename": "COCO original — café.mp4",
+        "mime_type": "video/mp4",
+        "size": 5368709120,
+        "sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "expires_at": 1793710800,
+        "offer_nonce": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+      },
+      "control": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000001",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "accept",
+        "offset": 4294967296,
+        "prefix_sha256": "3f4ecf8dce14fe5a261600d069529ab09f058a270890d5aa791f4e3132a6c2da",
+        "offer_nonce": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+      },
+      "expected": "reject_shape_before_any_effect"
+    },
+    {
+      "id": "nonce_33_bytes",
+      "offer": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "filename": "COCO original — café.mp4",
+        "mime_type": "video/mp4",
+        "size": 5368709120,
+        "sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "expires_at": 1793710800,
+        "offer_nonce": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      },
+      "control": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000001",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "accept",
+        "offset": 4294967296,
+        "prefix_sha256": "3f4ecf8dce14fe5a261600d069529ab09f058a270890d5aa791f4e3132a6c2da",
+        "offer_nonce": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      },
+      "expected": "reject_shape_before_any_effect"
+    },
+    {
+      "id": "nonce_invalid_alphabet",
+      "offer": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "filename": "COCO original — café.mp4",
+        "mime_type": "video/mp4",
+        "size": 5368709120,
+        "sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "expires_at": 1793710800,
+        "offer_nonce": "!AECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      },
+      "control": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000001",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "accept",
+        "offset": 4294967296,
+        "prefix_sha256": "3f4ecf8dce14fe5a261600d069529ab09f058a270890d5aa791f4e3132a6c2da",
+        "offer_nonce": "!AECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      },
+      "expected": "reject_shape_before_any_effect"
+    },
+    {
+      "id": "nonce_urlsafe_alphabet",
+      "offer": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "filename": "COCO original — café.mp4",
+        "mime_type": "video/mp4",
+        "size": 5368709120,
+        "sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "expires_at": 1793710800,
+        "offer_nonce": "__________________________________________8="
+      },
+      "control": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000001",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "accept",
+        "offset": 4294967296,
+        "prefix_sha256": "3f4ecf8dce14fe5a261600d069529ab09f058a270890d5aa791f4e3132a6c2da",
+        "offer_nonce": "__________________________________________8="
+      },
+      "expected": "reject_shape_before_any_effect"
+    },
+    {
+      "id": "nonce_unpadded",
+      "offer": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "filename": "COCO original — café.mp4",
+        "mime_type": "video/mp4",
+        "size": 5368709120,
+        "sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "expires_at": 1793710800,
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8"
+      },
+      "control": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000001",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "accept",
+        "offset": 4294967296,
+        "prefix_sha256": "3f4ecf8dce14fe5a261600d069529ab09f058a270890d5aa791f4e3132a6c2da",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8"
+      },
+      "expected": "reject_shape_before_any_effect"
+    },
+    {
+      "id": "nonce_newline",
+      "offer": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "filename": "COCO original — café.mp4",
+        "mime_type": "video/mp4",
+        "size": 5368709120,
+        "sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "expires_at": 1793710800,
+        "offer_nonce": "AAECAwQFBgcICQoLDA0O\nDxAREhMUFRYXGBkaGxwdHh8="
+      },
+      "control": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000001",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "accept",
+        "offset": 4294967296,
+        "prefix_sha256": "3f4ecf8dce14fe5a261600d069529ab09f058a270890d5aa791f4e3132a6c2da",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0O\nDxAREhMUFRYXGBkaGxwdHh8="
+      },
+      "expected": "reject_shape_before_any_effect"
+    },
+    {
+      "id": "nonce_noncanonical_pad_bits",
+      "offer": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "filename": "COCO original — café.mp4",
+        "mime_type": "video/mp4",
+        "size": 5368709120,
+        "sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "expires_at": 1793710800,
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh9="
+      },
+      "control": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000001",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "accept",
+        "offset": 4294967296,
+        "prefix_sha256": "3f4ecf8dce14fe5a261600d069529ab09f058a270890d5aa791f4e3132a6c2da",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh9="
+      },
+      "expected": "reject_shape_before_any_effect"
+    },
+    {
+      "id": "nonce_integer",
+      "offer": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "filename": "COCO original — café.mp4",
+        "mime_type": "video/mp4",
+        "size": 5368709120,
+        "sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "expires_at": 1793710800,
+        "offer_nonce": 32
+      },
+      "control": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000001",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "accept",
+        "offset": 4294967296,
+        "prefix_sha256": "3f4ecf8dce14fe5a261600d069529ab09f058a270890d5aa791f4e3132a6c2da",
+        "offer_nonce": 32
+      },
+      "expected": "reject_shape_before_any_effect"
+    }
+  ],
+  "control_nonce_bindings": [
+    {
+      "id": "wrong_valid_nonce_accept",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000001",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "accept",
+        "offset": 4294967296,
+        "prefix_sha256": "3f4ecf8dce14fe5a261600d069529ab09f058a270890d5aa791f4e3132a6c2da",
+        "offer_nonce": "Hx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQA="
+      },
+      "shape_valid": true,
+      "expected": "reject_binding_before_any_effect",
+      "must_preserve": [
+        "consent",
+        "attempt",
+        "peer_device_pin",
+        "source",
+        "partial",
+        "completed",
+        "active_peer"
+      ]
+    },
+    {
+      "id": "wrong_valid_nonce_resume",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000002",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "resume",
+        "offset": 4294967296,
+        "prefix_sha256": "3f4ecf8dce14fe5a261600d069529ab09f058a270890d5aa791f4e3132a6c2da",
+        "offer_nonce": "Hx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQA="
+      },
+      "shape_valid": true,
+      "expected": "reject_binding_before_any_effect",
+      "must_preserve": [
+        "consent",
+        "attempt",
+        "peer_device_pin",
+        "source",
+        "partial",
+        "completed",
+        "active_peer"
+      ]
+    },
+    {
+      "id": "wrong_valid_nonce_offer",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000003",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "offer",
+        "sdp": "v=0\r\no=- 1 2 IN IP4 127.0.0.1\r\ns=-\r\nt=0 0\r\na=group:BUNDLE 0\r\nm=application 9 UDP/DTLS/SCTP webrtc-datachannel\r\nc=IN IP4 0.0.0.0\r\na=mid:0\r\na=ice-ufrag:cocoQA\r\na=ice-pwd:cocoQAFixed1234567890123456\r\na=fingerprint:sha-256 7A:E8:90:07:31:5F:15:58:AA:A7:F1:64:02:2A:5C:0D:39:72:F3:02:C6:5E:43:C6:6C:2D:8A:9C:40:83:A5:BA\r\na=setup:actpass\r\na=sctp-port:5000\r\na=max-message-size:262144\r\na=candidate:1234 1 udp 2122260223 192.0.2.10 50000 typ host generation 0 network-id 1 network-cost 10\r\na=end-of-candidates\r\n",
+        "offer_nonce": "Hx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQA="
+      },
+      "shape_valid": true,
+      "expected": "reject_binding_before_any_effect",
+      "must_preserve": [
+        "consent",
+        "attempt",
+        "peer_device_pin",
+        "source",
+        "partial",
+        "completed",
+        "active_peer"
+      ]
+    },
+    {
+      "id": "wrong_valid_nonce_answer",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000004",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "answer",
+        "sdp": "v=0\r\no=- 1 2 IN IP4 127.0.0.1\r\ns=-\r\nt=0 0\r\na=group:BUNDLE 0\r\nm=application 9 UDP/DTLS/SCTP webrtc-datachannel\r\nc=IN IP4 0.0.0.0\r\na=mid:0\r\na=ice-ufrag:cocoQA\r\na=ice-pwd:cocoQAFixed1234567890123456\r\na=fingerprint:sha-256 7A:E8:90:07:31:5F:15:58:AA:A7:F1:64:02:2A:5C:0D:39:72:F3:02:C6:5E:43:C6:6C:2D:8A:9C:40:83:A5:BA\r\na=setup:active\r\na=sctp-port:5000\r\na=max-message-size:262144\r\na=candidate:1234 1 udp 2122260223 192.0.2.10 50000 typ host generation 0 network-id 1 network-cost 10\r\na=end-of-candidates\r\n",
+        "offer_nonce": "Hx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQA="
+      },
+      "shape_valid": true,
+      "expected": "reject_binding_before_any_effect",
+      "must_preserve": [
+        "consent",
+        "attempt",
+        "peer_device_pin",
+        "source",
+        "partial",
+        "completed",
+        "active_peer"
+      ]
+    },
+    {
+      "id": "wrong_valid_nonce_pause",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000005",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "pause",
+        "offer_nonce": "Hx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQA="
+      },
+      "shape_valid": true,
+      "expected": "reject_binding_before_any_effect",
+      "must_preserve": [
+        "consent",
+        "attempt",
+        "peer_device_pin",
+        "source",
+        "partial",
+        "completed",
+        "active_peer"
+      ]
+    },
+    {
+      "id": "wrong_valid_nonce_cancel",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000006",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "cancel",
+        "offer_nonce": "Hx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQA="
+      },
+      "shape_valid": true,
+      "expected": "reject_binding_before_any_effect",
+      "must_preserve": [
+        "consent",
+        "attempt",
+        "peer_device_pin",
+        "source",
+        "partial",
+        "completed",
+        "active_peer"
+      ]
+    },
+    {
+      "id": "wrong_valid_nonce_reject",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000007",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "reject",
+        "offer_nonce": "Hx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQA="
+      },
+      "shape_valid": true,
+      "expected": "reject_binding_before_any_effect",
+      "must_preserve": [
+        "consent",
+        "attempt",
+        "peer_device_pin",
+        "source",
+        "partial",
+        "completed",
+        "active_peer"
+      ]
+    },
+    {
+      "id": "wrong_valid_nonce_complete",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000008",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "complete",
+        "offset": 5368709120,
+        "prefix_sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "offer_nonce": "Hx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQA="
+      },
+      "shape_valid": true,
+      "expected": "reject_binding_before_any_effect",
+      "must_preserve": [
+        "consent",
+        "attempt",
+        "peer_device_pin",
+        "source",
+        "partial",
+        "completed",
+        "active_peer"
+      ]
+    },
+    {
+      "id": "wrong_valid_nonce_complete_ack",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000009",
+        "sender_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "sender_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "recipient_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "recipient_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "complete_ack",
+        "offset": 5368709120,
+        "prefix_sha256": "b612e08b6ce32dbc2345aa9c45beb686077f65dfa6d1fa555738f9ad82238b8e",
+        "offer_nonce": "Hx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQA="
+      },
+      "shape_valid": true,
+      "expected": "reject_binding_before_any_effect",
+      "must_preserve": [
+        "consent",
+        "attempt",
+        "peer_device_pin",
+        "source",
+        "partial",
+        "completed",
+        "active_peer"
+      ]
+    },
+    {
+      "id": "correct_nonce_accept",
+      "payload": {
+        "version": 1,
+        "transfer_id": "ffffffff-6666-4666-8666-fffffffffff6",
+        "chat_id": "eeeeeeee-5555-4555-8555-eeeeeeeeeee5",
+        "offer_client_message_id": "abcdabcd-7777-4777-8777-abcdabcdabc7",
+        "client_signal_id": "12345678-aaaa-4bbb-8ccc-000000000001",
+        "sender_user_id": "cccccccc-3333-4333-8333-ccccccccccc3",
+        "sender_device_id": "dddddddd-4444-4444-8444-ddddddddddd4",
+        "recipient_user_id": "aaaaaaaa-1111-4111-8111-aaaaaaaaaaa1",
+        "recipient_device_id": "bbbbbbbb-2222-4222-8222-bbbbbbbbbbb2",
+        "attempt_id": "fedcfedc-9999-4999-8999-fedcfedcfed9",
+        "type": "accept",
+        "offset": 4294967296,
+        "prefix_sha256": "3f4ecf8dce14fe5a261600d069529ab09f058a270890d5aa791f4e3132a6c2da",
+        "offer_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+      },
+      "shape_valid": true,
+      "expected": "nonce_binding_pass_remaining_checks_still_required"
+    }
+  ],
+  "pre_nonce_fixture": {
+    "path": "D:\\COCO-task-artifacts\\p2p-original-20261103\\review\\DIRECT_JSON_V1_VECTORS.json",
+    "sha256": "348f00baf4edb25b704ec36c15716aa5d789ec2ddb7ef5fefb5eabeadca997cf"
+  }
+}

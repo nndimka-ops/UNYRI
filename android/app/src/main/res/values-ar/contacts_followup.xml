@@ -1,0 +1,10 @@
+<resources>
+    <string name="contacts_empty_book">ستظهر جهات اتصالك هنا. أضف شخصًا باستخدام @اسم_المستخدم أو ادعه إلى UNYRI.</string>
+    <string name="contacts_load_failed">تعذر تحميل جهات الاتصال.</string>
+    <string name="contacts_short_query">الأشخاص الذين تدردش معهم. اكتب 3 أحرف أو أكثر للبحث عن الجميع على خادمك.</string>
+    <string name="contacts_connect_search">اتصل للبحث عن أشخاص على هذا الخادم.</string>
+    <string name="contacts_no_users">لم يتم العثور على مستخدمين.</string>
+    <string name="contacts_invite_unyri">دعوة إلى UNYRI</string>
+    <string name="contacts_search_failed">تعذر البحث عن أشخاص.</string>
+    <string name="contacts_scan_qr">مسح رمز QR</string>
+</resources>

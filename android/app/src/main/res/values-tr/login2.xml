@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login2_private_login">Özel giriş adı</string>
+    <string name="login2_private_help">Herkese açık numara veya @ad yerine özel giriş adınızı kullanın.</string>
+    <string name="login2_strength_weak">Zayıf</string>
+    <string name="login2_strength_fair">Orta</string>
+    <string name="login2_strength_strong">Güçlü</string>
+    <string name="login2_continue">Devam</string>
+    <string name="login2_number">Herkese açık numaranız</string>
+    <string name="login2_username">Herkese açık @ad</string>
+    <string name="login2_username_rules">5–32 ASCII harfi, rakam veya _. Harfle başlar, __ içermez. 7 günde bir değişim; eski ad 30 gün dondurulur.</string>
+    <string name="login2_discoverability">Beni kim bulabilir</string>
+    <string name="login2_everyone">Herkes</string>
+    <string name="login2_contacts">Kişiler</string>
+    <string name="login2_nobody">Hiç kimse</string>
+    <string name="login2_unavailable">Ad kullanılamıyor</string>
+    <string name="login2_conflict">Ayarlar değişti. Yenileyip tekrar deneyin.</string>
+    <string name="login2_cooldown">Çok fazla deneme veya son 7 günde değişiklik. Daha sonra deneyin.</string>
+    <string name="login2_notice">Giriş adınız artık özel. Numaranız burada. İsteğe bağlı @ad seçebilirsiniz; giriş adınız yayımlanmaz.</string>
+    <string name="login2_recovery_help">Anahtarı UNYRI dışında saklayın. Üç grubu onaylayın. Yeni anahtar öncekinin yerini alır. Hesap zaten oluşturuldu.</string>
+    <string name="login2_recovery_create">Kurtarma anahtarı oluştur</string>
+    <string name="login2_recovery_group">Grup %1$d</string>
+</resources>

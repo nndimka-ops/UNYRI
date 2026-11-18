@@ -1,0 +1,5 @@
+<resources>
+    <string name="wallpaper_title">Тло застосунку</string>
+    <string name="wallpaper_pattern">З візерунком</string>
+    <string name="wallpaper_plain">Однотонне</string>
+</resources>

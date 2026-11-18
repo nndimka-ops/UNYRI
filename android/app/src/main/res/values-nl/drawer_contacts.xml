@@ -1,0 +1,21 @@
+<resources>
+    <string name="drawer_choice_a">Kolom (A)</string>
+    <string name="drawer_choice_c">Kaart (C)</string>
+    <string name="drawer_version">Versie %1$s (%2$d)</string>
+    <string name="drawer_my_qr">Mijn QR</string>
+    <string name="drawer_count_description">%1$s, %2$d</string>
+    <string name="drawer_switch_to">Overschakelen naar %1$s</string>
+    <string name="drawer_account_unread">%1$d ongelezen</string>
+    <string name="drawer_remove_account">Account verwijderen</string>
+    <string name="contacts_invite">Uitnodigen</string>
+    <string name="contacts_search">Contacten zoeken</string>
+    <string name="contacts_find_server">Zoeken op server</string>
+    <string name="contacts_offline_retry">Geen verbinding · Opnieuw</string>
+    <string name="contacts_add_username">Voer een @username in om op je server te zoeken en kies Contact toevoegen in het menu.</string>
+    <string name="contacts_write">Bericht</string>
+    <string name="contacts_call">Bellen</string>
+    <string name="contacts_video">Videogesprek</string>
+    <string name="contacts_status_hidden">Status verborgen</string>
+    <string name="drawer_choice_hint">Wordt direct op dit apparaat toegepast.</string>
+    <string name="drawer_appearance_summary">Kolom of kaart, gebaren</string>
+</resources>

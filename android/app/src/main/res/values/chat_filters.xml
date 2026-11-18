@@ -1,0 +1,4 @@
+<resources>
+    <string name="chat_filters_setting">Show chat filters</string>
+    <string name="chat_filters_setting_detail">All and Unread above the chat list</string>
+</resources>

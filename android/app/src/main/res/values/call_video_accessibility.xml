@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_show_controls">Show call controls</string>
+    <string name="call_hide_controls">Hide call controls</string>
+    <string name="call_video_fit">Fit the whole video</string>
+    <string name="call_video_fill">Fill the screen with video</string>
+</resources>

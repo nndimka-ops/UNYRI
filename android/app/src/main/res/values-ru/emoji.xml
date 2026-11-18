@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="emoji_recent">Недавние</string>
+    <string name="emoji_people">Смайлики и люди</string>
+    <string name="emoji_nature">Животные и природа</string>
+    <string name="emoji_food">Еда и напитки</string>
+    <string name="emoji_activity">Активность</string>
+    <string name="emoji_travel">Путешествия</string>
+    <string name="emoji_objects">Предметы</string>
+    <string name="emoji_symbols">Символы</string>
+    <string name="emoji_flags">Флаги</string>
+    <string name="emoji_delete">Удалить</string>
+    <string name="emoji_keyboard">Клавиатура</string>
+    <string name="emoji_title">Эмодзи</string>
+    <string name="emoji_all">Все эмодзи</string>
+    <string name="emoji_find">Найти эмодзи</string>
+    <string name="emoji_results">Результаты</string>
+    <string name="emoji_no_results">Ничего не найдено</string>
+    <string name="emoji_close">Закрыть</string>
+    <string name="emoji_insert">Вставить %1$s</string>
+</resources>

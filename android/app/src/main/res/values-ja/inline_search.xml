@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inline_search_chats">チャットと連絡先</string>
+    <string name="inline_search_global">グローバル検索</string>
+    <string name="inline_search_privacy">名前または@ユーザー名で検索します。検索内容はサーバーに送信されます。</string>
+    <string name="inline_search_media">メディア</string>
+    <string name="inline_search_links">リンク</string>
+    <string name="inline_search_files">ファイル</string>
+    <string name="inline_search_offline">接続なし</string>
+    <string name="inline_notification_banners">バナー</string>
+    <string name="inline_notification_sound">サウンド</string>
+    <string name="inline_notification_vibration">バイブレーション</string>
+    <string name="inline_search_unavailable">サーバーの一覧を利用できません。管理者に更新を依頼してください。</string>
+    <string name="inline_notification_header">アプリ内</string>
+    <string name="inline_search_voice">音声</string>
+    <string name="directory_cached_hint">保存済みのユーザーです。接続時に状態が更新されます。</string>
+    <string name="search_clear">検索をクリア</string>
+    <string name="search_open_failed">会話を開けませんでした。検索結果は保持されています。もう一度ユーザーをタップしてください。</string>
+    <string name="search_recent">最近の検索</string>
+    <string name="search_scope_messages">メッセージ</string>
+    <string name="settings_search_label">検索</string>
+    <string name="unified_search_hint">保存済みのチャットとメッセージをオフラインで検索します。このサーバーのユーザーをユーザー名で探します。</string>
+    <string name="unified_search_network">サーバー検索を利用できません。ローカルの検索結果は引き続き利用できます。</string>
+    <string name="unified_search_local_error">保存済みのメッセージを読み込めませんでした。もう一度検索してください。</string>
+</resources>

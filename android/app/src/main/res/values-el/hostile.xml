@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hostile_new_device">Ο χρήστης %1$s έχει νέα συσκευή — συγκρίνετε τον κωδικό ασφαλείας</string>
+    <string name="hostile_chat_frozen">Η ταυτότητα στη συνομιλία άλλαξε. Η αποστολή απενεργοποιήθηκε.</string>
+    <string name="hostile_call_unverified">Μη επαληθευμένο: ο συνομιλητής δεν έχει κωδικό σύγκρισης.</string>
+    <string name="hostile_call_compare">Συγκρίνετε δυνατά αυτά τα τέσσερα σύμβολα. Ως τότε η κλήση δεν είναι επαληθευμένη.</string>
+    <string name="hostile_room_approve">Συγκρίνετε τον κωδικό αυτού του χρήστη και συσκευής πριν από την ανταλλαγή κλειδιού.</string>
+    <string name="hostile_room_limit">Τα μέλη διατηρούν κοινά κλειδιά. Ο διακομιστής μπορεί να κρύψει αφαιρέσεις· η πλήρης ανάκληση δεν εγγυάται.</string>
+    <string name="hostile_room_remove">Η αφαίρεση δημιουργεί νέο ιδιωτικό δωμάτιο με νέο κλειδί. Προσκαλέστε ξανά έμπιστα άτομα.</string>
+    <string-array name="hostile_sas_names">
+        <item>Αστέρι</item>
+        <item>Καρδιά</item>
+        <item>Σελήνη</item>
+        <item>Ήλιος</item>
+        <item>Σύννεφο</item>
+        <item>Κεραυνός</item>
+        <item>Νιφάδα</item>
+        <item>Σταγόνα</item>
+        <item>Φωτιά</item>
+        <item>Φύλλο</item>
+        <item>Υδρόγειος</item>
+        <item>Καμπάνα</item>
+        <item>Κλειδί</item>
+        <item>Σπίτι</item>
+        <item>Αυτοκίνητο</item>
+        <item>Αεροπλάνο</item>
+        <item>Ποδήλατο</item>
+        <item>Εισιτήριο</item>
+        <item>Λεωφορείο</item>
+        <item>Ομπρέλα</item>
+        <item>Δώρο</item>
+        <item>Στέμμα</item>
+        <item>Σημαία</item>
+        <item>Βιβλίο</item>
+        <item>Σελιδοδείκτης</item>
+        <item>Συνδετήρας</item>
+        <item>Μολύβι</item>
+        <item>Ψαλίδι</item>
+        <item>Πινέλο</item>
+        <item>Σφυρί</item>
+        <item>Μεγεθυντικός φακός</item>
+        <item>Μάτι</item>
+        <item>Παλάμη</item>
+        <item>Νότα</item>
+        <item>Κιθάρα</item>
+        <item>Χειριστήριο</item>
+        <item>Παζλ</item>
+        <item>Ζάρι</item>
+        <item>Χελώνα</item>
+        <item>Λαγός</item>
+        <item>Μυρμήγκι</item>
+        <item>Πασχαλίτσα</item>
+        <item>Πατούσα</item>
+        <item>Φλιτζάνι</item>
+        <item>Μαχαιροπίρουνα</item>
+        <item>Καρότσι</item>
+        <item>Τσάντα</item>
+        <item>Ετικέτα</item>
+        <item>Λαμπτήρας</item>
+        <item>Φάκελος</item>
+        <item>Κιάλια</item>
+        <item>Χάρτης</item>
+        <item>Βουνά</item>
+        <item>Σπίθες</item>
+        <item>Κλεψύδρα</item>
+        <item>Ξυπνητήρι</item>
+        <item>Μεγάφωνο</item>
+        <item>Μάσκες</item>
+        <item>Ταινία</item>
+        <item>Άτομο</item>
+        <item>Γρανάζι</item>
+        <item>Μπαστούνι</item>
+        <item>Μπλουζάκι</item>
+        <item>Γυαλιά</item>
+    </string-array>
+</resources>

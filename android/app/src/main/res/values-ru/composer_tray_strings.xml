@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gallery_add">Добавить</string>
+    <string name="gallery_add_count">Добавить (%1$d)</string>
+    <string name="gallery_send_now">Отправить сейчас</string>
+    <string name="composer_added">Добавлено: %1$d</string>
+    <string name="composer_already_added">Уже добавлено</string>
+    <string name="composer_send_deferred">Добавлено в лоток. Нажмите «Отправить», когда текущая отправка завершится.</string>
+    <string name="picker_caption_optional">Подпись (необязательно)</string>
+    <string name="files_choose">Выбрать из Файлов</string>
+    <string name="files_choose_detail">Можно несколько, отправятся сразу</string>
+    <string name="files_media_as_files">Фото или видео файлом</string>
+    <string name="files_media_as_files_detail">Исходное качество, без сжатия</string>
+    <string name="files_recent_title">НЕДАВНО ОТПРАВЛЕННЫЕ</string>
+    <string name="files_recent_empty">Отправленные файлы появятся здесь, чтобы их можно было отправить снова.</string>
+    <string name="files_load_failed">Не удалось загрузить недавние файлы. Нажмите, чтобы повторить.</string>
+    <string name="files_selected_number">Выбрано, %1$d</string>
+</resources>

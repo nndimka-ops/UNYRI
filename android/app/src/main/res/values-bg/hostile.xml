@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hostile_new_device">%1$s има ново устройство — сравнете кода за сигурност</string>
+    <string name="hostile_chat_frozen">Самоличността в чата е променена. Изпращането е изключено.</string>
+    <string name="hostile_call_unverified">Непроверено: събеседникът няма код за сравнение.</string>
+    <string name="hostile_call_compare">Сравнете тези четири символа на глас. Дотогава разговорът е непроверен.</string>
+    <string name="hostile_room_approve">Сравнете кода на този потребител и устройство преди размяна на ключа.</string>
+    <string name="hostile_room_limit">Участниците запазват общите ключове. Сървърът може да скрие премахване; пълно отнемане на достъп не е гарантирано.</string>
+    <string name="hostile_room_remove">Премахването създава нова частна стая с нов ключ. Поканете отново доверените хора.</string>
+    <string-array name="hostile_sas_names">
+        <item>Звезда</item>
+        <item>Сърце</item>
+        <item>Луна</item>
+        <item>Слънце</item>
+        <item>Облак</item>
+        <item>Светкавица</item>
+        <item>Снежинка</item>
+        <item>Капка</item>
+        <item>Огън</item>
+        <item>Лист</item>
+        <item>Глобус</item>
+        <item>Камбана</item>
+        <item>Ключ</item>
+        <item>Къща</item>
+        <item>Кола</item>
+        <item>Самолет</item>
+        <item>Велосипед</item>
+        <item>Билет</item>
+        <item>Автобус</item>
+        <item>Чадър</item>
+        <item>Подарък</item>
+        <item>Корона</item>
+        <item>Знаме</item>
+        <item>Книга</item>
+        <item>Показалец</item>
+        <item>Кламер</item>
+        <item>Молив</item>
+        <item>Ножица</item>
+        <item>Четка</item>
+        <item>Чук</item>
+        <item>Лупа</item>
+        <item>Око</item>
+        <item>Длан</item>
+        <item>Нота</item>
+        <item>Китара</item>
+        <item>Контролер</item>
+        <item>Пъзел</item>
+        <item>Зар</item>
+        <item>Костенурка</item>
+        <item>Заек</item>
+        <item>Мравка</item>
+        <item>Калинка</item>
+        <item>Лапа</item>
+        <item>Чаша</item>
+        <item>Прибори</item>
+        <item>Количка</item>
+        <item>Чанта</item>
+        <item>Етикет</item>
+        <item>Крушка</item>
+        <item>Плик</item>
+        <item>Бинокъл</item>
+        <item>Карта</item>
+        <item>Планини</item>
+        <item>Искри</item>
+        <item>Пясъчен часовник</item>
+        <item>Будилник</item>
+        <item>Мегафон</item>
+        <item>Маски</item>
+        <item>Филм</item>
+        <item>Атом</item>
+        <item>Зъбно колело</item>
+        <item>Пика</item>
+        <item>Тениска</item>
+        <item>Очила</item>
+    </string-array>
+</resources>

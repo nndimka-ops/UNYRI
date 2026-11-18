@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "displayName": "UNYRI",
+  "pronunciationRU": "Юни́ри",
+  "taglineRU": "Свои люди. Свой сервер. Свои правила.",
+  "nameStatus": "SELECTED_BY_USER",
+  "iconStatus": "APPROVED_BY_USER_FOR_ALL_APPLICATIONS",
+  "iconBoard": "icon-exploration-10.png",
+  "iconBoardSHA256": "f2abcde8fc112688a1128883332a0f7989da9ea0ba4ef03ca7a9cabf1e734c01",
+  "nameClearance": "Preliminary software/store/public search only; full trademark clearance not completed. Similar UNIRI names recorded.",
+  "renameScope": "FULL_OWNED_PRODUCT_PROJECT_SOURCE_AND_NEW_APPLE_IDENTIFIERS_REQUESTED_BY_USER",
+  "newAppleIdentifiers": {
+    "app": "com.messenger.unyri.X7G7M9PFJ3",
+    "shareExtension": "com.messenger.unyri.X7G7M9PFJ3.share",
+    "appGroup": "group.com.messenger.unyri.X7G7M9PFJ3.share",
+    "status": "REGISTERED_ASC_MAIN_BOUND_GROUP_ASSOCIATION_PROFILES_SIGNING_PENDING"
+  },
+  "preserveCompatibility": [
+    "existing phone installations and encrypted histories",
+    "explicit legacy storage and wire-format decoders or migration aliases",
+    "cryptographic domains and private signing material",
+    "TLS server addresses and certificates",
+    "existing server volumes and private repository history",
+    "generic stable identifiers without the old brand"
+  ],
+  "thirdPartyServers": "Independent operators manage third-party servers and determine their configuration, availability and server-side data policies; mandatory developer responsibilities remain.",
+  "updatedUTC": "2026-11-05T17:21:14.817150+00:00",
+  "selectedIconNumber": 1,
+  "selectedIconConcept": "Open split U with independent human head",
+  "iconMaster": "icon-01-refined-r1.png",
+  "iconApproval": "User: все берем эту и везде делаем",
+  "sourceStatus": "APPLIED_ANDROID_IOS_WINDOWS_WEB_LEGAL_CURRENT_SOURCE_PENDING_COMPOSITE_SDK_AND_RELEASE",
+  "iconMasterSHA256": "098f9d1749c0d641ec25a57b71cdfa1a63f1d12637f95a009a2b0d7db596dcc4",
+  "appStoreStatus": "UNYRI_EN_RU_METADATA_SAVED_NO_BUILD_UPLOADED_ZERO_SCREENSHOTS_LIVE_VERIFIED",
+  "installedIconStatus": "MAIN_PHONE_UPDATES_NOT_YET_DELIVERED",
+  "storeScreenshotStatus": "REAL_NATIVE_CAPTURE_AND_MARKETING_LAYOUT_PREPARATION",
+  "reviewSubmission": "USER_AUTHORIZED_WHEN_READY_NO_AUTOMATIC_PUBLIC_RELEASE"
+}

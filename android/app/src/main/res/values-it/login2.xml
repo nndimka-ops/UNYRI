@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login2_private_login">Accesso privato</string>
+    <string name="login2_private_help">Usa il tuo identificativo privato, non il numero pubblico o @nome.</string>
+    <string name="login2_strength_weak">Debole</string>
+    <string name="login2_strength_fair">Media</string>
+    <string name="login2_strength_strong">Forte</string>
+    <string name="login2_continue">Continua</string>
+    <string name="login2_number">Il tuo numero pubblico</string>
+    <string name="login2_username">@Nome pubblico</string>
+    <string name="login2_username_rules">5–32 lettere ASCII, cifre o _. Inizia con una lettera, senza __. Cambio ogni 7 giorni; vecchio nome bloccato 30 giorni.</string>
+    <string name="login2_discoverability">Chi può trovarmi</string>
+    <string name="login2_everyone">Tutti</string>
+    <string name="login2_contacts">Contatti</string>
+    <string name="login2_nobody">Nessuno</string>
+    <string name="login2_unavailable">Nome non disponibile</string>
+    <string name="login2_conflict">Le impostazioni sono cambiate. Aggiorna e riprova.</string>
+    <string name="login2_cooldown">Troppi tentativi o cambio negli ultimi 7 giorni. Riprova più tardi.</string>
+    <string name="login2_notice">Il tuo accesso ora è privato. Questo è il tuo numero. Puoi scegliere un @nome; il tuo identificativo privato non viene pubblicato.</string>
+    <string name="login2_recovery_help">Salva la chiave fuori da UNYRI. Conferma tre gruppi. Una nuova chiave sostituisce la precedente. Il conto è già registrato.</string>
+    <string name="login2_recovery_create">Crea chiave di recupero</string>
+    <string name="login2_recovery_group">Gruppo %1$d</string>
+</resources>

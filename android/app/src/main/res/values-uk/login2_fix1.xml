@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language_system_default">Як у системі</string>
+    <string name="login2_signup_header">Приєднатися до UNYRI</string>
+    <string name="login2_in_contacts">У контактах</string>
+    <string name="login2_number_copied">Номер скопійовано</string>
+</resources>

@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "library": "lucide",
+  "version": "1.17.0",
+  "upstream": "https://github.com/lucide-icons/lucide/tree/1.17.0",
+  "bundleUrl": "https://unpkg.com/lucide@1.17.0/dist/umd/lucide.js",
+  "bundleSha256": "fde878a4f7aebe548b071eaaf343d898f66d275e93970abe95d8ca5fda290b51",
+  "licenseUrl": "https://raw.githubusercontent.com/lucide-icons/lucide/1.17.0/LICENSE",
+  "licenseSha256": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57",
+  "geometry": {
+    "viewBox": "0 0 24 24",
+    "strokeWidth": 1.7,
+    "linecap": "round",
+    "linejoin": "round",
+    "rgb": "#000000"
+  },
+  "icons": [
+    {
+      "id": "chats",
+      "name": "message-square",
+      "filename": "message-square.svg",
+      "iosAsset": "CocoSidebarChats",
+      "sha256": "e160f5ca8dd06830e9d72edaee31588bb32810d3cf3942ab67beb198783daead"
+    },
+    {
+      "id": "calls",
+      "name": "phone",
+      "filename": "phone.svg",
+      "iosAsset": "CocoSidebarCalls",
+      "sha256": "9d245fd7573823afd2bde451d708f7894776a872b457287ecbf178f578e370df"
+    },
+    {
+      "id": "saved",
+      "name": "bookmark",
+      "filename": "bookmark.svg",
+      "iosAsset": "CocoSidebarSaved",
+      "sha256": "4dfa4e2393f44ed546f947c3c37cfc0b2998b10616be756ca90dfa7e887fb933"
+    },
+    {
+      "id": "settings",
+      "name": "settings-2",
+      "filename": "settings-2.svg",
+      "iosAsset": "CocoSidebarSettings",
+      "sha256": "8223d81cf6c46080f40801ec70ef36e3d4a309830bc1b1a4a14970bfd6bf245d"
+    },
+    {
+      "id": "server",
+      "name": "server",
+      "filename": "server.svg",
+      "iosAsset": "CocoSidebarServer",
+      "sha256": "37a36909efedd9196236d1618994385a7d5c9ab26e4fa0f6eba1b37d1c246553"
+    },
+    {
+      "id": "devices",
+      "name": "laptop",
+      "filename": "laptop.svg",
+      "iosAsset": "CocoSidebarDevices",
+      "sha256": "38e78c7410dcbfb1a9fc13c1d50ed747016afa156da16c7470c3c2cf8f426c61"
+    },
+    {
+      "id": "help",
+      "name": "circle-help",
+      "filename": "circle-help.svg",
+      "iosAsset": "CocoSidebarHelp",
+      "sha256": "04c9f54bdf80eb4fba74260989f24b72243a0f82fbe27085e15563f5a56b93f2"
+    },
+    {
+      "id": "report",
+      "name": "flag",
+      "filename": "flag.svg",
+      "iosAsset": "CocoSidebarReport",
+      "sha256": "a96f8c705e55ecf3ed1d2b03674c056be2a84aa78f033dc0c683d2ec47a69c20"
+    },
+    {
+      "id": "search",
+      "name": "search",
+      "filename": "search.svg",
+      "iosAsset": "CocoSidebarSearch",
+      "sha256": "1f4bc740fa6623e56084916572a94e6b8b94ba5ff294e8b591f4ab2d767e8eaa"
+    },
+    {
+      "id": "people",
+      "name": "users",
+      "filename": "users.svg",
+      "iosAsset": "CocoSidebarPeople",
+      "sha256": "c7b73f2de4760e25e01a0e8c9d805fa7129661ff5409bc22ac03c2604c183be4"
+    },
+    {
+      "id": "edit",
+      "name": "pencil",
+      "filename": "pencil.svg",
+      "iosAsset": "CocoSidebarEdit",
+      "sha256": "c70f4edc9705cc0eb21c4bd31ddf702213cff3117f63d48ea31c293c9da31b09"
+    },
+    {
+      "id": "close",
+      "name": "x",
+      "filename": "x.svg",
+      "iosAsset": "CocoSidebarClose",
+      "sha256": "946b206191275d880c8955c90c9a67fc34cb2e580b9e8c5a879ceeaf62a04394"
+    },
+    {
+      "id": "logout",
+      "name": "log-out",
+      "filename": "log-out.svg",
+      "iosAsset": "CocoSidebarLogout",
+      "sha256": "4795bb0ea87868c2998c3b1308fe91258b56d7434e4d9aeb54f8a0f8e352d8e3"
+    },
+    {
+      "id": "chevron",
+      "name": "chevron-right",
+      "filename": "chevron-right.svg",
+      "iosAsset": "CocoSidebarChevron",
+      "sha256": "83687b97faae8196b9cc76b640668d1427e13a0c72f1d9e3e12632cc84fe6c03"
+    }
+  ]
+}

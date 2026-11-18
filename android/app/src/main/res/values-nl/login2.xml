@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login2_private_login">Privélogin</string>
+    <string name="login2_private_help">Gebruik je privélogin, niet je openbare nummer of @naam.</string>
+    <string name="login2_strength_weak">Zwak</string>
+    <string name="login2_strength_fair">Redelijk</string>
+    <string name="login2_strength_strong">Sterk</string>
+    <string name="login2_continue">Doorgaan</string>
+    <string name="login2_number">Je openbare nummer</string>
+    <string name="login2_username">Openbare @naam</string>
+    <string name="login2_username_rules">5–32 ASCII-letters, cijfers of _. Begin met een letter, zonder __. Wijzig elke 7 dagen; oude naam 30 dagen geblokkeerd.</string>
+    <string name="login2_discoverability">Wie kan mij vinden</string>
+    <string name="login2_everyone">Iedereen</string>
+    <string name="login2_contacts">Contacten</string>
+    <string name="login2_nobody">Niemand</string>
+    <string name="login2_unavailable">Naam niet beschikbaar</string>
+    <string name="login2_conflict">Instellingen gewijzigd. Vernieuw en probeer opnieuw.</string>
+    <string name="login2_cooldown">Te veel pogingen of gewijzigd binnen 7 dagen. Probeer later opnieuw.</string>
+    <string name="login2_notice">Je login is nu privé. Dit is je nummer. Je kunt een @naam kiezen; je login wordt niet gepubliceerd.</string>
+    <string name="login2_recovery_help">Bewaar de sleutel buiten UNYRI. Bevestig drie groepen. Een nieuwe sleutel vervangt de vorige. Het account is al geregistreerd.</string>
+    <string name="login2_recovery_create">Herstelsleutel maken</string>
+    <string name="login2_recovery_group">Groep %1$d</string>
+</resources>

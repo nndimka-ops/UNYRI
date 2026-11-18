@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language_system_default">Προεπιλογή συστήματος</string>
+    <string name="login2_signup_header">Εγγραφή στο UNYRI</string>
+    <string name="login2_in_contacts">Στις επαφές</string>
+    <string name="login2_number_copied">Ο αριθμός αντιγράφηκε</string>
+</resources>

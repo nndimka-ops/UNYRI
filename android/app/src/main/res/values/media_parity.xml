@@ -1,0 +1,35 @@
+<resources>
+    <string name="media_video_note">Video message</string>
+    <string name="media_note_playing">Playing</string>
+    <string name="media_note_paused">Paused</string>
+    <string name="media_note_failed">Video could not play. Tap to retry.</string>
+    <string name="media_video_position">%1$s of %2$s</string>
+    <string name="media_seek_back">Back %1$d s</string>
+    <string name="media_seek_forward">Forward %1$d s</string>
+    <string name="media_fill">Fill screen</string>
+    <string name="media_fit">Fit to screen</string>
+    <string name="media_fine_scrubbing">Fine scrubbing ×%1$s</string>
+    <string name="media_save_gallery">Save to gallery</string>
+    <string name="media_save_files">Save to Files</string>
+    <string name="media_reaction_remove">Remove reaction</string>
+    <string name="media_reaction_add">Add this reaction</string>
+    <string name="media_markup">Markup</string>
+    <string name="media_markup_undo">Undo</string>
+    <string name="media_markup_redo">Redo</string>
+    <string name="media_markup_pen">Pen</string>
+    <string name="media_markup_marker">Marker</string>
+    <string name="media_markup_eraser">Eraser</string>
+    <string name="media_markup_text">Add text</string>
+    <string name="media_markup_add">Add</string>
+    <string name="media_no_sound">No sound</string>
+    <string name="media_sound">Sound on</string>
+    <string name="media_video_state">%1$s, %2$s, %3$s</string>
+    <plurals name="media_seek_back_seconds">
+        <item quantity="one">Back %d second</item>
+        <item quantity="other">Back %d seconds</item>
+    </plurals>
+    <plurals name="media_seek_forward_seconds">
+        <item quantity="one">Forward %d second</item>
+        <item quantity="other">Forward %d seconds</item>
+    </plurals>
+</resources>

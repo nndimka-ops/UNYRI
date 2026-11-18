@@ -1,0 +1,7 @@
+<resources>
+    <color name="coco_window_background">#F7F7FA</color>
+    <style name="Theme.Messenger" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/coco_window_background</item>
+        <item name="android:colorBackground">@color/coco_window_background</item>
+    </style>
+</resources>

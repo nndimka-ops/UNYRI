@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_p2p_title">مكالمات نظير إلى نظير</string>
+    <string name="call_p2p_everyone">الجميع</string>
+    <string name="call_p2p_contacts">جهات اتصالي</string>
+    <string name="call_p2p_nobody">لا أحد</string>
+    <string name="call_p2p_note">الاتصال المباشر أسرع عادةً، لكن جهاز الطرف الآخر يرى عنوان IP الخاص بك. عبر الخادم، يظهر عنوان الخادم فقط. يسمح خيار جهات اتصالي بالاتصال المباشر مع الأشخاص في جهات الاتصال فقط. يسري من المكالمة التالية.</string>
+</resources>

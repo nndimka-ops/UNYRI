@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_caption_camera">카메라</string>
+    <string name="call_caption_mute">마이크</string>
+    <string name="call_caption_end">종료</string>
+    <string name="call_caption_speaker">스피커</string>
+    <string name="call_caption_flip">전환</string>
+    <string name="call_caption_video">영상</string>
+</resources>

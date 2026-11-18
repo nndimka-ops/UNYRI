@@ -1,0 +1,15 @@
+<resources>
+    <string name="viewer_today_at">today at %1$s</string>
+    <string name="viewer_yesterday_at">yesterday at %1$s</string>
+    <string name="viewer_text_in_photo">Text in photo</string>
+    <string name="viewer_you">You</string>
+    <string name="viewer_forward_chat">Forward to chat</string>
+    <string name="viewer_share">Share</string>
+    <string name="viewer_open_with">Open with…</string>
+    <string name="viewer_save_device">Save to device</string>
+    <string name="viewer_more">More</string>
+    <string name="viewer_photo">Photo</string>
+    <string name="viewer_zoom_in">Zoom in</string>
+    <string name="viewer_zoom_reset">Reset zoom</string>
+    <string name="viewer_toggle_controls">Show or hide controls</string>
+</resources>

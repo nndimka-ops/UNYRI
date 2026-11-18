@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login2_private_login">비공개 로그인</string>
+    <string name="login2_private_help">공개 번호나 @사용자 이름 대신 비공개 로그인을 사용하세요.</string>
+    <string name="login2_strength_weak">약함</string>
+    <string name="login2_strength_fair">보통</string>
+    <string name="login2_strength_strong">강함</string>
+    <string name="login2_continue">계속</string>
+    <string name="login2_number">내 공개 번호</string>
+    <string name="login2_username">공개 @사용자 이름</string>
+    <string name="login2_username_rules">ASCII 영문, 숫자, _ 5~32자. 영문으로 시작하며 __ 금지. 7일마다 변경 가능, 이전 이름은 30일간 동결.</string>
+    <string name="login2_discoverability">나를 찾을 수 있는 사람</string>
+    <string name="login2_everyone">모두</string>
+    <string name="login2_contacts">연락처</string>
+    <string name="login2_nobody">아무도 없음</string>
+    <string name="login2_unavailable">사용할 수 없는 이름</string>
+    <string name="login2_conflict">설정이 변경되었습니다. 새로 고침 후 다시 시도하세요.</string>
+    <string name="login2_cooldown">시도가 너무 많거나 7일 이내에 변경했습니다. 나중에 다시 시도하세요.</string>
+    <string name="login2_notice">로그인이 비공개로 전환되었습니다. 이것이 내 번호입니다. 선택적으로 @사용자 이름을 설정할 수 있습니다. 로그인은 공개되지 않습니다.</string>
+    <string name="login2_recovery_help">키를 UNYRI 외부에 저장하고 세 그룹을 입력해 확인하세요. 새 키는 이전 키를 대체합니다. 계정은 이미 등록되었습니다.</string>
+    <string name="login2_recovery_create">복구 키 만들기</string>
+    <string name="login2_recovery_group">그룹 %1$d</string>
+</resources>

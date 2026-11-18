@@ -1,0 +1,21 @@
+<resources>
+    <string name="drawer_choice_a">Sloupec (A)</string>
+    <string name="drawer_choice_c">Karta (C)</string>
+    <string name="drawer_version">Verze %1$s (%2$d)</string>
+    <string name="drawer_my_qr">Můj QR</string>
+    <string name="drawer_count_description">%1$s, %2$d</string>
+    <string name="drawer_switch_to">Přepnout na %1$s</string>
+    <string name="drawer_account_unread">%1$d nepřečtených</string>
+    <string name="drawer_remove_account">Odebrat účet</string>
+    <string name="contacts_invite">Pozvat</string>
+    <string name="contacts_search">Hledat kontakty</string>
+    <string name="contacts_find_server">Hledat na serveru</string>
+    <string name="contacts_offline_retry">Bez připojení · Zkusit znovu</string>
+    <string name="contacts_add_username">Zadejte @username pro hledání na serveru a v nabídce zvolte přidání kontaktu.</string>
+    <string name="contacts_write">Napsat</string>
+    <string name="contacts_call">Zavolat</string>
+    <string name="contacts_video">Videohovor</string>
+    <string name="contacts_status_hidden">Stav skrytý</string>
+    <string name="drawer_choice_hint">Použije se ihned na tomto zařízení.</string>
+    <string name="drawer_appearance_summary">Sloupec nebo karta, gesta</string>
+</resources>

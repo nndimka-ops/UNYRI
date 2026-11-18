@@ -1,0 +1,10 @@
+<resources>
+  <string name="feedback_success_hint">Дякуємо. Ваш звіт отримано й буде розглянуто.</string>
+  <string name="feedback_placeholder">Наприклад: відкриваю чат, вибираю фото, але кнопка надсилання не реагує.</string>
+  <string name="feedback_optional_images">Необов’язково. Можна додати до 3 знімків екрана, щоб показати проблему.</string>
+  <string name="feedback_review_hint">Перед надсиланням ви зможете перевірити, які дані буде передано.</string>
+  <string name="feedback_review_title">Надіслати цей звіт?</string>
+  <string name="feedback_image_count">Додано знімків екрана: %1$d</string>
+  <string name="feedback_agree_send">Погоджуюсь, надіслати</string>
+  <string name="feedback_done">Готово</string>
+</resources>

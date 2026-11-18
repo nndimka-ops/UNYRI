@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_p2p_title">Peer-to-Peer-Anrufe</string>
+    <string name="call_p2p_everyone">Alle</string>
+    <string name="call_p2p_contacts">Meine Kontakte</string>
+    <string name="call_p2p_nobody">Niemand</string>
+    <string name="call_p2p_note">Eine direkte Verbindung ist meist schneller, aber das andere Gerät sieht deine IP-Adresse. Über den Server ist nur dessen Adresse sichtbar. Meine Kontakte erlaubt direkte Verbindungen nur mit Personen in Kontakte. Gilt ab dem nächsten Anruf.</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="performance_online">Диагностика онлайн</string>
+    <string name="performance_online_detail">При включённой диагностике отправлять показатели на ваш сервер. Без содержимого сообщений и координат нажатий.</string>
+    <string name="performance_mark">Сейчас была проблема</string>
+</resources>

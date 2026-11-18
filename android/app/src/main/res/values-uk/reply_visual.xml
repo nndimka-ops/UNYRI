@@ -1,0 +1,16 @@
+<resources>
+    <string name="reply_author_you">Ви</string>
+    <string name="reply_cancel">Скасувати відповідь</string>
+    <string name="chat_peer_online">у мережі</string>
+    <string name="chat_emoji">Емодзі</string>
+    <string name="chat_menu_title">Меню чату</string>
+    <string name="chat_menu_search">Пошук повідомлень</string>
+    <string name="message_menu_more">Додатково</string>
+    <string name="chat_menu_reactions_more">Ще</string>
+    <string name="chat_menu_copy_name">Копіювати ім’я</string>
+    <string name="chat_menu_media">Медіа</string>
+    <string name="chat_menu_reminders">Нагадування</string>
+    <string name="message_menu_edit">Редагувати</string>
+    <string name="chat_menu_archive">До архіву</string>
+    <string name="chat_menu_restore">Повернути в чати</string>
+</resources>

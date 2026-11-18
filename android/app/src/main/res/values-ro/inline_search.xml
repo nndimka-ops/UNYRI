@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inline_search_chats">Conversații și contacte</string>
+    <string name="inline_search_global">Căutare globală</string>
+    <string name="inline_search_privacy">Caută după nume sau @utilizator. Interogarea este trimisă serverului tău.</string>
+    <string name="inline_search_media">Media</string>
+    <string name="inline_search_links">Linkuri</string>
+    <string name="inline_search_files">Fișiere</string>
+    <string name="inline_search_offline">Fără conexiune</string>
+    <string name="inline_notification_banners">Bannere</string>
+    <string name="inline_notification_sound">Sunet</string>
+    <string name="inline_notification_vibration">Vibrații</string>
+    <string name="inline_search_unavailable">Catalogul serverului nu este disponibil. Cere proprietarului să actualizeze serverul.</string>
+    <string name="inline_notification_header">În aplicație</string>
+    <string name="inline_search_voice">Mesaje vocale</string>
+    <string name="directory_cached_hint">Persoane salvate. Disponibilitatea se actualizează după conectare.</string>
+    <string name="search_clear">Șterge căutarea</string>
+    <string name="search_open_failed">Conversația nu s-a putut deschide. Rezultatele sunt păstrate. Atinge persoana din nou.</string>
+    <string name="search_recent">Căutări recente</string>
+    <string name="search_scope_messages">Mesaje</string>
+    <string name="settings_search_label">Caută</string>
+    <string name="unified_search_hint">Caută offline în conversațiile și mesajele salvate. Găsește persoane pe acest server după numele de utilizator.</string>
+    <string name="unified_search_network">Căutarea pe server nu este disponibilă. Rezultatele locale rămân disponibile.</string>
+    <string name="unified_search_local_error">Mesajele salvate nu s-au putut încărca. Încearcă din nou.</string>
+</resources>

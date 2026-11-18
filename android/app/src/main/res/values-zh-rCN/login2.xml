@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login2_private_login">私密登录名</string>
+    <string name="login2_private_help">请使用私密登录名，而非公开号码或@用户名。</string>
+    <string name="login2_strength_weak">弱</string>
+    <string name="login2_strength_fair">一般</string>
+    <string name="login2_strength_strong">强</string>
+    <string name="login2_continue">继续</string>
+    <string name="login2_number">你的公开号码</string>
+    <string name="login2_username">公开@用户名</string>
+    <string name="login2_username_rules">5–32个ASCII字母、数字或_，以字母开头，不可包含__。每7天可更改一次，旧名冻结30天。</string>
+    <string name="login2_discoverability">谁可以找到我</string>
+    <string name="login2_everyone">所有人</string>
+    <string name="login2_contacts">联系人</string>
+    <string name="login2_nobody">任何人都不可以</string>
+    <string name="login2_unavailable">用户名不可用</string>
+    <string name="login2_conflict">设置已更改。请刷新后重试。</string>
+    <string name="login2_cooldown">尝试过多或7天内已更改。请稍后再试。</string>
+    <string name="login2_notice">你的登录名现已私密。这是你的号码。你可以选择@用户名，登录名不会公开发布。</string>
+    <string name="login2_recovery_help">请在UNYRI之外保存密钥，然后输入三组内容以确认。新密钥会替换旧密钥。账号已注册。</string>
+    <string name="login2_recovery_create">创建恢复密钥</string>
+    <string name="login2_recovery_group">第%1$d组</string>
+</resources>

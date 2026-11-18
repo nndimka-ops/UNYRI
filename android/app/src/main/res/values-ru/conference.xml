@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="conference_rooms_title">Комнаты</string>
+    <string name="conference_error_locked">Создатель закрыл вход в комнату. Попробуйте войти позже.</string>
+    <string name="conference_error_settings">Не удалось сохранить настройки комнаты. Повторите попытку.</string>
+    <string name="conference_error_owned_quota">У вас уже есть несколько открытых комнат. Откройте «Мои комнаты» и завершите ненужную.</string>
+    <string name="conference_error_moderation">Не удалось подтвердить действие с участником. Обновите комнату и повторите попытку.</string>
+    <string name="conference_error_microphone_host">Создатель комнаты выключил ваш микрофон. После снятия ограничения вы сможете включить его сами.</string>
+    <string name="conference_microphone_host_info">Микрофон отключён создателем комнаты. Нажмите, чтобы узнать подробнее.</string>
+    <string name="conference_error_removed">Создатель удалил вас из комнаты. Повторный вход в эту комнату для этого аккаунта закрыт.</string>
+    <string name="conference_error_invite">Неверная ссылка приглашения в конференцию.</string>
+    <string name="conference_error_busy">Сначала завершите текущий звонок.</string>
+    <string name="conference_error_https">Для конференций нужен сервер с HTTPS.</string>
+    <string name="conference_error_closed">Конференция завершена или соединение закрыто.</string>
+    <string name="conference_error_encryption">Ошибка шифрования конференции. Соединение закрыто.</string>
+    <string name="conference_error_join">Не удалось войти в конференцию. Проверьте разрешения, приглашение и доступность сервера.</string>
+    <string name="conference_error_unencrypted">Медиапоток без сквозного шифрования отклонён. Соединение закрыто.</string>
+    <string name="conference_error_control">Не удалось изменить настройку микрофона или камеры.</string>
+    <string name="conference_error_end">Не удалось завершить конференцию. Повторите попытку.</string>
+    <string name="conference_error_recovery">Не удалось восстановить соединение. Проверьте сеть и войдите снова.</string>
+    <string name="capture_in_use">Сначала завершите текущий звонок, съёмку или запись.</string>
+    <string name="capture_finish_before_answer">Завершите съёмку или запись, затем ответьте на звонок.</string>
+    <string name="conference_invitation_label">Приглашение в комнату</string>
+    <string name="conference_invitation_compact_label">Комната</string>
+    <string name="conference_invitation_join">Войти</string>
+    <string name="conference_invitation_pending">В очереди отправки</string>
+    <string name="conference_invitation_failed">Не отправлено · повторите</string>
+    <string name="conference_invitation_expired">Срок приглашения истёк</string>
+    <string name="conference_invitation_share">Отправить приглашение</string>
+</resources>

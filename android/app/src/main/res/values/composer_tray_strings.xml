@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gallery_add">Add</string>
+    <string name="gallery_add_count">Add (%1$d)</string>
+    <string name="gallery_send_now">Send now</string>
+    <string name="composer_added">%1$d added</string>
+    <string name="composer_already_added">Already added</string>
+    <string name="composer_send_deferred">Added to tray. Tap Send after the current send finishes.</string>
+    <string name="picker_caption_optional">Caption (optional)</string>
+    <string name="files_choose">Choose from Files</string>
+    <string name="files_choose_detail">Several at once, sent right away</string>
+    <string name="files_media_as_files">Photo or video as file</string>
+    <string name="files_media_as_files_detail">Original quality, without compression</string>
+    <string name="files_recent_title">RECENTLY SENT FILES</string>
+    <string name="files_recent_empty">Files you send will appear here, ready to send again.</string>
+    <string name="files_load_failed">Could not load recent files. Tap to retry.</string>
+    <string name="files_selected_number">Selected, %1$d</string>
+</resources>

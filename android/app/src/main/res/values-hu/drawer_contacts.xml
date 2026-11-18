@@ -1,0 +1,21 @@
+<resources>
+    <string name="drawer_choice_a">Oszlop (A)</string>
+    <string name="drawer_choice_c">Kártya (C)</string>
+    <string name="drawer_version">Verzió: %1$s (%2$d)</string>
+    <string name="drawer_my_qr">Saját QR</string>
+    <string name="drawer_count_description">%1$s, %2$d</string>
+    <string name="drawer_switch_to">Váltás: %1$s</string>
+    <string name="drawer_account_unread">%1$d olvasatlan</string>
+    <string name="drawer_remove_account">Fiók eltávolítása</string>
+    <string name="contacts_invite">Meghívás</string>
+    <string name="contacts_search">Névjegyek keresése</string>
+    <string name="contacts_find_server">Keresés a szerveren</string>
+    <string name="contacts_offline_retry">Nincs kapcsolat · Újra</string>
+    <string name="contacts_add_username">Adj meg egy @username nevet a szerveren való kereséshez, majd válaszd a névjegy hozzáadását a menüből.</string>
+    <string name="contacts_write">Üzenet</string>
+    <string name="contacts_call">Hívás</string>
+    <string name="contacts_video">Videóhívás</string>
+    <string name="contacts_status_hidden">Rejtett állapot</string>
+    <string name="drawer_choice_hint">Azonnal érvényes ezen az eszközön.</string>
+    <string name="drawer_appearance_summary">Oszlop vagy kártya, gesztusok</string>
+</resources>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hostile_new_device">%1$s új eszközt használ — hasonlítsátok össze a biztonsági kódot</string>
+    <string name="hostile_chat_frozen">A csevegésben megváltozott a személyazonosság. Küldés letiltva.</string>
+    <string name="hostile_call_unverified">Nem ellenőrzött: a másik félnek nincs összehasonlító kódja.</string>
+    <string name="hostile_call_compare">Hasonlítsátok össze hangosan ezt a négy szimbólumot. Addig a hívás nem ellenőrzött.</string>
+    <string name="hostile_room_approve">A kulcscsere előtt hasonlítsd össze ennek a felhasználónak és eszköznek a kódját.</string>
+    <string name="hostile_room_limit">A tagok megtartják a közös kulcsokat. A szerver elrejtheti az eltávolítást; a teljes visszavonás nem garantált.</string>
+    <string name="hostile_room_remove">Az eltávolítás új privát szobát hoz létre új kulccsal. Hívd meg újra a megbízható személyeket.</string>
+    <string-array name="hostile_sas_names">
+        <item>Csillag</item>
+        <item>Szív</item>
+        <item>Hold</item>
+        <item>Nap</item>
+        <item>Felhő</item>
+        <item>Villám</item>
+        <item>Hópehely</item>
+        <item>Csepp</item>
+        <item>Tűz</item>
+        <item>Levél</item>
+        <item>Földgömb</item>
+        <item>Harang</item>
+        <item>Kulcs</item>
+        <item>Ház</item>
+        <item>Autó</item>
+        <item>Repülő</item>
+        <item>Kerékpár</item>
+        <item>Jegy</item>
+        <item>Busz</item>
+        <item>Esernyő</item>
+        <item>Ajándék</item>
+        <item>Korona</item>
+        <item>Zászló</item>
+        <item>Könyv</item>
+        <item>Könyvjelző</item>
+        <item>Gémkapocs</item>
+        <item>Ceruza</item>
+        <item>Olló</item>
+        <item>Ecset</item>
+        <item>Kalapács</item>
+        <item>Nagyító</item>
+        <item>Szem</item>
+        <item>Tenyér</item>
+        <item>Hangjegy</item>
+        <item>Gitár</item>
+        <item>Kontroller</item>
+        <item>Kirakó</item>
+        <item>Dobókocka</item>
+        <item>Teknős</item>
+        <item>Nyúl</item>
+        <item>Hangya</item>
+        <item>Katicabogár</item>
+        <item>Mancs</item>
+        <item>Csésze</item>
+        <item>Evőeszköz</item>
+        <item>Bevásárlókocsi</item>
+        <item>Táska</item>
+        <item>Címke</item>
+        <item>Izzó</item>
+        <item>Boríték</item>
+        <item>Távcső</item>
+        <item>Térkép</item>
+        <item>Hegyek</item>
+        <item>Szikrák</item>
+        <item>Homokóra</item>
+        <item>Ébresztőóra</item>
+        <item>Megafon</item>
+        <item>Maszkok</item>
+        <item>Film</item>
+        <item>Atom</item>
+        <item>Fogaskerék</item>
+        <item>Pikk</item>
+        <item>Póló</item>
+        <item>Szemüveg</item>
+    </string-array>
+</resources>

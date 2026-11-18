@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="conference_directory_error">Could not load rooms. Retry.</string>
+    <string name="conference_key_wait_timeout">No connected participant could securely transfer the key. Try again when someone is in the room.</string>
+    <string name="conference_key_wait_error">Could not obtain the encrypted room key. Check the connection and try again.</string>
+    <string name="conference_password_required">Enter the room password.</string>
+    <string name="conference_password_incorrect">Incorrect room password. Try again.</string>
+    <string name="conference_settings_changed">Room settings changed on another device. Review the current values and try again.</string>
+    <string name="conference_invite_requires_original">You entered from the directory. To invite someone, you need the original invitation. The room key alone does not grant permission to share one.</string>
+    <string name="conference_settings_summary">Name, visibility and entry</string>
+</resources>

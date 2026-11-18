@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_update_title">Обновите приложение</string>
+    <string name="login_update_required_detail">Сервер %1$s больше не поддерживает эту версию UNYRI. Установите обновление, чтобы продолжить. Данные на устройстве не удалены.</string>
+    <string name="login_update_versions">Установлена %1$s · нужна %2$s</string>
+    <string name="login_update_action">Обновить</string>
+    <string name="login_update_store">Обновите UNYRI из Google Play.</string>
+    <string name="login_update_check">Проверить снова</string>
+    <string name="login_update_still_required">Эта версия всё ещё не поддерживается.</string>
+    <string name="login_update_network">Не удалось связаться с сервером. Проверьте подключение к сети и адрес сервера.</string>
+    <string name="login_update_other_account">Другой аккаунт или сервер</string>
+    <string name="login_update_add_account">Добавить аккаунт</string>
+    <string name="login_update_signed_out">Серверу %1$s нужна более новая версия UNYRI. Обновите приложение или выберите другой сервер.</string>
+    <string name="login_update_available">Доступна новая версия UNYRI</string>
+    <string name="login_update_later">Позже</string>
+</resources>

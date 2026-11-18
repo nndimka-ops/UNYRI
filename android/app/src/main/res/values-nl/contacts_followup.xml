@@ -1,0 +1,10 @@
+<resources>
+    <string name="contacts_empty_book">Je contacten verschijnen hier. Voeg iemand toe via @gebruikersnaam of nodig diegene uit voor UNYRI.</string>
+    <string name="contacts_load_failed">Contacten konden niet worden geladen.</string>
+    <string name="contacts_short_query">Mensen met wie je chat. Typ minstens 3 tekens om iedereen op je server te zoeken.</string>
+    <string name="contacts_connect_search">Maak verbinding om mensen op deze server te zoeken.</string>
+    <string name="contacts_no_users">Geen gebruikers gevonden.</string>
+    <string name="contacts_invite_unyri">Uitnodigen voor UNYRI</string>
+    <string name="contacts_search_failed">Zoeken naar mensen is mislukt.</string>
+    <string name="contacts_scan_qr">QR-code scannen</string>
+</resources>

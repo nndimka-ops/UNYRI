@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login2_private_login">Prywatny login</string>
+    <string name="login2_private_help">Użyj prywatnego loginu, nie publicznego numeru ani @nazwy.</string>
+    <string name="login2_strength_weak">Słabe</string>
+    <string name="login2_strength_fair">Średnie</string>
+    <string name="login2_strength_strong">Silne</string>
+    <string name="login2_continue">Dalej</string>
+    <string name="login2_number">Twój publiczny numer</string>
+    <string name="login2_username">Publiczna @nazwa</string>
+    <string name="login2_username_rules">5–32 litery ASCII, cyfry lub _. Początek literą, bez __. Zmiana co 7 dni; stara nazwa zamrożona na 30 dni.</string>
+    <string name="login2_discoverability">Kto może mnie znaleźć</string>
+    <string name="login2_everyone">Wszyscy</string>
+    <string name="login2_contacts">Kontakty</string>
+    <string name="login2_nobody">Nikt</string>
+    <string name="login2_unavailable">Nazwa niedostępna</string>
+    <string name="login2_conflict">Ustawienia się zmieniły. Odśwież i spróbuj ponownie.</string>
+    <string name="login2_cooldown">Za dużo prób lub zmiana w ciągu 7 dni. Spróbuj później.</string>
+    <string name="login2_notice">Twój login jest teraz prywatny. Oto twój numer. Możesz wybrać @nazwę; login nie jest publikowany.</string>
+    <string name="login2_recovery_help">Zapisz klucz poza UNYRI. Potwierdź trzy grupy. Nowy klucz zastępuje poprzedni. Konto jest już zarejestrowane.</string>
+    <string name="login2_recovery_create">Utwórz klucz odzyskiwania</string>
+    <string name="login2_recovery_group">Grupa %1$d</string>
+</resources>

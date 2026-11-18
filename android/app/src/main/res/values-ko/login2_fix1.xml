@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language_system_default">시스템 기본값</string>
+    <string name="login2_signup_header">UNYRI 가입</string>
+    <string name="login2_in_contacts">연락처에 있음</string>
+    <string name="login2_number_copied">번호가 복사되었습니다</string>
+</resources>

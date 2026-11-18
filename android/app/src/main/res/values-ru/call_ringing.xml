@@ -1,0 +1,8 @@
+<resources>
+    <string name="call_not_online_yet">Пока не в сети</string>
+    <string name="call_waiting_for_peer_online">Ждём, когда появится в сети</string>
+    <string name="call_rate_limited">Слишком много звонков. Попробуйте позже.</string>
+    <string name="call_cancelled">Отменено</string>
+    <string name="call_failed">Ошибка</string>
+    <string name="call_line_busy">Линия занята</string>
+</resources>

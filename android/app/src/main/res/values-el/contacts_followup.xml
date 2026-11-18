@@ -1,0 +1,10 @@
+<resources>
+    <string name="contacts_empty_book">Οι επαφές σας θα εμφανιστούν εδώ. Προσθέστε κάποιον με @όνομα_χρήστη ή προσκαλέστε τον στο UNYRI.</string>
+    <string name="contacts_load_failed">Δεν ήταν δυνατή η φόρτωση επαφών.</string>
+    <string name="contacts_short_query">Άτομα με τα οποία συνομιλείτε. Πληκτρολογήστε τουλάχιστον 3 χαρακτήρες για αναζήτηση στον διακομιστή σας.</string>
+    <string name="contacts_connect_search">Συνδεθείτε για να αναζητήσετε άτομα σε αυτόν τον διακομιστή.</string>
+    <string name="contacts_no_users">Δεν βρέθηκαν χρήστες.</string>
+    <string name="contacts_invite_unyri">Πρόσκληση στο UNYRI</string>
+    <string name="contacts_search_failed">Η αναζήτηση ατόμων απέτυχε.</string>
+    <string name="contacts_scan_qr">Σάρωση κωδικού QR</string>
+</resources>

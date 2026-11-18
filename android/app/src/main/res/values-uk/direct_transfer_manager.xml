@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_manager_title">Передавання</string>
+    <string name="direct_manager_device_only">На цьому пристрої</string>
+    <string name="direct_manager_empty">У цьому розділі немає передавань.</string>
+    <string name="direct_manager_chat">Відкрити розмову</string>
+    <string name="direct_manager_preparing">Готуємо оригінал…</string>
+    <string name="direct_manager_reselect">Вибери оригінал знову в розмові.</string>
+    <string name="direct_filter_all">Усі</string>
+    <string name="direct_filter_sending">Вихідні</string>
+    <string name="direct_filter_receiving">Вхідні</string>
+    <string name="direct_direction_sending">Надсилання</string>
+    <string name="direct_direction_receiving">Отримання</string>
+    <string name="direct_group_active">Активні</string>
+    <string name="direct_group_queued">У черзі</string>
+    <string name="direct_group_held">На паузі</string>
+    <string name="direct_group_attention">Потребують уваги</string>
+    <string name="direct_group_completed">Завершені</string>
+    <string name="direct_queue_position">Місце в черзі: %1$d</string>
+    <string name="direct_queued">Чекаємо на вільне місце для передавання.</string>
+    <string name="direct_server_capacity">Чекаємо на доступність сервісу передавання.</string>
+    <string name="direct_held_local">На паузі за твоїм вибором. Оригінал або збережена частина залишаються.</string>
+    <string name="direct_held_peer">Інший учасник призупинив передавання.</string>
+    <string name="direct_held_both">Обидва учасники призупинили передавання.</string>
+    <string name="direct_confirming_continue">Підтверджуємо продовження…</string>
+    <string name="direct_sync_limit">Не вдалося підтвердити продовження. Повтори синхронізацію.</string>
+    <string name="direct_manual_pause">Пауза</string>
+    <string name="direct_manual_continue">Продовжити</string>
+    <string name="direct_retry_sync">Повторити синхронізацію</string>
+    <string name="direct_pause_save_failed">Передавання зупинено, але не вдалося зберегти паузу. Повтори спробу перед закриттям застосунку.</string>
+    <string name="direct_continue_save_failed">Не вдалося зберегти продовження. Передавання залишається на паузі.</string>
+    <string name="direct_sync_unavailable">Синхронізація паузи недоступна для цього старого передавання. За потреби скасуй його та створи нове.</string>
+    <string name="direct_sync_cooldown">Трохи зачекай перед повторною синхронізацією.</string>
+    <string name="direct_pause_saving">Зберігаємо паузу…</string>
+    <string name="direct_continue_saving">Зберігаємо продовження…</string>
+</resources>

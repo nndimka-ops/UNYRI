@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login2_private_login">Ιδιωτικό όνομα σύνδεσης</string>
+    <string name="login2_private_help">Χρησιμοποιήστε το ιδιωτικό όνομα, όχι τον δημόσιο αριθμό ή @όνομα.</string>
+    <string name="login2_strength_weak">Αδύναμος</string>
+    <string name="login2_strength_fair">Μέτριος</string>
+    <string name="login2_strength_strong">Ισχυρός</string>
+    <string name="login2_continue">Συνέχεια</string>
+    <string name="login2_number">Ο δημόσιος αριθμός σας</string>
+    <string name="login2_username">Δημόσιο @όνομα</string>
+    <string name="login2_username_rules">5–32 λατινικά γράμματα, ψηφία ή _. Αρχή με γράμμα, χωρίς __. Αλλαγή ανά 7 ημέρες· παλιό όνομα δεσμευμένο 30 ημέρες.</string>
+    <string name="login2_discoverability">Ποιος μπορεί να με βρει</string>
+    <string name="login2_everyone">Όλοι</string>
+    <string name="login2_contacts">Επαφές</string>
+    <string name="login2_nobody">Κανείς</string>
+    <string name="login2_unavailable">Το όνομα δεν είναι διαθέσιμο</string>
+    <string name="login2_conflict">Οι ρυθμίσεις άλλαξαν. Ανανεώστε και δοκιμάστε ξανά.</string>
+    <string name="login2_cooldown">Πολλές προσπάθειες ή αλλαγή εντός 7 ημερών. Δοκιμάστε αργότερα.</string>
+    <string name="login2_notice">Το όνομα σύνδεσης είναι πλέον ιδιωτικό. Αυτός είναι ο αριθμός σας. Επιλέξτε @όνομα χωρίς δημοσίευση του ονόματος σύνδεσης.</string>
+    <string name="login2_recovery_help">Αποθηκεύστε το κλειδί εκτός UNYRI. Επιβεβαιώστε τρεις ομάδες. Το νέο κλειδί αντικαθιστά το προηγούμενο. Ο λογαριασμός έχει ήδη δημιουργηθεί.</string>
+    <string name="login2_recovery_create">Δημιουργία κλειδιού ανάκτησης</string>
+    <string name="login2_recovery_group">Ομάδα %1$d</string>
+</resources>

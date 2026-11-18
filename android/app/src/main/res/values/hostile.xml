@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hostile_new_device">%1$s has a new device — compare the security code</string>
+    <string name="hostile_chat_frozen">Conversation identity changed. Sending is disabled.</string>
+    <string name="hostile_call_unverified">Unverified: this peer has no comparison code.</string>
+    <string name="hostile_call_compare">Compare these four symbols aloud. The call remains unverified until you compare.</string>
+    <string name="hostile_room_approve">Compare the security code for this exact user and device before sharing or receiving the room key.</string>
+    <string name="hostile_room_limit">Room members retain shared keys. A server can hide removal from other phones; full revocation is not guaranteed.</string>
+    <string name="hostile_room_remove">Removal creates a new private room with a fresh key. Invite trusted people again.</string>
+    <string-array name="hostile_sas_names">
+        <item>Star</item>
+        <item>Heart</item>
+        <item>Moon</item>
+        <item>Sun</item>
+        <item>Cloud</item>
+        <item>Lightning</item>
+        <item>Snowflake</item>
+        <item>Drop</item>
+        <item>Fire</item>
+        <item>Leaf</item>
+        <item>Globe</item>
+        <item>Bell</item>
+        <item>Key</item>
+        <item>House</item>
+        <item>Car</item>
+        <item>Airplane</item>
+        <item>Bicycle</item>
+        <item>Ticket</item>
+        <item>Bus</item>
+        <item>Umbrella</item>
+        <item>Gift</item>
+        <item>Crown</item>
+        <item>Flag</item>
+        <item>Book</item>
+        <item>Bookmark</item>
+        <item>Paperclip</item>
+        <item>Pencil</item>
+        <item>Scissors</item>
+        <item>Brush</item>
+        <item>Hammer</item>
+        <item>Magnifier</item>
+        <item>Eye</item>
+        <item>Palm</item>
+        <item>Note</item>
+        <item>Guitar</item>
+        <item>Gamepad</item>
+        <item>Puzzle</item>
+        <item>Dice</item>
+        <item>Turtle</item>
+        <item>Hare</item>
+        <item>Ant</item>
+        <item>Ladybug</item>
+        <item>Paw</item>
+        <item>Cup</item>
+        <item>Cutlery</item>
+        <item>Cart</item>
+        <item>Bag</item>
+        <item>Tag</item>
+        <item>Bulb</item>
+        <item>Envelope</item>
+        <item>Binoculars</item>
+        <item>Map</item>
+        <item>Mountains</item>
+        <item>Sparkles</item>
+        <item>Hourglass</item>
+        <item>Alarm clock</item>
+        <item>Megaphone</item>
+        <item>Masks</item>
+        <item>Film</item>
+        <item>Atom</item>
+        <item>Gear</item>
+        <item>Spade</item>
+        <item>T-shirt</item>
+        <item>Glasses</item>
+    </string-array>
+</resources>

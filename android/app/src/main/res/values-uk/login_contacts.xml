@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="contacts_title">Контакти</string>
+    <string name="contacts_add">Додати до контактів</string>
+    <string name="contacts_remove">Видалити з контактів</string>
+    <string name="contacts_added">Контакт додано</string>
+    <string name="contacts_removed">Контакт видалено</string>
+    <string name="contacts_change_failed">Не вдалося змінити контакти. Перевірте з’єднання та спробуйте ще раз.</string>
+    <string name="contacts_empty">Люди, яким ви пишете, додаються до контактів автоматично. Також можна додати людину з її профілю.</string>
+</resources>

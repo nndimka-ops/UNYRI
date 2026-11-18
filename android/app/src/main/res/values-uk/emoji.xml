@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="emoji_recent">Нещодавні</string>
+    <string name="emoji_people">Смайлики та люди</string>
+    <string name="emoji_nature">Тварини та природа</string>
+    <string name="emoji_food">Їжа та напої</string>
+    <string name="emoji_activity">Активність</string>
+    <string name="emoji_travel">Подорожі</string>
+    <string name="emoji_objects">Предмети</string>
+    <string name="emoji_symbols">Символи</string>
+    <string name="emoji_flags">Прапори</string>
+    <string name="emoji_delete">Видалити</string>
+    <string name="emoji_keyboard">Клавіатура</string>
+    <string name="emoji_title">Емодзі</string>
+    <string name="emoji_all">Усі емодзі</string>
+    <string name="emoji_find">Знайти емодзі</string>
+    <string name="emoji_results">Результати</string>
+    <string name="emoji_no_results">Нічого не знайдено</string>
+    <string name="emoji_close">Закрити</string>
+    <string name="emoji_insert">Вставити %1$s</string>
+</resources>

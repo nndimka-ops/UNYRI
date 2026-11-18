@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chat_text_size_title">Розмір тексту в чаті</string>
+    <string name="chat_text_size_preview">Так виглядатимуть ваші повідомлення.</string>
+    <string name="chat_text_size_small">Невеликий</string>
+    <string name="chat_text_size_default">Звичайний (типово)</string>
+    <string name="chat_text_size_large">Великий</string>
+    <string name="chat_text_size_largest">Дуже великий</string>
+    <string name="chat_text_size_maximum">Максимальний</string>
+</resources>

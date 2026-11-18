@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="calls_delete_error">Could not delete all selected calls. The remaining calls are still selected. Check your connection and retry.</string>
+    <string name="calls_delete_title">Delete selected calls?</string>
+    <string name="calls_delete_explanation">Call records: %1$d. Messages and contacts will stay.</string>
+    <string name="calls_selected">Selected: %1$d</string>
+    <string name="calls_loading">Loading call history…</string>
+    <string name="calls_refresh_error">Could not refresh calls. Saved history is available.</string>
+    <string name="calls_open_error">Could not open conversation. Try again.</string>
+    <string name="reminders_empty_hint">Hold a message and choose Remind me to set a reminder.</string>
+    <string name="gallery_photo_description">Photo %1$d. Open preview</string>
+    <string name="gallery_video_description">Video %1$d. Open preview</string>
+    <string name="security_event_new_device">New device added</string>
+    <string name="security_event_device_revoked">Device signed out</string>
+    <string name="security_event_all_revoked">Other devices signed out</string>
+    <string name="security_event_other">Account security event</string>
+    <string name="history_transfer_help">How to transfer history</string>
+    <string name="notification_messages">Messages</string>
+    <string name="notification_calls_description">Incoming call alerts</string>
+    <string name="notification_messages_description">New message notifications</string>
+    <string name="attachment_waiting_to_send">Waiting to send</string>
+    <string name="security_contact_device">A contact added a device</string>
+    <string name="security_contact_identity">A contact’s security key changed</string>
+</resources>

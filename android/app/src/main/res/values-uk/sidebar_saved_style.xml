@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sidebar_saved_profile">Профіль</string>
+    <string name="sidebar_saved_sign_out">Вихід з облікового запису</string>
+    <string name="sidebar_status_online">У мережі</string>
+    <string name="sidebar_status_invisible">Невидимка</string>
+    <string name="sidebar_status_dnd">Не турбувати</string>
+    <string name="sidebar_status_error">Не вдалося оновити статус. Виберіть статус, щоб повторити.</string>
+    <string name="sidebar_add_account">Додати обліковий запис</string>
+    <string name="sidebar_switch_account">Перемкнути обліковий запис</string>
+    <string name="sidebar_transfer_count">Передачі: %1$d</string>
+    <string name="sidebar_unread_count">Непрочитані повідомлення: %1$d</string>
+    <string name="sidebar_qr_title">Мій QR-код</string>
+    <string name="sidebar_qr_code">QR-код</string>
+    <string name="sidebar_done">Готово</string>
+    <string name="sidebar_qr_share">Поділитися посиланням</string>
+    <string name="sidebar_qr_instruction">Наведіть камеру телефона на код, щоб відкрити чат із вами в UNYRI.</string>
+    <string name="sidebar_qr_no_username">Виберіть ім’я користувача в профілі, щоб поділитися QR-кодом.</string>
+    <string name="sidebar_profile_link_failed">Не вдалося відкрити профіль. Перевірте ім’я користувача або з’єднання та повторіть спробу.</string>
+</resources>

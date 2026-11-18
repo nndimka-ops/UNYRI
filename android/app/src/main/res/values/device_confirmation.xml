@@ -1,0 +1,4 @@
+<resources>
+    <string name="devices_revoke_others_confirmation">Sessions on your other devices will end. This phone will stay signed in. You will need to sign in again to use UNYRI on those devices.</string>
+    <string name="message_reaction_action">Add reaction</string>
+</resources>

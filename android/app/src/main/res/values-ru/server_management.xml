@@ -1,0 +1,29 @@
+<resources>
+<string name="manage_card">Карточка сервера</string>
+<string name="manage_name">Название сервера</string>
+<string name="manage_operator">Владелец</string>
+<string name="manage_contact">Контакт поддержки</string>
+<string name="manage_rules">Правила сервера</string>
+<string name="manage_retention">Условия хранения данных</string>
+<string name="manage_file">Максимальный размер зашифрованного файла (байты)</string>
+<string name="manage_quota">Квота на пользователя (байты; 0 — без лимита)</string>
+<string name="manage_budget">Объём для вложений (байты; 0 — без лимита)</string>
+<string name="manage_save">Сохранить настройки</string>
+<string name="manage_storage">Хранилище сервера</string>
+<string name="manage_preview">Предпросмотр брошенных загрузок</string>
+<string name="manage_cleanup">Удалить перечисленные загрузки</string>
+<string name="manage_storage_hint">Учтены зашифрованные вложения и резерв загрузок, не весь диск. Аватары, отчёты и копии не учтены. Очистка затрагивает только неотправленные загрузки старше 24 часов, до 100 за раз.</string>
+<string name="manage_warning">Использовано не менее 90% объёма для вложений.</string>
+<string name="manage_unavailable">Не удалось загрузить сведения о сервере.</string>
+<string name="manage_claim">Сведения указал владелец сервера. Убедитесь, кому доверяете свои данные.</string>
+<string name="manage_note">Заметка модератора</string>
+<string name="manage_decision">Причина решения</string>
+<string name="manage_progress">В работе</string>
+<string name="manage_open">Новая</string>
+<string name="manage_review">Обработать жалобу</string>
+<string name="manage_evidence">Можно вставить выбранный текст сообщения в описание. Модератор получит описание без шифрования; остальные сообщения не передаются.</string>
+<string name="manage_used">Занято / зарезервировано (байты)</string>
+<string name="manage_result">Удалено / пропущено / ошибка</string>
+<string name="manage_resolved">Решена</string>
+<string name="manage_dismissed">Отклонена</string>
+</resources>

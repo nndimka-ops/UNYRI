@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="history_list_yesterday">Yesterday</string>
+    <string name="settings_group_account_privacy">Account &amp; privacy</string>
+    <string name="settings_home_privacy_title">Privacy &amp; Security</string>
+    <string name="settings_home_account_summary">Profile and account access</string>
+    <string name="settings_home_notifications_summary">Messages, reminders and Android permission</string>
+    <string name="settings_home_appearance_summary">Text, background and language</string>
+    <string name="settings_home_chat_summary">Reactions, media, voice and reading</string>
+    <string name="settings_group_personalize">Personalize</string>
+    <string name="settings_group_app_connection">App &amp; connection</string>
+    <string name="settings_current_server">Current server</string>
+    <string name="settings_server_connected">Connection established</string>
+    <string name="settings_search_label">Search</string>
+    <string name="settings_people_local_hint">People you already have chats with. To find anyone on your server, enter at least 3 characters.</string>
+    <string name="history_status_unavailable">Backup status unavailable</string>
+    <string name="history_recovery_section">Recovery key</string>
+    <string name="history_recovery_footer">Only this key can open your backup. It is not your account password. Keep it outside UNYRI.</string>
+    <string name="history_automatic_section">Automatic backup</string>
+    <string name="history_auto_unavailable">Available after you save a recovery key and turn on backups.</string>
+    <string name="history_restore_section">Restore from backup</string>
+    <string name="history_move_section">Move to another phone</string>
+    <string name="history_move_step_one">On the old phone, tap %1$s.</string>
+    <string name="history_move_step_two">On the new phone, tap Receive on this phone to show a QR code.</string>
+    <string name="history_move_step_three">Scan it with the old phone, check that the codes match and confirm.</string>
+    <string name="history_backup_send">Send from this phone</string>
+    <string name="history_how_it_works">How it works</string>
+    <string name="history_pause_footer">Turning off stops new backups. Your last backup is kept.</string>
+    <string name="history_refresh">Refresh</string>
+    <string name="history_transfer_entry_heading">Move history to another phone</string>
+    <string name="history_transfer_account_label">Account on this phone</string>
+    <string name="history_transfer_server_label">Server on this phone</string>
+    <string name="history_transfer_choose_phone">Which phone is this?</string>
+    <string name="history_transfer_choose_detail">Old phone: it already has your messages. New phone: you want your messages to appear here. Keep both phones nearby and connected.</string>
+    <string name="history_transfer_choose_old">This is the OLD phone · send history</string>
+    <string name="history_transfer_choose_new">This is the NEW phone · receive history</string>
+    <string name="history_transfer_choose_footer">Before sending, prepare the old phone in History and backups and keep its recovery key saved outside UNYRI.</string>
+</resources>

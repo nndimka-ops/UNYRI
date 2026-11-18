@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language_system_default">系统默认</string>
+    <string name="login2_signup_header">加入 UNYRI</string>
+    <string name="login2_in_contacts">已在联系人中</string>
+    <string name="login2_number_copied">号码已复制</string>
+</resources>

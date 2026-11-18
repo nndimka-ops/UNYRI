@@ -1,0 +1,6 @@
+<resources>
+    <string name="notification_settings_previews">Предпросмотр сообщений</string>
+    <string name="notification_settings_previews_detail">Выключите, чтобы вместо текста показывать «Новое сообщение».</string>
+    <string name="notification_settings_reminders">Напоминания</string>
+    <string name="notification_settings_reminders_detail">Будущие напоминания возобновятся после включения. Пропущенные не повторяются.</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_text_policy">Текст слишком длинный или содержит неподдерживаемые символы. Черновик сохранён.</string>
+    <string name="error_caption_policy">Подпись слишком длинная или содержит неподдерживаемые символы. Подпись и выбранные файлы сохранены.</string>
+    <string name="error_forward_text_policy">Одно из выбранных сообщений слишком длинное или содержит неподдерживаемые символы. Ничего не отправлено.</string>
+</resources>

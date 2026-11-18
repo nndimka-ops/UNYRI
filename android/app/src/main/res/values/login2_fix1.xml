@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language_system_default">System default</string>
+    <string name="login2_signup_header">Join UNYRI</string>
+    <string name="login2_in_contacts">In contacts</string>
+    <string name="login2_number_copied">Number copied</string>
+</resources>

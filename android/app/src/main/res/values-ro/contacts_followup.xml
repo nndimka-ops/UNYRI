@@ -1,0 +1,10 @@
+<resources>
+    <string name="contacts_empty_book">Contactele tale vor apărea aici. Adaugă pe cineva prin @nume sau invită-l în UNYRI.</string>
+    <string name="contacts_load_failed">Nu s-au putut încărca contactele.</string>
+    <string name="contacts_short_query">Persoane cu care ai conversații. Scrie cel puțin 3 caractere pentru a căuta pe toată lumea de pe server.</string>
+    <string name="contacts_connect_search">Conectează-te pentru a căuta persoane pe acest server.</string>
+    <string name="contacts_no_users">Nu s-au găsit utilizatori.</string>
+    <string name="contacts_invite_unyri">Invită în UNYRI</string>
+    <string name="contacts_search_failed">Nu s-au putut căuta persoane.</string>
+    <string name="contacts_scan_qr">Scanează codul QR</string>
+</resources>

@@ -1,0 +1,137 @@
+<resources>
+    <!-- Admin UX Pack 1: role-aware navigation and dashboard -->
+    <string name="admin_nav_home">Обзор</string>
+    <string name="admin_nav_reports">Жалобы</string>
+    <string name="admin_nav_users">Пользователи</string>
+    <string name="admin_nav_feedback">Отчёты об ошибках</string>
+    <string name="admin_nav_storage">Хранилище</string>
+    <string name="admin_nav_audit">Журнал действий</string>
+    <string name="admin_nav_settings">Настройки сервера</string>
+    <string name="admin_nav_security">Безопасность</string>
+    <string name="admin_role_owner">Владелец</string>
+    <string name="admin_role_moderator">Модератор</string>
+    <string name="admin_session_locked">Заблокировано</string>
+    <string name="admin_session_unlocked">Разблокировано</string>
+    <string name="admin_server_id">ID сервера</string>
+    <string name="admin_overview">Сводка</string>
+    <string name="admin_quick_actions">Управление</string>
+    <string name="admin_metric_open_reports">Открытые жалобы</string>
+    <string name="admin_metric_feedback">Отчёты об ошибках</string>
+    <string name="admin_metric_restrictions">Ограниченные аккаунты</string>
+    <string name="admin_metric_storage">Занято в хранилище</string>
+    <string name="admin_metric_unavailable">—</string>
+    <string name="admin_metric_hint">Числа получены из записей, уже загруженных на этом экране.</string>
+
+    <!-- Reports -->
+    <string name="admin_filter_all">Все</string>
+    <string name="admin_report_reason">Причина</string>
+    <string name="admin_report_reporter">Автор жалобы</string>
+    <string name="admin_report_target">Аккаунт из жалобы</string>
+    <string name="admin_report_created">Создана</string>
+    <string name="admin_report_reviewed">Рассмотрена</string>
+    <string name="admin_report_reviewed_by">Рассмотрел</string>
+    <string name="admin_report_resolve">Рассмотрено</string>
+    <string name="admin_report_dismiss">Отклонить</string>
+    <string name="admin_report_open_user">Открыть модерацию аккаунта</string>
+    <string name="admin_confirm_resolve_title">Закрыть жалобу как рассмотренную?</string>
+    <string name="admin_confirm_resolve_body">Жалоба будет закрыта как рассмотренная. Сначала укажите причину решения.</string>
+    <string name="admin_confirm_dismiss_title">Отклонить жалобу?</string>
+    <string name="admin_confirm_dismiss_body">Жалоба будет закрыта как отклонённая. Сначала укажите причину решения.</string>
+    <string name="admin_reports_filter_empty">В этом фильтре жалоб нет</string>
+
+    <!-- Users -->
+    <string name="admin_user_search_hint">Поиск по @имени</string>
+    <string name="admin_user_idle">Введите имя пользователя, чтобы найти аккаунт</string>
+    <string name="admin_user_empty">По этому имени аккаунты не найдены</string>
+    <string name="admin_user_active">Доступ есть</string>
+    <string name="admin_user_restricted">Доступ ограничен</string>
+    <string name="admin_user_installations">Известные установки</string>
+    <string name="admin_user_username">Имя пользователя</string>
+    <string name="admin_user_display_name">Отображаемое имя</string>
+    <string name="admin_user_diagnostics">Технические сведения</string>
+    <string name="admin_user_self">Ваш аккаунт</string>
+    <string name="admin_user_restrict">Ограничить доступ</string>
+    <string name="admin_user_restore">Восстановить доступ</string>
+    <string name="admin_user_restriction_active">Доступ сейчас ограничен</string>
+    <string name="admin_user_protected">Аккаунты администраторов и ваш собственный аккаунт здесь ограничить нельзя.</string>
+
+    <!-- Restriction sheet -->
+    <string name="admin_suspend_duration">Срок</string>
+    <string name="admin_duration_1h">1 час</string>
+    <string name="admin_duration_24h">24 часа</string>
+    <string name="admin_duration_7d">7 дней</string>
+    <string name="admin_duration_30d">30 дней</string>
+    <string name="admin_duration_permanent">Бессрочно</string>
+    <string name="admin_duration_custom">Свой срок</string>
+    <string name="admin_duration_custom_label">Часы</string>
+    <string name="admin_suspend_reason">Причина (попадёт в журнал действий)</string>
+    <string name="admin_suspend_continue">Проверить ограничение</string>
+    <string name="admin_suspend_confirm_title">Ограничить этот аккаунт?</string>
+    <string name="admin_suspend_confirm_body">Активные сеансы будут завершены. Аккаунт сможет войти снова после окончания срока.</string>
+    <string name="admin_unsuspend_confirm_title">Восстановить доступ аккаунту?</string>
+    <string name="admin_unsuspend_confirm_body">Аккаунт сможет войти сразу.</string>
+
+    <!-- Feedback -->
+    <string name="admin_feedback_empty">Отчётов об ошибках нет</string>
+    <string name="admin_feedback_platform">Платформа</string>
+    <string name="admin_feedback_version">Версия приложения</string>
+    <string name="admin_feedback_os">Система</string>
+    <string name="admin_feedback_description">Описание</string>
+    <string name="admin_feedback_technical">Технические сведения</string>
+    <string name="admin_feedback_screenshots">Скриншоты</string>
+    <string name="admin_feedback_screenshot_hint">Показаны уменьшенные версии. Нажмите, чтобы открыть полностью.</string>
+    <string name="admin_feedback_images_loading">Загрузка скриншотов…</string>
+
+    <!-- Storage (owner) -->
+    <string name="admin_storage_budget">Объём для вложений</string>
+    <string name="admin_storage_no_budget">Объём не задан</string>
+    <string name="admin_storage_top">Крупнейшие загрузки по аккаунтам</string>
+    <string name="admin_storage_plan">Запланировано к удалению</string>
+    <string name="admin_storage_plan_item">Файлов: %1$d, %2$s</string>
+    <string name="admin_storage_plan_empty">Сейчас удалять нечего</string>
+    <string name="admin_storage_plan_ttl">План действует 10 минут после создания.</string>
+    <string name="admin_storage_confirm_title">Удалить запланированные файлы?</string>
+    <string name="admin_storage_confirm_body">Брошенные загрузки будут удалены безвозвратно. Отменить это нельзя.</string>
+    <string name="admin_storage_repreview">Построить план заново</string>
+
+    <!-- Audit log (owner) -->
+    <string name="admin_audit_empty">Записанных действий нет</string>
+    <string name="admin_audit_when">Когда</string>
+    <string name="admin_audit_actor">Кто</string>
+    <string name="admin_audit_target">Объект</string>
+    <string name="admin_audit_details">Подробности</string>
+    <string name="admin_action_suspend">Ограничил доступ аккаунту</string>
+    <string name="admin_action_unsuspend">Восстановил доступ аккаунту</string>
+    <string name="admin_action_suspend_installations">Ограничил аккаунт и его установки</string>
+    <string name="admin_action_unsuspend_installations">Восстановил аккаунт и его установки</string>
+    <string name="admin_action_report">Обработал жалобу</string>
+    <string name="admin_action_policy">Изменил настройки сервера</string>
+    <string name="admin_action_enroll">Настроил доступ администратора</string>
+    <string name="admin_action_unlock">Вошёл в админку</string>
+    <string name="admin_action_rotate">Заменил ключ администратора</string>
+    <string name="admin_action_local">Изменение оператора (локальный инструмент)</string>
+
+    <!-- Server settings (owner) -->
+    <string name="admin_settings_card">Публичная карточка сервера</string>
+    <string name="admin_settings_card_hint">Эти поля можно прочитать без входа, в том числе тем, кто не является участником сервера.</string>
+    <string name="admin_settings_limits">Ограничения загрузок</string>
+    <string name="admin_settings_storage">Хранилище и квоты</string>
+    <string name="admin_settings_invalid">Проверьте числовые значения перед сохранением.</string>
+    <string name="admin_settings_saved">Настройки сервера сохранены</string>
+
+    <!-- Admin session and security -->
+    <string name="admin_security_session">Сеанс администратора</string>
+    <string name="admin_security_role">Роль</string>
+    <string name="admin_security_timeout">Админка блокируется после 15 минут без действий, при выходе с экрана и при переходе приложения в фон.</string>
+    <string name="admin_security_lock">Заблокировать админку</string>
+    <string name="admin_security_key">Бумажный ключ</string>
+    <string name="admin_security_rotate_hint">Замена ключа завершает все сеансы администраторов. Сохраните текущий ключ, пока не записан новый.</string>
+    <string name="admin_security_rotate_confirm">Заменить бумажный ключ администратора?</string>
+    <string name="admin_security_rotate_confirm_body">Введите текущий и новый бумажный ключ. Все сеансы администраторов будут завершены.</string>
+
+    <!-- Shared states -->
+    <string name="admin_loading">Загрузка…</string>
+    <string name="admin_error_title">Запрос не выполнен</string>
+    <string name="admin_section_empty">Пока нечего показать</string>
+    <string name="admin_back">Назад</string>
+</resources>

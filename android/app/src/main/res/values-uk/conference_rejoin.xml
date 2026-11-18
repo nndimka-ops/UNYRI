@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="conference_owner_access_not_saved">Не вдалося зберегти доступ до кімнати на цьому пристрої. Перед виходом збережіть запрошення, щоб повернутися.</string>
+</resources>

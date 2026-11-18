@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="contacts_title">Contacts</string>
+    <string name="contacts_add">Add to contacts</string>
+    <string name="contacts_remove">Remove from contacts</string>
+    <string name="contacts_added">Contact added</string>
+    <string name="contacts_removed">Contact removed</string>
+    <string name="contacts_change_failed">Could not update contacts. Check your connection and try again.</string>
+    <string name="contacts_empty">People you message are added to contacts automatically. You can also add someone from their profile.</string>
+</resources>

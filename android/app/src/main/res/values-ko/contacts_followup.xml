@@ -1,0 +1,10 @@
+<resources>
+    <string name="contacts_empty_book">연락처가 여기에 표시됩니다. @사용자이름으로 추가하거나 UNYRI에 초대하세요.</string>
+    <string name="contacts_load_failed">연락처를 불러올 수 없습니다.</string>
+    <string name="contacts_short_query">채팅하는 사람들입니다. 서버의 모든 사람을 검색하려면 3자 이상 입력하세요.</string>
+    <string name="contacts_connect_search">이 서버에서 사람을 검색하려면 연결하세요.</string>
+    <string name="contacts_no_users">사용자를 찾을 수 없습니다.</string>
+    <string name="contacts_invite_unyri">UNYRI에 초대</string>
+    <string name="contacts_search_failed">사람을 검색할 수 없습니다.</string>
+    <string name="contacts_scan_qr">QR 코드 스캔</string>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_caption_camera">Fotocamera</string>
+    <string name="call_caption_mute">Microfono</string>
+    <string name="call_caption_end">Termina</string>
+    <string name="call_caption_speaker">Vivavoce</string>
+    <string name="call_caption_flip">Cambia</string>
+    <string name="call_caption_video">Video</string>
+</resources>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hostile_new_device">%1$s yeni bir cihaz kullanıyor — güvenlik kodunu karşılaştırın</string>
+    <string name="hostile_chat_frozen">Sohbetteki kimlik değişti. Gönderme devre dışı.</string>
+    <string name="hostile_call_unverified">Doğrulanmadı: karşı tarafın karşılaştırma kodu yok.</string>
+    <string name="hostile_call_compare">Bu dört simgeyi sesli karşılaştırın. O zamana kadar arama doğrulanmamıştır.</string>
+    <string name="hostile_room_approve">Anahtar alışverişinden önce bu kullanıcı ve cihazın kodunu karşılaştırın.</string>
+    <string name="hostile_room_limit">Üyeler ortak anahtarları saklar. Sunucu çıkarmayı gizleyebilir; tam erişim iptali garanti edilmez.</string>
+    <string name="hostile_room_remove">Çıkarma, yeni anahtarlı özel bir oda oluşturur. Güvendiğiniz kişileri yeniden davet edin.</string>
+    <string-array name="hostile_sas_names">
+        <item>Yıldız</item>
+        <item>Kalp</item>
+        <item>Ay</item>
+        <item>Güneş</item>
+        <item>Bulut</item>
+        <item>Şimşek</item>
+        <item>Kar tanesi</item>
+        <item>Damla</item>
+        <item>Ateş</item>
+        <item>Yaprak</item>
+        <item>Küre</item>
+        <item>Çan</item>
+        <item>Anahtar</item>
+        <item>Ev</item>
+        <item>Araba</item>
+        <item>Uçak</item>
+        <item>Bisiklet</item>
+        <item>Bilet</item>
+        <item>Otobüs</item>
+        <item>Şemsiye</item>
+        <item>Hediye</item>
+        <item>Taç</item>
+        <item>Bayrak</item>
+        <item>Kitap</item>
+        <item>Yer imi</item>
+        <item>Ataş</item>
+        <item>Kalem</item>
+        <item>Makas</item>
+        <item>Fırça</item>
+        <item>Çekiç</item>
+        <item>Büyüteç</item>
+        <item>Göz</item>
+        <item>Avuç</item>
+        <item>Nota</item>
+        <item>Gitar</item>
+        <item>Oyun kolu</item>
+        <item>Yapboz</item>
+        <item>Zar</item>
+        <item>Kaplumbağa</item>
+        <item>Tavşan</item>
+        <item>Karınca</item>
+        <item>Uğur böceği</item>
+        <item>Pati</item>
+        <item>Fincan</item>
+        <item>Çatal bıçak</item>
+        <item>Alışveriş arabası</item>
+        <item>Çanta</item>
+        <item>Etiket</item>
+        <item>Ampul</item>
+        <item>Zarf</item>
+        <item>Dürbün</item>
+        <item>Harita</item>
+        <item>Dağlar</item>
+        <item>Kıvılcımlar</item>
+        <item>Kum saati</item>
+        <item>Çalar saat</item>
+        <item>Megafon</item>
+        <item>Maskeler</item>
+        <item>Film</item>
+        <item>Atom</item>
+        <item>Dişli</item>
+        <item>Maça</item>
+        <item>Tişört</item>
+        <item>Gözlük</item>
+    </string-array>
+</resources>

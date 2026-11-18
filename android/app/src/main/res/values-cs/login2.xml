@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login2_private_login">Soukromé přihlašovací jméno</string>
+    <string name="login2_private_help">Použijte soukromé přihlášení, nikoli veřejné číslo nebo @jméno.</string>
+    <string name="login2_strength_weak">Slabé</string>
+    <string name="login2_strength_fair">Střední</string>
+    <string name="login2_strength_strong">Silné</string>
+    <string name="login2_continue">Pokračovat</string>
+    <string name="login2_number">Vaše veřejné číslo</string>
+    <string name="login2_username">Veřejné @jméno</string>
+    <string name="login2_username_rules">5–32 písmen latinky, číslic nebo _. Začíná písmenem, bez __. Změna po 7 dnech; staré jméno blokováno 30 dní.</string>
+    <string name="login2_discoverability">Kdo mě může najít</string>
+    <string name="login2_everyone">Všichni</string>
+    <string name="login2_contacts">Kontakty</string>
+    <string name="login2_nobody">Nikdo</string>
+    <string name="login2_unavailable">Jméno není dostupné</string>
+    <string name="login2_conflict">Nastavení se změnilo. Obnovte je a zkuste to znovu.</string>
+    <string name="login2_cooldown">Příliš mnoho pokusů nebo změna během 7 dní. Zkuste to později.</string>
+    <string name="login2_notice">Vaše přihlášení je nyní soukromé. Zde je vaše číslo. Můžete zvolit @jméno; přihlášení se nezveřejní.</string>
+    <string name="login2_recovery_help">Uložte klíč mimo UNYRI a potvrďte tři skupiny. Nový klíč nahradí předchozí. Účet již byl vytvořen.</string>
+    <string name="login2_recovery_create">Vytvořit klíč pro obnovení</string>
+    <string name="login2_recovery_group">Skupina %1$d</string>
+</resources>

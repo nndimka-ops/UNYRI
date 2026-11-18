@@ -1,0 +1,21 @@
+<resources>
+    <string name="drawer_choice_a">Колона (A)</string>
+    <string name="drawer_choice_c">Карта (C)</string>
+    <string name="drawer_version">Версия %1$s (%2$d)</string>
+    <string name="drawer_my_qr">Моят QR</string>
+    <string name="drawer_count_description">%1$s, %2$d</string>
+    <string name="drawer_switch_to">Превключване към %1$s</string>
+    <string name="drawer_account_unread">%1$d непрочетени</string>
+    <string name="drawer_remove_account">Премахване на акаунт</string>
+    <string name="contacts_invite">Покана</string>
+    <string name="contacts_search">Търсене на контакти</string>
+    <string name="contacts_find_server">Търсене в сървъра</string>
+    <string name="contacts_offline_retry">Няма връзка · Повторен опит</string>
+    <string name="contacts_add_username">Въведете @username за търсене в сървъра, после изберете добавяне на контакт от менюто.</string>
+    <string name="contacts_write">Съобщение</string>
+    <string name="contacts_call">Обаждане</string>
+    <string name="contacts_video">Видеообаждане</string>
+    <string name="contacts_status_hidden">Скрит статус</string>
+    <string name="drawer_choice_hint">Прилага се веднага на това устройство.</string>
+    <string name="drawer_appearance_summary">Колона или карта, жестове</string>
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login2_private_login">Private login</string>
+    <string name="login2_private_help">Use your private login, not your public number or optional @username.</string>
+    <string name="login2_strength_weak">Weak</string>
+    <string name="login2_strength_fair">Fair</string>
+    <string name="login2_strength_strong">Strong</string>
+    <string name="login2_continue">Continue</string>
+    <string name="login2_number">Your public number</string>
+    <string name="login2_username">Public @username</string>
+    <string name="login2_username_rules">Use 5–32 ASCII letters, digits or _, start with a letter, and avoid __. Changes: 7 days. Old name frozen: 30 days.</string>
+    <string name="login2_discoverability">Who can find me</string>
+    <string name="login2_everyone">Everyone</string>
+    <string name="login2_contacts">Contacts</string>
+    <string name="login2_nobody">Nobody</string>
+    <string name="login2_unavailable">Public username is unavailable</string>
+    <string name="login2_conflict">Settings changed. Reload and try again.</string>
+    <string name="login2_cooldown">Too many attempts or username changed within 7 days. Try again later.</string>
+    <string name="login2_notice">Your login is now private. Here is your number. You can choose an optional @username; your login is never published as a username.</string>
+    <string name="login2_recovery_help">Save the key outside UNYRI. Then type three groups to confirm. Creating a new key replaces the previous one. Your account is already registered.</string>
+    <string name="login2_recovery_create">Create recovery key</string>
+    <string name="login2_recovery_group">Group %1$d</string>
+</resources>

@@ -1,0 +1,4 @@
+<resources>
+<string name="delete_also_peer">Також видалити у співрозмовника</string>
+<string name="delete_only_you">Буде видалено лише у вас</string>
+</resources>

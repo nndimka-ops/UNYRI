@@ -1,0 +1,10 @@
+<resources>
+    <string name="contacts_empty_book">連絡先はここに表示されます。@ユーザー名で追加するか、UNYRIに招待してください。</string>
+    <string name="contacts_load_failed">連絡先を読み込めませんでした。</string>
+    <string name="contacts_short_query">チャットしている相手です。サーバー上の全員を検索するには3文字以上入力してください。</string>
+    <string name="contacts_connect_search">このサーバーでユーザーを検索するには接続してください。</string>
+    <string name="contacts_no_users">ユーザーが見つかりません。</string>
+    <string name="contacts_invite_unyri">UNYRIに招待</string>
+    <string name="contacts_search_failed">ユーザーを検索できませんでした。</string>
+    <string name="contacts_scan_qr">QRコードをスキャン</string>
+</resources>

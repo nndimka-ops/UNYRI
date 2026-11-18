@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inline_search_chats">Chats en contacten</string>
+    <string name="inline_search_global">Globaal zoeken</string>
+    <string name="inline_search_privacy">Zoek op naam of @gebruikersnaam. Deze zoekopdracht wordt naar je server verzonden.</string>
+    <string name="inline_search_media">Media</string>
+    <string name="inline_search_links">Links</string>
+    <string name="inline_search_files">Bestanden</string>
+    <string name="inline_search_offline">Geen verbinding</string>
+    <string name="inline_notification_banners">Banners</string>
+    <string name="inline_notification_sound">Geluid</string>
+    <string name="inline_notification_vibration">Trillen</string>
+    <string name="inline_search_unavailable">Serverlijst niet beschikbaar. Vraag de eigenaar de server bij te werken.</string>
+    <string name="inline_notification_header">In de app</string>
+    <string name="inline_search_voice">Spraakberichten</string>
+    <string name="directory_cached_hint">Opgeslagen personen. Beschikbaarheid wordt bijgewerkt bij verbinding.</string>
+    <string name="search_clear">Zoekopdracht wissen</string>
+    <string name="search_open_failed">Het gesprek kan niet worden geopend. Je zoekresultaten blijven bewaard. Tik opnieuw op de persoon.</string>
+    <string name="search_recent">Recente zoekopdrachten</string>
+    <string name="search_scope_messages">Berichten</string>
+    <string name="settings_search_label">Zoeken</string>
+    <string name="unified_search_hint">Doorzoek opgeslagen chats en berichten offline. Vind personen op deze server op gebruikersnaam.</string>
+    <string name="unified_search_network">Zoeken op de server is niet beschikbaar. Lokale resultaten blijven beschikbaar.</string>
+    <string name="unified_search_local_error">Opgeslagen berichten kunnen niet worden geladen. Zoek opnieuw.</string>
+</resources>

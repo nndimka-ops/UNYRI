@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language_system_default">Системен език</string>
+    <string name="login2_signup_header">Присъединете се към UNYRI</string>
+    <string name="login2_in_contacts">В контактите</string>
+    <string name="login2_number_copied">Номерът е копиран</string>
+</resources>

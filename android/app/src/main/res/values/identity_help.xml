@@ -1,0 +1,17 @@
+<resources>
+<string name="verify_own_devices">My other devices</string>
+<string name="verify_code_details">Security code details</string>
+<string name="verify_explanation">Only changed keys pause sending. You do not need to verify every device. Confirm a change with the device owner first, then return to the chat and retry the unsent message.</string>
+<string name="verify_all_devices">Show all known devices</string>
+<string name="verify_only_changes">Only changed devices</string>
+<string name="verify_no_changes">No changed keys here. Return to the chat and retry the message.</string>
+    <string name="verify_confirm_title">Confirm device change</string>
+    <string name="verify_confirm_message">Ask your contact whether they changed phones or reinstalled UNYRI. If they confirm it, accept the change and retry your message. Never share your password or recovery key.</string>
+    <string name="verify_confirm_action">I confirmed the change</string>
+    <string name="verify_action_failed">Could not confirm this device. Reopen the screen and check the current key.</string>
+    <string name="verify_changed_status">Key changed</string>
+    <string name="verify_unverified_status">Not verified</string>
+    <string name="verify_loading">Loading devices…</string>
+    <string name="verify_load_failed">Could not load devices. Your saved keys have not been changed.</string>
+    <string name="verify_retry_load">Try again</string>
+</resources>

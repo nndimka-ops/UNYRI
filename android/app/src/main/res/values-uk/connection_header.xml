@@ -1,0 +1,9 @@
+<resources>
+    <string name="connection_header_online">У мережі</string>
+    <string name="connection_header_syncing">Синхронізація…</string>
+    <string name="connection_header_unavailable">Сервер недоступний</string>
+    <string name="connection_header_sync_failed">Синхронізацію призупинено</string>
+    <string name="connection_header_ping_value">%1$s мс</string>
+    <string name="connection_ping_setting">Показувати пінг</string>
+    <string name="connection_ping_detail">Час відповіді сервера поруч зі статусом</string>
+</resources>

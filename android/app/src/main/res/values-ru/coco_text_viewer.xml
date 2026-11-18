@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="coco_text_full_title">Текст сообщения</string>
+    <string name="coco_text_full_action">Показать полностью</string>
+    <string name="coco_text_empty">[Пустое сообщение]</string>
+    <string name="coco_text_unsupported">Этот текст слишком большой или не поддерживается.</string>
+</resources>

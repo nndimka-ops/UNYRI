@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_p2p_title">Дзвінки напряму</string>
+    <string name="call_p2p_everyone">Усі</string>
+    <string name="call_p2p_contacts">Мої контакти</string>
+    <string name="call_p2p_nobody">Ніхто</string>
+    <string name="call_p2p_note">Пряме з’єднання зазвичай швидше, але пристрій співрозмовника бачить вашу IP-адресу. Під час дзвінка через сервер видно лише адресу сервера. «Мої контакти» дозволяє пряме з’єднання лише з людьми з Контактів. Застосовується з наступного дзвінка.</string>
+</resources>

@@ -1,0 +1,4 @@
+<resources>
+<string name="delete_also_peer">Также удалить у собеседника</string>
+<string name="delete_only_you">Удалится только у вас</string>
+</resources>

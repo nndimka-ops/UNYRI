@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login2_private_login">非公開ログイン名</string>
+    <string name="login2_private_help">公開番号や@ユーザー名ではなく、非公開ログイン名を使用してください。</string>
+    <string name="login2_strength_weak">弱い</string>
+    <string name="login2_strength_fair">普通</string>
+    <string name="login2_strength_strong">強い</string>
+    <string name="login2_continue">続ける</string>
+    <string name="login2_number">あなたの公開番号</string>
+    <string name="login2_username">公開@ユーザー名</string>
+    <string name="login2_username_rules">ASCII英字・数字・_の5〜32文字。先頭は英字、__は禁止。変更は7日ごと。旧名は30日間凍結。</string>
+    <string name="login2_discoverability">検索を許可する相手</string>
+    <string name="login2_everyone">全員</string>
+    <string name="login2_contacts">連絡先</string>
+    <string name="login2_nobody">誰も許可しない</string>
+    <string name="login2_unavailable">この名前は利用できません</string>
+    <string name="login2_conflict">設定が変更されました。再読み込みして再試行してください。</string>
+    <string name="login2_cooldown">試行回数が多すぎるか7日以内に変更済みです。後で再試行してください。</string>
+    <string name="login2_notice">ログイン名は非公開になりました。こちらが公開番号です。任意の@ユーザー名を設定できます。ログイン名は公開されません。</string>
+    <string name="login2_recovery_help">キーをUNYRIの外に保存し、3つのグループを入力して確認してください。新しいキーは以前のキーを置き換えます。アカウントは登録済みです。</string>
+    <string name="login2_recovery_create">復旧キーを作成</string>
+    <string name="login2_recovery_group">グループ%1$d</string>
+</resources>

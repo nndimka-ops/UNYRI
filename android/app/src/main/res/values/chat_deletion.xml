@@ -1,0 +1,10 @@
+<resources>
+<string name="chat_attachment_group">Attachment group: %1$d</string>
+<string name="chat_delete_album">Delete attachments</string>
+<string name="chat_delete_album_item">Delete only this attachment</string>
+<string name="chats_delete">Delete conversation</string>
+<string name="chats_delete_me">Delete only for me</string>
+<string name="chats_delete_both">Delete for both</string>
+<string name="chats_delete_me_detail">Remove the current messages, files and call history from your devices. The other person keeps their copy. New messages can reopen the chat. Separately saved copies remain.</string>
+<string name="chats_delete_both_detail">Remove the current messages, files and call history for both people. This cannot be undone. New messages and separately saved copies remain.</string>
+</resources>

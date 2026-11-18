@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inline_search_chats">聊天和联系人</string>
+    <string name="inline_search_global">全局搜索</string>
+    <string name="inline_search_privacy">按姓名或@用户名搜索。搜索内容将发送到您的服务器。</string>
+    <string name="inline_search_media">媒体</string>
+    <string name="inline_search_links">链接</string>
+    <string name="inline_search_files">文件</string>
+    <string name="inline_search_offline">无连接</string>
+    <string name="inline_notification_banners">横幅</string>
+    <string name="inline_notification_sound">声音</string>
+    <string name="inline_notification_vibration">振动</string>
+    <string name="inline_search_unavailable">服务器目录不可用。请让服务器所有者更新服务器。</string>
+    <string name="inline_notification_header">应用内</string>
+    <string name="inline_search_voice">语音</string>
+    <string name="directory_cached_hint">已保存的用户。连接后将更新在线状态。</string>
+    <string name="search_clear">清除搜索</string>
+    <string name="search_open_failed">无法打开对话。搜索结果已保留，请再次点击该用户。</string>
+    <string name="search_recent">最近搜索</string>
+    <string name="search_scope_messages">消息</string>
+    <string name="settings_search_label">搜索</string>
+    <string name="unified_search_hint">离线搜索已保存的聊天和消息。通过用户名查找此服务器上的用户。</string>
+    <string name="unified_search_network">服务器搜索不可用。本地结果仍然可用。</string>
+    <string name="unified_search_local_error">无法加载已保存的消息。请重新搜索。</string>
+</resources>

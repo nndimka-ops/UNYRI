@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="conference_join_waiting_creator">Waiting for the room creator…</string>
+    <string name="conference_join_denied">The room creator declined your request.</string>
+    <string name="conference_join_expired">The join request expired. Please try again.</string>
+    <string name="conference_join_cancelled">The join request was cancelled.</string>
+    <string name="conference_join_retry_time">Try again after %1$s.</string>
+    <string name="conference_join_requests">Join requests</string>
+    <string name="conference_join_confirm">Approve new participants</string>
+    <string name="conference_join_explanation">The creator accepts or declines requests inside the room. After a refusal: 1 minute, then 10 minutes.</string>
+    <string name="conference_join_accept">Accept</string>
+    <string name="conference_join_reject">Decline</string>
+    <string name="conference_join_wants_in">%1$s wants to join</string>
+    <string name="conference_join_cancel">Cancel request</string>
+</resources>

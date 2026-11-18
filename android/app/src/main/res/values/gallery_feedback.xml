@@ -1,0 +1,5 @@
+<resources>
+    <string name="gallery_empty">Nothing here yet</string>
+    <string name="gallery_load_failed">Could not load media. Try again.</string>
+    <string name="gallery_open_failed">Could not open the file. Tap it to try again.</string>
+</resources>

@@ -1,0 +1,9 @@
+<resources>
+    <string name="connection_header_online">Online</string>
+    <string name="connection_header_syncing">Syncing…</string>
+    <string name="connection_header_unavailable">Server unavailable</string>
+    <string name="connection_header_sync_failed">Sync paused</string>
+    <string name="connection_header_ping_value">%1$s ms</string>
+    <string name="connection_ping_setting">Show ping</string>
+    <string name="connection_ping_detail">Server response time next to the status</string>
+</resources>

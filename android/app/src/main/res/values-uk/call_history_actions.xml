@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_history_delete">Видалити запис дзвінка?</string>
+    <string name="call_history_delete_all">Запис дзвінка зникне в обох учасників.</string>
+    <string name="call_history_delete_me">Запис дзвінка зникне на ваших пристроях. У співрозмовника він залишиться.</string>
+    <string name="call_history_delete_failed">Не вдалося видалити запис дзвінка. Перевірте з’єднання та версію сервера й повторіть.</string>
+    <string name="chat_delete_items">Видалити вибране?</string>
+    <string name="chat_delete_items_all">Вибрані повідомлення та записи дзвінків зникнуть в обох учасників.</string>
+    <string name="chat_delete_items_me">Вибрані повідомлення та записи дзвінків зникнуть у вас.</string>
+</resources>

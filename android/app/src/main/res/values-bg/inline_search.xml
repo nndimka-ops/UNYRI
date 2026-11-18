@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inline_search_chats">Чатове и контакти</string>
+    <string name="inline_search_global">Глобално търсене</string>
+    <string name="inline_search_privacy">Търсене по име или @потребител. Заявката се изпраща до вашия сървър.</string>
+    <string name="inline_search_media">Медия</string>
+    <string name="inline_search_links">Връзки</string>
+    <string name="inline_search_files">Файлове</string>
+    <string name="inline_search_offline">Няма връзка</string>
+    <string name="inline_notification_banners">Банери</string>
+    <string name="inline_notification_sound">Звук</string>
+    <string name="inline_notification_vibration">Вибрация</string>
+    <string name="inline_search_unavailable">Указателят на сървъра е недостъпен. Помолете собственика да обнови сървъра.</string>
+    <string name="inline_notification_header">В приложението</string>
+    <string name="inline_search_voice">Гласови съобщения</string>
+    <string name="directory_cached_hint">Запазени хора. Наличността ще се обнови при свързване.</string>
+    <string name="search_clear">Изчистване на търсенето</string>
+    <string name="search_open_failed">Разговорът не може да се отвори. Резултатите са запазени. Докоснете човека отново.</string>
+    <string name="search_recent">Скорошни търсения</string>
+    <string name="search_scope_messages">Съобщения</string>
+    <string name="settings_search_label">Търсене</string>
+    <string name="unified_search_hint">Търсете в запазени чатове и съобщения без връзка. Намерете хора на този сървър по потребителско име.</string>
+    <string name="unified_search_network">Търсенето в сървъра е недостъпно. Местните резултати остават достъпни.</string>
+    <string name="unified_search_local_error">Запазените съобщения не могат да се заредят. Опитайте отново.</string>
+</resources>

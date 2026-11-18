@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hostile_new_device">لدى %1$s جهاز جديد — قارنوا رمز الأمان</string>
+    <string name="hostile_chat_frozen">تغيّرت الهوية في المحادثة. الإرسال معطّل.</string>
+    <string name="hostile_call_unverified">غير متحقق: الطرف الآخر ليس لديه رمز مقارنة.</string>
+    <string name="hostile_call_compare">قارنوا هذه الرموز الأربعة بصوت مسموع. تبقى المكالمة غير متحققة حتى المقارنة.</string>
+    <string name="hostile_room_approve">قارن رمز هذا المستخدم والجهاز قبل تبادل مفتاح الغرفة.</string>
+    <string name="hostile_room_limit">يحتفظ الأعضاء بالمفاتيح المشتركة. قد يخفي الخادم الإزالة؛ سحب الوصول بالكامل غير مضمون.</string>
+    <string name="hostile_room_remove">تُنشئ الإزالة غرفة خاصة جديدة بمفتاح جديد. ادعُ الأشخاص الموثوقين مجددًا.</string>
+    <string-array name="hostile_sas_names">
+        <item>نجمة</item>
+        <item>قلب</item>
+        <item>قمر</item>
+        <item>شمس</item>
+        <item>سحابة</item>
+        <item>برق</item>
+        <item>ندفة ثلج</item>
+        <item>قطرة</item>
+        <item>نار</item>
+        <item>ورقة</item>
+        <item>كرة أرضية</item>
+        <item>جرس</item>
+        <item>مفتاح</item>
+        <item>منزل</item>
+        <item>سيارة</item>
+        <item>طائرة</item>
+        <item>دراجة</item>
+        <item>تذكرة</item>
+        <item>حافلة</item>
+        <item>مظلة</item>
+        <item>هدية</item>
+        <item>تاج</item>
+        <item>علم</item>
+        <item>كتاب</item>
+        <item>علامة مرجعية</item>
+        <item>مشبك</item>
+        <item>قلم</item>
+        <item>مقص</item>
+        <item>فرشاة</item>
+        <item>مطرقة</item>
+        <item>عدسة مكبرة</item>
+        <item>عين</item>
+        <item>كف</item>
+        <item>نغمة</item>
+        <item>غيتار</item>
+        <item>يد تحكم</item>
+        <item>أحجية</item>
+        <item>نرد</item>
+        <item>سلحفاة</item>
+        <item>أرنب</item>
+        <item>نملة</item>
+        <item>دعسوقة</item>
+        <item>كف حيوان</item>
+        <item>فنجان</item>
+        <item>أدوات مائدة</item>
+        <item>عربة</item>
+        <item>حقيبة</item>
+        <item>بطاقة</item>
+        <item>مصباح</item>
+        <item>ظرف</item>
+        <item>منظار</item>
+        <item>خريطة</item>
+        <item>جبال</item>
+        <item>بريق</item>
+        <item>ساعة رملية</item>
+        <item>منبه</item>
+        <item>مكبر صوت</item>
+        <item>أقنعة</item>
+        <item>فيلم</item>
+        <item>ذرة</item>
+        <item>ترس</item>
+        <item>بستوني</item>
+        <item>قميص</item>
+        <item>نظارات</item>
+    </string-array>
+</resources>

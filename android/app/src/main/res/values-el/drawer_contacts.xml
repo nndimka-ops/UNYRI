@@ -1,0 +1,21 @@
+<resources>
+    <string name="drawer_choice_a">Στήλη (A)</string>
+    <string name="drawer_choice_c">Κάρτα (C)</string>
+    <string name="drawer_version">Έκδοση %1$s (%2$d)</string>
+    <string name="drawer_my_qr">Το QR μου</string>
+    <string name="drawer_count_description">%1$s, %2$d</string>
+    <string name="drawer_switch_to">Μετάβαση σε %1$s</string>
+    <string name="drawer_account_unread">%1$d αδιάβαστα</string>
+    <string name="drawer_remove_account">Αφαίρεση λογαριασμού</string>
+    <string name="contacts_invite">Πρόσκληση</string>
+    <string name="contacts_search">Αναζήτηση επαφών</string>
+    <string name="contacts_find_server">Αναζήτηση στον διακομιστή</string>
+    <string name="contacts_offline_retry">Χωρίς σύνδεση · Επανάληψη</string>
+    <string name="contacts_add_username">Εισαγάγετε @username για αναζήτηση στον διακομιστή και επιλέξτε προσθήκη επαφής από το μενού.</string>
+    <string name="contacts_write">Μήνυμα</string>
+    <string name="contacts_call">Κλήση</string>
+    <string name="contacts_video">Βιντεοκλήση</string>
+    <string name="contacts_status_hidden">Κρυφή κατάσταση</string>
+    <string name="drawer_choice_hint">Εφαρμόζεται αμέσως σε αυτή τη συσκευή.</string>
+    <string name="drawer_appearance_summary">Στήλη ή κάρτα, χειρονομίες</string>
+</resources>

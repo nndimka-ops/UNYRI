@@ -1,0 +1,21 @@
+<resources>
+    <string name="drawer_choice_a">열 (A)</string>
+    <string name="drawer_choice_c">카드 (C)</string>
+    <string name="drawer_version">버전 %1$s (%2$d)</string>
+    <string name="drawer_my_qr">내 QR</string>
+    <string name="drawer_count_description">%1$s, %2$d</string>
+    <string name="drawer_switch_to">%1$s 계정으로 전환</string>
+    <string name="drawer_account_unread">읽지 않은 항목 %1$d개</string>
+    <string name="drawer_remove_account">계정 제거</string>
+    <string name="contacts_invite">초대</string>
+    <string name="contacts_search">연락처 검색</string>
+    <string name="contacts_find_server">서버에서 찾기</string>
+    <string name="contacts_offline_retry">연결 없음 · 다시 시도</string>
+    <string name="contacts_add_username">@username을 입력하여 서버에서 검색한 다음 메뉴에서 연락처 추가를 선택하세요.</string>
+    <string name="contacts_write">메시지</string>
+    <string name="contacts_call">전화</string>
+    <string name="contacts_video">영상 통화</string>
+    <string name="contacts_status_hidden">상태 숨김</string>
+    <string name="drawer_choice_hint">이 기기에 즉시 적용됩니다.</string>
+    <string name="drawer_appearance_summary">열 또는 카드, 제스처</string>
+</resources>

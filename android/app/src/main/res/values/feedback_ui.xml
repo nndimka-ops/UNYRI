@@ -1,0 +1,7 @@
+<resources>
+    <string name="feedback_working">Please wait…</string>
+    <string name="feedback_screenshots_section">Screenshots</string>
+    <string name="feedback_screenshots_hint">Optional · up to 3 images. Hide passwords and other private information.</string>
+    <string name="feedback_screenshot_number">Screenshot %1$d</string>
+    <string name="feedback_recipient">Who receives the report</string>
+</resources>

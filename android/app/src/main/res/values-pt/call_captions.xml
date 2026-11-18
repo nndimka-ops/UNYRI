@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_caption_camera">Câmara</string>
+    <string name="call_caption_mute">Microfone</string>
+    <string name="call_caption_end">Terminar</string>
+    <string name="call_caption_speaker">Altifalante</string>
+    <string name="call_caption_flip">Alternar</string>
+    <string name="call_caption_video">Vídeo</string>
+</resources>

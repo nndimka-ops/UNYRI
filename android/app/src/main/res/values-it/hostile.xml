@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hostile_new_device">%1$s ha un nuovo dispositivo — confrontate il codice di sicurezza</string>
+    <string name="hostile_chat_frozen">L’identità nella chat è cambiata. Invio disattivato.</string>
+    <string name="hostile_call_unverified">Non verificata: l’altra persona non ha un codice di confronto.</string>
+    <string name="hostile_call_compare">Confrontate questi quattro simboli a voce. Fino ad allora la chiamata resta non verificata.</string>
+    <string name="hostile_room_approve">Confronta il codice di questo utente e dispositivo prima di scambiare la chiave.</string>
+    <string name="hostile_room_limit">I membri conservano le chiavi condivise. Il server può nascondere le rimozioni; la revoca completa non è garantita.</string>
+    <string name="hostile_room_remove">La rimozione crea una nuova stanza privata con una nuova chiave. Invita nuovamente le persone fidate.</string>
+    <string-array name="hostile_sas_names">
+        <item>Stella</item>
+        <item>Cuore</item>
+        <item>Luna</item>
+        <item>Sole</item>
+        <item>Nuvola</item>
+        <item>Fulmine</item>
+        <item>Fiocco di neve</item>
+        <item>Goccia</item>
+        <item>Fuoco</item>
+        <item>Foglia</item>
+        <item>Globo</item>
+        <item>Campana</item>
+        <item>Chiave</item>
+        <item>Casa</item>
+        <item>Auto</item>
+        <item>Aereo</item>
+        <item>Bicicletta</item>
+        <item>Biglietto</item>
+        <item>Autobus</item>
+        <item>Ombrello</item>
+        <item>Regalo</item>
+        <item>Corona</item>
+        <item>Bandiera</item>
+        <item>Libro</item>
+        <item>Segnalibro</item>
+        <item>Graffetta</item>
+        <item>Matita</item>
+        <item>Forbici</item>
+        <item>Pennello</item>
+        <item>Martello</item>
+        <item>Lente</item>
+        <item>Occhio</item>
+        <item>Palmo</item>
+        <item>Nota</item>
+        <item>Chitarra</item>
+        <item>Controller</item>
+        <item>Puzzle</item>
+        <item>Dado</item>
+        <item>Tartaruga</item>
+        <item>Lepre</item>
+        <item>Formica</item>
+        <item>Coccinella</item>
+        <item>Zampa</item>
+        <item>Tazza</item>
+        <item>Posate</item>
+        <item>Carrello</item>
+        <item>Borsa</item>
+        <item>Etichetta</item>
+        <item>Lampadina</item>
+        <item>Busta</item>
+        <item>Binocolo</item>
+        <item>Mappa</item>
+        <item>Montagne</item>
+        <item>Scintille</item>
+        <item>Clessidra</item>
+        <item>Sveglia</item>
+        <item>Megafono</item>
+        <item>Maschere</item>
+        <item>Pellicola</item>
+        <item>Atomo</item>
+        <item>Ingranaggio</item>
+        <item>Picche</item>
+        <item>Maglietta</item>
+        <item>Occhiali</item>
+    </string-array>
+</resources>

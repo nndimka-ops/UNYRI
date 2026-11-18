@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inline_search_chats">المحادثات وجهات الاتصال</string>
+    <string name="inline_search_global">البحث العام</string>
+    <string name="inline_search_privacy">ابحث بالاسم أو @اسم المستخدم. يُرسل هذا الاستعلام إلى خادمك.</string>
+    <string name="inline_search_media">الوسائط</string>
+    <string name="inline_search_links">الروابط</string>
+    <string name="inline_search_files">الملفات</string>
+    <string name="inline_search_offline">لا يوجد اتصال</string>
+    <string name="inline_notification_banners">اللافتات</string>
+    <string name="inline_notification_sound">الصوت</string>
+    <string name="inline_notification_vibration">الاهتزاز</string>
+    <string name="inline_search_unavailable">دليل الخادم غير متاح. اطلب من المالك تحديث الخادم.</string>
+    <string name="inline_notification_header">داخل التطبيق</string>
+    <string name="inline_search_voice">الرسائل الصوتية</string>
+    <string name="directory_cached_hint">أشخاص محفوظون. سيتم تحديث التوفر عند الاتصال.</string>
+    <string name="search_clear">مسح البحث</string>
+    <string name="search_open_failed">تعذر فتح المحادثة. نتائج البحث محفوظة. انقر على الشخص مرة أخرى.</string>
+    <string name="search_recent">عمليات البحث الأخيرة</string>
+    <string name="search_scope_messages">الرسائل</string>
+    <string name="settings_search_label">بحث</string>
+    <string name="unified_search_hint">ابحث في المحادثات والرسائل المحفوظة دون اتصال. اعثر على أشخاص في هذا الخادم باسم المستخدم.</string>
+    <string name="unified_search_network">البحث في الخادم غير متاح. تظل النتائج المحلية متاحة.</string>
+    <string name="unified_search_local_error">تعذر تحميل الرسائل المحفوظة. حاول البحث مرة أخرى.</string>
+</resources>

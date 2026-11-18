@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="recovery_title">Account recovery</string>
+    <string name="recovery_detail">Optional recovery on this server. Save the code separately. It resets your password and signs out all phones. It does not restore encrypted history or replace your administrator key. HTTPS is required.</string>
+    <string name="recovery_enabled">Recovery code is active</string>
+    <string name="recovery_disabled">Recovery code is disabled</string>
+    <string name="recovery_current_password">Current password</string>
+    <string name="recovery_generate">Create a new recovery code</string>
+    <string name="recovery_disable">Disable recovery code</string>
+    <string name="recovery_save_warning">Shown only now. Save this code in a safe place. Creating a new code immediately replaces the previous one. If the response is lost, create another code using your password.</string>
+    <string name="recovery_username">Your @handle</string>
+    <string name="recovery_code">Recovery code</string>
+    <string name="recovery_new_password">New password (8–256 characters)</string>
+    <string name="recovery_repeat_password">Repeat new password</string>
+    <string name="recovery_reset">Reset password</string>
+    <string name="recovery_success">Password changed. Sign in with your new password. This recovery code can no longer be used.</string>
+    <string name="recovery_failed">Could not complete recovery. Check your credentials, HTTPS connection and server version, or try again later. A lost response may mean the operation already completed.</string>
+</resources>

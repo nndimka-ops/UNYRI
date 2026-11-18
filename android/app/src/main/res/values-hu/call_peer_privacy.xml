@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_p2p_title">Közvetlen hívások</string>
+    <string name="call_p2p_everyone">Mindenki</string>
+    <string name="call_p2p_contacts">Névjegyeim</string>
+    <string name="call_p2p_nobody">Senki</string>
+    <string name="call_p2p_note">A közvetlen kapcsolat általában gyorsabb, de a másik eszköz látja az IP-címedet. A szerveren át csak a szerver címe látható. A Névjegyeim csak a Névjegyekben szereplőkkel enged közvetlen kapcsolatot. A következő hívástól érvényes.</string>
+</resources>

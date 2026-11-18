@@ -1,0 +1,4 @@
+<resources>
+    <string name="capsule_gallery_originals">Send originals as files</string>
+    <string name="chat_waiting_recipient_keys">Waiting for the recipient’s secure connection. Messages will send automatically.</string>
+</resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="emoji_recent">Recently used</string>
+    <string name="emoji_people">Smileys &amp; People</string>
+    <string name="emoji_nature">Animals &amp; Nature</string>
+    <string name="emoji_food">Food &amp; Drink</string>
+    <string name="emoji_activity">Activity</string>
+    <string name="emoji_travel">Travel &amp; Places</string>
+    <string name="emoji_objects">Objects</string>
+    <string name="emoji_symbols">Symbols</string>
+    <string name="emoji_flags">Flags</string>
+    <string name="emoji_delete">Delete</string>
+    <string name="emoji_keyboard">Keyboard</string>
+    <string name="emoji_title">Emoji</string>
+    <string name="emoji_all">All emoji</string>
+    <string name="emoji_find">Find emoji</string>
+    <string name="emoji_results">Results</string>
+    <string name="emoji_no_results">No results</string>
+    <string name="emoji_close">Close</string>
+    <string name="emoji_insert">Insert %1$s</string>
+</resources>

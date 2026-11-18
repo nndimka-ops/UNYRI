@@ -1,0 +1,8 @@
+<resources>
+    <string name="call_not_online_yet">Not online yet</string>
+    <string name="call_waiting_for_peer_online">Waiting for them to come online</string>
+    <string name="call_rate_limited">Too many calls. Try again later.</string>
+    <string name="call_cancelled">Cancelled</string>
+    <string name="call_failed">Failed</string>
+    <string name="call_line_busy">Line busy</string>
+</resources>

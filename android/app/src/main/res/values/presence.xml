@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="presence_unknown">Status unknown</string>
+    <string name="presence_offline">Offline</string>
+    <string name="presence_today">Last seen today at %1$s</string>
+    <string name="presence_yesterday">Last seen yesterday at %1$s</string>
+    <string name="presence_date">Last seen %1$s</string>
+    <string name="directory_cached_hint">Saved people. Availability will update when connected.</string>
+</resources>

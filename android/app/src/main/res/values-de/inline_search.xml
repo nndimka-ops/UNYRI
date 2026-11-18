@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inline_search_chats">Chats und Kontakte</string>
+    <string name="inline_search_global">Globale Suche</string>
+    <string name="inline_search_privacy">Nach Name oder @Benutzername suchen. Diese Anfrage wird an deinen Server gesendet.</string>
+    <string name="inline_search_media">Medien</string>
+    <string name="inline_search_links">Links</string>
+    <string name="inline_search_files">Dateien</string>
+    <string name="inline_search_offline">Keine Verbindung</string>
+    <string name="inline_notification_banners">Banner</string>
+    <string name="inline_notification_sound">Ton</string>
+    <string name="inline_notification_vibration">Vibration</string>
+    <string name="inline_search_unavailable">Das Serververzeichnis ist nicht verfügbar. Bitte den Betreiber um ein Serverupdate.</string>
+    <string name="inline_notification_header">In der App</string>
+    <string name="inline_search_voice">Sprachnachrichten</string>
+    <string name="directory_cached_hint">Gespeicherte Personen. Die Verfügbarkeit wird bei Verbindung aktualisiert.</string>
+    <string name="search_clear">Suche löschen</string>
+    <string name="search_open_failed">Die Unterhaltung konnte nicht geöffnet werden. Deine Suchergebnisse bleiben erhalten. Tippe erneut auf die Person.</string>
+    <string name="search_recent">Letzte Suchen</string>
+    <string name="search_scope_messages">Nachrichten</string>
+    <string name="settings_search_label">Suchen</string>
+    <string name="unified_search_hint">Gespeicherte Chats und Nachrichten offline durchsuchen. Personen auf diesem Server nach Benutzernamen finden.</string>
+    <string name="unified_search_network">Die Serversuche ist nicht verfügbar. Lokale Ergebnisse bleiben verfügbar.</string>
+    <string name="unified_search_local_error">Gespeicherte Nachrichten konnten nicht geladen werden. Suche erneut.</string>
+</resources>

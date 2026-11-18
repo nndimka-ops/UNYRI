@@ -1,0 +1,6 @@
+<resources>
+    <string name="notification_settings_previews">Message preview</string>
+    <string name="notification_settings_previews_detail">Turn off to show “New message” instead of message text.</string>
+    <string name="notification_settings_reminders">Reminders</string>
+    <string name="notification_settings_reminders_detail">Future reminders resume when enabled. Missed reminders are not replayed.</string>
+</resources>

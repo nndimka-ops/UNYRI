@@ -1,0 +1,3 @@
+<resources>
+    <string name="voice_hold_hint">Hold to record, release to send</string>
+</resources>

@@ -1,0 +1,4 @@
+<resources>
+    <string name="call_torch_on">Включён</string>
+    <string name="call_torch_off">Выключен</string>
+</resources>

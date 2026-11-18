@@ -1,0 +1,70 @@
+import Foundation
+
+/// The extension deliberately keeps its tiny en/ru/uk table independent of app
+/// services. Matching catalog entries are checked by ShareExtensionIsolation.
+enum ShareStrings {
+    static func text(_ key: String, language: String) -> String {
+        guard let value = translations[key] else { return key }
+        return language == "ru" ? value.0 : language == "uk" ? value.1 : key
+    }
+    static let translations: [String: (String, String)] = [
+        "Choose between 1 and 10 items in total (photos, videos and files). Nothing was sent.": ("Выберите от 1 до 10 объектов всего: фото, видео и файлов. Ничего не отправлено.", "Виберіть від 1 до 10 об’єктів загалом: фото, відео та файлів. Нічого не надіслано."),
+        "The video grew beyond 500 MB while loading. Nothing was sent.": ("Во время загрузки видео стало больше 500 МБ. Ничего не отправлено.", "Під час завантаження відео стало більшим за 500 МБ. Нічого не надіслано."),
+        "The file grew beyond 100 MB while loading. Nothing was sent.": ("Во время загрузки файл стал больше 100 МБ. Ничего не отправлено.", "Під час завантаження файл став більшим за 100 МБ. Нічого не надіслано."),
+        "Loading item %1$d of %2$d… The original may need downloading from iCloud.": ("Загружаем объект %1$d из %2$d… Возможно, оригинал нужно скачать из iCloud.", "Завантажуємо об’єкт %1$d із %2$d… Можливо, оригінал потрібно завантажити з iCloud."),
+        "Could not load this photo, video or file. If the original is in iCloud, check your connection and try again. Nothing was sent.": ("Не удалось загрузить фото, видео или файл. Если оригинал в iCloud, проверьте подключение и попробуйте снова. Ничего не отправлено.", "Не вдалося завантажити фото, відео або файл. Якщо оригінал в iCloud, перевірте з’єднання та спробуйте знову. Нічого не надіслано."),
+        "Loading was cancelled. Nothing was sent. Share again when the original is available.": ("Загрузка отменена. Ничего не отправлено. Поделитесь снова, когда оригинал будет доступен.", "Завантаження скасовано. Нічого не надіслано. Поділіться знову, коли оригінал буде доступний."),
+        "The Live Photo has no available still image. In Photos, choose a still photo and share again.": ("У Live Photo нет доступного статичного снимка. Выберите обычное фото в приложении «Фото» и поделитесь снова.", "У Live Photo немає доступного статичного знімка. Виберіть звичайне фото в застосунку «Фотографії» та поділіться знову."),
+        "Up to 10 items. Files up to 100 MB each; video originals up to 500 MB each. Photos are converted by UNYRI.": ("До 10 объектов. Файлы — до 100 МБ каждый, оригиналы видео — до 500 МБ каждый. UNYRI преобразует фотографии.", "До 10 об’єктів. Файли — до 100 МБ кожен, оригінали відео — до 500 МБ кожен. UNYRI перетворює фотографії."),
+        "Video “%1$@” is %2$lld MB. Video sources up to 500 MB can be queued for compression. Nothing was sent.": ("Видео «%1$@» — %2$lld МБ. В очередь на сжатие можно добавить оригиналы до 500 МБ. Ничего не отправлено.", "Відео «%1$@» — %2$lld МБ. До черги на стиснення можна додати оригінали до 500 МБ. Нічого не надіслано."),
+        "File “%1$@” is %2$lld MB. Files and media sent as files must be at most 100 MB each. Nothing was sent.": ("Файл «%1$@» — %2$lld МБ. Файлы и медиа в режиме «как файл» должны быть не больше 100 МБ каждый. Ничего не отправлено.", "Файл «%1$@» — %2$lld МБ. Файли та медіа в режимі «як файл» мають бути не більше 100 МБ кожен. Нічого не надіслано."),
+        "Close": ("Закрыть", "Закрити"),
+        "Send": ("Отправить", "Надіслати"),
+        "Choose a chat": ("Выберите чат", "Виберіть чат"),
+        "Open this account in UNYRI once to load its chats.": ("Откройте этот аккаунт в UNYRI один раз, чтобы загрузить его чаты.", "Відкрийте цей обліковий запис в UNYRI один раз, щоб завантажити його чати."),
+        "Unlock UNYRI before choosing a chat to share files.": ("Разблокируйте UNYRI перед выбором чата для отправки файлов.", "Розблокуйте UNYRI перед вибором чату для надсилання файлів."),
+        "Could not update app lock. Try again.": ("Не удалось изменить блокировку приложения. Попробуйте снова.", "Не вдалося змінити блокування застосунку. Спробуйте знову."),
+        "Could not load chats. Open UNYRI and share again.": ("Не удалось загрузить чаты. Откройте UNYRI и поделитесь снова.", "Не вдалося завантажити чати. Відкрийте UNYRI та поділіться знову."),
+        "Search chats": ("Поиск чатов", "Пошук чатів"),
+        "Saved Messages": ("Избранное", "Збережене"),
+        "Add a comment…": ("Добавить комментарий…", "Додати коментар…"),
+        "No results.": ("Ничего не найдено.", "Нічого не знайдено."),
+        "No chats yet. Open UNYRI to start a conversation.": ("Пока нет чатов. Откройте UNYRI, чтобы начать разговор.", "Поки немає чатів. Відкрийте UNYRI, щоб почати розмову."),
+        "Archive": ("Архив", "Архів"),
+        "Pinned": ("Закреплён", "Закріплено"),
+        "Account": ("Аккаунт", "Обліковий запис"),
+        "Choose between 1 and 10 files.": ("Выберите от 1 до 10 файлов.", "Виберіть від 1 до 10 файлів."),
+        "Sign in to UNYRI to send files.": ("Войдите в UNYRI, чтобы отправлять файлы.", "Увійдіть в UNYRI, щоб надсилати файли."),
+        "UNYRI is locked": ("UNYRI заблокирован", "UNYRI заблоковано"),
+        "Unlock": ("Разблокировать", "Розблокувати"),
+        "Unlock UNYRI with Face ID, Touch ID or your iPhone passcode.": ("Разблокируйте UNYRI через Face ID, Touch ID или код iPhone.", "Розблокуйте UNYRI через Face ID, Touch ID або код iPhone."),
+        "Open UNYRI once after updating to choose a chat here.": ("Откройте UNYRI один раз после обновления, чтобы выбирать чат прямо здесь.", "Відкрийте UNYRI один раз після оновлення, щоб вибирати чат просто тут."),
+        "Save in UNYRI": ("Сохранить в UNYRI", "Зберегти в UNYRI"),
+        "Preparing share…": ("Готовим отправку…", "Готуємо надсилання…"),
+        "Preparing files…": ("Готовим файлы…", "Готуємо файли…"),
+        "Close — cancel sharing": ("Закрыть — отменить отправку", "Закрити — скасувати надсилання"),
+        "Queued. UNYRI will send when it runs. If it is closed, open it to send.": ("В очереди. UNYRI отправит, когда будет работать. Если приложение закрыто, откройте его для отправки.", "У черзі. UNYRI надішле, коли працюватиме. Якщо застосунок закрито, відкрийте його для надсилання."),
+        "Queued. Open this account in UNYRI to send.": ("В очереди. Откройте этот аккаунт в UNYRI для отправки.", "У черзі. Відкрийте цей обліковий запис в UNYRI для надсилання."),
+        "Queued. Open account “%@” in UNYRI to send.": ("В очереди. Откройте аккаунт «%@» в UNYRI для отправки.", "У черзі. Відкрийте обліковий запис «%@» в UNYRI для надсилання."),
+        "The chat list may be out of date. Open UNYRI to refresh it.": ("Список чатов мог устареть. Откройте UNYRI, чтобы обновить его.", "Список чатів міг застаріти. Відкрийте UNYRI, щоб оновити його."),
+        "Files up to 100 MB can be sent. Choose a smaller file.": ("Можно отправить файл до 100 МБ. Выберите файл поменьше.", "Можна надіслати файл до 100 МБ. Виберіть менший файл."),
+        "Videos up to 500 MB can be queued. Choose a smaller video.": ("В очередь можно добавить видео до 500 МБ. Выберите видео поменьше.", "До черги можна додати відео до 500 МБ. Виберіть менше відео."),
+        "Videos are compressed by UNYRI. If a video still exceeds 100 MB, its message will show an error.": ("UNYRI сожмёт видео. Если оно всё ещё будет больше 100 МБ, в сообщении появится ошибка.", "UNYRI стисне відео. Якщо воно все ще перевищуватиме 100 МБ, у повідомленні з’явиться помилка."),
+        "Send as file": ("Отправить файлом", "Надіслати файлом"),
+        "Shared item": ("Общий файл", "Спільний файл"),
+        "%d items": ("Файлов: %d", "Файлів: %d"),
+        "%d photos · %d videos · %d files": ("Фото: %d · видео: %d · файлов: %d", "Фото: %d · відео: %d · файлів: %d"),
+        "%lld of %lld MB copied": ("Скопировано %lld из %lld МБ", "Скопійовано %lld із %lld МБ"),
+        "Caption is too long or contains unsupported characters.": ("Комментарий слишком длинный или содержит неподдерживаемые символы.", "Коментар задовгий або містить непідтримувані символи."),
+        "Could not read this file. Try again or share it from another app.": ("Не удалось прочитать файл. Попробуйте снова или поделитесь им из другого приложения.", "Не вдалося прочитати файл. Спробуйте знову або поділіться ним з іншого застосунку."),
+        "This item cannot be shared to UNYRI. Share it as a file.": ("Этим нельзя поделиться в UNYRI. Поделитесь как файлом.", "Цим не можна поділитися в UNYRI. Поділіться як файлом."),
+        "Not enough space on this iPhone: needs %1$lld MB, %2$lld MB free.": ("Не хватает места на iPhone: нужно %1$lld МБ, свободно %2$lld МБ.", "Недостатньо місця на iPhone: потрібно %1$lld МБ, вільно %2$lld МБ."),
+        "Not enough space on this iPhone. Free some storage and try again.": ("Не хватает места на iPhone. Освободите место и попробуйте снова.", "Недостатньо місця на iPhone. Звільніть місце та спробуйте знову."),
+        "Could not remove shared files. Tap Close to try again.": ("Не удалось удалить общие файлы. Нажмите «Закрыть», чтобы повторить.", "Не вдалося видалити спільні файли. Натисніть «Закрити», щоб повторити."),
+        "This account is no longer available. Open UNYRI and share again.": ("Этот аккаунт больше недоступен. Откройте UNYRI и поделитесь снова.", "Цей обліковий запис більше недоступний. Відкрийте UNYRI та поділіться знову."),
+        "Shared files could not be sent: the chat is no longer available.": ("Не удалось отправить общие файлы: чат больше недоступен.", "Не вдалося надіслати спільні файли: чат більше недоступний."),
+        "Shared files expired after 7 days. Share them again.": ("Срок хранения общих файлов истёк через 7 дней. Поделитесь ими снова.", "Термін зберігання спільних файлів минув через 7 днів. Поділіться ними знову."),
+        "Could not prepare shared files. Open UNYRI again to retry.": ("Не удалось подготовить общие файлы. Откройте UNYRI снова, чтобы повторить.", "Не вдалося підготувати спільні файли. Відкрийте UNYRI знову, щоб повторити."),
+        "Chat": ("Чат", "Чат")
+    ]
+}

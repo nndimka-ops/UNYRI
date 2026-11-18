@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login2_private_login">Особистий логін</string>
+    <string name="login2_private_help">Для входу використовуйте особистий логін, а не публічний номер чи @імʼя.</string>
+    <string name="login2_strength_weak">Слабкий</string>
+    <string name="login2_strength_fair">Середній</string>
+    <string name="login2_strength_strong">Надійний</string>
+    <string name="login2_continue">Продовжити</string>
+    <string name="login2_number">Ваш публічний номер</string>
+    <string name="login2_username">Публічне @імʼя</string>
+    <string name="login2_username_rules">5–32 латинські літери, цифри чи _. Почніть з літери, без __. Зміна раз на 7 днів; старе імʼя заморожене 30 днів.</string>
+    <string name="login2_discoverability">Хто може мене знайти</string>
+    <string name="login2_everyone">Усі</string>
+    <string name="login2_contacts">Контакти</string>
+    <string name="login2_nobody">Ніхто</string>
+    <string name="login2_unavailable">Ім\'я недоступне</string>
+    <string name="login2_conflict">Налаштування змінилися. Оновіть і повторіть.</string>
+    <string name="login2_cooldown">Забагато спроб або імʼя змінювалося за останні 7 днів. Спробуйте пізніше.</string>
+    <string name="login2_notice">Ваш логін тепер особистий. Ось ваш номер. Можна вибрати @імʼя; логін не публікується як імʼя.</string>
+    <string name="login2_recovery_help">Збережіть ключ поза UNYRI. Потім введіть три групи для перевірки. Новий ключ замінює попередній. Обліковий запис уже створено.</string>
+    <string name="login2_recovery_create">Створити ключ відновлення</string>
+    <string name="login2_recovery_group">Група %1$d</string>
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gallery_add">Додати</string>
+    <string name="gallery_add_count">Додати (%1$d)</string>
+    <string name="gallery_send_now">Надіслати зараз</string>
+    <string name="composer_added">Додано: %1$d</string>
+    <string name="composer_already_added">Вже додано</string>
+    <string name="composer_send_deferred">Додано до лотка. Натисніть «Надіслати», коли поточне надсилання завершиться.</string>
+    <string name="picker_caption_optional">Підпис (необов’язково)</string>
+    <string name="files_choose">Вибрати з Файлів</string>
+    <string name="files_choose_detail">Можна кілька, надішлються одразу</string>
+    <string name="files_media_as_files">Фото або відео файлом</string>
+    <string name="files_media_as_files_detail">Початкова якість, без стиснення</string>
+    <string name="files_recent_title">НЕЩОДАВНО НАДІСЛАНІ</string>
+    <string name="files_recent_empty">Надіслані файли з’являться тут, щоб їх можна було надіслати знову.</string>
+    <string name="files_load_failed">Не вдалося завантажити нещодавні файли. Натисніть, щоб повторити.</string>
+    <string name="files_selected_number">Вибрано, %1$d</string>
+</resources>

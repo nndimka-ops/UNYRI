@@ -1,0 +1,4 @@
+<resources>
+    <string name="call_torch_on">On</string>
+    <string name="call_torch_off">Off</string>
+</resources>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_device_relisted">デバイスが再び一覧に表示されています。この端末では引き続き除外されます。</string>
+</resources>

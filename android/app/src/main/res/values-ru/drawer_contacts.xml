@@ -1,0 +1,21 @@
+<resources>
+    <string name="drawer_choice_a">Колонка (A)</string>
+    <string name="drawer_choice_c">Карточка (C)</string>
+    <string name="drawer_version">Версия %1$s (%2$d)</string>
+    <string name="drawer_my_qr">Мой QR</string>
+    <string name="drawer_count_description">%1$s, %2$d</string>
+    <string name="drawer_switch_to">Переключиться на %1$s</string>
+    <string name="drawer_account_unread">%1$d непрочитанных</string>
+    <string name="drawer_remove_account">Убрать аккаунт</string>
+    <string name="contacts_invite">Пригласить</string>
+    <string name="contacts_search">Поиск контактов</string>
+    <string name="contacts_find_server">Найти на сервере</string>
+    <string name="contacts_offline_retry">Нет связи · Повторить</string>
+    <string name="contacts_add_username">Введите @username человека на вашем сервере.</string>
+    <string name="contacts_write">Написать</string>
+    <string name="contacts_call">Позвонить</string>
+    <string name="contacts_video">Видеозвонок</string>
+    <string name="contacts_status_hidden">Статус скрыт</string>
+    <string name="drawer_choice_hint">Применяется сразу на этом устройстве.</string>
+    <string name="drawer_appearance_summary">Колонка или карточка, жесты</string>
+</resources>

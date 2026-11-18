@@ -1,0 +1,10 @@
+<resources>
+    <string name="contacts_empty_book">Tus contactos aparecerán aquí. Añade a alguien por @usuario o invítalo a UNYRI.</string>
+    <string name="contacts_load_failed">No se pudieron cargar los contactos.</string>
+    <string name="contacts_short_query">Personas con las que chateas. Escribe 3 o más caracteres para buscar a todos en tu servidor.</string>
+    <string name="contacts_connect_search">Conéctate para buscar personas en este servidor.</string>
+    <string name="contacts_no_users">No se encontraron usuarios.</string>
+    <string name="contacts_invite_unyri">Invitar a UNYRI</string>
+    <string name="contacts_search_failed">No se pudieron buscar personas.</string>
+    <string name="contacts_scan_qr">Escanear código QR</string>
+</resources>

@@ -1,0 +1,10 @@
+<resources>
+<string name="chat_attachment_group">Набор вложений: %1$d</string>
+<string name="chat_delete_album">Удалить вложения</string>
+<string name="chat_delete_album_item">Удалить только это вложение</string>
+<string name="chats_delete">Удалить чат</string>
+<string name="chats_delete_me">Только у меня</string>
+<string name="chats_delete_both">Удалить у обоих</string>
+<string name="chats_delete_me_detail">Текущие сообщения, файлы и история звонков исчезнут с ваших устройств. У собеседника останутся. Новое сообщение снова откроет чат. Отдельно сохранённые копии останутся.</string>
+<string name="chats_delete_both_detail">Текущие сообщения, файлы и история звонков будут удалены у обоих. Отменить нельзя. Новые сообщения и отдельно сохранённые копии останутся.</string>
+</resources>

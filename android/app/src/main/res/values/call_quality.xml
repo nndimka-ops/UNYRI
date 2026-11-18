@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_quality_title">Call quality</string>
+    <string name="call_quality_video">Video quality</string>
+    <string name="call_quality_audio">Audio quality</string>
+    <string name="call_quality_auto">Auto</string>
+    <string name="call_quality_economy">Save data</string>
+    <string name="call_quality_high">High</string>
+    <string name="call_quality_auto_detail">Balances quality and available bandwidth. Recommended.</string>
+    <string name="call_quality_video_economy">Up to 360p, 15 fps. Uses less data and camera processing.</string>
+    <string name="call_quality_audio_economy">Less data for voice. Speech may sound less detailed.</string>
+    <string name="call_quality_video_high">Up to 1080p, 30 fps when the camera and network allow. Uses more data.</string>
+    <string name="call_quality_audio_high">More bandwidth for voice detail. Does not improve a poor connection.</string>
+    <string name="call_quality_scope">Applies to your outgoing audio and video from the next call on this phone. Every mode can reduce quality when the network worsens. Incoming quality and data use also depend on the other person.</string>
+</resources>

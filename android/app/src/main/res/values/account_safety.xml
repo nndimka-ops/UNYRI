@@ -1,0 +1,7 @@
+<resources>
+    <string name="account_delete">Delete account</string>
+    <string name="account_delete_detail">Permanently delete your account on this server, personal data and direct chat history for both participants. All your devices will be signed out. Copies saved outside UNYRI and server backups cannot be erased from here. This cannot be undone. Enter your password to confirm.</string>
+    <string name="account_delete_password">Account password</string>
+    <string name="account_delete_error">Deletion was not confirmed. Check your password and connection, then try again. The server must support account deletion.</string>
+    <string name="account_delete_confirm">Permanently delete</string>
+</resources>

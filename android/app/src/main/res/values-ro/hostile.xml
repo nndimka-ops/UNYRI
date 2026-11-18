@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hostile_new_device">%1$s are un dispozitiv nou — comparați codul de securitate</string>
+    <string name="hostile_chat_frozen">Identitatea din conversație s-a schimbat. Trimiterea este dezactivată.</string>
+    <string name="hostile_call_unverified">Neverificat: interlocutorul nu are cod de comparație.</string>
+    <string name="hostile_call_compare">Comparați cu voce tare aceste patru simboluri. Până atunci apelul rămâne neverificat.</string>
+    <string name="hostile_room_approve">Comparați codul acestui utilizator și dispozitiv înainte de schimbul cheii.</string>
+    <string name="hostile_room_limit">Membrii păstrează cheile comune. Serverul poate ascunde eliminarea; revocarea completă nu este garantată.</string>
+    <string name="hostile_room_remove">Eliminarea creează o cameră privată nouă cu o cheie nouă. Invitați din nou persoanele de încredere.</string>
+    <string-array name="hostile_sas_names">
+        <item>Stea</item>
+        <item>Inimă</item>
+        <item>Lună</item>
+        <item>Soare</item>
+        <item>Nor</item>
+        <item>Fulger</item>
+        <item>Fulg de zăpadă</item>
+        <item>Picătură</item>
+        <item>Foc</item>
+        <item>Frunză</item>
+        <item>Glob</item>
+        <item>Clopot</item>
+        <item>Cheie</item>
+        <item>Casă</item>
+        <item>Mașină</item>
+        <item>Avion</item>
+        <item>Bicicletă</item>
+        <item>Bilet</item>
+        <item>Autobuz</item>
+        <item>Umbrelă</item>
+        <item>Cadou</item>
+        <item>Coroană</item>
+        <item>Steag</item>
+        <item>Carte</item>
+        <item>Semn de carte</item>
+        <item>Agrafă</item>
+        <item>Creion</item>
+        <item>Foarfecă</item>
+        <item>Pensulă</item>
+        <item>Ciocan</item>
+        <item>Lupă</item>
+        <item>Ochi</item>
+        <item>Palmă</item>
+        <item>Notă</item>
+        <item>Chitară</item>
+        <item>Controler</item>
+        <item>Puzzle</item>
+        <item>Zar</item>
+        <item>Broască țestoasă</item>
+        <item>Iepure</item>
+        <item>Furnică</item>
+        <item>Buburuză</item>
+        <item>Labă</item>
+        <item>Ceașcă</item>
+        <item>Tacâmuri</item>
+        <item>Cărucior</item>
+        <item>Geantă</item>
+        <item>Etichetă</item>
+        <item>Bec</item>
+        <item>Plic</item>
+        <item>Binoclu</item>
+        <item>Hartă</item>
+        <item>Munți</item>
+        <item>Scântei</item>
+        <item>Clepsidră</item>
+        <item>Ceas deșteptător</item>
+        <item>Megafon</item>
+        <item>Măști</item>
+        <item>Film</item>
+        <item>Atom</item>
+        <item>Roată dințată</item>
+        <item>Pică</item>
+        <item>Tricou</item>
+        <item>Ochelari</item>
+    </string-array>
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login2_private_login">Privater Login</string>
+    <string name="login2_private_help">Verwende deinen privaten Login, keine öffentliche Nummer oder @Namen.</string>
+    <string name="login2_strength_weak">Schwach</string>
+    <string name="login2_strength_fair">Mittel</string>
+    <string name="login2_strength_strong">Stark</string>
+    <string name="login2_continue">Weiter</string>
+    <string name="login2_number">Deine öffentliche Nummer</string>
+    <string name="login2_username">Öffentlicher @Name</string>
+    <string name="login2_username_rules">5–32 ASCII-Buchstaben, Ziffern oder _. Mit Buchstaben beginnen, kein __. Änderung alle 7 Tage; alter Name 30 Tage gesperrt.</string>
+    <string name="login2_discoverability">Wer kann mich finden</string>
+    <string name="login2_everyone">Alle</string>
+    <string name="login2_contacts">Kontakte</string>
+    <string name="login2_nobody">Niemand</string>
+    <string name="login2_unavailable">Name nicht verfügbar</string>
+    <string name="login2_conflict">Einstellungen geändert. Neu laden und erneut versuchen.</string>
+    <string name="login2_cooldown">Zu viele Versuche oder Änderung innerhalb von 7 Tagen. Später versuchen.</string>
+    <string name="login2_notice">Dein Login ist jetzt privat. Hier ist deine Nummer. Du kannst einen @Namen wählen; der Login wird nicht veröffentlicht.</string>
+    <string name="login2_recovery_help">Speichere den Schlüssel außerhalb von UNYRI. Bestätige drei Gruppen. Ein neuer Schlüssel ersetzt den alten. Das Konto ist bereits erstellt.</string>
+    <string name="login2_recovery_create">Wiederherstellungsschlüssel erstellen</string>
+    <string name="login2_recovery_group">Gruppe %1$d</string>
+</resources>

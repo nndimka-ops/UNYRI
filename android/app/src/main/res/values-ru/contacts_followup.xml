@@ -1,0 +1,10 @@
+<resources>
+    <string name="contacts_empty_book">Здесь будут ваши контакты. Добавьте человека по @имени или пригласите его в UNYRI.</string>
+    <string name="contacts_load_failed">Не удалось загрузить контакты.</string>
+    <string name="contacts_short_query">Люди, с которыми у вас есть чаты. Чтобы найти любого на вашем сервере, введите 3 символа или больше.</string>
+    <string name="contacts_connect_search">Для поиска людей на сервере нужно подключение.</string>
+    <string name="contacts_no_users">Пользователи не найдены.</string>
+    <string name="contacts_invite_unyri">Пригласить в UNYRI</string>
+    <string name="contacts_search_failed">Не удалось найти людей.</string>
+    <string name="contacts_scan_qr">Сканировать QR-код</string>
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login2_private_login">Личен вход</string>
+    <string name="login2_private_help">Влизайте с личния си вход, не с публичния номер или @име.</string>
+    <string name="login2_strength_weak">Слаба</string>
+    <string name="login2_strength_fair">Средна</string>
+    <string name="login2_strength_strong">Силна</string>
+    <string name="login2_continue">Продължи</string>
+    <string name="login2_number">Вашият публичен номер</string>
+    <string name="login2_username">Публично @име</string>
+    <string name="login2_username_rules">5–32 латински букви, цифри или _. Започва с буква, без __. Смяна през 7 дни; старото име се пази 30 дни.</string>
+    <string name="login2_discoverability">Кой може да ме намери</string>
+    <string name="login2_everyone">Всички</string>
+    <string name="login2_contacts">Контакти</string>
+    <string name="login2_nobody">Никой</string>
+    <string name="login2_unavailable">Името е недостъпно</string>
+    <string name="login2_conflict">Настройките са променени. Обновете и опитайте отново.</string>
+    <string name="login2_cooldown">Твърде много опити или смяна през последните 7 дни. Опитайте по-късно.</string>
+    <string name="login2_notice">Входът ви вече е личен. Ето вашия номер. Може да изберете @име; входът не се публикува.</string>
+    <string name="login2_recovery_help">Запазете ключа извън UNYRI. Въведете три групи за потвърждение. Новият ключ заменя стария. Акаунтът вече е създаден.</string>
+    <string name="login2_recovery_create">Създай ключ за възстановяване</string>
+    <string name="login2_recovery_group">Група %1$d</string>
+</resources>

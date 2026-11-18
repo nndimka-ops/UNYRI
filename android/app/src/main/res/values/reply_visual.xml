@@ -1,0 +1,16 @@
+<resources>
+    <string name="reply_author_you">You</string>
+    <string name="reply_cancel">Cancel reply</string>
+    <string name="chat_peer_online">online</string>
+    <string name="chat_emoji">Emoji</string>
+    <string name="chat_menu_title">Chat menu</string>
+    <string name="chat_menu_search">Search messages</string>
+    <string name="message_menu_more">More options</string>
+    <string name="chat_menu_reactions_more">More</string>
+    <string name="chat_menu_copy_name">Copy name</string>
+    <string name="chat_menu_media">Media</string>
+    <string name="chat_menu_reminders">Reminders</string>
+    <string name="message_menu_edit">Edit</string>
+    <string name="chat_menu_archive">Archive chat</string>
+    <string name="chat_menu_restore">Restore to chats</string>
+</resources>

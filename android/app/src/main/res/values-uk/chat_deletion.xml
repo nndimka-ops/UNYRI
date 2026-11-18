@@ -1,0 +1,10 @@
+<resources>
+<string name="chat_attachment_group">Набір вкладень: %1$d</string>
+<string name="chat_delete_album">Видалити вкладення</string>
+<string name="chat_delete_album_item">Видалити лише це вкладення</string>
+<string name="chats_delete">Видалити чат</string>
+<string name="chats_delete_me">Лише в мене</string>
+<string name="chats_delete_both">Видалити в обох</string>
+<string name="chats_delete_me_detail">Поточні повідомлення, файли й історія дзвінків зникнуть із ваших пристроїв. У співрозмовника залишаться. Нове повідомлення знову відкриє чат. Окремо збережені копії залишаться.</string>
+<string name="chats_delete_both_detail">Поточні повідомлення, файли й історію дзвінків буде видалено в обох. Скасувати неможливо. Нові повідомлення й окремо збережені копії залишаться.</string>
+</resources>

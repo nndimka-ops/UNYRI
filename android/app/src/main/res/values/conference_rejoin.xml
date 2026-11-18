@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="conference_owner_access_not_saved">Could not keep room access on this device. Save an invitation before leaving so you can return.</string>
+</resources>

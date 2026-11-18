@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hostile_new_device">%1$s 有新设备 — 请比较安全码</string>
+    <string name="hostile_chat_frozen">聊天对象的身份已更改。发送已停用。</string>
+    <string name="hostile_call_unverified">未验证：对方没有比较码。</string>
+    <string name="hostile_call_compare">请朗读并比较这四个符号。比较之前通话仍未验证。</string>
+    <string name="hostile_room_approve">交换房间密钥前，请比较此用户和设备的安全码。</string>
+    <string name="hostile_room_limit">成员保留共享密钥。服务器可能隐瞒移除操作，因此无法保证完全撤销访问权限。</string>
+    <string name="hostile_room_remove">移除操作会创建使用新密钥的私密房间。请重新邀请可信任的人。</string>
+    <string-array name="hostile_sas_names">
+        <item>星星</item>
+        <item>心</item>
+        <item>月亮</item>
+        <item>太阳</item>
+        <item>云</item>
+        <item>闪电</item>
+        <item>雪花</item>
+        <item>水滴</item>
+        <item>火焰</item>
+        <item>叶子</item>
+        <item>地球</item>
+        <item>铃铛</item>
+        <item>钥匙</item>
+        <item>房子</item>
+        <item>汽车</item>
+        <item>飞机</item>
+        <item>自行车</item>
+        <item>车票</item>
+        <item>公交车</item>
+        <item>雨伞</item>
+        <item>礼物</item>
+        <item>王冠</item>
+        <item>旗帜</item>
+        <item>书</item>
+        <item>书签</item>
+        <item>回形针</item>
+        <item>铅笔</item>
+        <item>剪刀</item>
+        <item>画笔</item>
+        <item>锤子</item>
+        <item>放大镜</item>
+        <item>眼睛</item>
+        <item>手掌</item>
+        <item>音符</item>
+        <item>吉他</item>
+        <item>游戏手柄</item>
+        <item>拼图</item>
+        <item>骰子</item>
+        <item>乌龟</item>
+        <item>兔子</item>
+        <item>蚂蚁</item>
+        <item>瓢虫</item>
+        <item>爪印</item>
+        <item>杯子</item>
+        <item>餐具</item>
+        <item>购物车</item>
+        <item>袋子</item>
+        <item>标签</item>
+        <item>灯泡</item>
+        <item>信封</item>
+        <item>望远镜</item>
+        <item>地图</item>
+        <item>山脉</item>
+        <item>闪光</item>
+        <item>沙漏</item>
+        <item>闹钟</item>
+        <item>扩音器</item>
+        <item>面具</item>
+        <item>胶片</item>
+        <item>原子</item>
+        <item>齿轮</item>
+        <item>黑桃</item>
+        <item>T恤</item>
+        <item>眼镜</item>
+    </string-array>
+</resources>

@@ -1,0 +1,19 @@
+<resources>
+    <string name="chats_select">Вибрати чати</string>
+    <string name="chats_pin">Закріпити</string>
+    <string name="chats_unpin">Відкріпити</string>
+    <string name="chats_pinned">Закріплений чат</string>
+    <string name="chats_actions">Фільтри й дії з чатами</string>
+    <string name="chats_selected_count">Вибрано: %1$d</string>
+    <string name="chats_select_all">Вибрати всі</string>
+    <string name="chats_deselect_all">Зняти вибір</string>
+    <string name="chats_batch_delete_title">Видалити чати: %1$d?</string>
+    <string name="chats_batch_failed">Частину змін не збережено. Ці чати залишаються вибраними — спробуй ще раз.</string>
+    <string name="chats_archive_title">Архів</string>
+    <string name="chats_archive_action">Перемістити в архів</string>
+    <string name="chats_restore">Повернути в чати</string>
+    <string name="chats_restore_short">Повернути</string>
+    <string name="chats_archive_back">Назад до чатів</string>
+    <string name="chats_archive_empty">В архіві поки порожньо</string>
+    <string name="chats_archive_detail">Перенось чати через їхнє меню або вибери кілька. Нові повідомлення залишають їх тут до ручного повернення.</string>
+</resources>

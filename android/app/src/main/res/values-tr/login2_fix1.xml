@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language_system_default">Sistem varsayılanı</string>
+    <string name="login2_signup_header">UNYRI topluluğuna katıl</string>
+    <string name="login2_in_contacts">Kişilerde</string>
+    <string name="login2_number_copied">Numara kopyalandı</string>
+</resources>

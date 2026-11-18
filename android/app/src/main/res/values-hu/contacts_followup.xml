@@ -1,0 +1,10 @@
+<resources>
+    <string name="contacts_empty_book">Itt jelennek meg a névjegyeid. Adj hozzá valakit @felhasználónév alapján, vagy hívd meg az UNYRI-ba.</string>
+    <string name="contacts_load_failed">A névjegyek betöltése sikertelen.</string>
+    <string name="contacts_short_query">Akikkel beszélgetsz. Írj be legalább 3 karaktert, hogy mindenkit kereshess a szervereden.</string>
+    <string name="contacts_connect_search">Csatlakozz, hogy embereket kereshess ezen a szerveren.</string>
+    <string name="contacts_no_users">Nem található felhasználó.</string>
+    <string name="contacts_invite_unyri">Meghívás az UNYRI-ba</string>
+    <string name="contacts_search_failed">A személykeresés sikertelen.</string>
+    <string name="contacts_scan_qr">QR-kód beolvasása</string>
+</resources>

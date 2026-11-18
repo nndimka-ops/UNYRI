@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_update_title">Update the app</string>
+    <string name="login_update_required_detail">The server %1$s no longer supports this version of UNYRI. Install the update to continue. Data on this device has not been removed.</string>
+    <string name="login_update_versions">Installed %1$s · required %2$s</string>
+    <string name="login_update_action">Update</string>
+    <string name="login_update_store">Update UNYRI from Google Play.</string>
+    <string name="login_update_check">Check again</string>
+    <string name="login_update_still_required">This version is still not supported.</string>
+    <string name="login_update_network">Could not reach the server. Check your network connection and server address.</string>
+    <string name="login_update_other_account">Another account or server</string>
+    <string name="login_update_add_account">Add account</string>
+    <string name="login_update_signed_out">The server %1$s needs a newer version of UNYRI. Update the app or choose another server.</string>
+    <string name="login_update_available">A new version of UNYRI is available</string>
+    <string name="login_update_later">Later</string>
+</resources>

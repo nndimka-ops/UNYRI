@@ -4,3 +4,22 @@ target/
 *.log
 dist/
 .DS_Store
+
+# Android / Gradle
+.gradle/
+build/
+local.properties
+.idea/
+*.jks
+*.keystore
+# The official build's Firebase client file stays private; the build runs without it (FCM off).
+android/app/google-services.json
+
+# Xcode
+xcuserdata/
+*.xcuserstate
+DerivedData/
+*.ipa
+
+# Local signing material
+.secrets/

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="offline_saved_data">Saved data. Connect to refresh.</string>
+</resources>

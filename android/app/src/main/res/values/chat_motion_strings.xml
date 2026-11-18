@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chat_list_typing">typing</string>
+    <string name="chat_list_recording">recording voice</string>
+    <string name="chat_list_sending_file">sending a file</string>
+    <string name="chat_list_unread_count">%1$d unread messages</string>
+</resources>

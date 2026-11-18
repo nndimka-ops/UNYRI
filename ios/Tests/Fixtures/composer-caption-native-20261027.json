@@ -1,0 +1,16 @@
+{
+  "source": "keyboard-1c9-native.log at596.53/597.65/611.35/613.28 and failed equality at636.67",
+  "oldDraft": "Keyboard retained draft 6ee79d93b374\nline two",
+  "singleCaption": "Keyboard media 6ee79d93b374",
+  "fourLineCaption": "Keyboard media 6ee79d93b374\nSecond caption line\nThird caption line\nFourth caption line",
+  "actualFailedValue": "Keyboard media 6ee79d93b374\nSecond caption line\nThird caption line\nFourth caption line retained draft 6ee79d93b374\nline two",
+  "transferSourceKey": "Receive history · new phone",
+  "actualTransferLabel": "Receive on this phone · new phone",
+  "v5PartialSelection": {
+    "source": "caption-v5-attachments.zip/B973E054-A3BC-46DC-9F8C-D4C6E78FAFD5.txt",
+    "input": [48, 534, 283, 18],
+    "leadingGrabber": [162.7, 533, 16.5, 19.7],
+    "trailingGrabber": [260.7, 533, 16.5, 19.7],
+    "selectAllCommandPresent": false
+  }
+}

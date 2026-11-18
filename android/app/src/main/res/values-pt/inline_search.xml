@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inline_search_chats">Conversas e contatos</string>
+    <string name="inline_search_global">Pesquisa global</string>
+    <string name="inline_search_privacy">Pesquise por nome ou @usuário. A consulta é enviada ao seu servidor.</string>
+    <string name="inline_search_media">Mídia</string>
+    <string name="inline_search_links">Links</string>
+    <string name="inline_search_files">Arquivos</string>
+    <string name="inline_search_offline">Sem conexão</string>
+    <string name="inline_notification_banners">Banners</string>
+    <string name="inline_notification_sound">Som</string>
+    <string name="inline_notification_vibration">Vibração</string>
+    <string name="inline_search_unavailable">Diretório indisponível. Peça ao proprietário para atualizar o servidor.</string>
+    <string name="inline_notification_header">No aplicativo</string>
+    <string name="inline_search_voice">Mensagens de voz</string>
+    <string name="directory_cached_hint">Pessoas salvas. A disponibilidade será atualizada ao conectar.</string>
+    <string name="search_clear">Limpar pesquisa</string>
+    <string name="search_open_failed">Não foi possível abrir a conversa. Os resultados foram mantidos. Toque na pessoa novamente.</string>
+    <string name="search_recent">Pesquisas recentes</string>
+    <string name="search_scope_messages">Mensagens</string>
+    <string name="settings_search_label">Pesquisar</string>
+    <string name="unified_search_hint">Pesquise conversas e mensagens salvas sem conexão. Encontre pessoas neste servidor pelo nome de usuário.</string>
+    <string name="unified_search_network">A pesquisa no servidor está indisponível. Os resultados locais continuam disponíveis.</string>
+    <string name="unified_search_local_error">Não foi possível carregar as mensagens salvas. Pesquise novamente.</string>
+</resources>

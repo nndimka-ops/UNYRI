@@ -1,0 +1,39 @@
+<resources>
+    <string name="media_video_note">Відеоповідомлення</string>
+    <string name="media_note_playing">Відтворюється</string>
+    <string name="media_note_paused">На паузі</string>
+    <string name="media_note_failed">Не вдалося відтворити відео. Торкніться ще раз.</string>
+    <string name="media_video_position">%1$s із %2$s</string>
+    <string name="media_seek_back">Назад на %1$d с</string>
+    <string name="media_seek_forward">Вперед на %1$d с</string>
+    <string name="media_fill">Заповнити екран</string>
+    <string name="media_fit">Вписати в екран</string>
+    <string name="media_fine_scrubbing">Точне перемотування ×%1$s</string>
+    <string name="media_save_gallery">Зберегти в галерею</string>
+    <string name="media_save_files">Зберегти у Файли</string>
+    <string name="media_reaction_remove">Прибрати реакцію</string>
+    <string name="media_reaction_add">Поставити таку саму</string>
+    <string name="media_markup">Розмітка</string>
+    <string name="media_markup_undo">Скасувати</string>
+    <string name="media_markup_redo">Повторити</string>
+    <string name="media_markup_pen">Перо</string>
+    <string name="media_markup_marker">Маркер</string>
+    <string name="media_markup_eraser">Гумка</string>
+    <string name="media_markup_text">Додати текст</string>
+    <string name="media_markup_add">Додати</string>
+    <string name="media_no_sound">Без звуку</string>
+    <string name="media_sound">Зі звуком</string>
+    <string name="media_video_state">%1$s, %2$s, %3$s</string>
+    <plurals name="media_seek_back_seconds">
+        <item quantity="one">Назад на %d секунду</item>
+        <item quantity="few">Назад на %d секунди</item>
+        <item quantity="many">Назад на %d секунд</item>
+        <item quantity="other">Назад на %d секунди</item>
+    </plurals>
+    <plurals name="media_seek_forward_seconds">
+        <item quantity="one">Вперед на %d секунду</item>
+        <item quantity="few">Вперед на %d секунди</item>
+        <item quantity="many">Вперед на %d секунд</item>
+        <item quantity="other">Вперед на %d секунди</item>
+    </plurals>
+</resources>

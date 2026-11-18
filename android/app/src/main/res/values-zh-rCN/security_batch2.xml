@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_device_relisted">设备再次出现在列表中。在本手机上仍被排除。</string>
+</resources>

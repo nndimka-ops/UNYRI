@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_name_hidden_characters">Приховані символи буде видалено.</string>
+    <string name="profile_name_reserved">Це ім’я зарезервовано для сервісу. Виберіть інше ім’я.</string>
+    <string name="profile_name_link">Ім’я не повинно містити посилань або доменів.</string>
+    <string name="profile_name_leading_at">Ім’я не повинно починатися з @.</string>
+    <string name="profile_username_reserved">Це ім’я користувача зарезервоване для сервісу. Виберіть інше.</string>
+    <string name="profile_username_link">Ім’я користувача не повинно містити посилань або доменів.</string>
+    <string name="profile_validation_error">Перевірте введені дані.</string>
+    <string name="profile_name_legacy_long">Це наявне ім’я довше за 32 символи. Скоротіть його під час зміни.</string>
+</resources>

@@ -1,0 +1,53 @@
+<resources>
+    <string name="editor_label_limit">Label limit reached. Edit or remove an existing label, or clear all to add another.</string>
+    <string name="editor_erasing">Erasing…</string>
+    <string name="editor_erase_failed">Could not erase. Your drawing is preserved.</string>
+    <item name="editor_label_edit" type="id" />
+    <item name="editor_label_left" type="id" />
+    <item name="editor_label_right" type="id" />
+    <item name="editor_label_up" type="id" />
+    <item name="editor_label_down" type="id" />
+    <item name="editor_label_enlarge" type="id" />
+    <item name="editor_label_shrink" type="id" />
+    <string name="editor_stroke_limit">Drawing limit reached. Undo, erase or clear strokes to continue.</string>
+    <string name="editor_title">Photo editor</string>
+    <string name="editor_close">Close</string>
+    <string name="editor_undo">Undo</string>
+    <string name="editor_redo">Redo</string>
+    <string name="editor_text">Add text</string>
+    <string name="editor_sticker">Add sticker</string>
+    <string name="editor_clear">Clear all</string>
+    <string name="editor_more">More</string>
+    <string name="editor_attach">Add to message</string>
+    <string name="editor_save">Save to Photos</string>
+    <string name="editor_share">Share…</string>
+    <string name="editor_tools">Drawing tools</string>
+    <string name="editor_pen">Pen</string>
+    <string name="editor_marker">Marker</string>
+    <string name="editor_pencil">Pencil</string>
+    <string name="editor_eraser">Eraser</string>
+    <string name="editor_width">Stroke width</string>
+    <string name="editor_canvas">Photo. Draw with one finger. Drag or pinch a label to move or resize it; tap text to edit.</string>
+    <string name="editor_discard_title">Discard changes?</string>
+    <string name="editor_discard">Discard</string>
+    <string name="editor_keep">Keep editing</string>
+    <string name="editor_load_failed">Could not open this photo.</string>
+    <string name="editor_export_failed">Could not export this photo. Your edits are preserved.</string>
+    <string name="editor_exporting">Preparing photo…</string>
+    <string name="editor_edit_label">Edit %1$s</string>
+    <string name="editor_move_left">Move %1$s left</string>
+    <string name="editor_move_right">Move %1$s right</string>
+    <string name="editor_move_up">Move %1$s up</string>
+    <string name="editor_move_down">Move %1$s down</string>
+    <string name="editor_enlarge">Enlarge %1$s</string>
+    <string name="editor_shrink">Shrink %1$s</string>
+    <string name="editor_white">White</string>
+    <string name="editor_black">Black</string>
+    <string name="editor_red">Red</string>
+    <string name="editor_orange">Orange</string>
+    <string name="editor_yellow">Yellow</string>
+    <string name="editor_green">Green</string>
+    <string name="editor_cyan">Cyan</string>
+    <string name="editor_blue">Blue</string>
+    <string name="editor_purple">Purple</string>
+</resources>

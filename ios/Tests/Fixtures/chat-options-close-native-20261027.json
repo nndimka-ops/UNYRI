@@ -1,0 +1,28 @@
+{
+  "source": "actual native871 keyboard run, iOS27.0, focus-only options menu; app unchanged",
+  "nativeFailure": "Multiple matching Close buttons, original testline1043",
+  "buttons": [
+    {
+      "elementType": "Button",
+      "identifier": "",
+      "label": "Close",
+      "bounds": [
+        0.0,
+        0.0,
+        430.0,
+        932.0
+      ]
+    },
+    {
+      "elementType": "Button",
+      "identifier": "xmark",
+      "label": "Close",
+      "bounds": [
+        370.0,
+        111.0,
+        44.0,
+        44.0
+      ]
+    }
+  ]
+}

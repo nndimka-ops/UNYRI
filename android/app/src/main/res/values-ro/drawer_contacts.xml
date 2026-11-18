@@ -1,0 +1,21 @@
+<resources>
+    <string name="drawer_choice_a">Coloană (A)</string>
+    <string name="drawer_choice_c">Card (C)</string>
+    <string name="drawer_version">Versiunea %1$s (%2$d)</string>
+    <string name="drawer_my_qr">QR-ul meu</string>
+    <string name="drawer_count_description">%1$s, %2$d</string>
+    <string name="drawer_switch_to">Schimbă la %1$s</string>
+    <string name="drawer_account_unread">%1$d necitite</string>
+    <string name="drawer_remove_account">Elimină contul</string>
+    <string name="contacts_invite">Invită</string>
+    <string name="contacts_search">Caută contacte</string>
+    <string name="contacts_find_server">Caută pe server</string>
+    <string name="contacts_offline_retry">Fără conexiune · Reîncearcă</string>
+    <string name="contacts_add_username">Introdu un @username pentru a căuta pe serverul tău, apoi alege Adaugă contact din meniu.</string>
+    <string name="contacts_write">Mesaj</string>
+    <string name="contacts_call">Apelează</string>
+    <string name="contacts_video">Apel video</string>
+    <string name="contacts_status_hidden">Stare ascunsă</string>
+    <string name="drawer_choice_hint">Se aplică imediat pe acest dispozitiv.</string>
+    <string name="drawer_appearance_summary">Coloană sau card, gesturi</string>
+</resources>

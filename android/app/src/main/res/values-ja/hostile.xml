@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hostile_new_device">%1$s が新しい端末を使用しています — セキュリティコードを比較してください</string>
+    <string name="hostile_chat_frozen">チャットの相手の識別情報が変わりました。送信は無効です。</string>
+    <string name="hostile_call_unverified">未確認：相手に比較コードがありません。</string>
+    <string name="hostile_call_compare">この4つの記号を声に出して比較してください。比較するまでは通話は未確認です。</string>
+    <string name="hostile_room_approve">鍵を交換する前に、このユーザーと端末のセキュリティコードを比較してください。</string>
+    <string name="hostile_room_limit">メンバーは共有鍵を保持します。サーバーが削除を隠せるため、完全なアクセス取り消しは保証されません。</string>
+    <string name="hostile_room_remove">削除すると新しい鍵の非公開ルームを作成します。信頼する人を再度招待してください。</string>
+    <string-array name="hostile_sas_names">
+        <item>星</item>
+        <item>ハート</item>
+        <item>月</item>
+        <item>太陽</item>
+        <item>雲</item>
+        <item>稲妻</item>
+        <item>雪の結晶</item>
+        <item>しずく</item>
+        <item>炎</item>
+        <item>葉</item>
+        <item>地球</item>
+        <item>ベル</item>
+        <item>鍵</item>
+        <item>家</item>
+        <item>車</item>
+        <item>飛行機</item>
+        <item>自転車</item>
+        <item>切符</item>
+        <item>バス</item>
+        <item>傘</item>
+        <item>プレゼント</item>
+        <item>王冠</item>
+        <item>旗</item>
+        <item>本</item>
+        <item>しおり</item>
+        <item>クリップ</item>
+        <item>鉛筆</item>
+        <item>はさみ</item>
+        <item>筆</item>
+        <item>ハンマー</item>
+        <item>虫眼鏡</item>
+        <item>目</item>
+        <item>手のひら</item>
+        <item>音符</item>
+        <item>ギター</item>
+        <item>ゲームパッド</item>
+        <item>パズル</item>
+        <item>サイコロ</item>
+        <item>カメ</item>
+        <item>ウサギ</item>
+        <item>アリ</item>
+        <item>テントウムシ</item>
+        <item>肉球</item>
+        <item>カップ</item>
+        <item>食器</item>
+        <item>カート</item>
+        <item>バッグ</item>
+        <item>タグ</item>
+        <item>電球</item>
+        <item>封筒</item>
+        <item>双眼鏡</item>
+        <item>地図</item>
+        <item>山</item>
+        <item>きらめき</item>
+        <item>砂時計</item>
+        <item>目覚まし時計</item>
+        <item>メガホン</item>
+        <item>仮面</item>
+        <item>フィルム</item>
+        <item>原子</item>
+        <item>歯車</item>
+        <item>スペード</item>
+        <item>Tシャツ</item>
+        <item>眼鏡</item>
+    </string-array>
+</resources>

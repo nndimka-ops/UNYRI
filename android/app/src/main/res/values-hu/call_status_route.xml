@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_route_direct">Közvetlenül</string>
+    <string name="call_route_relay">Szerveren keresztül</string>
+    <string name="call_waiting_for_peer_online">Várakozás a másik fél csatlakozására</string>
+</resources>

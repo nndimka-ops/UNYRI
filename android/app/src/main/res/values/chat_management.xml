@@ -1,0 +1,19 @@
+<resources>
+    <string name="chats_select">Select chats</string>
+    <string name="chats_pin">Pin</string>
+    <string name="chats_unpin">Unpin</string>
+    <string name="chats_pinned">Pinned chat</string>
+    <string name="chats_actions">Chat filters and actions</string>
+    <string name="chats_selected_count">Selected: %1$d</string>
+    <string name="chats_select_all">Select all</string>
+    <string name="chats_deselect_all">Deselect all</string>
+    <string name="chats_batch_delete_title">Delete chats: %1$d?</string>
+    <string name="chats_batch_failed">Some changes could not be saved. Those chats remain selected; try again.</string>
+    <string name="chats_archive_title">Archive</string>
+    <string name="chats_archive_action">Move to archive</string>
+    <string name="chats_restore">Restore to chats</string>
+    <string name="chats_restore_short">Restore</string>
+    <string name="chats_archive_back">Back to chats</string>
+    <string name="chats_archive_empty">Archive is empty</string>
+    <string name="chats_archive_detail">Move chats here from their menu or select several chats. New messages keep them here until you restore them.</string>
+</resources>

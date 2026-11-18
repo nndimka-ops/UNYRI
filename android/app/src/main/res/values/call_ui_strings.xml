@@ -1,0 +1,33 @@
+<resources>
+    <string name="call_ui_cancelled">Cancelled</string>
+    <string name="call_encrypted">Encrypted</string>
+    <string name="call_waiting_network">Waiting for network…</string>
+    <string name="call_route_direct">Direct</string>
+    <string name="call_route_relay">Via server</string>
+    <string name="call_encryption_title">Call encryption</string>
+    <string name="call_encryption_pending">The encrypted media connection is being established.</string>
+    <string name="call_encryption_direct">Audio and video travel directly between the phones, encrypted. The server only helps the phones find each other.</string>
+    <string name="call_encryption_relay">This call goes through the UNYRI server. The server only forwards encrypted audio and video and cannot read them.</string>
+    <string name="call_quality_measuring">Measuring connection quality…</string>
+    <string name="call_quality_excellent">Excellent connection</string>
+    <string name="call_quality_good">Good connection</string>
+    <string name="call_quality_weak">Weak connection</string>
+    <string name="call_quality_poor">Poor connection</string>
+    <string name="call_statistics">Call statistics</string>
+    <string name="call_mini_return">Return to call: %1$s</string>
+    <string name="call_mini_hide">Hide window</string>
+    <string name="call_mini_show">Show call window</string>
+    <string name="call_mini_hint">Tap to open the call. Drag to move.</string>
+    <string name="call_torch">Flashlight</string>
+    <string name="call_stat_video_codec">Video codec in / out</string>
+    <string name="call_stat_incoming_video">Incoming video</string>
+    <string name="call_stat_outgoing_video">Outgoing video</string>
+    <string name="call_stat_camera">Camera</string>
+    <string name="call_stat_encode">Encode time, ms</string>
+    <string name="call_stat_pacer">Pacer delay, ms</string>
+    <string name="call_stat_rtt">Round trip, ms</string>
+    <string name="call_stat_audio_delay">Audio playout delay, ms</string>
+    <string name="call_stat_video_delay">Video playout delay, ms</string>
+    <string name="call_stat_sync">A/V sync delay, ms</string>
+    <string name="call_stat_packet">Audio packet time, ms</string>
+</resources>

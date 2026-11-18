@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sidebar_saved_profile">Profile</string>
+    <string name="sidebar_saved_sign_out">Sign out of account</string>
+    <string name="sidebar_status_online">Online</string>
+    <string name="sidebar_status_invisible">Invisible</string>
+    <string name="sidebar_status_dnd">Do not disturb</string>
+    <string name="sidebar_status_error">Could not update status. Choose a status to try again.</string>
+    <string name="sidebar_add_account">Add account</string>
+    <string name="sidebar_switch_account">Switch account</string>
+    <string name="sidebar_transfer_count">Transfers: %1$d</string>
+    <string name="sidebar_unread_count">Unread messages: %1$d</string>
+    <string name="sidebar_qr_title">My QR code</string>
+    <string name="sidebar_qr_code">QR code</string>
+    <string name="sidebar_done">Done</string>
+    <string name="sidebar_qr_share">Share link</string>
+    <string name="sidebar_qr_instruction">Point a phone camera at the code to open a chat with you in UNYRI.</string>
+    <string name="sidebar_qr_no_username">Choose a username in your profile to share your QR code.</string>
+    <string name="sidebar_profile_link_failed">Could not open this profile. Check the username or connection and try again.</string>
+</resources>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hostile_new_device">%1$s a un nouvel appareil — comparez le code de sécurité</string>
+    <string name="hostile_chat_frozen">L’identité dans cette conversation a changé. Envoi désactivé.</string>
+    <string name="hostile_call_unverified">Non vérifié : aucun code de comparaison chez votre correspondant.</string>
+    <string name="hostile_call_compare">Comparez ces quatre symboles à voix haute. Sans comparaison, l’appel reste non vérifié.</string>
+    <string name="hostile_room_approve">Comparez le code de sécurité de cet utilisateur et de cet appareil avant d’échanger la clé.</string>
+    <string name="hostile_room_limit">Les membres conservent les clés partagées. Le serveur peut masquer une exclusion ; la révocation complète n’est pas garantie.</string>
+    <string name="hostile_room_remove">L’exclusion crée un nouveau salon privé avec une nouvelle clé. Invitez de nouveau les personnes de confiance.</string>
+    <string-array name="hostile_sas_names">
+        <item>Étoile</item>
+        <item>Cœur</item>
+        <item>Lune</item>
+        <item>Soleil</item>
+        <item>Nuage</item>
+        <item>Éclair</item>
+        <item>Flocon</item>
+        <item>Goutte</item>
+        <item>Feu</item>
+        <item>Feuille</item>
+        <item>Globe</item>
+        <item>Cloche</item>
+        <item>Clé</item>
+        <item>Maison</item>
+        <item>Voiture</item>
+        <item>Avion</item>
+        <item>Vélo</item>
+        <item>Billet</item>
+        <item>Bus</item>
+        <item>Parapluie</item>
+        <item>Cadeau</item>
+        <item>Couronne</item>
+        <item>Drapeau</item>
+        <item>Livre</item>
+        <item>Marque-page</item>
+        <item>Trombone</item>
+        <item>Crayon</item>
+        <item>Ciseaux</item>
+        <item>Pinceau</item>
+        <item>Marteau</item>
+        <item>Loupe</item>
+        <item>Œil</item>
+        <item>Paume</item>
+        <item>Note</item>
+        <item>Guitare</item>
+        <item>Manette</item>
+        <item>Puzzle</item>
+        <item>Dé</item>
+        <item>Tortue</item>
+        <item>Lièvre</item>
+        <item>Fourmi</item>
+        <item>Coccinelle</item>
+        <item>Patte</item>
+        <item>Tasse</item>
+        <item>Couverts</item>
+        <item>Chariot</item>
+        <item>Sac</item>
+        <item>Étiquette</item>
+        <item>Ampoule</item>
+        <item>Enveloppe</item>
+        <item>Jumelles</item>
+        <item>Carte</item>
+        <item>Montagnes</item>
+        <item>Étincelles</item>
+        <item>Sablier</item>
+        <item>Réveil</item>
+        <item>Mégaphone</item>
+        <item>Masques</item>
+        <item>Film</item>
+        <item>Atome</item>
+        <item>Engrenage</item>
+        <item>Pique</item>
+        <item>T-shirt</item>
+        <item>Lunettes</item>
+    </string-array>
+</resources>

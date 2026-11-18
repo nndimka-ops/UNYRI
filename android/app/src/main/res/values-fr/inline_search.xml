@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inline_search_chats">Discussions et contacts</string>
+    <string name="inline_search_global">Recherche globale</string>
+    <string name="inline_search_privacy">Rechercher par nom ou @identifiant. Cette requête est envoyée à votre serveur.</string>
+    <string name="inline_search_media">Médias</string>
+    <string name="inline_search_links">Liens</string>
+    <string name="inline_search_files">Fichiers</string>
+    <string name="inline_search_offline">Aucune connexion</string>
+    <string name="inline_notification_banners">Bannières</string>
+    <string name="inline_notification_sound">Son</string>
+    <string name="inline_notification_vibration">Vibration</string>
+    <string name="inline_search_unavailable">Annuaire indisponible. Demandez au propriétaire de mettre à jour le serveur.</string>
+    <string name="inline_notification_header">Dans l’application</string>
+    <string name="inline_search_voice">Messages vocaux</string>
+    <string name="directory_cached_hint">Personnes enregistrées. La disponibilité sera actualisée à la connexion.</string>
+    <string name="search_clear">Effacer la recherche</string>
+    <string name="search_open_failed">Impossible d’ouvrir la discussion. Vos résultats sont conservés. Touchez à nouveau la personne.</string>
+    <string name="search_recent">Recherches récentes</string>
+    <string name="search_scope_messages">Messages</string>
+    <string name="settings_search_label">Rechercher</string>
+    <string name="unified_search_hint">Recherchez hors ligne dans les discussions et messages enregistrés. Trouvez des personnes sur ce serveur par identifiant.</string>
+    <string name="unified_search_network">La recherche sur le serveur est indisponible. Les résultats locaux restent disponibles.</string>
+    <string name="unified_search_local_error">Impossible de charger les messages enregistrés. Relancez la recherche.</string>
+</resources>

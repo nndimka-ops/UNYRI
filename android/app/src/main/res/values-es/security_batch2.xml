@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_device_relisted">El dispositivo vuelve a aparecer en la lista. Sigue excluido en este teléfono.</string>
+</resources>

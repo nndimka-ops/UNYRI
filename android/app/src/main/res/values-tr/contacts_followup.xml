@@ -1,0 +1,10 @@
+<resources>
+    <string name="contacts_empty_book">Kişileriniz burada görünecek. @kullanıcıadı ile birini ekleyin veya UNYRI uygulamasına davet edin.</string>
+    <string name="contacts_load_failed">Kişiler yüklenemedi.</string>
+    <string name="contacts_short_query">Sohbet ettiğiniz kişiler. Sunucunuzdaki herkesi aramak için en az 3 karakter yazın.</string>
+    <string name="contacts_connect_search">Bu sunucuda kişi aramak için bağlanın.</string>
+    <string name="contacts_no_users">Kullanıcı bulunamadı.</string>
+    <string name="contacts_invite_unyri">UNYRI uygulamasına davet et</string>
+    <string name="contacts_search_failed">Kişi araması yapılamadı.</string>
+    <string name="contacts_scan_qr">QR kodunu tara</string>
+</resources>

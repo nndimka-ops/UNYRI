@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="media_busy_peer">The line is busy. Try calling again later.</string>
+    <string name="media_busy_room">You are in a room. Leave it first.</string>
+    <string name="media_busy_call">You have an active call. End it first.</string>
+    <string name="media_busy_capture">Finish the current recording before starting a call.</string>
+    <string name="media_busy_cleanup">Finishing the previous conversation. Wait a moment and try again.</string>
+    <string name="media_busy_call_or_capture">End the current call or recording first.</string>
+    <string name="media_return_status">%1$s · Tap to return</string>
+    <string name="media_return_call">Return to call</string>
+</resources>

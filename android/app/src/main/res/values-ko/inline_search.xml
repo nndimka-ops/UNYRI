@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inline_search_chats">채팅 및 연락처</string>
+    <string name="inline_search_global">전체 검색</string>
+    <string name="inline_search_privacy">이름 또는 @사용자명으로 검색하세요. 검색어가 서버로 전송됩니다.</string>
+    <string name="inline_search_media">미디어</string>
+    <string name="inline_search_links">링크</string>
+    <string name="inline_search_files">파일</string>
+    <string name="inline_search_offline">연결 없음</string>
+    <string name="inline_notification_banners">배너</string>
+    <string name="inline_notification_sound">소리</string>
+    <string name="inline_notification_vibration">진동</string>
+    <string name="inline_search_unavailable">서버 목록을 사용할 수 없습니다. 관리자에게 서버 업데이트를 요청하세요.</string>
+    <string name="inline_notification_header">앱 내</string>
+    <string name="inline_search_voice">음성</string>
+    <string name="directory_cached_hint">저장된 사용자입니다. 연결되면 접속 상태가 업데이트됩니다.</string>
+    <string name="search_clear">검색 지우기</string>
+    <string name="search_open_failed">대화를 열 수 없습니다. 검색 결과가 유지됩니다. 사용자를 다시 누르세요.</string>
+    <string name="search_recent">최근 검색</string>
+    <string name="search_scope_messages">메시지</string>
+    <string name="settings_search_label">검색</string>
+    <string name="unified_search_hint">저장된 채팅과 메시지를 오프라인으로 검색하세요. 이 서버의 사용자를 사용자명으로 찾으세요.</string>
+    <string name="unified_search_network">서버 검색을 사용할 수 없습니다. 로컬 결과는 계속 사용할 수 있습니다.</string>
+    <string name="unified_search_local_error">저장된 메시지를 불러올 수 없습니다. 다시 검색하세요.</string>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_background_channel">Передавання оригіналів</string>
+    <string name="direct_background_title">UNYRI · передавання оригіналів</string>
+    <string name="direct_background_stop">Зупинити всі передавання</string>
+    <string name="direct_background_interrupted">Передавання зупинено. Натисніть «Продовжити».</string>
+    <string name="direct_background_notification_required">Дозвольте сповіщення про передавання, щоб продовжувати у згорнутому UNYRI.</string>
+    <string name="direct_background_unavailable">Фонове передавання недоступне. Залиште UNYRI відкритим або продовжте пізніше.</string>
+</resources>

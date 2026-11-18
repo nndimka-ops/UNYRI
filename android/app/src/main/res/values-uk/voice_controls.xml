@@ -1,0 +1,9 @@
+<resources>
+    <string name="voice_cancel_recording">Скасувати запис</string>
+    <string name="voice_delete">Видалити запис</string>
+    <string name="voice_send">Надіслати голосове</string>
+    <string name="voice_speed">Швидкість відтворення</string>
+    <string name="voice_slide_cancel">Вліво — скасувати</string>
+    <string name="voice_pause_resume">Призупинити або продовжити запис</string>
+    <string name="voice_review">Прослухати перед надсиланням</string>
+</resources>

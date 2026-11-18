@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="conference_rooms_title">Rooms</string>
+    <string name="conference_error_locked">The creator closed entry to this room. Try again later.</string>
+    <string name="conference_error_settings">Unable to save room settings. Try again.</string>
+    <string name="conference_error_owned_quota">You already have several open rooms. Open My rooms and end a room you no longer need.</string>
+    <string name="conference_error_moderation">The participant action could not be confirmed. Refresh the room and try again.</string>
+    <string name="conference_error_microphone_host">The room creator disabled your microphone. You can enable it yourself after the restriction is lifted.</string>
+    <string name="conference_microphone_host_info">Microphone disabled by the room creator. Tap for details.</string>
+    <string name="conference_error_removed">The creator removed you from this room. This account cannot rejoin the room.</string>
+    <string name="conference_error_invite">Invalid conference invitation.</string>
+    <string name="conference_error_busy">Finish the current call first.</string>
+    <string name="conference_error_https">Conference calls require an HTTPS server.</string>
+    <string name="conference_error_closed">The conference ended or the connection closed.</string>
+    <string name="conference_error_encryption">Conference encryption failed. The call was closed.</string>
+    <string name="conference_error_join">Could not join the conference. Check permissions, invitation and server availability.</string>
+    <string name="conference_error_unencrypted">An unencrypted media track was rejected. The call was closed.</string>
+    <string name="conference_error_control">Could not change the media control.</string>
+    <string name="conference_error_end">Could not end the conference. Try again.</string>
+    <string name="conference_error_recovery">Could not restore the connection. Check your network and join again.</string>
+    <string name="capture_in_use">Finish the current call, camera capture or recording first.</string>
+    <string name="capture_finish_before_answer">Finish camera capture or recording, then answer the call.</string>
+    <string name="conference_invitation_label">Room invitation</string>
+    <string name="conference_invitation_compact_label">Room</string>
+    <string name="conference_invitation_join">Join</string>
+    <string name="conference_invitation_pending">Waiting to send</string>
+    <string name="conference_invitation_failed">Not sent · try again</string>
+    <string name="conference_invitation_expired">Invitation expired</string>
+    <string name="conference_invitation_share">Share invitation</string>
+</resources>

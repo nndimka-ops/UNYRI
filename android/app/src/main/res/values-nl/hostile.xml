@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hostile_new_device">%1$s heeft een nieuw apparaat — vergelijk de beveiligingscode</string>
+    <string name="hostile_chat_frozen">De identiteit in de chat is gewijzigd. Verzenden is uitgeschakeld.</string>
+    <string name="hostile_call_unverified">Niet geverifieerd: de ander heeft geen vergelijkingscode.</string>
+    <string name="hostile_call_compare">Vergelijk deze vier symbolen hardop. Tot die tijd blijft het gesprek ongeverifieerd.</string>
+    <string name="hostile_room_approve">Vergelijk de code van deze gebruiker en dit apparaat voordat je de sleutel uitwisselt.</string>
+    <string name="hostile_room_limit">Leden behouden gedeelde sleutels. De server kan verwijdering verbergen; volledige intrekking is niet gegarandeerd.</string>
+    <string name="hostile_room_remove">Verwijdering maakt een nieuwe privéruimte met een nieuwe sleutel. Nodig vertrouwde personen opnieuw uit.</string>
+    <string-array name="hostile_sas_names">
+        <item>Ster</item>
+        <item>Hart</item>
+        <item>Maan</item>
+        <item>Zon</item>
+        <item>Wolk</item>
+        <item>Bliksem</item>
+        <item>Sneeuwvlok</item>
+        <item>Druppel</item>
+        <item>Vuur</item>
+        <item>Blad</item>
+        <item>Globe</item>
+        <item>Bel</item>
+        <item>Sleutel</item>
+        <item>Huis</item>
+        <item>Auto</item>
+        <item>Vliegtuig</item>
+        <item>Fiets</item>
+        <item>Kaartje</item>
+        <item>Bus</item>
+        <item>Paraplu</item>
+        <item>Cadeau</item>
+        <item>Kroon</item>
+        <item>Vlag</item>
+        <item>Boek</item>
+        <item>Bladwijzer</item>
+        <item>Paperclip</item>
+        <item>Potlood</item>
+        <item>Schaar</item>
+        <item>Kwast</item>
+        <item>Hamer</item>
+        <item>Vergrootglas</item>
+        <item>Oog</item>
+        <item>Handpalm</item>
+        <item>Noot</item>
+        <item>Gitaar</item>
+        <item>Controller</item>
+        <item>Puzzel</item>
+        <item>Dobbelsteen</item>
+        <item>Schildpad</item>
+        <item>Haas</item>
+        <item>Mier</item>
+        <item>Lieveheersbeestje</item>
+        <item>Poot</item>
+        <item>Kopje</item>
+        <item>Bestek</item>
+        <item>Winkelwagen</item>
+        <item>Tas</item>
+        <item>Label</item>
+        <item>Gloeilamp</item>
+        <item>Envelop</item>
+        <item>Verrekijker</item>
+        <item>Kaart</item>
+        <item>Bergen</item>
+        <item>Sterretjes</item>
+        <item>Zandloper</item>
+        <item>Wekker</item>
+        <item>Megafoon</item>
+        <item>Maskers</item>
+        <item>Film</item>
+        <item>Atoom</item>
+        <item>Tandwiel</item>
+        <item>Schoppen</item>
+        <item>T-shirt</item>
+        <item>Bril</item>
+    </string-array>
+</resources>

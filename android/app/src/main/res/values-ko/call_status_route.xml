@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_route_direct">직접 연결</string>
+    <string name="call_route_relay">서버 경유</string>
+    <string name="call_waiting_for_peer_online">상대방이 온라인이 되기를 기다리는 중</string>
+</resources>

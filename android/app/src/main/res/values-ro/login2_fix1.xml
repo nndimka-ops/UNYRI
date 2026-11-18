@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language_system_default">Implicit în sistem</string>
+    <string name="login2_signup_header">Alătură-te UNYRI</string>
+    <string name="login2_in_contacts">În contacte</string>
+    <string name="login2_number_copied">Număr copiat</string>
+</resources>

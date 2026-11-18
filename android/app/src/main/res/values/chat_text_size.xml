@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chat_text_size_title">Chat text size</string>
+    <string name="chat_text_size_preview">This is how your messages will look.</string>
+    <string name="chat_text_size_small">Small text</string>
+    <string name="chat_text_size_default">Default text</string>
+    <string name="chat_text_size_large">Large text</string>
+    <string name="chat_text_size_largest">Extra large text</string>
+    <string name="chat_text_size_maximum">Maximum</string>
+</resources>

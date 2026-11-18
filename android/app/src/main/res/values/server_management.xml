@@ -1,0 +1,29 @@
+<resources>
+<string name="manage_card">Server card</string>
+<string name="manage_name">Server name</string>
+<string name="manage_operator">Operator</string>
+<string name="manage_contact">Support contact</string>
+<string name="manage_rules">Server rules</string>
+<string name="manage_retention">Data retention policy</string>
+<string name="manage_file">Maximum encrypted file size (bytes)</string>
+<string name="manage_quota">Quota per user (bytes; 0 = unlimited)</string>
+<string name="manage_budget">Attachment storage budget (bytes; 0 = unlimited)</string>
+<string name="manage_save">Save settings</string>
+<string name="manage_storage">Server storage</string>
+<string name="manage_preview">Preview abandoned uploads</string>
+<string name="manage_cleanup">Delete listed uploads</string>
+<string name="manage_storage_hint">Includes encrypted attachments and reserved uploads, not the physical disk. Avatars, reports and backups are not included. Only unattached uploads older than 24 hours can be cleaned here. Up to 100 per preview.</string>
+<string name="manage_warning">Storage budget is at least 90% used.</string>
+<string name="manage_unavailable">Server information could not be loaded.</string>
+<string name="manage_claim">Provided by the server operator. Verify whom you trust before sharing data.</string>
+<string name="manage_note">Moderator note</string>
+<string name="manage_decision">Reason for decision</string>
+<string name="manage_progress">In progress</string>
+<string name="manage_open">New</string>
+<string name="manage_review">Review report</string>
+<string name="manage_evidence">You may paste selected message text into the description. The description is sent to the moderator unencrypted; other messages are not shared.</string>
+<string name="manage_used">Used / reserved (bytes)</string>
+<string name="manage_result">Deleted / skipped / failed</string>
+<string name="manage_resolved">Resolved</string>
+<string name="manage_dismissed">Dismissed</string>
+</resources>

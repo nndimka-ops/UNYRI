@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language_system_default">Rendszer alapértelmezése</string>
+    <string name="login2_signup_header">Csatlakozás a UNYRI közösségéhez</string>
+    <string name="login2_in_contacts">A névjegyek között</string>
+    <string name="login2_number_copied">Szám másolva</string>
+</resources>

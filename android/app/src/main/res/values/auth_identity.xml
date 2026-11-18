@@ -1,0 +1,9 @@
+<resources>
+    <string name="auth_your_name">Your name</string>
+    <string name="auth_choose_handle">Choose an @handle</string>
+    <string name="auth_your_handle">Your @handle</string>
+    <string name="auth_name_help">How others see you. You can use a nickname and change it later.</string>
+    <string name="auth_handle_help">Unique on this server. Used for sign-in and search. 3–32 Latin letters, digits, underscores or dots.</string>
+    <string name="auth_login_handle_help">The handle you chose when registering on this server, with or without @.</string>
+    <string name="auth_password_help">8–256 characters. Use a long password that you do not use elsewhere.</string>
+</resources>

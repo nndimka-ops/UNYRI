@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hostile_new_device">%1$s ma nowe urządzenie — porównajcie kod bezpieczeństwa</string>
+    <string name="hostile_chat_frozen">Tożsamość w czacie zmieniła się. Wysyłanie wyłączone.</string>
+    <string name="hostile_call_unverified">Niezweryfikowane: rozmówca nie ma kodu porównania.</string>
+    <string name="hostile_call_compare">Porównajcie te cztery symbole na głos. Do tego czasu rozmowa jest niezweryfikowana.</string>
+    <string name="hostile_room_approve">Porównaj kod tego użytkownika i urządzenia przed wymianą klucza.</string>
+    <string name="hostile_room_limit">Uczestnicy zachowują wspólne klucze. Serwer może ukryć usunięcie; pełne odebranie dostępu nie jest gwarantowane.</string>
+    <string name="hostile_room_remove">Usunięcie tworzy nowy prywatny pokój z nowym kluczem. Zaproś ponownie zaufane osoby.</string>
+    <string-array name="hostile_sas_names">
+        <item>Gwiazda</item>
+        <item>Serce</item>
+        <item>Księżyc</item>
+        <item>Słońce</item>
+        <item>Chmura</item>
+        <item>Błyskawica</item>
+        <item>Płatek śniegu</item>
+        <item>Kropla</item>
+        <item>Ogień</item>
+        <item>Liść</item>
+        <item>Globus</item>
+        <item>Dzwonek</item>
+        <item>Klucz</item>
+        <item>Dom</item>
+        <item>Samochód</item>
+        <item>Samolot</item>
+        <item>Rower</item>
+        <item>Bilet</item>
+        <item>Autobus</item>
+        <item>Parasol</item>
+        <item>Prezent</item>
+        <item>Korona</item>
+        <item>Flaga</item>
+        <item>Książka</item>
+        <item>Zakładka</item>
+        <item>Spinacz</item>
+        <item>Ołówek</item>
+        <item>Nożyczki</item>
+        <item>Pędzel</item>
+        <item>Młotek</item>
+        <item>Lupa</item>
+        <item>Oko</item>
+        <item>Dłoń</item>
+        <item>Nuta</item>
+        <item>Gitara</item>
+        <item>Kontroler</item>
+        <item>Puzzle</item>
+        <item>Kostka</item>
+        <item>Żółw</item>
+        <item>Zając</item>
+        <item>Mrówka</item>
+        <item>Biedronka</item>
+        <item>Łapa</item>
+        <item>Filiżanka</item>
+        <item>Sztućce</item>
+        <item>Wózek</item>
+        <item>Torba</item>
+        <item>Etykieta</item>
+        <item>Żarówka</item>
+        <item>Koperta</item>
+        <item>Lornetka</item>
+        <item>Mapa</item>
+        <item>Góry</item>
+        <item>Iskry</item>
+        <item>Klepsydra</item>
+        <item>Budzik</item>
+        <item>Megafon</item>
+        <item>Maski</item>
+        <item>Film</item>
+        <item>Atom</item>
+        <item>Koło zębate</item>
+        <item>Pik</item>
+        <item>Koszulka</item>
+        <item>Okulary</item>
+    </string-array>
+</resources>

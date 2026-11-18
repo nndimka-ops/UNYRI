@@ -1,0 +1,11 @@
+<resources>
+    <string name="composer_source_unavailable">Unavailable. Remove and select again.</string>
+    <string name="composer_original_limit">Keep up to 8 large originals in the tray. This selection was not added. Ordinary attachments still have a limit of 10.</string>
+    <string name="composer_original_remainder">The first 8 originals were selected. Remaining files stay in the tray; tap Send again when a direct-transfer slot is free.</string>
+    <string name="attachment_direct_title">Large file, directly</string>
+    <string name="attachment_direct_limit">Up to 64 GB, no cloud</string>
+    <string name="attachment_direct_info">About direct transfer</string>
+    <string name="attachment_direct_unavailable">Direct transfer is unavailable here.</string>
+    <string name="attachment_direct_busy">Wait for the current transfer to finish preparing, then select the files again.</string>
+    <string name="attachment_finish_editing">Finish editing the message before adding attachments.</string>
+</resources>

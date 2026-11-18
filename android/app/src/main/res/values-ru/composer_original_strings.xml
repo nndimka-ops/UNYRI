@@ -1,0 +1,11 @@
+<resources>
+    <string name="composer_source_unavailable">Недоступно. Удалите и выберите снова.</string>
+    <string name="composer_original_limit">В лотке может быть до 8 больших оригиналов. Выбранные файлы не добавлены. Для обычных вложений действует лимит 10.</string>
+    <string name="composer_original_remainder">Выбраны первые 8 оригиналов. Остальные файлы остаются в лотке; нажмите «Отправить» ещё раз, когда освободится место для прямой передачи.</string>
+    <string name="attachment_direct_title">Большой файл напрямую</string>
+    <string name="attachment_direct_limit">До 64 ГБ, без облака</string>
+    <string name="attachment_direct_info">О прямой передаче</string>
+    <string name="attachment_direct_unavailable">Прямая передача здесь недоступна.</string>
+    <string name="attachment_direct_busy">Дождитесь подготовки текущей передачи, затем выберите файлы снова.</string>
+    <string name="attachment_finish_editing">Завершите редактирование сообщения, прежде чем добавлять вложения.</string>
+</resources>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Store builds: HTTPS with system CAs only. A user-installed CA (device
+         management, a "Wi-Fi certificate" lure, someone who knows the PIN) must
+         not be able to read or rewrite our traffic. LAN development servers and
+         their private CA belong to alpha/debug builds only. -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

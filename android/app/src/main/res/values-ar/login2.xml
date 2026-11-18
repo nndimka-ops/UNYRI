@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login2_private_login">تسجيل الدخول الخاص</string>
+    <string name="login2_private_help">استخدم تسجيل الدخول الخاص، وليس الرقم العام أو @الاسم.</string>
+    <string name="login2_strength_weak">ضعيفة</string>
+    <string name="login2_strength_fair">متوسطة</string>
+    <string name="login2_strength_strong">قوية</string>
+    <string name="login2_continue">متابعة</string>
+    <string name="login2_number">رقمك العام</string>
+    <string name="login2_username">@اسم عام</string>
+    <string name="login2_username_rules">5–32 حرفاً لاتينياً أو رقماً أو _. البداية حرف، دون __. التغيير كل 7 أيام؛ تجميد الاسم السابق 30 يوماً.</string>
+    <string name="login2_discoverability">من يمكنه العثور علي</string>
+    <string name="login2_everyone">الجميع</string>
+    <string name="login2_contacts">جهات الاتصال</string>
+    <string name="login2_nobody">لا أحد</string>
+    <string name="login2_unavailable">الاسم غير متاح</string>
+    <string name="login2_conflict">تغيرت الإعدادات. حدّث وحاول مجدداً.</string>
+    <string name="login2_cooldown">محاولات كثيرة أو تغيير خلال 7 أيام. حاول لاحقاً.</string>
+    <string name="login2_notice">أصبح تسجيل الدخول خاصاً. هذا رقمك. يمكنك اختيار @اسم دون نشر تسجيل الدخول.</string>
+    <string name="login2_recovery_help">احفظ المفتاح خارج UNYRI ثم أدخل ثلاث مجموعات للتأكيد. المفتاح الجديد يستبدل السابق. الحساب مسجل بالفعل.</string>
+    <string name="login2_recovery_create">إنشاء مفتاح استرداد</string>
+    <string name="login2_recovery_group">المجموعة %1$d</string>
+</resources>

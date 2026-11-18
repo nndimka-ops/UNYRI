@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inline_search_chats">Chaty a kontakty</string>
+    <string name="inline_search_global">Globální hledání</string>
+    <string name="inline_search_privacy">Hledat podle jména nebo @uživatele. Dotaz se odešle na váš server.</string>
+    <string name="inline_search_media">Média</string>
+    <string name="inline_search_links">Odkazy</string>
+    <string name="inline_search_files">Soubory</string>
+    <string name="inline_search_offline">Bez připojení</string>
+    <string name="inline_notification_banners">Bannery</string>
+    <string name="inline_notification_sound">Zvuk</string>
+    <string name="inline_notification_vibration">Vibrace</string>
+    <string name="inline_search_unavailable">Adresář serveru není dostupný. Požádejte vlastníka o aktualizaci serveru.</string>
+    <string name="inline_notification_header">V aplikaci</string>
+    <string name="inline_search_voice">Hlasové zprávy</string>
+    <string name="directory_cached_hint">Uložené osoby. Dostupnost se aktualizuje po připojení.</string>
+    <string name="search_clear">Vymazat hledání</string>
+    <string name="search_open_failed">Konverzaci nelze otevřít. Výsledky zůstávají zachovány. Klepněte na osobu znovu.</string>
+    <string name="search_recent">Nedávná hledání</string>
+    <string name="search_scope_messages">Zprávy</string>
+    <string name="settings_search_label">Hledat</string>
+    <string name="unified_search_hint">Prohledávejte uložené chaty a zprávy offline. Najděte osoby na tomto serveru podle uživatelského jména.</string>
+    <string name="unified_search_network">Hledání na serveru není dostupné. Místní výsledky zůstávají dostupné.</string>
+    <string name="unified_search_local_error">Uložené zprávy nelze načíst. Zkuste hledat znovu.</string>
+</resources>

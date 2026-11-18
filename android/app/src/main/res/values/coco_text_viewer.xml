@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="coco_text_full_title">Full message</string>
+    <string name="coco_text_full_action">Full text</string>
+    <string name="coco_text_empty">[Empty message]</string>
+    <string name="coco_text_unsupported">This text is too large or cannot be displayed.</string>
+</resources>

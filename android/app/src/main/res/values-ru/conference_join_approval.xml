@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="conference_join_waiting_creator">Ожидаем решения создателя…</string>
+    <string name="conference_join_denied">Создатель комнаты отклонил запрос.</string>
+    <string name="conference_join_expired">Время ожидания истекло. Попробуйте ещё раз.</string>
+    <string name="conference_join_cancelled">Запрос на вход отменён.</string>
+    <string name="conference_join_retry_time">Следующая попытка после %1$s.</string>
+    <string name="conference_join_requests">Запросы на вход</string>
+    <string name="conference_join_confirm">Подтверждать вход</string>
+    <string name="conference_join_explanation">Создатель принимает или отклоняет запросы прямо в комнате. После отказа — пауза на 1 минуту, затем на 10 минут.</string>
+    <string name="conference_join_accept">Принять</string>
+    <string name="conference_join_reject">Отклонить</string>
+    <string name="conference_join_wants_in">%1$s хочет войти</string>
+    <string name="conference_join_cancel">Отменить запрос</string>
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login2_private_login">Login privado</string>
+    <string name="login2_private_help">Use seu login privado, não o número público ou @nome.</string>
+    <string name="login2_strength_weak">Fraca</string>
+    <string name="login2_strength_fair">Média</string>
+    <string name="login2_strength_strong">Forte</string>
+    <string name="login2_continue">Continuar</string>
+    <string name="login2_number">Seu número público</string>
+    <string name="login2_username">@Nome público</string>
+    <string name="login2_username_rules">5–32 letras ASCII, dígitos ou _. Comece com letra, sem __. Alteração a cada 7 dias; nome anterior bloqueado por 30 dias.</string>
+    <string name="login2_discoverability">Quem pode me encontrar</string>
+    <string name="login2_everyone">Todos</string>
+    <string name="login2_contacts">Contatos</string>
+    <string name="login2_nobody">Ninguém</string>
+    <string name="login2_unavailable">Nome indisponível</string>
+    <string name="login2_conflict">As configurações mudaram. Atualize e tente novamente.</string>
+    <string name="login2_cooldown">Muitas tentativas ou alteração nos últimos 7 dias. Tente mais tarde.</string>
+    <string name="login2_notice">Seu login agora é privado. Este é seu número. Você pode escolher um @nome; seu login não é publicado.</string>
+    <string name="login2_recovery_help">Salve a chave fora do UNYRI. Confirme três grupos. Uma nova chave substitui a anterior. A conta já está registrada.</string>
+    <string name="login2_recovery_create">Criar chave de recuperação</string>
+    <string name="login2_recovery_group">Grupo %1$d</string>
+</resources>

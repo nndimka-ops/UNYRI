@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_p2p_title">Директни обаждания</string>
+    <string name="call_p2p_everyone">Всички</string>
+    <string name="call_p2p_contacts">Моите контакти</string>
+    <string name="call_p2p_nobody">Никой</string>
+    <string name="call_p2p_note">Директната връзка обикновено е по-бърза, но другото устройство вижда вашия IP адрес. През сървъра се вижда само неговият адрес. Моите контакти допуска директна връзка само с хора от Контакти. Важи от следващото обаждане.</string>
+</resources>

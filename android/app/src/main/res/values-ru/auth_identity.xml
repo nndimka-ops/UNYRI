@@ -1,0 +1,9 @@
+<resources>
+    <string name="auth_your_name">Ваше имя</string>
+    <string name="auth_choose_handle">Придумайте @ник</string>
+    <string name="auth_your_handle">Ваш @ник</string>
+    <string name="auth_name_help">Так вас видят собеседники. Можно использовать псевдоним и менять его позже.</string>
+    <string name="auth_handle_help">Уникален на этом сервере. Для входа и поиска. 3–32 символа: латинские буквы, цифры, _ или точка.</string>
+    <string name="auth_login_handle_help">Ник, выбранный при регистрации на этом сервере, с @ или без него.</string>
+    <string name="auth_password_help">8–256 символов. Используйте длинный пароль, которого нет у других ваших аккаунтов.</string>
+</resources>

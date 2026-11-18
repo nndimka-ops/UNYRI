@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language_system_default">لغة النظام</string>
+    <string name="login2_signup_header">انضم إلى UNYRI</string>
+    <string name="login2_in_contacts">في جهات الاتصال</string>
+    <string name="login2_number_copied">تم نسخ الرقم</string>
+</resources>

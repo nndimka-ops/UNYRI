@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login2_private_login">Privát bejelentkezési név</string>
+    <string name="login2_private_help">A privát neveddel lépj be, ne a nyilvános számmal vagy @névvel.</string>
+    <string name="login2_strength_weak">Gyenge</string>
+    <string name="login2_strength_fair">Közepes</string>
+    <string name="login2_strength_strong">Erős</string>
+    <string name="login2_continue">Folytatás</string>
+    <string name="login2_number">Nyilvános számod</string>
+    <string name="login2_username">Nyilvános @név</string>
+    <string name="login2_username_rules">5–32 ASCII-betű, szám vagy _. Betűvel kezdődik, __ nélkül. Módosítás 7 naponta; régi név 30 napig zárolva.</string>
+    <string name="login2_discoverability">Ki találhat meg</string>
+    <string name="login2_everyone">Mindenki</string>
+    <string name="login2_contacts">Névjegyek</string>
+    <string name="login2_nobody">Senki</string>
+    <string name="login2_unavailable">A név nem érhető el</string>
+    <string name="login2_conflict">A beállítások megváltoztak. Frissíts és próbáld újra.</string>
+    <string name="login2_cooldown">Túl sok próbálkozás vagy módosítás 7 napon belül. Próbáld később.</string>
+    <string name="login2_notice">A bejelentkezési neved mostantól privát. Ez a számod. Választhatsz @nevet; a privát név nem lesz közzétéve.</string>
+    <string name="login2_recovery_help">Mentsd a kulcsot az UNYRI alkalmazáson kívül. Erősíts meg három csoportot. Az új kulcs lecseréli a régit. A fiók már létrejött.</string>
+    <string name="login2_recovery_create">Helyreállítási kulcs létrehozása</string>
+    <string name="login2_recovery_group">%1$d. csoport</string>
+</resources>

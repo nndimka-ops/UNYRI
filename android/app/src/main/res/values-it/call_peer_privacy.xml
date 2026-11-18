@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_p2p_title">Chiamate peer-to-peer</string>
+    <string name="call_p2p_everyone">Tutti</string>
+    <string name="call_p2p_contacts">I miei contatti</string>
+    <string name="call_p2p_nobody">Nessuno</string>
+    <string name="call_p2p_note">La connessione diretta è solitamente più veloce, ma l’altro dispositivo vede il tuo indirizzo IP. Tramite il server è visibile solo il suo indirizzo. I miei contatti consente connessioni dirette solo con le persone in Contatti. Si applica dalla prossima chiamata.</string>
+</resources>

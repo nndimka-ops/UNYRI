@@ -45,7 +45,7 @@ In PowerShell:
 
 ```powershell
 $env:MSYS_NO_PATHCONV = '1'
-$env:CARGO_TARGET_DIR = 'D:\unyri-build\target-testhealth'
+$env:CARGO_TARGET_DIR = 'D:\cargo-target\unyri-server'   # one target directory per worktree
 $env:TEST_DATABASE_URL = 'postgres://coco:test@127.0.0.1:55432/coco_test'
 $env:TEST_REDIS_URL = 'redis://127.0.0.1:56379/1'
 . ./scripts/qa/Initialize-TestStorage.ps1

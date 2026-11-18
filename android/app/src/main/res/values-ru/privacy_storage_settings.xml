@@ -1,0 +1,25 @@
+<resources>
+    <string name="privacy_online">Кто видит меня в сети</string>
+    <string name="privacy_last_seen">Кто видит время посещения</string>
+    <string name="privacy_everyone">Все</string>
+    <string name="privacy_nobody">Никто</string>
+    <string name="privacy_always_allow">Всегда разрешать</string>
+    <string name="privacy_never_allow">Никогда не разрешать</string>
+    <string name="privacy_people_count">Людей: %1$d</string>
+    <string name="privacy_exceptions_detail">Исключения действуют для статуса и времени посещения. Запрет имеет приоритет.</string>
+    <string name="privacy_read_receipts">Отправлять отчёты о прочтении</string>
+    <string name="privacy_read_detail">Счётчик непрочитанных по-прежнему сбрасывается. Включение не раскрывает прежние скрытые прочтения.</string>
+    <string name="privacy_save_failed">Не удалось сохранить или обновить настройки. Проверьте подключение и повторите.</string>
+    <string name="media_download_detail">Лимит автозагрузки на один файл. Неизвестный размер или тип сети — только ручная загрузка.</string>
+    <string name="media_download_off">Выкл.</string>
+    <string name="media_download_video">Видео</string>
+    <string name="cache_unlimited">Без ограничения</string>
+    <string name="cache_forever">Всегда</string>
+    <string name="cache_size_limit">Лимит загруженного кеша</string>
+    <string name="cache_retention">Хранить загруженный кеш</string>
+    <string name="cache_days">%1$d дн.</string>
+    <string name="cache_policy_detail">Удаляется только повторно загружаемый кеш, начиная со старого. Сообщения, восстановленные оригиналы, черновики и используемые файлы сохраняются. Защищённые файлы могут превышать лимит.</string>
+    <string name="cache_by_chat">Загруженный кеш по чатам</string>
+    <string name="cache_saved_messages">Избранное</string>
+    <string name="cache_chat_fallback">Чат %1$s</string>
+</resources>

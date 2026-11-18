@@ -1,0 +1,229 @@
+{
+  "sidebarTheme": {
+    "schemaVersion": 1,
+    "design": "coco-sidebar-studio",
+    "baseline": "graphite-20261028",
+    "geometry": {
+      "width": 45,
+      "corner": 40,
+      "inset": 8,
+      "top": 4,
+      "bottom": 34,
+      "rowHeight": 44,
+      "secondaryHeight": 44,
+      "rowGap": 0,
+      "rowPaddingX": 22,
+      "rowPaddingY": 4,
+      "iconGap": 12
+    },
+    "material": {
+      "background": "#171d26",
+      "top": "#202630",
+      "bottom": "#121820",
+      "gradient": true,
+      "angle": 80,
+      "opacity": 92,
+      "borderColor": "#303640",
+      "borderWidth": 0,
+      "borderOpacity": 100,
+      "shadow": 6
+    },
+    "typography": {
+      "family": "system",
+      "text": "#f0f2f8",
+      "muted": "#99a4b5",
+      "size": 13,
+      "secondarySize": 11,
+      "weight": "400",
+      "letterSpacing": 0,
+      "textMode": "normal"
+    },
+    "profile": {
+      "layout": "compact",
+      "showAvatar": true,
+      "showUsername": true,
+      "showEdit": true,
+      "showClose": true,
+      "nameSize": 15,
+      "userSize": 11,
+      "gap": 8,
+      "bottom": 0,
+      "padding": 0,
+      "fill": "#242c38",
+      "fillOpacity": 0
+    },
+    "avatar": {
+      "size": 68,
+      "radius": 50,
+      "color": "#3a4254",
+      "ink": "#f0f2f8",
+      "borderWidth": 0,
+      "online": true,
+      "onlineColor": "#7bcbb0"
+    },
+    "edit": {
+      "label": "Профиль",
+      "color": "#bcc0ce",
+      "size": 11,
+      "indent": 50
+    },
+    "icons": {
+      "size": 18,
+      "stroke": 1.7,
+      "color": "#aaa0df",
+      "colored": true,
+      "tiles": false,
+      "tileSize": 5,
+      "tileRadius": 9,
+      "tileOpacity": 10,
+      "chevrons": false
+    },
+    "rows": {
+      "radius": 30,
+      "fill": "#25303e",
+      "fillOpacity": 0,
+      "grouped": true,
+      "groupGap": 0
+    },
+    "selected": {
+      "fill": "#2b3243",
+      "opacity": 100,
+      "ink": "#f0f2f8",
+      "marker": false,
+      "markerColor": "#aaa0df",
+      "markerWidth": 1,
+      "markerHeight": 10,
+      "badge": "#8370ca",
+      "badgeInk": "#ffffff",
+      "badgeRadius": 14,
+      "badgeSize": 10
+    },
+    "quick": {
+      "visible": true,
+      "layout": "row",
+      "height": 44,
+      "radius": 30,
+      "gap": 11,
+      "bottom": 14,
+      "size": 13,
+      "iconSize": 16,
+      "fill": "#222832",
+      "ink": "#d5dbe6",
+      "border": "#303640",
+      "borderWidth": 0.5
+    },
+    "divider": {
+      "visible": true,
+      "color": "#303640",
+      "opacity": 100,
+      "thickness": 0.5,
+      "inset": 10,
+      "gap": 3
+    },
+    "footer": {
+      "showLogout": true,
+      "showVersion": true,
+      "color": "#d99aa3",
+      "fill": "#573039",
+      "fillOpacity": 9,
+      "radius": 20,
+      "label": "Выход из аккаунта",
+      "size": 11,
+      "versionSize": 10,
+      "versionAlign": "center",
+      "gap": 12
+    },
+    "pattern": {
+      "kind": "none",
+      "color": "#78879e",
+      "opacity": 4,
+      "size": 28,
+      "spacing": 80,
+      "stroke": 1,
+      "rotation": 0
+    },
+    "behavior": {
+      "duration": 180,
+      "swipeOpen": true,
+      "swipeClose": true,
+      "haptic": "light",
+      "scrim": 45,
+      "blur": 0,
+      "chatBackground": "#080c12"
+    },
+    "items": [
+      {
+        "id": "chats",
+        "title": "Чаты",
+        "icon": "message-square",
+        "color": "#77c5e5",
+        "visible": true,
+        "order": 1,
+        "section": "main"
+      },
+      {
+        "id": "calls",
+        "title": "Звонки",
+        "icon": "phone",
+        "color": "#7bcbb0",
+        "visible": true,
+        "order": 2,
+        "section": "main"
+      },
+      {
+        "id": "saved",
+        "title": "Избранное",
+        "icon": "bookmark",
+        "color": "#d9b876",
+        "visible": true,
+        "order": 3,
+        "section": "main"
+      },
+      {
+        "id": "settings",
+        "title": "Настройки",
+        "icon": "settings-2",
+        "color": "#ac9cdd",
+        "visible": true,
+        "order": 4,
+        "section": "main"
+      },
+      {
+        "id": "server",
+        "title": "Сервер",
+        "icon": "server",
+        "color": "#77c5e5",
+        "visible": true,
+        "order": 5,
+        "section": "service"
+      },
+      {
+        "id": "devices",
+        "title": "Устройства",
+        "icon": "laptop",
+        "color": "#7bcbb0",
+        "visible": true,
+        "order": 6,
+        "section": "service"
+      },
+      {
+        "id": "help",
+        "title": "Помощь",
+        "icon": "circle-help",
+        "color": "#d9b876",
+        "visible": true,
+        "order": 7,
+        "section": "service"
+      },
+      {
+        "id": "report",
+        "title": "Сообщить о проблеме",
+        "icon": "flag",
+        "color": "#ac9cdd",
+        "visible": true,
+        "order": 8,
+        "section": "service"
+      }
+    ]
+  }
+}

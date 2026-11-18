@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hostile_new_device">%1$s má nové zařízení — porovnejte bezpečnostní kód</string>
+    <string name="hostile_chat_frozen">Identita v chatu se změnila. Odesílání je vypnuto.</string>
+    <string name="hostile_call_unverified">Neověřeno: druhá strana nemá porovnávací kód.</string>
+    <string name="hostile_call_compare">Porovnejte tyto čtyři symboly nahlas. Do té doby je hovor neověřený.</string>
+    <string name="hostile_room_approve">Před výměnou klíče porovnejte kód tohoto uživatele a zařízení.</string>
+    <string name="hostile_room_limit">Členové si ponechávají sdílené klíče. Server může skrýt odebrání; úplné odvolání přístupu není zaručeno.</string>
+    <string name="hostile_room_remove">Odebrání vytvoří novou soukromou místnost s novým klíčem. Pozvěte znovu důvěryhodné osoby.</string>
+    <string-array name="hostile_sas_names">
+        <item>Hvězda</item>
+        <item>Srdce</item>
+        <item>Měsíc</item>
+        <item>Slunce</item>
+        <item>Mrak</item>
+        <item>Blesk</item>
+        <item>Vločka</item>
+        <item>Kapka</item>
+        <item>Oheň</item>
+        <item>List</item>
+        <item>Glóbus</item>
+        <item>Zvonek</item>
+        <item>Klíč</item>
+        <item>Dům</item>
+        <item>Auto</item>
+        <item>Letadlo</item>
+        <item>Kolo</item>
+        <item>Jízdenka</item>
+        <item>Autobus</item>
+        <item>Deštník</item>
+        <item>Dárek</item>
+        <item>Koruna</item>
+        <item>Vlajka</item>
+        <item>Kniha</item>
+        <item>Záložka</item>
+        <item>Sponka</item>
+        <item>Tužka</item>
+        <item>Nůžky</item>
+        <item>Štětec</item>
+        <item>Kladivo</item>
+        <item>Lupa</item>
+        <item>Oko</item>
+        <item>Dlaň</item>
+        <item>Nota</item>
+        <item>Kytara</item>
+        <item>Ovladač</item>
+        <item>Puzzle</item>
+        <item>Kostka</item>
+        <item>Želva</item>
+        <item>Zajíc</item>
+        <item>Mravenec</item>
+        <item>Beruška</item>
+        <item>Tlapka</item>
+        <item>Šálek</item>
+        <item>Příbor</item>
+        <item>Vozík</item>
+        <item>Taška</item>
+        <item>Štítek</item>
+        <item>Žárovka</item>
+        <item>Obálka</item>
+        <item>Dalekohled</item>
+        <item>Mapa</item>
+        <item>Hory</item>
+        <item>Jiskry</item>
+        <item>Přesýpací hodiny</item>
+        <item>Budík</item>
+        <item>Megafon</item>
+        <item>Masky</item>
+        <item>Film</item>
+        <item>Atom</item>
+        <item>Ozubené kolo</item>
+        <item>Piky</item>
+        <item>Tričko</item>
+        <item>Brýle</item>
+    </string-array>
+</resources>

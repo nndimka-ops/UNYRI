@@ -1,11 +1,17 @@
+English · [Русский](SELF_HOSTING.md) · [Українська](SELF_HOSTING_UK.md)
+
 # Your own UNYRI server: Windows, a home PC or a VPS
+
+## You are your server's operator
+
+When you install a server, you become its operator: you are responsible for the server, its users and their data, updates and backups, its rules, handling abuse reports and following the law where it runs (for example, a privacy policy for your users). The UNYRI developer does not run your server, has no access to it and is not responsible for it. The software is provided as is, without warranty (AGPL-3.0).
 
 ## The easiest way
 
-- **VPS:** after the repository and first `server-vX.Y.Z` release are published, use this one command. Replace `<owner>/<repo>` with the published repository. Prerequisites: Linux amd64/arm64, Docker Engine with Compose 2.24+, Bash 4+, curl, Python 3.8+, sha256sum and openssl; configure the domain and ports described below.
+- **VPS:** after the repository and first `server-vX.Y.Z` release are published, use this one command. Prerequisites: Linux amd64/arm64, Docker Engine with Compose 2.24+, Bash 4+, curl, Python 3.8+, sha256sum and openssl; configure the domain and ports described below.
 
 ```bash
-script=$(mktemp) && curl --fail --show-error --silent --location --proto '=https' --proto-redir '=https' 'https://raw.githubusercontent.com/<owner>/<repo>/HEAD/scripts/selfhost/get.sh' -o "$script" && sudo bash "$script" --repo '<owner>/<repo>'
+script=$(mktemp) && curl --fail --show-error --silent --location --proto '=https' --proto-redir '=https' 'https://raw.githubusercontent.com/nndimka-ops/unyri/HEAD/scripts/selfhost/get.sh' -o "$script" && sudo bash "$script" --repo 'nndimka-ops/unyri'
 ```
 
 The command saves the downloader to a file; you can review it before `sudo bash`. Trust only the owner's repository. The downloader selects the latest stable server release among the most recent 100 GitHub releases, verifies the archive SHA256 and every bundled file, extracts to `/opt/unyri` and starts the interactive installer. A checksum mismatch stops installation before changing the existing directory. A checksum from the same GitHub release detects damaged downloads; it does not replace trust in the publisher. Add `--version server-vX.Y.Z` to choose a release. This command is unavailable until the repository, GHCR images and first release are public.
@@ -27,7 +33,7 @@ The lead measured this PC at idle on 17 Nov 2026: Caddy 16 MB, backend 25 MB, Po
 - Two phones and two test accounts. At least one phone must use mobile data for outside testing.
 - Another disk or protected location for backups. A Docker volume on the same disk is not a backup.
 
-Download a verified release bundle and extract it to, for example, `D:\UNYRI` or `/opt/unyri`. Do not copy a working developer folder, its `.env`, keys, database or user files. The bundle contains `docker-compose.selfhost.yml`, `SELFHOST_VERSION`, `SHA256SUMS`, `scripts/selfhost/` and guides. Compose defaults to this exact release's `ghcr.io/<owner>/unyri-server:X.Y.Z`, `unyri-minio:X.Y.Z` and `unyri-mc:X.Y.Z` tags. Internet is required to download images and obtain a certificate.
+Download a verified release bundle and extract it to, for example, `D:\UNYRI` or `/opt/unyri`. Do not copy a working developer folder, its `.env`, keys, database or user files. The bundle contains `docker-compose.selfhost.yml`, `SELFHOST_VERSION`, `SHA256SUMS`, `scripts/selfhost/` and guides. Compose defaults to this exact release's `ghcr.io/nndimka-ops/unyri-server:X.Y.Z`, `unyri-minio:X.Y.Z` and `unyri-mc:X.Y.Z` tags. Internet is required to download images and obtain a certificate.
 
 Set `UNYRI_SERVER_IMAGE` in the environment or your own `.env` to explicitly select another server image; `UNYRI_MINIO_IMAGE` and `UNYRI_MC_IMAGE` override storage images. Reruns preserve explicit overrides; remove them to use the bundle's version. Installers do not default to `latest`. Developers can use a full source checkout with `server/` and `shared/`: `bash scripts/selfhost/install.sh --from-source` or `powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\selfhost\install.ps1 -FromSource` (alias `-from-source`). PowerShell also accepts `--from-source`. This compiles Rust/Go, needs additional resources and cannot run from the compact bundle. Pass the flag again for each source update. `.selfhost-from-source` preserves the mode for backup/restore; a normal installer invocation switches to published images.
 

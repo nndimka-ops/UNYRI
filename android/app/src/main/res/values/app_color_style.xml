@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_color_style_title">Interface colors</string>
+    <string name="app_color_style_colorful">Colorful UNYRI</string>
+    <string name="app_color_style_monochrome">Monochrome</string>
+    <string name="app_color_style_detail">Interface colors change immediately and are saved on this device. Message appearance is saved separately with Apply.</string>
+    <string name="app_color_style_chat_preview_detail">This editor keeps your saved message colors visible. They return in chats when you choose Colorful UNYRI.</string>
+</resources>

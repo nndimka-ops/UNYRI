@@ -1,0 +1,21 @@
+<resources>
+    <string name="drawer_choice_a">Kolumna (A)</string>
+    <string name="drawer_choice_c">Karta (C)</string>
+    <string name="drawer_version">Wersja %1$s (%2$d)</string>
+    <string name="drawer_my_qr">Mój QR</string>
+    <string name="drawer_count_description">%1$s, %2$d</string>
+    <string name="drawer_switch_to">Przełącz na %1$s</string>
+    <string name="drawer_account_unread">%1$d nieprzeczytanych</string>
+    <string name="drawer_remove_account">Usuń konto</string>
+    <string name="contacts_invite">Zaproś</string>
+    <string name="contacts_search">Szukaj kontaktów</string>
+    <string name="contacts_find_server">Szukaj na serwerze</string>
+    <string name="contacts_offline_retry">Brak połączenia · Ponów</string>
+    <string name="contacts_add_username">Wpisz @username, aby wyszukać na swoim serwerze, a następnie wybierz dodanie kontaktu w menu.</string>
+    <string name="contacts_write">Napisz</string>
+    <string name="contacts_call">Zadzwoń</string>
+    <string name="contacts_video">Połączenie wideo</string>
+    <string name="contacts_status_hidden">Status ukryty</string>
+    <string name="drawer_choice_hint">Stosowane od razu na tym urządzeniu.</string>
+    <string name="drawer_appearance_summary">Kolumna lub karta, gesty</string>
+</resources>

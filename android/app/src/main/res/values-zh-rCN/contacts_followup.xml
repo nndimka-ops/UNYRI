@@ -1,0 +1,10 @@
+<resources>
+    <string name="contacts_empty_book">你的联系人将显示在这里。通过@用户名添加联系人或邀请他们加入UNYRI。</string>
+    <string name="contacts_load_failed">无法加载联系人。</string>
+    <string name="contacts_short_query">与你有聊天的人。输入至少3个字符以搜索服务器上的所有人。</string>
+    <string name="contacts_connect_search">请连接后搜索此服务器上的用户。</string>
+    <string name="contacts_no_users">未找到用户。</string>
+    <string name="contacts_invite_unyri">邀请加入UNYRI</string>
+    <string name="contacts_search_failed">无法搜索用户。</string>
+    <string name="contacts_scan_qr">扫描二维码</string>
+</resources>
