@@ -8,6 +8,14 @@ English · [Русский](README.ru.md) · [Українська](README.uk.md
 
 Your people. Your server. Your rules. UNYRI keeps the connection in your hands: run a server at home, at a friend's place or on a rented machine in any country, and talk to the people you care about through it. No single company decides who may talk to whom or can switch everyone off at once: stay in touch without depending on big platforms.
 
+## Join the development
+
+UNYRI is an open project and anyone can help: code (iPhone, Android, server), translations, testing on your own phones, design, guides for people who run their own server, or simply ideas and bug reports.
+
+- Found a bug or have an idea? Open an [issue](https://github.com/nndimka-ops/UNYRI/issues) in English, Russian or Ukrainian.
+- Want to send code? Read [CONTRIBUTING.md](CONTRIBUTING.md): how to shape a pull request and the license terms for contributions, in short.
+- Found a vulnerability? Do not use public issues; use private reporting (the **Security** tab).
+
 ## What it can do
 
 - Private chats with end-to-end encryption, delivery and read marks, replies, forwarding, reactions and saved messages.
