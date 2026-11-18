@@ -113,8 +113,9 @@ struct UnyriDrawerAView: View {
                 // button share a row when both fit and wrap otherwise.
                 VStack(alignment: .leading, spacing: 8) {
                     HStack(spacing: 0) { avatar; Spacer(minLength: 8); qr }
-                    profileText
-                    numberButton
+                    // Owner, 18 Nov (B-031): the name and the number read as one caption;
+                    // a long name wraps to a second line and the number follows it.
+                    VStack(alignment: .leading, spacing: 2) { profileText; numberButton }
                     UnyriReactionRows(spacing: 4, rowGap: 6) { status; accounts }
                 }
             } else if dynamicTypeSize.isAccessibilitySize {
@@ -141,7 +142,7 @@ struct UnyriDrawerAView: View {
             VStack(alignment: .leading, spacing: 2) {
                 // Preserve the complete stored name (including legacy names over 32 characters).
                 Text(displayName).font(.system(size: (narrow ? 17 : 18) * textScale, weight: .semibold))
-                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : narrow ? 2 : 1).minimumScaleFactor(narrow ? 1 : 16.0 / 18.0)
+                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : narrow ? 2 : 1).minimumScaleFactor(narrow ? 13.0 / 17.0 : 16.0 / 18.0)
                     .truncationMode(.tail).fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 if let username, !username.isEmpty {
@@ -149,10 +150,14 @@ struct UnyriDrawerAView: View {
                         .lineLimit(1).minimumScaleFactor(CGFloat(DrawerCPolicy.usernameMinimumScale)).truncationMode(.middle)
                         .foregroundStyle(UnyriColors.secondaryText)
                 }
-            }.foregroundStyle(UnyriColors.primaryText).frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
+            }.foregroundStyle(UnyriColors.primaryText).frame(maxWidth: .infinity, minHeight: narrow ? nil : 44, alignment: .leading)
+                // Narrow caption: the tap area reaches into the gap above instead of padding the layout.
+                .padding(.top, narrow ? 8 : 0).padding(.bottom, narrow ? 1 : 0)
                 .contentShape(Rectangle())
-        }.buttonStyle(.plain).accessibilityLabel(Text(displayName)).accessibilityHint(Text("Open profile"))
+        }.buttonStyle(.plain).padding(.top, narrow ? -8 : 0).padding(.bottom, narrow ? -1 : 0)
+            .accessibilityLabel(Text(displayName)).accessibilityHint(Text("Open profile"))
             .accessibilityValue(Text(username.flatMap { $0.isEmpty ? nil : "@" + $0 } ?? ""))
+            .accessibilityIdentifier("drawer-name")
     }
 
     @ViewBuilder private var numberButton: some View {
@@ -160,8 +165,10 @@ struct UnyriDrawerAView: View {
             Button { UIPasteboard.general.string = publicNumber; UnyriHaptics.selection() } label: {
                 Text(PublicIdentityPolicy.formattedNumber(publicNumber))
                     .font(.system(size: (narrow ? 12 : 13) * textScale).monospacedDigit())
-                    .foregroundStyle(UnyriColors.secondaryText).frame(minHeight: 44)
-            }.buttonStyle(.plain)
+                    .foregroundStyle(UnyriColors.secondaryText).frame(minHeight: narrow ? nil : 44)
+                    // Narrow caption: the tap area reaches into the gap below, not into the name.
+                    .padding(.top, narrow ? 1 : 0).padding(.bottom, narrow ? 8 : 0).contentShape(Rectangle())
+            }.buttonStyle(.plain).padding(.top, narrow ? -1 : 0).padding(.bottom, narrow ? -8 : 0)
                 .accessibilityLabel(Text(UnyriL10n.string("Copy number") + " " + publicNumber))
                 .accessibilityIdentifier("drawer-public-number")
         }

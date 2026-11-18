@@ -365,8 +365,8 @@
     <string name="alpha_agreement">User agreement</string>
     <string name="alpha_accept">I accept the alpha test agreement</string>
     <string name="alpha_terms_version">Alpha test · 13 September 2026</string>
-    <string name="alpha_description">UNYRI is a messenger for conversations, photos, files, voice messages and audio/video calls. Connect to your own server on a computer or a hosted server, or choose a server operated by someone you trust.</string>
-    <string name="alpha_warning">This is an alpha test. Features may change and errors or data loss are possible. Keep important files separately.</string>
+    <string name="alpha_description">UNYRI is a messenger for chats, photos, files, voice messages and calls where the connection belongs to you. Connect to your own server — at home or hosted in any country — or to a server run by someone you trust: your people, your server, your rules, without depending on big platforms.</string>
+    <string name="alpha_warning">UNYRI is a non-commercial hobby project in active development: free, no ads and no guarantees. Features may change; errors and data loss are possible. Keep important things elsewhere and do not use UNYRI for emergency communication.</string>
     <string name="alpha_server_description">Choose a server and operator you trust. The operator controls access and can see account data, connection metadata and reports you send. End-to-end encryption protects private message content, but does not guarantee an honest operator or server availability. Conversation participants must use the same server.</string>
     <string name="alpha_terms_1">1. These terms cover voluntary testing of the UNYRI alpha application. You may stop testing at any time. This test does not create a paid subscription or promise a hosted server.</string>
     <string name="alpha_terms_2">2. The application and the selected server may have different operators. You choose your server and are responsible for checking its operator, rules and contact details. A self-hosted server runs on its operator’s infrastructure; the UNYRI developer does not automatically receive its user data or reports.</string>

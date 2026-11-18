@@ -4,6 +4,10 @@ English · [Русский](README.ru.md) · [Українська](README.uk.md
 
 **UNYRI** is an end-to-end encrypted messenger for iPhone and Android with a server you can run yourself. Messages, files and calls are encrypted on the phones (Signal protocol, via libsignal); the server stores and relays ciphertext, accounts and delivery metadata.
 
+## Why UNYRI
+
+Your people. Your server. Your rules. UNYRI keeps the connection in your hands: run a server at home, at a friend's place or on a rented machine in any country, and talk to the people you care about through it. No single company decides who may talk to whom or can switch everyone off at once: stay in touch without depending on big platforms.
+
 ## What it can do
 
 - Private chats with end-to-end encryption, delivery and read marks, replies, forwarding, reactions and saved messages.
@@ -46,6 +50,10 @@ English · [Русский](README.ru.md) · [Українська](README.uk.md
 ## Security
 
 Please do not report vulnerabilities in public issues. Use GitHub's private vulnerability reporting (the **Security** tab → **Report a vulnerability**).
+
+## A hobby project
+
+UNYRI is a small non-commercial hobby project developed in spare time. It is free and has no ads. The apps and the server are provided as is, without any warranty: errors, outages and data loss are possible. Use it at your own risk, keep important things elsewhere and do not rely on it for emergency communication or anything where a failure could cause harm.
 
 ## Responsibility
 

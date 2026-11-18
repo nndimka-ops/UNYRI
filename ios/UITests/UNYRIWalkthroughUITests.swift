@@ -218,6 +218,8 @@ final class UNYRIWalkthroughUITests: XCTestCase {
         case "stripprobe": try stripProbe()
         case "callsettings": try callSettingsProbe()
         case "serverknow": try serverKnowledgeProbe()
+        case "qrorigin": try qrOriginProbe()
+        case "drawerheader": try drawerHeaderProbe()
         case "screens": try screensProbe()
         case "pushtap": try pushTapProbe()
         case "diagnostics": try diagnosticsProbe()
@@ -1770,6 +1772,78 @@ final class UNYRIWalkthroughUITests: XCTestCase {
         let row = app.buttons["settings-server-knowledge"]
         XCTAssertTrue(row.waitForExistence(timeout: 5)); row.tap(); sleep(2); shot("server-knowledge-1")
         for index in 2...6 { app.swipeUp(); usleep(700_000); shot("server-knowledge-\(index)") }
+    }
+
+    /// B-030 (owner, 18 Nov): «Мой QR-код» showed http://127.0.0.1:8080 while the phone was
+    /// connected to his server. The address under the QR must be the server this app uses.
+    /// Finds the caption by its text so the shipped release can run the same role.
+    private func qrOriginProbe() throws {
+        let menu = app.buttons["main-open-menu"]
+        XCTAssertTrue(menu.waitForExistence(timeout: 30)); sleep(2)
+        menu.tap(); sleep(1)
+        revealDrawerControl("drawer-qr").tap()
+        XCTAssertTrue(app.staticTexts["profile-qr-number"].waitForExistence(timeout: 15), "My QR code shows the number")
+        let caption = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH 'http://' OR label BEGINSWITH 'https://'")).firstMatch
+        XCTAssertTrue(caption.waitForExistence(timeout: 10), "My QR code names its server")
+        let expected = env["UNYRI_WALK_SERVER"] ?? "http://127.0.0.1:18080"
+        // The sheet first shows the cached identity, then the server's current answer.
+        let deadline = Date().addingTimeInterval(10)
+        while caption.label != expected && Date() < deadline { usleep(300_000) }
+        shot("qr-origin")
+        print("QRORIGIN shown=\(caption.label) expected=\(expected)")
+        XCTAssertEqual(caption.label, expected, "The QR must name the server this phone is connected to")
+    }
+
+    /// B-031 (owner, 18 Nov): in drawer A the name and the number sat ~43 pt apart (44 pt
+    /// tap frames around small text). They must read as one caption under the avatar, for
+    /// the account's own name and for a 32-character name that wraps to two lines.
+    /// Span = avatar bottom to number top: 8 + name + 2 - 1 pt after the fix, 60 pt before.
+    /// The account's original name is restored at the end.
+    private func drawerHeaderProbe() throws {
+        let menu = app.buttons["main-open-menu"]
+        XCTAssertTrue(menu.waitForExistence(timeout: 30)); sleep(2)
+        func openDrawer() {
+            for _ in 0..<4 where !(menu.exists && menu.isHittable) {
+                let editorBack = app.buttons["edit-profile-back"], back = app.navigationBars.buttons.firstMatch
+                if editorBack.exists && editorBack.isHittable { editorBack.tap() }
+                else if back.exists && back.isHittable { back.tap() } else { app.swipeRight() }
+                sleep(1)
+            }
+            menu.tap(); sleep(1)
+            _ = revealDrawerControl("drawer-profile")
+        }
+        func measure(_ label: String, nameLines: CGFloat) -> String {
+            openDrawer()
+            let avatar = app.buttons["drawer-profile"], number = app.buttons["drawer-public-number"]
+            XCTAssertTrue(number.waitForExistence(timeout: 10), "The drawer shows the public number")
+            let name = app.buttons["drawer-name"].exists ? app.buttons["drawer-name"]
+                : app.buttons.matching(NSPredicate(format: "label == %@ AND identifier != %@", avatar.label, "drawer-profile")).firstMatch
+            let username = ((name.value as? String) ?? "").hasPrefix("@")
+            let span = number.frame.minY - avatar.frame.maxY
+            let limit = 8 + 21 * nameLines + 2 - 1 + (username ? 17 : 0) + 3
+            shot("drawer-header-" + label)
+            print("DRAWERHEADER \(label) chars=\(avatar.label.count) username=\(username) span=\(span) limit=\(limit)")
+            XCTAssertLessThanOrEqual(span, limit, "Name and number must sit together under the avatar (\(label))")
+            return avatar.label
+        }
+        func rename(_ value: String) {
+            app.buttons["drawer-profile"].tap()
+            let field = app.textFields["edit-profile-name"]
+            XCTAssertTrue(field.waitForExistence(timeout: 15), "The drawer avatar opens the profile editor")
+            field.tap(); sleep(1)
+            let current = (field.value as? String) ?? ""
+            field.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: current.count + 2))
+            field.typeText(value)
+            let save = app.buttons["edit-profile-save"]
+            XCTAssertTrue(save.waitForExistence(timeout: 5)); save.tap(); sleep(3)
+        }
+        let original = measure("own", nameLines: 1)
+        // The server limit is 32 characters; wide Cyrillic letters wrap onto a second line.
+        let long = env["UNYRI_WALK_LONG_NAME"] ?? "Максимилиана Константинопольская"
+        rename(long)
+        _ = measure("long", nameLines: 2)
+        rename(original)
+        _ = measure("restored", nameLines: 1)
     }
 
     /// Reproduce the owner's inactive-account placeholder in both layouts and Settings.

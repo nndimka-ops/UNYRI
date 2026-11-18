@@ -49566,19 +49566,19 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "UNYRI is a messenger for conversations, photos, files, voice messages and audio/video calls. Connect to your own server on a computer or a hosted server, or choose a server operated by someone you trust."
+            "value" : "UNYRI is a messenger for chats, photos, files, voice messages and calls where the connection belongs to you. Connect to your own server — at home or hosted in any country — or to a server run by someone you trust: your people, your server, your rules, without depending on big platforms."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "UNYRI — мессенджер для переписки, фото, файлов, голосовых сообщений, аудио- и видеозвонков. Подключайтесь к своему серверу на компьютере или хостинге либо выбирайте сервер человека, которому доверяете."
+            "value" : "UNYRI — мессенджер для переписки, фото, файлов, голосовых сообщений и звонков, в котором связь принадлежит вам. Подключайтесь к своему серверу — дома или на хостинге в любой стране — или к серверу человека, которому доверяете: свои люди, свой сервер, свои правила, без зависимости от больших платформ."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "UNYRI — месенджер для листування, фото, файлів, голосових повідомлень, аудіо- та відеодзвінків. Підключайтеся до свого сервера на комп’ютері чи хостингу або обирайте сервер людини, якій довіряєте."
+            "value" : "UNYRI — месенджер для листування, фото, файлів, голосових повідомлень і дзвінків, у якому зв’язок належить вам. Підключайтеся до свого сервера — вдома чи на хостингу в будь-якій країні — або до сервера людини, якій довіряєте: свої люди, свій сервер, свої правила, без залежності від великих платформ."
           }
         }
       }
@@ -49742,19 +49742,19 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This is an alpha test. Features may change and errors or data loss are possible. Keep important files separately."
+            "value" : "UNYRI is a non-commercial hobby project in active development: free, no ads and no guarantees. Features may change; errors and data loss are possible. Keep important things elsewhere and do not use UNYRI for emergency communication."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Это альфа-тест. Функции могут изменяться; возможны ошибки и потеря данных. Храните важные файлы отдельно."
+            "value" : "UNYRI — некоммерческий хобби-проект в активной разработке: бесплатно, без рекламы и без гарантий. Функции могут меняться, возможны ошибки и потеря данных. Храните важное отдельно и не используйте UNYRI для экстренной связи."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Це альфа-тест. Функції можуть змінюватися; можливі помилки та втрата даних. Зберігайте важливі файли окремо."
+            "value" : "UNYRI — некомерційний хобі-проєкт в активній розробці: безкоштовно, без реклами й без гарантій. Функції можуть змінюватися, можливі помилки та втрата даних. Зберігайте важливе окремо й не використовуйте UNYRI для екстреного зв’язку."
           }
         }
       }
