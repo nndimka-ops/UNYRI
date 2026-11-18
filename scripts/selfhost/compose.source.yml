@@ -1,0 +1,19 @@
+# Explicit opt-in; paths resolve relative to the main Compose file at the root.
+services:
+  backend:
+    image: unyri-server:local-selfhost
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+  minio:
+    image: unyri-minio:local-selfhost
+    build:
+      context: ./scripts/selfhost
+      dockerfile: storage.Dockerfile
+      target: minio
+  storage-init:
+    image: unyri-mc:local-selfhost
+    build:
+      context: ./scripts/selfhost
+      dockerfile: storage.Dockerfile
+      target: mc

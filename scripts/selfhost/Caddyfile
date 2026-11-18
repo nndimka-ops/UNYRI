@@ -1,0 +1,72 @@
+{
+    admin off
+    # Keep S3's absolute body deadline aligned with the backend's 1860 seconds.
+    servers {
+        protocols h1
+        timeouts {
+            read_body 30m
+        }
+    }
+}
+
+# Container-local readiness only; not published on the host.
+http://:8081 {
+    bind 127.0.0.1
+    handle /health {
+        reverse_proxy backend:8080
+    }
+}
+
+{$UNYRI_DOMAIN} {
+    tls {
+        issuer acme {
+            dir https://acme-v02.api.letsencrypt.org/directory
+        }
+    }
+    header {
+        defer
+        Strict-Transport-Security "max-age=31536000"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "no-referrer"
+    }
+    # Preserve the bucket path, query and Host: all participate in S3 signatures.
+    @objects path /messenger-attachments /messenger-attachments/*
+    handle @objects {
+        route {
+            @unsignedTrailer header_regexp X-Amz-Content-Sha256 (?i)STREAMING-UNSIGNED-PAYLOAD-TRAILER
+            respond @unsignedTrailer "Unsupported storage upload mode." 403
+            @snowball header X-Amz-Meta-Snowball-Auto-Extract *
+            respond @snowball "Unsupported storage upload mode." 403
+            @privilegedPut {
+                method PUT
+                expression {http.request.uri.query.X-Amz-Credential}.startsWith('{$MINIO_ROOT_USER}/')
+            }
+            respond @privilegedPut 403
+            reverse_proxy minio:9000 {
+                transport http {
+                    response_header_timeout 1m
+                }
+            }
+        }
+    }
+    @signal path /rtc /rtc/*
+    handle @signal {
+        route {
+            request_header X-Conference-Token {query.access_token}
+            forward_auth backend:8080 {
+                uri /conferences/authorize-sfu
+            }
+            @queryOnly not header Authorization *
+            request_header @queryOnly Authorization "Bearer {header.X-Conference-Token}"
+            uri query -access_token
+            reverse_proxy livekit:7880
+        }
+    }
+    # Never expose LiveKit's administrative Twirp API.
+    handle /twirp/* {
+        respond 404
+    }
+    handle {
+        reverse_proxy backend:8080
+    }
+}

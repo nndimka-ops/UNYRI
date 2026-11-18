@@ -1,0 +1,126 @@
+name: Server release
+
+on:
+  push:
+    tags: ['server-v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing server-vX.Y.Z tag to publish'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: server-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    # Publication is deliberately disabled while the repository is private.
+    if: ${{ github.event.repository.private == false }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Validate release tag and registry namespace
+        id: release
+        env:
+          RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+          REPOSITORY_OWNER: ${{ github.repository_owner }}
+        run: |
+          set -euo pipefail
+          [[ "$RELEASE_TAG" =~ ^server-v[0-9]+\.[0-9]+\.[0-9]+(-[a-z0-9]+([.-][a-z0-9]+)*)?$ ]] || {
+            echo 'Use an existing server-vX.Y.Z tag (optional lowercase prerelease suffix).' >&2
+            exit 1
+          }
+          echo "tag=$RELEASE_TAG" >> "$GITHUB_OUTPUT"
+          echo "version=${RELEASE_TAG#server-v}" >> "$GITHUB_OUTPUT"
+          echo "registry=ghcr.io/${REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: refs/tags/${{ steps.release.outputs.tag }}
+          persist-credentials: false
+      - name: Read the tagged source revision
+        id: source
+        run: echo "revision=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Check release packaging and downloader offline
+        run: python3 scripts/check_selfhost_release.py
+      - uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392 # v3.6.0
+      - uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
+      - uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3.3.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish server (amd64 and arm64)
+        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
+        with:
+          context: .
+          file: server/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ${{ steps.release.outputs.registry }}/unyri-server:${{ steps.release.outputs.version }}
+            ${{ steps.release.outputs.registry }}/unyri-server:latest
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.version=${{ steps.release.outputs.version }}
+            org.opencontainers.image.revision=${{ steps.source.outputs.revision }}
+          cache-from: type=gha,scope=server-release
+          cache-to: type=gha,mode=max,scope=server-release
+          provenance: mode=max
+          sbom: true
+      # SH-1 builds these from upstream source too. Publish them so operators
+      # need neither a compiler nor a Docker build on the default install path.
+      - name: Publish storage server
+        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
+        with:
+          context: scripts/selfhost
+          file: scripts/selfhost/storage.Dockerfile
+          target: minio
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.release.outputs.registry }}/unyri-minio:${{ steps.release.outputs.version }}
+          labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
+          cache-from: type=gha,scope=storage-release
+          cache-to: type=gha,mode=max,scope=storage-release
+          provenance: mode=max
+          sbom: true
+      - name: Publish storage helper
+        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
+        with:
+          context: scripts/selfhost
+          file: scripts/selfhost/storage.Dockerfile
+          target: mc
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.release.outputs.registry }}/unyri-mc:${{ steps.release.outputs.version }}
+          labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
+          cache-from: type=gha,scope=storage-release
+          cache-to: type=gha,mode=max,scope=storage-release
+          provenance: mode=max
+          sbom: true
+      - name: Build self-host bundles (explicit allowlist, no credentials)
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+          OWNER: ${{ github.repository_owner }}
+        run: python3 scripts/build_selfhost_bundle.py --owner "$OWNER" --version "$VERSION" --output dist
+      - name: Attach bundles and checksums to the release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ steps.release.outputs.tag }}
+          VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          set -euo pipefail
+          if ! gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            flags=(--latest)
+            if [[ $VERSION == *-* ]]; then flags=(--prerelease --latest=false); fi
+            gh release create "$RELEASE_TAG" --verify-tag --title "UNYRI server $VERSION" --generate-notes "${flags[@]}"
+          fi
+          gh release upload "$RELEASE_TAG" dist/*.zip dist/*.tar.gz dist/SHA256SUMS --clobber

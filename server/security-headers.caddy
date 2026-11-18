@@ -1,0 +1,12 @@
+# Import inside every public HTTPS site block of the production Caddyfile
+# (API host and files host), e.g. `import security-headers.caddy`.
+# HSTS belongs only on sites with a publicly trusted certificate: never on a
+# `tls internal` or bare LAN-IP site, and do not add `preload` unless every
+# subdomain serves valid HTTPS. `defer` applies the values after the
+# upstream response, so each header is sent once with this value.
+header {
+    defer
+    Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    X-Content-Type-Options "nosniff"
+    Referrer-Policy "no-referrer"
+}

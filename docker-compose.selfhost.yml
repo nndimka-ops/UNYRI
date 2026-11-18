@@ -1,0 +1,253 @@
+# Standalone stack. Do not combine with the development/production overlays.
+# Run from a reviewed release directory; installers create .env here.
+name: unyri-selfhost
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  postgres:
+    image: postgres:16.16-alpine3.24
+    restart: unless-stopped
+    logging: *logging
+    environment:
+      POSTGRES_USER: messenger
+      POSTGRES_DB: messenger
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run the selfhost installer first}
+      POSTGRES_HOST_AUTH_METHOD: scram-sha-256
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U messenger -d messenger"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    networks: [app]
+
+  redis:
+    image: redis:7.4.12-alpine3.22
+    restart: unless-stopped
+    logging: *logging
+    command: [redis-server, --appendonly, "yes", --requirepass, "${REDIS_PASSWORD:?Run the selfhost installer first}"]
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?Run the selfhost installer first}
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: [CMD-SHELL, 'REDISCLI_AUTH=$$REDIS_PASSWORD redis-cli ping | grep -q PONG']
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    networks: [app]
+
+  minio:
+    image: ${UNYRI_MINIO_IMAGE:-ghcr.io/OWNER/unyri-minio:VERSION}
+    restart: unless-stopped
+    logging: *logging
+    command: [server, /data, --console-address, ":9001"]
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:?Run the selfhost installer first}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?Run the selfhost installer first}
+      MINIO_BROWSER: "off"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: [CMD, wget, -q, -O, /dev/null, http://127.0.0.1:9000/minio/health/ready]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+    networks: [app]
+
+  storage-init:
+    image: ${UNYRI_MC_IMAGE:-ghcr.io/OWNER/unyri-mc:VERSION}
+    restart: "no"
+    logging: *logging
+    entrypoint: [/bin/sh, /init-storage.sh]
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:?Run the selfhost installer first}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?Run the selfhost installer first}
+      S3_UPLOAD_ACCESS_KEY_ID: ${S3_UPLOAD_ACCESS_KEY_ID:?Run the selfhost installer first}
+      S3_UPLOAD_SECRET_ACCESS_KEY: ${S3_UPLOAD_SECRET_ACCESS_KEY:?Run the selfhost installer first}
+    volumes:
+      - ./scripts/selfhost/init-storage.sh:/init-storage.sh:ro
+      - ./scripts/selfhost/storage-client-uploads-policy.template.json:/policy.template.json:ro
+    tmpfs: [/root/.mc, /tmp]
+    depends_on:
+      minio:
+        condition: service_healthy
+    networks: [app]
+
+  backend:
+    # The bundle builder replaces OWNER/VERSION with this release's own tag.
+    image: ${UNYRI_SERVER_IMAGE:-ghcr.io/OWNER/unyri-server:VERSION}
+    restart: unless-stopped
+    logging: *logging
+    environment:
+      COCO_ENV: production
+      SERVER_HOST: 0.0.0.0
+      SERVER_PORT: "8080"
+      UNYRI_SERVER_NAME: ${UNYRI_SERVER_NAME:-UNYRI}
+      UNYRI_LAN_ADDRESS: ${UNYRI_LAN_ADDRESS:-}
+      UNYRI_LAN_PORT: ${UNYRI_LAN_PORT:-}
+      UNYRI_LAN_DETECTED_AT: ${UNYRI_LAN_DETECTED_AT:-}
+      UNYRI_HOSTING_KIND: ${UNYRI_HOSTING_KIND:-}
+      UNYRI_INGRESS_MODE: ${UNYRI_INGRESS_MODE:-}
+      UNYRI_TUNNEL_PROVIDER: ${UNYRI_TUNNEL_PROVIDER:-}
+      UNYRI_SUBNET: ${UNYRI_SUBNET:-172.30.219.0/24}
+      COCO_DATA_DIR: /app/data
+      DATABASE_URL: postgres://messenger:${POSTGRES_PASSWORD:?Run the selfhost installer first}@postgres:5432/messenger
+      REDIS_URL: redis://:${REDIS_PASSWORD:?Run the selfhost installer first}@redis:6379
+      JWT_SECRET: ${JWT_SECRET:?Run the selfhost installer first}
+      COCO_ADMIN_KEY: ${COCO_ADMIN_KEY:?Run the selfhost installer first}
+      TRUSTED_PROXIES: ${UNYRI_PROXY_IP:-172.30.219.10}/32
+      PUBLIC_API_ORIGIN: https://${UNYRI_DOMAIN:?Set the domain}
+      S3_ENDPOINT_URL: http://minio:9000
+      S3_PUBLIC_ENDPOINT_URL: https://${UNYRI_DOMAIN:?Set the domain}
+      S3_REGION: us-east-1
+      S3_BUCKET: messenger-attachments
+      S3_ACCESS_KEY_ID: ${MINIO_ROOT_USER:?Run the selfhost installer first}
+      S3_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD:?Run the selfhost installer first}
+      S3_UPLOAD_ACCESS_KEY_ID: ${S3_UPLOAD_ACCESS_KEY_ID:?Run the selfhost installer first}
+      S3_UPLOAD_SECRET_ACCESS_KEY: ${S3_UPLOAD_SECRET_ACCESS_KEY:?Run the selfhost installer first}
+      S3_MAX_UPLOAD_DURATION_SECONDS: "1860"
+      TURN_SHARED_SECRET: ${TURN_SHARED_SECRET:?Run the selfhost installer first}
+      TURN_EXTERNAL_IP: ${TURN_EXTERNAL_IP:?Set the public IPv4}
+      TURN_MIN_PORT: "49152"
+      TURN_MAX_PORT: "49200"
+      # start-turn.sh uses no-tcp-relay; this is relay egress, not client transport.
+      TURN_RELAY_PROTOCOL: udp
+      TURN_STUN_URLS: stun:${UNYRI_DOMAIN:?Set the domain}:3478
+      TURN_TURN_URLS: turn:${UNYRI_DOMAIN:?Set the domain}:3478?transport=udp,turn:${UNYRI_DOMAIN:?Set the domain}:3478?transport=tcp
+      # Empty quartet means conferences are disabled. The installer enables all together.
+      CONFERENCE_LIVEKIT_URL: ${CONFERENCE_LIVEKIT_URL:-}
+      CONFERENCE_LIVEKIT_API_URL: ${CONFERENCE_LIVEKIT_API_URL:-}
+      CONFERENCE_LIVEKIT_API_KEY: ${CONFERENCE_LIVEKIT_API_KEY:-}
+      CONFERENCE_LIVEKIT_API_SECRET: ${CONFERENCE_LIVEKIT_API_SECRET:-}
+      CONFERENCE_LIVEKIT_AUTOCREATE_DISABLED: "true"
+      CONFERENCE_GATEWAY_REQUIRED: "true"
+      UNYRI_OFFLINE: "true"
+    volumes:
+      - backend_data:/app/data
+      - ./scripts/selfhost/health-check.sh:/health-check.sh:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      storage-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: [CMD, /bin/sh, /health-check.sh, http://127.0.0.1:8080/health]
+      interval: 10s
+      timeout: 5s
+      retries: 18
+      start_period: 60s
+    networks: [app]
+
+  caddy:
+    image: caddy:2.11.4-alpine
+    restart: unless-stopped
+    logging: *logging
+    environment:
+      UNYRI_DOMAIN: ${UNYRI_DOMAIN:?Set the domain}
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:?Run the selfhost installer first}
+    ports:
+      - "80:80/tcp"
+      - "443:443/tcp"
+    volumes:
+      - ./scripts/selfhost/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./scripts/selfhost/health-check.sh:/health-check.sh:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    healthcheck:
+      test: [CMD, /bin/sh, /health-check.sh, http://127.0.0.1:8081/health]
+      interval: 10s
+      timeout: 5s
+      retries: 18
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      app:
+        ipv4_address: ${UNYRI_PROXY_IP:-172.30.219.10}
+
+  coturn:
+    image: coturn/coturn:4.18.0-r0
+    restart: unless-stopped
+    logging: *logging
+    entrypoint: [/bin/sh, /start-turn.sh]
+    environment:
+      UNYRI_DOMAIN: ${UNYRI_DOMAIN:?Set the domain}
+      TURN_EXTERNAL_IP: ${TURN_EXTERNAL_IP:?Set the public IPv4}
+      TURN_SHARED_SECRET: ${TURN_SHARED_SECRET:?Run the selfhost installer first}
+    volumes:
+      - ./scripts/selfhost/start-turn.sh:/start-turn.sh:ro
+    tmpfs: [/tmp]
+    ports:
+      - "3478:3478/udp"
+      - "3478:3478/tcp"
+      - "49152-49200:49152-49200/udp"
+    healthcheck:
+      test: [CMD, turnutils_stunclient, -t, "1000", -p, "3478", "127.0.0.1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks: [turn_relay]
+
+  livekit:
+    profiles: [rooms]
+    image: livekit/livekit-server@sha256:25cd902de7cacbd5f1f779f6a6ac1eae20ba8f56b0935934ce6b0ab80d1e3d20
+    restart: unless-stopped
+    logging: *logging
+    command: [--config, /etc/livekit.yaml]
+    configs:
+      - source: livekit_config
+        target: /etc/livekit.yaml
+    ports:
+      - "17881:17881/tcp"
+      - "17882:17882/udp"
+    healthcheck:
+      test: [CMD, wget, -q, -O, /dev/null, http://127.0.0.1:7880/]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    networks:
+      app:
+        ipv4_address: ${UNYRI_SFU_IP:-172.30.219.20}
+
+configs:
+  livekit_config:
+    content: |
+      port: 7880
+      rtc:
+        tcp_port: 17881
+        udp_port: 17882
+        use_external_ip: false
+        node_ip: ${TURN_EXTERNAL_IP:?Set the public IPv4}
+      room:
+        auto_create: false
+        max_participants: 30
+      keys:
+        ${LIVEKIT_API_KEY:?Run the selfhost installer first}: ${LIVEKIT_API_SECRET:?Run the selfhost installer first}
+      logging:
+        level: warn
+
+networks:
+  app:
+    ipam:
+      config:
+        - subnet: ${UNYRI_SUBNET:-172.30.219.0/24}
+  turn_relay: {}
+
+volumes:
+  backend_data:
+  postgres_data:
+  redis_data:
+  minio_data:
+  caddy_data:
+  caddy_config:

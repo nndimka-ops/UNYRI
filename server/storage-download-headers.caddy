@@ -1,0 +1,10 @@
+# Import inside the files-host S3 handle, before reverse_proxy. Defer overrides
+# upstream metadata even for old presigned links, arbitrary object MIME types,
+# range responses and storage errors. New GET signatures enforce this too.
+@unyriStorageDownload method GET HEAD
+header @unyriStorageDownload {
+    defer
+    Content-Disposition "attachment"
+    Content-Type "application/octet-stream"
+    X-Content-Type-Options "nosniff"
+}

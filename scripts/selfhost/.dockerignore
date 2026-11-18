@@ -1,0 +1,3 @@
+# No local configuration or generated secrets enter the upstream source build.
+**
+!storage.Dockerfile

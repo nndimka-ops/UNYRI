@@ -1,0 +1,100 @@
+# Names policy vectors; tab-separated rule, expected, raw.
+username	allow	badminton_pro
+username	allow	riverbank
+username	allow	banker
+username	allow	staffan
+username	allow	stafford
+username	allow	ecosystem
+username	allow	spartak_supporter
+username	allow	unofficial_ivan
+username	allow	alice
+username	allow	sunny_rick
+username	block	admin
+username	block	admin123
+username	block	adm1n
+username	block	officia1
+username	block	moderator123
+username	block	support_team
+username	block	security.alert
+username	block	system_bot
+username	block	payment_help
+username	block	unyr1_friend
+link	allow	И.Иванов
+link	allow	Ivan.Petrov
+link	allow	J.Lo
+link	allow	Dr.House
+link	allow	Mr.Bean
+link	allow	A. B.
+link	allow	Alice
+link	allow	v1.23
+link	allow	a.invalidexampletld
+link	block	example.com
+link	block	example.CΟΜ
+link	block	ПРИМЕР.ОНЛАЙН
+link	block	example . com
+link	block	example[.]com
+link	block	example(.)com
+link	block	example dot com
+link	block	example точка com
+link	block	example крапка com
+link	block	example․com
+link	block	example。com
+link	block	example·com
+link	block	example‧com
+link	block	example∙com
+link	block	example⋅com
+link	block	exampleꓸcom
+link	block	example܁com
+link	block	example۔com
+link	block	127.0.0.1
+link	block	192.168.1.10
+link	block	https://host
+link	block	ftp://host
+link	block	tg://user
+link	block	mailto:alice
+link	block	t.me/x
+link	block	wa.me/x
+link	block	bit.ly
+link	block	site.ru
+link	block	пример.рф
+link	block	приклад.укр
+link	block	example.xn--p1ai
+link	block	❶.ru
+reserved	block	Служба безопасности банка
+reserved	block	Bank Security
+reserved	block	Security Team UNYRI
+reserved	block	БЕЗОПАСНОСТЬ БАНКА
+reserved	block	Служба безпеки банку
+reserved	block	BankSecurity
+reserved	allow	Support Team
+reserved	allow	Security Team
+reserved	allow	Bank Holiday
+reserved	allow	Alex Security
+reserved	allow	Support Anna
+ignorable	block	00AD
+ignorable	block	034F
+ignorable	block	061C
+ignorable	block	115F..1160
+ignorable	block	17B4..17B5
+ignorable	block	180B..180D
+ignorable	block	180E
+ignorable	block	180F
+ignorable	block	200B..200F
+ignorable	block	202A..202E
+ignorable	block	2060..2064
+ignorable	block	2065
+ignorable	block	2066..206F
+ignorable	block	3164
+ignorable	block	FE00..FE0F
+ignorable	block	FEFF
+ignorable	block	FFA0
+ignorable	block	FFF0..FFF8
+ignorable	block	1BCA0..1BCA3
+ignorable	block	1D173..1D17A
+ignorable	block	E0000
+ignorable	block	E0001
+ignorable	block	E0002..E001F
+ignorable	block	E0020..E007F
+ignorable	block	E0080..E00FF
+ignorable	block	E0100..E01EF
+ignorable	block	E01F0..E0FFF

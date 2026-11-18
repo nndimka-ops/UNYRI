@@ -1,0 +1,4 @@
+# Import inside the S3 reverse_proxy block, not inside the WebSocket proxy.
+transport http {
+    response_header_timeout 1m
+}

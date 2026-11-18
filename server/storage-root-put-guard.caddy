@@ -1,0 +1,16 @@
+# Import inside the public S3 handle, before reverse_proxy. Substitute the
+# privileged reader access-key ID (not its secret). New client PUT URLs use
+# the separate upload-only principal. This revokes old unsized root PUT URLs
+# without invalidating existing GET links or changing TLS certificates.
+# Vendor workaround for CVE-2026-40344 / CVE-2026-41145. This must be
+# independent of credentials, method and multipart query parameters.
+@unyriUnsignedTrailer header_regexp X-Amz-Content-Sha256 (?i)STREAMING-UNSIGNED-PAYLOAD-TRAILER
+respond @unyriUnsignedTrailer "Unsupported storage upload mode." 403
+@unyriSnowball header X-Amz-Meta-Snowball-Auto-Extract *
+respond @unyriSnowball "Unsupported storage upload mode." 403
+
+@legacyPrivilegedPut {
+    method PUT
+    expression {http.request.uri.query.X-Amz-Credential}.startsWith('__UNYRI_PRIVILEGED_READER_KEY__/')
+}
+respond @legacyPrivilegedPut 403

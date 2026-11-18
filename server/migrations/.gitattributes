@@ -1,0 +1,2 @@
+# Migration bytes must equal what prod applied (sqlx checksums); never convert line endings.
+*.sql -text
