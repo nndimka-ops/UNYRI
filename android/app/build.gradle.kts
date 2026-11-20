@@ -38,6 +38,12 @@ val forcedWebRtcRelay = providers.gradleProperty("forcedWebrtcRelay")
 // Public releases use the shared production origin. Private QA/LAN builds may
 // still supply -PreleaseApiBaseUrl explicitly without changing user selection.
 val alphaLan = providers.gradleProperty("alphaLan").map { it.toBoolean() }.getOrElse(false)
+// Release signing (owner, 18 Nov 2026): the key and its passwords stay outside the repository.
+// Point -PunyriSigning=<release-signing.properties> or UNYRI_RELEASE_SIGNING at them; without it
+// release builds stay unsigned. Keys: storeFile, storePassword, keyAlias, keyPassword.
+val releaseSigning = (providers.gradleProperty("unyriSigning").orNull ?: System.getenv("UNYRI_RELEASE_SIGNING"))
+    ?.let { File(it) }?.takeIf { it.isFile }
+    ?.let { file -> Properties().apply { file.inputStream().use { load(it) } } }
 val serverOriginConfig = JsonSlurper().parse(rootProject.file("../shared/server-origin.json")) as Map<*, *>
 val publicDefaultOrigin = serverOriginConfig["publicDefaultOrigin"] as String
 require(serverOriginConfig["version"] == 1 && URI(publicDefaultOrigin).scheme == "https") { "Invalid shared public server origin" }
@@ -54,12 +60,33 @@ require(apkAbis.all { it in supportedApkAbis } && apkAbis.distinct().size == apk
     "apkAbis must contain unique supported ABIs: $supportedApkAbis"
 }
 
+// Package the one authoritative iOS/Android CLDR catalog and its original notices.
+// Only generated build output is copied; no second catalog is tracked in git.
+val reactionPickerAssets = tasks.register<Sync>("prepareReactionPickerAssets") {
+    from(rootProject.file("../ios/UNYRI/Resources")) { include("ReactionEmojiKeywords.json") }
+    from(rootProject.file("../third_party/cldr46")) {
+        include("LICENSE.txt", "NOTICE.json")
+        into("cldr46")
+    }
+    into(layout.buildDirectory.dir("generated/reactionPickerAssets"))
+}
+// Lint (release builds run lintVital) reads the asset source dirs too; AGP sees them only as plain
+// directories, so its model/analysis tasks need the same explicit edge (20 Nov: release build failed
+// on generateReleaseLintVitalReportModel using this output without a dependency).
+tasks.configureEach {
+    if ((name.startsWith("merge") && name.endsWith("Assets")) ||
+        (name.startsWith("process") && name.contains("UnitTest") && name.endsWith("JavaRes")) ||
+        name.contains("Lint", ignoreCase = true)) dependsOn(reactionPickerAssets)
+}
+
 android {
     namespace = "com.messenger.app"
+    sourceSets.getByName("main").assets.srcDir(reactionPickerAssets.map { it.destinationDir })
     // Package the authoritative shared IANA file directly; there is no client copy to drift.
     sourceSets.getByName("main").resources.srcDir(rootProject.file("../shared"))
     sourceSets.getByName("main").resources.include("unicode/**", "iana-root-tlds.txt")
     sourceSets.getByName("test").resources.srcDir(rootProject.file("../shared"))
+    sourceSets.getByName("test").resources.srcDir(reactionPickerAssets.map { it.destinationDir })
     // Exercise the exact build-time host policy without shipping it in the APK.
     sourceSets.getByName("test").java.srcDir(rootProject.file("buildSrc/src/main/java"))
     compileSdk = 36
@@ -68,7 +95,7 @@ android {
         applicationId = "com.messenger.app"
         minSdk = 26
         targetSdk = 36
-        versionCode = 2026111902
+        versionCode = 2026112002
         versionName = "0.4.25"
 
         // Instrumentation (androidTest) runner for the real-SQLite/Room tests
@@ -87,6 +114,17 @@ android {
         buildConfigField("String", "PUBLISHER_UPDATE_URL", groovy.json.JsonOutput.toJson(providers.gradleProperty("publisherUpdateUrl").getOrElse("")))
         buildConfigField("boolean", "ALLOW_LOCAL_HTTP", "true")
         buildConfigField("boolean", "LAN_TLS_MIGRATION", alphaLan.toString())
+    }
+
+    signingConfigs {
+        if (releaseSigning != null) {
+            create("release") {
+                storeFile = File(releaseSigning.getProperty("storeFile"))
+                storePassword = releaseSigning.getProperty("storePassword")
+                keyAlias = releaseSigning.getProperty("keyAlias")
+                keyPassword = releaseSigning.getProperty("keyPassword")
+            }
+        }
     }
 
     buildTypes {
@@ -112,6 +150,7 @@ android {
             buildConfigField("String", "WS_URL", "\"${releaseOrigin.replaceFirst("https://", "wss://").replaceFirst("http://", "ws://")}/ws\"")
             buildConfigField("boolean", "FORCE_WEBRTC_RELAY", "false")
             buildConfigField("boolean", "ALLOW_LOCAL_HTTP", providers.gradleProperty("alphaLan").getOrElse("false"))
+            signingConfig = signingConfigs.findByName("release")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(

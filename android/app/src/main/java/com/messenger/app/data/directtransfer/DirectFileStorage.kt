@@ -42,7 +42,7 @@ internal class DirectFileStorage(private val context: Context, owner: String, pr
         val file = File(requireNotNull(uri.path)).absoluteFile
         val canonical = file.canonicalFile
         val root = File(context.noBackupFilesDir, "media-drafts").canonicalFile
-        return canonical.takeIf { file.toPath().normalize() == canonical.toPath() && it.isFile &&
+        return canonical.takeIf { com.messenger.app.data.auth.WorkspaceWipe.physicalEntry(file) == canonical.toPath() && it.isFile &&
             it.parentFile?.parentFile == root && runCatching { UUID.fromString(it.parentFile!!.name) }.isSuccess }
     }
 

@@ -119,6 +119,7 @@ class MessageRepositoryImpl(
     private val mediaUploader: com.messenger.app.data.attachment.AttachmentManager? = null,
     private val workspaceDao: com.messenger.app.data.local.chat.ChatWorkspaceDao? = null,
     private val directLocalStops: Flow<Map<String, com.messenger.app.data.directtransfer.DirectLocalTransferStop>> = kotlinx.coroutines.flow.flowOf(emptyMap()),
+    private val recordReactionIntent: suspend (accountId: String, emoji: String) -> Unit = { _, _ -> },
 ) : MessageRepository {
 
     override val peerActivity get() = socketClient.activity
@@ -1170,6 +1171,12 @@ class MessageRepositoryImpl(
     override suspend fun setReaction(clientMessageId: String, emoji: String): Result<Unit> = sessionMutation {
         val target = dao.findByClientMessageId(clientMessageId) ?: error("Message not found")
         enqueueLifecycle(target, "reaction", MessageContentCodec.encodeReaction(emoji))
+        // The intent is durable now. All add paths learn here; removals never do.
+        // Local preference failure must not turn an accepted encrypted send into a retry.
+        val owner = currentUserId() ?: return@sessionMutation
+        try { recordReactionIntent(owner, emoji) }
+        catch (cancelled: kotlinx.coroutines.CancellationException) { throw cancelled }
+        catch (_: Exception) { /* History is local convenience data; the queued event remains accepted. */ }
     }
 
     override suspend fun removeReaction(clientMessageId: String): Result<Unit> = sessionMutation {

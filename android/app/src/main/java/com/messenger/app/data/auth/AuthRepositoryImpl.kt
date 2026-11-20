@@ -278,7 +278,9 @@ class AuthRepositoryImpl(
             clearRoom { clearAccountData() }
             kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { tokenStore.completeCacheCleanup() }
             _cacheCleanupFailed.value = false
-        } catch (_: Exception) {
+        } catch (error: Exception) {
+            // B-072: the failing wipe step must be visible in the device log (no account data in it).
+            android.util.Log.w(CLEANUP_LOG_TAG, "local session cleanup failed", error)
             _cacheCleanupFailed.value = true
         }
     }
@@ -410,7 +412,10 @@ class AuthRepositoryImpl(
                     kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { tokenStore.completeCacheCleanup() }
                     _cacheCleanupFailed.value = false
                 }
-                catch (error: Exception) { _cacheCleanupFailed.value = true; throw error }
+                catch (error: Exception) {
+                    android.util.Log.w(CLEANUP_LOG_TAG, "pre-login account cleanup failed", error)
+                    _cacheCleanupFailed.value = true; throw error
+                }
             }
         }
         kotlinx.coroutines.withContext(kotlinx.coroutines.NonCancellable + kotlinx.coroutines.Dispatchers.IO) {
@@ -425,5 +430,6 @@ class AuthRepositoryImpl(
 
     private companion object {
         const val EXPIRY_SAFETY_MARGIN_SECONDS = 5L
+        const val CLEANUP_LOG_TAG = "UnyriCleanup"
     }
 }

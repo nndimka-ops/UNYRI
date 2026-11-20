@@ -2,7 +2,7 @@
 <resources>
     <string name="profile_editor_loading">Завантажуємо профіль…</string>
     <string name="profile_editor_preview_name">Ваше ім’я</string>
-    <string name="profile_editor_photo_note">Фото змінюється одразу. Текстові поля — після натискання «Зберегти».</string>
+    <string name="profile_editor_photo_note">Вибране фото й текст зміняться після натискання «Зберегти». Видалення поточного фото застосовується одразу.</string>
     <string name="profile_editor_identity_section">Як вас бачать</string>
     <string name="profile_editor_name_hint">Це ім’я видно в чатах і дзвінках.</string>
     <string name="profile_editor_name_error">Введіть ім’я від 1 до 32 символів.</string>
@@ -13,7 +13,7 @@
     <string name="profile_editor_username_hint">Від 3 до 32 літер, цифр, крапок або підкреслень. За цим ім’ям вас знайдуть на сервері.</string>
     <string name="profile_editor_username_error">Від 3 до 32 латинських літер, цифр, крапок або підкреслень.</string>
     <string name="profile_editor_counter">%1$d / %2$d</string>
-    <string name="profile_editor_discard_title">Не зберігати зміни тексту?</string>
-    <string name="profile_editor_discard_message">Зміни імені, імені користувача й опису не збережуться. Якщо фото вже змінено, воно залишиться.</string>
+    <string name="profile_editor_discard_title">Не зберігати зміни профілю?</string>
+    <string name="profile_editor_discard_message">Зміни профілю й вибране фото не збережуться. Уже видалене фото залишиться видаленим.</string>
     <string name="profile_editor_discard">Не зберігати</string>
 </resources>

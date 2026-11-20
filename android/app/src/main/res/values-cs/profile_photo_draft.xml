@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_editor_photo_note">Vybranou fotku a změny textu použijete uložením. Odebrání aktuální fotky se použije ihned.</string>
+    <string name="profile_editor_discard_title">Zahodit změny profilu?</string>
+    <string name="profile_editor_discard_message">Úpravy profilu a vybraná fotka se neuloží. Již odebraná fotka zůstane odebraná.</string>
+</resources>

@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import org.unyri.admin.core.*
 import org.unyri.desktop.design.*
@@ -51,9 +53,17 @@ private fun chooseDirectory(done: (Path) -> Unit) {
 @Composable private fun Toggle(text: String, value: Boolean, enabled: Boolean = true, change: (Boolean) -> Unit) {
     Row(verticalAlignment = Alignment.CenterVertically) { Checkbox(value, change, enabled = enabled); Text(text) }
 }
+@Composable private fun HostDetails(t: Strings, id: String, content: @Composable ColumnScope.() -> Unit) {
+    var expanded by remember(id) { mutableStateOf(false) }
+    TextButton({ expanded = !expanded }) { Text(t["sh.details"]) }
+    if (expanded) Column(content = content)
+}
 @Composable private fun ReleasePicker(h: HostModel, t: Strings) {
     Text(t["sh.bundleHint"])
-    h.root?.let { SelectionContainer { TechnicalText(it.toString()) } }
+    HostDetails(t, "release") {
+        Text(t["sh.technical.bundle"])
+        h.root?.let { SelectionContainer { TechnicalText(it.toString()) } }
+    }
     OutlinedButton({ chooseDirectory(h::selectRoot) }, enabled = !h.busy) { Text(t["sh.chooseBundle"]) }
 }
 @Composable fun HostWizard(h: HostModel, m: AdminModel, home: () -> Unit) = HostCard(m) {
@@ -67,9 +77,10 @@ private fun chooseDirectory(done: (Path) -> Unit) {
     when (step) {
         HostStep.DOCKER -> {
             Text(t[if (h.windows) "sh.dockerWindows" else "sh.dockerLinux"])
+            HostDetails(t, "docker") { Text(t[if (h.windows) "sh.technical.dockerWindows" else "sh.technical.dockerLinux"]) }
             if (h.state.docker) Text(t["sh.dockerReady"])
             Toolbar {
-                OutlinedButton({ browse(if (h.windows) "https://docs.docker.com/desktop/setup/install/windows-install/" else "https://docs.docker.com/engine/install/") }) { Text(t["sh.downloadDocker"]) }
+                OutlinedButton({ browse(if (h.windows) "https://www.docker.com/products/docker-desktop/" else "https://docs.docker.com/engine/install/") }) { Text(t["sh.downloadDocker"]) }
                 Button(h::checkDocker, enabled = !h.busy) { Text(t["sh.checkAgain"]) }
             }
             ReleasePicker(h, t)
@@ -101,23 +112,36 @@ private fun chooseDirectory(done: (Path) -> Unit) {
                 OutlinedButton(h::updateDuck, enabled = h.duckConsent && HostValidation.publicIpv4(h.publicIp) && !h.busy) { Text(t["sh.updateDdns"]) }
             }
             Text(t["sh.dynamicIp"], color = Ink.secondary)
+            HostDetails(t, "internet") { Text(t["sh.technical.dynamicIp"]) }
         }
         HostStep.PORTS -> {
             if (h.localTrial) Text(t["sh.trialHint"])
             Toggle(t["sh.rooms"], h.rooms, !h.busy && !h.localTrial) { h.rooms = it; h.state = h.state.copy(portsChecked = false, firewall = FirewallState.PENDING) }
             OutlinedButton(h::checkPorts, enabled = !h.busy && h.root != null) { Text(t["sh.checkPorts"]) }
             if (h.state.portsChecked) Text(t["sh.portsReady"])
-            // The full guide table remains visible before choosing optional rooms.
-            Row { Text(t["sh.port"], Modifier.width(130.dp)); Text(t["sh.protocol"], Modifier.width(90.dp)); Text(t["sh.portPurpose"]) }
-            listOf("80" to "TCP", "443" to "TCP", "3478" to "UDP", "3478" to "TCP", "49152–49200" to "UDP", "17881" to "TCP", "17882" to "UDP").forEachIndexed { i, (port, proto) ->
-                Row { Text(port, Modifier.width(130.dp)); Text(proto, Modifier.width(90.dp)); Text(t["sh.port.$i"]) }
+            h.portConflicts.forEach { conflict ->
+                Text(t.format("sh.portBusy.${conflict.kind}", conflict.ports, conflict.holder), color = Ink.danger)
             }
-            Text(t["sh.noInternalPorts"], color = Ink.secondary)
+            HostDetails(t, "ports") {
+                Text(t["sh.technical.ports"])
+                Row { Text(t["sh.port"], Modifier.width(130.dp)); Text(t["sh.protocol"], Modifier.width(90.dp)); Text(t["sh.portPurpose"]) }
+                val portRows = if (h.localTrial) listOf("18080" to "TCP", "18443" to "TCP", "13478" to "UDP", "13478" to "TCP", "59152–59200" to "UDP")
+                    else listOf("80" to "TCP", "443" to "TCP", "3478" to "UDP", "3478" to "TCP", "49152–49200" to "UDP", "17881" to "TCP", "17882" to "UDP")
+                portRows.forEachIndexed { i, (port, proto) ->
+                    Row { Text(port, Modifier.width(130.dp)); Text(proto, Modifier.width(90.dp)); Text(t["sh.port.$i"]) }
+                }
+                h.portConflicts.forEach { conflict ->
+                    SelectionContainer { TechnicalText("${conflict.protocol} ${conflict.ports}: ${conflict.holder}") }
+                }
+                Text(t["sh.noInternalPorts"], color = Ink.secondary)
+                Text(t["sh.technical.router"])
+                if (h.localTrial) Text(t["sh.technical.trial"])
+            }
             Text(t["sh.routerHelp"])
             if (h.windows && !h.localTrial) {
                 Text(t["sh.firewallHint"])
                 Button(h::firewall, enabled = !h.busy && h.root != null) { Text(t["sh.firewall"]) }
-            } else if (!h.localTrial) SelectionContainer { TechnicalText("sudo ufw allow 80/tcp\nsudo ufw allow 443/tcp\nsudo ufw allow 3478/tcp\nsudo ufw allow 3478/udp\nsudo ufw allow 49152:49200/udp\n# ${t["sh.roomsOnly"]}\nsudo ufw allow 17881/tcp\nsudo ufw allow 17882/udp\nsudo ufw status verbose") }
+            } else if (!h.localTrial) HostDetails(t, "firewall") { SelectionContainer { TechnicalText("sudo ufw allow 80/tcp\nsudo ufw allow 443/tcp\nsudo ufw allow 3478/tcp\nsudo ufw allow 3478/udp\nsudo ufw allow 49152:49200/udp\n# ${t["sh.roomsOnly"]}\nsudo ufw allow 17881/tcp\nsudo ufw allow 17882/udp\nsudo ufw status verbose") } }
             Text(t["sh.firewall.${h.state.firewall.name.lowercase()}"])
             TextButton({ h.state = h.state.copy(firewall = FirewallState.SKIPPED) }, enabled = !h.busy) { Text(t["sh.manualFirewall"]) }
             Toggle(t["sh.upnpConsent"], h.upnpConsent, !h.busy) { h.upnpConsent = it }
@@ -142,9 +166,7 @@ private fun chooseDirectory(done: (Path) -> Unit) {
                 LinearProgressIndicator(progress = { fraction }, modifier = Modifier.fillMaxWidth())
             }
             h.phases.lastOrNull()?.let { Text(t["sh.phase.$it"]) }
-            var log by remember { mutableStateOf(false) }
-            TextButton({ log = !log }) { Text(t["sh.log"]) }
-            if (log) h.phases.forEach { Text(t["sh.phase.$it"], style = MaterialTheme.typography.bodySmall) }
+            HostLog(h, t)
             Button(h::install, enabled = !h.busy && h.root != null && (h.imageAvailable || h.sourceConsent)) { Text(t[if (h.state.failed) "sh.retry" else "sh.install"]) }
         }
         HostStep.FINISH -> HostFinish(h, t)
@@ -163,6 +185,16 @@ private fun chooseDirectory(done: (Path) -> Unit) {
         }
     }
 }
+@Composable private fun HostLog(h: HostModel, t: Strings) {
+    val clipboard = LocalClipboardManager.current
+    val log = h.phases.joinToString("\n") { t["sh.phase.$it"] }
+    var expanded by remember { mutableStateOf(false) }
+    TextButton({ expanded = !expanded }) { Text(t["sh.log"]) }
+    if (expanded) {
+        SelectionContainer { TechnicalText(log) }
+        OutlinedButton({ clipboard.setText(AnnotatedString(log)) }, enabled = log.isNotBlank()) { Text(t["sh.copyLog"]) }
+    }
+}
 @Composable private fun HostFinish(h: HostModel, t: Strings) {
     SelectionContainer { TechnicalText(h.origin) }
     val matrix = remember(h.origin) { QRCodeWriter().encode(h.origin, BarcodeFormat.QR_CODE, 200, 200) }
@@ -171,7 +203,7 @@ private fun chooseDirectory(done: (Path) -> Unit) {
         for (y in 0 until matrix.height) for (x in 0 until matrix.width) if (matrix[x,y]) drawRect(Color.Black, Offset(x * pixel, y * pixel), Size(pixel, pixel))
     }
     Text(t[if (h.localTrial) "sh.trialHint" else "sh.phone"])
-    Text(t["sh.phoneChecks"], color = Ink.secondary)
+    if (!h.localTrial) Text(t["sh.phoneChecks"], color = Ink.secondary)
     Toolbar {
         Button(h::revealCodes, enabled = !h.busy) { Text(t["sh.revealCode"]) }
         TextButton(h::clearCodes) { Text(t["hide"]) }
@@ -179,7 +211,10 @@ private fun chooseDirectory(done: (Path) -> Unit) {
     h.ownerCode?.let { Text(t["sh.ownerCode"]); SelectionContainer { TechnicalText(it) } }
     Text(t["sh.inviteHint"])
     Text(t["sh.fallback"])
-    SelectionContainer { TechnicalText("docker compose --project-name unyri-selfhost --env-file .env -f docker-compose.selfhost.yml exec backend coco-admin grant-owner USERNAME") }
+    HostDetails(t, "owner") {
+        Text(t["sh.technical.fallback"])
+        SelectionContainer { TechnicalText("docker compose --project-name unyri-selfhost --env-file .env -f docker-compose.selfhost.yml exec backend coco-admin grant-owner USERNAME") }
+    }
 }
 @Composable fun HostPanel(h: HostModel, m: AdminModel, home: () -> Unit = {}) = HostCard(m) {
     val t = m.strings
@@ -189,11 +224,13 @@ private fun chooseDirectory(done: (Path) -> Unit) {
     }
     Text(t["sh.myServer"], style = MaterialTheme.typography.headlineMedium)
     SelectionContainer { TechnicalText(h.origin) }
-    h.root?.let { TechnicalText(it.toString()) }
     DoctorCards(m, h.doctor, h.doctorLoading)
     Feedback(h, t)
     Text("${t["sh.health"]}: ${t[when (h.healthy) { true -> "healthy"; false -> "unavailable"; null -> "sh.unknown" }]}")
-    Text("${t["sh.version"]}: ${(if (m.session?.origin == h.origin) m.hostServerVersion else "").ifBlank { h.version }.ifBlank { t["sh.unknown"] }}")
+    HostDetails(t, "server") {
+        h.root?.let { SelectionContainer { TechnicalText(it.toString()) } }
+        Text("${t["sh.version"]}: ${(if (m.session?.origin == h.origin) m.hostServerVersion else "").ifBlank { h.version }.ifBlank { t["sh.unknown"] }}")
+    }
     Text(t["sh.selfCheckHint"])
     Toolbar {
         OutlinedButton(h::refresh, enabled = h.created && !h.busy) { Text(t["refresh"]) }
@@ -211,12 +248,15 @@ private fun chooseDirectory(done: (Path) -> Unit) {
     h.confirmation?.let { action -> AlertDialog(onDismissRequest = { h.confirmation = null }, title = { Text(t["sh.action.$action"]) }, text = {
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             Text(t["sh.confirm.$action"])
+            if (action in setOf("backup", "restore", "update")) HostDetails(t, action) {
+                Text(t["sh.technical.$action"])
+                if (action == "restore") SelectionContainer { TechnicalText(h.restorePath.toString()) }
+            }
             if (action in setOf("delete", "restore")) {
                 Text(t["sh.typeDomain"] + " " + h.domain)
                 Entry(t["sh.dnsName"], h.typed, { h.typed = it })
                 if (action == "delete") Toggle(t["sh.eraseBackup"], h.eraseBackup) { h.eraseBackup = it }
             }
-            if (action == "restore") TechnicalText(h.restorePath.toString())
         }
     }, confirmButton = { Button(h::manage, enabled = action !in setOf("delete", "restore") || h.typed == h.domain) { Text(t["sh.confirm"]) } }, dismissButton = { TextButton({ h.confirmation = null }) { Text(t["cancel"]) } }) }
 }

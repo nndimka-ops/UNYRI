@@ -122,7 +122,7 @@ class ConferencePresentationInstrumentedTest {
         screenshot("conference-outgoing-invitation-large-text.png")
     }
 
-    @Test fun incomingInvitationKeepsJoinCompactAndAccessibleAtLargeText() {
+    @Test fun incomingInvitationUsesFullWidthTextAndASeparateButtonRowAtEveryTextSize() {
         var scale by mutableStateOf(1f)
         var error by mutableStateOf<String?>(null)
         var enabled by mutableStateOf(true)
@@ -131,24 +131,44 @@ class ConferencePresentationInstrumentedTest {
             val density = LocalDensity.current
             CompositionLocalProvider(LocalDensity provides Density(density.density, scale)) {
                 Box(Modifier.width(280.dp).padding(12.dp)) {
-                    ConferenceIncomingInvitationCard("Вечерняя комната", "Комната", error, enabled) { joined++ }
+                    ConferenceIncomingInvitationCard("Вечерняя комната", "Приглашение в комнату", error, enabled) { joined++ }
                 }
             }
         } }
         val density = compose.activity.resources.displayMetrics.density
-        val card = compose.onNodeWithTag("conference_incoming_invitation")
-        assertTrue("A normal invitation should no longer be a tall explanatory card", card.fetchSemanticsNode().boundsInRoot.height / density <= 64.5f)
-        assertTrue(card.fetchSemanticsNode().boundsInRoot.width / density <= 224.5f)
-        val join = compose.onNodeWithTag("conference_invitation_accept")
+        val card = compose.onNodeWithTag("invite-card")
+        assertEquals(256f, card.fetchSemanticsNode().boundsInRoot.width / density, .5f)
+        val join = compose.onNodeWithTag("invite-action")
         val target = join.fetchSemanticsNode().boundsInRoot
         assertTrue(target.height / density >= 47.5f && target.width / density >= 47.5f)
+        fun assertFullWidthRows() {
+            val bounds = card.fetchSemanticsNode().boundsInRoot
+            val subtitle = compose.onNodeWithTag("invite-subtitle", useUnmergedTree = true)
+            val subtitleBounds = subtitle.fetchSemanticsNode().boundsInRoot
+            val actionBounds = join.fetchSemanticsNode().boundsInRoot
+            assertEquals(bounds.left, subtitleBounds.left, .5f)
+            assertEquals(bounds.right, subtitleBounds.right, .5f)
+            assertEquals(bounds.left, actionBounds.left, .5f)
+            assertEquals(bounds.right, actionBounds.right, .5f)
+            assertTrue(actionBounds.top >= subtitleBounds.bottom)
+            for (tag in listOf("invite-title", "invite-subtitle")) {
+                compose.onNodeWithTag(tag, useUnmergedTree = true).performSemanticsAction(SemanticsActions.GetTextLayoutResult) { read ->
+                    val layouts = mutableListOf<androidx.compose.ui.text.TextLayoutResult>()
+                    assertTrue(read(layouts))
+                    assertTrue(layouts.isNotEmpty())
+                    assertFalse("Invitation text must wrap without clipping", layouts.any { it.hasVisualOverflow })
+                }
+            }
+        }
+        assertFullWidthRows()
         join.performClick()
         compose.runOnIdle { assertEquals(1, joined) }
-        screenshot("conference-incoming-invitation-compact.png")
+        screenshot("conference-incoming-invitation-full-width.png")
         compose.runOnIdle { scale = 2f; error = "Не удалось войти. Повторите попытку." }
         join.assertIsDisplayed().assertIsEnabled()
         compose.onNodeWithText("Вечерняя комната").assertIsDisplayed()
         compose.onNodeWithText("Не удалось войти. Повторите попытку.").assertIsDisplayed()
+        assertFullWidthRows()
         screenshot("conference-incoming-invitation-large-text.png")
         compose.runOnIdle { enabled = false }
         join.assertIsNotEnabled()

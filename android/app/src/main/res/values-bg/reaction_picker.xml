@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reaction_picker_options">Реакции, %1$d варианта</string>
+    <string name="reaction_skin_tone">Цвят на кожата</string>
+    <string name="reaction_picker_all">Всички реакции</string>
+    <string name="emoji_find">Търсене на емоджи</string>
+    <string name="emoji_recent">Скорошни</string>
+    <string name="emoji_people">Усмивки и хора</string>
+    <string name="emoji_nature">Животни и природа</string>
+    <string name="emoji_food">Храна и напитки</string>
+    <string name="emoji_activity">Дейности</string>
+    <string name="emoji_travel">Пътувания и места</string>
+    <string name="emoji_objects">Предмети</string>
+    <string name="emoji_symbols">Символи</string>
+    <string name="emoji_flags">Знамена</string>
+    <string name="emoji_no_results">Няма резултати</string>
+</resources>

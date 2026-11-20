@@ -191,7 +191,7 @@ class MediaCacheManager internal constructor(
                 for ((path, aliases) in owned) {
                     kotlinx.coroutines.currentCoroutineContext().ensureActive()
                     val file = File(path)
-                    if (path in references || aliases.any { CacheClearPolicy.isProtectedUploadSource(it.uploadState) || it.downloadState == "downloading" || it.chatId == activeChatId() || MediaCacheUse.isUsed(file,it.attachmentId) }) {
+                    if (path in references || aliases.any { CacheClearPolicy.isProtectedUploadSource(it.uploadState) || it.downloadState == "downloading" || it.chatId == activeChatId() || MediaCacheUse.isUsed(File(it.localPath!!),it.attachmentId) }) {
                         protectedBytes += file.length(); continue
                     }
                     candidates.add(CacheEvictionPolicy.Entry(aliases.first().attachmentId,file.length(),file.lastModified()))

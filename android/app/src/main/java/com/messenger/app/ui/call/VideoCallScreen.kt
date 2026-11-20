@@ -387,13 +387,9 @@ internal fun VideoCallControlTray(
                 .coerceAtLeast(48.dp.roundToPx()).toDp()
         }
         val controlSize = minOf(CallLayoutPolicy.controlSize(maxWidth.value, if (CallPresentationPolicy.controlsPerRow(maxWidth.value) == 2) 2 else controlCount).dp, if (CallPresentationPolicy.controlsPerRow(maxWidth.value) == 2) 64.dp else pixelFit)
-        val primaryControls: @Composable () -> Unit = {
-            if (!enabled) {
-                // Disabled buttons omit themselves. Keep four inert layout children
-                // so the terminal tray retains its real wrapping height and gap.
-                repeat(controlCount) { Spacer(Modifier.size(controlSize)) }
-            } else {
-                CallActionButton(
+        val primaryControl: @Composable (CallControlRowPolicy.Control) -> Unit = { control ->
+            when (control) {
+                CallControlRowPolicy.Control.CAMERA -> CallActionButton(
                     icon = if (state.localVideoEnabled) CocoIcons.Videocam else CallVideoOffIcon,
                     label = stringResource(if (state.localVideoEnabled) R.string.call_camera_off else R.string.call_camera_on),
                     caption = stringResource(R.string.call_caption_camera),
@@ -406,7 +402,7 @@ internal fun VideoCallControlTray(
                     enabled = enabled,
                     testTag = "call-camera",
                 )
-                CallActionButton(
+                CallControlRowPolicy.Control.MUTE -> CallActionButton(
                     icon = if (state.isMuted) CocoIcons.MicOff else CocoIcons.Mic,
                     label = stringResource(if (state.isMuted) R.string.call_unmute else R.string.call_mute),
                     caption = stringResource(R.string.call_caption_mute),
@@ -418,7 +414,7 @@ internal fun VideoCallControlTray(
                     enabled = enabled,
                     testTag = "call-mute",
                 )
-                CallActionButton(
+                CallControlRowPolicy.Control.END -> CallActionButton(
                     icon = CocoIcons.EndCall,
                     label = stringResource(R.string.call_end),
                     caption = stringResource(R.string.call_caption_end),
@@ -430,7 +426,7 @@ internal fun VideoCallControlTray(
                     enabled = enabled,
                     testTag = "call-end",
                 )
-                CallAudioOutputButton(
+                CallControlRowPolicy.Control.OUTPUT -> CallAudioOutputButton(
                     currentKind = state.audioRoute,
                     availableRoutes = availableRoutes,
                     onSelectRoute = onSelectRoute,
@@ -442,6 +438,7 @@ internal fun VideoCallControlTray(
                     videoCall = true,
                     enabled = enabled,
                 )
+                CallControlRowPolicy.Control.VIDEO -> Unit
             }
         }
         Surface(
@@ -454,22 +451,15 @@ internal fun VideoCallControlTray(
                 .width(trayWidth),
         ) {
             val compact = CallPresentationPolicy.controlsPerRow(maxWidth.value) == 2
-            FlowRow(
-                horizontalArrangement = if (compact) Arrangement.spacedBy(controlSpacing, Alignment.CenterHorizontally) else Arrangement.Center,
-                verticalArrangement = Arrangement.spacedBy(CocoSpacing.md),
-                maxItemsInEachRow = if (compact) 2 else 4,
+            CallControlRow(
+                controls = CallControlRowPolicy.video(live = enabled, ended = !enabled),
+                size = controlSize,
+                spacing = controlSpacing,
+                maxPerRow = if (compact) 2 else 4,
+                retainTerminalHeight = !enabled,
                 modifier = Modifier.padding(horizontal = trayPadding, vertical = CocoSpacing.md),
-            ) {
-                if (compact) {
-                    // Keep individual targets wrapping in very narrow split windows.
-                    primaryControls()
-
-                } else {
-                    Row(horizontalArrangement = Arrangement.spacedBy(controlSpacing), verticalAlignment = Alignment.Top) { primaryControls() }
-                    // The optional gap reveals with Flip; four controls are truly centered OFF.
-
-                }
-            }
+                content = primaryControl,
+            )
         }
     }
 }

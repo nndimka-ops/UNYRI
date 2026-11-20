@@ -992,7 +992,7 @@ fun ActiveCallScreen(
                     modifier = Modifier.padding(top = CocoSpacing.sm))
                 }
 
-                // Only live actions occupy the approved camera/mic/end/output slots.
+                // Only usable actions enter the centred camera/mic/end/output row.
                 if (videoControls != null && onToggleCamera != null) {
                     // The same layout reserves both rows and its own bottom gap after end.
                     VideoCallControlTray(videoControls, availableRoutes, onToggleCamera, onToggleMute, onHangup, onSelectRoute,
@@ -1005,23 +1005,27 @@ fun ActiveCallScreen(
                     color = Color.Transparent,
                     modifier = Modifier.width(trayWidth).testTag("call-controls-tray"),
                 ) {
-                    FlowRow(
-                        horizontalArrangement = Arrangement.spacedBy(controlSpacing, Alignment.CenterHorizontally),
-                        verticalArrangement = Arrangement.spacedBy(CocoSpacing.md),
+                    CallControlRow(
+                        controls = CallControlRowPolicy.audio(
+                            videoAvailable = onRequestVideo != null &&
+                                LocalCallChrome.current?.state?.let(CallPresentationPolicy::videoUpgradeVisible) == true,
+                            live = liveControls, ended = terminal),
+                        size = controlSize,
+                        spacing = controlSpacing,
                         modifier = Modifier.padding(horizontal = trayPadding, vertical = CocoSpacing.md),
-                    ) {
-                        if (onRequestVideo != null && LocalCallChrome.current?.state?.let(CallPresentationPolicy::videoUpgradeVisible) == true) CallActionButton(
+                    ) { control -> when (control) {
+                        CallControlRowPolicy.Control.VIDEO -> CallActionButton(
                             icon = CocoIcons.VideoCall,
                             label = stringResource(if (requestingVideo) R.string.cancel else R.string.call_video),
                             caption = stringResource(R.string.call_caption_video),
                             tint = colors.primaryText,
                             background = colors.glassPrimary,
                             size = controlSize,
-                            onClick = onRequestVideo,
+                            onClick = { onRequestVideo?.invoke() },
                             sensitive = true,
                             testTag = "call-video",
-                        ) else Spacer(Modifier.size(controlSize))
-                        if (liveControls) CallActionButton(
+                        )
+                        CallControlRowPolicy.Control.MUTE -> CallActionButton(
                             icon = if (isMuted) CocoIcons.MicOff else CocoIcons.Mic,
                             label = stringResource(if (isMuted) R.string.call_unmute else R.string.call_mute),
                             caption = stringResource(R.string.call_caption_mute),
@@ -1031,8 +1035,8 @@ fun ActiveCallScreen(
                             size = controlSize,
                             onClick = onToggleMute,
                             testTag = "call-mute",
-                        ) else Spacer(Modifier.size(controlSize))
-                        CallActionButton(
+                        )
+                        CallControlRowPolicy.Control.END -> CallActionButton(
                             icon = CocoIcons.EndCall,
                             label = stringResource(R.string.call_end),
                             caption = stringResource(R.string.call_caption_end),
@@ -1044,7 +1048,7 @@ fun ActiveCallScreen(
                             enabled = !terminal,
                             testTag = "call-end",
                         )
-                        if (liveControls) CallAudioOutputButton(
+                        CallControlRowPolicy.Control.OUTPUT -> CallAudioOutputButton(
                             currentKind = currentRouteKind,
                             availableRoutes = availableRoutes,
                             onSelectRoute = onSelectRoute,
@@ -1054,8 +1058,9 @@ fun ActiveCallScreen(
                             size = controlSize,
                             showLabel = false,
                             videoCall = videoCall,
-                        ) else Spacer(Modifier.size(controlSize))
-                    }
+                        )
+                        CallControlRowPolicy.Control.CAMERA -> Unit
+                    } }
                 }
                 if (videoControls == null) Spacer(modifier = Modifier.height(if (landscape) landscapeBottomGap else CallControlsBottomGap))
             }

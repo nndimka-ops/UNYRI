@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reaction_picker_options">Реакції, %1$d варіантів</string>
+    <string name="reaction_skin_tone">Відтінок шкіри</string>
+    <string name="reaction_picker_all">Усі реакції</string>
+</resources>

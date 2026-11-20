@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_editor_photo_note">Speichern übernimmt das ausgewählte Foto und die Textänderungen. Das Entfernen des aktuellen Fotos wird sofort wirksam.</string>
+    <string name="profile_editor_discard_title">Profiländerungen verwerfen?</string>
+    <string name="profile_editor_discard_message">Deine Profiländerungen und das ausgewählte Foto werden nicht gespeichert. Ein bereits entferntes Foto bleibt entfernt.</string>
+</resources>

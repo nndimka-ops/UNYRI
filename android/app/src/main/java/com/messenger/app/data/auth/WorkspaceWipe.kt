@@ -34,9 +34,24 @@ internal object WorkspaceWipe {
         base.getSharedPreferences("installation-push-bindings-v1", Context.MODE_PRIVATE).edit().remove(key).commit()
     }
 
+    /**
+     * The entry's location with every folder above it resolved and the entry itself left unresolved.
+     * Android hands out app folders as /data/user/0/<app>/..., and /data/user/0 is a link to
+     * /data/data (B-072, Samsung S20 FE), so a lexical path never equals or starts with a canonical
+     * one. Compare canonical with this form: it equals the entry's canonical path exactly when the
+     * entry itself is not a link.
+     */
+    fun physicalEntry(file: File): java.nio.file.Path {
+        val absolute = file.absoluteFile
+        val parent = absolute.parentFile?.canonicalFile ?: return absolute.toPath().normalize()
+        return parent.toPath().resolve(absolute.name).normalize()
+    }
+
     internal fun eraseWithin(root: File, target: File) {
         val canonicalRoot = root.canonicalFile
-        require(target.absoluteFile.toPath().normalize().startsWith(canonicalRoot.toPath()))
+        // Resolve the folders above the entry but not the entry itself, so a link inside the
+        // workspace is removed, never followed (B-072: every first sign-in failed here).
+        require(target.absoluteFile.parentFile != null && physicalEntry(target).startsWith(canonicalRoot.toPath()))
         if (java.nio.file.Files.isSymbolicLink(target.toPath())) {
             check(target.delete() || !target.exists())
             return

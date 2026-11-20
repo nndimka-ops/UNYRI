@@ -79,8 +79,32 @@ class ChatsViewModelTest {
         val model = ChatsViewModel(repo); var opened = false
         model.openSavedMessages { opened = true }; advanceTimeBy(501)
         assertTrue(model.uiState.value is ChatsUiState.Error)
+        assertFalse(model.listLoadFailed.value) // A mutation failure must not pause sync.
         repo.savedFails = false; model.openSavedMessages { opened = true }; advanceTimeBy(501)
         assertTrue(opened)
+    }
+    @Test fun `only a failed list load pauses sync and success clears it`() = runTest(dispatcher) {
+        val repo = Repository().apply { refreshFails = true }
+        val model = ChatsViewModel(repo)
+        advanceTimeBy(501)
+        assertTrue(model.listLoadFailed.value)
+        repo.refreshFails = false
+        model.refresh(); advanceTimeBy(501)
+        assertFalse(model.listLoadFailed.value)
+    }
+    @Test fun `successful catchup retries a failed list without reconnect or polling`() = runTest(dispatcher) {
+        val repo = Repository().apply { refreshFails = true }
+        val sync = MutableStateFlow(com.messenger.app.data.sync.SyncPhase.IDLE)
+        val model = ChatsViewModel(repo, syncPhases = sync)
+        advanceTimeBy(501)
+        assertTrue(model.listLoadFailed.value)
+        repo.refreshFails = false
+        sync.value = com.messenger.app.data.sync.SyncPhase.RUNNING; runCurrent()
+        sync.value = com.messenger.app.data.sync.SyncPhase.IDLE
+        advanceTimeBy(501)
+        assertFalse(model.listLoadFailed.value)
+        advanceTimeBy(60_000)
+        assertEquals(2, repo.refreshCalls)
     }
     @Test fun `refresh coalesces requests already in progress`() = runTest(dispatcher) {
         val repo = Repository(); val model = ChatsViewModel(repo)

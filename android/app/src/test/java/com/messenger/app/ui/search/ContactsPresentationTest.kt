@@ -8,6 +8,15 @@ import kotlin.test.*
 
 class ContactsPresentationTest {
     private fun entry(id: String, name: String, username: String = id) = ContactEntry(PublicUser(id, username, name, null))
+    @Test fun directorySearchDoesNotReserveBookActionsOrEmptyBookNoticesAbovePeople() {
+        assertTrue(ContactsPresentation.showsActions(""))
+        assertTrue(ContactsPresentation.showsActions("  "))
+        for (query in listOf("alice", "@alice", "123456789")) {
+            assertFalse(ContactsPresentation.showsActions(query), query)
+        }
+        assertFalse(ContactsPresentation.showsBookPlaceholder(searchesDirectory = true))
+        assertTrue(ContactsPresentation.showsBookPlaceholder(searchesDirectory = false))
+    }
     @Test fun exactIdentityResultRemainsVisibleForContactWithoutPublicMetadata() {
         val contact = entry("alice-id", "Alice", "hidden_login")
         val matches = ContactsPresentation.rows(listOf(contact), "123456789", emptySet(), legacyLogins = false)

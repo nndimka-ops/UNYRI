@@ -20,6 +20,12 @@ class CallPresentationPolicyTest {
         assertFalse(CallPresentationPolicy.videoUpgradeVisible(CallUiState.OutgoingRinging(audio)))
         assertFalse(CallPresentationPolicy.videoUpgradeVisible(CallUiState.Connecting(audio)))
         assertTrue(CallPresentationPolicy.videoUpgradeVisible(live.copy(call=audio,videoMode=VideoMode.AUDIO)))
+        val connectedAudio = live.copy(call = audio, videoMode = VideoMode.AUDIO)
+        // Requesting retains the existing usable Cancel action; no new request is offered meanwhile.
+        assertTrue(CallPresentationPolicy.videoUpgradeVisible(connectedAudio.copy(videoUpgrade = VideoUpgradeState.Requesting)))
+        for (upgrade in listOf(VideoUpgradeState.IncomingRequest, VideoUpgradeState.Upgrading, VideoUpgradeState.Rejected, VideoUpgradeState.Failed))
+            assertFalse(CallPresentationPolicy.videoUpgradeVisible(connectedAudio.copy(videoUpgrade = upgrade)))
+        assertFalse(CallPresentationPolicy.videoUpgradeVisible(CallUiState.Reconnecting(audio, connectedAudio)))
         assertFalse(CallPresentationPolicy.videoUpgradeVisible(live))
         assertFalse(CallPresentationPolicy.videoUpgradeVisible(CallUiState.Ended(audio,CallEndReason.HANGUP)))
         assertTrue(CallPresentationPolicy.controlsVisible(true,false))

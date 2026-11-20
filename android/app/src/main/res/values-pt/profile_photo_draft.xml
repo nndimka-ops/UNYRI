@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_editor_photo_note">Guarda para aplicar a foto selecionada e as alterações de texto. A remoção da foto atual é imediata.</string>
+    <string name="profile_editor_discard_title">Descartar as alterações do perfil?</string>
+    <string name="profile_editor_discard_message">As alterações do perfil e a foto selecionada não serão guardadas. Uma foto já removida continuará removida.</string>
+</resources>

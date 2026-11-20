@@ -189,9 +189,12 @@ class CallControlsLayoutInstrumentedTest {
     @Test fun audioRealInnerWidthAndPendingVideoPreserveEndAtLargeText() {
         val pending = mutableStateOf(false)
         var ended = 0; var upgraded = 0
+        val audio = CallUiState.Connected(CallInfo("synthetic-audio", "peer", "UI fixture", CallMediaKind.AUDIO, CallDirection.OUTGOING), 0)
+        val stats = kotlinx.coroutines.flow.MutableStateFlow<com.messenger.app.data.call.WebRtcCallStats?>(null)
         compose.setContent {
             val density = LocalDensity.current
-            CompositionLocalProvider(LocalDensity provides Density(density.density, 2f)) {
+            CompositionLocalProvider(LocalDensity provides Density(density.density, 2f),
+                LocalCallChrome provides CallChromeSnapshot(audio, null, stats)) {
                 Box(Modifier.size(300.dp, 320.dp).testTag("call-fixture")) {
                     ActiveCallScreen(title = "Connected", name = "Alexandria Synthetic Long Caller Name", durationMs = null,
                         availableRoutes = routes, requestingVideo = pending.value, onHangup = { ended++ }, onRequestVideo = { upgraded++ })

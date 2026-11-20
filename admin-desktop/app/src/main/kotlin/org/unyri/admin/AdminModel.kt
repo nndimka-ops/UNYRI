@@ -181,9 +181,9 @@ class AdminModel(private val scope: CoroutineScope, val demo: Boolean,
     fun refresh(targetCursor: String? = cursor, targetHistory: List<String?> = history) {
         if (!signedIn || recovery.isNotEmpty() || busy || section == Section.SETTINGS) return
         checkFocus(); if (!signedIn) return
-        val sectionAtStart = section; val at = targetCursor
+        val sectionAtStart = section; val at = targetCursor; val languageAtStart = language
         task<Any>({
-            if (demo) Demo.load(sectionAtStart, at, appliedQuery, appliedFilter)
+            if (demo) Demo.load(sectionAtStart, at, appliedQuery, appliedFilter, languageAtStart)
             else when (sectionAtStart) {
                 Section.DASHBOARD -> {
                     val current = api!!
@@ -219,7 +219,10 @@ class AdminModel(private val scope: CoroutineScope, val demo: Boolean,
     fun next() { if (busy) return; val next = currentNext() ?: return; if (next == cursor || next in history || history.size >= 1000) { error = "error.PROTOCOL"; return }; refresh(next, history + listOf(cursor)) }
     fun back() { if (busy || history.isEmpty()) return; refresh(history.last(), history.dropLast(1)) }
     fun canNext() = currentNext() != null
-    fun openUser(id: String) = task({ if (demo) Demo.user(id) else api!!.user(id) }) { user = it; detailText = emptyList() }
+    fun openUser(id: String) {
+        val languageAtStart = language
+        task({ if (demo) Demo.user(id, languageAtStart) else api!!.user(id) }) { user = it; detailText = emptyList() }
+    }
     fun loadImage(id: String, index: Int? = null) = task({
         if (demo) throw AdminFailure(FailureKind.MISSING)
         val body = if (index == null) api!!.avatar(id) else api!!.screenshot(id,index)
@@ -263,17 +266,24 @@ object Demo {
     private const val id = "00000000-0000-0000-0000-000000000001"
     val session = Session("https://home.example.test", "demo", "demo", id, "demo-owner", id, "owner", id,
         "2099-01-01T00:00:00Z", "2026-11-14T00:00:00Z")
-    private val users = (1..73).map { UserRow("00000000-0000-0000-0000-${it.toString().padStart(12, '0')}", "demo${it.toString().padStart(3, '0')}", "Demo $it", if (it % 9 == 0) "suspended" else "active") }
+    private val users = (1..73).map { UserRow("00000000-0000-0000-0000-${it.toString().padStart(12, '0')}", "demo${it.toString().padStart(3, '0')}", null, if (it % 9 == 0) "suspended" else "active") }
     private fun <T> page(rows: List<T>, cursor: String?): Page<T> {
         val start = cursor?.toIntOrNull() ?: 0; val batch = rows.drop(start).take(25)
         return Page(batch, if (rows.size > start + 25) (start + 25).toString() else null, rows.size > start + 25)
     }
-    fun load(section: Section, cursor: String?, query: String, filter: String): Any = when (section) {
-        Section.DASHBOARD -> java.time.Instant.now().let { now -> Dashboard(Health("ok", true, true), ServerPolicy("Demo", "Demo operator"), Summary(3, 1, 2, 8, 0, 4, Storage(1048576, 0, 1073741824)), DoctorViewData(DoctorDemo.addresses(now), now, session.origin, "Demo")) }
-        Section.USERS -> page(users.filter { (it.reason.contains(query, true) || it.description.orEmpty().contains(query, true)) && (filter.isEmpty() || it.status == filter) }, cursor)
-        Section.REPORTS, Section.FEEDBACK -> page(listOf(QueueRow(id, id, "Synthetic offline fixture", "open", "spam", "demo001", "demo002", "desktop", "0.1.0", "2026-11-14T12:00:00Z")).filter { filter.isEmpty() || filter == it.status }, cursor)
-        Section.DIAGNOSTICS -> Page<JsonObject>(emptyList()) to Performance(emptyList(), 24)
-        else -> Unit
+    private fun localizedUser(row: UserRow, t: Strings) = row.copy(description = t["demo.userName"].replace("%@", row.reason.removePrefix("demo").toInt().toString()))
+    fun load(section: Section, cursor: String?, query: String, filter: String, language: String = "en"): Any {
+        val t = Strings(language)
+        return when (section) {
+            Section.DASHBOARD -> java.time.Instant.now().let { now -> Dashboard(Health("ok", true, true), ServerPolicy(t["demo.serverName"], t["demo.operator"]), Summary(3, 1, 2, 8, 0, 4, Storage(1048576, 0, 1073741824)), DoctorViewData(DoctorDemo.addresses(now), now, session.origin, t["demo.serverName"])) }
+            Section.USERS -> page(users.map { localizedUser(it, t) }.filter { (it.reason.contains(query, true) || it.description.orEmpty().contains(query, true)) && (filter.isEmpty() || it.status == filter) }, cursor)
+            Section.REPORTS, Section.FEEDBACK -> page(listOf(QueueRow(id, id, t["demo.report"], "open", "spam", "demo001", "demo002", "desktop", "0.1.0", "2026-11-14T12:00:00Z")).filter { filter.isEmpty() || filter == it.status }, cursor)
+            Section.DIAGNOSTICS -> Page<JsonObject>(emptyList()) to Performance(emptyList(), 24)
+            else -> Unit
+        }
     }
-    fun user(id: String): UserDetail { val row = users.first { it.user_id == id }; return UserDetail(Profile(id, row.reason, row.description, "Synthetic offline profile"), Moderation(row.status), suspend_allowed = true, moderation_allowed = true) }
+    fun user(id: String, language: String = "en"): UserDetail {
+        val t = Strings(language); val row = localizedUser(users.first { it.user_id == id }, t)
+        return UserDetail(Profile(id, row.reason, row.description, t["demo.profile"]), Moderation(row.status), suspend_allowed = true, moderation_allowed = true)
+    }
 }

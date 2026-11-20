@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_editor_photo_note">Запазете, за да приложите избраната снимка и промените в текста. Премахването на текущата снимка се прилага веднага.</string>
+    <string name="profile_editor_discard_title">Да се отхвърлят ли промените в профила?</string>
+    <string name="profile_editor_discard_message">Промените в профила и избраната снимка няма да бъдат запазени. Вече премахната снимка ще остане премахната.</string>
+</resources>

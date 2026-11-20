@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reaction_picker_options">Reacții, %1$d opțiuni</string>
+    <string name="reaction_skin_tone">Nuanța pielii</string>
+    <string name="reaction_picker_all">Toate reacțiile</string>
+    <string name="emoji_find">Caută emoji</string>
+    <string name="emoji_recent">Recente</string>
+    <string name="emoji_people">Fețe și persoane</string>
+    <string name="emoji_nature">Animale și natură</string>
+    <string name="emoji_food">Mâncare și băuturi</string>
+    <string name="emoji_activity">Activități</string>
+    <string name="emoji_travel">Călătorii și locuri</string>
+    <string name="emoji_objects">Obiecte</string>
+    <string name="emoji_symbols">Simboluri</string>
+    <string name="emoji_flags">Steaguri</string>
+    <string name="emoji_no_results">Niciun rezultat</string>
+</resources>

@@ -125,12 +125,17 @@ class InlineSearchInstrumentedTest {
         compose.runOnIdle { assertEquals(1, qrTaps); assertTrue(profile.queries.isEmpty()) }
         compose.onNodeWithTag("contacts-query").performTextInput("@alice")
         compose.onNodeWithTag("contacts-query").assertTextContains("@alice")
+        compose.onNodeWithTag("contacts-qr").assertDoesNotExist()
+        compose.onNodeWithTag("contacts-invite").assertDoesNotExist()
         compose.onNodeWithTag("contacts-scan-qr").assertIsDisplayed()
         compose.onNodeWithTag("contacts-server-feedback").assertExists()
         // The directory fixture uses only the fake transport, even when the device route is offline.
         compose.runOnIdle { model.search("@alice", directory = true, force = true, online = true) }
         compose.waitUntil(5000) { compose.onAllNodesWithText("Alice QA").fetchSemanticsNodes().isNotEmpty() }
         compose.onNodeWithTag("contacts-list").performScrollToNode(hasText("Alice QA"))
+        val section = compose.onNodeWithTag("contacts-server-section", useUnmergedTree = true).fetchSemanticsNode().boundsInRoot
+        val firstUnknown = compose.onAllNodesWithTag("contacts-unknown-result", useUnmergedTree = true).fetchSemanticsNodes().minBy { it.boundsInRoot.top }.boundsInRoot
+        assertEquals("The first unknown person starts directly after the section row", section.bottom, firstUnknown.top, 1f)
         compose.onNodeWithText("Alice QA").performClick()
         compose.waitUntil(5000) { opened.get() == "chat-qa-person" }
         compose.runOnIdle { assertTrue(profile.queries.all { it.first == "@alice" }) }

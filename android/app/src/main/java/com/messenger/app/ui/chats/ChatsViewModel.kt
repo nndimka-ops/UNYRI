@@ -25,7 +25,8 @@ sealed interface ChatsUiState {
     data class Error(val message: String) : ChatsUiState
 }
 
-class ChatsViewModel(private val repository: ChatRepository, connection: Flow<SocketConnectionState> = emptyFlow()) : ViewModel() {
+class ChatsViewModel(private val repository: ChatRepository, connection: Flow<SocketConnectionState> = emptyFlow(),
+    syncPhases: Flow<com.messenger.app.data.sync.SyncPhase> = emptyFlow()) : ViewModel() {
     internal val inlineSearchScroll = com.messenger.app.ui.search.SearchScrollMemory()
 
     // Account-scoped state outlives a navigation visit and protects the return's row.
@@ -40,6 +41,8 @@ class ChatsViewModel(private val repository: ChatRepository, connection: Flow<So
 
     private val _uiState = MutableStateFlow<ChatsUiState>(ChatsUiState.Idle)
     val uiState: StateFlow<ChatsUiState> = _uiState
+    private val _listLoadFailed = MutableStateFlow(false)
+    val listLoadFailed: StateFlow<Boolean> = _listLoadFailed
 
     private var refreshJob: Job? = null
     private var savedJob: Job? = null
@@ -59,6 +62,11 @@ class ChatsViewModel(private val repository: ChatRepository, connection: Flow<So
                 }
             }
         }
+        viewModelScope.launch {
+            syncPhases.distinctUntilChanged().collect { phase ->
+                if (phase == com.messenger.app.data.sync.SyncPhase.IDLE && _listLoadFailed.value) refresh()
+            }
+        }
     }
 
     fun refresh() {
@@ -70,6 +78,7 @@ class ChatsViewModel(private val repository: ChatRepository, connection: Flow<So
                 catch (cancel: CancellationException) { throw cancel }
                 catch (error: Exception) { Result.failure(error) }
             result.exceptionOrNull()?.let { if (it is CancellationException) throw it }
+            _listLoadFailed.value = result.isFailure
             _uiState.value = result.fold({ ChatsUiState.Idle }, { ChatsUiState.Error(errorMessage(it)) })
             refreshJob = null
             // The old offline request may finish AFTER the connected event.
@@ -108,9 +117,10 @@ class ChatsViewModel(private val repository: ChatRepository, connection: Flow<So
     }
 }
 
-class ChatsViewModelFactory(private val repository: ChatRepository, private val connection: Flow<SocketConnectionState> = emptyFlow()) : ViewModelProvider.Factory {
+class ChatsViewModelFactory(private val repository: ChatRepository, private val connection: Flow<SocketConnectionState> = emptyFlow(),
+    private val syncPhases: Flow<com.messenger.app.data.sync.SyncPhase> = emptyFlow()) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         @Suppress("UNCHECKED_CAST")
-        return ChatsViewModel(repository, connection) as T
+        return ChatsViewModel(repository, connection, syncPhases) as T
     }
 }

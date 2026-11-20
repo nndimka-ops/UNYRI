@@ -51,8 +51,10 @@ internal class MessageDeletionMaintenance(private val context: Context, private 
                     // Never remove a user-picked original, a sibling workspace, or a symlink target.
                     val roots = listOf(File(context.cacheDir, "attachments"), File(context.filesDir, "history-restoration"),
                         File(context.noBackupFilesDir, "media-drafts"), File(context.noBackupFilesDir, "voice-drafts"))
+                    // B-073: compare the canonical root with the entry's physical location, not its
+                    // lexical /data/user/0 path, or deleted media is never erased.
                     val root = roots.firstOrNull {
-                        target.absoluteFile.toPath().normalize().startsWith(it.canonicalFile.toPath()) && target.canonicalFile.toPath().startsWith(it.canonicalFile.toPath())
+                        WorkspaceWipe.physicalEntry(target).startsWith(it.canonicalFile.toPath()) && target.canonicalFile.toPath().startsWith(it.canonicalFile.toPath())
                     }
                     if (root != null) WorkspaceWipe.eraseWithin(root, target)
                 }

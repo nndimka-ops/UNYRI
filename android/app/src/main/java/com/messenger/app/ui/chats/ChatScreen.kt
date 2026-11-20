@@ -54,6 +54,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -70,6 +71,7 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.stateDescription
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.rememberScrollState
@@ -236,7 +238,6 @@ private fun VoiceDraftTray(viewModel: ChatDetailViewModel, item: org.json.JSONOb
 }
 
 private val TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm")
-private val QUICK_REACTIONS = listOf("\uD83D\uDC4D", "\u2764\uFE0F", "\uD83D\uDE02", "\uD83D\uDE2E", "\uD83D\uDE22", "＋")
 
 /** Deletes abandoned camera-capture temp files older than one hour - they
  *  are app-owned FileProvider sources, never user photos (Bug A §4). */
@@ -273,7 +274,7 @@ fun ChatScreen(viewModel: ChatDetailViewModel, onBack: () -> Unit, onStartCall: 
 }
 
 @Composable
-@OptIn(ExperimentalFoundationApi::class, ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class, androidx.compose.ui.ExperimentalComposeUiApi::class)
 private fun CapsuleChatContent(viewModel: ChatDetailViewModel, onBack: () -> Unit, onStartCall: (String, String, com.messenger.app.domain.model.CallMediaKind) -> Unit = { _, _, _ -> }, onVerifyIdentity: (String) -> Unit = {}, onSearchChat: (String) -> Unit = {}, onOpenMedia: () -> Unit = {}, targetMessageId: String? = null, readReceiptsAllowed: Boolean = true, scrollBookmarks: MutableMap<String, ChatScrollBookmark>? = null, targetRequestId: String? = null) {
     val appearance = com.messenger.app.ui.theme.LocalChatAppearanceStyle.current
     var freezeTimeline by remember(viewModel) { mutableStateOf(false) }
@@ -1322,9 +1323,9 @@ private fun CapsuleChatContent(viewModel: ChatDetailViewModel, onBack: () -> Uni
         !readReceiptsAllowed || coveredForRead,
         headerHeight, timelineComposerInset, contentAvailable = readReceiptsAllowed, lift = keyboardLift)
     // Ordinary chips, album members and menus share one mutation/feedback owner.
-    fun toggleMessageReaction(message: Message, emoji: String, selecting: Boolean = false) {
+    fun toggleMessageReaction(message: Message, emoji: String, selecting: Boolean = false, quietAdd: Boolean = false) {
         dispatchReactionToggle(message.reactions, emoji,
-            added = { CocoHaptics.select(menuCaptureView) }, removed = { CocoHaptics.reactionRemoved(menuCaptureView) },
+            added = { if (!quietAdd) CocoHaptics.select(menuCaptureView) }, removed = { CocoHaptics.reactionRemoved(menuCaptureView) },
             expectAdd = { mediaWork.reactionIntent(message.clientMessageId, emoji) },
             toggle = { viewModel.toggleReaction(message, emoji) },
             onSelect = if (selecting) ({ toggleSelectionGroup(message) }) else null)
@@ -1462,7 +1463,11 @@ private fun CapsuleChatContent(viewModel: ChatDetailViewModel, onBack: () -> Uni
             background = colors.background, surface = colors.surface, onSurface = colors.primaryText,
             surfaceVariant = colors.surfaceVariant, onSurfaceVariant = colors.secondaryText)
     }
+    val reactionPress = remember(viewModel) { ReactionPressTracker() }
+    val reactionFlight = remember(viewModel) { ReactionFlightState() }
     MaterialTheme(colorScheme = contentColorScheme) {
+        CompositionLocalProvider(LocalReactionPressTracker provides reactionPress, LocalReactionFlight provides reactionFlight) {
+        Box(Modifier.fillMaxSize().reactionPressStream(reactionPress).semantics { testTagsAsResourceId = true }) {
         Surface(modifier = Modifier.fillMaxSize(), color = colors.background) {
             val glass = chatGlass
             CompositionLocalProvider(com.messenger.app.ui.components.LocalCocoChromePolicy provides chromePolicy,
@@ -2174,6 +2179,8 @@ private fun CapsuleChatContent(viewModel: ChatDetailViewModel, onBack: () -> Uni
                 onDeleteSingleForMe = if (group.size > 1) ({ viewModel.deleteForMe(message.clientMessageId); actionsFor = null }) else null,
                 onDeleteSingleForEveryone = if (group.size > 1) ({ viewModel.deleteForEveryone(message.clientMessageId); actionsFor = null }) else null,
                 onReact = { emoji -> toggleMessageReaction(message, emoji) },
+                quickReaction = quickReaction,
+                onSlideReact = { emoji -> toggleMessageReaction(message, emoji, quietAdd = true) },
             )
         }
 
@@ -2389,6 +2396,9 @@ private fun CapsuleChatContent(viewModel: ChatDetailViewModel, onBack: () -> Uni
                 }) { Text(stringResource(R.string.cancel)) } })
         }
 
+        ReactionFlyToChip(reactionFlight, reactionPress.origin)
+        }
+        }
     }
 }
 
@@ -2988,7 +2998,7 @@ private fun AttachRow(icon: ImageVector, label: String, onClick: () -> Unit) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class)
 @Composable
 internal fun MessageActionsSheet(
     anchor: androidx.compose.ui.geometry.Rect,
@@ -3014,6 +3024,8 @@ internal fun MessageActionsSheet(
     onReact: (String) -> Unit,
     onDeleteSingleForMe: (() -> Unit)? = null,
     onDeleteSingleForEveryone: (() -> Unit)? = null,
+    quickReaction: String = "",
+    onSlideReact: ((String) -> Unit)? = null,
 ) {
     val colors = LocalCocoColors.current
     var showMore by remember { mutableStateOf(false) }
@@ -3039,28 +3051,75 @@ internal fun MessageActionsSheet(
     val canEdit = isOwnMessage && !hasAttachment && message.conferenceInvitation == null && message.directFile == null && !message.isDeletedForEveryone &&
         (message.serverId != null || message.status == MessageStatus.PENDING || message.status == MessageStatus.FAILED)
     val density = LocalDensity.current
+    val pickerContext = LocalContext.current
+    val account = ((pickerContext.applicationContext as MessengerApp).authRepository.authState.value as? AuthSessionState.LoggedIn)?.user?.id
+    var pickerStore by remember(pickerContext, account) { mutableStateOf<ReactionPickerStore?>(null) }
+    var pickerHistory by remember(pickerContext, account) { mutableStateOf(ReactionPickerHistory()) }
+    LaunchedEffect(pickerContext, account) {
+        val loaded = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+            account?.let { ReactionPickerStore(pickerContext, com.messenger.app.data.api.ServerEndpoint.current(), it) }
+                ?.let { it to it.snapshot() }
+        }
+        pickerStore = loaded?.first; pickerHistory = loaded?.second ?: ReactionPickerHistory()
+    }
+    val pill = remember(pickerHistory, quickReaction) { pickerHistory.ranked(quickReaction, System.currentTimeMillis()) }
+    val pressTracker = LocalReactionPressTracker.current
+    val flight = LocalReactionFlight.current
+    val motion = rememberChatMotionSettings()
+    val expansion = remember { androidx.compose.animation.core.Animatable(0f) }
+    var pillBounds by remember { mutableStateOf(androidx.compose.ui.geometry.Rect.Zero) }
+    var liftedBounds by remember { mutableStateOf(anchor) }
+    val menuFocus = LocalFocusManager.current
+    val menuKeyboard = LocalSoftwareKeyboardController.current
+    val close = { menuFocus.clearFocus(); menuKeyboard?.hide(); onDismiss() }
+    val choose: (String, androidx.compose.ui.geometry.Offset) -> Unit = { emoji, origin ->
+        if (message.reactions.firstOrNull { it.reactedByMe }?.emoji != emoji) {
+            flight?.launch(message.clientMessageId, emoji, origin,
+                androidx.compose.ui.geometry.Offset(if (isOwnMessage) anchor.right - 20f else anchor.left + 20f, anchor.bottom + 12f))
+        }
+        if (pressTracker?.releasingContinuous == true) (onSlideReact ?: onReact)(emoji) else onReact(emoji)
+        close()
+    }
+    LaunchedEffect(extendedReactions) {
+        if (extendedReactions) {
+            if (motion.reduceMotion) kotlinx.coroutines.withContext(ReactionFadeDurationScale) {
+                expansion.animateTo(1f, tween(150, easing = androidx.compose.animation.core.LinearEasing))
+            } else expansion.animateTo(1f, tween(320, easing = ReactionExpansionEasing))
+        }
+    }
+    ReactionPickerSystemBack(extendedReactions, close)
     DismissChatMenuKeyboard()
-    Dialog(onDismissRequest = onDismiss, properties = DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = false)) {
-        androidx.activity.compose.BackHandler(enabled = deleting || showMore) {
+    Box(Modifier.fillMaxSize().zIndex(20f).semantics { testTagsAsResourceId = true }
+        .then(if (extendedReactions) Modifier.reactionPickerBackBeforeIme(close) else Modifier)) {
+        androidx.activity.compose.BackHandler {
             if (deleting) { deleteEveryone = null; deleting = false }
-            else showMore = false
+            else if (showMore && !extendedReactions) showMore = false
+            else close()
         }
-        if (extendedReactions) Box(Modifier.fillMaxSize().testTag("message-menu-reaction-picker")) {
-            EmojiPickerSheet(onDismiss = { extendedReactions = false }, embedded = true) { emoji ->
-                extendedReactions = false; onReact(emoji); onDismiss()
-            }
-        }
-        val menuBlurred = ChatMenuWindow()
+        val menuBlurred = false
         val dialogView = androidx.compose.ui.platform.LocalView.current
         var overlayOrigin by remember { mutableStateOf<androidx.compose.ui.geometry.Offset?>(null) }
-        if (!extendedReactions) androidx.compose.foundation.layout.BoxWithConstraints(Modifier.fillMaxSize().onGloballyPositioned { overlayOrigin = it.localToScreen(androidx.compose.ui.geometry.Offset.Zero) }) {
-            ChatMenuBackdrop(menuBlurred, onDismiss = onDismiss)
-            val safeTop = with(density) { WindowInsets.systemBars.getTop(this).toDp() } + 8.dp
-            val safeBottom = maxOf(with(density) { WindowInsets.systemBars.getBottom(this).toDp() }, with(density) { WindowInsets.ime.getBottom(this).toDp() }, 48.dp) + 8.dp
+        androidx.compose.foundation.layout.BoxWithConstraints(Modifier.fillMaxSize().onGloballyPositioned { overlayOrigin = it.boundsInWindow().topLeft }) {
+            ChatMenuBackdrop(menuBlurred, onDismiss = close)
+            val safeTop = with(density) { WindowInsets.systemBars.union(WindowInsets.displayCutout).getTop(this).toDp() } + 8.dp
+            // Read the IME inset unconditionally: WindowInsets.ime remembers a holder in the slot table, and
+            // reading it only while the panel is closed shifted the slots when «Все реакции» expanded
+            // (POCO 20 Nov: ClassCastException WindowInsetsHolder -> ComposableLambdaImpl at pillContent).
+            val imeBottom = with(density) { WindowInsets.ime.getBottom(this).toDp() }
+            val safeBottom = maxOf(with(density) { WindowInsets.systemBars.union(WindowInsets.displayCutout).getBottom(this).toDp() },
+                if (extendedReactions) 0.dp else imeBottom) + 8.dp
             val availableHeight = (maxHeight - safeTop - safeBottom).coerceAtLeast(0.dp)
-            val menuWidth = minOf(260.dp, maxWidth - 32.dp)
-            val reactionWidth = minOf(288.dp, maxWidth - 32.dp)
-            val reactionCellHeight = maxOf(48.dp, with(density) { 30.sp.toDp() } + 8.dp)
+            val menuOrigin = overlayOrigin ?: androidx.compose.ui.geometry.Offset.Zero
+            val menuWindowSize = reactionWindowSize(dialogView)
+            val horizontalInsets = WindowInsets.systemBars.union(WindowInsets.displayCutout)
+            val safeLeft = with(density) { (horizontalInsets.getLeft(this, androidx.compose.ui.unit.LayoutDirection.Ltr) - menuOrigin.x)
+                .coerceAtLeast(0f).toDp() }
+            val safeRight = with(density) { (menuOrigin.x + maxWidth.toPx() - menuWindowSize.width +
+                horizontalInsets.getRight(this, androidx.compose.ui.unit.LayoutDirection.Ltr)).coerceAtLeast(0f).toDp() }
+            val safeContentWidth = (maxWidth - safeLeft - safeRight - 32.dp).coerceAtLeast(0.dp)
+            val menuWidth = minOf(260.dp, safeContentWidth)
+            val reactionWidth = minOf(356.dp, safeContentWidth)
+            val reactionCellHeight = 48.dp
             val canReact = !isCallRecord && !deleting && message.serverId != null && !message.isDeletedForEveryone
             val requestedReactionHeight = if (canReact) reactionCellHeight else 0.dp
             val rowCount = if (deleting) (if (!deleteSingle && actionGroupCount > 1) 7 else 6) else if (isCallRecord) 3 else if (showMore) 2 + (if (!message.isDeletedForEveryone) 2 else 0) + (if (onDeleteSingleForMe != null) 1 else 0) else 3 + (if (!message.isDeletedForEveryone) 1 else 0) +
@@ -3076,59 +3135,64 @@ internal fun MessageActionsSheet(
             val previewLimit = budget.previewLimit.dp
             val sourceWidth = with(density) { anchor.width.toDp() }.coerceAtLeast(1.dp)
             val sourceHeight = with(density) { anchor.height.toDp() }.coerceAtLeast(1.dp)
-            val previewScale = minOf(1f, (maxWidth - 32.dp) / sourceWidth, previewLimit / sourceHeight)
+            val previewScale = minOf(1f, safeContentWidth / sourceWidth, previewLimit / sourceHeight)
             val previewWidth = if (preview != null) sourceWidth * previewScale else menuWidth
             val previewHeight = if (previewLimit <= 0.dp) 0.dp else if (preview != null) sourceHeight * previewScale else minOf(previewLimit, reactionCellHeight + 12.dp)
             val groupWidth = maxOf(menuWidth, previewWidth, if (reactionHeight > 0.dp) reactionWidth else 0.dp)
             val groupHeight = reactionHeight + previewHeight + menuHeight + budget.fixedHeight.dp
             val desiredX = with(density) { if (isOwnMessage) (anchor.right - (overlayOrigin?.x ?: 0f)).toDp() - groupWidth else (anchor.left - (overlayOrigin?.x ?: 0f)).toDp() }
-            val x = desiredX.coerceIn(16.dp, (maxWidth - groupWidth - 16.dp).coerceAtLeast(16.dp))
-            val y = (with(density) { (anchor.top - (overlayOrigin?.y ?: 0f)).toDp() } - reactionHeight - 8.dp)
+            val x = desiredX.coerceIn(safeLeft + 16.dp, (maxWidth - safeRight - groupWidth - 16.dp).coerceAtLeast(safeLeft + 16.dp))
+            val desiredY = (with(density) { (anchor.top - (overlayOrigin?.y ?: 0f)).toDp() } - reactionHeight - 8.dp)
                 .coerceIn(safeTop, (maxHeight - safeBottom - groupHeight).coerceAtLeast(safeTop))
+            val y = desiredY
+            val spaceAbove = (y + reactionHeight - safeTop).coerceAtLeast(0.dp)
+            val spaceBelow = (maxHeight - safeBottom - y - reactionHeight - 8.dp - previewHeight - 8.dp).coerceAtLeast(0.dp)
+            val reactionsBelow = spaceAbove < 240.dp && spaceBelow > spaceAbove
+            val pillContent: @Composable () -> Unit = {
+                ReactionPickerPill(pill, message.reactions.filter { it.reactedByMe }.map { it.emoji }.toSet(),
+                        if (extendedReactions) null else pressTracker,
+                        onExpand = { extendedReactions = true }, onChoose = choose,
+                        modifier = Modifier.width(reactionWidth).height(reactionHeight)
+                            .onGloballyPositioned { if (!extendedReactions) pillBounds = it.boundsInWindow() }
+                            .graphicsLayer { alpha = 1f - expansion.value }
+                            .then(if (extendedReactions) Modifier.clearAndSetSemantics {} else Modifier))
+            }
             Column(Modifier.layout { measurable, constraints ->
                 val placeable = measurable.measure(constraints)
                 val screenBottom = dialogView.resources.displayMetrics.heightPixels - (overlayOrigin?.y ?: 0f).toInt()
                 val bottom = minOf(constraints.maxHeight, screenBottom) - safeBottom.roundToPx()
                 val top = safeTop.roundToPx()
                 val actualY = y.roundToPx().coerceIn(top, (bottom - placeable.height).coerceAtLeast(top))
-                layout(placeable.width, placeable.height) { placeable.placeRelative(x.roundToPx(), actualY) }
+                layout(placeable.width, placeable.height) { placeable.place(x.roundToPx(), actualY) }
             }.width(groupWidth).heightIn(max = availableHeight).testTag("message-menu-group").alpha(if (overlayOrigin == null) 0f else 1f)
 , horizontalAlignment = if (isOwnMessage) Alignment.End else Alignment.Start) {
-                if (reactionHeight > 0.dp) {
-                    Row(Modifier.width(reactionWidth).height(reactionHeight).horizontalScroll(rememberScrollState()).testTag("message-menu-reactions"),
-                        verticalAlignment = Alignment.CenterVertically) {
-                        QUICK_REACTIONS.forEach { emoji ->
-                            val more = emoji == "＋"
-                            val mine = !more && message.reactions.any { it.emoji == emoji && it.reactedByMe }
-                            val label = if (more) stringResource(R.string.message_reaction_action) else stringResource(R.string.react_with, emoji)
-                            Box(Modifier.size(reactionCellHeight).semantics(mergeDescendants = true) { selected = mine; contentDescription = label }
-                                .clickable(role = Role.Button, onClickLabel = label) {
-                                    if (more) { CocoHaptics.select(dialogView); extendedReactions = true }
-                                    else { onReact(emoji); onDismiss() }
-                                }, contentAlignment = Alignment.Center) {
-                                if (mine) Box(Modifier.size(38.dp).background(colors.primaryText.copy(alpha = .20f), CircleShape))
-                                if (more) Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clearAndSetSemantics { }) {
-                                    Icon(CocoIcons.ReactionGrid, null, tint = colors.accentSoft, modifier = Modifier.size(20.dp))
-                                    Text(stringResource(R.string.chat_menu_reactions_more), fontSize = 10.sp, lineHeight = 12.sp, color = colors.accentSoft)
-                                } else Text(emoji, fontSize = 30.sp, modifier = Modifier.clearAndSetSemantics { })
-                            }
-                        }
-                    }
+                if (reactionHeight > 0.dp && !reactionsBelow) {
+                    pillContent()
                     Spacer(Modifier.height(8.dp))
                 }
                 if (previewHeight > 0.dp && preview != null) {
                     Image(preview.asImageBitmap(), contentDescription = null, contentScale = ContentScale.FillBounds,
-                        modifier = Modifier.size(previewWidth, previewHeight).testTag("message-menu-preview").clip(CocoShapes.radiusBubble))
+                        modifier = Modifier.size(previewWidth, previewHeight).testTag("message-menu-preview")
+                            .onGloballyPositioned { if (!extendedReactions) liftedBounds = it.boundsInWindow() }
+                            .alpha(if (extendedReactions) 0f else 1f).clip(CocoShapes.radiusBubble))
                 } else if (previewHeight > 0.dp && actionText.isNotBlank()) {
-                    Surface(shape = CocoShapes.radiusBubble, color = if (isOwnMessage) colors.outgoingBubble else colors.incomingBubble) {
+                    Surface(shape = CocoShapes.radiusBubble, color = if (isOwnMessage) colors.outgoingBubble else colors.incomingBubble,
+                        modifier = Modifier.onGloballyPositioned { if (!extendedReactions) liftedBounds = it.boundsInWindow() }
+                            .alpha(if (extendedReactions) 0f else 1f)) {
                         Box(Modifier.width(menuWidth).height(previewHeight).padding(horizontal = 10.dp), contentAlignment = Alignment.CenterStart) {
                             Text(actionText, maxLines = 1, overflow = TextOverflow.Ellipsis, color = if (isOwnMessage) colors.onOutgoingBubble else colors.primaryText)
                         }
                     }
                 }
+                if (reactionHeight > 0.dp && reactionsBelow) {
+                    Spacer(Modifier.height(8.dp))
+                    pillContent()
+                }
                 Spacer(Modifier.height(minOf(8.dp, availableHeight)))
                 Surface(shape = RoundedCornerShape(18.dp), color = Color.Transparent, contentColor = colors.primaryText,
-                    modifier = Modifier.width(menuWidth).chatMenuPanel(RoundedCornerShape(18.dp), menuBlurred, outlined = false)) {
+                    modifier = Modifier.width(menuWidth).graphicsLayer { alpha = 1f - expansion.value }
+                        .then(if (extendedReactions) Modifier.clearAndSetSemantics {} else Modifier)
+                        .chatMenuPanel(RoundedCornerShape(18.dp), menuBlurred, outlined = false)) {
                     Column(Modifier.heightIn(max = menuHeight).testTag("message-menu-actions").verticalScroll(menuScroll).padding(vertical = 4.dp)) {
                         if (canReact && !budget.showInlineReactions) ActionRow(stringResource(R.string.message_reaction_action), ChatControls.smile) { extendedReactions = true }
                         if (deleting) {
@@ -3178,6 +3242,55 @@ internal fun MessageActionsSheet(
                         }
                     }
                 }
+            }
+            if (extendedReactions) {
+                val origin = overlayOrigin ?: androidx.compose.ui.geometry.Offset.Zero
+                // Intercept the faded action rows. The actual panel owns its interior taps.
+                Box(Modifier.fillMaxSize().clickable(interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() },
+                    indication = null, onClick = close).clearAndSetSemantics {})
+                val fixedWidth = with(density) { liftedBounds.width.toDp() }
+                val fixedHeight = with(density) { liftedBounds.height.toDp() }
+                val fixedModifier = Modifier.absoluteOffset(with(density) { (liftedBounds.left - origin.x).toDp() },
+                    with(density) { (liftedBounds.top - origin.y).toDp() }).requiredSize(fixedWidth, fixedHeight)
+                    .testTag("reaction_lifted_bubble").clip(CocoShapes.radiusBubble)
+                if (preview != null && fixedWidth > 0.dp && fixedHeight > 0.dp) {
+                    Image(preview.asImageBitmap(), null, modifier = fixedModifier, contentScale = ContentScale.FillBounds)
+                } else if (actionText.isNotBlank() && fixedWidth > 0.dp && fixedHeight > 0.dp) {
+                    Surface(modifier = fixedModifier, color = if (isOwnMessage) colors.outgoingBubble else colors.incomingBubble) {
+                        Box(Modifier.padding(horizontal = 10.dp), contentAlignment = Alignment.CenterStart) {
+                            Text(actionText, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                                color = if (isOwnMessage) colors.onOutgoingBubble else colors.primaryText)
+                        }
+                    }
+                }
+                val windowSize = reactionWindowSize(dialogView)
+                val topInset = with(density) { (WindowInsets.safeDrawing.getTop(this) - origin.y).coerceAtLeast(0f).toDp().value }
+                val bottomInset = with(density) { (origin.y + maxHeight.toPx() - windowSize.height +
+                    maxOf(WindowInsets.safeDrawing.getBottom(this), WindowInsets.ime.getBottom(this))).coerceAtLeast(0f).toDp().value }
+                val leftInset = with(density) { (WindowInsets.safeDrawing.getLeft(this, androidx.compose.ui.unit.LayoutDirection.Ltr) - origin.x).coerceAtLeast(0f).toDp().value }
+                val rightInset = with(density) { (origin.x + maxWidth.toPx() - windowSize.width +
+                    WindowInsets.safeDrawing.getRight(this, androidx.compose.ui.unit.LayoutDirection.Ltr)).coerceAtLeast(0f).toDp().value }
+                val bubble = with(density) { ReactionRect((liftedBounds.left - origin.x).toDp().value,
+                    (liftedBounds.top - origin.y).toDp().value, (liftedBounds.right - origin.x).toDp().value,
+                    (liftedBounds.bottom - origin.y).toDp().value) }
+                val frame = ReactionPanelGeometry.frame(maxWidth.value, maxHeight.value, bubble,
+                    topInset, bottomInset, leftInset, rightInset, isOwnMessage,
+                    screenHeight = with(density) { windowSize.height.toDp().value })
+                val target = with(density) { androidx.compose.ui.geometry.Rect(frame.left.dp.toPx(), frame.top.dp.toPx(), frame.right.dp.toPx(), frame.bottom.dp.toPx()) }
+                val above = frame.top < bubble.top
+                ReactionPickerPanel(pickerStore, pickerHistory, close, choose,
+                    modifier = Modifier.absoluteOffset(frame.left.dp, frame.top.dp).size(frame.width.dp, frame.height.dp)
+                        .graphicsLayer {
+                            val p = expansion.value
+                            alpha = p
+                            if (!motion.reduceMotion && pillBounds.width > 0f && target.width > 0f && target.height > 0f) {
+                                transformOrigin = androidx.compose.ui.graphics.TransformOrigin(if (isOwnMessage) 1f else 0f, if (above) 1f else 0f)
+                                scaleX = (pillBounds.width / target.width).coerceAtMost(1f) * (1f - p) + p
+                                scaleY = (pillBounds.height / target.height).coerceAtMost(1f) * (1f - p) + p
+                                translationX = (if (isOwnMessage) pillBounds.right - origin.x - target.right else pillBounds.left - origin.x - target.left) * (1f - p)
+                                translationY = (if (above) pillBounds.bottom - origin.y - target.bottom else pillBounds.top - origin.y - target.top) * (1f - p)
+                            }
+                        })
             }
         }
     }
@@ -3562,7 +3675,7 @@ internal fun MessageBubble(
             })
     }
 
-    Box(modifier = modifier.fillMaxWidth(), contentAlignment = alignment) {
+    Box(modifier = modifier.fillMaxWidth().testTag("reaction_message_${message.clientMessageId}"), contentAlignment = alignment) {
         com.messenger.app.ui.components.SelectionOverlayLayout(
             outgoing = isOwnMessage,
             markerInside = LocalChatAlbumCell.current,
@@ -3797,6 +3910,7 @@ internal fun MessageBubble(
                                 // let Text measure its complete line instead of clipping it.
                                 .widthIn(min = reactionWidth)
                                 .heightIn(min = reactionHeight)
+                                .reactionChipLanding(message.clientMessageId, reaction.emoji)
                                 .background(CapsuleChatStyle.reaction, CircleShape)
                                 .clickable(role = androidx.compose.ui.semantics.Role.Button) {
                                     if (selectionMode) onSelectionTap() else onToggleReaction(reaction.emoji)

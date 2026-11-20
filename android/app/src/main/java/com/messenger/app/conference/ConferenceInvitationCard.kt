@@ -10,7 +10,8 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -56,28 +57,24 @@ import com.messenger.app.ui.theme.LocalCocoColors
     )
 }
 
-/** The normal bubble owns its padding, timestamp and receipts; this is only its compact content. */
+/** The normal bubble owns its width, padding, timestamp and receipts. */
+@OptIn(androidx.compose.ui.ExperimentalComposeUiApi::class)
 @Composable internal fun ConferenceIncomingInvitationCard(title: String, status: String, error: String?, enabled: Boolean, onJoin: () -> Unit) {
     val c = LocalCocoColors.current
-    val largeText = LocalDensity.current.fontScale >= 1.4f
-    val join: @Composable () -> Unit = {
-        Button(onClick = onJoin, enabled = enabled, shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = c.primaryText, contentColor = c.callBackground),
-                modifier = Modifier.heightIn(min = 48.dp).widthIn(min = 56.dp).testTag("conference_invitation_accept"),
-                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)) {
-                Text(stringResource(R.string.conference_invitation_join))
-        }
-    }
-    Column(Modifier.widthIn(max = 224.dp).testTag("conference_incoming_invitation"), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+    Column(Modifier.fillMaxWidth().semantics { testTagsAsResourceId = true }.testTag("invite-card"),
+        verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             ConferenceInvitationIcon()
-            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                Text(title, style = MaterialTheme.typography.titleSmall, maxLines = 2, overflow = TextOverflow.Ellipsis)
-                Text(status, style = MaterialTheme.typography.labelSmall, color = c.mutedText, maxLines = if (largeText) 2 else 1, overflow = TextOverflow.Ellipsis)
-            }
-            if (!largeText) join()
+            Text(title, modifier = Modifier.weight(1f).testTag("invite-title"), style = MaterialTheme.typography.titleSmall)
         }
-        if (largeText) Box(Modifier.align(Alignment.End)) { join() }
+        Text(status, modifier = Modifier.fillMaxWidth().testTag("invite-subtitle"),
+            style = MaterialTheme.typography.labelSmall, color = c.mutedText)
+        Button(onClick = onJoin, enabled = enabled, shape = RoundedCornerShape(12.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = c.accent, contentColor = c.onAccent),
+            modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp).testTag("invite-action"),
+            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)) {
+            Text(stringResource(R.string.conference_invitation_join))
+        }
         error?.let { Text(it, color = c.danger, style = MaterialTheme.typography.bodySmall) }
     }
 }

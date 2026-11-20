@@ -262,7 +262,8 @@ private fun AuthIconTile(icon: ImageVector, tint: Color? = null) {
 internal fun AuthBrandHeader() {
     val colors=LocalCocoColors.current
     Column(horizontalAlignment=Alignment.CenterHorizontally) {
-        Icon(CocoIcons.Logo,null,tint=colors.categoryViolet,modifier=Modifier.size(64.dp))
+        // The approved UNYRI mark, as on iOS LoginView (owner 20 Nov: the old COCO chat bubble was shown).
+        com.messenger.app.ui.theme.CocoFlowMark(size = 64.dp)
         Spacer(Modifier.height(8.dp))
         Text(stringResource(R.string.app_name),style=MaterialTheme.typography.headlineLarge,
             color=colors.primaryText,fontWeight=FontWeight.SemiBold)

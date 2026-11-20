@@ -245,26 +245,43 @@ def check_compose(work, files):
     print("Compose: both profiles, all bundle mounts, image override and source overlay passed (no daemon/start)")
 
 
+def check_port_holder_fixtures(bash):
+    result = run([bash, '--noprofile', '--norc', str(ROOT / 'scripts/tests/test_preflight_ports.sh')])
+    require(result.returncode == 0, result.stdout + result.stderr)
+    print(result.stdout.strip())
+    powershell = shutil.which('powershell.exe') or shutil.which('pwsh')
+    if powershell:
+        result = run([powershell, '-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File', str(ROOT / 'scripts/tests/test_preflight_ports.ps1')])
+        require(result.returncode == 0, result.stdout + result.stderr)
+        print(result.stdout.strip())
+
+
 def check_port_grouping(work, bash):
-    suffix = '. Stop or reconfigure it, then rerun.'
+    suffix = '. The server cannot start and calls cannot work while these ports are busy. Stop that program, then check again. This installer cannot choose other ports.'
     cases = [
         ({'3478/TCP': 'Docker container messenger-coturn', '3478/UDP': 'Docker container messenger-coturn', **{f'{port}/UDP': 'Docker container messenger-coturn' for port in range(49152, 49201)}},
-         ['3478 TCP, 3478 UDP, 49152-49200 UDP: Docker container messenger-coturn' + suffix]),
+         ['Ports 3478 TCP, 3478 UDP, 49152-49200 UDP are already used by Docker container messenger-coturn' + suffix],
+         ['UNYRI_PORT_BUSY:TCP|3478|container|messenger-coturn', 'UNYRI_PORT_BUSY:UDP|3478,49152-49200|container|messenger-coturn']),
         ({'49152/UDP': 'alpha', '49153/UDP': 'alpha', '49154/UDP': 'beta', '49155/UDP': 'alpha', '443/TCP': 'beta'},
-         ['49152-49153 UDP, 49155 UDP: alpha' + suffix, '443 TCP, 49154 UDP: beta' + suffix]),
-        ({'80/TCP': 'unknown program', '443/TCP': 'unknown program'}, ['80 TCP, 443 TCP: unknown program' + suffix]),
-        ({'3478/UDP': 'coturn'}, ['3478 UDP: coturn' + suffix]),
-        ({}, []),
+         ['Ports 49152-49153 UDP, 49155 UDP are already used by program alpha' + suffix, 'Ports 443 TCP, 49154 UDP are already used by program beta' + suffix],
+         ['UNYRI_PORT_BUSY:UDP|49152-49153,49155|process|alpha', 'UNYRI_PORT_BUSY:TCP|443|process|beta', 'UNYRI_PORT_BUSY:UDP|49154|process|beta']),
+        ({'80/TCP': 'unknown program', '443/TCP': 'unknown program'}, ['Ports 80 TCP, 443 TCP are already used by a program whose name could not be found' + suffix], ['UNYRI_PORT_BUSY:TCP|80,443|unknown|unknown']),
+        ({'3478/UDP': 'coturn'}, ['Ports 3478 UDP are already used by program coturn' + suffix], ['UNYRI_PORT_BUSY:UDP|3478|process|coturn']),
+        ({'3478/UDP': 'program|with|separator'}, ['Ports 3478 UDP are already used by program program with separator' + suffix], ['UNYRI_PORT_BUSY:UDP|3478|process|program with separator']),
+        ({'3478/UDP': 'x' * 180}, ['Ports 3478 UDP are already used by program ' + 'x' * 120 + suffix], ['UNYRI_PORT_BUSY:UDP|3478|process|' + 'x' * 120]),
+        ({}, [], []),
     ]
     env = {**os.environ, 'SH5_PORT_SCRIPT': native(ROOT / 'scripts/selfhost/preflight-ports.sh')}
-    for conflicts, expected in cases:
+    for conflicts, expected, records in cases:
         rows = ''.join(f'{key.split("/")[0]}\t{key.split("/")[1].lower()}\t{owner}\n' for key, owner in conflicts.items())
         result = run([bash, '--noprofile', '--norc', '-c', 'source "$SH5_PORT_SCRIPT"; format_selfhost_port_conflicts'], env=env, input=rows)
         require(result.returncode == 0 and result.stdout.splitlines() == expected, 'Bash port ranges/owners grouped incorrectly: ' + result.stdout + result.stderr)
+        result = run([bash, '--noprofile', '--norc', '-c', 'source "$SH5_PORT_SCRIPT"; format_selfhost_port_conflicts true'], env=env, input=rows)
+        require(result.returncode == 0 and result.stdout.splitlines() == records, 'Bash desktop port records differ: ' + result.stdout + result.stderr)
     powershell = shutil.which('powershell.exe') or shutil.which('pwsh')
     if powershell:
         inputs = work / 'grouping-cases.json'
-        inputs.write_text(json.dumps([{'conflicts': conflicts, 'expected': expected} for conflicts, expected in cases]), encoding='utf-8')
+        inputs.write_text(json.dumps([{'conflicts': conflicts, 'expected': expected, 'records': records} for conflicts, expected, records in cases]), encoding='utf-8')
         runner = work / 'grouping.ps1'
         runner.write_text('''
 $ErrorActionPreference = 'Stop'
@@ -275,11 +292,13 @@ foreach ($case in $cases) {
     foreach ($property in $case.conflicts.PSObject.Properties) { $conflicts[$property.Name] = $property.Value }
     $actual = @(Format-SelfhostPortConflicts $conflicts)
     if (($actual -join "`n") -cne ($case.expected -join "`n")) { throw 'PowerShell port ranges/owners grouped incorrectly.' }
+    $records = @(Format-SelfhostPortConflicts $conflicts -Records)
+    if (($records -join "`n") -cne ($case.records -join "`n")) { throw 'PowerShell desktop port records differ.' }
 }
 ''', encoding='utf-8-sig')
         result = run([powershell, '-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File', str(runner)], env={**os.environ, 'SH5_PS_PORT_SCRIPT': str(ROOT / 'scripts/selfhost/preflight-ports.ps1')})
         require(result.returncode == 0, result.stdout + result.stderr)
-    print('Port grouping: contiguous ranges, protocol separation, mixed owners, gaps, single ports and empty input passed')
+    print('Port fixtures: plain messages, messenger-coturn ranges, process/unknown owners and bounded desktop records passed in Bash and PowerShell')
 
 
 def check_installer(work, bash):
@@ -365,10 +384,10 @@ else printf '%s' "${SH5_UDP:-}"; fi
     # Native and Docker-published collisions, all before any pull/start.
     calls = root / "compose-calls.txt"
     for extra, expected in [
-        ({"SH5_UDP": 'UNCONN 0 0 0.0.0.0:3478 0.0.0.0:* users:(("coturn",pid=9,fd=1))'}, "3478 UDP: coturn"),
-        ({"SH5_TCP": 'LISTEN 0 0 [::]:443 [::]:*'}, "443 TCP: unknown program"),
-        ({"SH5_CONTAINERS": "other|another-project|other-turn", "SH5_BINDINGS": "3478/udp 3478"}, "3478 UDP: Docker container other-turn"),
-        ({"SH5_UDP": 'UNCONN 0 0 *:49199 *:*'}, "49199 UDP: unknown program"),
+        ({"SH5_UDP": 'UNCONN 0 0 0.0.0.0:3478 0.0.0.0:* users:(("coturn",pid=9,fd=1))'}, "3478 UDP are already used by program coturn"),
+        ({"SH5_TCP": 'LISTEN 0 0 [::]:443 [::]:*'}, "443 TCP are already used by a program whose name could not be found"),
+        ({"SH5_CONTAINERS": "other|another-project|other-turn", "SH5_BINDINGS": "3478/udp 3478"}, "3478 UDP are already used by Docker container other-turn"),
+        ({"SH5_UDP": 'UNCONN 0 0 *:49199 *:*'}, "49199 UDP are already used by a program whose name could not be found"),
     ]:
         calls.unlink(missing_ok=True)
         result = run(command, env={**env, **extra}, input="n\n")
@@ -384,11 +403,11 @@ else printf '%s' "${SH5_UDP:-}"; fi
     require(result.returncode == 0, "Disabled room ports blocked an install")
     settings.write_bytes(original.replace(b"COMPOSE_PROFILES=", b"COMPOSE_PROFILES=rooms"))
     result = run(command, env={**env, **rooms_conflict}, input="n\n")
-    require(result.returncode == 1 and "17881 TCP, 17882 UDP: unknown program" in result.stderr, "Grouped room port conflicts missing")
+    require(result.returncode == 1 and "17881 TCP, 17882 UDP are already used by a program whose name could not be found" in result.stderr, "Grouped room port conflicts missing")
     calls.unlink(missing_ok=True)
     bindings = '\n'.join(['3478/tcp 3478', '3478/udp 3478'] + [f'{port}/udp {port}' for port in range(49152, 49201)])
     result = run(command, env={**env, "SH5_CONTAINERS": "other|another-project|messenger-coturn", "SH5_BINDINGS": bindings, "SH5_TCP": 'LISTEN 0 0 *:3478 *:* users:(("docker-proxy",pid=9,fd=1))', "SH5_UDP": 'UNCONN 0 0 *:49152 *:* users:(("docker-proxy",pid=9,fd=1))'}, input="n\n")
-    require(result.returncode == 1 and result.stderr.strip() == '3478 TCP, 3478 UDP, 49152-49200 UDP: Docker container messenger-coturn. Stop or reconfigure it, then rerun.', "TURN conflict was not grouped into one line: " + result.stderr)
+    require(result.returncode == 1 and result.stderr.strip() == 'Ports 3478 TCP, 3478 UDP, 49152-49200 UDP are already used by Docker container messenger-coturn. The server cannot start and calls cannot work while these ports are busy. Stop that program, then check again. This installer cannot choose other ports.', "TURN conflict message differed: " + result.stderr)
     require(not calls.exists(), "Grouped conflict reached Compose")
     settings.write_bytes(original)
     result = run(command, env={**env, "SH5_OWNER_STATE": "shown"}, input="n\n")
@@ -545,8 +564,8 @@ exit $LASTEXITCODE
     require(result.returncode == 1, "Windows startup failure must return 1")
     calls = root / "compose-calls.txt"
     for extra, expected in [
-        ({"SH5_PS_UDP": '[{"LocalPort":3478,"OwningProcess":55}]'}, "3478 UDP: coturn"),
-        ({"SH5_PS_TCP": '[{"LocalPort":443,"OwningProcess":0,"State":"Listen"}]'}, "443 TCP: unknown program"),
+        ({"SH5_PS_UDP": '[{"LocalPort":3478,"OwningProcess":55}]'}, "3478 UDP are already used by program coturn"),
+        ({"SH5_PS_TCP": '[{"LocalPort":443,"OwningProcess":0,"State":"Listen"}]'}, "443 TCP are already used by a program whose name could not be found"),
         ({"SH5_CONTAINERS": "foreign|other-project|other-turn", "SH5_PS_BINDINGS": '{"3478/udp":[{"HostPort":"3478"}]}', "SH5_PS_UDP": '[{"LocalPort":3478,"OwningProcess":42}]'}, "Docker container other-turn"),
     ]:
         calls.unlink(missing_ok=True)
@@ -565,11 +584,13 @@ exit $LASTEXITCODE
     require(result.returncode == 0, "Windows disabled room ports blocked installation")
     settings.write_text(original.replace('COMPOSE_PROFILES=\n', 'COMPOSE_PROFILES=rooms\n'))
     result = execute([], rooms)
-    require(result.returncode == 1 and "17881 TCP, 17882 UDP: unknown program" in result.stdout, "Windows grouped room port conflicts missing")
+    require(result.returncode == 1 and "17881 TCP, 17882 UDP are already used by a program whose name could not be found" in result.stdout, "Windows grouped room port conflicts missing")
     calls.unlink(missing_ok=True)
     bindings = {f'{port}/{protocol}': [{"HostPort": str(port)}] for port, protocol in [(3478, 'tcp'), (3478, 'udp')] + [(port, 'udp') for port in range(49152, 49201)]}
     result = execute([], {"SH5_CONTAINERS": "foreign|other-project|messenger-coturn", "SH5_PS_BINDINGS": json.dumps(bindings), "SH5_PS_TCP": '[{"LocalPort":3478,"OwningProcess":42,"State":"Listen"}]', "SH5_PS_UDP": '[{"LocalPort":49152,"OwningProcess":42}]'})
-    require(result.returncode == 1 and '3478 TCP, 3478 UDP, 49152-49200 UDP: Docker container messenger-coturn. Stop or reconfigure it, then rerun.' in result.stdout and not calls.exists(), "Windows TURN conflict was not grouped before Compose")
+    require(result.returncode == 1 and all(line in result.stdout for line in [
+        'Ports 3478 TCP, 3478 UDP, 49152-49200 UDP are already used by Docker container messenger-coturn. The server cannot start and calls cannot work while these ports are busy. Stop that program, then check again. This installer cannot choose other ports.',
+    ]) and 'UNYRI_PORT_BUSY:' not in result.stdout and not calls.exists(), "Windows TURN conflict message differed before Compose")
     settings.unlink(); calls.unlink(missing_ok=True)
     inventory = '\n'.join(['unyri-selfhost_postgres_data|unyri-selfhost', 'unyri-selfhost_backend_data|', 'custom_project_data|unyri-selfhost', 'foreign_data|another-project'])
     result = execute([], {"SH5_VOLUMES": inventory})
@@ -720,6 +741,7 @@ def main():
         require(b"ghcr.io/OWNER/" not in files["docker-compose.selfhost.yml"], "Unstamped image placeholder")
         print(f"Bundle: {len(files)} operator files; ZIP/tar parity, internal/external SHA256, version stamping and path allowlist passed")
         check_compose(work, files)
+        check_port_holder_fixtures(bash)
         check_port_grouping(work, bash)
         check_downloader(work, files, bash)
         check_installer(work, bash)

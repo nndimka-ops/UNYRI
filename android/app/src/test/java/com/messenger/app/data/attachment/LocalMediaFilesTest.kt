@@ -84,4 +84,25 @@ class LocalMediaFilesTest {
             assertTrue(external.exists()); assertTrue(immediate.exists())
         } finally { root.deleteRecursively() }
     }
+
+    // B-073: Android reaches app folders through /data/user/0, a link to /data/data. Drafts staged
+    // there must still be discarded, while a draft that is itself a link stays refused.
+    @Test fun draftsReachedThroughALinkedFolderAreStillDiscarded() {
+        val root = Files.createTempDirectory("draft-linked").toFile()
+        try {
+            File(root, "data/app/no_backup/media-drafts").mkdirs()
+            val alias = File(root, "user0").toPath()
+            try { Files.createSymbolicLink(alias, File(root, "data").toPath()) }
+            catch (_: Exception) { org.junit.Assume.assumeTrue("symbolic links unavailable on this host", false) }
+            val drafts = alias.resolve("app/no_backup/media-drafts").toFile()
+            val abandoned = File(drafts, "${java.util.UUID.randomUUID()}/photo.jpg").apply { parentFile.mkdirs(); writeText("plain") }
+            val outside = File(root, "outside.jpg").apply { writeText("keep") }
+            val linked = File(drafts, "${java.util.UUID.randomUUID()}/link.jpg").apply { parentFile.mkdirs() }
+            Files.createSymbolicLink(linked.toPath(), outside.toPath())
+            assertTrue(discardUnreferencedDraft(drafts, abandoned, emptySet()))
+            assertFalse(abandoned.exists())
+            assertFalse(discardUnreferencedDraft(drafts, linked, emptySet()))
+            assertTrue(outside.exists())
+        } finally { root.deleteRecursively() }
+    }
 }

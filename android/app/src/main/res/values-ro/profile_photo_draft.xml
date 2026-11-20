@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_editor_photo_note">Salvează pentru a aplica fotografia selectată și modificările textului. Eliminarea fotografiei actuale se aplică imediat.</string>
+    <string name="profile_editor_discard_title">Renunți la modificările profilului?</string>
+    <string name="profile_editor_discard_message">Modificările profilului și fotografia selectată nu vor fi salvate. O fotografie deja eliminată va rămâne eliminată.</string>
+</resources>

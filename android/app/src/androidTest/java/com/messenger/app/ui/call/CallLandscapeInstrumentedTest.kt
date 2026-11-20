@@ -119,7 +119,16 @@ class CallLandscapeInstrumentedTest {
                 assertTrue(bounds("call-landscape-avatar").right < bounds("call-peer-name").left)
                 bounds("call-status")
                 compose.onAllNodesWithTag("call-stage-status").assertCountEquals(0)
-                controls(listOf("call-output", "call-mute", "call-video", "call-end"))
+                when (s) {
+                    "ended" -> listOf("call-output", "call-mute", "call-video", "call-end").forEach {
+                        compose.onNodeWithTag(it).assertDoesNotExist()
+                    }
+                    "connected" -> controls(listOf("call-video", "call-mute", "call-end", "call-output"))
+                    else -> {
+                        compose.onNodeWithTag("call-video").assertDoesNotExist()
+                        controls(listOf("call-mute", "call-end", "call-output"))
+                    }
+                }
             } else bounds("call-terminal-dismiss")
             screenshot("${h.toInt()}-$s")
         }

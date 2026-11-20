@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_editor_photo_note">保存以应用所选照片和文字更改。移除当前照片会立即生效。</string>
+    <string name="profile_editor_discard_title">放弃个人资料更改？</string>
+    <string name="profile_editor_discard_message">个人资料更改和所选照片将不会保存。已移除的照片将保持移除状态。</string>
+</resources>

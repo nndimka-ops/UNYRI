@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_editor_photo_note">Sla op om de gekozen foto en tekstwijzigingen toe te passen. Het verwijderen van de huidige foto wordt direct toegepast.</string>
+    <string name="profile_editor_discard_title">Profielwijzigingen verwerpen?</string>
+    <string name="profile_editor_discard_message">Je profielwijzigingen en de gekozen foto worden niet opgeslagen. Een al verwijderde foto blijft verwijderd.</string>
+</resources>

@@ -104,10 +104,15 @@ class ProfileViewModel(
         }
     }
 
-    fun save(username: String?, displayName: String?, bioUpdate: BioUpdate, avatarUpdate: AvatarUpdate) {
+    fun save(username: String?, displayName: String?, bioUpdate: BioUpdate, avatarUpdate: AvatarUpdate,
+        avatarDraft: ByteArray? = null) {
         performSave(closeEditor = true) {
+            val uploaded = avatarDraft?.let { uploadAvatarDraft(it) }
+            // Cache publication suspends; a new account/server must not receive
+            // the remaining metadata mutation from this editor.
+            checkSaveOwner()
             if (username == null && displayName == null && bioUpdate == BioUpdate.Keep && avatarUpdate == AvatarUpdate.Keep) {
-                (_uiState.value as? ProfileUiState.Loaded)?.profile ?: repository.getMe().getOrThrow()
+                uploaded ?: (_uiState.value as? ProfileUiState.Loaded)?.profile ?: repository.getMe().getOrThrow()
             } else repository.updateProfile(username, displayName, bioUpdate, avatarUpdate).getOrThrow()
         }
     }
@@ -116,19 +121,21 @@ class ProfileViewModel(
      *  the authoritative avatar (server HEAD-verifies + bumps versions exactly
      *  once), and warm the app cache so the UI renders it instantly. */
     fun uploadAvatar(bytes: ByteArray) {
-        performSave(closeEditor = false) {
-            val intent = repository.createAvatarUpload(bytes.size.toLong()).getOrThrow()
-            checkSaveOwner()
-            repository.uploadAvatarBytes(intent.uploadUrl, bytes).getOrThrow()
-            checkSaveOwner()
-            val profile = repository.completeAvatarUpload(intent.objectKey).getOrThrow()
-            checkSaveOwner()
-            if (profile.hasAvatar && profile.avatarUrl == intent.objectKey) updateCurrentAvatarCache(profile) {
-                // The mutation response identifies only the bytes uploaded by this action.
-                avatarRepository.put(profile.id, profile.avatarVersion, bytes)
-            }
-            profile
+        performSave(closeEditor = false) { uploadAvatarDraft(bytes) }
+    }
+
+    private suspend fun uploadAvatarDraft(bytes: ByteArray): UserProfile {
+        val intent = repository.createAvatarUpload(bytes.size.toLong()).getOrThrow()
+        checkSaveOwner()
+        repository.uploadAvatarBytes(intent.uploadUrl, bytes).getOrThrow()
+        checkSaveOwner()
+        val profile = repository.completeAvatarUpload(intent.objectKey).getOrThrow()
+        checkSaveOwner()
+        if (profile.hasAvatar && profile.avatarUrl == intent.objectKey) updateCurrentAvatarCache(profile) {
+            // The mutation response identifies only the bytes uploaded by this action.
+            avatarRepository.put(profile.id, profile.avatarVersion, bytes)
         }
+        return profile
     }
 
     /** E.1: authoritative server-side removal (bumps versions only if an avatar

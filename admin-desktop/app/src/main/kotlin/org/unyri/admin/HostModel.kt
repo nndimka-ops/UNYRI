@@ -33,6 +33,7 @@ class HostModel(private val scope: CoroutineScope, val service: HostService = Ho
     var error by mutableStateOf<String?>(null)
     var message by mutableStateOf<String?>(null)
     var phases by mutableStateOf<List<String>>(emptyList())
+    var portConflicts by mutableStateOf<List<HostPortConflict>>(emptyList()); private set
     var ownerCode by mutableStateOf<String?>(null)
     var healthy by mutableStateOf<Boolean?>(null)
     var version by mutableStateOf("")
@@ -95,12 +96,15 @@ class HostModel(private val scope: CoroutineScope, val service: HostService = Ho
         if (Files.exists(path.resolve(".git")) || !Files.isRegularFile(path.resolve("scripts/selfhost/install.${if (windows) "ps1" else "sh"}"))) {
             error = "sh.bundleInvalid"; return
         }
-        root = path.toAbsolutePath().normalize(); sourceConsent = false; error = null
+        root = path.toAbsolutePath().normalize(); sourceConsent = false; error = null; portConflicts = emptyList()
         if (localTrial) { domain = "localhost"; publicIp = "127.0.0.1"; rooms = false; state = state.copy(firewall = FirewallState.SKIPPED) }
     }
     fun checkPorts() = task {
+        portConflicts = emptyList()
+        state = state.copy(portsChecked = false)
         val path = root ?: error("No release")
         val result = io { service.requireLocal(); service.run(service.commands.preflight(path, rooms, localTrial)) }
+        portConflicts = HostPortConflicts.parse(result.text)
         state = state.copy(portsChecked = result.exit == 0)
         message = if (result.exit == 0) "sh.portsReady" else "sh.portsBusy"
     }

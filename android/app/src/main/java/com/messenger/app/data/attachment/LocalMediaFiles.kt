@@ -48,9 +48,10 @@ internal fun mediaDraftPathsOrNull(name: String, value: String?): Set<String>? {
 /** Delete only owned, unreferenced regular files, never a supplied directory or symlink. */
 internal fun discardUnreferencedDraft(root: File, candidate: File, references: Set<String>): Boolean {
     val canonicalRoot = root.canonicalFile
-    val absolute = candidate.absoluteFile
     val canonical = candidate.canonicalFile
-    if (absolute.toPath().normalize() != canonical.toPath() || !canonical.isFile ||
+    // B-073: the lexical /data/user/0 path never equals the canonical /data/data one, so every draft
+    // was kept forever; compare the canonical path with the entry's physical location instead.
+    if (com.messenger.app.data.auth.WorkspaceWipe.physicalEntry(candidate) != canonical.toPath() || !canonical.isFile ||
         canonical.parentFile?.parentFile != canonicalRoot ||
         references.any { File(it).canonicalFile == canonical }) return false
     if (!canonical.delete()) return false

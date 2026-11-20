@@ -53,7 +53,7 @@ internal fun mediaReactionCount(count: Int): String? = count.takeIf { it >= 2 }?
     Layout(modifier = modifier, content = {
         FlowRow(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             reactions.filter { it.count > 0 }.forEach { reaction -> key(reaction.emoji) {
-                MediaReactionChip(reaction, height, mine, effects[reaction.emoji] ?: 0L, onReaction)
+                MediaReactionChip(reaction, height, mine, effects[reaction.emoji] ?: 0L, owner, onReaction)
             } }
         }
     }) { measurables, constraints ->
@@ -63,7 +63,7 @@ internal fun mediaReactionCount(count: Int): String? = count.takeIf { it >= 2 }?
     }
 }
 
-@Composable private fun MediaReactionChip(reaction: ReactionSummary, height: Dp, mine: Boolean, effect: Long, onReaction: (String) -> Unit) {
+@Composable private fun MediaReactionChip(reaction: ReactionSummary, height: Dp, mine: Boolean, effect: Long, owner: String, onReaction: (String) -> Unit) {
     val allowed = rememberMediaWorkAllowed()
     val motion = LocalChatMotionSettings.current
     val progress = remember { Animatable(1f) }
@@ -80,7 +80,7 @@ internal fun mediaReactionCount(count: Int): String? = count.takeIf { it >= 2 }?
     }
     val label = stringResource(if (reaction.reactedByMe) R.string.media_reaction_remove else R.string.media_reaction_add)
     val emojiSize = height.value * .65f
-    Row(Modifier.height(height).graphicsLayer {
+    Row(Modifier.height(height).reactionChipLanding(owner, reaction.emoji).graphicsLayer {
         val p = progress.value
         if (motion?.reduceMotion != true) { val bump = 1f + .12f * sin(Math.PI.toFloat() * p); scaleX = bump; scaleY = bump }
     }.drawBehind {
@@ -117,7 +117,7 @@ internal fun mediaReactionCount(count: Int): String? = count.takeIf { it >= 2 }?
         FlowRow(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             messages.filterNot { it.isDeletedForEveryone }.forEach { message ->
                 message.reactions.filter { it.count > 0 }.forEach { reaction -> key(message.clientMessageId, reaction.emoji) {
-                    MediaReactionChip(reaction, height, mine, 0L) { onReaction(message, it) }
+                    MediaReactionChip(reaction, height, mine, 0L, message.clientMessageId) { onReaction(message, it) }
                 } }
             }
         }

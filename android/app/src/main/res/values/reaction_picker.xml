@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reaction_picker_options">Reactions, %1$d choices</string>
+    <string name="reaction_skin_tone">Skin tone</string>
+    <string name="reaction_picker_all">All reactions</string>
+</resources>

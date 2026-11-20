@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_editor_photo_note">Enregistrez pour appliquer la photo sélectionnée et les modifications du texte. La suppression de la photo actuelle est immédiate.</string>
+    <string name="profile_editor_discard_title">Abandonner les modifications du profil ?</string>
+    <string name="profile_editor_discard_message">Les modifications du profil et la photo sélectionnée ne seront pas enregistrées. Une photo déjà supprimée le restera.</string>
+</resources>

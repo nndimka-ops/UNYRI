@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reaction_picker_options">반응, %1$d개 선택지</string>
+    <string name="reaction_skin_tone">피부색</string>
+    <string name="reaction_picker_all">모든 반응</string>
+    <string name="emoji_find">이모지 찾기</string>
+    <string name="emoji_recent">최근 사용</string>
+    <string name="emoji_people">표정 및 사람</string>
+    <string name="emoji_nature">동물 및 자연</string>
+    <string name="emoji_food">음식 및 음료</string>
+    <string name="emoji_activity">활동</string>
+    <string name="emoji_travel">여행 및 장소</string>
+    <string name="emoji_objects">사물</string>
+    <string name="emoji_symbols">기호</string>
+    <string name="emoji_flags">깃발</string>
+    <string name="emoji_no_results">검색 결과 없음</string>
+</resources>

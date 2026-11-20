@@ -18,12 +18,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -151,15 +152,16 @@ internal fun ChatConnectionHeaderContent(status: HeaderConnectionStatus, connect
     val statusLine = buildAnnotatedString {
         append(label)
         if (pingText != null) withStyle(SpanStyle(fontSize = 10.sp, color = Color(0xFFB0B0B0), fontFeatureSettings = "tnum")) {
-            append("  "); append(pingText); append(headerPingFigurePadding(ping.value))
+            append("  "); append(pingText.replace(' ', '\u00A0')); append(headerPingFigurePadding(ping.value))
         }
     }
-    Column(Modifier.fillMaxWidth().height(44.dp)
+    Column(Modifier.fillMaxWidth().heightIn(min = 44.dp).testTag("header-status")
         .clickable(enabled = status == HeaderConnectionStatus.SYNC_FAILED || status == HeaderConnectionStatus.UNAVAILABLE,
             role = Role.Button, onClick = onRetry),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        // One text layout prevents ping/status overlap and reserves three digit columns.
-        Text(statusLine, color = Color(0xFFF2F3F7), fontSize = 13.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        // The measured space between the header buttons owns this wrapping label.
+        Text(statusLine, modifier = Modifier.fillMaxWidth(), color = Color(0xFFF2F3F7),
+            fontSize = 13.sp, textAlign = TextAlign.Center)
         Spacer(Modifier.height(5.dp))
         AndroidView(factory = { ConnectionUnderlineView(it) }, update = { it.configure(tint, online, stripMotion) },
             onRelease = { it.stop() }, modifier = Modifier.width(30.dp).height(2.dp).clearAndSetSemantics {})

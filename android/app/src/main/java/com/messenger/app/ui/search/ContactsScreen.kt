@@ -57,7 +57,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /** Dedicated address book. No chat/message repository observation in the screen or rows. */
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, androidx.compose.ui.ExperimentalComposeUiApi::class)
 @Composable internal fun ContactsScreen(viewModel: SearchViewModel, onOpenChat: (String) -> Unit,
     onBack: () -> Unit, onQr: () -> Unit, onEdit: () -> Unit, visible: Boolean = true,
     cachedChat: (String) -> String? = { null }, modifier: Modifier = Modifier) {
@@ -223,7 +223,7 @@ import kotlinx.coroutines.withContext
         confirmButton = { TextButton(onClick = { permissionError = null }) { Text(stringResource(android.R.string.ok)) } }) }
     com.messenger.app.ui.BlockRootDrawerWhile(modal || ownCard != null || permissionError != null)
     CompositionLocalProvider(LocalGlassBackdrop provides glass) {
-    CocoScreenSurface(modifier.fillMaxSize().nestedScroll(scrollBehavior.nestedScrollConnection), color = colors.background) {
+    CocoScreenSurface(modifier.fillMaxSize().semantics { testTagsAsResourceId = true }.nestedScroll(scrollBehavior.nestedScrollConnection), color = colors.background) {
         // The address book has one title; connection feedback stays with its search results.
         ContactsGlassLayout(Modifier.fillMaxSize().imePadding(), header = {
             Column(if (scrolledUnder) Modifier.glassPanel(RoundedCornerShape(0.dp), glass) else Modifier) {
@@ -249,7 +249,7 @@ import kotlinx.coroutines.withContext
             GlassBackdropSource(glass, Modifier.fillMaxSize().background(colors.background)) {
             LazyColumn(state = list, modifier = Modifier.fillMaxSize().testTag("contacts-list"),
                 contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = headerInset, bottom = 24.dp + LocalGlassBottomInset.current + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding())) {
-                item("actions") {
+                if (ContactsPresentation.showsActions(query)) item("actions") {
                     Column {
                         ContactsAction(R.string.sidebar_qr_title, CocoIcons.ReactionGrid, "contacts-qr", resource = R.drawable.coco_drawer_qr, onClick = onQr)
                         ContactsAction(R.string.contacts_invite_unyri, CocoIcons.Forward, "contacts-invite", onClick = ::invite)
@@ -258,15 +258,17 @@ import kotlinx.coroutines.withContext
                 item("book-feedback") {
                     Column {
                         if (!connected) ContactsNote(R.string.inline_search_offline)
-                        if (entries.isEmpty() && phase == ContactsStore.Phase.LOADING) Box(Modifier.fillMaxWidth().heightIn(min = 76.dp), contentAlignment = Alignment.Center) {
+                        if (ContactsPresentation.showsBookPlaceholder(searchesDirectory) && entries.isEmpty() && phase == ContactsStore.Phase.LOADING) Box(Modifier.fillMaxWidth().heightIn(min = 76.dp), contentAlignment = Alignment.Center) {
                             CircularProgressIndicator(Modifier.size(24.dp).testTag("contacts-loading"))
                         }
                         if (phase == ContactsStore.Phase.FAILED && connected) {
                             ContactsNote(R.string.contacts_load_failed)
                             TextButton(onClick = { scope.launch { contacts.reload() } }, modifier = Modifier.heightIn(min = 48.dp).testTag("contacts-retry")) { Text(stringResource(R.string.retry)) }
                         }
-                        if (entries.isEmpty() && phase == ContactsStore.Phase.LOADED) ContactsNote(R.string.contacts_empty_book)
-                        else if (prepared.isEmpty() && query.isNotEmpty()) ContactsNote(R.string.search_no_results)
+                        if (ContactsPresentation.showsBookPlaceholder(searchesDirectory)) {
+                            if (entries.isEmpty() && phase == ContactsStore.Phase.LOADED) ContactsNote(R.string.contacts_empty_book)
+                            else if (prepared.isEmpty() && query.isNotEmpty()) ContactsNote(R.string.search_no_results)
+                        }
                     }
                 }
                 items(prepared, key = { it.key }, contentType = { if (it is ContactListItem.Person) "person" else "section" }) { item ->
@@ -281,24 +283,25 @@ import kotlinx.coroutines.withContext
                 }
                 if (searchesDirectory) {
                     item("server") {
-                        Column(Modifier.testTag("contacts-server")) {
-                            Text(stringResource(R.string.contacts_find_server), color = colors.primaryText, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 18.dp, bottom = 6.dp))
-                            Text(stringResource(R.string.inline_search_people_hint), color = colors.secondaryText, fontSize = 13.sp)
+                        Column(Modifier.testTag("contacts-server-section")) {
                             ContactsServerFeedbackLine(contactsServerFeedback(state, connected, directory.isEmpty(), query.trim()),
                                 unavailable = (state as? SearchUiState.Error)?.unavailable == true, connected = connected, retry = viewModel::retry)
                         }
                     }
                     items(directory, key = { "person:${it.id}" }, contentType = { "person" }) { user ->
                         val member = user.id in contacts.ids.value
-                        ContactPerson(user, query, presence.row(user.id), opening == null, member,
-                            onOpen = { message(user) }, onChange = { change(user, !member) }, onCall = { call(user, it) }, onMenu = { modal = it },
-                            isSelf = com.messenger.app.ui.isOwnPublicProfile(user.id, selfId))
+                        Column(Modifier.testTag("contacts-unknown-result")) {
+                            ContactPerson(user, query, presence.row(user.id), opening == null, member,
+                                onOpen = { message(user) }, onChange = { change(user, !member) }, onCall = { call(user, it) }, onMenu = { modal = it },
+                                isSelf = com.messenger.app.ui.isOwnPublicProfile(user.id, selfId))
+                        }
                     }
                     val result = state as? SearchUiState.Loaded
                     if (result != null && connected && result.canLoadMore && !result.pageError && !result.refreshing && result.query == query.trim()) {
                         item("more") { TextButton(onClick = viewModel::loadMore, enabled = !result.loadingMore,
                             modifier = Modifier.heightIn(min = 48.dp).testTag("contacts-server-more")) { Text(stringResource(R.string.load_more)) } }
                     }
+                    item("server-hint") { ContactsNote(R.string.inline_search_people_hint) }
                 } else if (query.isNotEmpty()) {
                     item("short-query") { ContactsNote(R.string.contacts_short_query) }
                 }
@@ -330,7 +333,7 @@ import kotlinx.coroutines.withContext
 @Composable private fun ContactsQuery(query: String, onQuery: (String) -> Unit, onScan: () -> Unit) {
     val colors = LocalCocoColors.current
     val hint = stringResource(R.string.contacts_search)
-    Row(Modifier.padding(horizontal = 16.dp, vertical = 8.dp).fillMaxWidth()
+    Row(Modifier.padding(horizontal = 16.dp, vertical = 8.dp).fillMaxWidth().testTag("contacts-search-field")
         .background(colors.deepPanel.copy(alpha = .94f), CircleShape).border(.5.dp, colors.outlineSecondary, CircleShape)
         .heightIn(min = 48.dp).padding(start = 14.dp), verticalAlignment = Alignment.CenterVertically) {
         Icon(CocoIcons.Search, null, tint = colors.secondaryText, modifier = Modifier.size(20.dp))
@@ -363,12 +366,16 @@ import kotlinx.coroutines.withContext
         modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp))
 }
 
-@Composable private fun ContactsServerFeedbackLine(feedback: ContactsServerFeedback, unavailable: Boolean, connected: Boolean, retry: () -> Unit) {
+@Composable internal fun ContactsServerFeedbackLine(feedback: ContactsServerFeedback, unavailable: Boolean, connected: Boolean, retry: () -> Unit) {
     val colors = LocalCocoColors.current
     val large = LocalDensity.current.fontScale >= 1.6f
     val lines = if (large) 4 else 2
     val height = with(LocalDensity.current) { (20.sp.toDp() * lines + 8.dp).coerceAtLeast(56.dp) }
-    Row(Modifier.fillMaxWidth().height(height).testTag("contacts-server-feedback"), verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.fillMaxWidth().height(height).testTag("contacts-server-feedback"), verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        // The heading occupies the stable feedback row even after a successful answer.
+        Text(stringResource(R.string.contacts_find_server), color = colors.primaryText, fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.weight(1f).semantics { heading() })
         when (feedback) {
             ContactsServerFeedback.LOADING -> CircularProgressIndicator(Modifier.size(24.dp))
             ContactsServerFeedback.ERROR -> {
@@ -378,9 +385,9 @@ import kotlinx.coroutines.withContext
                 TextButton(onClick = retry, enabled = connected, modifier = Modifier.heightIn(min = 48.dp).testTag("contacts-server-retry")) { Text(stringResource(R.string.retry)) }
             }
             ContactsServerFeedback.CONNECT -> Text(stringResource(R.string.contacts_connect_search), color = colors.secondaryText,
-                style = MaterialTheme.typography.bodySmall, maxLines = lines)
+                style = MaterialTheme.typography.bodySmall, maxLines = lines, modifier = Modifier.weight(1f))
             ContactsServerFeedback.EMPTY -> Text(stringResource(R.string.contacts_no_users), color = colors.secondaryText,
-                style = MaterialTheme.typography.bodySmall, maxLines = lines)
+                style = MaterialTheme.typography.bodySmall, maxLines = lines, modifier = Modifier.weight(1f))
             ContactsServerFeedback.BLANK -> Unit
         }
     }

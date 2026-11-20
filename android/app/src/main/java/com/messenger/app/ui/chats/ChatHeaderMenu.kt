@@ -172,6 +172,19 @@ internal fun ChatMenuWindow(): Boolean {
                 window.attributes = window.attributes.apply { blurBehindRadius = if (blurred) radius else 0 }
             }
         }
+        // The menu window covers the whole screen, system bars included, so its frame matches the
+        // full-height content and the panels' own system-bar padding is right. MIUI (POCO X6, 20 Nov)
+        // otherwise fits this dialog window between the status and navigation bars ([0,122]-[1220,2570])
+        // while the content is laid out 2712 px tall: the bottom panel ran under the three-button
+        // navigation bar and Compose insets inside the dialog read zero.
+        if (window != null) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+            window.attributes = window.attributes.apply {
+                if (Build.VERSION.SDK_INT >= 30) fitInsetsTypes = 0
+                if (Build.VERSION.SDK_INT >= 28) layoutInDisplayCutoutMode =
+                    WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+            }
+        }
         val listener = Consumer<Boolean> { update(it) }
         if (Build.VERSION.SDK_INT >= 31) {
             update(manager.isCrossWindowBlurEnabled)

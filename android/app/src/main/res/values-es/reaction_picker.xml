@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reaction_picker_options">Reacciones, %1$d opciones</string>
+    <string name="reaction_skin_tone">Tono de piel</string>
+    <string name="reaction_picker_all">Todas las reacciones</string>
+    <string name="emoji_find">Buscar emojis</string>
+    <string name="emoji_recent">Recientes</string>
+    <string name="emoji_people">Caras y personas</string>
+    <string name="emoji_nature">Animales y naturaleza</string>
+    <string name="emoji_food">Comida y bebida</string>
+    <string name="emoji_activity">Actividades</string>
+    <string name="emoji_travel">Viajes y lugares</string>
+    <string name="emoji_objects">Objetos</string>
+    <string name="emoji_symbols">Símbolos</string>
+    <string name="emoji_flags">Banderas</string>
+    <string name="emoji_no_results">No se encontraron resultados</string>
+</resources>

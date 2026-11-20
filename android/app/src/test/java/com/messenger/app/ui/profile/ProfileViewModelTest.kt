@@ -211,6 +211,69 @@ class ProfileViewModelTest {
             assertEquals(0,repo.saveCalls);assertEquals(SaveState.Success,vm.saveState.value)
         } finally {closeViewModel(vm)}
     }
+    @Test fun selectedPhotoUploadsOnlyWhenExplicitlySaved() = runTest(dispatcher) {
+        val next = profile("cached").copy(profileVersion = 2, avatarVersion = 2, hasAvatar = true, avatarUrl = "draft")
+        val repo = FakeProfileRepository().apply {
+            cached = profile("cached")
+            avatarIntent = Result.success(CreateAvatarDto("draft", "https://fixture.invalid", ""))
+            avatarUpload = Result.success(Unit)
+            // The real repository publishes the canonical profile before returning it.
+            avatarComplete = { cached = next; Result.success(next) }
+        }
+        val directory = java.nio.file.Files.createTempDirectory("profile-draft-save").toFile()
+        val avatars = AvatarRepository(directory, "test") { null }
+        val vm = newViewModel(repo, avatars, FakeAuthRepository()); runCurrent()
+        try {
+            val draft = byteArrayOf(1, 2, 3)
+            assertEquals(0, repo.uploadCalls)
+            vm.save(null, null, BioUpdate.Keep, AvatarUpdate.Keep, avatarDraft = draft)
+            runCurrent()
+            assertEquals(SaveState.Success, awaitAvatarSave(vm))
+            assertEquals(1, repo.uploadCalls)
+            assertEquals(0, repo.saveCalls)
+            assertEquals(next, (vm.uiState.value as ProfileUiState.Loaded).profile)
+            assertArrayEquals(draft, avatars.cached("me", 2, true))
+        } finally { closeViewModel(vm); directory.deleteRecursively() }
+    }
+
+    @Test fun failedPhotoSaveKeepsEditorOpenAndCanBeRetriedWithSameDraft() = runTest(dispatcher) {
+        val repo = FakeProfileRepository().apply { cached = profile("cached") }
+        val vm = newViewModel(repo, avatar(), FakeAuthRepository()); runCurrent()
+        try {
+            val draft = byteArrayOf(1)
+            repeat(2) {
+                vm.save(null, null, BioUpdate.Keep, AvatarUpdate.Keep, avatarDraft = draft); runCurrent()
+                assertTrue(vm.saveState.value is SaveState.Error)
+            }
+            assertEquals(2, repo.uploadCalls)
+            assertEquals("cached", (vm.uiState.value as ProfileUiState.Loaded).profile.displayName)
+        } finally { closeViewModel(vm) }
+    }
+
+    @Test fun ownerSwitchAfterPhotoCacheCannotSendRemainingTextMutation() = runTest(dispatcher) {
+        val baseAuth = FakeAuthRepository()
+        val auth = object : com.messenger.app.domain.repository.AuthRepository by baseAuth {
+            override suspend fun <T> withSessionWrite(epochAtStart: Int, block: suspend () -> T): T? {
+                val result = baseAuth.withSessionWrite(epochAtStart, block)
+                baseAuth.switchSession()
+                return result
+            }
+        }
+        val next = profile("cached").copy(profileVersion = 2, avatarVersion = 2, hasAvatar = true, avatarUrl = "draft")
+        val repo = FakeProfileRepository().apply {
+            cached = profile("cached")
+            avatarIntent = Result.success(CreateAvatarDto("draft", "https://fixture.invalid", ""))
+            avatarUpload = Result.success(Unit)
+            avatarComplete = { Result.success(next) }
+        }
+        val directory = java.nio.file.Files.createTempDirectory("profile-draft-owner").toFile()
+        val vm = newViewModel(repo, AvatarRepository(directory, "test") { null }, auth); runCurrent()
+        try {
+            vm.save(null, "new name", BioUpdate.Keep, AvatarUpdate.Keep, avatarDraft = byteArrayOf(1)); runCurrent()
+            assertNotEquals(SaveState.Success, awaitAvatarSave(vm))
+            assertEquals(0, repo.saveCalls)
+        } finally { closeViewModel(vm); directory.deleteRecursively() }
+    }
     @Test fun cancelledMutationIsNotShownAsSaveFailure() = runTest(dispatcher) {
         val repo=FakeProfileRepository().apply {cached=profile("cached");update={Result.failure(CancellationException())}}
         val vm=newViewModel(repo,avatar(),FakeAuthRepository());runCurrent()

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_editor_photo_note">A kiválasztott fotó és a szövegmódosítások mentéssel érvényesülnek. A jelenlegi fotó eltávolítása azonnali.</string>
+    <string name="profile_editor_discard_title">Elveti a profil módosításait?</string>
+    <string name="profile_editor_discard_message">A profil módosításai és a kiválasztott fotó nem lesznek mentve. A már eltávolított fotó eltávolítva marad.</string>
+</resources>

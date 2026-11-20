@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_editor_photo_note">احفظ لتطبيق الصورة المحددة وتغييرات النص. تُطبّق إزالة الصورة الحالية فورًا.</string>
+    <string name="profile_editor_discard_title">هل تريد تجاهل تغييرات الملف الشخصي؟</string>
+    <string name="profile_editor_discard_message">لن تُحفظ تعديلات الملف الشخصي والصورة المحددة. ستظل الصورة التي أُزيلت محذوفة.</string>
+</resources>

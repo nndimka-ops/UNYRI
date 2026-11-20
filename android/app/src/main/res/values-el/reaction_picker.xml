@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reaction_picker_options">Αντιδράσεις, %1$d επιλογές</string>
+    <string name="reaction_skin_tone">Τόνος δέρματος</string>
+    <string name="reaction_picker_all">Όλες οι αντιδράσεις</string>
+    <string name="emoji_find">Αναζήτηση emoji</string>
+    <string name="emoji_recent">Πρόσφατα</string>
+    <string name="emoji_people">Χαμόγελα και άνθρωποι</string>
+    <string name="emoji_nature">Ζώα και φύση</string>
+    <string name="emoji_food">Φαγητό και ποτό</string>
+    <string name="emoji_activity">Δραστηριότητες</string>
+    <string name="emoji_travel">Ταξίδια και μέρη</string>
+    <string name="emoji_objects">Αντικείμενα</string>
+    <string name="emoji_symbols">Σύμβολα</string>
+    <string name="emoji_flags">Σημαίες</string>
+    <string name="emoji_no_results">Δεν βρέθηκαν αποτελέσματα</string>
+</resources>

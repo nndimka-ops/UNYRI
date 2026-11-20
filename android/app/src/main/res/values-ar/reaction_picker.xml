@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reaction_picker_options">التفاعلات، %1$d خيارات</string>
+    <string name="reaction_skin_tone">لون البشرة</string>
+    <string name="reaction_picker_all">كل التفاعلات</string>
+    <string name="emoji_find">ابحث عن رمز تعبيري</string>
+    <string name="emoji_recent">الأخيرة</string>
+    <string name="emoji_people">الوجوه التعبيرية والأشخاص</string>
+    <string name="emoji_nature">الحيوانات والطبيعة</string>
+    <string name="emoji_food">الطعام والشراب</string>
+    <string name="emoji_activity">الأنشطة</string>
+    <string name="emoji_travel">السفر والأماكن</string>
+    <string name="emoji_objects">الأشياء</string>
+    <string name="emoji_symbols">الرموز</string>
+    <string name="emoji_flags">الأعلام</string>
+    <string name="emoji_no_results">لم يتم العثور على نتائج</string>
+</resources>

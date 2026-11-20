@@ -459,7 +459,7 @@ class MainActivity : ComponentActivity() {
             var mainDestination by remember(accountEpoch) { mutableStateOf(com.messenger.app.ui.RootDestination.CHATS) }
             val shareChats by viewModel<ChatsViewModel>(
                 viewModelStoreOwner = accountStoreOwner(app, accountViewModelStores),
-                factory = ChatsViewModelFactory(app.chatRepository, app.messageRepository.socketState),
+                factory = ChatsViewModelFactory(app.chatRepository, app.messageRepository.socketState, app.messageRepository.syncPhase),
             ).chats.collectAsStateWithLifecycle(minActiveState = androidx.lifecycle.Lifecycle.State.RESUMED)
             if (clientDecision.required == null && sharedFiles.isNotEmpty() && authState is AuthSessionState.LoggedIn && callAllowsPrivateContent && !privateContentLocked) {
                 val shownFiles = sharedFiles
@@ -645,7 +645,7 @@ class MainActivity : ComponentActivity() {
                             onDestinationChanged = { mainDestination = it },
                             drawerNavigationAvailable = callAllowsPrivateContent && !conferenceExpanded && !privateContentLocked && !pipVisible && !needsHistoryChoice && !showHistoryRestore,
                             chatsViewModel = viewModel<ChatsViewModel>(owner,
-                                factory = ChatsViewModelFactory(app.chatRepository, app.messageRepository.socketState)),
+                                factory = ChatsViewModelFactory(app.chatRepository, app.messageRepository.socketState, app.messageRepository.syncPhase)),
                             searchViewModel = viewModel<SearchViewModel>(owner,
                                 factory = SearchViewModelFactory(app.profileRepository, app.chatRepository)),
                             profileViewModel = viewModel<ProfileViewModel>(owner,
@@ -723,7 +723,7 @@ class MainActivity : ComponentActivity() {
                         val messageRequest = matchingOverride?.getString("request")
                         val chatListViewModel = viewModel<ChatsViewModel>(
                             viewModelStoreOwner = accountStoreOwner(app, accountViewModelStores),
-                            factory = ChatsViewModelFactory(app.chatRepository, app.messageRepository.socketState),
+                            factory = ChatsViewModelFactory(app.chatRepository, app.messageRepository.socketState, app.messageRepository.syncPhase),
                         )
                         val initialChat = remember(chatListViewModel, chatId) {
                             chatListViewModel.chats.value.firstOrNull { it.chatId == chatId }

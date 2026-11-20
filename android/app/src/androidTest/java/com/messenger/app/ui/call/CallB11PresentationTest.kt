@@ -80,7 +80,6 @@ class CallB11PresentationTest {
             compose.onNodeWithTag(it).assertHasClickAction().performClick()
         }
         compose.onNodeWithTag("call-output").performClick()
-        compose.onNodeWithText("Fixture speaker").performClick()
         compose.runOnIdle {
             assertEquals(1, camera); assertEquals(1, mute); assertEquals(1, hangup)
             assertEquals(AudioRouteKind.SPEAKER, route.value)
@@ -88,37 +87,47 @@ class CallB11PresentationTest {
         compose.onNodeWithTag("call-output").assertIsDisplayed().assertHasClickAction()
     }
 
-    @Test fun discoveringRoutesKeepsTheFourControlSlotsStable() {
+    @Test fun discoveringRoutesKeepsTheFourUsableControlsStable() {
         val routes = mutableStateOf(emptyList<AudioRoute>())
         compose.setContent {
             VideoCallControlTray(CallPresentationPolicy.VideoControls("fixture", true, false, AudioRouteKind.EARPIECE),
                 routes.value, {}, {}, {}, {}, Modifier.width(402.dp))
         }
-        compose.onNodeWithTag("call-output").assertIsDisplayed().assertIsNotEnabled()
+        // Route discovery does not disable the retained speaker/receiver intent.
+        compose.onNodeWithTag("call-output").assertIsDisplayed().assertIsEnabled()
         val before = compose.onNodeWithTag("call-end").fetchSemanticsNode().boundsInRoot
         compose.runOnIdle { routes.value = listOf(AudioRoute(AudioRouteKind.EARPIECE, "Phone")) }
         compose.onNodeWithTag("call-output").assertIsEnabled().assertHasClickAction()
         assertEquals(before, compose.onNodeWithTag("call-end").fetchSemanticsNode().boundsInRoot)
     }
 
-    @Test fun audioRingingAndConnectedKeepFourSlotsAndEnableVideoOnlyWhenAvailable() {
+    @Test fun audioRingingCentersThreeControlsAndConnectedInsertsVideoAtTheSameSize() {
         val connected = mutableStateOf(false)
         var videoRequests = 0
+        val call = CallInfo("fixture", "peer", "Аня QA", CallMediaKind.AUDIO, CallDirection.OUTGOING)
+        val stats = MutableStateFlow<WebRtcCallStats?>(null)
         compose.setContent {
+            val state: CallUiState = if (connected.value) CallUiState.Connected(call, 1_000) else CallUiState.OutgoingRinging(call)
+            CompositionLocalProvider(LocalCallChrome provides CallChromeSnapshot(state, null, stats)) {
             Box(Modifier.size(402.dp, 778.dp)) {
                 ActiveCallScreen(title = "", name = "Аня QA", durationMs = null,
                     availableRoutes = listOf(AudioRoute(AudioRouteKind.EARPIECE, "Phone")),
                     onHangup = {}, onRequestVideo = if (connected.value) ({ videoRequests++ }) else null)
             }
+            }
         }
-        val tags = listOf("call-output", "call-mute", "call-video", "call-end")
+        val tags = listOf("call-mute", "call-end", "call-output")
         tags.forEach { compose.onNodeWithTag(it).assertIsDisplayed() }
-        compose.onNodeWithTag("call-video").assertIsNotEnabled()
+        compose.onNodeWithTag("call-video").assertDoesNotExist()
         val ringing = tags.map { compose.onNodeWithTag(it).fetchSemanticsNode().boundsInRoot }
         assertTrue(ringing.zipWithNext().all { (a, b) -> a.left < b.left && a.top == b.top })
+        val tray = compose.onNodeWithTag("call-control-row").fetchSemanticsNode().boundsInRoot
+        assertEquals(tray.center.x, (ringing.first().left + ringing.last().right) / 2, 1f)
         compose.runOnIdle { connected.value = true }
         compose.onNodeWithTag("call-video").assertIsEnabled().performClick()
-        assertEquals(ringing, tags.map { compose.onNodeWithTag(it).fetchSemanticsNode().boundsInRoot })
+        val four = (listOf("call-video") + tags).map { compose.onNodeWithTag(it).fetchSemanticsNode().boundsInRoot }
+        assertTrue(four.all { kotlin.math.abs(it.width - ringing.first().width) < 1f })
+        assertEquals(tray.center.x, (four.first().left + four.last().right) / 2, 1f)
         compose.runOnIdle { assertEquals(1, videoRequests) }
     }
 
@@ -151,15 +160,15 @@ class CallB11PresentationTest {
         compose.onNodeWithTag("call-statistics-toggle").assertIsNotEnabled()
     }
 
-    @Test fun terminalFrameKeepsIdentityAndFourLockedControlsInPlace() {
+    @Test fun terminalFrameKeepsIdentityAndRemovesAllControls() {
         val call = CallInfo("fixture", "peer", "Аня QA", CallMediaKind.AUDIO, CallDirection.OUTGOING)
         val state = mutableStateOf<CallUiState>(CallUiState.Connected(call, 1_000))
         compose.setContent { TerminalTransitionFixture(state.value) {} }
-        val tags = listOf("call-peer-name", "call-output", "call-mute", "call-video", "call-end")
-        val before = tags.map { compose.onNodeWithTag(it).fetchSemanticsNode().boundsInRoot }
+        val tags = listOf("call-output", "call-mute", "call-video", "call-end")
+        val before = compose.onNodeWithTag("call-peer-name").fetchSemanticsNode().boundsInRoot
         compose.runOnIdle { state.value = CallUiState.Ended(call, CallEndReason.HANGUP) }
-        assertEquals(before, tags.map { compose.onNodeWithTag(it).fetchSemanticsNode().boundsInRoot })
-        tags.drop(1).forEach { compose.onNodeWithTag(it).assertIsDisplayed().assertIsNotEnabled() }
+        assertEquals(before, compose.onNodeWithTag("call-peer-name").fetchSemanticsNode().boundsInRoot)
+        tags.forEach { compose.onNodeWithTag(it).assertDoesNotExist() }
     }
 
     @Test fun serviceAdmissionFailureWithCallHasVisibleDismissalAction() {
@@ -174,7 +183,7 @@ class CallB11PresentationTest {
         compose.onNodeWithTag("call-terminal-dismiss").assertDoesNotExist()
     }
 
-    @Test fun negotiatedVideoKeepsEndSlotThroughTerminationAndSavedStateRestore() {
+    @Test fun negotiatedVideoKeepsIdentityWithoutControlsThroughTerminationAndSavedStateRestore() {
         val call = CallInfo("fixture", "peer", "Аня QA", CallMediaKind.AUDIO, CallDirection.OUTGOING)
         val state = mutableStateOf<CallUiState>(CallUiState.Connected(call, 1_000))
         val restoration = StateRestorationTester(compose)
@@ -185,13 +194,13 @@ class CallB11PresentationTest {
         }
         val tags = listOf("call-camera", "call-mute", "call-end", "call-output")
         val before = tags.map { compose.onNodeWithTag(it).assertIsDisplayed().fetchSemanticsNode().boundsInRoot }
+        val peerBefore = compose.onNodeWithTag("call-peer-name").fetchSemanticsNode().boundsInRoot
         assertTrue(before.zipWithNext().all { (a, b) -> a.left < b.left && a.top == b.top })
         compose.runOnIdle { state.value = CallUiState.Ended(call, CallEndReason.HANGUP) }
         fun assertTerminalVideo() {
-            assertEquals(before, tags.map { compose.onNodeWithTag(it).assertIsNotEnabled().fetchSemanticsNode().boundsInRoot })
+            assertEquals(peerBefore, compose.onNodeWithTag("call-peer-name").fetchSemanticsNode().boundsInRoot)
+            tags.forEach { compose.onNodeWithTag(it).assertDoesNotExist() }
             compose.onNodeWithTag("call-video").assertDoesNotExist()
-            compose.onNodeWithTag("call-output").assertContentDescriptionContains(
-                compose.activity.getString(R.string.call_audio_output) + ": Fixture headset")
         }
         assertTerminalVideo()
         restoration.emulateSavedInstanceStateRestore()

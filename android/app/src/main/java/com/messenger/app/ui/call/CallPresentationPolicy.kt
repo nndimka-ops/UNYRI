@@ -41,7 +41,10 @@ object CallPresentationPolicy {
 
     fun controlsVisible(available: Boolean, terminal: Boolean): Boolean = available && !terminal
 
-    fun videoUpgradeVisible(state: CallUiState): Boolean = connected(state)?.videoMode == VideoMode.AUDIO
+    fun videoUpgradeVisible(state: CallUiState): Boolean = (state as? CallUiState.Connected)?.let {
+        it.videoMode == VideoMode.AUDIO &&
+            (it.videoUpgrade == VideoUpgradeState.Idle || it.videoUpgrade == VideoUpgradeState.Requesting)
+    } == true
 
     fun flipVisible(state: CallUiState, multipleCameras: Boolean, chrome: Boolean = true): Boolean =
         connected(state)?.let { chrome && multipleCameras && it.videoMode == VideoMode.VIDEO &&

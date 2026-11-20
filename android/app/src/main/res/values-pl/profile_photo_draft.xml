@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_editor_photo_note">Zapisz, aby zastosować wybrane zdjęcie i zmiany tekstu. Usunięcie obecnego zdjęcia działa od razu.</string>
+    <string name="profile_editor_discard_title">Odrzucić zmiany profilu?</string>
+    <string name="profile_editor_discard_message">Zmiany profilu i wybrane zdjęcie nie zostaną zapisane. Już usunięte zdjęcie pozostanie usunięte.</string>
+</resources>

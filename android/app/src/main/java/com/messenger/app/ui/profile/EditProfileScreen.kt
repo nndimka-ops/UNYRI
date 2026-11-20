@@ -6,8 +6,10 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.rememberScrollState
@@ -24,6 +26,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import com.messenger.app.ui.settings.SettingsDialogButton as TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -32,6 +35,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -40,6 +45,8 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -56,7 +63,7 @@ import com.messenger.app.ui.theme.CocoIcons
 import java.io.File
 import kotlinx.coroutines.launch
 
-@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class, androidx.compose.ui.ExperimentalComposeUiApi::class)
 @Composable
 fun EditProfileScreen(viewModel: ProfileViewModel, onSaved: () -> Unit, onBack: () -> Unit = onSaved) {
     val uiState by viewModel.uiState.collectAsState()
@@ -87,9 +94,15 @@ fun EditProfileScreen(viewModel: ProfileViewModel, onSaved: () -> Unit, onBack: 
         priorProfile = profile
     }
     var showDiscard by remember(profile?.id) { mutableStateOf(false) }
+    // A gallery/camera selection stays local until the editor's Save action.
+    var avatarDraft by remember(profile?.id) { mutableStateOf<ByteArray?>(null) }
+    val draftBitmap = remember(avatarDraft) {
+        avatarDraft?.let { android.graphics.BitmapFactory.decodeByteArray(it, 0, it.size) }
+    }
+    DisposableEffect(draftBitmap) { onDispose { draftBitmap?.recycle() } }
     val saving = saveState == SaveState.Saving || identityEditor?.busy == true
     val baseline = priorProfile ?: profile
-    val dirty = baseline != null && (username != baseline.username || displayName != baseline.displayName || bio != baseline.bio.orEmpty() || identityEditor?.dirty == true)
+    val dirty = baseline != null && (avatarDraft != null || username != baseline.username || displayName != baseline.displayName || bio != baseline.bio.orEmpty() || identityEditor?.dirty == true)
     // Match the server's Unicode scalar limits, not Kotlin UTF-16 length.
     val initialName = baseline?.displayName.orEmpty()
     val nameEdited = displayName != initialName
@@ -158,14 +171,15 @@ fun EditProfileScreen(viewModel: ProfileViewModel, onSaved: () -> Unit, onBack: 
             }
             saveScope.launch {
                 if (legacyIdentity || identityEditor?.save() == true) {
-                    viewModel.save(username.takeIf { legacyIdentity && it != profile?.username }, DisplayNamePolicy.nameToSend(displayName, initialName), bioUpdate, AvatarUpdate.Keep)
+                    viewModel.save(username.takeIf { legacyIdentity && it != profile?.username }, DisplayNamePolicy.nameToSend(displayName, initialName), bioUpdate, AvatarUpdate.Keep, avatarDraft)
                 }
             }
         }
     }
 
     com.messenger.app.ui.theme.CocoScreenSurface(modifier = Modifier.fillMaxSize()) {
-        Column(Modifier.fillMaxSize().safeDrawingPadding().imePadding().testTag("edit-profile-screen")) {
+        Column(Modifier.fillMaxSize().safeDrawingPadding().imePadding().testTag("edit-profile-screen")
+            .semantics { testTagsAsResourceId = true }) {
             val largeText = LocalDensity.current.fontScale >= 1.3f
             Column(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp)) {
                 com.messenger.app.ui.components.CocoPageHeader(
@@ -197,7 +211,9 @@ fun EditProfileScreen(viewModel: ProfileViewModel, onSaved: () -> Unit, onBack: 
                 } else {
                     ProfileEditorCard {
                         val photo: @Composable () -> Unit = {
-                            UserAvatar(userId = profile.id, avatarVersion = profile.avatarVersion, hasAvatar = profile.hasAvatar,
+                            if (draftBitmap != null) Image(draftBitmap.asImageBitmap(), contentDescription = stringResource(R.string.profile_change_photo),
+                                modifier = Modifier.size(80.dp).clip(CircleShape).testTag("profile-photo-draft"))
+                            else UserAvatar(userId = profile.id, avatarVersion = profile.avatarVersion, hasAvatar = profile.hasAvatar,
                                 name = sanitizedName.ifBlank { profile.displayName }, color = colors.accent, contentColor = colors.onAccent, size = 80.dp)
                         }
                         val identity: @Composable () -> Unit = {
@@ -300,8 +316,11 @@ fun EditProfileScreen(viewModel: ProfileViewModel, onSaved: () -> Unit, onBack: 
                 showAvatarSheet = false
                 galleryLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             }) { Text(stringResource(R.string.attach_gallery)) }
-            if (profile?.hasAvatar == true) TextButton(destructive = true, modifier = Modifier.fillMaxWidth(), onClick = { showAvatarSheet = false; viewModel.removeAvatar() }) {
-                Text(stringResource(R.string.profile_remove_photo))
+            if (profile?.hasAvatar == true || avatarDraft != null) TextButton(destructive = true, modifier = Modifier.fillMaxWidth(), onClick = {
+                showAvatarSheet = false
+                if (avatarDraft != null) avatarDraft = null else viewModel.removeAvatar()
+            }) {
+                Text(stringResource(if (avatarDraft != null) R.string.editor_undo else R.string.profile_remove_photo))
             }
             Spacer(Modifier.height(16.dp))
         }
@@ -313,7 +332,7 @@ fun EditProfileScreen(viewModel: ProfileViewModel, onSaved: () -> Unit, onBack: 
             onDone = { bytes ->
                 cropSourceUri = null
                 pendingCameraFile?.delete(); pendingCameraFile = null
-                viewModel.uploadAvatar(bytes)
+                avatarDraft = bytes
             },
             onDismiss = {
                 cropSourceUri = null

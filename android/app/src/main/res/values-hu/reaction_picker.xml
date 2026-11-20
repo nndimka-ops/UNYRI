@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reaction_picker_options">Reakciók, %1$d lehetőség</string>
+    <string name="reaction_skin_tone">Bőrszín</string>
+    <string name="reaction_picker_all">Összes reakció</string>
+    <string name="emoji_find">Emoji keresése</string>
+    <string name="emoji_recent">Legutóbbiak</string>
+    <string name="emoji_people">Arcok és emberek</string>
+    <string name="emoji_nature">Állatok és természet</string>
+    <string name="emoji_food">Ételek és italok</string>
+    <string name="emoji_activity">Tevékenységek</string>
+    <string name="emoji_travel">Utazás és helyek</string>
+    <string name="emoji_objects">Tárgyak</string>
+    <string name="emoji_symbols">Szimbólumok</string>
+    <string name="emoji_flags">Zászlók</string>
+    <string name="emoji_no_results">Nincs találat</string>
+</resources>

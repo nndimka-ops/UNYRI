@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reaction_picker_options">リアクション、%1$d 個の候補</string>
+    <string name="reaction_skin_tone">肌の色</string>
+    <string name="reaction_picker_all">すべてのリアクション</string>
+    <string name="emoji_find">絵文字を検索</string>
+    <string name="emoji_recent">最近使った絵文字</string>
+    <string name="emoji_people">顔と人</string>
+    <string name="emoji_nature">動物と自然</string>
+    <string name="emoji_food">食べ物と飲み物</string>
+    <string name="emoji_activity">アクティビティ</string>
+    <string name="emoji_travel">旅行と場所</string>
+    <string name="emoji_objects">物</string>
+    <string name="emoji_symbols">記号</string>
+    <string name="emoji_flags">旗</string>
+    <string name="emoji_no_results">見つかりません</string>
+</resources>

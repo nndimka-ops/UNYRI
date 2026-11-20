@@ -24,6 +24,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.*
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -38,6 +41,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 /** Only conversation hits navigate. The host retains the mounted chat list underneath. */
+@OptIn(androidx.compose.ui.ExperimentalComposeUiApi::class)
 @Composable
 fun InlineChatSearch(viewModel: SearchViewModel, onClose: () -> Unit, onOpenChat: (String) -> Unit,
     onOpenMessage: (MessageSearchResult) -> Unit, modifier: Modifier = Modifier) {
@@ -119,8 +123,8 @@ fun InlineChatSearch(viewModel: SearchViewModel, onClose: () -> Unit, onOpenChat
     DisposableEffect(model) { onDispose { model.cancel(); viewModel.pause() } }
     val tabs = remember(snapshot) { InlineCategory.entries.filter { tab -> tab == InlineCategory.CHATS || snapshot.messages.any { tab in InlineSearchPolicy.categories(it) } } }
     LaunchedEffect(tabs) { if (category !in tabs) category = InlineCategory.CHATS }
-    Column(modifier.fillMaxSize().imePadding()) {
-        Row(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 4.dp).testTag("search-inline-header"), verticalAlignment = Alignment.CenterVertically) {
+    Column(modifier.fillMaxSize().imePadding().semantics { testTagsAsResourceId = true }) {
+        Row(Modifier.fillMaxWidth().testTag("inline-search-field").padding(horizontal = 12.dp, vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
             Surface(Modifier.weight(1f).glassPanel(CircleShape), shape = CircleShape, color = androidx.compose.ui.graphics.Color.Transparent, border = androidx.compose.foundation.BorderStroke(.5.dp, colors.outlineSecondary)) {
                 Row(Modifier.heightIn(min = 48.dp).padding(start = 14.dp), verticalAlignment = Alignment.CenterVertically) {
                     Icon(com.messenger.app.ui.theme.CocoIcons.Search, null, Modifier.size(18.dp), tint = colors.secondaryText)
@@ -175,14 +179,18 @@ fun InlineChatSearch(viewModel: SearchViewModel, onClose: () -> Unit, onOpenChat
                     items(snapshot.people, key = { "person:${it.id}" }) { person -> InlinePersonRow(person) { open(person) } }
                     }
                     if (section == "global") {
-                        item { InlineSection(R.string.inline_search_global, "search-section-global"); Text(stringResource(R.string.inline_search_privacy), style = MaterialTheme.typography.bodySmall) }
+                        item { InlineDirectoryFeedback(directory) {
+                            viewModel.close(); viewModel.search(directoryQuery, directory = true, online = online)
+                        } }
                         when (val state = directory) {
-                            SearchUiState.Loading -> item { CircularProgressIndicator(Modifier.size(24.dp)) }
-                            is SearchUiState.Error -> item { TextButton(onClick = { viewModel.close(); viewModel.search(directoryQuery, directory = true, online = online) }, Modifier.testTag("search-directory-retry")) { Text(stringResource(if (state.unavailable) R.string.inline_search_unavailable else R.string.unified_search_network) + " " + stringResource(R.string.retry)) } }
                             is SearchUiState.Loaded -> {
-                                if (state.cached) item { Text(stringResource(R.string.directory_cached_hint)) }
-                                items(state.items.filterNot { user -> snapshot.people.any { it.id == user.id } }, key = { "global:${it.id}" }) { user -> InlinePersonRow(SearchPerson(user.id, user.visibleName, user.username, user)) { open(SearchPerson(user.id, user.visibleName, user.username, user)) } }
+                                items(state.items.filterNot { user -> snapshot.people.any { it.id == user.id } }, key = { "global:${it.id}" }) { user ->
+                                    InlinePersonRow(SearchPerson(user.id, user.visibleName, user.username, user), Modifier.testTag("inline-unknown-result")) {
+                                        open(SearchPerson(user.id, user.visibleName, user.username, user))
+                                    }
+                                }
                                 if (state.canLoadMore) item { TextButton(onClick = viewModel::loadMore, enabled = !state.loadingMore, modifier = Modifier.testTag("search-directory-more")) { Text(stringResource(if (state.pageError) R.string.retry else R.string.load_more)) } }
+                                if (state.cached) item { Text(stringResource(R.string.directory_cached_hint)) }
                             }
                             else -> Unit
                         }
@@ -204,6 +212,9 @@ fun InlineChatSearch(viewModel: SearchViewModel, onClose: () -> Unit, onOpenChat
                         }
                     }
                 }
+                if (category == InlineCategory.CHATS && contactsCanSearchDirectory(directoryQuery, legacyIdentity)) {
+                    item { Text(stringResource(R.string.inline_search_privacy), style = MaterialTheme.typography.bodySmall) }
+                }
                 if (!loading && !failed && directory !is SearchUiState.Loading && directory !is SearchUiState.Error &&
                     (directory as? SearchUiState.Loaded)?.loadingMore != true && snapshot.people.isEmpty() && found.isEmpty() &&
                     (directory as? SearchUiState.Loaded)?.items.isNullOrEmpty()) item { Text(stringResource(R.string.search_no_results)) }
@@ -213,9 +224,29 @@ fun InlineChatSearch(viewModel: SearchViewModel, onClose: () -> Unit, onOpenChat
 }
 
 @Composable private fun InlineSection(label: Int, tag: String) { Text(stringResource(label), Modifier.padding(vertical = 12.dp).testTag(tag), style = MaterialTheme.typography.titleSmall) }
-@Composable private fun InlinePersonRow(person: SearchPerson, onClick: () -> Unit) {
+@Composable internal fun InlineDirectoryFeedback(state: SearchUiState, retry: () -> Unit) {
     val colors = LocalCocoColors.current
-    Surface(onClick = onClick, color = colors.background, modifier = Modifier.fillMaxWidth()) {
+    val lines = if (LocalDensity.current.fontScale >= 1.6f) 4 else 2
+    val height = with(LocalDensity.current) { (MaterialTheme.typography.bodySmall.lineHeight.toDp() * lines + 8.dp).coerceAtLeast(56.dp) }
+    Row(Modifier.fillMaxWidth().height(height).testTag("inline-server-section"), verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text(stringResource(R.string.inline_search_global), Modifier.weight(1f).testTag("search-section-global").semantics { heading() },
+            style = MaterialTheme.typography.titleSmall)
+        when (state) {
+            SearchUiState.Loading -> CircularProgressIndicator(Modifier.size(24.dp))
+            is SearchUiState.Error -> {
+                Text(stringResource(if (state.unavailable) R.string.inline_search_unavailable else R.string.unified_search_network),
+                    Modifier.weight(1f), style = MaterialTheme.typography.bodySmall, color = colors.secondaryText,
+                    maxLines = lines, overflow = TextOverflow.Ellipsis)
+                TextButton(onClick = retry, Modifier.testTag("search-directory-retry")) { Text(stringResource(R.string.retry)) }
+            }
+            else -> Unit
+        }
+    }
+}
+@Composable private fun InlinePersonRow(person: SearchPerson, modifier: Modifier = Modifier, onClick: () -> Unit) {
+    val colors = LocalCocoColors.current
+    Surface(onClick = onClick, color = colors.background, modifier = modifier.fillMaxWidth()) {
         Row(Modifier.heightIn(min = (80 * LocalDensity.current.fontScale).dp).padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             val user = person.user
             com.messenger.app.ui.components.UserAvatar(user?.id.orEmpty(), user?.avatarVersion ?: 0, user?.hasAvatar == true, person.title, colors.surfaceVariant, colors.accent)

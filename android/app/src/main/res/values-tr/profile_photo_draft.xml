@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_editor_photo_note">Seçilen fotoğrafı ve metin değişikliklerini uygulamak için kaydedin. Mevcut fotoğrafın kaldırılması hemen uygulanır.</string>
+    <string name="profile_editor_discard_title">Profil değişiklikleri silinsin mi?</string>
+    <string name="profile_editor_discard_message">Profil düzenlemeleri ve seçilen fotoğraf kaydedilmeyecek. Kaldırılmış bir fotoğraf kaldırılmış olarak kalacak.</string>
+</resources>

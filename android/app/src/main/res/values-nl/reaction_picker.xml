@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reaction_picker_options">Reacties, %1$d opties</string>
+    <string name="reaction_skin_tone">Huidskleur</string>
+    <string name="reaction_picker_all">Alle reacties</string>
+    <string name="emoji_find">Emoji zoeken</string>
+    <string name="emoji_recent">Recent</string>
+    <string name="emoji_people">Smileys en mensen</string>
+    <string name="emoji_nature">Dieren en natuur</string>
+    <string name="emoji_food">Eten en drinken</string>
+    <string name="emoji_activity">Activiteiten</string>
+    <string name="emoji_travel">Reizen en plaatsen</string>
+    <string name="emoji_objects">Voorwerpen</string>
+    <string name="emoji_symbols">Symbolen</string>
+    <string name="emoji_flags">Vlaggen</string>
+    <string name="emoji_no_results">Geen resultaten</string>
+</resources>

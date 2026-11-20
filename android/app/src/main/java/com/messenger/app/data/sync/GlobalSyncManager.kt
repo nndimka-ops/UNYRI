@@ -39,6 +39,7 @@ class GlobalSyncManager(
     private val maxPages: Int = 20,
     private val maxDurationMs: Long = 30_000,
     private val rejectedHistoryClear: () -> Unit = { Log.w(TAG, "Rejected history clear beyond local sync cursor"); Unit },
+    private val failedStage: (String) -> Unit = { Log.w(TAG, "Sync paused: $it"); Unit },
 ) {
     var beforeSync: suspend (String, Int) -> Boolean = { _, _ -> true }
     private val mutex = Mutex()
@@ -74,17 +75,19 @@ class GlobalSyncManager(
         while (true) {
             if (!mutex.tryLock()) return
             val observed = requests.get()
-            _phase.value = SyncPhase.RUNNING
+            val epoch = authRepository.currentSessionEpoch()
             try {
-                if (!admitted()) { _phase.value = SyncPhase.FAILED; return }
+                // A demand-driven cooldown is not a newly failed sync pass.
+                if (!admitted()) return
+                _phase.value = SyncPhase.RUNNING
                 val completed = boundedPass()
-                if (completed == null) backOff()
-                _phase.value = if (completed == true) SyncPhase.IDLE else SyncPhase.FAILED
+                if (completed == null) { backOff(); failedStage("duration_budget") }
+                _phase.value = if (completed == true || epoch != authRepository.currentSessionEpoch()) SyncPhase.IDLE else SyncPhase.FAILED
             } catch (cancel: kotlinx.coroutines.CancellationException) {
                 _phase.value = SyncPhase.IDLE
                 throw cancel
             } catch (error: Exception) {
-                _phase.value = SyncPhase.FAILED
+                _phase.value = if (epoch != authRepository.currentSessionEpoch()) SyncPhase.IDLE else SyncPhase.FAILED
                 Log.w(TAG, "sync unavailable: ${error::class.simpleName}")
             } finally {
                 mutex.unlock()
@@ -98,17 +101,28 @@ class GlobalSyncManager(
      * when the latest server clear/delete watermarks could not be obtained. */
     suspend fun awaitHistoryRestoreSync() = mutex.withLock {
         check(admitted()) { "Current server history state unavailable" }
-        val completed = boundedPass()
-        if (completed == null) backOff()
-        check(completed == true) { "Current server history state unavailable" }
+        val epoch = authRepository.currentSessionEpoch()
+        _phase.value = SyncPhase.RUNNING
+        try {
+            val completed = boundedPass()
+            if (completed == null) { backOff(); failedStage("duration_budget") }
+            _phase.value = if (completed == true || epoch != authRepository.currentSessionEpoch()) SyncPhase.IDLE else SyncPhase.FAILED
+            check(completed == true) { "Current server history state unavailable" }
+        } catch (cancel: kotlinx.coroutines.CancellationException) {
+            _phase.value = SyncPhase.IDLE
+            throw cancel
+        } catch (error: Exception) {
+            _phase.value = if (epoch != authRepository.currentSessionEpoch()) SyncPhase.IDLE else SyncPhase.FAILED
+            throw error
+        }
     }
 
     private suspend fun runOnePass(): Boolean {
         val epoch = authRepository.currentSessionEpoch()
         ingestionPipeline.recoverCommittedReceives()
         if (epoch != authRepository.currentSessionEpoch()) return false
-        val token = authRepository.currentAccessToken() ?: return false
-        if (!beforeSync(token, epoch)) return false
+        val token = authRepository.currentAccessToken() ?: return fail("authentication")
+        if (!beforeSync(token, epoch)) return fail("before_sync")
         var after = tokenStore.lastSyncedSequence()
         val started = nanoTime()
         var pages = 0
@@ -117,7 +131,7 @@ class GlobalSyncManager(
             currentCoroutineContext().ensureActive()
             if (epoch != authRepository.currentSessionEpoch()) return false
             if (++pages > maxPages || nanoTime() - started >= maxDurationMs * 1_000_000) {
-                backOff(); return false
+                backOff(); return fail("page_budget")
             }
             val response = try {
                 syncApi.sync(token, after, limit = SYNC_PAGE_LIMIT)
@@ -126,7 +140,7 @@ class GlobalSyncManager(
             } catch (e: Exception) {
                 Log.w(TAG, "sync page failed: ${e::class.simpleName}")
                 if (e is com.messenger.app.data.api.HostileWireException || e is kotlinx.serialization.SerializationException) backOff()
-                return false
+                return fail("fetch_page:${e::class.simpleName}")
             }
             if (epoch != authRepository.currentSessionEpoch()) return false
             records += response.messages.size
@@ -134,33 +148,40 @@ class GlobalSyncManager(
             if (response.messages.size > SYNC_PAGE_LIMIT || records > SYNC_PAGE_LIMIT * maxPages ||
                 response.nextSequence < after ||
                 (response.hasMore && (response.messages.isEmpty() || response.nextSequence <= after))) {
-                backOff(); return false
+                backOff(); return fail("page_progress")
             }
             try {
                 response.historyClearedBeforeMs?.let { cutoff ->
-                    val through = response.historyClearedThroughSequence ?: return false
+                    val through = response.historyClearedThroughSequence ?: return fail("history_clear_sequence")
                     if (through > tokenStore.lastSyncedSequence()) {
                         if (rejectedClearEpoch != epoch) {
                             rejectedClearEpoch = epoch
                             rejectedHistoryClear()
                         }
-                    } else if (!clearHistory(cutoff, through, epoch)) return false
+                    } else if (!clearHistory(cutoff, through, epoch)) return fail("history_clear")
                 }
             } catch (e: kotlinx.coroutines.CancellationException) { throw e }
-              catch (e: Exception) { Log.w(TAG, "history clear failed: ${e::class.simpleName}"); return false }
+              catch (e: Exception) { return fail("history_clear:${e::class.simpleName}") }
             if (epoch != authRepository.currentSessionEpoch()) return false
-            if (!ingestionPipeline.deleteChats(response.deletedChatIds)) return false
+            if (!ingestionPipeline.deleteChats(response.deletedChatIds)) return fail("delete_chats")
             if (epoch != authRepository.currentSessionEpoch()) return false
             val result = ingestionPipeline.ingest(response.messages)
-            if (!result.advancedFully) return false // session changed mid-sync; abort silently
+            if (!result.advancedFully) {
+                if (epoch != authRepository.currentSessionEpoch()) return false
+                return fail("ingestion")
+            }
             val next = maxOf(response.nextSequence, result.highestSequence)
-            if (response.hasMore && next <= after) return false
+            if (response.hasMore && next <= after) return fail("cursor_progress")
             after = next
             if (!response.hasMore) break
             yield()
         }
         if (epoch != authRepository.currentSessionEpoch()) return false
         ingestionPipeline.recoverRetainedAfterSync()
+        currentCoroutineContext().ensureActive()
+        if (epoch != authRepository.currentSessionEpoch()) return false
         return true
     }
+
+    private fun fail(stage: String): Boolean { failedStage(stage); return false }
 }

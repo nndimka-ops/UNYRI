@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_editor_photo_note">Αποθηκεύστε για να εφαρμοστούν η επιλεγμένη φωτογραφία και οι αλλαγές κειμένου. Η αφαίρεση της τρέχουσας φωτογραφίας εφαρμόζεται αμέσως.</string>
+    <string name="profile_editor_discard_title">Απόρριψη αλλαγών προφίλ;</string>
+    <string name="profile_editor_discard_message">Οι αλλαγές στο προφίλ και η επιλεγμένη φωτογραφία δεν θα αποθηκευτούν. Μια φωτογραφία που έχει ήδη αφαιρεθεί θα παραμείνει αφαιρεμένη.</string>
+</resources>

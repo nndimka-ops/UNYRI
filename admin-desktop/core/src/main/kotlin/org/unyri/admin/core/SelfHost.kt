@@ -44,7 +44,7 @@ object HostValidation {
     fun setupCode(value: String) = value.matches(Regex("[A-HJ-NP-Z2-9]{4}(?:-[A-HJ-NP-Z2-9]{4}){3}"))
 }
 
-/** No command line or child output is ever rendered, persisted or included in exceptions. */
+/** No command line or arbitrary child output is rendered, persisted or included in exceptions. */
 data class HostCommand(val arguments: List<String>, val timeoutSeconds: Long = 60) {
     override fun toString() = "HostCommand(redacted)"
 }
@@ -53,6 +53,24 @@ fun interface HostRunner { fun run(command: HostCommand, phase: (String) -> Unit
 object HostPhases {
     val allowed = setOf("prepare", "pull", "build", "start", "health", "policy", "public", "ready", "backup", "restore", "stop", "delete")
     fun parse(line: String): String? = line.removePrefix("UNYRI_GUI:").takeIf { line.startsWith("UNYRI_GUI:") && it in allowed }
+}
+/** Only bounded, structured port identities may reach the localized setup screen. */
+data class HostPortConflict(val protocol: String, val ports: String, val kind: String, val holder: String)
+object HostPortConflicts {
+    fun parse(text: String): List<HostPortConflict> = text.lineSequence().mapNotNull { line ->
+        if (!line.startsWith("UNYRI_PORT_BUSY:") || line.length > 512) return@mapNotNull null
+        val fields = line.removePrefix("UNYRI_PORT_BUSY:").split('|')
+        if (fields.size != 4) return@mapNotNull null
+        val (protocol, ports, kind, holder) = fields
+        if (protocol !in setOf("TCP", "UDP") || kind !in setOf("process", "container", "unknown")) return@mapNotNull null
+        val ranges = ports.split(',')
+        if (ranges.size !in 1..64 || ranges.any { range ->
+            !range.matches(Regex("[0-9]{1,5}(?:-[0-9]{1,5})?")) ||
+                range.split('-').map(String::toInt).let { it.any { port -> port !in 1..65535 } || it.first() > it.last() }
+        }) return@mapNotNull null
+        if (holder.isBlank() || holder.length > 120 || holder.any { Character.isISOControl(it) || Character.getType(it) == Character.FORMAT.toInt() }) return@mapNotNull null
+        HostPortConflict(protocol, ports, kind, holder)
+    }.distinct().take(64).toList()
 }
 object HostImage {
     fun version(text: String): String = runCatching {

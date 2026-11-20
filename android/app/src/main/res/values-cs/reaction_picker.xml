@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reaction_picker_options">Reakce, %1$d možností</string>
+    <string name="reaction_skin_tone">Odstín pleti</string>
+    <string name="reaction_picker_all">Všechny reakce</string>
+    <string name="emoji_find">Najít emoji</string>
+    <string name="emoji_recent">Nedávné</string>
+    <string name="emoji_people">Smajlíci a lidé</string>
+    <string name="emoji_nature">Zvířata a příroda</string>
+    <string name="emoji_food">Jídlo a pití</string>
+    <string name="emoji_activity">Aktivity</string>
+    <string name="emoji_travel">Cestování a místa</string>
+    <string name="emoji_objects">Předměty</string>
+    <string name="emoji_symbols">Symboly</string>
+    <string name="emoji_flags">Vlajky</string>
+    <string name="emoji_no_results">Nic nenalezeno</string>
+</resources>

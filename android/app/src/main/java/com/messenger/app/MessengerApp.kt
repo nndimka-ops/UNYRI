@@ -390,6 +390,7 @@ class MessengerApp : Application() {
                     for (name in listOf("chat_pins", "history-auto", "notification_accept", "incoming_call_notification_owner", "admin_public_pins")) {
                         check(getSharedPreferences(name, MODE_PRIVATE).edit().clear().commit()) { "Could not clear account settings" }
                     }
+                    com.messenger.app.ui.chats.ReactionPickerStore.eraseWorkspace(this@MessengerApp)
                     if (::avatarRepository.isInitialized) avatarRepository.eraseCache()
                     com.messenger.app.data.local.PrivateCachePurger.erase(cacheDir, java.io.File(noBackupFilesDir, "call-history"), java.io.File(noBackupFilesDir, "media-drafts"), java.io.File(noBackupFilesDir, "voice-drafts"), java.io.File(filesDir, "history-restoration"), java.io.File(filesDir, "history-upload-plans"))
                     // Cosmetic files must never prevent erasing account secrets.
@@ -731,6 +732,12 @@ class MessengerApp : Application() {
         // A cold display-only bridge avoids accessing the later coordinator during construction.
         val directStopsReady = kotlinx.coroutines.CompletableDeferred<kotlinx.coroutines.flow.StateFlow<Map<String, com.messenger.app.data.directtransfer.DirectLocalTransferStop>>>()
         messageRepository = MessageRepositoryImpl(
+            recordReactionIntent = { account, emoji ->
+                val server = com.messenger.app.data.api.ServerEndpoint.current()
+                kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                    com.messenger.app.ui.chats.ReactionPickerStore(this@MessengerApp, server, account).recordSend(emoji)
+                }
+            },
             canSendReadReceipts = messageReadVisibility::allowsReadTransport,
             sessionReceipts = sessionReceipts,
             directLocalStops = kotlinx.coroutines.flow.flow {

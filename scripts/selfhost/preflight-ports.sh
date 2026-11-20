@@ -16,28 +16,39 @@ selfhost_port_list() {
 format_selfhost_port_conflicts() {
     # Input: port<TAB>protocol<TAB>owner. Keep separate ranges across gaps,
     # protocols and owners, then put all ranges for one owner on one line.
-    LC_ALL=C sort -t $'\t' -k3,3 -k2,2 -k1,1n | awk -F '\t' '
+    LC_ALL=C sort -t $'\t' -k3,3 -k2,2 -k1,1n | awk -F '\t' -v records="${1:-false}" '
         function emit_range( range) {
             if (!first) return
             range = first == last ? first : first "-" last
             parts = parts (parts ? ", " : "") range " " toupper(proto)
+            protocol_parts = protocol_parts (protocol_parts ? "," : "") range
+        }
+        function emit_protocol() {
+            if (records == "true" && protocol_parts != "") print "UNYRI_PORT_BUSY:" toupper(proto) "|" protocol_parts "|" kind "|" holder
+            protocol_parts = ""
         }
         function emit_owner() {
-            if (owner != "") print parts ": " owner ". Stop or reconfigure it, then rerun."
+            if (records != "true" && owner != "") {
+                description = kind == "container" ? "Docker container " holder : kind == "unknown" ? "a program whose name could not be found" : "program " holder
+                print "Ports " parts " are already used by " description ". The server cannot start and calls cannot work while these ports are busy. Stop that program, then check again. This installer cannot choose other ports."
+            }
         }
         {
             if ($3 != owner) {
-                emit_range(); emit_owner(); parts = ""; first = 0; owner = $3
+                emit_range(); emit_protocol(); emit_owner(); parts = ""; first = 0; owner = $3
+                kind = owner ~ /^Docker container / ? "container" : owner == "unknown program" ? "unknown" : "process"
+                holder = kind == "container" ? substr(owner, 18) : kind == "unknown" ? "unknown" : owner
+                gsub(/[[:cntrl:]|]/, " ", holder); sub(/^ +/, "", holder); sub(/ +$/, "", holder); holder = substr(holder, 1, 120)
             }
             if (first && $2 == proto && $1 == last + 1) last = $1
-            else { emit_range(); first = last = $1; proto = $2 }
+            else { emit_range(); if ($2 != proto) emit_protocol(); first = last = $1; proto = $2 }
         }
-        END { emit_range(); emit_owner() }
+        END { emit_range(); emit_protocol(); emit_owner() }
     '
 }
 
 check_selfhost_ports() {
-    local rooms=${1:-} local_trial=${2:-false} containers id project name mapping container_port port protocol line endpoint program key failed=false sockets
+    local rooms=${1:-} local_trial=${2:-false} records=${3:-false} containers id project name mapping container_port port protocol line endpoint program key failed=false sockets
     local -A wanted=() ours=() conflicts=()
     while read -r port protocol; do wanted["$port/$protocol"]=1; done < <(selfhost_port_list "$rooms" "$local_trial")
     # Inspect every running container: NAT publications may have no ss listener.
@@ -98,12 +109,17 @@ check_selfhost_ports() {
             failed=true
         fi
     done < <(selfhost_port_list "$rooms" "$local_trial")
-    if [[ $failed == true ]]; then printf '%s' "$rows" | format_selfhost_port_conflicts >&2; fi
+    if [[ $failed == true ]]; then
+        # The desktop bounds captured output; identities must precede prose.
+        # Sourced terminal installers retain human-only output.
+        if [[ $records == true ]]; then printf '%s' "$rows" | format_selfhost_port_conflicts true >&2; fi
+        printf '%s' "$rows" | format_selfhost_port_conflicts >&2
+    fi
     [[ $failed == false ]]
 }
 
 # Direct desktop entry point; sourced callers are unchanged.
 if [[ ${BASH_SOURCE[0]} == "$0" ]]; then
     set -euo pipefail
-    check_selfhost_ports "${1:-}" "${2:-false}"
+    check_selfhost_ports "${1:-}" "${2:-false}" true
 fi

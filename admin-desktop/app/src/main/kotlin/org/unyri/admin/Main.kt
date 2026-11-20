@@ -195,7 +195,7 @@ fun main(args: Array<String>) = application {
         GlassCard(Modifier.fillMaxWidth(), m.glass) {
             Text(data.policy.name, style = MaterialTheme.typography.titleLarge)
             Text(t[if (data.health.database && data.health.redis && data.health.status == "ok") "healthy" else "degraded"])
-            Text("${t["database"]}: ${t[if (data.health.database) "available" else "unavailable"]} · Redis: ${t[if (data.health.redis) "available" else "unavailable"]}")
+            Text("${t["database"]}: ${t[if (data.health.database) "available" else "unavailable"]} · ${t["messageQueue"]}: ${t[if (data.health.redis) "available" else "unavailable"]}")
             Text(t["serverVersionUnknown"], color = Ink.secondary)
             Text(data.policy.contact)
         }
@@ -254,6 +254,66 @@ fun main(args: Array<String>) = application {
     Pagination(m)
 }
 private fun Strings.status(value: String): String = if (value in setOf("open", "in_progress", "resolved", "dismissed", "active", "suspended", "read_only", "restricted")) this["status.$value"] else this["unknown"]
+internal fun Strings.reportReason(value: String): String =
+    if (value in setOf("spam", "harassment", "pornography", "scam", "self_harm", "copyright", "other")) this["reportReason.$value"] else this["unknown"]
+internal fun Strings.platform(value: String): String = when (value.lowercase()) {
+    "ios" -> "iOS"
+    "android" -> "Android"
+    "windows" -> "Windows"
+    "linux" -> "Linux"
+    "macos", "mac" -> "macOS"
+    "desktop" -> this["platform.desktop"]
+    "web" -> this["platform.web"]
+    "" -> ""
+    else -> this["unknown"]
+}
+internal fun Strings.auditAction(value: String): String {
+    val group = value.substringBefore(':')
+    if (group in setOf("report", "feedback") && value.contains(':'))
+        return "${this["audit.$group"]} · ${status(value.substringAfter(':'))}"
+    val key = when (value) {
+        "enroll" -> "enroll"
+        "unlock" -> "unlock"
+        "rotate-signing-key" -> "rotateKey"
+        "operator:authentication-policy" -> "authenticationPolicy"
+        "notice:send" -> "notice"
+        "diagnostics:export" -> "diagnosticsExport"
+        "profile:moderate" -> "profileModeration"
+        "read_only:enable" -> "readOnly"
+        "read_only:disable" -> "clearReadOnly"
+        "device_logout" -> "logoutDevice"
+        "note:add" -> "note"
+        "device_suspend" -> "suspendDevice"
+        "device_unsuspend" -> "restoreDevice"
+        "operations:controls" -> "controls"
+        "announcement:publish" -> "publishAnnouncement"
+        "announcement:disable" -> "removeAnnouncement"
+        "operator:role" -> "role"
+        "operator:reset_2fa" -> "resetProtection"
+        "credential:recovery_code" -> "recoveryCode"
+        "suspend" -> "suspend"
+        "unsuspend" -> "restore"
+        "suspend_with_installations" -> "suspendWithDevices"
+        "unsuspend_with_installations" -> "restoreWithDevices"
+        "setup:claim-invalid" -> "claimInvalid"
+        "setup:claim-owner" -> "claimOwner"
+        "registration:mode" -> "registration"
+        "invite:create" -> "inviteCreate"
+        "invite:revoke" -> "inviteRevoke"
+        "invite:register-refused" -> "inviteRefused"
+        "invite:register" -> "inviteRegister"
+        "account_delete" -> "deleteUser"
+        "console:handoff-issued" -> "handoff"
+        "console:session-open" -> "consoleOpen"
+        "console:session-close" -> "consoleClose"
+        "local:clear-message-call-history" -> "clearHistory"
+        "security:factor-lockout" -> "factorLockout"
+        "server:policy" -> "serverSettings"
+        "storage:cleanup_scheduled" -> "storageCleanup"
+        else -> "other"
+    }
+    return this["audit.$key"]
+}
 private fun JsonObject.value(key: String): String = (this[key] as? JsonPrimitive)?.contentOrNull.orEmpty()
 
 @Composable fun ColumnScope.DiagnosticsPage(m: AdminModel) {
@@ -264,7 +324,7 @@ private fun JsonObject.value(key: String): String = (this[key] as? JsonPrimitive
     m.performance?.items?.take(3)?.forEach { sample -> TechnicalText(sample.toString().take(400)) }
     var auditDetail by remember { mutableStateOf<JsonObject?>(null) }
     DataTable(listOf(t["created"], t["action"], t["reason"]), m.auditPage.items.mapIndexed { index, item ->
-        TableRow(item.value("id").ifEmpty { index.toString() }, listOf(item.value("created_at"), item.value("action"), item.value("reason")))
+        TableRow(item.value("id").ifEmpty { index.toString() }, listOf(item.value("created_at"), t.auditAction(item.value("action")), item.value("reason")))
     }, t["open"], t["empty"], t["pageSort"], { id -> auditDetail = m.auditPage.items.firstOrNull { it.value("id") == id } }, Modifier.weight(1f))
     Pagination(m)
     auditDetail?.let { detail -> Dialog(onDismissRequest = { auditDetail = null }) { GlassCard(Modifier.width(640.dp).heightIn(max = 500.dp).verticalScroll(rememberScrollState())) {
@@ -316,7 +376,7 @@ private fun JsonObject.value(key: String): String = (this[key] as? JsonPrimitive
             user.devices.forEach { device ->
                 GlassCard(Modifier.fillMaxWidth(), false) {
                     Text(device.value("display_name").ifBlank { t["unknown"] })
-                    Text(listOf("platform", "app_version", "os_version", "last_active_at").map(device::value).filter(String::isNotBlank).joinToString(" · "))
+                    Text((listOf(t.platform(device.value("platform"))) + listOf("app_version", "os_version", "last_active_at").map(device::value)).filter(String::isNotBlank).joinToString(" · "))
                     Text("${t["blockedInstall"]}: ${t[if (device.value("restriction_active") == "true") "yes" else "no"]}")
                     if (m.owner && !m.demo && user.moderation_allowed && device.value("revoked") != "true") OutlinedButton({ m.prepare("logoutDevice", device.value("id"), device.value("display_name")) }, enabled = !m.busy) { Text(t["logoutDevice"]) }
                 }
@@ -332,7 +392,7 @@ private fun JsonObject.value(key: String): String = (this[key] as? JsonPrimitive
         GlassCard(Modifier.widthIn(max = 760.dp).fillMaxWidth().heightIn(max = 640.dp).verticalScroll(rememberScrollState()), m.glass) {
             Text(t[if (m.section == Section.FEEDBACK) "feedback" else "reports"], style = MaterialTheme.typography.titleLarge)
             Text(item.description.orEmpty()); Text(t.status(item.status))
-            Text(listOfNotNull(item.reported_username, item.reporter_username, item.reason, item.platform, item.app_version, item.created_at).joinToString(" · "))
+            Text(listOfNotNull(item.reported_username, item.reporter_username, item.reason?.let { t.reportReason(it) }, item.platform?.let { t.platform(it) }, item.app_version, item.created_at).joinToString(" · "))
             item.decision_reason?.takeIf { it.isNotEmpty() }?.let { Text("${t["reason"]}: $it") }
             m.feedback?.let { detail ->
                 Text("${t["screenshots"]}: ${detail.screenshots.size}")

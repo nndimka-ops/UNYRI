@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_editor_photo_note">保存すると、選択した写真とテキストの変更が適用されます。現在の写真の削除はすぐに適用されます。</string>
+    <string name="profile_editor_discard_title">プロフィールの変更を破棄しますか？</string>
+    <string name="profile_editor_discard_message">プロフィールの編集内容と選択した写真は保存されません。すでに削除した写真は削除されたままです。</string>
+</resources>

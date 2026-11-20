@@ -17,6 +17,65 @@ import kotlinx.coroutines.runBlocking
  * these tests are independent of real decryption/Room.
  */
 class GlobalSyncManagerTest {
+    @Test fun `retired session never leaves a paused header`() = runBlocking {
+        val (manager, h) = harness()
+        h.syncSource.responder = { _, _ ->
+            h.auth.switchSession()
+            SyncResponseDto(emptyList(), 0, false)
+        }
+        manager.runCatchUpSync()
+        assertEquals(SyncPhase.IDLE, manager.phase.value)
+    }
+
+    @Test fun `cancelled catchup returns header to idle`() = runBlocking {
+        val (manager, h) = harness()
+        val started = CompletableDeferred<Unit>()
+        h.syncSource.responder = { _, _ -> started.complete(Unit); CompletableDeferred<SyncResponseDto>().await() }
+        val job = async { manager.runCatchUpSync() }
+        started.await()
+        job.cancel()
+        job.join()
+        assertEquals(SyncPhase.IDLE, manager.phase.value)
+    }
+
+    @Test fun `failure stage explains paused sync and success recovers`() = runBlocking {
+        val stages = mutableListOf<String>()
+        val source = FakeSyncSource().apply { responder = { _, _ -> error("offline") } }
+        val manager = GlobalSyncManager(source, FakeMessageIngestor(), FakeAuthRepository(), InMemorySyncCursorStore(),
+            failedStage = { stages += it })
+        manager.runCatchUpSync()
+        assertEquals(SyncPhase.FAILED, manager.phase.value)
+        assertEquals(listOf("fetch_page:IllegalStateException"), stages)
+        source.responder = { _, _ -> SyncResponseDto(emptyList(), 0, false) }
+        manager.runCatchUpSync()
+        assertEquals(SyncPhase.IDLE, manager.phase.value)
+    }
+
+    @Test fun `coalescing cooldown does not turn a successful pass into paused sync`() = runBlocking {
+        val source = FakeSyncSource()
+        lateinit var manager: GlobalSyncManager
+        manager = GlobalSyncManager(source, FakeMessageIngestor(), FakeAuthRepository(), InMemorySyncCursorStore(), nanoTime = { 0L })
+        source.responder = { _, _ ->
+            manager.runCatchUpSync() // A concurrent trigger is coalesced while the lock is held.
+            SyncResponseDto(emptyList(), 0, false)
+        }
+        manager.runCatchUpSync()
+        assertEquals(2, source.calls.size)
+        assertEquals(SyncPhase.IDLE, manager.phase.value)
+        manager.runCatchUpSync() // Still within the demand-driven cooldown.
+        assertEquals(2, source.calls.size)
+        assertEquals(SyncPhase.IDLE, manager.phase.value)
+    }
+
+    @Test fun `successful restore barrier clears an earlier paused phase`() = runBlocking {
+        val (manager, h) = harness()
+        h.syncSource.responder = { _, _ -> error("offline") }
+        manager.runCatchUpSync()
+        assertEquals(SyncPhase.FAILED, manager.phase.value)
+        h.syncSource.responder = { _, _ -> SyncResponseDto(emptyList(), 0, false) }
+        manager.awaitHistoryRestoreSync()
+        assertEquals(SyncPhase.IDLE, manager.phase.value)
+    }
     @Test fun forgedFutureClearDoesNotSuppressFutureMessages() = runBlocking {
         val cursor = InMemorySyncCursorStore().apply { saveLastSyncedSequence(4) }
         val source = FakeSyncSource().apply { responder = { _, _ -> SyncResponseDto(listOf(testMessageDto("next", sequence = 5)), 5, false,

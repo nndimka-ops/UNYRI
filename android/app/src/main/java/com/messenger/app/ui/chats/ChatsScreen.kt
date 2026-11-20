@@ -79,6 +79,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.text.style.TextAlign
@@ -97,7 +98,7 @@ import com.messenger.app.ui.theme.LocalCocoColors
  * Saved Messages opens from a bookmark in the compact header.
  */
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class)
 fun ChatsScreen(
     viewModel: ChatsViewModel,
     showSavedMessages: Boolean = true,
@@ -145,6 +146,7 @@ fun ChatsScreen(
         }
     }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle(minActiveState = androidx.lifecycle.Lifecycle.State.RESUMED)
+    val listLoadFailed by viewModel.listLoadFailed.collectAsStateWithLifecycle(minActiveState = androidx.lifecycle.Lifecycle.State.RESUMED)
     val app = androidx.compose.ui.platform.LocalContext.current.applicationContext as com.messenger.app.MessengerApp
     val colors = LocalCocoColors.current
     val hostBottomInset = LocalGlassBottomInset.current
@@ -556,16 +558,25 @@ fun ChatsScreen(
         Box(Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize().then(if (searching) Modifier
             .graphicsLayer { alpha = 0f }.clearAndSetSemantics { } else Modifier)) {
-            androidx.compose.foundation.layout.BoxWithConstraints(Modifier.fillMaxWidth().height(48.dp).padding(horizontal = 16.dp)) {
-            val centerWidth = (maxWidth - (if (showSavedMessages) 136.dp else 96.dp) * 2).coerceAtLeast(96.dp)
-            Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
+            Row(Modifier.fillMaxWidth().heightIn(min = 48.dp).padding(horizontal = 16.dp)
+                .semantics { testTagsAsResourceId = true }, verticalAlignment = Alignment.CenterVertically) {
                 if (showingArchive) com.messenger.app.ui.components.CocoBackButton(onClick = onCloseArchive,
                     label = stringResource(R.string.chats_archive_back))
-                else androidx.compose.material3.IconButton(onClick = onOpenMenu) {
+                else androidx.compose.material3.IconButton(onClick = onOpenMenu, modifier = Modifier.testTag("header-menu")) {
                     Icon(androidx.compose.material.icons.Icons.Filled.Menu, stringResource(R.string.navigation_menu), tint = colors.primaryText)
                 }
-                Spacer(Modifier.weight(1f))
-                Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.weight(1f).padding(horizontal = 4.dp), contentAlignment = Alignment.Center) {
+                    val island = com.messenger.app.ui.call.LocalCallIsland.current
+                    if (island != null) {
+                        com.messenger.app.ui.call.CallIslandControl(island.durationMs, island.isVideo, island.onReturn, island.status)
+                    } else if (showingArchive) {
+                        Text(stringResource(R.string.chats_archive_title), color = colors.primaryText, style = MaterialTheme.typography.titleMedium)
+                    } else com.messenger.app.ui.components.ChatConnectionHeader(app.messageRepository,
+                        loading = uiState is ChatsUiState.Loading && chats.isEmpty(), error = listLoadFailed,
+                        onRetry = { viewModel.refresh(); app.messageRepository.retryConnectionSync() }, contentReady = chats.isNotEmpty(),
+                        visible = modalCoverage.headerVisible)
+                }
+                Row(Modifier.testTag("header-actions"), horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
                     // One search (owner, 14 Nov): the chat list's button, as on iOS; the drawer has none.
                     CompactChatHeaderButton(CocoIcons.Search, stringResource(R.string.chats_search), colors.primaryText, tag = "chats-search") {
                         com.messenger.app.ui.theme.CocoHaptics.select(hapticView); onNavigateToSearch()
@@ -595,20 +606,6 @@ fun ChatsScreen(
                     if (showSavedMessages) CompactChatHeaderButton(CocoIcons.Bookmark, stringResource(R.string.saved_messages), ChatControls.amber) {
                         viewModel.openSavedMessages(onOpenChat)
                     }
-                }
-            }
-            // 14 Nov (owner: "когда ты уже отцентруешь"): the status sits on the true centre of the
-            // screen, not between one button on the left and two or three on the right.
-            Box(Modifier.align(Alignment.Center).widthIn(max = centerWidth), contentAlignment = Alignment.Center) {
-                    val island = com.messenger.app.ui.call.LocalCallIsland.current
-                    if (island != null) {
-                        com.messenger.app.ui.call.CallIslandControl(island.durationMs, island.isVideo, island.onReturn, island.status)
-                    } else if (showingArchive) {
-                        Text(stringResource(R.string.chats_archive_title), color = colors.primaryText, style = MaterialTheme.typography.titleMedium)
-                    } else com.messenger.app.ui.components.ChatConnectionHeader(app.messageRepository,
-                        loading = uiState is ChatsUiState.Loading && chats.isEmpty(), error = uiState is ChatsUiState.Error,
-                        onRetry = { viewModel.refresh(); app.messageRepository.retryConnectionSync() }, contentReady = chats.isNotEmpty(),
-                        visible = modalCoverage.headerVisible)
                 }
             }
             HorizontalDivider(thickness = .5.dp, color = ChatsPalette.border.copy(alpha = .45f))

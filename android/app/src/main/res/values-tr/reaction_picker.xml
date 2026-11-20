@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reaction_picker_options">Tepkiler, %1$d seçenek</string>
+    <string name="reaction_skin_tone">Cilt tonu</string>
+    <string name="reaction_picker_all">Tüm tepkiler</string>
+    <string name="emoji_find">Emoji ara</string>
+    <string name="emoji_recent">Son kullanılanlar</string>
+    <string name="emoji_people">Yüzler ve kişiler</string>
+    <string name="emoji_nature">Hayvanlar ve doğa</string>
+    <string name="emoji_food">Yiyecek ve içecek</string>
+    <string name="emoji_activity">Etkinlikler</string>
+    <string name="emoji_travel">Seyahat ve yerler</string>
+    <string name="emoji_objects">Nesneler</string>
+    <string name="emoji_symbols">Semboller</string>
+    <string name="emoji_flags">Bayraklar</string>
+    <string name="emoji_no_results">Sonuç bulunamadı</string>
+</resources>

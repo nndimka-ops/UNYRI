@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_editor_photo_note">Salva per applicare la foto selezionata e le modifiche al testo. La rimozione della foto attuale è immediata.</string>
+    <string name="profile_editor_discard_title">Scartare le modifiche al profilo?</string>
+    <string name="profile_editor_discard_message">Le modifiche al profilo e la foto selezionata non verranno salvate. Una foto già rimossa resterà rimossa.</string>
+</resources>

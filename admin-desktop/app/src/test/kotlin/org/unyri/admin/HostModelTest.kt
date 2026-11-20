@@ -19,10 +19,12 @@ class HostModelTest {
         check(dir.startsWith(Path.of("build").toAbsolutePath()))
         Files.walk(dir).use { paths -> paths.sorted(Comparator.reverseOrder()).forEach(Files::deleteIfExists) }
     }
-    private fun fake(commands: MutableList<HostCommand>, installExit: Int = 0, publicReady: Boolean = true, code: Boolean = true) = HostService(
+    private fun fake(commands: MutableList<HostCommand>, installExit: Int = 0, publicReady: Boolean = true, code: Boolean = true,
+        ports: () -> HostOutput = { HostOutput(0, "") }) = HostService(
         HostRunner { cmd, phase ->
             commands += cmd
             when {
+                cmd.arguments.any { it.endsWith("preflight-ports.sh") } -> ports()
                 "context" in cmd.arguments -> HostOutput(0, "unix:///var/run/docker.sock")
                 "info" in cmd.arguments -> HostOutput(0, "linux|Synthetic engine")
                 "version" in cmd.arguments -> HostOutput(0, "2.24.0")
@@ -31,6 +33,24 @@ class HostModelTest {
                 else -> HostOutput(0, "")
             }
         }, HostCommands(false), { publicReady })
+    @Test fun busyPortsExposeOnlyStructuredOwnersAndClearOnRetry() = runTest {
+        val dir = release(); val dispatcher = StandardTestDispatcher(testScheduler)
+        val scope = CoroutineScope(SupervisorJob() + dispatcher)
+        var result = HostOutput(1, "private raw text\nUNYRI_PORT_BUSY:UDP|3478,49152-49200|container|messenger-coturn")
+        try {
+            val model = HostModel(scope, fake(mutableListOf(), ports = { result }), HostRecord(dir.resolve("location.properties")), dispatcher)
+            model.selectRoot(dir); model.checkPorts(); runCurrent()
+            assertFalse(model.state.portsChecked); assertEquals("sh.portsBusy", model.message)
+            assertEquals(listOf(HostPortConflict("UDP", "3478,49152-49200", "container", "messenger-coturn")), model.portConflicts)
+            for (language in listOf("ru", "en", "uk")) {
+                val strings = Strings(language)
+                val message = strings.format("sh.portBusy.container", "3478,49152-49200 UDP", "messenger-coturn")
+                assertTrue(message.contains("messenger-coturn")); assertFalse(message.contains("%@"))
+            }
+            result = HostOutput(0, ""); model.checkPorts(); runCurrent()
+            assertTrue(model.state.portsChecked); assertTrue(model.portConflicts.isEmpty())
+        } finally { scope.cancel(); remove(dir) }
+    }
     @Test fun installSuccessUsesLocalHealthThenExplicitCodeRevealAndCanResume() = runTest {
         val dir = release(); val calls = mutableListOf<HostCommand>(); val dispatcher = StandardTestDispatcher(testScheduler)
         val record = HostRecord(dir.resolve("location.properties")); val scope = CoroutineScope(SupervisorJob() + dispatcher)

@@ -28,7 +28,7 @@ object AvatarImageProcessor {
 
     /** Cap for the crop-editor decode: plenty for on-screen editing, far below
      *  a full-resolution phone photo. */
-    const val MAX_EDIT_DIMENSION = 2048
+    const val MAX_EDIT_DIMENSION = 1024
 
     /** Sampled decode of a content Uri, applying EXIF orientation. Never
      *  upscales a small source. */
@@ -36,6 +36,7 @@ object AvatarImageProcessor {
         val resolver = context.contentResolver
         val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
         resolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, bounds) }
+        require(bounds.outWidth > 0 && bounds.outHeight > 0) { "Could not read avatar dimensions" }
         val sample = computeSampleSize(bounds.outWidth, bounds.outHeight, MAX_EDIT_DIMENSION)
 
         val orientation = resolver.openInputStream(uri)?.use {
@@ -48,6 +49,10 @@ object AvatarImageProcessor {
         }
         val oriented = applyOrientation(decoded, orientation)
         if (oriented !== decoded) decoded.recycle()
+        check(oriented.width <= MAX_EDIT_DIMENSION && oriented.height <= MAX_EDIT_DIMENSION) {
+            oriented.recycle()
+            "Decoded avatar exceeds edit bounds"
+        }
         return oriented
     }
 
@@ -57,7 +62,10 @@ object AvatarImageProcessor {
     fun computeSampleSize(width: Int, height: Int, maxDimension: Int): Int {
         if (width <= 0 || height <= 0 || maxDimension <= 0) return 1
         var sample = 1
-        while (width / sample > maxDimension || height / sample > maxDimension) {
+        // Bitmap decoders can round sampled dimensions up by one pixel.
+        while ((width.toLong() + sample - 1) / sample > maxDimension ||
+            (height.toLong() + sample - 1) / sample > maxDimension) {
+            if (sample > Int.MAX_VALUE / 2) return Int.MAX_VALUE
             sample *= 2
         }
         return sample

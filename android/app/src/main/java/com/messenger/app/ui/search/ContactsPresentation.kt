@@ -15,6 +15,8 @@ internal sealed interface ContactListItem {
 
 internal object ContactsPresentation {
     const val ONLINE = "online"
+    fun showsActions(query: String): Boolean = query.isBlank()
+    fun showsBookPlaceholder(searchesDirectory: Boolean): Boolean = !searchesDirectory
     private const val CYRILLIC = "АБВГҐДЕЁЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
     private val marks = Regex("\\p{M}+")
     fun normalize(value: String): String = Normalizer.normalize(value.trim().removePrefix("@"), Normalizer.Form.NFKD)

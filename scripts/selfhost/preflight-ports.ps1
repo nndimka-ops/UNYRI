@@ -12,30 +12,41 @@ function Get-SelfhostPorts([bool]$Rooms, [bool]$LocalTrial = $false) {
     return $ports
 }
 
-function Format-SelfhostPortConflicts([hashtable]$Conflicts) {
+function Format-SelfhostPortConflicts([hashtable]$Conflicts, [switch]$Records) {
     foreach ($owner in @($Conflicts.Values | Sort-Object -Unique)) {
+        $kind = if ($owner.StartsWith('Docker container ')) { 'container' } elseif ($owner -eq 'unknown program') { 'unknown' } else { 'process' }
+        $holder = if ($kind -eq 'container') { $owner.Substring('Docker container '.Length) } elseif ($kind -eq 'unknown') { 'unknown' } else { $owner }
+        # Only bounded identity fields cross into the desktop UI, never raw output.
+        $holder = ($holder -replace '[\x00-\x1f\x7f|]', ' ').Trim()
+        if ($holder.Length -gt 120) { $holder = $holder.Substring(0, 120) }
         $ranges = @()
         foreach ($protocol in @('TCP', 'UDP')) {
+            $protocolRanges = @()
             $ports = @($Conflicts.Keys | Where-Object { $Conflicts[$_] -eq $owner -and $_ -match "/$protocol$" } | ForEach-Object { [int]($_ -split '/')[0] } | Sort-Object -Unique)
             $first = $null; $last = $null
             foreach ($port in $ports) {
                 if ($null -ne $first -and $port -eq $last + 1) { $last = $port; continue }
                 if ($null -ne $first) {
                     $span = if ($first -eq $last) { "$first" } else { "$first-$last" }
-                    $ranges += "$span $protocol"
+                    $protocolRanges += $span
                 }
                 $first = $last = $port
             }
             if ($null -ne $first) {
                 $span = if ($first -eq $last) { "$first" } else { "$first-$last" }
-                $ranges += "$span $protocol"
+                $protocolRanges += $span
             }
+            $ranges += @($protocolRanges | ForEach-Object { "$_ $protocol" })
+            if ($Records -and $protocolRanges.Count -gt 0) { "UNYRI_PORT_BUSY:$protocol|$($protocolRanges -join ',')|$kind|$holder" }
         }
-        ($ranges -join ', ') + ": $owner. Stop or reconfigure it, then rerun."
+        if (-not $Records) {
+            $description = if ($kind -eq 'container') { "Docker container $holder" } elseif ($kind -eq 'unknown') { 'a program whose name could not be found' } else { "program $holder" }
+            'Ports ' + ($ranges -join ', ') + " are already used by $description. The server cannot start and calls cannot work while these ports are busy. Stop that program, then check again. This installer cannot choose other ports."
+        }
     }
 }
 
-function Test-SelfhostPorts([bool]$Rooms, [bool]$LocalTrial = $false) {
+function Test-SelfhostPorts([bool]$Rooms, [bool]$LocalTrial = $false, [bool]$Records = $false) {
     $wanted = @{}; $ours = @{}; $conflicts = @{}
     foreach ($entry in (Get-SelfhostPorts $Rooms $LocalTrial)) { $wanted["$($entry.Port)/$($entry.Protocol)"] = $true }
     # No embedded double quotes in native arguments (Windows PowerShell 5.1 strips
@@ -81,6 +92,9 @@ function Test-SelfhostPorts([bool]$Rooms, [bool]$LocalTrial = $false) {
             $conflicts[$key] = $program
         }
     }
+    # Put bounded identities first for the desktop's bounded output reader.
+    # Terminal installers retain human-only output.
+    if ($Records) { foreach ($record in (Format-SelfhostPortConflicts $conflicts -Records)) { Write-Host $record } }
     foreach ($message in (Format-SelfhostPortConflicts $conflicts)) { Write-Host $message }
     return ($conflicts.Count -eq 0)
 }
@@ -103,4 +117,4 @@ function Format-SelfhostFirewallRule($Rule) {
     return "New-NetFirewallRule -Name '$($Rule[0])' -DisplayName '$($Rule[0])' -Direction Inbound -Action Allow -Protocol $($Rule[1]) -LocalPort $($Rule[2]) -Profile Any"
 }
 
-if ($Check) { if (Test-SelfhostPorts ([bool]$Rooms) ([bool]$LocalTrial)) { exit 0 } else { exit 1 } }
+if ($Check) { if (Test-SelfhostPorts ([bool]$Rooms) ([bool]$LocalTrial) $true) { exit 0 } else { exit 1 } }
