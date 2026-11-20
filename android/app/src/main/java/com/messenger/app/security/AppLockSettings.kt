@@ -19,15 +19,18 @@ fun AppLockSettings() {
     val activity = context as? com.messenger.app.MainActivity ?: return
     val controller = activity.appLockController
     val state by controller.state.collectAsState()
-    Column(Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 8.dp)) {
-        Row(Modifier.fillMaxWidth().heightIn(min = 56.dp), verticalAlignment = Alignment.CenterVertically) {
-            Text(stringResource(R.string.app_lock_title), modifier = Modifier.weight(1f), color = LocalCocoColors.current.primaryText)
-            Switch(state.enabled, enabled = !state.authenticating, onCheckedChange = controller::setEnabled)
-        }
-        Text(stringResource(R.string.app_lock_detail), style = MaterialTheme.typography.bodySmall, color = LocalCocoColors.current.mutedText)
+    Column(Modifier.fillMaxWidth()) {
+        com.messenger.app.ui.profile.SettingsToggleRow(
+            title = stringResource(R.string.app_lock_title), subtitle = stringResource(R.string.app_lock_detail),
+            checked = state.enabled, enabled = !state.authenticating, onCheckedChange = controller::setEnabled)
+        com.messenger.app.ui.profile.SettingsToggleRow(
+            title = stringResource(R.string.privacy_prevent_screenshots), subtitle = null,
+            checked = state.preventScreenshots, onCheckedChange = controller::setPreventScreenshots)
         if (state.enabled) {
             val options = listOf(0L to stringResource(R.string.app_lock_immediate), 60_000L to stringResource(R.string.app_lock_minute), 300_000L to stringResource(R.string.app_lock_five_minutes))
-            com.messenger.app.ui.settings.SettingChoiceRow(stringResource(R.string.app_lock_after_background), options.firstOrNull { it.first == state.timeoutMs }?.second ?: options.first().second, options, !state.authenticating, controller::setTimeout)
+            Box(Modifier.padding(horizontal = 14.dp)) {
+                com.messenger.app.ui.settings.SettingChoiceRow(stringResource(R.string.app_lock_after_background), options.firstOrNull { it.first == state.timeoutMs }?.second ?: options.first().second, options, !state.authenticating, controller::setTimeout)
+            }
         }
         if (state.error) Text(stringResource(R.string.app_lock_error), color = LocalCocoColors.current.danger, style = MaterialTheme.typography.bodySmall)
     }

@@ -15,16 +15,21 @@ class ContactsIceAdmissionParityTest {
     private val peer = "6f9619ff-8b86-4011-b42d-00c04fc964ff"
     private class Remote : ContactsRemote {
         var reads = 0
+        /** An old server until cleared; then an authoritative book without the peer. */
+        var legacy = true
         override suspend fun contacts(accessToken: String, cursor: String?, origin: String): ContactsPageDto {
-            reads++; throw AuthApiException.Api("not_found", "old server", 404)
+            reads++
+            if (legacy) throw AuthApiException.Api("not_found", "old server", 404)
+            return ContactsPageDto(emptyList())
         }
         override suspend fun contactStatus(accessToken: String, userId: String, origin: String): ContactStatusDto = error("No status fetch permitted")
         override suspend fun setContact(accessToken: String, userId: String, contact: Boolean, origin: String): ContactChangeDto = error("No write permitted")
     }
 
     @Test fun `Everyone Contacts Nobody matrix treats unknown membership as relay only for Contacts`() {
-        assertEquals(CallPeerToPeer.EVERYONE, CallPeerToPeer.resolved(null))
-        assertEquals(CallPeerToPeer.EVERYONE, CallPeerToPeer.resolved("invalid"))
+        assertEquals(CallPeerToPeer.CONTACTS, CallPeerToPeer.resolved(null))
+        assertEquals(CallPeerToPeer.CONTACTS, CallPeerToPeer.resolved("invalid"))
+        for (choice in CallPeerToPeer.entries) assertEquals(choice, CallPeerToPeer.resolved(choice.wire))
         for (debug in listOf(false, true)) for (member in listOf(null, false, true)) {
             for (setting in CallPeerToPeer.entries) {
                 val expected = if (setting == CallPeerToPeer.NOBODY || setting == CallPeerToPeer.CONTACTS && member != true)
@@ -50,6 +55,9 @@ class ContactsIceAdmissionParityTest {
         assertFalse(repo.isKnownCallContact(peer)) // Not loaded.
         store.reload() // Legacy chat rows are deliberately non-authoritative.
         assertEquals(1, store.entries.value.size); assertFalse(repo.isKnownCallContact(peer))
+        // Unknown or unfinished membership stays relay-only: a legacy book is not loaded membership.
+        store.receive(peer, true); assertFalse(repo.isKnownCallContact(peer))
+        remote.legacy = false; store.reload()
         store.receive(peer, true)
         assertTrue(repo.isKnownCallContact(peer.uppercase()))
         store.receive(peer, false); assertFalse(repo.isKnownCallContact(peer))
@@ -57,8 +65,9 @@ class ContactsIceAdmissionParityTest {
         origin = "https://two.invalid"; assertFalse(repo.isKnownCallContact(peer))
         origin = "https://one.invalid"; assertTrue(repo.isKnownCallContact(peer))
         auth.switchSession("owner"); assertFalse(repo.isKnownCallContact(peer)) // Same owner, new generation.
-        repo.store.receive(peer, true); assertTrue(repo.isKnownCallContact(peer))
+        repo.store.receive(peer, true); assertFalse(repo.isKnownCallContact(peer)) // The new session's book is not loaded.
+        repo.store.reload(); repo.store.receive(peer, true); assertTrue(repo.isKnownCallContact(peer))
         auth.switchSession("another-owner"); assertFalse(repo.isKnownCallContact(peer))
-        assertEquals(1, remote.reads) // All call admission checks above were synchronous snapshots.
+        assertEquals(3, remote.reads) // Only the three explicit loads read; every admission check was a synchronous snapshot.
     }
 }

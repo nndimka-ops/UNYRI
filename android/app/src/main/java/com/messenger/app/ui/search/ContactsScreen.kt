@@ -64,6 +64,9 @@ import kotlinx.coroutines.withContext
     val context = LocalContext.current
     val app = context.applicationContext as MessengerApp
     val owner = app.privacyRepository.ownerKey()
+    val auth by app.authRepository.authState.collectAsStateWithLifecycle(minActiveState = Lifecycle.State.RESUMED)
+    val selfId = (auth as? AuthSessionState.LoggedIn)?.user?.id
+    var ownCard by remember(owner) { mutableStateOf<PublicUser?>(null) }
     val contacts = remember(owner) { app.contactsRepository.store }
     val presence = remember(owner) { ContactsPresenceReader() }
     val lifecycle = LocalLifecycleOwner.current.lifecycle
@@ -167,7 +170,7 @@ import kotlinx.coroutines.withContext
             var subscribed: Set<String>? = null
             try {
                 combine(snapshotFlow {
-                    if (!screenVisible || modal || permissionError != null) emptySet() else list.layoutInfo.visibleItemsInfo.mapNotNull {
+                    if (!screenVisible || modal || ownCard != null || permissionError != null) emptySet() else list.layoutInfo.visibleItemsInfo.mapNotNull {
                         it.key.toString().takeIf { key -> key.startsWith("person:") && it.offset + it.size > 0 }?.removePrefix("person:")
                     }.toSet()
                 }.distinctUntilChanged(), app.presence.peers, app.presence.lastSeen) { visible, peers, history -> Triple(visible, peers, history) }
@@ -194,13 +197,17 @@ import kotlinx.coroutines.withContext
         }
     }
     fun call(user: PublicUser, video: Boolean) {
+        if (com.messenger.app.ui.isOwnPublicProfile(user.id, selfId)) return
         val kind = if (video) CallMediaKind.VIDEO else CallMediaKind.AUDIO
         pendingCall = user to kind
         callPermission.launch(CallAudioPolicy.allCallPermissions(kind, android.os.Build.VERSION.SDK_INT).toTypedArray())
     }
-    fun change(user: PublicUser, add: Boolean) { scope.launch { failed = !contacts.set(user, add) } }
+    fun change(user: PublicUser, add: Boolean) {
+        if (!com.messenger.app.ui.isOwnPublicProfile(user.id, selfId)) scope.launch { failed = !contacts.set(user, add) }
+    }
     fun message(user: PublicUser) {
         keyboard?.hide()
+        if (com.messenger.app.ui.isOwnPublicProfile(user.id, selfId)) { ownCard = user; return }
         val cached = cachedChat(user.id)
         if (cached != null) onOpenChat(cached) else viewModel.message(user)
     }
@@ -208,19 +215,16 @@ import kotlinx.coroutines.withContext
         val username = (app.authRepository.authState.value as? AuthSessionState.LoggedIn)?.user?.username
         val own = app.identityRepository.identity.value
         val link = if (own != null) com.messenger.app.data.identity.IdentityPolicy.link(own.number, own.publicOrigin)
-            else if (app.identityRepository.legacy.value) com.messenger.app.ui.profilePublicLink(username) else null
+            else null
         if (link == null) onEdit()
         else context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply { type = "text/plain"; putExtra(Intent.EXTRA_TEXT, link) }, null))
     }
     permissionError?.let { error -> AlertDialog(onDismissRequest = { permissionError = null }, text = { Text(stringResource(error)) },
         confirmButton = { TextButton(onClick = { permissionError = null }) { Text(stringResource(android.R.string.ok)) } }) }
-    com.messenger.app.ui.BlockRootDrawerWhile(modal || permissionError != null)
+    com.messenger.app.ui.BlockRootDrawerWhile(modal || ownCard != null || permissionError != null)
     CompositionLocalProvider(LocalGlassBackdrop provides glass) {
     CocoScreenSurface(modifier.fillMaxSize().nestedScroll(scrollBehavior.nestedScrollConnection), color = colors.background) {
-        // 14 Nov (owner: "что вообще на андроиде происходит в контактах"): iOS parity. The glass
-        // appears only once rows scroll under the header (no band with a hard edge at rest), the
-        // connection status sits in the centre of the top row and the large title sits right
-        // under it (no 152 dp gap).
+        // The address book has one title; connection feedback stays with its search results.
         ContactsGlassLayout(Modifier.fillMaxSize().imePadding(), header = {
             Column(if (scrolledUnder) Modifier.glassPanel(RoundedCornerShape(0.dp), glass) else Modifier) {
             Box {
@@ -228,14 +232,6 @@ import kotlinx.coroutines.withContext
                 CocoBackButton(onClick = onBack, modifier = Modifier.testTag("contacts-back"))
             }, collapsedHeight = 64.dp, expandedHeight = 112.dp, scrollBehavior = scrollBehavior,
                 colors = TopAppBarDefaults.largeTopAppBarColors(containerColor = Color.Transparent, scrolledContainerColor = Color.Transparent))
-            // Fades out while the title collapses into the same row; read in the layer only.
-            Box(Modifier.align(Alignment.TopCenter).windowInsetsPadding(TopAppBarDefaults.windowInsets)
-                .height(64.dp).widthIn(max = 180.dp)
-                .graphicsLayer { alpha = (1f - scrollBehavior.state.collapsedFraction * 2f).coerceIn(0f, 1f) },
-                contentAlignment = Alignment.Center) {
-                ChatConnectionHeader(app.messageRepository, false, false,
-                    onRetry = com.messenger.app.ui.settings.auxiliaryConnectionRetry(app.messageRepository) { scope.launch { contacts.reload() } }, contentReady = entries.isNotEmpty())
-            }
             }
             ContactsQuery(query, { query = it.take(4096) }, onScan = {
                 scanningOwner = owner
@@ -252,7 +248,7 @@ import kotlinx.coroutines.withContext
             // Opaque capture: the frosted header must never show rows sharp behind it.
             GlassBackdropSource(glass, Modifier.fillMaxSize().background(colors.background)) {
             LazyColumn(state = list, modifier = Modifier.fillMaxSize().testTag("contacts-list"),
-                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = headerInset, bottom = 24.dp + LocalGlassBottomInset.current)) {
+                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = headerInset, bottom = 24.dp + LocalGlassBottomInset.current + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding())) {
                 item("actions") {
                     Column {
                         ContactsAction(R.string.sidebar_qr_title, CocoIcons.ReactionGrid, "contacts-qr", resource = R.drawable.coco_drawer_qr, onClick = onQr)
@@ -279,7 +275,8 @@ import kotlinx.coroutines.withContext
                             fontWeight = FontWeight.SemiBold, color = colors.secondaryText, modifier = Modifier.padding(vertical = 10.dp).semantics { heading() })
                         is ContactListItem.Person -> ContactPerson(item.entry.user, query, presence.row(item.entry.id), opening == null, true,
                             onOpen = { message(item.entry.user) }, onChange = { change(item.entry.user, false) },
-                            onCall = { call(item.entry.user, it) }, onMenu = { modal = it })
+                            onCall = { call(item.entry.user, it) }, onMenu = { modal = it },
+                            isSelf = com.messenger.app.ui.isOwnPublicProfile(item.entry.id, selfId))
                     }
                 }
                 if (searchesDirectory) {
@@ -294,7 +291,8 @@ import kotlinx.coroutines.withContext
                     items(directory, key = { "person:${it.id}" }, contentType = { "person" }) { user ->
                         val member = user.id in contacts.ids.value
                         ContactPerson(user, query, presence.row(user.id), opening == null, member,
-                            onOpen = { message(user) }, onChange = { change(user, !member) }, onCall = { call(user, it) }, onMenu = { modal = it })
+                            onOpen = { message(user) }, onChange = { change(user, !member) }, onCall = { call(user, it) }, onMenu = { modal = it },
+                            isSelf = com.messenger.app.ui.isOwnPublicProfile(user.id, selfId))
                     }
                     val result = state as? SearchUiState.Loaded
                     if (result != null && connected && result.canLoadMore && !result.pageError && !result.refreshing && result.query == query.trim()) {
@@ -308,6 +306,10 @@ import kotlinx.coroutines.withContext
             }
         }
     }
+    }
+    ownCard?.takeIf { com.messenger.app.ui.isOwnPublicProfile(it.id, selfId) }?.let { user ->
+        if (owner != null) com.messenger.app.ui.ProfileLinkActionCard(user, owner, selfId,
+            { app.privacyRepository.ownerKey() }, { ownCard == user }, { ownCard = null }, onOpenChat)
     }
 }
 
@@ -405,7 +407,7 @@ import kotlinx.coroutines.withContext
 @OptIn(ExperimentalFoundationApi::class)
 @Composable private fun ContactPerson(user: PublicUser, query: String, reader: StateFlow<ContactPresence>, enabled: Boolean,
     contact: Boolean, onOpen: () -> Unit, onChange: () -> Unit, onCall: (Boolean) -> Unit, onMenu: (Boolean) -> Unit,
-    modifier: Modifier = Modifier) {
+    isSelf: Boolean = false, modifier: Modifier = Modifier) {
     val value by reader.collectAsStateWithLifecycle(minActiveState = Lifecycle.State.RESUMED)
     val colors = LocalCocoColors.current
     var menu by remember(user.id) { mutableStateOf(false) }
@@ -413,32 +415,37 @@ import kotlinx.coroutines.withContext
     val locale = LocalConfiguration.current.locales[0]
     // Calendar labels refresh on screen/presence events, without a timer per row.
     val seen = value.lastSeen?.let { com.messenger.app.ui.chats.presenceDate(it, java.time.Instant.now(), java.time.ZoneId.systemDefault(), locale) }
-    val status = if (value.online) stringResource(R.string.chat_peer_online) else if (seen != null)
+    val status = if (isSelf) stringResource(R.string.contacts_self) else if (value.online) stringResource(R.string.chat_peer_online) else if (seen != null)
         stringResource(when (seen.first) { 0 -> R.string.presence_today; 1 -> R.string.presence_yesterday; else -> R.string.presence_date }, seen.second)
         else if (value.hidden) stringResource(R.string.contacts_status_hidden) else ""
     val large = LocalDensity.current.fontScale >= 1.6f
     Column(modifier.fillMaxWidth().testTag("contacts-person-${user.id}")) {
-        Row(Modifier.fillMaxWidth().combinedClickable(enabled = enabled, onClick = onOpen, onLongClick = { menu = true; onMenu(true) })
+        Row(Modifier.fillMaxWidth().combinedClickable(enabled = enabled, onClick = onOpen,
+            onLongClick = if (isSelf) null else { { menu = true; onMenu(true) } })
             .heightIn(min = 76.dp).padding(vertical = 10.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Box(Modifier.size(44.dp)) {
                 UserAvatar(user.id, user.avatarVersion, user.hasAvatar, user.visibleName, colors.surfaceVariant, colors.primaryText, size = 44.dp)
                 if (value.online) Box(Modifier.align(Alignment.BottomEnd).size(10.dp).background(Color(0xFF77E6C6), CircleShape).border(2.dp, colors.background, CircleShape))
             }
-            Column(Modifier.weight(1f)) {
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
                 Text(remember(user.visibleName, query) { contactHighlight(user.visibleName, query) }, color = colors.primaryText, fontSize = 16.sp,
                     maxLines = if (large) Int.MAX_VALUE else 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
-                Text(contactHighlight(com.messenger.app.ui.publicHandle(user), query), color = colors.secondaryText, fontSize = 13.sp,
-                    maxLines = if (large) Int.MAX_VALUE else 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
+                // B-051: the public number (and @username) is always shown, with the status under it.
+                val caption = com.messenger.app.ui.contactCaption(user)
+                if (caption.isNotBlank()) Text(contactHighlight(caption, query), color = colors.secondaryText, fontSize = 13.sp,
+                    maxLines = if (large) Int.MAX_VALUE else 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                    modifier = Modifier.testTag("contacts-person-number"))
+                if (status.isNotBlank())
                 Text(status, color = if (value.online) Color(0xFF77E6C6) else colors.secondaryText, fontSize = 12.sp,
-                    minLines = if (large) 6 else 1, maxLines = if (large) 6 else 1)
+                    maxLines = if (large) Int.MAX_VALUE else 1)
             }
             // Owner, 14 Nov: a person found on the server is added with a button on the row
             // (no separate "add contact" row and dialog).
-            if (!contact) IconButton(onClick = onChange, enabled = enabled, modifier = Modifier.size(48.dp).testTag("contacts-add-${user.id}")) {
+            if (!isSelf && !contact) IconButton(onClick = onChange, enabled = enabled, modifier = Modifier.size(48.dp).testTag("contacts-add-${user.id}")) {
                 Icon(CocoIcons.Plus, stringResource(R.string.contacts_add), tint = colors.primaryText, modifier = Modifier.size(22.dp))
             }
         }
-        DropdownMenu(expanded = menu, onDismissRequest = { menu = false; onMenu(false) }) {
+        if (!isSelf) DropdownMenu(expanded = menu, onDismissRequest = { menu = false; onMenu(false) }) {
             DropdownMenuItem(text = { Text(stringResource(R.string.contacts_write)) }, onClick = { menu = false; onMenu(false); onOpen() })
             if (contact) {
                 DropdownMenuItem(text = { Text(stringResource(R.string.contacts_call)) }, onClick = { menu = false; onMenu(false); onCall(false) })

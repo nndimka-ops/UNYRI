@@ -62,14 +62,16 @@ pub async fn overview(
 
     let operators: Vec<Value> = sqlx::query_scalar(
         "SELECT jsonb_build_object(
-            'user_id',a.user_id,'username',u.username,'display_name',u.display_name,
+            'user_id',a.user_id,'public_username',i.public_username,
+            'unyri_number',i.unyri_number::text,'display_name',u.display_name,
             'role',a.role,'two_factor_configured',a.secret IS NOT NULL,
             'paper_key_configured',a.signing_public_key IS NOT NULL,
             'auth_policy',a.auth_policy,'auth_revision',a.auth_revision,
             'created_at',a.created_at,'is_current',a.user_id=$1)
          FROM server_administrators a JOIN users u ON u.id=a.user_id
+         LEFT JOIN user_identities i ON i.user_id=u.id
          WHERE u.deleted_at IS NULL
-         ORDER BY CASE a.role WHEN 'owner' THEN 0 ELSE 1 END,u.username_normalized",
+         ORDER BY CASE a.role WHEN 'owner' THEN 0 ELSE 1 END,u.display_name,u.id",
     )
     .bind(admin.user)
     .fetch_all(&state.db)

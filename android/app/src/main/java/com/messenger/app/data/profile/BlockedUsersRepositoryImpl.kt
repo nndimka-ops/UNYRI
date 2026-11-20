@@ -76,5 +76,5 @@ class BlockedUsersRepositoryImpl(
         catch (failure: Exception) { Result.failure(failure) }
     }
 
-    private fun PublicUserDto.toDomain() = PublicUser(id, username, displayName, avatarUrl, bio, profileVersion, avatarVersion, hasAvatar)
+    private fun PublicUserDto.toDomain() = PublicUser(id, "", displayName, avatarUrl, bio, profileVersion, avatarVersion, hasAvatar, publicNumber, publicUsername)
 }

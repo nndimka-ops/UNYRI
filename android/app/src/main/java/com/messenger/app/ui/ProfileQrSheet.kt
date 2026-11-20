@@ -48,9 +48,6 @@ import kotlinx.coroutines.withContext
 import kotlinx.coroutines.launch
 import kotlin.math.floor
 
-/** Same public profile URI as iOS, never a history-transfer payload or an account key. */
-internal fun profilePublicLink(username: String?): String? = PublicProfileLink.uriFor(username)
-
 /** Accept only the public URI emitted by this sheet, never conference capabilities or arbitrary paths. */
 internal fun profileLinkUsername(value: String?): String? = PublicProfileLink.parse(Intent.ACTION_VIEW, value)?.username
 
@@ -117,7 +114,8 @@ internal class ProfileLinkViewModel(state: SavedStateHandle) : ViewModel() {
     }
 }
 
-/** Search is alphabetical substring matching. Follow its cursor, never substitute a fuzzy result.
+/** Old link paths are interpreted as public @usernames. Never match a private login.
+ * Follow the result cursor, never substitute a fuzzy result.
  * Twenty pages bound work below the server's 30-search/minute quota (50 results per page). */
 internal suspend fun findProfileLinkUser(username: String, owner: String, currentOwner: () -> String?,
     lookup: suspend (String, Long) -> Result<SearchResult>, maxPages: Int = 20): PublicUser {
@@ -125,10 +123,10 @@ internal suspend fun findProfileLinkUser(username: String, owner: String, curren
     var offset = 0L
     repeat(maxPages) {
         check(currentOwner() == owner)
-        val page = lookup(username, offset).getOrThrow()
+        val page = lookup("@" + username.removePrefix("@"), offset).getOrThrow()
         check(currentOwner() == owner)
         check(!page.cached) { "Profile lookup requires a current server result" }
-        val matches = page.items.filter { it.username.equals(username, ignoreCase = true) }
+        val matches = page.items.filter { it.publicUsername?.equals(username.removePrefix("@"), ignoreCase = true) == true }
         check(matches.size <= 1) { "Ambiguous profile" }
         matches.singleOrNull()?.let { return it }
         val next = page.nextOffset ?: error("Profile not found")
@@ -152,9 +150,9 @@ internal suspend fun resolveProfileLink(username: String, owner: String,
     }
     val self = getMe().getOrThrow()
     check(currentOwner() == owner && self.id == selfId) { "Profile owner changed" }
-    val user = if (self.username.equals(username, ignoreCase = true)) {
-        PublicUser(self.id, self.username, self.displayName, self.avatarUrl, self.bio,
-            self.profileVersion, self.avatarVersion, self.hasAvatar)
+    val user = if (self.publicUsername?.equals(username.removePrefix("@"), ignoreCase = true) == true) {
+        PublicUser(self.id, self.publicUsername.orEmpty(), self.displayName, self.avatarUrl, self.bio,
+            self.profileVersion, self.avatarVersion, self.hasAvatar, self.unyriNumber, self.publicUsername)
     } else findProfileLinkUser(username, owner, currentOwner, lookup)
     Result.success(user)
 } catch (cancelled: CancellationException) { throw cancelled }
@@ -188,7 +186,7 @@ internal fun ProfileLinkLanding(model: ProfileLinkViewModel, owner: String?, sco
 }
 
 @Composable
-private fun ProfileLinkActionCard(user: PublicUser, owner: String, selfId: String?, currentOwner: () -> String?,
+internal fun ProfileLinkActionCard(user: PublicUser, owner: String, selfId: String?, currentOwner: () -> String?,
     currentCard: () -> Boolean, onClose: () -> Unit, onOpenChat: (String) -> Unit) {
     val app = LocalContext.current.applicationContext as com.messenger.app.MessengerApp
     val contacts = remember(owner) { app.contactsRepository.store }
@@ -197,19 +195,20 @@ private fun ProfileLinkActionCard(user: PublicUser, owner: String, selfId: Strin
     val changing by contacts.changing.collectAsState()
     val revision by contacts.revision.collectAsState()
     val scope = rememberCoroutineScope()
-    val actions = remember(owner, user.id) { ProfileLinkActions(owner, currentOwner, currentCard,
+    val peer = !isOwnPublicProfile(user.id, selfId)
+    val actions = remember(owner, user.id, selfId) { ProfileLinkActions(owner, currentOwner, currentCard,
         { id -> app.chatRepository.createOrOpenDirectChat(id).map { it.chatId } },
-        { contacts.set(user, true) }) }
+        { contacts.set(user, true) }, { !isOwnPublicProfile(user.id, selfId) }) }
     val member = user.id in ids
     val known = member || user.id in nonMembers
-    LaunchedEffect(contacts, user.id, revision) { contacts.check(user) }
-    val peer = user.id != selfId
+    LaunchedEffect(contacts, user.id, revision, peer) { if (peer) contacts.check(user) }
         AlertDialog(onDismissRequest = onClose,
             modifier = Modifier.testTag("profile-link-card"),
             title = { Text(user.visibleName) },
             text = { Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(com.messenger.app.ui.publicHandle(user))
                 user.bio?.takeIf { it.isNotBlank() }?.let { Text(it) }
+                if (!peer) Text(stringResource(R.string.contacts_self), Modifier.testTag("profile-link-self"))
                 if (peer) {
                     TextButton(enabled = !actions.busy, onClick = { scope.launch {
                         actions.message(user.id)?.let { onClose(); onOpenChat(it) }
@@ -228,18 +227,29 @@ internal fun profileQrMatrix(link: String): BitMatrix = QRCodeWriter().encode(li
     mapOf(EncodeHintType.MARGIN to 0, EncodeHintType.ERROR_CORRECTION to ErrorCorrectionLevel.M,
         EncodeHintType.CHARACTER_SET to "UTF-8"))
 
+internal data class ProfileQrContent(val link: String?, val origin: String?)
+
+/** The caption and QR payload share the identity's advertised origin, including explicit overrides. */
+/** B-033: only the public number makes a QR (a legacy username may be the private login); B-039: its server address under it. */
+internal fun profileQrContent(number: String?, origin: String?): ProfileQrContent {
+    val link = if (number != null && origin != null) com.messenger.app.data.identity.IdentityPolicy.link(number, origin) else null
+    return ProfileQrContent(link, origin.takeIf { link != null })
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ProfileQrSheet(displayName: String, username: String?, onEdit: () -> Unit, onClose: () -> Unit,
-    number: String? = null, origin: String? = null) {
+    number: String? = null, origin: String? = null, title: String? = null, instruction: String? = null) {
     val context = LocalContext.current
     val app = context.applicationContext as com.messenger.app.MessengerApp
     val identity by app.identityRepository.identity.collectAsState()
     val legacy by app.identityRepository.legacy.collectAsState()
     val n = if (legacy) null else number ?: identity?.number
     val server = origin ?: identity?.publicOrigin
-    val publicName = if (number != null) username else if (n != null) identity?.username else username?.takeIf { legacy }
-    val link = remember(username, n, server, legacy) { if (n != null && server != null) com.messenger.app.data.identity.IdentityPolicy.link(n, server) else if (legacy) profilePublicLink(username) else null }
+    // B-033: never a legacy username (it may be the private login). B-039: the server address under the QR, only with a QR.
+    val publicName = if (number != null) username else if (n != null) identity?.username else null
+    val content = remember(n, server) { profileQrContent(n, server) }
+    val link = content.link
     val qr by produceState<BitMatrix?>(null, link) {
         value = link?.let { withContext(Dispatchers.Default) { profileQrMatrix(it) } }
     }
@@ -252,7 +262,7 @@ internal fun ProfileQrSheet(displayName: String, username: String?, onEdit: () -
         shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp), containerColor = Color(0xFF1C1C1E),
         contentColor = Color(0xFFF1F1F1), dragHandle = null) {
         Column(Modifier.fillMaxWidth().fillMaxHeight().navigationBarsPadding().testTag("profile-qr-sheet")) {
-            ProfileQrHeader(onClose)
+            ProfileQrHeader(onClose, title ?: stringResource(R.string.sidebar_qr_title))
             Column(Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(top = 24.dp, bottom = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(18.dp)) {
                 val matrix = qr
@@ -268,8 +278,12 @@ internal fun ProfileQrSheet(displayName: String, username: String?, onEdit: () -
                     if (!publicName.isNullOrEmpty()) Text("@$publicName", Modifier.padding(horizontal = 24.dp),
                         color = Color(0xFF98989F), fontSize = 15.sp, textAlign = TextAlign.Center)
                 }
-                Text(stringResource(R.string.sidebar_qr_instruction), Modifier.padding(horizontal = 32.dp),
+                Text(instruction ?: stringResource(R.string.sidebar_qr_instruction), Modifier.padding(horizontal = 32.dp),
                     fontSize = 13.sp, lineHeight = 18.sp, color = Color(0xFF98989F), textAlign = TextAlign.Center)
+                content.origin?.let { publicOrigin ->
+                    Text(publicOrigin, Modifier.padding(horizontal = 32.dp).testTag("profile-qr-origin"),
+                        fontSize = 12.sp, lineHeight = 16.sp, color = Color(0xFF98989F), textAlign = TextAlign.Center)
+                }
                 // A real button (it was grey text on a grey pill): white label on a lighter glass pill.
                 if (link != null) Row(Modifier.heightIn(min = 50.dp).background(Color.White.copy(alpha = .14f), CircleShape)
                     .border(.5.dp, Color.White.copy(alpha = .14f), CircleShape)
@@ -295,11 +309,11 @@ internal fun ProfileQrSheet(displayName: String, username: String?, onEdit: () -
     }
 }
 
-@Composable private fun ProfileQrHeader(onClose: () -> Unit) {
+@Composable private fun ProfileQrHeader(onClose: () -> Unit, heading: String) {
     val actionWidth = 88.dp * LocalDensity.current.fontScale.coerceAtLeast(1f)
     BoxWithConstraints(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 16.dp)) {
         @Composable fun title(modifier: Modifier = Modifier) {
-            Text(stringResource(R.string.sidebar_qr_title), modifier, fontSize = 17.sp,
+            Text(heading, modifier, fontSize = 17.sp,
                 lineHeight = 21.sp, fontWeight = FontWeight.SemiBold, textAlign = TextAlign.Center)
         }
         @Composable fun done(modifier: Modifier = Modifier) {

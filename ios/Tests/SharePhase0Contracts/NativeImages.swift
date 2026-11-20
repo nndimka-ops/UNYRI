@@ -45,7 +45,7 @@ var shareCopyChunkHook: (() -> Void)?
         try pad(webp, to: ceiling + 1)
         try kind(webp, "file")
         let multiFrame = encode(.tiff, frames: 2, name: "animated.tiff")
-        try kind(multiFrame, "image")
+        try kind(multiFrame, "file")
         try pad(multiFrame, to: ceiling + 1)
         try kind(multiFrame, "file")
         let still = encode(.png, frames: 1, name: "still.png")
@@ -53,6 +53,6 @@ var shareCopyChunkHook: (() -> Void)?
         try kind(still, "image")
         try pad(gif, to: UnyriShareStore.maxFileBytes)
         try kind(gif, "file")
-        print("Native ImageIO share preflight contracts passed: GIF/WebP, mislabeled GIF, multi-frame TIFF, still PNG, 25/100 MB boundaries")
+        print("Native ImageIO share preflight contracts passed: GIF/WebP, mislabeled GIF, rejected multi-frame TIFF, still PNG, 25/100 MB boundaries")
     }
 }

@@ -216,7 +216,7 @@
     <string name="voice_open_app_settings">فتح إعدادات التطبيق</string>
     <string name="notification_settings_system_on">إشعارات Android مسموح بها</string>
     <string name="notification_settings_system_off">إشعارات Android محظورة</string>
-    <string name="notification_settings_system_detail">يتحكم Android في الإذن والعرض على شاشة القفل والصوت والاهتزاز. تُدار هنا أيضًا إشعارات الإدارة والخدمة. لا يمكن لـ UNYRI تجاوز اختيارات النظام.</string>
+    <string name="notification_settings_system_detail">اختاروا قناة الرسائل أو المكالمات في Android لضبط الصوت والاهتزاز.</string>
     <string name="notification_settings_allow">السماح بالإشعارات</string>
     <string name="notification_settings_system_open">فتح إعدادات إشعارات Android</string>
     <string name="local_mode_notifications">السماح بالإشعارات</string>

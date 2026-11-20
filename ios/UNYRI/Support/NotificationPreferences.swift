@@ -104,23 +104,37 @@ struct UnyriPausedReminderArchive {
     /// The single file of earlier versions, shared by whichever account was signed in.
     /// Read (owner-checked) until this owner's own file is written, then removed.
     var legacyFile: URL? = nil
+    var legacyOwnerFile: URL? = nil
+    var origin: String? = nil
 
     /// One file per account: two signed-in accounts never overwrite each other's plan.
-    static func accountArchive(owner: String) -> UnyriPausedReminderArchive {
+    static func accountArchive(owner: String, server: String? = nil) -> UnyriPausedReminderArchive {
         let support = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
             ?? FileManager.default.temporaryDirectory
         let folder = support.appendingPathComponent("COCO/Notifications", isDirectory: true)
         let name = UUID(uuidString: owner).map { "paused-reminders-v1-" + $0.uuidString.lowercased() + ".json" }
             ?? "paused-reminders-v1-invalid.json"
-        return UnyriPausedReminderArchive(file: folder.appendingPathComponent(name),
-                                          legacyFile: folder.appendingPathComponent("paused-reminders-v1.json"))
+        var scopedFolder = folder
+        if let server {
+            let encoded = Array(Data(server.utf8).base64EncodedString().replacingOccurrences(of: "/", with: "_").utf8)
+            scopedFolder.appendPathComponent("origins-v2", isDirectory: true)
+            for offset in stride(from: 0, to: encoded.count, by: 120) {
+                scopedFolder.appendPathComponent(String(decoding: encoded[offset..<min(offset + 120, encoded.count)], as: UTF8.self), isDirectory: true)
+            }
+        }
+        return UnyriPausedReminderArchive(file: scopedFolder.appendingPathComponent(name),
+            legacyFile: folder.appendingPathComponent("paused-reminders-v1.json"),
+            legacyOwnerFile: server == nil ? nil : folder.appendingPathComponent(name), origin: server)
     }
 
     func load(owner: String, server: String, now: Date = Date()) -> [UnyriPausedReminder] {
         guard UUID(uuidString: owner) != nil else { return [] }
-        let source = FileManager.default.fileExists(atPath: file.path) ? file : (legacyFile ?? file)
-        guard let value = Self.read(source), value.owner == owner, value.server == server else { return [] }
-        return Self.bounded(value.entries, owner: owner, now: now)
+        for source in [file, legacyOwnerFile, legacyFile].compactMap({ $0 }) {
+            if let value = Self.read(source), value.owner == owner, value.server == server {
+                return Self.bounded(value.entries, owner: owner, now: now)
+            }
+        }
+        return []
     }
 
     private static func read(_ url: URL) -> Payload? {
@@ -132,15 +146,16 @@ struct UnyriPausedReminderArchive {
 
     /// The legacy file goes once it belongs to `owner` (its plan now lives in `file`).
     private func dropLegacy(owner: String?) {
-        guard let legacyFile, FileManager.default.fileExists(atPath: legacyFile.path) else { return }
-        if let owner, let value = Self.read(legacyFile), value.owner != owner { return }
-        try? FileManager.default.removeItem(at: legacyFile)
+        for legacy in [legacyFile, legacyOwnerFile].compactMap({ $0 }) {
+            guard let value = Self.read(legacy), owner == nil || value.owner == owner,
+                  origin == nil || value.server == origin else { continue }
+            try? FileManager.default.removeItem(at: legacy)
+        }
     }
 
     @discardableResult
     func save(_ entries: [UnyriPausedReminder], owner: String, server: String, now: Date = Date()) -> Bool {
         guard UUID(uuidString: owner) != nil else { return false }
-        defer { if FileManager.default.fileExists(atPath: file.path) { dropLegacy(owner: owner) } }
         let value = Payload(version: 1, owner: owner, server: server, entries: Self.bounded(entries, owner: owner, now: now))
         do {
             var directory = file.deletingLastPathComponent()
@@ -155,6 +170,8 @@ struct UnyriPausedReminderArchive {
             #else
             try data.write(to: file, options: .atomic)
             #endif
+            guard try Data(contentsOf: file) == data else { return false }
+            dropLegacy(owner: owner)
             return true
         } catch { return false }
     }

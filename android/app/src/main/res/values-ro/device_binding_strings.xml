@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auth_hardware_binding_required">Acest telefon nu poate proteja sesiunea cu o cheie hardware, iar serverul solicită această protecție.</string>
+</resources>

@@ -10,6 +10,8 @@ struct ConferenceJoinRequest: Decodable, Identifiable, Sendable, Equatable {
     let status: String
     let expiresAt: Date
     let retryAt: Date?
+    var unyriNumber: String? = nil
+    var publicUsername: String? = nil
     var id: UUID { requestId }
 }
 enum ConferenceApprovalFailure: Error, LocalizedError {
@@ -46,6 +48,9 @@ struct ConferenceDTO: Decodable, Identifiable {
         let displayName: String
         let participantIdentity: String?
         let audioPublishBlocked: Bool?
+        var username: String? = nil
+        var unyriNumber: String? = nil
+        var publicUsername: String? = nil
     }
     let id: UUID
     let title: String
@@ -62,6 +67,9 @@ struct ConferenceDTO: Decodable, Identifiable {
     let accessMode: String?
     let settingsRevision: Int64?
     let accessRevision: Int64?
+    var username: String? = nil
+    var unyriNumber: String? = nil
+    var publicUsername: String? = nil
 }
 struct ConferenceJoinDTO: Decodable {
     let conference: ConferenceDTO

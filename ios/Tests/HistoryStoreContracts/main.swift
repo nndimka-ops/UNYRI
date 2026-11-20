@@ -133,7 +133,9 @@ struct HistoryStoreContracts {
         print("Native sender ACK lifecycle contracts passed: no-echo set/remove/edit/delete, rapid intents, stale/duplicate ACKs and atomic rollback/retry")
     }
     @MainActor static func verifyLegacyProjectionRepair(in directory: URL) async throws {
-        func require(_ value: Bool, _ message: String = "") { precondition(value, message) }
+        func require(_ value: Bool, _ message: String = "", file: StaticString = #file, line: UInt = #line) {
+            precondition(value, message, file: file, line: line)
+        }
         let path = directory.appendingPathComponent("legacy-lifecycle.sqlite3")
         let store = try MessageStore(databaseURL: path)
         let chat = id(4000), owner = id(4001), client = id(4002), server = id(4003)
@@ -224,8 +226,16 @@ struct HistoryStoreContracts {
         let visible = try reopened.messages(forChatId: chat)
         precondition(visible.count == 1 && visible[0].clientMessageId == client)
         precondition(visible[0].content.text == "new private text 10" && visible[0].lastEditSequence == 10)
-        require(try reopened.message(byServerId: hiddenServer)?.hiddenLocally == true)
-        require(try reopened.message(byServerId: hiddenServer)?.content.text == "new private text 15")
+        let hidden = try reopened.message(byServerId: hiddenServer)
+        require(hidden?.hiddenLocally == true && hidden?.deleteSequence == 0,
+                "Legacy repair preserves the local-only tombstone")
+        require(hidden?.content == MessageContent(kind: MessageContent.kindDelete) &&
+                hidden?.payloadText == nil && hidden?.pendingEditText == nil && hidden?.pendingEditRevision == 0,
+                "A legacy edit must not restore any content or pending edit to a locally hidden message")
+        let deleted = try reopened.message(byServerId: deletedServer)
+        require(deleted?.content == MessageContent(kind: MessageContent.kindDelete) &&
+                deleted?.payloadText == nil && deleted?.pendingEditText == nil && deleted?.pendingEditRevision == 0,
+                "Legacy delete repair erases content while retaining the sequence tombstone")
         require(try reopened.reaction(targetMessageId: server, userId: owner)?.lastReactionSequence == 164)
         require(try reopened.activeReactions(forChatId: chat).allSatisfy { $0.targetMessageId != deletedServer })
         let finalMarker = try reopened.chatValue(chatId: chat, name: "lifecycle_projection_v1")

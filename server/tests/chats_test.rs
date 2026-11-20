@@ -237,14 +237,19 @@ async fn peer_card_fields_are_single_chat_only_and_respect_visibility() {
         .bind(peer_id).fetch_one(&db).await.unwrap();
     let search = body_json(app.clone().oneshot(get_request(
         &format!("/users/search?q={}", username.0), ip, Some(&a))).await.unwrap()).await;
-    assert!(!search["items"].as_array().unwrap().is_empty());
-    assert!(search["items"][0].get("new_account").is_none());
+    assert!(search["items"].as_array().unwrap().is_empty());
+    assert!(search["next_offset"].is_null());
     let directory = body_json(app.clone().oneshot(get_request("/users/directory?limit=200", ip, Some(&a))).await.unwrap()).await;
-    assert!(!directory["items"].as_array().unwrap().is_empty());
-    for item in directory["items"].as_array().unwrap() {
-        assert!(item.get("new_account").is_none());
-        if let Some(user) = item.get("user") { assert!(user.get("new_account").is_none()); }
-    }
+    assert!(directory["items"].as_array().unwrap().is_empty());
+    assert!(directory["next_offset"].is_null());
+    // Public identity lookup replaces the retired login directory. The coarse
+    // new-account hint remains exclusive to a single-chat peer card.
+    let number: String = sqlx::query_scalar("SELECT unyri_number::text FROM user_identities WHERE user_id=$1")
+        .bind(peer_id).fetch_one(&db).await.unwrap();
+    let public = body_json(app.clone().oneshot(get_request(
+        &format!("/users/lookup?number={number}"), ip, Some(&a))).await.unwrap()).await;
+    assert_eq!(public["id"], bid);
+    assert!(public.get("new_account").is_none());
     assert_eq!(app.clone().oneshot(get_request(&detail, ip, Some(&outsider))).await.unwrap().status(), StatusCode::NOT_FOUND);
 
     // PostgreSQL's transaction clock makes the strict 30-day boundary exact.

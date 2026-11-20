@@ -8,7 +8,7 @@ enum AccountAvatarImage {
 
     /// ImageIO downsamples and applies EXIF orientation on the caller's worker.
     static func jpeg(file: URL) -> Data? {
-        guard file.isFileURL, let source = CGImageSourceCreateWithURL(file as CFURL, nil),
+        guard file.isFileURL, let source = PeerImagePolicy.source(url: file),
               let image = CGImageSourceCreateThumbnailAtIndex(source, 0, [
                 kCGImageSourceCreateThumbnailFromImageAlways: true,
                 kCGImageSourceCreateThumbnailWithTransform: true,
@@ -29,7 +29,7 @@ enum AccountAvatarImage {
         try? cache.load(slot: slot, owner: owner, read: {
             try AccountAvatarStore.device.read(slot: slot, owner: owner)
         }, decode: { jpeg in
-        guard let source = CGImageSourceCreateWithData(jpeg as CFData, nil),
+        guard let source = PeerImagePolicy.source(data: jpeg, jpegOnly: true),
               let cg = CGImageSourceCreateThumbnailAtIndex(source, 0, [
                 kCGImageSourceCreateThumbnailFromImageAlways: true,
                 kCGImageSourceThumbnailMaxPixelSize: 128,

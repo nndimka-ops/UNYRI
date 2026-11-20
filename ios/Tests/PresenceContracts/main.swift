@@ -63,7 +63,7 @@ import Foundation
         let directory = (100...209).map { index in
             PublicUser(id: String(format: "00000000-0000-0000-0000-%012d", index), username: "alice_\(index)",
                        displayName: "Алиса", bio: nil, avatarUrl: nil, profileVersion: 1, avatarVersion: 0,
-                       hasAvatar: false, online: true, lastSeenAt: frame.observedAt)
+                       hasAvatar: false, publicUsername: "alice_\(index)", online: true, lastSeenAt: frame.observedAt)
         }
         let identities = DirectoryCachePolicy.identities(directory + [directory[0]])
         precondition(identities.count == 100 && Set(identities.map(\.id)).count == 100)
@@ -71,15 +71,27 @@ import Foundation
         precondition(DirectoryCachePolicy.matching(identities, query: "АЛИСА").count == 100)
         precondition(DirectoryCachePolicy.matching(identities, query: "@alice_100").map(\.id) == [directory[0].id])
         precondition(DirectoryCachePolicy.matching(identities, query: "unknown").isEmpty)
+        // The display name must differ from the login, or the name match hides what is tested.
+        let privateOnly = PublicUser(id: "00000000-0000-0000-0000-000000000999", username: "privlogin42",
+                                     displayName: "Синтетик", bio: nil, avatarUrl: nil, profileVersion: 1, avatarVersion: 0,
+                                     hasAvatar: false, publicUsername: nil, online: nil, lastSeenAt: nil)
+        precondition(DirectoryCachePolicy.matching([privateOnly], query: "@privlogin42").isEmpty, "A cached private login is never a search key")
+        precondition(DirectoryCachePolicy.matching([privateOnly], query: "синтетик").count == 1, "the display name still matches")
         let cache = DirectoryIdentityCache(scope: "synthetic-server|synthetic-owner", users: identities)
         let data = try JSONEncoder().encode(cache)
         let disk = try JSONDecoder().decode(DirectoryIdentityCache.self, from: data)
-        precondition(disk.scope == cache.scope && disk.users == identities)
+        // B-033: PublicUser never keeps or writes a peer login, so the disk copy matches the
+        // identities with the login erased and everything public intact.
+        precondition(disk.scope == cache.scope && disk.users.map(\.id) == identities.map(\.id))
+        precondition(disk.users.allSatisfy { $0.username.isEmpty }, "A peer login never reaches the directory cache file")
+        precondition(disk.users.map(\.publicUsername) == identities.map(\.publicUsername)
+                     && disk.users.map(\.displayName) == identities.map(\.displayName))
         precondition(DirectoryCachePolicy.restored(disk, scope: cache.scope, query: "").count == 100)
         precondition(DirectoryCachePolicy.restored(disk, scope: "other-server|synthetic-owner", query: "").isEmpty)
         precondition(DirectoryCachePolicy.restored(disk, scope: "synthetic-server|other-owner", query: "").isEmpty)
         let json = String(decoding: data, as: UTF8.self)
         precondition(!json.contains("\"online\"") && !json.contains("\"lastSeenAt\""))
+        precondition(!json.contains("\"username\":\"alice_"), "The cache file carries no peer login")
         print("Presence contracts passed: leases, historical timestamps without stale online, blocked omission, account reset, delayed/duplicate snapshots, owner union, timezone/year labels, bounded hint-free directory cache")
     }
 }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chats_archive_detail">Přesuňte sem chaty z jejich nabídky nebo jich vyberte více. Nové zprávy je zde ponechají, dokud je neobnovíte.</string>
+    <string name="privacy_devices_blocks">Zařízení a blokování</string>
+    <string name="privacy_messages_section">Zprávy</string>
+    <string name="settings_privacy_visibility">Viditelnost</string>
+    <string name="privacy_nobody_count">Nikdo</string>
+    <string name="blocked_users_search">Jméno, číslo nebo @jméno</string>
+    <plurals name="privacy_people_count_short">
+        <item quantity="one">%1$d os.</item>
+        <item quantity="few">%1$d os.</item>
+        <item quantity="many">%1$d os.</item>
+        <item quantity="other">%1$d os.</item>
+    </plurals>
+    <string name="drawer_report_short">Hlášení</string>
+    <string name="peer_qr_title">QR kód této osoby</string>
+    <string name="peer_remove_confirm_title">Odebrat kontakt?</string>
+    <string name="peer_remove_confirm_detail">Tato osoba bude odebrána z vašich kontaktů. Chat a zprávy zůstanou.</string>
+    <string name="inline_search_people_hint">Hledejte lidi podle čísla nebo @jména.</string>
+    <string name="app_version_format">Verze %1$s (%2$d)</string>
+    <string name="server_current_title">Aktuální server</string>
+    <string name="server_change_title">Změnit server</string>
+    <string name="server_edit_help">Zadejte adresu HTTPS. Před změnou serveru se odhlaste.</string>
+    <string name="server_alpha_http_detail">Alfa verze umožňují také HTTP v důvěryhodné místní síti.</string>
+    <string name="server_max_file_size">Maximální velikost šifrovaného souboru</string>
+    <string name="server_user_quota">Úložiště na účet</string>
+    <string name="server_no_limit">Bez omezení</string>
+    <string name="settings_about">Nápověda a aplikace</string>
+    <string name="settings_data_storage">Připojení a úložiště</string>
+    <string name="notification_in_app_sound_detail">Přehrát zvuk, když je UNYRI otevřené.</string>
+    <string name="notification_in_app_vibration_detail">Vibrovat, když je UNYRI otevřené.</string>
+    <string name="report_problem_detail">Popište problém a přiložte snímky obrazovky.</string>
+    <string name="report_recent_problem_detail">Označte čas nedávné chyby; níže zapněte diagnostiku.</string>
+    <string name="sh_step_computer">Počítač, který je stále zapnutý</string>
+    <string name="sh_step_computer_summary">Použijte vlastní počítač nebo si ho pronajměte na internetu (VPS).</string>
+    <string name="sh_step_install">Nainstalovat UNYRI Server</string>
+    <string name="sh_step_install_summary">Nainstalujte serverový program podle návodu.</string>
+    <string name="sh_step_internet">Povolit přístup z internetu</string>
+    <string name="sh_step_internet_summary">Postupujte podle návodu, aby se telefon připojil i mimo domov.</string>
+    <string name="sh_step_phone">Připojit telefon</string>
+    <string name="sh_step_phone_summary">Potvrďte adresu serveru nebo naskenujte pozvánku a vytvořte účet.</string>
+    <string name="sh_step_owner">Stát se vlastníkem</string>
+    <string name="sh_step_owner_summary">Použijte jednorázový kód zobrazený instalátorem.</string>
+    <string name="sh_step_test">Ověřit zprávy a hovory</string>
+    <string name="sh_step_test_summary">Vypněte Wi-Fi a ověřte zprávy, hovory a oznámení přes mobilní data.</string>
+    <string name="sh_step_more">Podrobnosti</string>
+    <string name="connection_checking">Kontrola…</string>
+    <string name="sh_open_guide">Návod a stažení</string>
+    <string name="local_mode_description">Zprávy a hovory z vašeho serveru přes Wi-Fi bez internetu. Režim zobrazuje trvalé oznámení a spotřebovává více baterie. Po vynuceném zastavení nebo restartu znovu otevřete UNYRI.</string>
+    <string name="local_mode_connected">Připojeno k vašemu serveru</string>
+    <string name="local_mode_signin">Přihlaste se a zapněte místní připojení.</string>
+    <string name="peer_qr_instruction">Naskenujte kód a otevřete profil této osoby v UNYRI.</string>
+</resources>

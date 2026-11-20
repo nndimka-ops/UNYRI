@@ -19,7 +19,7 @@
     <string name="search_recent">Ricerche recenti</string>
     <string name="search_scope_messages">Messaggi</string>
     <string name="settings_search_label">Cerca</string>
-    <string name="unified_search_hint">Cerca offline nelle chat e nei messaggi salvati. Trova persone su questo server per nome utente.</string>
+    <string name="unified_search_hint">Cerchi tra chat e messaggi salvati anche senza connessione. Trovi persone su questo server tramite numero o @nome.</string>
     <string name="unified_search_network">La ricerca sul server non è disponibile. I risultati locali restano disponibili.</string>
     <string name="unified_search_local_error">Impossibile caricare i messaggi salvati. Ripeti la ricerca.</string>
 </resources>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_relay_unavailable">Αυτός ο διακομιστής δεν διαθέτει αναμεταδότη TURN. Η κλήση με αυτό το άτομο τον απαιτεί για να αποφευχθεί άμεση σύνδεση.</string>
+    <string name="direct_peer_relay_unavailable">Ο συνομιλητής επιτρέπει συνδέσεις μόνο μέσω διακομιστή, αλλά ο αναμεταδότης δεν είναι διαθέσιμος.</string>
+</resources>

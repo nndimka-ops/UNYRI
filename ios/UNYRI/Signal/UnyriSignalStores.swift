@@ -96,6 +96,7 @@ final class UnyriIdentityKeyStore: IdentityKeyStore {
         return try store.withExclusiveAccess {
             let suffix = SignalStorageKeys.encodeAddress(name: address.name, deviceId: address.deviceId)
             let bytes = identity.serialize()
+            if try store.localSecurity?.isRevoked(user: address.name, signal: address.deviceId, identity: bytes) == true { return false }
             let existing = try self.identity(for: address, context: context)?.serialize()
             let pendingKey = "pending_identity." + suffix
             let pending = try store.data(forKey: pendingKey)
@@ -273,7 +274,7 @@ final class UnyriSignalStoreContainer: @unchecked Sendable {
     /// Builds a store container namespaced by the current authenticated account
     /// (user id) and installation, so Signal material never leaks across
     /// accounts or across reinstalls. Only call once a user is authenticated.
-    static func forCurrentAccount(sessionStore: SessionStore) throws -> UnyriSignalStoreContainer {
+    static func forCurrentAccount(sessionStore: SessionStore, localSecurity: LocalSecurityDecisions? = nil) throws -> UnyriSignalStoreContainer {
         // Freeze ownership for the lifetime of this container, including awaits.
         guard let user = try sessionStore.checkedServerContinuityUserID() else {
             throw SignalError.invalidState("no authenticated account")
@@ -285,7 +286,22 @@ final class UnyriSignalStoreContainer: @unchecked Sendable {
         let namespace = try SignalNamespaceBinding.resolve(origin: AppConfig.storageOrigin,
             owner: owner, legacyPrefix: AppConfig.signalServerPrefix,
             read: { try keychain.data(forKey: $0) }, write: { try keychain.setData($1, forKey: $0) })
-        let state = SignalStateStore(keychain: keychain, namespace: { namespace })
+        let state = SignalStateStore(keychain: keychain, localSecurity: localSecurity, namespace: { namespace })
+        if let security = localSecurity {
+            // Adopt legacy approved pins once, then restore durable continuity before any Signal use.
+            let saved = try security.pins()
+            for key in try state.keys(withPrefix: "trusted_identity.") {
+                guard let address = SignalStorageKeys.decodeAddress(String(key.dropFirst("trusted_identity.".count))),
+                      !saved.contains(where: { $0.userId == address.name && $0.signalDeviceId == address.deviceId }),
+                      let identity = try state.data(forKey: key) else { continue }
+                let verified = try state.contains("verified_identity." + SignalStorageKeys.encodeAddress(name: address.name, deviceId: address.deviceId))
+                try security.pin(user: address.name, signal: address.deviceId, identity: identity, verified: verified)
+            }
+            for pin in try security.pins() {
+                let key = SignalStorageKeys.trustedIdentity(name: pin.userId, deviceId: pin.signalDeviceId)
+                if try state.data(forKey: key) != pin.identityKey { try state.setData(pin.identityKey, forKey: key) }
+            }
+        }
         return UnyriSignalStoreContainer(stateStore: state)
     }
 }

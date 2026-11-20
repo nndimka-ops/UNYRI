@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_relay_unavailable">Ezen a szerveren nincs TURN-közvetítő. Az ezzel a személlyel folytatott híváshoz szükség van rá a közvetlen kapcsolat elkerüléséhez.</string>
+    <string name="direct_peer_relay_unavailable">A másik fél csak szerveren keresztüli kapcsolatot engedélyez, de a közvetítő nem érhető el.</string>
+</resources>

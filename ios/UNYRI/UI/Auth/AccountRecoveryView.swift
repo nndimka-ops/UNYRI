@@ -157,10 +157,9 @@ struct AccountRecoveryView: View {
         configuration.timeoutIntervalForResource = 30
         let session = URLSession(configuration: configuration, delegate: RecoveryRedirectPolicy(), delegateQueue: nil)
         defer { session.invalidateAndCancel() }
-        let (data,response) = try await session.data(for:request)
+        let (data, http) = try await session.unyriBoundedData(for: request, maximumBytes: 64 * 1024)
         guard epoch == auth.sessionGeneration, operation == generation, server == AppConfig.apiBaseURL,
               !Task.isCancelled else { throw CancellationError() }
-        guard let http = response as? HTTPURLResponse else { throw APIError.http(500) }
         guard (200..<300).contains(http.statusCode) else {
             if let failure = try? JSONDecoder().decode(APIErrorBody.self, from: data) {
                 throw APIError.server(code: failure.error.code, message: failure.error.message)

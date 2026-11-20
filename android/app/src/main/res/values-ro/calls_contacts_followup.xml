@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_relay_unavailable">Acest server nu are releu TURN. Apelul cu această persoană necesită un releu pentru a evita conexiunea directă.</string>
+    <string name="direct_peer_relay_unavailable">Interlocutorul permite doar conexiuni prin server, dar releul nu este disponibil.</string>
+</resources>

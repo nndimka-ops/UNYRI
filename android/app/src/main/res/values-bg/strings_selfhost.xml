@@ -22,7 +22,7 @@
     <string name="sh_uses">Използвания</string>
     <string name="sh_days">Валидност (дни)</string>
     <string name="sh_invite_bounds">1–10 000 използвания; 1–365 дни.</string>
-    <string name="sh_create_invite">Създаване на покана</string>
+    <string name="sh_create_invite">Създаване на код</string>
     <string name="sh_active">Активна</string>
     <string name="sh_revoked">Отменена</string>
     <string name="sh_expired">Изтекла</string>
@@ -30,15 +30,15 @@
     <string name="sh_unknown">Неизвестно</string>
     <string name="sh_expiry">Изтича</string>
     <string name="sh_creator">Създадена от</string>
-    <string name="sh_revoke">Отмяна на покана</string>
+    <string name="sh_revoke">Отмяна</string>
     <string name="sh_revoke_confirm">Да се отмени ли поканата? Тя вече няма да позволява нови регистрации.</string>
     <string name="sh_more">Още покани</string>
     <string name="sh_self_check">Проверка на сървъра</string>
     <string name="sh_code_once">Запазете или споделете сега. Кодът се показва само веднъж.</string>
-    <string name="sh_copy_code">Копиране на код</string>
+    <string name="sh_copy_code">Копиране</string>
     <string name="sh_share_code">Споделяне на код</string>
     <string name="sh_copy_link">Копиране на връзка</string>
-    <string name="sh_share_link">Споделяне на връзка</string>
+    <string name="sh_share_link">Споделяне</string>
     <string name="sh_yes">да</string>
     <string name="sh_no">не</string>
     <string name="sh_ready">готово</string>
@@ -54,7 +54,7 @@
     <string name="sh_fix_storage">Проверете хранилището и правата за качване в инсталатора.</string>
     <string name="sh_fix_disk">Оставяйте поне 1 GB свободни и архивирайте преди почистване.</string>
     <string name="sh_fix_version">Използвайте съвместима версия на сървъра и изчакайте края на обновяването.</string>
-    <string name="sh_guide">1. Инсталирайте Docker и UNYRI на постоянно включен компютър. 2. Изберете домейн или DDNS. 3. Запазете адреса на компютъра и пренасочете HTTPS и портовете за обаждания; при CGNAT използвайте VPS или тунел. 4. Потвърдете HTTPS адреса или сканирайте QR на поканата. 5. Влезте, станете собственик в Профил с кода от инсталатора и защитете администрацията. 6. Администрация → Собствен сървър → Проверка на сървъра. Тествайте с мобилни данни. Архивирайте преди обновяване; push изисква доставчик.</string>
+    <string name="sh_guide">1. Инсталирайте Docker и UNYRI на постоянно включен компютър. 2. Изберете домейн или DDNS. 3. Запазете адреса на компютъра и пренасочете HTTPS и портовете за обаждания; при CGNAT използвайте VPS или тунел. 4. Потвърдете HTTPS адреса или сканирайте QR на поканата. 5. Влезте, станете собственик в Профил с кода от инсталатора и защитете администрацията. 6. Администрация → Регистрация и покани → Проверка на сървъра. Тествайте с мобилни данни. Архивирайте преди обновяване; push изисква доставчик.</string>
     <string name="sh_check_setup">Получаване на собственост е достъпно</string>
     <string name="sh_check_url">Публичен адрес</string>
     <string name="sh_check_url_config">Публичният адрес е настроен</string>
@@ -88,4 +88,7 @@
     <string name="sh_compatibility">Версията на приложението е съвместима</string>
     <string name="sh_socket">Текущият WebSocket е свързан</string>
     <string name="sh_scan_owner_code">Сканиране на кода на собственика</string>
+    <string name="sh_registration_invites">Регистрация и покани</string>
+    <string name="sh_mode_owner_only">Само собственикът може да променя режима на регистрация.</string>
+    <string name="sh_saved_codes_hint">Кодът се вижда само след създаване. Запазете или споделете новия код, преди да напуснете този екран.</string>
 </resources>

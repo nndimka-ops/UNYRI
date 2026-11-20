@@ -321,7 +321,9 @@ internal fun ConferenceShareDialog(controller: ConferenceController, onClose: ()
     val currentEligibleIds by rememberUpdatedState(eligibleIds)
     val candidates = remember(eligible, search) { eligible.filter {
         val peer = requireNotNull(it.otherUser)
-        peer.visibleName.contains(search.trim(), true) || peer.username.contains(search.trim().removePrefix("@"), true)
+        peer.visibleName.contains(search.trim(), true) || com.messenger.app.data.identity.IdentityPolicy.input(search)?.let { target ->
+            when (target.parameter) { "username" -> peer.publicUsername.equals(target.value, true); "number" -> peer.publicNumber == target.value; else -> false }
+        } == true
     } }
     LaunchedEffect(eligibleIds) { selected = selected.intersect(eligibleIds); failures = failures.intersect(eligibleIds) }
     // Refresh known chat metadata once on opening, or on an explicit retry. The
@@ -440,7 +442,7 @@ internal fun ConferenceShareDialog(controller: ConferenceController, onClose: ()
                             modifier = Modifier.testTag("conference_invite_avatar_${peer.id}"))
                         Column(Modifier.weight(1f)) {
                             Text(name, maxLines = 1, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.bodyLarge)
-                            Text(when { chat.chatId in queued -> "В очереди отправки"; chat.chatId in failures -> "Не удалось отправить · повторите"; else -> "@${peer.username}" },
+                            Text(when { chat.chatId in queued -> "В очереди отправки"; chat.chatId in failures -> "Не удалось отправить · повторите"; else -> com.messenger.app.ui.publicHandle(peer) },
                                 color = if (chat.chatId in failures) colors.danger else colors.mutedText, style = MaterialTheme.typography.bodySmall,
                                 maxLines = 1, overflow = TextOverflow.Ellipsis)
                         }

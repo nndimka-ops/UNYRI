@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_relay_unavailable">Настройката за поверителност изисква реле за този човек, но сървърът няма настроено реле. Прехвърлянето на файла не може да се свърже.</string>
+</resources>

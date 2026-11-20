@@ -57,6 +57,20 @@ object IdentityPolicy {
     fun lookup(raw: String, server: String): Target? = if (raw.trim().startsWith("unyri:", true))
         parse(raw.trim())?.takeIf { it.origin == origin(server) }?.target else input(raw)
     fun passwordAllowed(password: String) = password.codePointCount(0, password.length) in 8..256
+    /**
+     * The server's sign-up denylist (server/src/auth/common_passwords.txt, same normalization:
+     * trimmed, lower-cased). Checked while the password is typed so the sign-up step says it at
+     * once; the server stays the authority (B-048: it refused only at the name step, where the
+     * password field is gone). IdentityContractsTest keeps this set equal to the server file.
+     */
+    val commonPasswords: Set<String> = setOf(
+        "12345678", "123456789", "1234567890", "123123123", "11111111", "00000000", "87654321",
+        "password", "password1", "password123", "password1234", "password123!", "qwertyui", "qwertyuiop",
+        "qwerty123", "qwerty12345", "1q2w3e4r", "1qaz2wsx", "1234qwer", "abcd1234", "abc12345", "iloveyou",
+        "sunshine", "princess", "football", "baseball", "superman", "trustno1", "letmein1", "welcome1",
+        "welcome123", "admin123", "admin1234", "administrator", "passw0rd", "пароль123",
+    )
+    fun isCommonPassword(password: String) = password.trim().lowercase() in commonPasswords
     /** Guidance only: long passphrases need no forced punctuation. */
     fun strength(password: String): Int = when {
         !passwordAllowed(password) -> 0
@@ -85,5 +99,23 @@ data class AuthForm(val step: AuthStep = AuthStep.SignIn) {
     fun toggle() = AuthForm(if (step == AuthStep.SignIn) AuthStep.SignUp else AuthStep.SignIn)
     fun next(login: String, password: String, confirmation: String, accepted: Boolean): AuthForm =
         if (step == AuthStep.SignUp && login.matches(Regex("[A-Za-z0-9_.]{3,32}")) &&
-            IdentityPolicy.passwordAllowed(password) && password == confirmation && accepted) copy(step = AuthStep.DisplayName) else this
+            IdentityPolicy.passwordAllowed(password) && !IdentityPolicy.isCommonPassword(password) &&
+            password == confirmation && accepted) copy(step = AuthStep.DisplayName) else this
+    /** Back from the name step returns to the password step (B-048), from sign-up to sign-in. */
+    fun back(): AuthForm = when (step) {
+        AuthStep.DisplayName -> AuthForm(AuthStep.SignUp)
+        AuthStep.SignUp -> AuthForm(AuthStep.SignIn)
+        AuthStep.SignIn -> this
+    }
+    /**
+     * A sign-up refusal about the login or the password is shown on the step that has those
+     * fields (B-048: «too common» and «login taken» appeared on the name step with no way back).
+     * Display-name refusals stay on the name step.
+     */
+    fun afterRefusal(code: String?): AuthForm =
+        if (step == AuthStep.DisplayName && code in signUpFieldRefusals) AuthForm(AuthStep.SignUp) else this
+
+    private companion object {
+        val signUpFieldRefusals = setOf("common_password", "username_taken", "username_reserved", "username_link")
+    }
 }

@@ -34,16 +34,53 @@ struct PublicUser: Codable, Identifiable, Equatable, Sendable {
     // Directory hints are never used as live presence without a WS snapshot.
     // The server omits this outside the single-chat context. Never infer a date.
     var newAccount: Bool? = nil
-    // Memory-only discovery captions. Legacy DTOs cannot populate or persist them.
+    // Optional public identity fields are absent on older servers and caches.
     var unyriNumber: String? = nil
     var publicUsername: String? = nil
-    var publicIdentityLabel: String { publicUsername.map { "@" + $0 } ?? unyriNumber ?? "" }
     var online: Bool? = nil
     var lastSeenAt: String? = nil
 
     private enum CodingKeys: String, CodingKey {
         case id, username, displayName, bio, avatarUrl, profileVersion, avatarVersion, hasAvatar
-        case newAccount, online, lastSeenAt
+        case newAccount, unyriNumber, publicUsername, online, lastSeenAt
+    }
+}
+
+extension PublicUser {
+    // The legacy key remains decodable for old servers and archives, but its
+    // value is never admitted into peer state or written into a new cache.
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        id = try values.decode(String.self, forKey: .id)
+        username = ""
+        displayName = try values.decode(String.self, forKey: .displayName)
+        bio = try values.decodeIfPresent(String.self, forKey: .bio)
+        avatarUrl = try values.decodeIfPresent(String.self, forKey: .avatarUrl)
+        profileVersion = try values.decode(Int64.self, forKey: .profileVersion)
+        avatarVersion = try values.decode(Int64.self, forKey: .avatarVersion)
+        hasAvatar = try values.decode(Bool.self, forKey: .hasAvatar)
+        newAccount = try values.decodeIfPresent(Bool.self, forKey: .newAccount)
+        unyriNumber = try values.decodeIfPresent(String.self, forKey: .unyriNumber)
+        publicUsername = try values.decodeIfPresent(String.self, forKey: .publicUsername)
+        online = try values.decodeIfPresent(Bool.self, forKey: .online)
+        lastSeenAt = try values.decodeIfPresent(String.self, forKey: .lastSeenAt)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var values = encoder.container(keyedBy: CodingKeys.self)
+        try values.encode(id, forKey: .id)
+        try values.encode("", forKey: .username)
+        try values.encode(displayName, forKey: .displayName)
+        try values.encodeIfPresent(bio, forKey: .bio)
+        try values.encodeIfPresent(avatarUrl, forKey: .avatarUrl)
+        try values.encode(profileVersion, forKey: .profileVersion)
+        try values.encode(avatarVersion, forKey: .avatarVersion)
+        try values.encode(hasAvatar, forKey: .hasAvatar)
+        try values.encodeIfPresent(newAccount, forKey: .newAccount)
+        try values.encodeIfPresent(unyriNumber, forKey: .unyriNumber)
+        try values.encodeIfPresent(publicUsername, forKey: .publicUsername)
+        try values.encodeIfPresent(online, forKey: .online)
+        try values.encodeIfPresent(lastSeenAt, forKey: .lastSeenAt)
     }
 }
 
@@ -301,9 +338,26 @@ enum PresencePolicy {
 struct DirectoryIdentityCache: Codable {
     let scope: String
     let users: [PublicUser]
+    // Missing in legacy files. Re-encoding PublicUser erases the login key.
+    var peerPrivacyVersion: Int? = 1
 }
 
 enum DirectoryCachePolicy {
+    static func load(file: URL, scope: String, query: String) -> [PublicUser] {
+        guard let bytes = try? file.resourceValues(forKeys: [.fileSizeKey]).fileSize, bytes <= 1_048_576,
+              let data = try? Data(contentsOf: file),
+              let entry = try? JSONDecoder().decode(DirectoryIdentityCache.self, from: data) else { return [] }
+        if entry.peerPrivacyVersion != 1 {
+            // Do not hydrate until credential bytes have also left the file.
+            // A failed migration retries when this cache is next opened.
+            do {
+                let migrated = DirectoryIdentityCache(scope: entry.scope, users: entry.users)
+                try JSONEncoder().encode(migrated).write(to: file, options: .atomic)
+            } catch { return [] }
+        }
+        return restored(entry, scope: scope, query: query)
+    }
+
     static func restored(_ cache: DirectoryIdentityCache, scope: String, query: String) -> [PublicUser] {
         guard cache.scope == scope else { return [] }
         return matching(cache.users, query: query)
@@ -322,7 +376,11 @@ enum DirectoryCachePolicy {
     static func matching(_ users: [PublicUser], query: String) -> [PublicUser] {
         let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
         let term = trimmed.hasPrefix("@") ? String(trimmed.dropFirst()) : trimmed
-        return identities(users).filter { term.isEmpty || $0.displayNameForSearch.localizedCaseInsensitiveContains(term) || $0.username.localizedCaseInsensitiveContains(term) }
+        return identities(users).filter {
+            term.isEmpty || $0.displayNameForSearch.localizedCaseInsensitiveContains(term)
+                || ($0.publicUsername?.localizedCaseInsensitiveContains(term) ?? false)
+                || ($0.unyriNumber?.contains(term) ?? false)
+        }
     }
 }
 

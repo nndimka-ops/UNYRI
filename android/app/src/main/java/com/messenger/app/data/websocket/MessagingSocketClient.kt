@@ -1,6 +1,7 @@
 package com.messenger.app.data.websocket
 
 import com.messenger.app.data.api.MessageDto
+import com.messenger.app.data.api.readBoundedJson
 import com.messenger.app.domain.repository.AuthRepository
 import com.messenger.app.domain.repository.SocketConnectionState
 import kotlinx.coroutines.CoroutineScope
@@ -45,6 +46,7 @@ class MessagingSocketClient(
     var onAccountBlocksChanged: () -> Unit = {}
     var onContactsChanged: (String?, Boolean?) -> Unit = { _, _ -> }
     var onProfileChanged: (String, Long) -> Unit = { _, _ -> }
+    var onUserDeleted: (String, Int) -> Unit = { _, _ -> }
     val presence = RealtimePresence(::sendPresence, {
         com.messenger.app.data.api.ServerEndpoint.current() + "|" + authRepository.currentSessionEpoch()
     })
@@ -140,20 +142,22 @@ class MessagingSocketClient(
     private fun isCurrent(ticket: Long): Boolean = !stopped && ticket == generation &&
         accountEpoch == authRepository.currentSessionEpoch()
 
-    private fun connect(): Unit = synchronized(lock) {
+    private fun connect(serverTime: Long? = null, proofRetry: Boolean = false): Unit = synchronized(lock) {
         if (stopped || accountEpoch != authRepository.currentSessionEpoch()) return@synchronized
         val ticket = ++generation
         _connectionState.value = SocketConnectionState.CONNECTING
         connectJob = scope.launch {
             try {
                 val token = authRepository.currentAccessToken()
+                val proof = token?.let { (authRepository as? com.messenger.app.data.auth.AuthRepositoryImpl)?.websocketDeviceProof(it, serverTime) }
                 synchronized(lock) {
                     if (!isCurrent(ticket)) return@synchronized
                     if (token == null) { scheduleReconnect(); return@synchronized }
                     val request = Request.Builder().url(com.messenger.app.data.api.ServerEndpoint.websocket(wsUrl))
                         .header("Authorization", "Bearer $token")
-                        .header("X-Unyri-Capabilities", "call-ring-ack").build()
-                    webSocket = client.newBoundedWebSocket(request, listener(ticket))
+                        .header("X-Unyri-Capabilities", "call-ring-ack")
+                        .apply { proof?.let { header(com.messenger.app.data.auth.DeviceProofBuilder.HEADER, it) } }.build()
+                    webSocket = client.newBoundedWebSocket(request, listener(ticket, proofRetry))
                 }
             } catch (cancelled: kotlinx.coroutines.CancellationException) {
                 throw cancelled
@@ -173,7 +177,7 @@ class MessagingSocketClient(
         reconnectJob = scope.launch { delay(delayMs); connect() }
     }
 
-    private fun listener(ticket: Long) = object : WebSocketListener() {
+    private fun listener(ticket: Long, proofRetry: Boolean) = object : WebSocketListener() {
         override fun onOpen(webSocket: WebSocket, response: Response) = synchronized(lock) {
             if (!isCurrent(ticket)) { webSocket.cancel(); return@synchronized }
             openedAt = System.nanoTime()
@@ -202,6 +206,18 @@ class MessagingSocketClient(
                     return
                 }
                 when (type) {
+                    "session.revoked" -> {
+                        val reason = com.messenger.app.data.auth.sessionRevocationReason(element["reason"]?.jsonPrimitive?.contentOrNull)
+                        val epoch = synchronized(lock) {
+                            if (!isCurrent(ticket)) return@runCatching
+                            accountEpoch.also { stop() }
+                        }
+                        scope.launch { (authRepository as? com.messenger.app.data.auth.AuthRepositoryImpl)?.handleRevokedSession(epoch, reason) }
+                    }
+                    "user.deleted" -> {
+                        val user = element["user_id"]?.jsonPrimitive?.contentOrNull ?: return@runCatching
+                        if (runCatching { java.util.UUID.fromString(user) }.isSuccess && isCurrent(ticket)) onUserDeleted(user, accountEpoch)
+                    }
                     "direct.signal", "direct_transfer.signal" -> {
                         val id = element["transfer_id"]?.jsonPrimitive?.contentOrNull ?: return@runCatching
                         if (com.messenger.app.data.directtransfer.canonicalUuid(id)) synchronized(lock) {
@@ -325,8 +341,23 @@ class MessagingSocketClient(
         override fun onClosed(webSocket: WebSocket, code: Int, reason: String) = synchronized(lock) {
             if (isCurrent(ticket)) scheduleReconnect()
         }
-        override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) = synchronized(lock) {
-            if (isCurrent(ticket)) scheduleReconnect()
+        override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+            // The bounded handshake adapter leaves the failed response open for this callback.
+            val clock = if (response?.code == 401 && !proofRetry) runCatching {
+                val error = com.messenger.app.data.api.parseApiException(json, response.code,
+                    response.readBoundedJson(com.messenger.app.data.api.ServerInputLimits.ERROR_BYTES)) as? com.messenger.app.data.api.AuthApiException.Api
+                error?.serverTime?.takeIf { error.code == "device_proof_stale" }
+            }.getOrNull() ?: response.header("X-UNYRI-Proof-Time")?.toLongOrNull() else null
+            synchronized(lock) {
+                if (!isCurrent(ticket)) return
+                if (clock != null) { connect(clock, proofRetry = true); return }
+                if (response?.code == 401 && proofRetry) {
+                    // A second clock challenge stops this connection; a later explicit start may retry.
+                    stop()
+                    return
+                }
+                scheduleReconnect()
+            }
         }
     }
 

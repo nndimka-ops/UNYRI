@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_join_title">Open project</string>
+    <string name="about_join_description">UNYRI is an open project, and anyone can help: with code, translations, testing, design or ideas. Everything happens on GitHub.</string>
+    <string name="about_join_button">Join the development</string>
+</resources>

@@ -56,9 +56,9 @@ enum DisplayNameSanitizer {
         return result
     }
     static func peer(_ raw: String, username: String? = nil, unknown: String = "Unknown user") -> String {
-        let handle = display(username ?? "").drop(while: { $0 == "@" })
-        let fallback = handle.isEmpty ? unknown : "@" + String(handle)
-        return display(raw, fallback: fallback.isEmpty ? "Unknown user" : fallback)
+        // Kept as an ignored source-compatible parameter for older adapters.
+        // A peer's legacy username can be their private sign-in credential.
+        return display(raw, fallback: unknown.isEmpty ? "Unknown user" : unknown)
     }
     private static func clean(_ raw: String) -> String {
         if raw.utf8.allSatisfy({ (0x20...0x7E).contains($0) }) {

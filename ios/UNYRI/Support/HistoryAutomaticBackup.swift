@@ -112,8 +112,15 @@ import Network
     func run(auth: AuthRepository, access: HistoryBackupAccess, canRun: Bool = true) async -> Bool {
         guard let account = auth.currentUser?.id else { return false }
         let generation = auth.sessionGeneration
-        let scopeKey = "history-auto-server:" + AppConfig.apiBaseURL.absoluteString + ":" + account
-        var preferences = UserDefaults.standard.string(forKey: scopeKey).map { HistoryAutoPreferences(server: $0, owner: account) }
+        let scope = AccountSecretScope.current(owner: account)
+        let scopeKey = scope.preferencePrefix + "history-server"
+        let oldScopeKey = "history-auto-server:" + AppConfig.apiBaseURL.absoluteString + ":" + account
+        if UserDefaults.standard.object(forKey: scopeKey) == nil, scope.ownsLegacy(defaults: .standard),
+           let server = UserDefaults.standard.string(forKey: oldScopeKey) {
+            UserDefaults.standard.set(server, forKey: scopeKey)
+            if UserDefaults.standard.string(forKey: scopeKey) == server { UserDefaults.standard.removeObject(forKey: oldScopeKey) }
+        }
+        var preferences = UserDefaults.standard.string(forKey: scopeKey).map { HistoryAutoPreferences(server: $0, owner: account, scope: AccountSecretScope.current(owner: account)) }
         defer {
             if let preferences, generation == auth.sessionGeneration, auth.currentUser?.id == account,
                (try? access.lease.checkActive()) != nil {
@@ -130,7 +137,7 @@ import Network
             try access.lease.begin(); defer { access.lease.end() }
             let state = try await context.open()
             UserDefaults.standard.set(state.serverId, forKey: scopeKey)
-            let currentPreferences = HistoryAutoPreferences(server: state.serverId, owner: context.owner)
+            let currentPreferences = HistoryAutoPreferences(server: state.serverId, owner: context.owner, scope: AccountSecretScope.current(owner: context.owner))
             preferences = currentPreferences
             currentPreferences.uploadsAllowed = state.desiredEnabled
             guard currentPreferences.enabled else { return true }

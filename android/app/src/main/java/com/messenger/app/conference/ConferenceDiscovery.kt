@@ -12,13 +12,6 @@ enum class ConferenceAccess(val wire: String, val password: Boolean, val invitat
     OPEN("open", false, false), PASSWORD("password", true, false), INVITE("invite", false, true), INVITE_PASSWORD("invite_password", true, true);
     companion object { fun parse(value: String): ConferenceAccess? = entries.firstOrNull { it.wire == value } }
 }
-@Serializable data class DirectoryRoom(val id: String, val title: String, val description: String = "",
-    @SerialName("owner_user_id") val ownerUserId: String, @SerialName("owner_display_name") val ownerDisplayName: String,
-    @SerialName("participant_count") val participantCount: Int, @SerialName("max_participants") val maxParticipants: Int,
-    @SerialName("access_mode") val accessMode: String, @SerialName("admission_locked") val admissionLocked: Boolean = false,
-    @SerialName("key_available") val keyAvailable: Boolean = false, @SerialName("created_at") val createdAt: String, @SerialName("expires_at") val expiresAt: String) {
-    init { com.messenger.app.data.api.HostileWire.range(maxParticipants.toLong(), 2, 30); com.messenger.app.data.api.HostileWire.range(participantCount.toLong(), 0, maxParticipants.toLong()) }
-}
 @Serializable data class ConferenceDirectory(val items: List<DirectoryRoom> = emptyList(), @SerialName("next_cursor") val nextCursor: String? = null)
 @Serializable class ConferenceKeyEnvelope(@SerialName("recipient_device_id") val recipientDeviceId: String,
     @SerialName("message_type") val messageType: Int, val ciphertext: String) { override fun toString() = "ConferenceKeyEnvelope([redacted])" }

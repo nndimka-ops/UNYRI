@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chats_archive_detail">Mueva los chats aquí desde su menú o seleccione varios. Los mensajes nuevos los mantienen aquí hasta que los restaure.</string>
+    <string name="privacy_devices_blocks">Dispositivos y bloqueos</string>
+    <string name="privacy_messages_section">Mensajes</string>
+    <string name="settings_privacy_visibility">Visibilidad</string>
+    <string name="privacy_nobody_count">Nadie</string>
+    <string name="blocked_users_search">Nombre, número o @usuario</string>
+    <plurals name="privacy_people_count_short">
+        <item quantity="one">%1$d pers.</item>
+        <item quantity="few">%1$d pers.</item>
+        <item quantity="many">%1$d pers.</item>
+        <item quantity="other">%1$d pers.</item>
+    </plurals>
+    <string name="drawer_report_short">Informe</string>
+    <string name="peer_qr_title">Código QR de esta persona</string>
+    <string name="peer_remove_confirm_title">¿Eliminar el contacto?</string>
+    <string name="peer_remove_confirm_detail">Esta persona se eliminará de sus contactos. El chat y los mensajes se conservarán.</string>
+    <string name="inline_search_people_hint">Busque personas por número o @nombre.</string>
+    <string name="app_version_format">Versión %1$s (%2$d)</string>
+    <string name="server_current_title">Servidor actual</string>
+    <string name="server_change_title">Cambiar servidor</string>
+    <string name="server_edit_help">Introduzca una dirección HTTPS. Cierre sesión antes de cambiar de servidor.</string>
+    <string name="server_alpha_http_detail">Las versiones alfa también permiten HTTP en una red local de confianza.</string>
+    <string name="server_max_file_size">Tamaño máximo de archivo cifrado</string>
+    <string name="server_user_quota">Almacenamiento por cuenta</string>
+    <string name="server_no_limit">Sin límite</string>
+    <string name="settings_about">Ayuda y aplicación</string>
+    <string name="settings_data_storage">Conexión y almacenamiento</string>
+    <string name="notification_in_app_sound_detail">Reproducir sonido con UNYRI abierto.</string>
+    <string name="notification_in_app_vibration_detail">Vibrar con UNYRI abierto.</string>
+    <string name="report_problem_detail">Describa el problema y adjunte capturas de pantalla.</string>
+    <string name="report_recent_problem_detail">Marcar la hora de un fallo reciente; active el diagnóstico abajo.</string>
+    <string name="sh_step_computer">Un ordenador siempre encendido</string>
+    <string name="sh_step_computer_summary">Utilice su ordenador o alquile uno en internet (VPS).</string>
+    <string name="sh_step_install">Instalar UNYRI Server</string>
+    <string name="sh_step_install_summary">Instale el programa del servidor siguiendo la guía.</string>
+    <string name="sh_step_internet">Permitir acceso desde internet</string>
+    <string name="sh_step_internet_summary">Siga la guía para que el teléfono se conecte también fuera de casa.</string>
+    <string name="sh_step_phone">Conectar el teléfono</string>
+    <string name="sh_step_phone_summary">Confirme la dirección del servidor o escanee una invitación y cree una cuenta.</string>
+    <string name="sh_step_owner">Ser propietario</string>
+    <string name="sh_step_owner_summary">Utilice el código de un solo uso mostrado por el instalador.</string>
+    <string name="sh_step_test">Comprobar mensajes y llamadas</string>
+    <string name="sh_step_test_summary">Desactive el Wi-Fi y pruebe mensajes, llamadas y notificaciones con datos móviles.</string>
+    <string name="sh_step_more">Más información</string>
+    <string name="connection_checking">Comprobando…</string>
+    <string name="sh_open_guide">Guía y descargas</string>
+    <string name="local_mode_description">Mensajes y llamadas de su servidor por Wi-Fi, sin internet. Este modo muestra una notificación permanente y consume más batería. Abra UNYRI de nuevo tras forzar su detención o reiniciar.</string>
+    <string name="local_mode_connected">Conectado a su servidor</string>
+    <string name="local_mode_signin">Inicie sesión para activar la conexión local.</string>
+    <string name="peer_qr_instruction">Escanee el código para abrir el perfil de esta persona en UNYRI.</string>
+</resources>

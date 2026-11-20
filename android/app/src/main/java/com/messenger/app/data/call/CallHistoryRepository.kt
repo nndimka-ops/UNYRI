@@ -43,7 +43,10 @@ class CallHistoryRepository(
                 val epoch = auth.currentSessionEpoch()
                 mutex.withLock {
                     applyLocalChatClearsLocked(localPersonalClears(), owner, epoch)
-                    val cached = withContext(Dispatchers.IO) { runCatching { read(file(owner)) }.getOrDefault(emptyList()) }
+                    val cached = withContext(Dispatchers.IO) { runCatching {
+                        CallPeerPrivacy.migrate(root)
+                        read(file(owner))
+                    }.getOrDefault(emptyList()) }
                     auth.withSessionWrite(epoch) { snapshotEpoch = auth.currentSessionEpoch(); mutableCalls.value = cached }
                 }
             }
@@ -104,7 +107,7 @@ class CallHistoryRepository(
                 val incoming = CallActivityPolicy.applyClears(CallActivityPolicy.suppressPending(page.items, readReadState(file).seen), readChatClears(file))
                     .filter { it.id !in removed && !isLocallyClearedCall(it, localCallClears) && (it.callerUserId == owner || it.calleeUserId == owner) && callTimestamp(it) >= incomingCutoff }
                 val merged = read(file).associateBy { it.id }.toMutableMap()
-                incoming.forEach { next ->
+                incoming.map { it.withoutPrivatePeerLogin() }.forEach { next ->
                     // A delayed pre-terminal snapshot cannot resurrect an ended call.
                     if (merged[next.id]?.state != "ended" || next.state == "ended") merged[next.id] = retainCallPeerIdentity(next, merged[next.id])
                 }
@@ -423,7 +426,8 @@ class CallHistoryRepository(
     private fun readCache(file: File): CallCache {
         if (!file.exists()) return CallCache()
         val text = file.readText()
-        return if (text.trimStart().startsWith("[")) CallCache(json.decodeFromString(text)) else json.decodeFromString(text)
+        val cache = if (text.trimStart().startsWith("[")) CallCache(json.decodeFromString(text)) else json.decodeFromString<CallCache>(text)
+        return cache.copy(rows = cache.rows.map { it.withoutPrivatePeerLogin() })
     }
 
     suspend fun exportHistory(archive: HistoryArchive, epoch: Int): HistoryArchive = mutex.withLock {
@@ -485,12 +489,12 @@ class CallHistoryRepository(
     private fun archiveCall(call: CallDto) = HistoryArchiveCall(call.id, call.callerUserId, call.calleeUserId, call.mediaKind,
         callTimestamp(call), call.acceptedAt?.let { java.time.Instant.parse(it).toEpochMilli() }, call.connectedAt?.let { java.time.Instant.parse(it).toEpochMilli() },
         call.endedAt?.let { java.time.Instant.parse(it).toEpochMilli() }, call.endReason, call.chatId, call.chatVisible != false,
-        call.peer?.let { HistoryArchivePeer(it.id, it.username, it.displayName) })
+        call.peer?.let { HistoryArchivePeer(it.id, "", it.displayName, it.publicNumber, it.publicUsername) })
     private fun callDto(call: HistoryArchiveCall): CallDto {
         fun date(ms: Long?) = ms?.let { java.time.Instant.ofEpochMilli(it).toString() }
         return CallDto(call.id, call.caller, call.callee, call.mediaKind, "ended", call.endReason, createdAt = requireNotNull(date(call.createdAtMs)),
             acceptedAt = date(call.acceptedAtMs), connectedAt = date(call.connectedAtMs), endedAt = date(call.endedAtMs), chatId = call.chat,
-            chatVisible = call.chatVisible, unread = false, peer = call.peer?.let { com.messenger.app.data.api.PublicUserDto(it.id, it.username, it.displayName) })
+            chatVisible = call.chatVisible, unread = false, peer = call.peer?.let { com.messenger.app.data.api.PublicUserDto(it.id, "", it.displayName, publicNumber = it.unyriNumber, publicUsername = it.publicUsername) })
     }
 }
 

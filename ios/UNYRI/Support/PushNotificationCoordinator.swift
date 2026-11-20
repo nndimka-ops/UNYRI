@@ -24,6 +24,7 @@ final class UnyriPushNotificationCoordinator: NSObject, ObservableObject, @preco
     private var receiveTickets: [UUID: UnyriPushCallBook.Ticket] = [:]
     /// A tapped alert of the current account, routed once its session is restored.
     private var pendingTap: UnyriPushPayload?
+    var knownIncomingPeer: ((UUID) -> String?)?
     var onIncomingCall: ((UnyriPushPayload, UnyriPushCallBook.Ticket) async -> Bool)?
     var onMessageTap: ((UnyriPushPayload, UnyriPushSession) async -> Void)?
     var onForegroundMessage: ((UnyriPushPayload, UnyriPushSession) async -> Void)?
@@ -237,11 +238,24 @@ final class UnyriPushNotificationCoordinator: NSObject, ObservableObject, @preco
         }
     }
 
+    private func allowsUnresolvedMessageAlert(origin: String, userID: String) -> Bool {
+        do { return try LocalSecurityDecisions.account(origin: origin, userID: userID).blockedUsers().isEmpty }
+        catch { return false }
+    }
+
+    /// This unauthenticated hint contains no deletion instruction or identity.
+    func checkSavedSessions() async {
+        guard let auth else { return }
+        await UnyriAccountManager.shared.checkInactiveSessionsNow()
+        await auth.checkSessionNow()
+    }
+
     /// Background wake for an inactive account's message: nothing of the active
     /// account is synced; only the inactive account's unread hint grows.
     func absorbInactiveWake(_ values: [AnyHashable: Any]) -> Bool {
         guard let hint = UnyriPushPayload.parse(values, provider: .apns, now: Self.now), hint.event == "new_message",
               let record = inactiveAccount(for: hint), let message = hint.messageID else { return false }
+        guard allowsUnresolvedMessageAlert(origin: record.origin, userID: record.userId) else { return true }
         UnyriAccountManager.shared.noteInactiveMessage(slot: record.slot, message: message.uuidString.lowercased())
         return true
     }
@@ -272,6 +286,17 @@ final class UnyriPushNotificationCoordinator: NSObject, ObservableObject, @preco
         // The report request is synchronous on the registry's explicit main
         // queue. Only after it is initiated may bootstrap/network work begin.
         guard let ticket = provider.reportPush(hint, binding: owned ?? unverified, completion: completion) else { return }
+        // Push payloads carry no authenticated caller. With local restrictions,
+        // an unresolved call must end immediately after the mandatory report.
+        do {
+            let security = LocalSecurityDecisions.account(origin: origin, userID: hint.user.uuidString.lowercased())
+            let blocked = try security.blockedUsers()
+            if !blocked.isEmpty {
+                guard let call = hint.callID, let peer = knownIncomingPeer?(call), !blocked.contains(peer.lowercased()) else {
+                    provider.end(ticket, reason: .failed); provider.recoveryFinished(ticket); return
+                }
+            }
+        } catch { provider.end(ticket, reason: .failed); provider.recoveryFinished(ticket); return }
         // reason: 0 matched, 2 stale push, 3 not this session's registration, 4 too many at once.
         UnyriDiag.push(owned != nil ? .voipReported : .voipUnmatched, reason: owned != nil ? 0 : fresh ? 3 : 2)
         guard owned != nil, receives.count < 8, let onIncomingCall else {
@@ -318,6 +343,7 @@ final class UnyriPushNotificationCoordinator: NSObject, ObservableObject, @preco
             // Another signed-in account: generic in-app banner, routed to its owner.
             if hint.event == "new_message", let record = inactiveAccount(for: hint),
                let chat = hint.chatID, let message = hint.messageID {
+                guard allowsUnresolvedMessageAlert(origin: record.origin, userID: record.userId) else { return [] }
                 UnyriAccountManager.shared.presentInactiveMessage(record, chat: chat.uuidString.lowercased(),
                     message: message.uuidString.lowercased())
                 return [.badge]
@@ -331,7 +357,7 @@ final class UnyriPushNotificationCoordinator: NSObject, ObservableObject, @preco
             owner: session.scope.user.uuidString.lowercased(), generation: session.generation,
             chatId: chat.uuidString.lowercased(), messageId: message.uuidString.lowercased()))
         if let onForegroundMessage { Task { await onForegroundMessage(hint, session) } }
-        return [.badge]
+        return allowsUnresolvedMessageAlert(origin: session.scope.origin, userID: session.scope.user.uuidString.lowercased()) ? [.badge] : []
     }
 
     /// Taps have their own admission (`UnyriPushPayload.tapRoute`): no freshness

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_relay_unavailable">Ten serwer nie ma przekaźnika TURN. Połączenie z tą osobą wymaga go, aby uniknąć połączenia bezpośredniego.</string>
+    <string name="direct_peer_relay_unavailable">Rozmówca zezwala tylko na połączenia przez serwer, ale przekaźnik jest niedostępny.</string>
+</resources>

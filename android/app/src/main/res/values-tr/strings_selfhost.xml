@@ -22,7 +22,7 @@
     <string name="sh_uses">Kullanım</string>
     <string name="sh_days">Geçerlilik (gün)</string>
     <string name="sh_invite_bounds">1–10.000 kullanım; 1–365 gün.</string>
-    <string name="sh_create_invite">Davet oluştur</string>
+    <string name="sh_create_invite">Kod oluştur</string>
     <string name="sh_active">Etkin</string>
     <string name="sh_revoked">İptal edildi</string>
     <string name="sh_expired">Süresi doldu</string>
@@ -30,15 +30,15 @@
     <string name="sh_unknown">Bilinmiyor</string>
     <string name="sh_expiry">Bitiş</string>
     <string name="sh_creator">Oluşturan</string>
-    <string name="sh_revoke">Daveti iptal et</string>
+    <string name="sh_revoke">İptal et</string>
     <string name="sh_revoke_confirm">Bu davet iptal edilsin mi? Artık yeni kayıtlara izin vermeyecek.</string>
     <string name="sh_more">Diğer davetler</string>
     <string name="sh_self_check">Sunucuyu kontrol et</string>
     <string name="sh_code_once">Şimdi kaydedin veya paylaşın. Kod yalnızca bir kez gösterilir.</string>
-    <string name="sh_copy_code">Kodu kopyala</string>
+    <string name="sh_copy_code">Kopyala</string>
     <string name="sh_share_code">Kodu paylaş</string>
     <string name="sh_copy_link">Bağlantıyı kopyala</string>
-    <string name="sh_share_link">Bağlantıyı paylaş</string>
+    <string name="sh_share_link">Paylaş</string>
     <string name="sh_yes">evet</string>
     <string name="sh_no">hayır</string>
     <string name="sh_ready">hazır</string>
@@ -54,7 +54,7 @@
     <string name="sh_fix_storage">Kurulumda dosya depolamasını ve yükleme izinlerini kontrol edin.</string>
     <string name="sh_fix_disk">En az 1 GB boş alan bırakın ve temizlemeden önce yedekleyin.</string>
     <string name="sh_fix_version">Uyumlu bir sunucu sürümü kullanın ve güncellemenin bitmesini bekleyin.</string>
-    <string name="sh_guide">1. Sürekli açık bir bilgisayara Docker ve UNYRI kurun. 2. Alan adı veya DDNS seçin. 3. Bilgisayar adresini ayırın ve HTTPS ile çağrı portlarını yönlendirin; CGNAT varsa VPS veya tünel kullanın. 4. HTTPS adresini onaylayın veya davet QR kodunu tarayın. 5. Giriş yapın, Profil bölümünde kurulum koduyla sahipliği alın ve yönetimi koruyun. 6. Yönetim → Kendi sunucun → Sunucuyu kontrol et. Mobil veriyle test edin. Güncellemeden önce yedekleyin; push için sağlayıcı gerekir.</string>
+    <string name="sh_guide">1. Sürekli açık bir bilgisayara Docker ve UNYRI kurun. 2. Alan adı veya DDNS seçin. 3. Bilgisayar adresini ayırın ve HTTPS ile çağrı portlarını yönlendirin; CGNAT varsa VPS veya tünel kullanın. 4. HTTPS adresini onaylayın veya davet QR kodunu tarayın. 5. Giriş yapın, Profil bölümünde kurulum koduyla sahipliği alın ve yönetimi koruyun. 6. Yönetim → Kayıt ve davetler → Sunucuyu kontrol et. Mobil veriyle test edin. Güncellemeden önce yedekleyin; push için sağlayıcı gerekir.</string>
     <string name="sh_check_setup">Sahiplik alınabilir</string>
     <string name="sh_check_url">Genel adres</string>
     <string name="sh_check_url_config">Genel adres ayarlandı</string>
@@ -88,4 +88,7 @@
     <string name="sh_compatibility">Uygulama sürümü uyumlu</string>
     <string name="sh_socket">Mevcut WebSocket bağlı</string>
     <string name="sh_scan_owner_code">Sahip kodunu tara</string>
+    <string name="sh_registration_invites">Kayıt ve davetler</string>
+    <string name="sh_mode_owner_only">Kayıt modunu yalnızca sahip değiştirebilir.</string>
+    <string name="sh_saved_codes_hint">Kod yalnızca oluşturulduktan sonra gösterilir. Bu ekrandan çıkmadan önce yeni kodu kaydedin veya paylaşın.</string>
 </resources>

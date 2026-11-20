@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chats_archive_detail">Verschieben Sie Chats über ihr Menü hierher oder wählen Sie mehrere aus. Neue Nachrichten belassen sie hier, bis Sie sie zurückholen.</string>
+    <string name="privacy_devices_blocks">Geräte und Blockierungen</string>
+    <string name="privacy_messages_section">Nachrichten</string>
+    <string name="settings_privacy_visibility">Sichtbarkeit</string>
+    <string name="privacy_nobody_count">Niemand</string>
+    <string name="blocked_users_search">Name, Nummer oder @Benutzername</string>
+    <plurals name="privacy_people_count_short">
+        <item quantity="one">%1$d Pers.</item>
+        <item quantity="few">%1$d Pers.</item>
+        <item quantity="many">%1$d Pers.</item>
+        <item quantity="other">%1$d Pers.</item>
+    </plurals>
+    <string name="drawer_report_short">Meldung</string>
+    <string name="peer_qr_title">QR-Code dieser Person</string>
+    <string name="peer_remove_confirm_title">Kontakt entfernen?</string>
+    <string name="peer_remove_confirm_detail">Diese Person wird aus Ihren Kontakten entfernt. Der Chat und die Nachrichten bleiben erhalten.</string>
+    <string name="inline_search_people_hint">Suchen Sie Personen per Nummer oder @Name.</string>
+    <string name="app_version_format">Version %1$s (%2$d)</string>
+    <string name="server_current_title">Aktueller Server</string>
+    <string name="server_change_title">Server wechseln</string>
+    <string name="server_edit_help">Geben Sie eine HTTPS-Adresse ein. Melden Sie sich vor dem Serverwechsel ab.</string>
+    <string name="server_alpha_http_detail">Alpha-Versionen erlauben auch HTTP in einem vertrauenswürdigen lokalen Netzwerk.</string>
+    <string name="server_max_file_size">Maximale Größe verschlüsselter Dateien</string>
+    <string name="server_user_quota">Speicherplatz pro Konto</string>
+    <string name="server_no_limit">Unbegrenzt</string>
+    <string name="settings_about">Hilfe und App</string>
+    <string name="settings_data_storage">Verbindung und Speicher</string>
+    <string name="notification_in_app_sound_detail">Ton abspielen, während UNYRI geöffnet ist.</string>
+    <string name="notification_in_app_vibration_detail">Vibrieren, während UNYRI geöffnet ist.</string>
+    <string name="report_problem_detail">Beschreiben Sie das Problem und fügen Sie Bildschirmfotos hinzu.</string>
+    <string name="report_recent_problem_detail">Zeitpunkt eines aktuellen Fehlers markieren; Diagnose unten aktivieren.</string>
+    <string name="sh_step_computer">Ein dauerhaft eingeschalteter Computer</string>
+    <string name="sh_step_computer_summary">Nutzen Sie Ihren Computer oder mieten Sie einen im Internet (VPS).</string>
+    <string name="sh_step_install">UNYRI Server installieren</string>
+    <string name="sh_step_install_summary">Installieren Sie das Serverprogramm nach der Anleitung.</string>
+    <string name="sh_step_internet">Zugriff aus dem Internet erlauben</string>
+    <string name="sh_step_internet_summary">Folgen Sie der Anleitung, damit Ihr Telefon auch unterwegs eine Verbindung erhält.</string>
+    <string name="sh_step_phone">Telefon verbinden</string>
+    <string name="sh_step_phone_summary">Bestätigen Sie die Serveradresse oder scannen Sie eine Einladung und erstellen Sie ein Konto.</string>
+    <string name="sh_step_owner">Eigentümer werden</string>
+    <string name="sh_step_owner_summary">Verwenden Sie den einmaligen Code des Installationsprogramms.</string>
+    <string name="sh_step_test">Nachrichten und Anrufe prüfen</string>
+    <string name="sh_step_test_summary">Schalten Sie WLAN aus und prüfen Sie Nachrichten, Anrufe und Benachrichtigungen über mobile Daten.</string>
+    <string name="sh_step_more">Mehr erfahren</string>
+    <string name="connection_checking">Wird geprüft…</string>
+    <string name="sh_open_guide">Anleitung und Downloads</string>
+    <string name="local_mode_description">Nachrichten und Anrufe von Ihrem Server über WLAN, ohne Internet. Dieser Modus zeigt eine dauerhafte Benachrichtigung und verbraucht mehr Akku. Öffnen Sie UNYRI nach einem erzwungenen Stopp oder Neustart erneut.</string>
+    <string name="local_mode_connected">Mit Ihrem Server verbunden</string>
+    <string name="local_mode_signin">Melden Sie sich an, um die lokale Verbindung zu aktivieren.</string>
+    <string name="peer_qr_instruction">Scannen Sie den Code, um das Profil dieser Person in UNYRI zu öffnen.</string>
+</resources>

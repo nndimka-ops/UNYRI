@@ -217,6 +217,8 @@ final class AttachmentStore {
     }
 
     private var db: OpaquePointer?
+    private lazy var erasureCheckpoint = AttachmentErasureCheckpoint(url: databaseURL)
+    var databaseDirectory: URL { databaseURL.deletingLastPathComponent() }
     private let databaseURL: URL
     private let draftMigration: DraftReferenceMigration
     private let metadataWriter: AttachmentMetadataWriter
@@ -384,8 +386,12 @@ final class AttachmentStore {
             throw StoreError.openFailed
         }
         db = handle
+        guard sqlite3_exec(handle, "PRAGMA secure_delete=ON;", nil, nil, nil) == SQLITE_OK else {
+            sqlite3_close(handle); db = nil; throw StoreError.openFailed
+        }
         sqlite3_busy_timeout(handle, busyTimeout)
         if readOnly { return }
+        erasureCheckpoint.request()
         do {
           try execute(
             """
@@ -1222,6 +1228,7 @@ final class AttachmentStore {
             sqlite3_free(errorMessage)
             throw queryError()
         }
+        if sql.contains("DELETE FROM") { erasureCheckpoint.request() }
     }
 
     private func withStatement(
@@ -1235,6 +1242,7 @@ final class AttachmentStore {
         defer { sqlite3_finalize(stmt) }
         do { try body(stmt) }
         catch { if isBusy { throw StoreError.busy }; throw error }
+        if sql.contains("DELETE FROM") { erasureCheckpoint.request() }
     }
 
     private var isBusy: Bool { [SQLITE_BUSY, SQLITE_LOCKED].contains(sqlite3_errcode(db)) }
@@ -1266,4 +1274,61 @@ final class AttachmentStore {
             sqlite3_bind_null(stmt, index)
         }
     }
+}
+
+/// Debounced WAL truncation on a separate connection; no recurring timer or UI work.
+private final class AttachmentErasureCheckpoint: @unchecked Sendable {
+    private let url: URL
+    private let lock = NSLock()
+    private var revision: UInt64 = 0
+    private var pending: DispatchWorkItem?
+    init(url: URL) { self.url = url }
+    func request(attempt: Int = 0) {
+        lock.lock()
+        // A durable, content-free marker survives process death and a busy WAL.
+        // A later writable open calls request again; no idle poll is installed.
+        let marker = URL(fileURLWithPath: url.path + ".erase-pending")
+        if FileManager.default.fileExists(atPath: url.path), !FileManager.default.fileExists(atPath: marker.path) {
+            try? Data([1]).write(to: marker, options: .atomic)
+        }
+        revision &+= 1
+        let ticket = revision
+        pending?.cancel()
+        let work = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            self.lock.lock()
+            let current = self.revision == ticket
+            self.lock.unlock()
+            guard current else { return }
+            // READWRITE without CREATE: an account wipe can never resurrect its DB.
+            var db: OpaquePointer?
+            guard sqlite3_open_v2(self.url.path, &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX, nil) == SQLITE_OK else {
+                if let db { sqlite3_close(db) }; return
+            }
+            defer { sqlite3_close(db) }
+            sqlite3_busy_timeout(db, 1000)
+            // A fresh handle has not opened the WAL yet. Without a completed
+            // schema read, checkpoint can return OK with -1/-1 and do no work.
+            guard sqlite3_exec(db, "PRAGMA secure_delete=ON;", nil, nil, nil) == SQLITE_OK,
+                  sqlite3_exec(db, "SELECT name FROM sqlite_master LIMIT 1;", nil, nil, nil) == SQLITE_OK else { return }
+            var logFrames: Int32 = -1
+            var checkpointedFrames: Int32 = -1
+            let status = sqlite3_wal_checkpoint_v2(db, "main", SQLITE_CHECKPOINT_TRUNCATE, &logFrames, &checkpointedFrames)
+            self.lock.lock()
+            let stillCurrent = self.revision == ticket
+            if status == SQLITE_OK, logFrames >= 0, checkpointedFrames >= 0, stillCurrent {
+                try? FileManager.default.removeItem(at: marker)
+            }
+            self.lock.unlock()
+            // Bounded retries only while deletion work is pending. Long readers
+            // keep the marker until another real deletion or writable open.
+            if stillCurrent, [SQLITE_BUSY, SQLITE_LOCKED].contains(status), attempt < 2 {
+                self.request(attempt: attempt + 1)
+            }
+        }
+        pending = work
+        lock.unlock()
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 0.6, execute: work)
+    }
+    deinit { pending?.cancel() }
 }

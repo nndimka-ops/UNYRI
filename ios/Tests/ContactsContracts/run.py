@@ -23,5 +23,5 @@ with tempfile.TemporaryDirectory(prefix='unyri-contacts-') as temp:
     (temp / 'Store.swift').write_text('import Foundation\n#if canImport(Combine)\nimport Combine\n#endif\n' + store + '\n' + models, encoding='utf-8')
     sources = [root / 'ios/UNYRI/Support/DisplayNameSanitizer.swift', temp / 'Store.swift', root / 'ios/UNYRI/Models/UserModels.swift', Path(__file__).resolve().parent / 'main.swift']
     binary = temp / ('checks.exe' if os.name == 'nt' else 'checks')
-    subprocess.run(['swiftc', '-parse-as-library', *map(str, sources), '-o', str(binary)], check=True, timeout=300)
+    subprocess.run(['swiftc', '-swift-version', '5', '-parse-as-library', *map(str, sources), '-o', str(binary)], check=True, timeout=300)
     subprocess.run([str(binary)], check=True, timeout=60)

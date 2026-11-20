@@ -1,5 +1,5 @@
 
-use axum::extract::{Query, State};
+use axum::extract::State;
 use axum::Json;
 use chrono::{DateTime, Utc};
 use uuid::Uuid;
@@ -9,12 +9,9 @@ use crate::auth::middleware::AuthUser;
 use crate::auth::rate_limit;
 use crate::error::AppError;
 use crate::state::AppState;
-use crate::users::models::{AvatarDownloadResponse, CompleteAvatarRequest, CreateAvatarResponse, Patch, PublicUser, SearchQuery, SearchResponse, UpdateProfileRequest, UserProfile};
+use crate::users::models::{AvatarDownloadResponse, CompleteAvatarRequest, CreateAvatarResponse, Patch, SearchResponse, UpdateProfileRequest, UserProfile};
 use crate::validation::{is_unique_violation, validate_avatar_url, validate_bio, validate_display_name};
 
-const SEARCH_QUERY_MIN_CHARS: usize = 2;
-const SEARCH_LIMIT_DEFAULT: i64 = 20;
-const SEARCH_LIMIT_MAX: i64 = 50;
 const SEARCH_RATE_LIMIT: u64 = 30;
 const SEARCH_RATE_WINDOW_SECONDS: u64 = 60;
 
@@ -65,34 +62,6 @@ impl From<UserProfileRow> for UserProfile {
             has_avatar: row.avatar_key.is_some(),
             created_at: row.created_at,
             updated_at: row.updated_at,
-        }
-    }
-}
-
-#[derive(sqlx::FromRow)]
-struct PublicUserRow {
-    id: Uuid,
-    username: String,
-    display_name: String,
-    bio: Option<String>,
-    avatar_url: Option<String>,
-    avatar_key: Option<String>,
-    profile_version: i64,
-    avatar_version: i64,
-}
-
-impl From<PublicUserRow> for PublicUser {
-    fn from(row: PublicUserRow) -> Self {
-        PublicUser {
-            new_account: None,
-            id: row.id,
-            username: row.username,
-            display_name: row.display_name,
-            bio: row.bio,
-            avatar_url: row.avatar_url,
-            profile_version: row.profile_version,
-            avatar_version: row.avatar_version,
-            has_avatar: row.avatar_key.is_some(),
         }
     }
 }
@@ -213,6 +182,7 @@ pub async fn patch_me(
         super::avatar_uploads::lock_commit(&mut tx,auth.user_id,key,expected).await?;
     }
     let new_username = req.username.clone().unwrap_or_else(|| current.username.clone());
+    let login_changed = new_username != current.username;
     if new_username.to_lowercase() != current.username.to_lowercase() {
         crate::validation::validate_username_for_role(&new_username, official)?;
     }
@@ -231,16 +201,23 @@ pub async fn patch_me(
     let new_avatar_url = if avatar_provided { avatar_value.clone() } else { current.avatar_url.clone() };
     let new_avatar_key = if avatar_provided { avatar_key_value.map(str::to_string) } else { current.avatar_key.clone() };
 
-    let profile_changed = new_username != current.username
-        || new_display_name != current.display_name
+    let profile_changed = new_display_name != current.display_name
         || new_bio != current.bio
         || new_avatar_url != current.avatar_url;
     let avatar_changed = new_avatar_key != current.avatar_key;
 
-    if profile_changed {
-        let new_profile_version = current.profile_version + 1;
+    if profile_changed || login_changed {
+        let conflicts = if login_changed {
+            // No-op/profile-only edits do not consume private-login budgets.
+            // Account row locking also serializes changes from all own devices.
+            rate_limit::enforce(&state, &format!("login-change:{}", auth.user_id),
+                std::net::Ipv4Addr::UNSPECIFIED.into(), 5, 86_400).await?;
+            Some(rate_limit::ConflictBudget::reserve(&state,
+                &[(&format!("login-change:{}", auth.user_id), 3, 86_400)]).await?)
+        } else { None };
+        let new_profile_version = current.profile_version + i64::from(profile_changed);
         let new_avatar_version = if avatar_changed { current.avatar_version + 1 } else { current.avatar_version };
-        sqlx::query(
+        let updated = sqlx::query(
             "UPDATE users SET \
                  username = $1, display_name = $2, bio = $3, avatar_url = $4, avatar_key = $5, \
                  profile_version = $6, avatar_version = $7 \
@@ -255,8 +232,12 @@ pub async fn patch_me(
         .bind(new_avatar_version)
         .bind(auth.user_id)
         .execute(&mut *tx)
-        .await
-        .map_err(|err| if is_unique_violation(&err) { AppError::UsernameTaken } else { AppError::from(err) })?;
+        .await;
+        let conflict = updated.as_ref().err().is_some_and(is_unique_violation);
+        if !conflict {
+            if let Some(budget) = conflicts { budget.refund(&state).await; }
+        }
+        updated.map_err(|err| if is_unique_violation(&err) { AppError::UsernameTaken } else { AppError::from(err) })?;
     }
     let row = profile_row(&mut tx,auth.user_id).await?;
     tx.commit().await?;
@@ -265,14 +246,14 @@ pub async fn patch_me(
     Ok(Json(row.into()))
 }
 
-/// `GET /users/search?q=...&limit=...&offset=...` - authenticated, rate
-/// limited, paginated substring search over usernames using the pg_trgm GIN
-/// index (see migration 0002). Only ever returns `PublicUser` fields.
+/// Legacy discovery endpoint, retained as an empty page for older clients.
+/// Public discovery uses exact `/users/lookup?number=...` or `?username=...`.
+/// Never search private sign-in logins, including for administrator accounts:
+/// the owner console has its own separately authorized account search.
 pub async fn search(
     State(state): State<AppState>,
     ClientIp(addr): ClientIp,
     auth: AuthUser,
-    Query(query): Query<SearchQuery>,
 ) -> Result<Json<SearchResponse>, AppError> {
     rate_limit::enforce(&state, "search:ip", addr, 120, SEARCH_RATE_WINDOW_SECONDS).await?;
     rate_limit::enforce(
@@ -282,50 +263,7 @@ pub async fn search(
         SEARCH_RATE_LIMIT,
         SEARCH_RATE_WINDOW_SECONDS,
     ).await?;
-
-    let q = query.q.trim();
-    if q.chars().count() < SEARCH_QUERY_MIN_CHARS {
-        return Err(AppError::Validation(format!(
-            "Search query must be at least {SEARCH_QUERY_MIN_CHARS} characters."
-        )));
-    }
-
-    let limit = query.limit.unwrap_or(SEARCH_LIMIT_DEFAULT).clamp(1, SEARCH_LIMIT_MAX);
-    let offset = query.offset.unwrap_or(0).max(0);
-    // Same enumeration bound as the directory.
-    let max_offset = crate::presence::DIRECTORY_MAX_OFFSET;
-    if offset > max_offset {
-        return Ok(Json(SearchResponse { items: Vec::new(), next_offset: None }));
-    }
-
-    // Escape ILIKE wildcards in user input so `%`/`_` characters in the
-    // search query are treated literally, not as pattern operators.
-    let escaped = q.replace('\\', "\\\\").replace('%', "\\%").replace('_', "\\_");
-    let pattern = format!("%{escaped}%");
-
-    // Fetch one extra row to know whether another page exists, without a
-    // separate COUNT(*) query.
-    let rows: Vec<PublicUserRow> = sqlx::query_as(
-        "SELECT id, username, display_name, bio, avatar_url, avatar_key, profile_version, avatar_version \
-         FROM users \
-         WHERE deleted_at IS NULL AND id <> $4 AND username_normalized ILIKE $1 ESCAPE '\\' \
-           AND NOT user_device_blocked($5,users.id) \
-         ORDER BY username_normalized \
-         LIMIT $2 OFFSET $3",
-    )
-    .bind(&pattern)
-    .bind(limit + 1)
-    .bind(offset)
-    .bind(auth.user_id)
-    .bind(auth.device_id)
-    .fetch_all(&state.db)
-    .await?;
-
-    let has_more = rows.len() as i64 > limit;
-    let items: Vec<PublicUser> = rows.into_iter().take(limit as usize).map(Into::into).collect();
-    let next_offset = if has_more && offset + limit <= max_offset { Some(offset + limit) } else { None };
-
-    Ok(Json(SearchResponse { items, next_offset }))
+    Ok(Json(SearchResponse { items: Vec::new(), next_offset: None }))
 }
 
 /// PROFILE.1: `POST /users/me/avatar` - presigned PUT for a fresh

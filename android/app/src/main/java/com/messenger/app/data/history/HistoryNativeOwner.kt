@@ -90,7 +90,7 @@ class HistoryNativeOwner(
     }
     private suspend fun readChats(): List<HistoryArchiveChat> = db.chatDao().observeChats(owner).first().map { row ->
         HistoryArchiveChat(row.chatId, row.type, java.time.Instant.parse(row.createdAt).toEpochMilli(), row.otherUserId?.let {
-            HistoryArchivePeer(it, requireNotNull(row.otherUsername), row.otherDisplayName.orEmpty())
+            HistoryArchivePeer(it, "", row.otherDisplayName.orEmpty(), row.otherPublicNumber, row.otherPublicUsername)
         })
     }
     private fun attachments(archive: HistoryArchive): Map<String, AttachmentMetadataDto> = buildMap {
@@ -190,7 +190,7 @@ class HistoryNativeOwner(
                 // generic local shell until normal metadata reconciliation.
                 if (row.type == "direct" && row.otherUserId == null) null else
                     HistoryArchiveChat(row.chatId,row.type,java.time.Instant.parse(row.createdAt).toEpochMilli(),row.otherUserId?.let {
-                        HistoryArchivePeer(it,requireNotNull(row.otherUsername),row.otherDisplayName.orEmpty())
+                        HistoryArchivePeer(it,"",row.otherDisplayName.orEmpty(),row.otherPublicNumber,row.otherPublicUsername)
                     })
             }
         } else emptyList()

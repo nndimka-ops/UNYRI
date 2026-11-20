@@ -721,6 +721,10 @@ async fn verified_installation_blocks_alias_only_on_that_installation_not_a_clea
         login_proof(&app, ip, &cname, Uuid::new_v4(), Some(&clean_proof)).await;
     let (spoof, _, _, _) = register_proof(&app, ip, "install_spoof_", legacy_id, None).await;
     let owner_id = Uuid::parse_str(&aid).unwrap();
+    let number: String = sqlx::query_scalar("SELECT unyri_number::text FROM user_identities WHERE user_id=$1")
+        .bind(owner_id).fetch_one(&state.db).await.unwrap();
+    let lookup_path = format!("/users/lookup?number={number}");
+    let profile_path = format!("/users/{aid}/profile");
     for (token, device, hidden) in [(&c, cdev, true), (&clean, clean_device, false)] {
         let claims =
             messenger_server::auth::jwt::decode_access_token(&state.config, token).unwrap();
@@ -737,28 +741,21 @@ async fn verified_installation_blocks_alias_only_on_that_installation_not_a_clea
             hidden,
             "presence uses current device, never a global alias account ban"
         );
-        let directory =
-            body_json(request(&app, ip, token, "GET", "/users/directory?q=install_a", None).await)
-                .await;
-        assert_eq!(
-            directory["items"]
-                .as_array()
-                .unwrap()
-                .iter()
-                .any(|u| u["id"] == aid),
-            !hidden
-        );
-        let search =
-            body_json(request(&app, ip, token, "GET", "/users/search?q=install_a", None).await)
-                .await;
-        assert_eq!(
-            search["items"]
-                .as_array()
-                .unwrap()
-                .iter()
-                .any(|u| u["id"] == aid),
-            !hidden
-        );
+        for path in [&lookup_path, &profile_path] {
+            let profile = request(&app, ip, token, "GET", path, None).await;
+            assert_eq!(profile.status(), if hidden { StatusCode::NOT_FOUND } else { StatusCode::OK });
+            if !hidden {
+                assert_eq!(body_json(profile).await["id"], aid);
+            }
+        }
+        // Legacy enumeration routes are empty regardless of installation.
+        for path in ["/users/directory?q=install_a", "/users/search?q=install_a"] {
+            let response = request(&app, ip, token, "GET", path, None).await;
+            assert_eq!(response.status(), StatusCode::OK);
+            let page = body_json(response).await;
+            assert_eq!(page["items"], json!([]));
+            assert!(page["next_offset"].is_null());
+        }
         let direct = request(
             &app,
             ip,
@@ -777,16 +774,12 @@ async fn verified_installation_blocks_alias_only_on_that_installation_not_a_clea
             }
         );
     }
-    let spoof_search =
-        body_json(request(&app, ip, &spoof, "GET", "/users/search?q=install_a", None).await).await;
-    assert!(
-        spoof_search["items"]
-            .as_array()
-            .unwrap()
-            .iter()
-            .any(|u| u["id"] == aid),
+    let spoof_lookup = request(&app, ip, &spoof, "GET", &lookup_path, None).await;
+    assert_eq!(
+        spoof_lookup.status(), StatusCode::OK,
         "self-reported UUID grants no restriction or proof"
     );
+    assert_eq!(body_json(spoof_lookup).await["id"], aid);
     // Account C itself is not exposed in A's blocked list.
     let list = blocked(&app, ip, &a, "").await;
     assert_eq!(list["items"].as_array().unwrap().len(), 1);

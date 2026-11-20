@@ -89,9 +89,11 @@ check(!CallRelayPolicy.relayOnly(.everyone, peerIsContact: false), "Everyone: di
 check(!CallRelayPolicy.relayOnly(.contacts, peerIsContact: true), "My contacts: direct with a contact")
 check(CallRelayPolicy.relayOnly(.contacts, peerIsContact: false), "My contacts: relay-only with anyone else")
 check(CallRelayPolicy.relayOnly(.nobody, peerIsContact: true), "Nobody: relay-only even with a contact")
-expect(CallPeerToPeer.resolved(stored: nil), .everyone, "Peer-to-peer defaults to Everyone (unchanged behaviour)")
+expect(CallPeerToPeer.resolved(stored: nil), .contacts, "New and never-chosen peer-to-peer defaults to Contacts")
+expect(CallPeerToPeer.resolved(stored: "everyone"), .everyone, "An explicit earlier Everyone choice stays")
+expect(CallPeerToPeer.resolved(stored: "contacts"), .contacts, "An explicit earlier Contacts choice stays")
 expect(CallPeerToPeer.resolved(stored: "nobody"), .nobody, "stored choice kept")
-expect(CallPeerToPeer.resolved(stored: "future"), .everyone, "unknown value falls back")
+expect(CallPeerToPeer.resolved(stored: "future"), .contacts, "unknown value fails closed to Contacts")
 
 // MARK: - "Use less data for calls" and the old "Call quality" values
 
@@ -1397,6 +1399,26 @@ do {
     expect(CallAudioCodecPreference.order(names, preferRed: true), [1, 0, 2, 3, 4], "RED first, the rest in order")
     expect(CallAudioCodecPreference.order(names, preferRed: false), [0, 2, 3, 4], "saving: RED left out entirely")
     expect(CallAudioCodecPreference.order(["opus", "PCMU"], preferRed: true), [0, 1], "no RED available: unchanged")
+}
+
+// B-047: hardware H.264 first in both directions; the same vectors as Android.
+do {
+    struct Vectors: Decodable {
+        struct Case: Decodable { let name: String; let codecs: [[String?]]; let expected: [Int] }
+        let cases: [Case]
+    }
+    let url = URL(fileURLWithPath: "shared/test-vectors/call-video-codec-order.json")
+    if let data = try? Data(contentsOf: url), let vectors = try? JSONDecoder().decode(Vectors.self, from: data) {
+        check(vectors.cases.count >= 8, "video codec vectors: all cases present")
+        for vector in vectors.cases {
+            let codecs = vector.codecs.map { pair -> (name: String, profileLevelId: String?) in
+                (name: (pair.first ?? nil) ?? "", profileLevelId: pair.count > 1 ? pair[1] : nil)
+            }
+            expect(CallVideoCodecPreference.order(codecs), vector.expected, "video codec order: " + vector.name)
+        }
+    } else {
+        fail("video codec vectors unreadable (run from the repository root)")
+    }
 }
 
 if failures > 0 {

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_join_title">Открытый проект</string>
+    <string name="about_join_description">UNYRI — открытый проект, и помочь может каждый: кодом, переводами, тестами, дизайном или идеями. Всё обсуждаем на GitHub.</string>
+    <string name="about_join_button">Присоединиться к разработке</string>
+</resources>

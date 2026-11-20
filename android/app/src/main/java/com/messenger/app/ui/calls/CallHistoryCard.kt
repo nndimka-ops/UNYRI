@@ -76,7 +76,8 @@ fun CallHistoryCard(call: CallDto, owner: String, name: String? = null, listRow:
                     val kind = stringResource(if (call.mediaKind == "video") R.string.call_history_video else R.string.call_history_audio)
                     val duration = callDurationSeconds(call)?.let { " · ${it / 60}:${(it % 60).toString().padStart(2, '0')}" }.orEmpty()
                     Text(kind + duration, style = MaterialTheme.typography.bodySmall, color = colors.secondaryText)
-                    val date = runCatching { OffsetDateTime.parse(call.createdAt).atZoneSameInstant(java.time.ZoneId.systemDefault()).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)) }.getOrDefault("")
+                    val locale = androidx.compose.ui.platform.LocalConfiguration.current.locales[0]
+                    val date = com.messenger.app.ui.chats.callEventTime(call.createdAt, java.time.ZoneId.systemDefault(), locale)
                     Text(date, style = MaterialTheme.typography.labelSmall, color = colors.mutedText)
                 }
             }

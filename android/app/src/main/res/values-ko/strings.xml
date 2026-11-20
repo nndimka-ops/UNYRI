@@ -212,7 +212,7 @@
     <string name="voice_open_app_settings">앱 설정 열기</string>
     <string name="notification_settings_system_on">Android 알림이 허용됨</string>
     <string name="notification_settings_system_off">Android 알림이 차단됨</string>
-    <string name="notification_settings_system_detail">권한, 잠금 화면 표시, 소리 및 진동은 Android가 관리합니다. 관리 및 서비스 알림도 포함됩니다. UNYRI는 시스템 선택을 변경할 수 없습니다.</string>
+    <string name="notification_settings_system_detail">Android에서 메시지나 통화 채널을 선택해 소리와 진동을 설정하세요.</string>
     <string name="notification_settings_allow">알림 허용</string>
     <string name="notification_settings_system_open">Android 알림 설정 열기</string>
     <string name="local_mode_notifications">알림 허용</string>

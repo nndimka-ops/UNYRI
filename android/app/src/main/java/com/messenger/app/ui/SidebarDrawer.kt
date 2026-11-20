@@ -28,12 +28,14 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.messenger.app.BuildConfig
 import com.messenger.app.R
 import com.messenger.app.ui.components.UserAvatar
 import com.messenger.app.ui.theme.*
+import kotlin.math.roundToInt
 
 internal enum class DrawerAccountsLayout { COMPACT, FULL, NARROW }
 
@@ -134,10 +136,10 @@ internal fun SidebarDrawer(
                     }
                 } else if (narrow) Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                     settings(Modifier); help(Modifier)
-                    DrawerMenuRow("report", R.string.feedback_title, R.drawable.coco_sidebar_report,
+                    DrawerMenuRow("report", R.string.drawer_report_short, R.drawable.coco_sidebar_report,
                         onReport, secondary = true, narrow = true)
                 } else { settings(Modifier); help(Modifier) }
-                if (!narrow) DrawerMenuRow("report", R.string.feedback_title, R.drawable.coco_sidebar_report,
+                if (!narrow) DrawerMenuRow("report", R.string.drawer_report_short, R.drawable.coco_sidebar_report,
                     onReport, secondary = true, filled = variant == DrawerChoice.C)
                 Spacer(Modifier.weight(1f))
                 if (variant == DrawerChoice.A) DrawerHost(host, onServer, narrow)
@@ -165,22 +167,51 @@ internal fun SidebarDrawer(
 @Composable private fun DrawerNarrowHeader(name: String, username: String?, onEdit: () -> Unit, onQR: (() -> Unit)?,
     avatar: @Composable (Dp) -> Unit, status: @Composable () -> Unit, accounts: @Composable (DrawerAccountsLayout) -> Unit,
     publicNumber: String?) {
-    Column(Modifier.padding(horizontal = 2.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+    val hasNumber = drawerPublicNumber(publicNumber) != null
+    val hasUsername = !username.isNullOrBlank()
+    val halfTextGap = (DrawerCaptionPolicy.textGapDp / 2).dp
+    val rowGap = DrawerCaptionPolicy.rowGapDp.dp
+    Column(Modifier.padding(horizontal = 2.dp)) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Box(Modifier.clickable(role = Role.Button, onClick = onEdit).testTag("drawer-profile")) { avatar(48.dp) }
             Spacer(Modifier.weight(1f))
             DrawerQr(onQR, compact = true)
         }
-        Column(Modifier.fillMaxWidth().clickable(role = Role.Button, onClick = onEdit)) {
-            Text(name, color = Color(0xFFF1F1F1), fontSize = 17.sp, lineHeight = 21.sp, fontWeight = FontWeight.Bold,
-                maxLines = 2, overflow = TextOverflow.Ellipsis, modifier = Modifier.testTag("drawer-name"))
-            DrawerPublicNumber(publicNumber)
-            if (!username.isNullOrBlank()) DrawerMeasuredUsername("@$username")
+        // The existing visual gaps belong to the tap targets instead of minimum-height rows.
+        Column(Modifier.fillMaxWidth().clickable(role = Role.Button, onClick = onEdit)
+            .padding(top = rowGap, bottom = if (hasNumber || hasUsername) halfTextGap else rowGap)) {
+            DrawerMeasuredCaptionName(name)
+        }
+        DrawerPublicNumber(publicNumber, compactCaption = true, bottomGap = if (hasUsername) halfTextGap else rowGap)
+        if (hasUsername) {
+            Box(Modifier.fillMaxWidth().clickable(role = Role.Button, onClick = onEdit)
+                .padding(top = halfTextGap, bottom = rowGap)) { DrawerMeasuredUsername("@$username") }
         }
         FlowRow(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Box(Modifier.align(Alignment.CenterVertically)) { status() }
             Box(Modifier.align(Alignment.CenterVertically)) { accounts(DrawerAccountsLayout.COMPACT) }
         }
+    }
+}
+
+@Composable private fun DrawerMeasuredCaptionName(name: String) {
+    val measure = rememberTextMeasurer()
+    val density = LocalDensity.current
+    val baseStyle = LocalTextStyle.current.merge(TextStyle(fontWeight = FontWeight.Bold,
+        fontSize = DrawerCaptionPolicy.nameSizeSp.sp, lineHeight = DrawerCaptionPolicy.nameLineHeightSp.sp))
+    BoxWithConstraints(Modifier.fillMaxWidth()) {
+        val chosen = remember(name, maxWidth, density, measure, baseStyle) {
+            val constraints = Constraints(maxWidth = with(density) { maxWidth.toPx().roundToInt().coerceAtLeast(0) })
+            fun style(size: Float) = baseStyle.copy(fontSize = size.sp,
+                lineHeight = (DrawerCaptionPolicy.nameLineHeightSp * size / DrawerCaptionPolicy.nameSizeSp).sp)
+            val size = DrawerCaptionPolicy.nameSize { fontSize, lines ->
+                !measure.measure(name, style(fontSize), constraints = constraints, maxLines = lines,
+                    overflow = TextOverflow.Clip, softWrap = true).hasVisualOverflow
+            }
+            style(size)
+        }
+        Text(name, style = chosen, color = Color(0xFFF1F1F1), maxLines = DrawerCaptionPolicy.nameMaxLines,
+            overflow = TextOverflow.Ellipsis, modifier = Modifier.testTag("drawer-name"))
     }
 }
 
@@ -281,20 +312,22 @@ internal fun SidebarDrawer(
     selected: Boolean = false, count: Int = 0, danger: Boolean = false, secondary: Boolean = false,
     filled: Boolean = false, plainCount: Boolean = false, minHeight: Dp = 44.dp, narrow: Boolean = false, modifier: Modifier = Modifier) {
     val label = stringResource(title)
-    val description = if (count > 0) stringResource(R.string.drawer_count_description, label, count) else label
+    val accessibleLabel = if (id == "report") stringResource(R.string.feedback_title) else label
+    val description = if (count > 0) stringResource(R.string.drawer_count_description, accessibleLabel, count) else accessibleLabel
     val interaction = remember { MutableInteractionSource() }
     Surface(onClick = onClick, shape = RoundedCornerShape(if (secondary) 22.dp else 26.dp),
         interactionSource = interaction, color = when { selected -> Color(0xFF323232); filled -> Color.White.copy(alpha = .05f); else -> Color.Transparent },
         modifier = modifier.fillMaxWidth().then(cocoQuietPressFeedback(interaction, haptic = false))
             .semantics { this.selected = selected; contentDescription = description }.testTag("drawer-$id")) {
-        Row(Modifier.heightIn(min = minHeight).padding(horizontal = if (narrow || secondary) 10.dp else 14.dp, vertical = if (narrow) 6.dp else 8.dp),
-            verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(if (narrow) 10.dp else if (secondary) 8.dp else 14.dp)) {
-            if (icon != null) Icon(painterResource(icon), null, tint = Color(0xFFB7B7B7), modifier = Modifier.size(if (secondary) 18.dp else 20.dp))
+        Row(Modifier.heightIn(min = minHeight).padding(horizontal = if (narrow) 10.dp else 14.dp, vertical = if (narrow) 6.dp else 8.dp),
+            verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(if (narrow) 10.dp else 14.dp)) {
+            if (icon != null) Box(Modifier.size(20.dp), contentAlignment = Alignment.Center) { Icon(painterResource(icon), null, tint = Color(0xFFB7B7B7), modifier = Modifier.size(if (secondary) 18.dp else 20.dp)) }
             else Icon(CocoIcons.File, null, tint = Color(0xFFB7B7B7), modifier = Modifier.size(20.dp))
-            // Narrow drawer: a long label wraps to a second line instead of being cut.
+            // The short report label fits drawer A without changing its approved 40% width.
             Text(label, color = Color(if (secondary) 0xFFDBDBDB else 0xFFF1F1F1),
                 fontSize = (if (narrow) (if (secondary) 14 else 15) else if (secondary) 15 else 16).sp,
                 lineHeight = if (narrow) 18.sp else androidx.compose.ui.unit.TextUnit.Unspecified,
+                maxLines = if (id == "report" && LocalDensity.current.fontScale < 1.6f) 1 else Int.MAX_VALUE,
                 fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal, modifier = Modifier.weight(1f))
             drawerBadge(count)?.let { badge ->
                 Text(if (plainCount) count.toString() else badge, color = if (plainCount) Color(0xFFB0B0B0) else if (danger) Color.White else Color(0xFF222222),

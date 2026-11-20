@@ -27,10 +27,12 @@ internal fun SelfHostingAdminScreen(role: String, base: String, busy: Boolean, t
     var mode by remember { mutableStateOf<RegistrationMode?>(null) }
     var check by remember { mutableStateOf<JsonObject?>(null) }
     var created by remember { mutableStateOf<CreatedInvite?>(null) }
+    var availableCodes by remember { mutableStateOf<Map<String, String>>(emptyMap()) }
     var foreground by remember { mutableStateOf(true) }
     var revoke by remember { mutableStateOf<InviteRow?>(null) }
-    var uses by remember { mutableStateOf("1") }
-    var days by remember { mutableStateOf("7") }
+    var uses by remember { mutableStateOf(InviteAdminPolicy.defaultUses.toString()) }
+    var days by remember { mutableStateOf(InviteAdminPolicy.defaultDays.toString()) }
+    val limits = InviteAdminPolicy.limits(uses, days)
     val context = LocalContext.current
     val clipboard = remember { context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager }
     val clipLabel = remember { "UNYRI-invite-" + java.util.UUID.randomUUID() }
@@ -46,51 +48,67 @@ internal fun SelfHostingAdminScreen(role: String, base: String, busy: Boolean, t
     DisposableEffect(lifecycle) {
         val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
             if (event == androidx.lifecycle.Lifecycle.Event.ON_START) foreground = true
-            if (event == androidx.lifecycle.Lifecycle.Event.ON_STOP) { foreground = false; created = null }
+            if (event == androidx.lifecycle.Lifecycle.Event.ON_STOP) { foreground = false; created = null; availableCodes = emptyMap() }
         }
         lifecycle.lifecycle.addObserver(observer)
-        onDispose { created = null; lifecycle.lifecycle.removeObserver(observer) }
+        onDispose { created = null; availableCodes = emptyMap(); lifecycle.lifecycle.removeObserver(observer) }
     }
     LaunchedEffect(Unit) {
         run {
             page = actions.invites()
-            if (owner) { mode = actions.registration(); check = actions.selfCheck() }
+            mode = actions.registration()
+            if (owner) check = actions.selfCheck()
         }
     }
-    AdminListScreen(stringResource(R.string.sh_tools), onBack) {
+    AdminListScreen(stringResource(R.string.sh_registration_invites), onBack) {
       LazyColumn(contentPadding = PaddingValues(com.messenger.app.ui.theme.CocoSpacing.lg),
           verticalArrangement = Arrangement.spacedBy(com.messenger.app.ui.theme.CocoSpacing.md)) {
-        if (owner) item("registration") { AdminCard {
+        item("registration") { AdminCard {
             Text(stringResource(R.string.sh_registration))
             if (mode == null) AdminActionRow(stringResource(R.string.admin_refresh), enabled = !busy,
                 onClick = { run { mode = actions.registration() } })
             mode?.let { value ->
                 Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
                     Text(stringResource(R.string.sh_invite_only), Modifier.weight(1f))
-                    Switch(value.mode == "invite_only", enabled = !busy, onCheckedChange = { required ->
+                    Switch(value.mode == "invite_only", enabled = owner && !busy, onCheckedChange = { required ->
                         run { actions.setMode(if (required) "invite_only" else "open"); mode = actions.registration() }
                     })
                 }
                 if (!value.open) Text(stringResource(R.string.sh_registration_closed))
             }
+            if (!owner) Text(stringResource(R.string.sh_mode_owner_only))
         } }
         item("create") { AdminCard {
-            Text(stringResource(R.string.sh_invites))
+            Text(stringResource(R.string.sh_create_invite))
             OutlinedTextField(uses, { uses = it.take(5) }, label = { Text(stringResource(R.string.sh_uses)) },
                 enabled = !busy, singleLine = true, keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number))
             OutlinedTextField(days, { days = it.take(3) }, label = { Text(stringResource(R.string.sh_days)) },
                 enabled = !busy, singleLine = true, keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number))
             Text(stringResource(R.string.sh_invite_bounds))
-            AdminActionRow(stringResource(R.string.sh_create_invite), enabled = !busy && uses.toIntOrNull() in 1..10000 && days.toIntOrNull() in 1..365,
+            AdminActionRow(stringResource(R.string.sh_create_invite), enabled = !busy && limits != null,
                 onClick = { run {
-                    val invitation = actions.create(uses.toInt(), days.toInt())
-                    if (foreground) created = invitation
-                    page = actions.invites()
+                    val (count, lifetime) = limits ?: return@run
+                    val invitation = actions.create(count, lifetime)
+                    if (foreground) {
+                        created = invitation
+                        availableCodes = (availableCodes.entries.toList().takeLast(99).associate { it.toPair() } + (invitation.id to invitation.code))
+                        // Show the one-time secret before any further network
+                        // call can fail and relock the administration panel.
+                        val row = InviteRow(invitation.id, "active", invitation.uses, invitation.maxUses, invitation.expiresAt)
+                        page = InvitePage((listOf(row) + page?.items.orEmpty()).distinctBy { it.id }, page?.nextBefore)
+                    }
                 } })
-            AdminActionRow(stringResource(R.string.admin_refresh), enabled = !busy, onClick = { run { page = actions.invites() } })
+        } }
+        item("invitations") { AdminCard {
+            Text(stringResource(R.string.sh_invites))
+            Text(stringResource(R.string.sh_saved_codes_hint))
+            AdminActionRow(stringResource(R.string.admin_refresh), enabled = !busy, onClick = { run {
+                page = actions.invites(); mode = actions.registration()
+            } })
         } }
         if (page?.items?.isEmpty() == true) item("empty") { Text(stringResource(R.string.admin_section_empty)) }
         items(page?.items.orEmpty(), key = { it.id }) { row -> AdminCard {
+            Text(AdminPresentation.shortId(row.id))
             Text(stringResource(when (row.status) {
                 "active" -> R.string.sh_active
                 "revoked" -> R.string.sh_revoked
@@ -101,12 +119,16 @@ internal fun SelfHostingAdminScreen(role: String, base: String, busy: Boolean, t
             AdminKeyValue(stringResource(R.string.sh_uses), "${row.uses} / ${row.maxUses}")
             AdminKeyValue(stringResource(R.string.sh_expiry), AdminTitles.time(row.expiresAt))
             AdminKeyValue(stringResource(R.string.sh_creator), row.creator?.take(128) ?: row.createdBy?.let { AdminPresentation.shortId(it) } ?: "—")
+            availableCodes[row.id]?.takeIf { row.status == "active" }?.let { code ->
+                AdminActionRow(stringResource(R.string.sh_copy_code), enabled = !busy, onClick = { copy(code) })
+                val link = remember(base, code) { runCatching { ServerInviteLink.create(base, code) }.getOrNull() }
+                if (link != null) AdminActionRow(stringResource(R.string.sh_share_link), enabled = !busy, onClick = { share(link) })
+            }
             if (row.status == "active") AdminActionRow(stringResource(R.string.sh_revoke), enabled = !busy, onClick = { revoke = row })
         } }
         page?.nextBefore?.let { cursor -> item("more") { AdminActionRow(stringResource(R.string.sh_more), enabled = !busy, onClick = { run {
             val next = actions.invites(cursor)
-            check(next.nextBefore != cursor)
-            page = InvitePage((page?.items.orEmpty() + next.items).distinctBy { it.id }, next.nextBefore)
+            page = InviteAdminPolicy.append(page, next, cursor)
         } }) } }
         if (owner) item("self-check") { AdminCard {
             Text(stringResource(R.string.sh_self_check))

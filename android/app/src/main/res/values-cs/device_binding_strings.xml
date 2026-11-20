@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auth_hardware_binding_required">Tento telefon nemůže chránit relaci hardwarovým klíčem, ale server tuto ochranu vyžaduje.</string>
+</resources>

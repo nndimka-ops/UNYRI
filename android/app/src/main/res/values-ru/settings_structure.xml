@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_group_accounts">Аккаунты</string>
+    <string name="settings_account_current">Текущий аккаунт</string>
+    <string name="settings_group_main">Основное</string>
+    <string name="settings_group_appearance">Оформление</string>
+    <string name="settings_group_server">Сервер</string>
+    <string name="settings_group_help">Помощь</string>
+    <string name="settings_privacy_visibility">Видимость</string>
+    <string name="settings_privacy_protection">Защита</string>
+    <string name="settings_privacy_diagnostics">Диагностика</string>
+    <string name="settings_recovery_key">Ключ восстановления</string>
+    <string name="settings_about_project">О проекте</string>
+    <string name="settings_performance_diagnostics">Диагностика производительности</string>
+</resources>

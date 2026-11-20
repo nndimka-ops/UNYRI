@@ -1,8 +1,16 @@
 # Run from a reviewed release in a normal Windows PowerShell terminal.
 [CmdletBinding()]
-param([Alias('from-source')][switch]$FromSource)
+param([Alias('from-source')][switch]$FromSource,
+    [switch]$NonInteractive, [string]$Domain, [string]$ServerName = 'UNYRI',
+    [string]$PublicIPv4, [ValidateSet('yes','no')][string]$RoomsChoice = 'no',
+    [switch]$SkipFirewall)
+# NonInteractive disables IP discovery, UPnP and private owner-code display.
+# SkipFirewall lets desktop handle the canonical helper in its Ports step.
 . (Join-Path $PSScriptRoot 'common.ps1')
 . (Join-Path $PSScriptRoot 'preflight-ports.ps1')
+$localTrial = Test-Path -LiteralPath (Join-Path $SelfhostRoot '.selfhost-local-trial') -PathType Leaf
+if ($localTrial -and (-not $NonInteractive -or -not $SkipFirewall -or $RoomsChoice -ne 'no' -or $Domain -ne 'localhost' -or $PublicIPv4 -ne '127.0.0.1')) { throw 'Trial requires non-interactive localhost/127.0.0.1, no rooms and SkipFirewall.' }
+if ($NonInteractive -and -not (Test-Path -LiteralPath $SelfhostEnv) -and (-not $Domain -or -not $PublicIPv4)) { throw 'NonInteractive requires Domain and PublicIPv4.' }
 $SelfhostFromSource = [bool]$FromSource
 if ($SelfhostFromSource) {
     if (-not (Test-Path -LiteralPath (Join-Path $SelfhostRoot 'server/Dockerfile')) -or -not (Test-Path -LiteralPath (Join-Path $SelfhostRoot 'shared') -PathType Container)) {
@@ -25,14 +33,14 @@ function New-SelfhostSecret {
 
 if (-not (Test-Path -LiteralPath $SelfhostEnv)) {
     if (-not (Test-SelfhostOldData)) { exit 1 }
-    $domain = (Read-Host 'Domain or DDNS name (for example family.duckdns.org; no https://)').Trim().ToLowerInvariant()
-    if ($domain.Length -gt 253 -or $domain -notmatch '^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z](?:[a-z0-9-]{0,61}[a-z0-9])?$') { throw 'Enter an ASCII DNS name; use punycode for international names.' }
-    $serverName = Read-Host 'Server name shown in the apps [UNYRI]'
+    $domain = if ($NonInteractive) { $Domain.Trim().ToLowerInvariant() } else { (Read-Host 'Domain or DDNS name (for example family.duckdns.org; no https://)').Trim().ToLowerInvariant() }
+    if (-not $localTrial -and ($domain.Length -gt 253 -or $domain -notmatch '^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z](?:[a-z0-9-]{0,61}[a-z0-9])?$')) { throw 'Enter an ASCII DNS name; use punycode for international names.' }
+    $serverName = if ($NonInteractive) { $ServerName } else { Read-Host 'Server name shown in the apps [UNYRI]' }
     if ($serverName -eq '') { $serverName = 'UNYRI' }
     if (-not (Test-SelfhostServerName $serverName)) { throw 'Server name must be 1-64 printable characters, with no control characters.' }
     Write-Host 'A router WAN address in 100.64.0.0/10 means CGNAT. If router WAN differs from the public address, ask your provider about CGNAT/double NAT; forwarding alone may not work.'
-    $publicIP = ''
-    if ((Read-Host 'Detect automatically? It asks api.ipify.org over HTTPS, which learns your address [y/N]') -match '^(y|yes)$') {
+    $publicIP = if ($NonInteractive) { $PublicIPv4 } else { '' }
+    if (-not $NonInteractive -and (Read-Host 'Detect automatically? It asks api.ipify.org over HTTPS, which learns your address [y/N]') -match '^(y|yes)$') {
         try {
             # No redirect following: the only address-discovery recipient is ipify.
             $publicIP = (Invoke-RestMethod 'https://api.ipify.org' -TimeoutSec 15 -MaximumRedirection 0).ToString().Trim()
@@ -46,7 +54,7 @@ if (-not (Test-Path -LiteralPath $SelfhostEnv)) {
     if (-not $publicIP) { $publicIP = (Read-Host 'Public IPv4 from your router WAN/VPS (not the PC LAN address)').Trim() }
     $parsedIP = $null
     if (-not [Net.IPAddress]::TryParse($publicIP, [ref]$parsedIP) -or $parsedIP.AddressFamily -ne [Net.Sockets.AddressFamily]::InterNetwork) { throw 'An IPv4 address is required for TURN.' }
-    $rooms = (Read-Host 'Enable optional LiveKit rooms? [y/N]') -match '^(y|yes)$'
+    $rooms = if ($NonInteractive) { $RoomsChoice -eq 'yes' } else { (Read-Host 'Enable optional LiveKit rooms? [y/N]') -match '^(y|yes)$' }
     $settings = [ordered]@{
         UNYRI_SELFHOST_FORMAT = '1'; UNYRI_DOMAIN = $domain; TURN_EXTERNAL_IP = $parsedIP.ToString()
         UNYRI_SERVER_NAME = (ConvertTo-SelfhostServerName $serverName)
@@ -81,8 +89,9 @@ if (-not (Test-Path -LiteralPath $SelfhostEnv)) {
 }
 
 $roomsEnabled = $settings.COMPOSE_PROFILES -eq 'rooms'
-if (-not (Test-SelfhostPorts $roomsEnabled)) { exit 1 }
+if (-not (Test-SelfhostPorts $roomsEnabled $localTrial)) { exit 1 }
 $rules = @(Get-SelfhostFirewallRules $roomsEnabled)
+if (-not $SkipFirewall) {
 Write-Host 'Windows Firewall rules to request (only this step asks for elevation):'
 foreach ($rule in $rules) { Write-Host (Format-SelfhostFirewallRule $rule) }
 $firewallArguments = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', ('"{0}"' -f (Join-Path $PSScriptRoot 'firewall.ps1')))
@@ -95,9 +104,10 @@ try {
     foreach ($rule in $rules) { Write-Host (Format-SelfhostFirewallRule $rule) }
 }
 
+}
 Write-Host 'UPnP will request: TCP 80,443,3478; UDP 3478,49152-49200.'
 if ($roomsEnabled) { Write-Host 'UPnP will also request rooms: TCP 17881; UDP 17882.' }
-if ((Read-Host 'Try UPnP on your local router to forward these ports? [y/N]') -match '^(y|yes)$') {
+if (-not $NonInteractive -and (Read-Host 'Try UPnP on your local router to forward these ports? [y/N]') -match '^(y|yes)$') {
     try {
         $nat = New-Object -ComObject HNetCfg.NATUPnP
         $mappings = $nat.StaticPortMappingCollection
@@ -132,30 +142,38 @@ Write-Host 'Before update:'
 Show-SelfhostServerVersion
 Write-Host 'Target images (UNYRI_SERVER_IMAGE overrides the bundle default if set):'
 Invoke-SelfhostCompose config --images
-if ($SelfhostFromSource) {
+if ($NonInteractive) { Write-Output 'UNYRI_GUI:pull' }
+if ($localTrial) {
+    Write-Host 'Loopback trial uses cached images only; no image download or build.'
+} elseif ($SelfhostFromSource) {
     Invoke-SelfhostCompose pull --ignore-buildable
     Invoke-SelfhostCompose build --pull
 } else {
     Invoke-SelfhostCompose pull
 }
-Invoke-SelfhostCompose up -d --no-build --wait --wait-timeout 300
+if ($NonInteractive) { Write-Output 'UNYRI_GUI:start' }
+if ($localTrial) { Invoke-SelfhostCompose up -d --no-build --pull never --wait --wait-timeout 300 }
+else { Invoke-SelfhostCompose up -d --no-build --wait --wait-timeout 300 }
 $sourceMarker = Join-Path $SelfhostRoot '.selfhost-from-source'
 if ($SelfhostFromSource) {
     [IO.File]::WriteAllText($sourceMarker, 'Local source build; pass -FromSource again for the next source update.')
 } elseif (Test-Path -LiteralPath $sourceMarker) {
     Remove-Item -LiteralPath $sourceMarker
 }
+if ($NonInteractive) { Write-Output 'UNYRI_GUI:health' }
 Write-Host 'After update:'
 Show-SelfhostServerVersion
 Invoke-SelfhostCompose exec -T backend curl --fail --silent http://127.0.0.1:8080/health
 $address = 'https://' + $settings.UNYRI_DOMAIN
 Write-Host "Server: $address"
 Write-Host "Administration: $address/administration"
-Show-SelfhostOwnerSetup
+if (-not $NonInteractive) { Show-SelfhostOwnerSetup }
 if (Get-Command qrencode -ErrorAction SilentlyContinue) { & qrencode -t ANSIUTF8 $address }
 Write-Host "Address for copying or encoding as QR: $address"
 Write-Host 'The QR contains an address. Select this server manually in the app; this is not an account/room invitation.'
 Write-Host 'DDNS alone does not update TURN. If your public IPv4 changes, edit TURN_EXTERNAL_IP in .env and rerun. Test from mobile data.'
+if ($localTrial) { Write-Host 'Loopback trial installed; public verification unavailable (exit 3).'; exit 3 }
+if ($NonInteractive) { Write-Output 'UNYRI_GUI:public' }
 $publicReady = $false
 for ($attempt = 0; $attempt -lt 36; $attempt++) {
     try {

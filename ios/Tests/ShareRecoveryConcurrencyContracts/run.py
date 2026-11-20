@@ -25,7 +25,7 @@ ingestor = (ROOT / 'ios/UNYRI/Messages/MessageIngestor.swift').read_text(encodin
 repository = (ROOT / 'ios/UNYRI/Messages/MessagesRepository.swift').read_text(encoding='utf-8')
 fixture = Path(__file__).with_name('main.swift').read_text(encoding='utf-8')
 fixture = fixture.replace('// PRODUCTION_INGESTION', '\n'.join(_block(ingestor, marker) for marker in (
-    '    private func receiveID(', '    private struct IngestOutcome', '    private func ingestOne(', '    private func liveIngestPreState(',
+    '    private func receiveID(', '    private struct IngestOutcome', '    private func excludeIncoming(', '    private func ingestOne(', '    private func liveIngestPreState(',
     '    private func persistDecryptedMessage(', '    private func finishAttachmentPersistence(', '    private func persistAttachment(')))
 fixture = fixture.replace('// PRODUCTION_RECOVERY_CALLERS', '\n'.join(_block(repository, marker) for marker in (
     '    func waitForDraftSourceRecovery(', '    func stageDraftFile(', '    func copyRecentFiles(')))
@@ -35,6 +35,7 @@ fixture = fixture.replace('// PRODUCTION_ATTACHMENT_PURGES', '\n'.join(_block(ma
 fixture = fixture.replace('// PRODUCTION_DELETION_CALLERS', '\n'.join(_block(repository, marker) for marker in (
     '    func clearPersonalChat(', '    func purgeDeletedChat(')))
 sources = [
+    'ios/UNYRI/Support/LocalSecurityDecisions.swift',
     'ios/UNYRI/Support/DirectChatBinding.swift', 'ios/UNYRI/Attachments/AttachmentCacheBoundary.swift',
     'ios/UNYRI/Support/AppLanguage.swift', 'ios/UNYRI/Support/HistoryArchive.swift',
     'ios/Shared/MessageTextPolicy.swift', 'ios/UNYRI/DirectTransfer/DirectFileModels.swift',

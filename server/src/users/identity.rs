@@ -314,6 +314,7 @@ pub struct Lookup {
 #[derive(Serialize, sqlx::FromRow)]
 pub struct PublicProfile {
     id: Uuid,
+    username: String,
     unyri_number: String,
     public_username: Option<String>,
     display_name: String,
@@ -419,7 +420,7 @@ async fn resolve(
         // Revalidate after provisioning: concurrent renames/privacy changes must
         // never mix fields or turn a frozen name into a redirect.
         let profile = sqlx::query_as::<_, PublicProfile>(&format!(
-            "SELECT u.id,i.unyri_number::text,i.public_username,u.display_name,u.bio,u.avatar_url, \
+            "SELECT u.id,COALESCE(i.public_username,'') AS username,i.unyri_number::text,i.public_username,u.display_name,u.bio,u.avatar_url, \
              u.avatar_key IS NOT NULL AS has_avatar,u.profile_version,u.avatar_version \
              FROM user_identities i JOIN users u ON u.id=i.user_id {VISIBLE}"))
         .bind(auth.user_id)

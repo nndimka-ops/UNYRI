@@ -216,7 +216,7 @@ class HistoryKeySettingsSessionTest {
         assertEquals(0,remote.creates);assertNull(remote.transferRecord);assertTrue(storage.rows.isEmpty())
     }
     @Test fun `first confirmed source backup transfers real encrypted messages reactions and calls to second same-account device`() = runBlocking {
-        val peer=HistoryArchivePeer(UUID.randomUUID().toString(),"synthetic_peer","Synthetic peer")
+        val peer=HistoryArchivePeer(UUID.randomUUID().toString(),"synthetic_peer","Synthetic peer","123456789","public_peer")
         val chat=UUID.randomUUID().toString();val message=UUID.randomUUID().toString()
         val source=HistoryArchive(format=2,server=server,owner=owner,snapshot=UUID.randomUUID().toString(),
             messages=listOf(HistoryArchiveMessage(UUID.randomUUID().toString(),message,chat,owner,1,1000,"{\"text\":\"transfer fixture\"}")),
@@ -236,6 +236,14 @@ class HistoryKeySettingsSessionTest {
         val old=HistoryKeySettingsSession(FakeAuthRepository(owner),remote,oldLocal){oldStorage}
         old.status();old.saveNewKey(key,0);old.prepareTransfer()
         assertNotNull(remote.state.active?.verified_at);assertNull(remote.state.staged)
+        val packet=Base64.getDecoder().decode(remote.obj!!.ciphertext)
+        val plain=HistoryBackupCrypto.decrypt(packet,key,HistoryBackupCrypto.Context(
+            UUID.fromString(server),UUID.fromString(owner),UUID.fromString(remote.state.active!!.backup_id)))
+        try {
+            val text=plain.toString(Charsets.UTF_8)
+            assertFalse(text.contains("synthetic_peer"))
+            assertTrue(text.contains("public_peer"));assertTrue(text.contains("123456789"))
+        } finally { plain.fill(0) }
         val newStorage=Storage();val newLocal=Local(source.copy(messages=emptyList(),reactions=emptyList(),calls=emptyList(),chats=emptyList()))
         val fresh=HistoryKeySettingsSession(FakeAuthRepository(owner),remote,newLocal){newStorage}
         fresh.status()
@@ -251,10 +259,12 @@ class HistoryKeySettingsSessionTest {
         assertEquals(1,newLocal.restored)
         assertEquals(source.messages,newLocal.archive.messages)
         assertEquals(source.reactions,newLocal.archive.reactions)
-        assertEquals(source.calls,newLocal.archive.calls)
-        assertEquals(source.chats,newLocal.archive.chats)
+        val publicSource=source.withoutPeerLogins()
+        assertEquals(publicSource.calls,newLocal.archive.calls)
+        assertEquals(publicSource.chats,newLocal.archive.chats)
         assertArrayEquals(key,newStorage.rows.values.single())
         assertEquals(source.messages,oldLocal.archive.messages)
+        assertEquals("synthetic_peer",oldLocal.archive.chats!!.single().peer!!.username)
     }
 
     @Test fun `source preparation names disabled upload prerequisite without uploading`() = runBlocking {

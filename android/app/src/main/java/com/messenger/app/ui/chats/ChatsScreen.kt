@@ -16,6 +16,9 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.height
@@ -57,6 +60,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import com.messenger.app.ui.theme.LocalGlassBottomInset
+import com.messenger.app.ui.theme.glassPanel
+import androidx.compose.ui.draw.shadow
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
@@ -142,6 +147,10 @@ fun ChatsScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle(minActiveState = androidx.lifecycle.Lifecycle.State.RESUMED)
     val app = androidx.compose.ui.platform.LocalContext.current.applicationContext as com.messenger.app.MessengerApp
     val colors = LocalCocoColors.current
+    val hostBottomInset = LocalGlassBottomInset.current
+    val navigationBottomInset = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+    val selectionBarBottomInset = ChatSelectionBarLayoutPolicy.bottomInsetDp(
+        hostBottomInset.value, navigationBottomInset.value).dp
     val callRows by app.callHistory.calls.collectAsStateWithLifecycle(minActiveState = androidx.lifecycle.Lifecycle.State.RESUMED)
     val authState by app.authRepository.authState.collectAsStateWithLifecycle(minActiveState = androidx.lifecycle.Lifecycle.State.RESUMED)
     val owner = (authState as? com.messenger.app.domain.model.AuthSessionState.LoggedIn)?.user?.id
@@ -152,6 +161,8 @@ fun ChatsScreen(
     val pinPrefs = remember(context) { context.getSharedPreferences("chat_pins", android.content.Context.MODE_PRIVATE) }
     var pinned by remember(pinOwner) { mutableStateOf(pinPrefs.getStringSet(pinOwner, emptySet())!!.toSet()) }
     var selecting by remember(pinOwner, sessionEpoch) { mutableStateOf(false) }
+    val listBottomPadding = ChatSelectionBarLayoutPolicy.listBottomPaddingDp(
+        selecting = selecting, contentPaddingDp = CocoSpacing.xxl.value, hostBottomDp = hostBottomInset.value).dp
     var selection by remember(pinOwner, sessionEpoch) { mutableStateOf(emptySet<String>()) }
     var archived by remember(pinOwner, sessionEpoch) { mutableStateOf(emptySet<String>()) }
     var selectionEpoch by remember(pinOwner, sessionEpoch) { androidx.compose.runtime.mutableIntStateOf(-1) }
@@ -367,7 +378,7 @@ fun ChatsScreen(
         val publicCopy = selected.otherUser?.let { com.messenger.app.ui.publicHandle(it) }?.takeIf { it.startsWith("@") }?.drop(1)
         val cyan = colors.categoryBlue; val mint = colors.categoryMint; val amber = colors.categoryAmber
         val coral = colors.danger; val violet = colors.categoryViolet
-        val name = selected.otherUser?.visibleName ?: selected.otherUser?.username ?: stringResource(R.string.chat_controls)
+        val name = selected.otherUser?.visibleName ?: stringResource(R.string.chat_controls)
         if (action == null) ContactChatMenu(title = name, avatar = {
             com.messenger.app.ui.components.UserAvatar(userId = selected.otherUser?.id.orEmpty(), avatarVersion = selected.otherUser?.avatarVersion ?: 0,
                 hasAvatar = selected.otherUser?.hasAvatar == true, name = name, color = violet.copy(alpha = .15f), contentColor = violet, size = 46.dp)
@@ -617,7 +628,7 @@ fun ChatsScreen(
                 if (batchFailed) Text(stringResource(R.string.chats_batch_failed), color = colors.danger, modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp))
             }
 
-            LazyColumn(state = listState, modifier = Modifier.weight(1f), contentPadding = PaddingValues(bottom = CocoSpacing.xxl + LocalGlassBottomInset.current)) {
+            LazyColumn(state = listState, modifier = Modifier.weight(1f), contentPadding = PaddingValues(bottom = listBottomPadding + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding())) {
                 if (conversations.isEmpty()) {
                     item(key = "empty") {
                         if (uiState is ChatsUiState.Loading) {
@@ -681,19 +692,24 @@ fun ChatsScreen(
                 val selectedChats = chats.filter { it.chatId in selection }
                 val allPinned = selection.isNotEmpty() && selection.all { it in pinned }
                 val allMuted = selectedChats.isNotEmpty() && selectedChats.all { it.isMuted }
-                Surface(color = colors.deepPanel, tonalElevation = 0.dp) {
-                    Column(Modifier.fillMaxWidth().padding(bottom = LocalGlassBottomInset.current)) {
-                        if (batchBusy) androidx.compose.material3.LinearProgressIndicator(Modifier.fillMaxWidth())
-                        Row(Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp)) {
-                            SelectionActionButton(CocoIcons.Pin, stringResource(if (allPinned) R.string.chats_unpin else R.string.chats_pin), colors.primaryText, selection.isNotEmpty() && !batchBusy && !pinBusy, Modifier.weight(1f)) { runSelectionAction("pin") }
-                            SelectionActionButton(if (allMuted) CocoIcons.Speaker else CocoIcons.MutedBell, stringResource(if (allMuted) R.string.chat_menu_unmute_short else R.string.chat_menu_mute_short), colors.primaryText, selection.isNotEmpty() && !batchBusy && !pinBusy, Modifier.weight(1f)) { runSelectionAction("mute") }
-                            SelectionActionButton(if (showingArchive) CocoIcons.RestoreChat else CocoIcons.Archive,
-                                stringResource(if (showingArchive) R.string.chats_restore_short else R.string.chats_archive_title), colors.primaryText,
-                                selectedChats.isNotEmpty() && selectedChats.all { it.type == "direct" } && !batchBusy && !pinBusy, Modifier.weight(1f)) { runSelectionAction("archive") }
-                            SelectionActionButton(CocoIcons.Delete, stringResource(R.string.chats_delete), colors.danger, selectedChats.isNotEmpty() && selectedChats.all { it.type == "direct" } && !batchBusy && !pinBusy, Modifier.weight(1f)) {
-                                batchDeleteRequests = batchDeleteRequests + selection.filterNot { it in batchDeleteRequests }.associateWith { java.util.UUID.randomUUID().toString() }
-                                batchDelete = selection.toSet()
-                            }
+                // Keep the island in flow so the list's last row can scroll fully above it.
+                val selectionBarShape = RoundedCornerShape(ChatSelectionBarLayoutPolicy.cornerRadiusDp.dp)
+                Column(Modifier.fillMaxWidth()
+                    .padding(horizontal = ChatSelectionBarLayoutPolicy.sideMarginDp.dp)
+                    .padding(bottom = selectionBarBottomInset)
+                    .shadow(8.dp, selectionBarShape, clip = false)
+                    .glassPanel(selectionBarShape)
+                    .testTag("chats-selection-bar")) {
+                    if (batchBusy) androidx.compose.material3.LinearProgressIndicator(Modifier.fillMaxWidth())
+                    Row(Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp)) {
+                        SelectionActionButton(CocoIcons.Pin, stringResource(if (allPinned) R.string.chats_unpin else R.string.chats_pin), colors.primaryText, selection.isNotEmpty() && !batchBusy && !pinBusy, Modifier.weight(1f)) { runSelectionAction("pin") }
+                        SelectionActionButton(if (allMuted) CocoIcons.Speaker else CocoIcons.MutedBell, stringResource(if (allMuted) R.string.chat_menu_unmute_short else R.string.chat_menu_mute_short), colors.primaryText, selection.isNotEmpty() && !batchBusy && !pinBusy, Modifier.weight(1f)) { runSelectionAction("mute") }
+                        SelectionActionButton(if (showingArchive) CocoIcons.RestoreChat else CocoIcons.Archive,
+                            stringResource(if (showingArchive) R.string.chats_restore_short else R.string.chats_archive_title), colors.primaryText,
+                            selectedChats.isNotEmpty() && selectedChats.all { it.type == "direct" } && !batchBusy && !pinBusy, Modifier.weight(1f)) { runSelectionAction("archive") }
+                        SelectionActionButton(CocoIcons.Delete, stringResource(R.string.chats_delete), colors.danger, selectedChats.isNotEmpty() && selectedChats.all { it.type == "direct" } && !batchBusy && !pinBusy, Modifier.weight(1f)) {
+                            batchDeleteRequests = batchDeleteRequests + selection.filterNot { it in batchDeleteRequests }.associateWith { java.util.UUID.randomUUID().toString() }
+                            batchDelete = selection.toSet()
                         }
                     }
                 }
@@ -759,8 +775,9 @@ private fun ChatRow(chat: ChatSummary, callOwner: String, selecting: Boolean = f
     val locale = LocalConfiguration.current.locales[0]
     val today = java.time.LocalDate.now()
     val activityAt = if (ChatCallActivity.callIsLatest(chat, latestCall)) latestCall?.createdAt else chat.lastMessageAt
-    val timestamp = remember(activityAt, locale, today) {
-        activityAt?.let { chatTimestamp(it, java.time.Instant.now(), ZoneId.systemDefault(), locale) }
+    val yesterday = stringResource(R.string.history_list_yesterday)
+    val timestamp = remember(activityAt, locale, today, yesterday) {
+        activityAt?.let { chatTimestamp(it, java.time.Instant.now(), ZoneId.systemDefault(), locale, yesterday) }
     }
     Surface(
         modifier = modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = if (pinned || selected) 4.dp else 0.dp)

@@ -38,6 +38,10 @@ const SH2_TEXT = {
     ready: 'Client uploads ready', notReady: 'Client uploads need configuration', noInvites: 'No invitation codes yet.',
     loadError: 'Could not load self-hosting settings. Try Refresh.', actionError: 'The action failed. Refresh and try again.',
     invalid: 'Use 1–10000 uses and a lifetime of 1–365 days.',
+    publicIdentitySearch: 'Number, @public username, display name or UUID', unknownUser: 'Unknown user',
+    deleteAccount: 'Delete account permanently', deleteAccountHelp: 'Erases the account and its messages on the server and on phones when they confirm the deletion.',
+    deleteNumber: 'Enter the public number', deleteReason: 'Reason (required)', deleteConfirm: 'Delete permanently',
+    deleteInvalid: 'Enter the exact public number and a reason of 1–2000 characters.', accountDeleted: 'Account deleted',
   },
   ru: {
     title: 'Свой сервер', description: 'Регистрация, приглашения и проверка настройки.',
@@ -60,6 +64,10 @@ const SH2_TEXT = {
     ready: 'Загрузки из приложений готовы', notReady: 'Нужно настроить загрузки из приложений', noInvites: 'Кодов приглашения пока нет.',
     loadError: 'Не удалось загрузить настройки. Нажмите «Обновить».', actionError: 'Действие не выполнено. Обновите страницу и повторите.',
     invalid: 'Укажите 1–10000 использований и срок 1–365 дней.',
+    publicIdentitySearch: 'Номер, публичное @имя, отображаемое имя или UUID', unknownUser: 'Неизвестный пользователь',
+    deleteAccount: 'Удалить аккаунт навсегда', deleteAccountHelp: 'Удаляет аккаунт и его сообщения на сервере и на телефонах после подтверждения удаления сервером.',
+    deleteNumber: 'Введите публичный номер', deleteReason: 'Причина (обязательно)', deleteConfirm: 'Удалить навсегда',
+    deleteInvalid: 'Введите точный публичный номер и причину длиной 1–2000 символов.', accountDeleted: 'Аккаунт удалён',
   },
   uk: {
     title: 'Власний сервер', description: 'Реєстрація, запрошення та перевірка налаштувань.',
@@ -82,6 +90,10 @@ const SH2_TEXT = {
     ready: 'Завантаження із застосунків готові', notReady: 'Потрібно налаштувати завантаження із застосунків', noInvites: 'Кодів запрошення ще немає.',
     loadError: 'Не вдалося завантажити налаштування. Натисніть «Оновити».', actionError: 'Дію не виконано. Оновіть сторінку та повторіть.',
     invalid: 'Задайте 1–10000 використань і термін 1–365 днів.',
+    publicIdentitySearch: 'Номер, публічне @ім’я, відображуване ім’я або UUID', unknownUser: 'Невідомий користувач',
+    deleteAccount: 'Видалити акаунт назавжди', deleteAccountHelp: 'Видаляє акаунт і його повідомлення на сервері й на телефонах після підтвердження видалення сервером.',
+    deleteNumber: 'Введіть публічний номер', deleteReason: 'Причина (обов’язково)', deleteConfirm: 'Видалити назавжди',
+    deleteInvalid: 'Введіть точний публічний номер і причину завдовжки 1–2000 символів.', accountDeleted: 'Акаунт видалено',
   },
 };
 const SH2_LANG = (navigator.language || 'en').split('-')[0];
@@ -797,6 +809,13 @@ SECTIONS.reports = () => {
   return card;
 };
 
+function publicIdentity(user) {
+  if (user.public_username) return '@' + user.public_username;
+  const number = String(user.unyri_number || '');
+  if (number) return /^\d{9}$/.test(number) ? number.match(/.{3}/g).join('\u202f') : number;
+  return text(user.user_id, sh2('unknownUser'));
+}
+
 function reportRow(report, list) {
   const row = el('li', { class: 'row' });
   row.append(el('div', { class: 'row-head' }, [
@@ -804,7 +823,7 @@ function reportRow(report, list) {
     statusChip(report.status, REPORT_STATUS, { open: 'accent', in_progress: 'warn', resolved: 'ok' }),
   ]));
   row.append(el('div', { class: 'row-meta' }, [
-    el('span', { text: `Reported: ${shortId(report.user_id)}` }),
+    el('span', { text: `Reported: ${text(report.reported_display_name, publicIdentity({ public_username: report.reported_public_username, unyri_number: report.reported_unyri_number, user_id: report.user_id }))}` }),
     el('span', { text: `Created: ${when(report.created_at)}` }),
     report.reviewed_at ? el('span', { text: `Reviewed: ${when(report.reviewed_at)}` }) : null,
   ]));
@@ -876,7 +895,7 @@ SECTIONS.users = () => {
     key: (row) => row.user_id,
     render: () => renderBody(),
   });
-  const search = input('user-search', { type: 'search', placeholder: 'Username or display name', autocomplete: 'off' });
+  const search = input('user-search', { type: 'search', placeholder: sh2('publicIdentitySearch'), autocomplete: 'off' });
   let debounce = null;
   search.addEventListener('input', () => {
     if (debounce) clearTimeout(debounce);
@@ -898,11 +917,11 @@ SECTIONS.users = () => {
     for (const user of list.rows) {
       rows.append(el('li', { class: 'row' }, [
         el('div', { class: 'row-head' }, [
-          el('span', { class: 'row-title', text: text(user.description, text(user.reason, shortId(user.user_id))) }),
+          el('span', { class: 'row-title', text: text(user.display_name, publicIdentity(user)) }),
           statusChip(user.status, ACCOUNT_STATUS, { suspended: 'danger', active: 'ok' }),
         ]),
         el('div', { class: 'row-meta' }, [
-          el('span', { text: user.reason ? `@${user.reason}` : `Account ${shortId(user.user_id)}` }),
+          el('span', { text: publicIdentity(user) }),
           el('span', { text: `Created: ${when(user.created_at)}` }),
           Number(user.installation_blocks) > 0 ? el('span', { text: `Restricted devices: ${user.installation_blocks}` }) : null,
         ]),
@@ -951,6 +970,20 @@ function suspensionUntil(preset, customHours) {
   }
   const hours = preset === '1h' ? 1 : preset === '24h' ? 24 : preset === '7d' ? 168 : 720;
   return new Date(Date.now() + hours * 3600 * 1000).toISOString();
+}
+
+function accountDeletionIdentity(profile) {
+  // Never use the private login or the mutable public username as confirmation.
+  return String(profile.unyri_number || profile.user_id || '');
+}
+
+function accountDeletionPayload(profile, confirmation, reason) {
+  const identity = accountDeletionIdentity(profile);
+  const trimmedReason = reason.trim();
+  if (!identity || confirmation.trim() !== identity || !trimmedReason || trimmedReason.length > 2000) {
+    throw new ApiError(400, 'validation_error', sh2('deleteInvalid'));
+  }
+  return { confirm_identity: identity, reason: trimmedReason };
 }
 
 SECTIONS.moderation = () => {
@@ -1071,6 +1104,39 @@ SECTIONS.moderation = () => {
     });
   }
 
+  async function deleteAccount() {
+    if (state.role !== 'owner' || !detail?.moderation_allowed || detail.is_administrator) return;
+    const profile = detail.profile;
+    const confirmation = el('input', { id: 'delete-account-number', type: 'text', inputmode: 'numeric', autocomplete: 'off' });
+    const reason = el('textarea', { id: 'delete-account-reason', maxlength: '2000' });
+    const pending = confirmDialog({
+      title: sh2('deleteAccount'),
+      body: el('div', {}, [
+        el('p', { class: 'hint', text: sh2('deleteAccountHelp') }),
+        el('p', { class: 'row-title', text: accountDeletionIdentity(profile) }),
+        field(sh2('deleteNumber'), confirmation),
+        field(sh2('deleteReason'), reason),
+      ]),
+      confirmLabel: sh2('deleteConfirm'), danger: true,
+    });
+    const validate = () => {
+      try { accountDeletionPayload(profile, confirmation.value || '', reason.value || ''); $('modal-confirm').disabled = false; }
+      catch { $('modal-confirm').disabled = true; }
+    };
+    confirmation.addEventListener('input', validate);
+    reason.addEventListener('input', validate);
+    validate();
+    const confirmed = await pending;
+    $('modal-confirm').disabled = false;
+    if (!confirmed || state.role !== 'owner') return;
+    run(async () => {
+      const payload = accountDeletionPayload(profile, confirmation.value, reason.value);
+      await api(`/admin/users/${encodeURIComponent(userId)}/delete`, { method: 'POST', body: payload });
+      banner(sh2('accountDeleted'));
+      go('users');
+    });
+  }
+
   async function suspendDevice(device, blocked) {
     const reason = el('textarea', { id: 'susp-device-reason', placeholder: 'Reason (required)' });
     const preset = select('susp-device-preset', SUSPENSION_PRESETS);
@@ -1105,8 +1171,8 @@ SECTIONS.moderation = () => {
     body.append(el('div', { class: 'grid grid-2' }, [
       el('div', { class: 'card' }, [
         el('h3', { text: 'Profile' }),
-        el('p', { class: 'row-title', text: text(detail.profile.display_name, text(detail.profile.username)) }),
-        el('p', { class: 'row-meta', text: detail.profile.username ? `@${detail.profile.username}` : 'No username' }),
+        el('p', { class: 'row-title', text: text(detail.profile.display_name, publicIdentity(detail.profile)) }),
+        el('p', { class: 'row-meta', text: publicIdentity(detail.profile) }),
         el('p', { class: 'row-meta', text: `Created: ${when(detail.profile.created_at)}` }),
         detail.is_administrator ? el('p', {}, [el('span', { class: 'chip chip-accent', text: 'Server administrator' })]) : null,
         techDetail({ user_id: detail.profile.user_id, has_avatar: detail.profile.has_avatar }),
@@ -1124,7 +1190,12 @@ SECTIONS.moderation = () => {
             ? el('button', { class: 'btn btn-danger', type: 'button', text: 'Restrict account', onClick: () => suspendAccount(true) })
             : el('span', { class: 'chip chip-warn', text: 'This account cannot be restricted here' }),
           el('button', { class: 'btn', type: 'button', text: 'Restore account access', onClick: () => suspendAccount(false) }),
+          state.role === 'owner' && detail.moderation_allowed && !detail.is_administrator
+            ? el('button', { class: 'btn btn-danger', type: 'button', text: sh2('deleteAccount'), onClick: deleteAccount })
+            : null,
         ]),
+        state.role === 'owner' && detail.moderation_allowed && !detail.is_administrator
+          ? el('p', { class: 'hint', text: sh2('deleteAccountHelp') }) : null,
       ]),
     ]));
 

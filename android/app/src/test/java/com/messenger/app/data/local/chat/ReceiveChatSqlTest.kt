@@ -15,6 +15,21 @@ import kotlin.test.*
 
 /** Executes the actual migration and both Room observer queries on real SQLite. */
 class ReceiveChatSqlTest {
+    @Test fun publicIdentityMigrationPreservesOldPeersAndStoresNewPublicFields() {
+        Database().use { fixture ->
+            fixture.db.createStatement().use {
+                it.execute("INSERT INTO chat_participants(userId,username,displayName) VALUES('peer','private_login','Alice')")
+                it.execute("INSERT INTO chat_members(chatId,userId) VALUES('chat','peer')")
+            }
+            fixture.migrate()
+            val legacy = fixture.query(ChatListSql.CHAT) { it.getString("otherUsername") to it.getString("otherPublicNumber") }.single()
+            assertEquals("private_login" to null, legacy)
+            assertEquals("", com.messenger.app.data.identity.PeerIdentityPolicy.handle(null, legacy.second, legacy.first))
+            fixture.db.createStatement().use { it.execute("UPDATE chat_participants SET publicNumber='123456789',publicUsername='alice'") }
+            assertEquals("123456789" to "alice", fixture.query(ChatListSql.CHAT) { it.getString("otherPublicNumber") to it.getString("otherPublicUsername") }.single())
+        }
+    }
+
     private class Database : AutoCloseable {
         val db: Connection = DriverManager.getConnection("jdbc:sqlite::memory:")
         init {
@@ -41,6 +56,7 @@ class ReceiveChatSqlTest {
                 null
             } as SupportSQLiteDatabase
             MessengerDatabase.MIGRATION_21_22.migrate(adapter)
+            MessengerDatabase.MIGRATION_22_23.migrate(adapter)
         }
         fun add(id: String, date: String = "2026-11-18T12:00:00Z", sequence: Long? = null,
                 chat: String = "chat", status: String = "sent", kind: String = "content", hidden: Int = 0, deleted: Int = 0, indexed: Boolean = true) {

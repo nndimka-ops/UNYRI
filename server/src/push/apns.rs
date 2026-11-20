@@ -546,6 +546,10 @@ pub fn configured_providers() -> Vec<Arc<Provider>> {
 }
 
 pub fn payload(target: &Target, event: &PushEvent, context: &Context) -> Result<Vec<u8>, Error> {
+    if target.kind == Kind::Alert && event.event == "session_check" && event.presentation == Presentation::Background {
+        return serde_json::to_vec(&serde_json::json!({"aps":{"content-available":1},"event":"session_check"}))
+            .map_err(|_| Error::Payload);
+    }
     let fields: &[&str] = match (target.kind, event.event.as_str()) {
         (Kind::Alert, "new_message") => &["chat_id", "message_id", "sequence"],
         (Kind::Alert, "security_event") => &["security_event_id"],
@@ -781,6 +785,16 @@ mod tests {
 
     fn built(target: &Target, event: &PushEvent, context: &Context) -> serde_json::Value {
         serde_json::from_slice(&payload(target, event, context).unwrap()).unwrap()
+    }
+
+    #[test]
+    fn session_check_is_a_content_free_background_hint_even_with_alerts_denied() {
+        let mut target=alert_target();
+        target.preferences=Preferences { message_alert_enabled:false,message_sound_enabled:false,permission_allowed:false };
+        let event=PushEvent::session_check();
+        assert_eq!(built(&target,&event,&message_context()),serde_json::json!({"aps":{"content-available":1},"event":"session_check"}));
+        let headers=headers(Kind::Alert,&event);
+        assert_eq!(headers.push_type,"background");assert_eq!(headers.priority,5);
     }
 
     #[test]

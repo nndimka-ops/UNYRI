@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_relay_unavailable">Nastavení soukromí vyžaduje pro tuto osobu přenosový server, ale není nastaven. Přenos souboru se nemůže připojit.</string>
+</resources>

@@ -22,7 +22,7 @@
     <string name="sh_uses">사용 횟수</string>
     <string name="sh_days">유효 기간 (일)</string>
     <string name="sh_invite_bounds">1~10,000회 사용, 1~365일.</string>
-    <string name="sh_create_invite">초대 만들기</string>
+    <string name="sh_create_invite">코드 만들기</string>
     <string name="sh_active">활성</string>
     <string name="sh_revoked">취소됨</string>
     <string name="sh_expired">만료됨</string>
@@ -30,15 +30,15 @@
     <string name="sh_unknown">알 수 없음</string>
     <string name="sh_expiry">만료</string>
     <string name="sh_creator">만든 사람</string>
-    <string name="sh_revoke">초대 취소</string>
+    <string name="sh_revoke">취소</string>
     <string name="sh_revoke_confirm">이 초대를 취소할까요? 더 이상 신규 가입에 사용할 수 없습니다.</string>
     <string name="sh_more">초대 더 보기</string>
     <string name="sh_self_check">서버 점검</string>
     <string name="sh_code_once">지금 저장하거나 공유하세요. 코드는 한 번만 표시됩니다.</string>
-    <string name="sh_copy_code">코드 복사</string>
+    <string name="sh_copy_code">복사</string>
     <string name="sh_share_code">코드 공유</string>
     <string name="sh_copy_link">링크 복사</string>
-    <string name="sh_share_link">링크 공유</string>
+    <string name="sh_share_link">공유</string>
     <string name="sh_yes">예</string>
     <string name="sh_no">아니요</string>
     <string name="sh_ready">준비됨</string>
@@ -54,7 +54,7 @@
     <string name="sh_fix_storage">설치 프로그램에서 파일 저장소와 업로드 권한을 확인하세요.</string>
     <string name="sh_fix_disk">최소 1 GB를 비워 두고 정리 전에 백업하세요.</string>
     <string name="sh_fix_version">호환되는 서버 버전을 사용하고 업데이트가 끝날 때까지 기다리세요.</string>
-    <string name="sh_guide">1. 항상 켜져 있는 PC에 Docker와 UNYRI를 설치하세요. 2. 도메인 또는 DDNS를 선택하세요. 3. PC 주소를 예약하고 HTTPS와 통화 포트를 전달하세요. CGNAT이면 VPS나 터널을 사용하세요. 4. HTTPS 주소를 확인하거나 초대 QR을 스캔하세요. 5. 로그인 후 프로필에서 설치 코드로 소유자가 되고 관리자 접근을 보호하세요. 6. 관리 → 내 서버 → 서버 점검. 모바일 데이터로 확인하고 업데이트 전에 백업하세요. 푸시 알림에는 제공자가 필요합니다.</string>
+    <string name="sh_guide">1. 항상 켜져 있는 PC에 Docker와 UNYRI를 설치하세요. 2. 도메인 또는 DDNS를 선택하세요. 3. PC 주소를 예약하고 HTTPS와 통화 포트를 전달하세요. CGNAT이면 VPS나 터널을 사용하세요. 4. HTTPS 주소를 확인하거나 초대 QR을 스캔하세요. 5. 로그인 후 프로필에서 설치 코드로 소유자가 되고 관리자 접근을 보호하세요. 6. 관리 → 가입 및 초대 → 서버 점검. 모바일 데이터로 확인하고 업데이트 전에 백업하세요. 푸시 알림에는 제공자가 필요합니다.</string>
     <string name="sh_check_setup">소유권 획득 가능</string>
     <string name="sh_check_url">공개 주소</string>
     <string name="sh_check_url_config">공개 주소 설정됨</string>
@@ -88,4 +88,7 @@
     <string name="sh_compatibility">앱 버전 호환</string>
     <string name="sh_socket">현재 WebSocket 연결됨</string>
     <string name="sh_scan_owner_code">소유자 코드 스캔</string>
+    <string name="sh_registration_invites">가입 및 초대</string>
+    <string name="sh_mode_owner_only">소유자만 가입 방식을 변경할 수 있습니다.</string>
+    <string name="sh_saved_codes_hint">코드는 생성 직후에만 표시됩니다. 이 화면을 나가기 전에 새 코드를 저장하거나 공유하세요.</string>
 </resources>

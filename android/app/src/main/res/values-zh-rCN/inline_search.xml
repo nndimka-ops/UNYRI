@@ -19,7 +19,7 @@
     <string name="search_recent">最近搜索</string>
     <string name="search_scope_messages">消息</string>
     <string name="settings_search_label">搜索</string>
-    <string name="unified_search_hint">离线搜索已保存的聊天和消息。通过用户名查找此服务器上的用户。</string>
+    <string name="unified_search_hint">离线搜索已保存的聊天和消息。通过号码或@用户名查找此服务器上的用户。</string>
     <string name="unified_search_network">服务器搜索不可用。本地结果仍然可用。</string>
     <string name="unified_search_local_error">无法加载已保存的消息。请重新搜索。</string>
 </resources>

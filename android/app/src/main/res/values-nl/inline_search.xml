@@ -19,7 +19,7 @@
     <string name="search_recent">Recente zoekopdrachten</string>
     <string name="search_scope_messages">Berichten</string>
     <string name="settings_search_label">Zoeken</string>
-    <string name="unified_search_hint">Doorzoek opgeslagen chats en berichten offline. Vind personen op deze server op gebruikersnaam.</string>
+    <string name="unified_search_hint">Doorzoek opgeslagen chats en berichten offline. Zoek mensen op deze server op nummer of @naam.</string>
     <string name="unified_search_network">Zoeken op de server is niet beschikbaar. Lokale resultaten blijven beschikbaar.</string>
     <string name="unified_search_local_error">Opgeslagen berichten kunnen niet worden geladen. Zoek opnieuw.</string>
 </resources>

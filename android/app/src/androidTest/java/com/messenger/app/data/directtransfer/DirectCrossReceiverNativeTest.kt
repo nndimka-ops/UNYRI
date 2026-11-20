@@ -39,7 +39,8 @@ class DirectCrossReceiverNativeTest {
             side.db.chatDao().upsertChatMetadata(chat, "direct", java.time.Instant.now().toString(), null)
             val coordinator = DirectTransferCoordinator(fixture.context, side.auth, side.db.workspaceDao(), side.db.messageDao(), side.signal,
                 DirectTransferApi(fixture.client, side.auth, fixture.base), { _, _, _ -> error("Receiver cannot create offers") }, { sender },
-                { listOf("stun:stun.example.test:3478") }, { true })
+                { listOf(com.messenger.app.data.api.IceServerDto(listOf("stun:stun.example.test:3478"))) },
+                peerToPeer = { com.messenger.app.data.call.CallPeerToPeer.EVERYONE }, canStream = { true })
             fixture.watchCoordinator(scope, coordinator, "reverse-$run")
             val snapshots = File(fixture.context.filesDir, "direct-reverse-$run-stats.jsonl")
             val observed = mutableSetOf<String>()

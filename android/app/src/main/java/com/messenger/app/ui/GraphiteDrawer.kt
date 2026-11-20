@@ -440,6 +440,7 @@ internal fun SavedSidebarFooter(onLogout: () -> Unit) {
     selected: Boolean, badge: Int, onClick: () -> Unit) {
     val style = LocalResolvedSidebarStyle.current
     val secondary = item.section != "main"
+    val accessibleLabel = if (item.id == "report") stringResource(R.string.feedback_title) else null
     val tint = sidebarInk(if (style.iconsColored) item.color else style.iconsColor)
     val ink = sidebarInk(if (selected) style.selectedInk else if (secondary)
         style.typographyMuted else style.typographyText)
@@ -452,7 +453,7 @@ internal fun SavedSidebarFooter(onLogout: () -> Unit) {
     Row(Modifier.fillMaxWidth().padding(bottom = style.geometryRowGap.dp)
         .clip(RoundedCornerShape(style.rowsRadius.dp)).background(background)
         .clickable(role = Role.Button, onClick = onClick)
-        .semantics { this.selected = selected }
+        .semantics { this.selected = selected; accessibleLabel?.let { contentDescription = it } }
         .heightIn(min = (if (secondary) style.geometrySecondaryHeight else style.geometryRowHeight).dp)
         .padding(horizontal = metrics.rowPaddingX.dp, vertical = style.geometryRowPaddingY.dp)
         .testTag("saved-sidebar-item-${item.id}"), verticalAlignment = Alignment.CenterVertically,
@@ -506,7 +507,7 @@ internal fun SavedSidebarFooter(onLogout: () -> Unit) {
     "server" -> stringResource(R.string.server_label)
     "devices" -> stringResource(R.string.devices_title)
     "help" -> stringResource(R.string.drawer_help)
-    "report" -> stringResource(R.string.feedback_title)
+    "report" -> stringResource(R.string.drawer_report_short)
     else -> fallback
 }
 

@@ -44,4 +44,5 @@
     <string name="direct_destination_unavailable">Files over 100 MB need an available one-to-one chat with another person. Open one, or choose a smaller file for this conversation.</string>
     <string name="direct_normal_limit_unavailable">This file exceeds 100 MB. Direct transfer is unavailable in this conversation. Choose a smaller file or open an available one-to-one chat.</string>
     <string name="direct_history_only">Direct files are not included in history backups. Ask the sender to send the file again.</string>
+    <string name="direct_relay_unavailable">Your privacy setting requires a relay for this person, but this server has no relay configured. The file transfer cannot connect.</string>
 </resources>

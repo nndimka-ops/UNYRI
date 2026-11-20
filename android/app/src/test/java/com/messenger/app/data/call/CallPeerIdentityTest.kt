@@ -21,8 +21,14 @@ class CallPeerIdentityTest {
         val known = PublicUser("peer", "old", "Old name", null, profileVersion = 1)
         assertEquals("Alice", callPeerIdentity(call, "owner", known).name)
         assertEquals("New name", callPeerIdentity(call, "owner", known.copy(displayName = "New name", profileVersion = 3)).name)
-        assertEquals("@alice", callPeerIdentity(call.copy(peer = call.peer!!.copy(displayName = "  ")), "owner", null).name)
+        assertEquals("@alice", callPeerIdentity(call.copy(peer = call.peer!!.copy(displayName = "  ", publicUsername = "alice")), "owner", null).name)
         assertEquals("Old name", callPeerIdentity(call.copy(peer = null), "owner", known).name)
+    }
+
+    @Test fun `login2 never falls back to an old private login`() {
+        val blank = call.copy(peer = call.peer!!.copy(displayName = " "))
+        assertNull(callPeerIdentity(blank, "owner", null).name)
+        assertNull(callPeerIdentity(blank, "owner", null, legacy = true).name)
     }
 
     @Test fun `wrong owner or mismatched profile never supplies another identity`() {

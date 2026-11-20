@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="privacy_devices_blocks">Устройства и блокировки</string>
+    <string name="privacy_messages_section">Сообщения</string>
+    <string name="privacy_nobody_count">Никого</string>
+    <plurals name="privacy_people_count_short">
+        <item quantity="one">%1$d чел.</item>
+        <item quantity="few">%1$d чел.</item>
+        <item quantity="many">%1$d чел.</item>
+        <item quantity="other">%1$d чел.</item>
+    </plurals>
+    <string name="drawer_report_short">Отчёт</string>
+    <string name="peer_qr_title">QR-код собеседника</string>
+    <string name="peer_remove_confirm_title">Удалить контакт?</string>
+    <string name="peer_remove_confirm_detail">Этот человек исчезнет из ваших контактов. Чат и сообщения сохранятся.</string>
+    <string name="app_version_format">Версия %1$s (%2$d)</string>
+    <string name="server_current_title">Текущий сервер</string>
+    <string name="server_change_title">Сменить сервер</string>
+    <string name="server_alpha_http_detail">В альфа-сборках также доступен HTTP в доверенной локальной сети.</string>
+    <string name="server_max_file_size">Максимальный размер зашифрованного файла</string>
+    <string name="server_user_quota">Место для одного аккаунта</string>
+    <string name="server_no_limit">Без ограничения</string>
+    <string name="notification_in_app_sound_detail">Звук, когда UNYRI открыт.</string>
+    <string name="notification_in_app_vibration_detail">Вибрация, когда UNYRI открыт.</string>
+    <string name="report_problem_detail">Опишите проблему и приложите снимки экрана.</string>
+    <string name="report_recent_problem_detail">Отметка времени недавнего сбоя; включите диагностику ниже.</string>
+    <string name="sh_step_computer">Компьютер, который всегда включён</string>
+    <string name="sh_step_computer_summary">Подойдёт ваш компьютер или арендованный компьютер в интернете (VPS).</string>
+    <string name="sh_step_install">Установить UNYRI Server</string>
+    <string name="sh_step_install_summary">Установите программу сервера по инструкции.</string>
+    <string name="sh_step_internet">Доступ из интернета</string>
+    <string name="sh_step_internet_summary">Следуйте инструкции, чтобы телефон подключался и вне дома.</string>
+    <string name="sh_step_phone">Подключить телефон</string>
+    <string name="sh_step_phone_summary">Подтвердите адрес сервера или отсканируйте приглашение, затем создайте аккаунт.</string>
+    <string name="sh_step_owner">Стать владельцем</string>
+    <string name="sh_step_owner_summary">Используйте одноразовый код, который показал установщик.</string>
+    <string name="sh_step_test">Проверить сообщения и звонки</string>
+    <string name="sh_step_test_summary">Выключите Wi-Fi и проверьте сообщения, звонки и уведомления через мобильный интернет.</string>
+    <string name="sh_step_more">Подробнее</string>
+    <string name="connection_checking">Проверка…</string>
+    <string name="peer_qr_instruction">Отсканируйте код, чтобы открыть профиль этого человека в UNYRI.</string>
+</resources>

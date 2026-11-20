@@ -1,0 +1,10 @@
+<resources>
+    <string name="auth_account_deleted">Účet byl smazán</string>
+    <string name="auth_account_suspended">Účet byl zablokován správcem serveru</string>
+    <string name="auth_session_ended">Relace skončila</string>
+    <string name="privacy_prevent_screenshots">Zakázat snímky obrazovky</string>
+    <string name="admin_delete_account_forever">Trvale smazat účet</string>
+    <string name="admin_delete_account_detail">Smaže účet a jeho zprávy na serveru i telefonech.</string>
+    <string name="admin_delete_account_number">Pro potvrzení zadejte veřejné číslo</string>
+    <string name="deleted_account">Smazaný účet</string>
+</resources>

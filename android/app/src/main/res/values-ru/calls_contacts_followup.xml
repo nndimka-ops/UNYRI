@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_relay_unavailable">На сервере нет посредника (TURN). Без него звонок с этим человеком невозможен без прямого соединения.</string>
+    <string name="direct_peer_relay_unavailable">У собеседника включены соединения только через сервер, а сервер-посредник недоступен.</string>
+</resources>

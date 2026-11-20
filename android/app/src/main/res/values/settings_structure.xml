@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_group_accounts">Accounts</string>
+    <string name="settings_account_current">Current account</string>
+    <string name="settings_group_main">Main</string>
+    <string name="settings_group_appearance">Appearance</string>
+    <string name="settings_group_server">Server</string>
+    <string name="settings_group_help">Help</string>
+    <string name="settings_privacy_visibility">Visibility</string>
+    <string name="settings_privacy_protection">Protection</string>
+    <string name="settings_privacy_diagnostics">Diagnostics</string>
+    <string name="settings_recovery_key">Recovery key</string>
+    <string name="settings_about_project">About the project</string>
+    <string name="settings_performance_diagnostics">Performance diagnostics</string>
+</resources>

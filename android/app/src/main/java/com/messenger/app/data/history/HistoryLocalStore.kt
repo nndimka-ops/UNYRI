@@ -58,7 +58,7 @@ class HistoryLocalStore(private val db: MessengerDatabase, private val auth: Aut
                     if (chat.id in merged.deletedChats || db.chatDao().cachedChat(chat.id) != null) continue
                     db.chatDao().upsertChatMetadata(chat.id, chat.type, Instant.ofEpochMilli(chat.createdAtMs).toString(), null)
                     chat.peer?.let { peer ->
-                        if (db.chatDao().cachedParticipant(peer.id) == null) db.chatDao().upsertParticipant(com.messenger.app.data.local.chat.ChatParticipantEntity(peer.id, peer.username, peer.displayName, null))
+                        if (db.chatDao().cachedParticipant(peer.id) == null) db.chatDao().upsertParticipant(com.messenger.app.data.local.chat.ChatParticipantEntity(peer.id, "", peer.displayName, null, publicNumber = peer.unyriNumber, publicUsername = peer.publicUsername))
                         db.chatDao().upsertMember(com.messenger.app.data.local.chat.ChatMemberEntity(chat.id, peer.id, "member"))
                     }
                 }

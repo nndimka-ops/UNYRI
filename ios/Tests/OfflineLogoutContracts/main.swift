@@ -19,6 +19,33 @@ struct DeviceInfo {
 }
 
 final class SessionStore {
+    // Verbatim production policy; source_contract.py checks both blocks for drift.
+    static func refreshMargin(accessToken: String?) -> TimeInterval {
+        guard let token = accessToken, let lifetime = accessLifetime(token) else { return 30 }
+        return min(30, max(1, lifetime / 12))
+    }
+
+    static func accessLifetime(_ accessToken: String) -> TimeInterval? {
+        let parts = accessToken.split(separator: ".")
+        guard parts.count == 3 else { return nil }
+        var payload = String(parts[1]).replacingOccurrences(of: "-", with: "+").replacingOccurrences(of: "_", with: "/")
+        while payload.count % 4 != 0 { payload += "=" }
+        guard let data = Data(base64Encoded: payload),
+              let claims = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let issued = (claims["iat"] as? NSNumber)?.doubleValue,
+              let expires = (claims["exp"] as? NSNumber)?.doubleValue,
+              expires > issued, expires - issued <= 7 * 24 * 3600 else { return nil }
+        return expires - issued
+    }
+
+    var boundKeyPresent = true
+    var failDeviceBindingErasure = false
+    func eraseDeviceBinding() throws {
+        // A failed key deletion retains the binding for a later cleanup retry.
+        if failDeviceBindingErasure { throw APIError.network("test device key deletion failure") }
+        boundKeyPresent = false
+    }
+
     private var roomAccess: [String: String] = [:]
     func ownedRoomAccessSnapshot(server: URL) throws -> (binding: String, raw: String?)? {
         try requireReadableSession()
@@ -47,7 +74,11 @@ final class SessionStore {
     var readable = true
     func requireReadableSession() throws { if !readable { throw APIError.missingSession } }
     func requireReadableInstallation() throws { try requireReadableSession() }
-    func retireSessionForMissingWorkspace() throws { try requireReadableSession(); clearSession() }
+    func retireSessionForMissingWorkspace(origin: URL? = nil) throws {
+        try requireReadableSession()
+        if let refresh, let origin { try enqueueLogout(origin: origin, refreshToken: refresh) }
+        clearSession()
+    }
     var token: String? = "old-access"
     var refresh: String? = "old-refresh"
     var historyBoundary: Int64?
@@ -78,7 +109,7 @@ final class SessionStore {
         return tokens
     }
     func currentUser() -> User? { nil }
-    func clearSession() { roomAccess.removeAll(); screens.removeAll(); token = nil; refresh = nil; historyBoundary = nil; historyChoicePending = false; context = nil }
+    func clearSession() { try? eraseDeviceBinding(); roomAccess.removeAll(); screens.removeAll(); token = nil; refresh = nil; historyBoundary = nil; historyChoicePending = false; context = nil }
     func saveTokens(accessToken: String, accessTokenExpiresAt: Date, refreshToken: String) {
         token = accessToken; tokenExpiry = accessTokenExpiresAt; refresh = refreshToken
     }
@@ -99,10 +130,10 @@ struct AuthAPI {
     static var requestedToken: String?
     static var revocation: CheckedContinuation<Void, Never>?
     func historyContext(accessToken: String) async throws -> HistoryContext { throw APIError.network("offline") }
-    func login(_ request: LoginRequest) async throws -> AuthResponse { throw APIError.missingSession }
-    func register(_ request: RegisterRequest) async throws -> AuthResponse { throw APIError.missingSession }
+    func login(_ request: LoginRequest, deviceProof: String? = nil) async throws -> AuthResponse { throw APIError.missingSession }
+    func register(_ request: RegisterRequest, deviceProof: String? = nil) async throws -> AuthResponse { throw APIError.missingSession }
     func bindInstallationCredential(_ credential: String, accessToken: String) async throws { throw APIError.missingSession }
-    func refresh(_ request: RefreshRequest) async throws -> RefreshResponse { throw APIError.missingSession }
+    func refresh(_ request: RefreshRequest, deviceProof: String? = nil) async throws -> RefreshResponse { throw APIError.missingSession }
     func logout(accessToken: String) async throws {
         Self.requestedToken = accessToken
         await withCheckedContinuation { Self.revocation = $0 }
@@ -180,6 +211,43 @@ struct OfflineLogoutContracts {
         shouldFail = false
         await blocked.retryLocalCleanup()
         guard case .loggedOut = blocked.state else { fatalError("Successful retry must enable sign-in") }
+        let bindingStore = SessionStore()
+        // Keep the earlier suspended-revocation test independent of cleanup failure.
+        bindingStore.token = nil
+        bindingStore.failDeviceBindingErasure = true
+        var bindingPrepared = false
+        var bindingEraseCount = 0
+        let bindingBlocked = AuthRepository(api: AuthAPI(client: APIClient(baseURL: URL(string: "https://offline.invalid")!)),
+            store: bindingStore, device: DeviceInfo(), clearLocalData: {
+                bindingEraseCount += 1
+                UnyriChatAppearanceStore.shared.clearAccount()
+            })
+        bindingBlocked.prepareForCacheErasure = { bindingPrepared = true }
+        bindingStore.saveScreen("profile", owner: "fixture", value: "retained cache")
+        let appearanceClears = UnyriChatAppearanceStore.shared.clearCount
+        await bindingBlocked.logout()
+        guard case .cleanupFailed = bindingBlocked.state else { fatalError("Failed device key deletion must block logout cleanup") }
+        precondition(bindingStore.boundKeyPresent && bindingStore.refreshToken() == "old-refresh")
+        precondition(!bindingPrepared && bindingEraseCount == 0 && bindingBlocked.prepareForCacheErasure != nil,
+                     "Device key deletion must succeed before credentials, writers or account files are cleared")
+        precondition(bindingStore.cachedScreen("profile", owner: "fixture", as: String.self) == "retained cache")
+        precondition(UnyriChatAppearanceStore.shared.clearCount == appearanceClears)
+        let blockedGeneration = bindingBlocked.sessionGeneration
+        do {
+            try await bindingBlocked.login(username: "next", password: "unused")
+            fatalError("Failed device key deletion admitted a new sign-in")
+        } catch {}
+        precondition(bindingBlocked.sessionGeneration == blockedGeneration, "Cleanup failure must stop sign-in before a new session begins")
+        precondition(bindingStore.boundKeyPresent && bindingStore.refreshToken() == "old-refresh")
+        bindingStore.failDeviceBindingErasure = false
+        await bindingBlocked.retryLocalCleanup()
+        guard case .loggedOut = bindingBlocked.state else { fatalError("Device key deletion retry must finish logout") }
+        precondition(!bindingStore.boundKeyPresent && bindingStore.refreshToken() == nil)
+        precondition(bindingPrepared && bindingEraseCount == 1 && bindingBlocked.prepareForCacheErasure == nil)
+        precondition(bindingStore.cachedScreen("profile", owner: "fixture", as: String.self) == nil)
+        precondition(UnyriChatAppearanceStore.shared.clearCount == appearanceClears + 1)
+        await bindingBlocked.retryLocalCleanup()
+        precondition(bindingEraseCount == 1, "A completed cleanup must not run again")
         let revokedStore = SessionStore()
         var revokedErased = false
         let revoked = AuthRepository(api: AuthAPI(client: APIClient(baseURL: URL(string: "https://offline.invalid")!)),
@@ -193,6 +261,15 @@ struct OfflineLogoutContracts {
         await revoked.handleAuthenticatedError(rejection, generation: revoked.sessionGeneration)
         guard case .loggedOut = revoked.state else { fatalError("REST revocation must return to login") }
         precondition(revokedStore.token == nil && revokedErased)
+        for code in ["account_deleted", "account_suspended", "session_revoked", "invalid_refresh_token"] {
+            let endingStore = SessionStore()
+            var erased = false
+            let ending = AuthRepository(api: AuthAPI(client: APIClient(baseURL: URL(string: "https://offline.invalid")!)),
+                store: endingStore, device: DeviceInfo(), clearLocalData: { erased = true })
+            await ending.handleAuthenticatedError(.server(code: code, message: "untrusted server text"), generation: ending.sessionGeneration)
+            precondition(erased && endingStore.token == nil, "Every terminal code erases account credentials")
+            precondition(ending.sessionEndMessage != nil, "Terminal cleanup must explain the sign-in boundary")
+        }
         print("Offline logout contracts passed")
     }
 }

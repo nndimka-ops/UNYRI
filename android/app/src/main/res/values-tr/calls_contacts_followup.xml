@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_relay_unavailable">Bu sunucuda TURN aktarıcısı yok. Bu kişiyle doğrudan bağlantı kurmadan arama yapmak için aktarıcı gerekir.</string>
+    <string name="direct_peer_relay_unavailable">Karşı taraf yalnızca sunucu üzerinden bağlantıya izin veriyor, ancak aktarıcı kullanılamıyor.</string>
+</resources>

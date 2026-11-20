@@ -18,6 +18,7 @@ struct UNYRIApp: App {
     @State private var clientConfig: UnyriClientConfigGate
 
     init() {
+        PeerImagePolicy.install()
         // The account list selects the active storage slot before any session
         // read (single-account installs have no list: primary slot, as before).
         let accounts = UnyriAccountManager.shared
@@ -159,6 +160,18 @@ struct UNYRIApp: App {
                 .automaticDiagnosticsSession()
                 .shakeToReportSession()
                 .modifier(UnyriAppLockProtection())
+                .environment(\.openURL, OpenURLAction { url in
+                    ["http", "https"].contains(url.scheme?.lowercased() ?? "") ? .systemAction : .discarded
+                })
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
+                    UnyriAppLock.shared.protectedDataUnavailable()
+                }
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.protectedDataWillBecomeUnavailableNotification)) { _ in
+                    UnyriAppLock.shared.protectedDataUnavailable()
+                }
+                .alert("Security warning", isPresented: Binding(get: { auth.localSecurityWarning != nil }, set: { if !$0 { auth.localSecurityWarning = nil } })) {
+                    Button("OK") { auth.localSecurityWarning = nil }
+                } message: { Text(verbatim: auth.localSecurityWarning ?? "") }
                 .environmentObject(auth)
                 .modifier(UnyriAccountActivityReporter(auth: auth))
                 .unyriLocale(language)
@@ -601,6 +614,8 @@ private struct UnyriUpdateAccountEscape: View {
                     .font(.footnote.weight(.semibold)).foregroundStyle(UnyriColors.secondaryText)
                     .accessibilityAddTraits(.isHeader)
                 ForEach(others, id: \.slot) { record in
+                    let publicIdentityLabel = PeerIdentityPolicy.label(publicUsername: record.publicUsername,
+                                                                      unyriNumber: record.unyriNumber)
                     Button { Task { await accounts.switchTo(record) } } label: {
                         HStack(spacing: 10) {
                             Text(String(record.displayName.prefix(1)).uppercased())
@@ -612,8 +627,8 @@ private struct UnyriUpdateAccountEscape: View {
                                     .foregroundStyle(UnyriColors.primaryText).lineLimit(1)
                                 if accounts.needsSignIn.contains(record.slot) {
                                     Text(UnyriL10n.string("Sign in again")).font(.caption).foregroundStyle(UnyriColors.danger).lineLimit(1)
-                                } else {
-                                    Text("@" + record.username).font(.caption).foregroundStyle(UnyriColors.secondaryText)
+                                } else if !publicIdentityLabel.isEmpty {
+                                    Text(publicIdentityLabel).font(.caption).foregroundStyle(UnyriColors.secondaryText)
                                         .lineLimit(1).truncationMode(.middle)
                                 }
                             }
@@ -644,7 +659,7 @@ private struct UnyriUpdateAccountEscape: View {
                     .accessibilityIdentifier("update-required-add-account")
                 }
                 if let error = accounts.lastError {
-                    Text(error).font(.footnote).foregroundStyle(UnyriColors.secondaryText)
+                    Text(verbatim: error).font(.footnote).foregroundStyle(UnyriColors.secondaryText)
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
@@ -859,20 +874,27 @@ private final class AccountServices: ObservableObject {
                     guard file.path.hasPrefix(cache), FileManager.default.fileExists(atPath:file.path),
                           try file.resourceValues(forKeys:[.isRegularFileKey]).isRegularFile == true else { return }
                     try FileManager.default.removeItem(at:file)
-                }) {
+                }, removeTranscript: { try VoiceTranscriber.forgetForDeletion([$0]) }) {
                 guard auth.sessionGeneration == generation, auth.currentUser?.id == userId else { throw APIError.missingSession }
             }
             chats.store = chatStore
             chats.messageStore = store
             let attachmentsCache = directory.appendingPathComponent("attachments", isDirectory: true)
             try FileManager.default.createDirectory(at: attachmentsCache, withIntermediateDirectories: true)
-            let container = try UnyriSignalStoreContainer.forCurrentAccount(sessionStore: session)
+            let container = try UnyriSignalStoreContainer.forCurrentAccount(sessionStore: session, localSecurity: auth.localSecurity)
             let keys = KeysRepository(api: KeysAPI(client: client), auth: auth)
             let messagesAPI = MessagesAPI(client: client)
             let attachmentsAPI = AttachmentsAPI(client: client)
             let keyManager = SignalKeyManager(container: container, keysRepository: keys)
             let sessionManager = SignalSessionManager(container: container, keysRepository: keys)
             self.signalManager = sessionManager
+            sessionManager.onSecurityWarning = { [weak auth] in
+                auth?.localSecurityWarning = UnyriL10n.string("A removed device is listed again. It remains blocked on this iPhone.")
+            }
+            auth.revokeOwnDeviceLocally = { [weak sessionManager] id in
+                guard let sessionManager else { throw CancellationError() }
+                try await sessionManager.revokeOwnDevice(id)
+            }
             let attachmentManager = AttachmentManager(
                 store: attachmentStore,
                 api: attachmentsAPI,
@@ -881,6 +903,8 @@ private final class AccountServices: ObservableObject {
             )
             self.attachmentManager = attachmentManager
             storage = StorageService(store: attachmentStore, accountDirectory: directory, draftReferenced: { try store.workspaceReferences($0) }, current: { generation == auth.sessionGeneration && auth.currentUser?.id == userId })
+            NotificationCenter.default.publisher(for: Notification.Name("COCOLocalBlockChanged"))
+                .sink { [weak users] _ in users?.accountBlocksChanged() }.store(in: &cancellables)
             let ingestor = MessageIngestor(store: store, attachmentStore: attachmentStore,
                 keyManager: keyManager,
                 sessionManager: sessionManager, auth: auth, messagesAPI: messagesAPI,
@@ -1128,6 +1152,12 @@ private final class AccountServices: ObservableObject {
             self.callController = callController
             let conferenceController = ConferenceController(auth: auth, signalManager: sessionManager)
             self.conferenceController = conferenceController
+            // B-055: a confirmed account switch ends the call and leaves the room first.
+            UnyriAccountManager.shared.endActiveMedia = { [weak callController, weak conferenceController] in
+                // B-059: the peer must hear the hangup from this account before the switch.
+                if let callController, callController.state != .idle { await callController.hangupDelivered() }
+                if let conferenceController, conferenceController.phase != .idle { conferenceController.leave() }
+            }
             callController.externalMediaBusy = { ConferenceMediaOwnership.isBusy }
             historyBackupAccess?.canUseCamera = { [weak callController] in
                 callController?.state == .idle && !ConferenceMediaOwnership.isBusy
@@ -1148,7 +1178,24 @@ private final class AccountServices: ObservableObject {
             callController.resolveCallerName = { userId in
                 return try? await callerChats.directPeerName(userId)
             }
-            callController.isContact = { [weak callerChats] userId in callerChats?.hasDirectChat(with: userId) ?? false }
+            UnyriPushNotificationCoordinator.shared.knownIncomingPeer = { [weak callController, weak auth] id in
+                guard let auth, auth.sessionGeneration == generation,
+                      let call = callController?.state.callInfo, UUID(uuidString: call.callId) == id else { return nil }
+                return call.remoteUserId
+            }
+            callController.incomingPeerAllowed = { [weak auth] peer in
+                guard let security = auth?.localSecurity else { return false }
+                do { return try security.blockDecision(peer) != true } catch { return false }
+            }
+            NotificationCenter.default.publisher(for: Notification.Name("COCOLocalBlockChanged"))
+                .sink { [weak callController] _ in callController?.localBlockChanged() }.store(in: &cancellables)
+            let callerUsers = users
+            callController.isContact = { [weak callerUsers] userId in
+                callerUsers?.isKnownPeerContact(userId) ?? false
+            }
+            directFiles.isContact = { [weak callerUsers] userId in
+                callerUsers?.isKnownPeerContact(userId) ?? false
+            }
             // Native system-call UI mirror of the same controller (no second
             // state machine). Shares the early process provider with PushKit.
             let pushSession = UnyriPushSession(scope: UnyriPushScope(origin: auth.authenticatedServerURL.absoluteString,
@@ -1277,8 +1324,9 @@ private final class AccountServices: ObservableObject {
             // connected; /sync and forceFlush cover the gaps).
             realtime.$state
                 .removeDuplicates()
-                .sink { [weak profileRepository, weak directFiles] state in
+                .sink { [weak profileRepository, weak directFiles, weak callerUsers] state in
                     if state == .connected {
+                        callerUsers?.refreshContactMembership()
                         directFiles?.networkDidRecover()
                         profileRepository?.refreshOwnProfile()
                         Task {
@@ -1307,8 +1355,9 @@ private final class AccountServices: ObservableObject {
                         deliveredSequence: delivered,
                         readSequence: read
                     )
-                case .sessionRevoked:
-                    Task { await auth.handleAuthenticatedError(.server(code: "session_revoked", message: "Session ended"), generation: generation) }
+                case .sessionRevoked(let reason):
+                    let code = ["account_deleted", "account_suspended"].contains(reason) ? reason : "session_revoked"
+                    Task { await auth.handleAuthenticatedError(.server(code: code, message: "Session ended"), generation: generation) }
                 case .chatManagementChanged:
                     liveChats.accountBlocksChangedRemotely()
                     liveUsers.accountBlocksChanged()
@@ -1319,6 +1368,9 @@ private final class AccountServices: ObservableObject {
                         await liveChats.replayPendingChatClears()
                         try? await liveChats.refreshPersonalClears(force: true)
                     }
+                case .userDeleted(let userId):
+                    liveUsers.peerDeleted(userId)
+                    liveChats.peerDeleted(userId)
                 case .chatDeleted(let chatId):
                     Task { try? await syncManager.onDeletedChat?(chatId) }
                 }
@@ -1354,6 +1406,7 @@ private final class AccountServices: ObservableObject {
         let accountChats = chats
         UnyriAccountManager.shared.currentUnread = { [weak accountChats] in accountChats?.unreadTotal ?? 0 }
         let accountUsers = users
+        accountUsers.startContactMembershipSync()
         let attachments = attachmentManager
         let accountMessages = messages
         let accountCalls = callsHistory
@@ -1679,6 +1732,29 @@ struct AccountContentView: View {
 
 /// Local reminder routing survives a cold launch; payload contains IDs only.
 final class ChatReminderDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    private var privacyCovers: [UIView] = []
+    private var privacyObservers: [NSObjectProtocol] = []
+    /// Synchronous UIKit cover before iOS captures the task-switcher snapshot.
+    /// Covers every scene/window, including sheets and full-screen media/calls.
+    @MainActor private func concealWindows() {
+        for scene in UIApplication.shared.connectedScenes.compactMap({ $0 as? UIWindowScene }) {
+            for window in scene.windows where !window.isHidden && !privacyCovers.contains(where: { $0.superview === window }) {
+                let cover = UIView(frame: window.bounds)
+                cover.backgroundColor = .black
+                cover.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+                cover.isUserInteractionEnabled = false
+                cover.accessibilityElementsHidden = true
+                window.addSubview(cover)
+                privacyCovers.append(cover)
+            }
+        }
+    }
+    @MainActor private func revealWindows() {
+        let active = privacyCovers.filter { $0.window?.windowScene?.activationState == .foregroundActive }
+        for cover in active { cover.removeFromSuperview() }
+        privacyCovers.removeAll { active.contains($0) }
+    }
+
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         // UIKit can ask without a window during presentation invalidation.
         // Resolve the foreground key scene instead of silently locking that
@@ -1690,6 +1766,20 @@ final class ChatReminderDelegate: NSObject, UIApplicationDelegate, UNUserNotific
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         UnyriDiag.appLaunch(background: application.applicationState == .background, durationMs: UnyriProcessClock.sinceStartMs())
+        privacyObservers = [
+            NotificationCenter.default.addObserver(forName: UIScene.willDeactivateNotification, object: nil, queue: .main) { [weak self] _ in
+                MainActor.assumeIsolated { self?.concealWindows() }
+            },
+            NotificationCenter.default.addObserver(forName: UIScene.didActivateNotification, object: nil, queue: .main) { [weak self] _ in
+                MainActor.assumeIsolated { self?.revealWindows() }
+            },
+            NotificationCenter.default.addObserver(forName: UIApplication.willResignActiveNotification, object: nil, queue: .main) { [weak self] _ in
+                MainActor.assumeIsolated { self?.concealWindows() }
+            },
+            NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: .main) { [weak self] _ in
+                MainActor.assumeIsolated { self?.revealWindows() }
+            }
+        ]
         UNUserNotificationCenter.current().delegate = self
         UnyriPushNotificationCoordinator.shared.start(application)
         // A video note interrupted together with the previous process.
@@ -1712,6 +1802,25 @@ final class ChatReminderDelegate: NSObject, UIApplicationDelegate, UNUserNotific
     /// leaves the session unavailable (never signed out) and the wake ends with no data.
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        if userInfo["event"] as? String == "session_check" {
+            var completed = false
+            let finish: @MainActor () -> Void = {
+                guard !completed else { return }
+                completed = true
+                completionHandler(.newData)
+            }
+            let checking = Task { @MainActor in
+                if UnyriBackgroundPush.handler == nil { await UnyriBackgroundPush.restore?() }
+                await UnyriPushNotificationCoordinator.shared.checkSavedSessions()
+                finish()
+            }
+            Task { @MainActor in
+                try? await Task.sleep(nanoseconds: 25_000_000_000)
+                finish()
+                checking.cancel()
+            }
+            return
+        }
         guard userInfo["event"] as? String == "new_message" else { completionHandler(.noData); return }
         if UnyriPushNotificationCoordinator.shared.absorbInactiveWake(userInfo) { completionHandler(.noData); return }
         var finished = false

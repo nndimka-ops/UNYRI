@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chats_archive_detail">Μετακινήστε συνομιλίες εδώ από το μενού τους ή επιλέξτε περισσότερες. Τα νέα μηνύματα τις κρατούν εδώ μέχρι να τις επαναφέρετε.</string>
+    <string name="privacy_devices_blocks">Συσκευές και αποκλεισμοί</string>
+    <string name="privacy_messages_section">Μηνύματα</string>
+    <string name="settings_privacy_visibility">Ορατότητα</string>
+    <string name="privacy_nobody_count">Κανένας</string>
+    <string name="blocked_users_search">Όνομα, αριθμός ή @όνομα</string>
+    <plurals name="privacy_people_count_short">
+        <item quantity="one">%1$d άτ.</item>
+        <item quantity="few">%1$d άτ.</item>
+        <item quantity="many">%1$d άτ.</item>
+        <item quantity="other">%1$d άτ.</item>
+    </plurals>
+    <string name="drawer_report_short">Αναφορά</string>
+    <string name="peer_qr_title">Κωδικός QR αυτού του ατόμου</string>
+    <string name="peer_remove_confirm_title">Αφαίρεση επαφής;</string>
+    <string name="peer_remove_confirm_detail">Αυτό το άτομο θα αφαιρεθεί από τις επαφές σας. Η συνομιλία και τα μηνύματα θα παραμείνουν.</string>
+    <string name="inline_search_people_hint">Αναζητήστε άτομα με αριθμό ή @όνομα.</string>
+    <string name="app_version_format">Έκδοση %1$s (%2$d)</string>
+    <string name="server_current_title">Τρέχων διακομιστής</string>
+    <string name="server_change_title">Αλλαγή διακομιστή</string>
+    <string name="server_edit_help">Εισαγάγετε μια διεύθυνση HTTPS. Αποσυνδεθείτε πριν αλλάξετε διακομιστή.</string>
+    <string name="server_alpha_http_detail">Οι εκδόσεις άλφα επιτρέπουν και HTTP σε έμπιστο τοπικό δίκτυο.</string>
+    <string name="server_max_file_size">Μέγιστο μέγεθος κρυπτογραφημένου αρχείου</string>
+    <string name="server_user_quota">Χώρος ανά λογαριασμό</string>
+    <string name="server_no_limit">Χωρίς όριο</string>
+    <string name="settings_about">Βοήθεια και εφαρμογή</string>
+    <string name="settings_data_storage">Σύνδεση και αποθήκευση</string>
+    <string name="notification_in_app_sound_detail">Ήχος όταν το UNYRI είναι ανοιχτό.</string>
+    <string name="notification_in_app_vibration_detail">Δόνηση όταν το UNYRI είναι ανοιχτό.</string>
+    <string name="report_problem_detail">Περιγράψτε το πρόβλημα και επισυνάψτε στιγμιότυπα οθόνης.</string>
+    <string name="report_recent_problem_detail">Σημειώστε την ώρα πρόσφατου προβλήματος· ενεργοποιήστε τα διαγνωστικά παρακάτω.</string>
+    <string name="sh_step_computer">Ένας υπολογιστής πάντα ανοιχτός</string>
+    <string name="sh_step_computer_summary">Χρησιμοποιήστε δικό σας υπολογιστή ή νοικιάστε έναν στο διαδίκτυο (VPS).</string>
+    <string name="sh_step_install">Εγκατάσταση του UNYRI Server</string>
+    <string name="sh_step_install_summary">Εγκαταστήστε το πρόγραμμα διακομιστή ακολουθώντας τον οδηγό.</string>
+    <string name="sh_step_internet">Πρόσβαση από το διαδίκτυο</string>
+    <string name="sh_step_internet_summary">Ακολουθήστε τον οδηγό ώστε το τηλέφωνο να συνδέεται και εκτός σπιτιού.</string>
+    <string name="sh_step_phone">Σύνδεση τηλεφώνου</string>
+    <string name="sh_step_phone_summary">Επιβεβαιώστε τη διεύθυνση του διακομιστή ή σαρώστε πρόσκληση και δημιουργήστε λογαριασμό.</string>
+    <string name="sh_step_owner">Γίνετε ιδιοκτήτης</string>
+    <string name="sh_step_owner_summary">Χρησιμοποιήστε τον κωδικό μίας χρήσης του προγράμματος εγκατάστασης.</string>
+    <string name="sh_step_test">Έλεγχος μηνυμάτων και κλήσεων</string>
+    <string name="sh_step_test_summary">Κλείστε το Wi-Fi και ελέγξτε μηνύματα, κλήσεις και ειδοποιήσεις με δεδομένα κινητής.</string>
+    <string name="sh_step_more">Περισσότερα</string>
+    <string name="connection_checking">Έλεγχος…</string>
+    <string name="sh_open_guide">Οδηγός και λήψεις</string>
+    <string name="local_mode_description">Μηνύματα και κλήσεις από τον διακομιστή σας μέσω Wi-Fi, χωρίς διαδίκτυο. Η λειτουργία εμφανίζει μόνιμη ειδοποίηση και καταναλώνει περισσότερη μπαταρία. Μετά από αναγκαστική διακοπή ή επανεκκίνηση ανοίξτε ξανά το UNYRI.</string>
+    <string name="local_mode_connected">Συνδέθηκε στον διακομιστή σας</string>
+    <string name="local_mode_signin">Συνδεθείτε για να ενεργοποιήσετε την τοπική σύνδεση.</string>
+    <string name="peer_qr_instruction">Σαρώστε τον κωδικό για να ανοίξετε το προφίλ αυτού του ατόμου στο UNYRI.</string>
+</resources>

@@ -1,4 +1,5 @@
 pub mod handlers;
+pub mod device_proof;
 pub mod installations;
 pub mod history;
 pub mod jwt;

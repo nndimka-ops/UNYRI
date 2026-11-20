@@ -144,7 +144,7 @@ class WebRtcEngineImpl(private val context: Context) : WebRtcEngine {
     private var videoLimits = CallQuality.AUTO.video
     private var audioBitrate = CallQuality.AUTO.audioBitrate
     private var mediaProfile = CallMediaLadder.cellular
-    private var saveCallData = false
+    private var callDataSaving = CallDataSaving.NEVER
     private var videoSendActive = true
     private var pausePolicy = CallVideoPausePolicy()
     private var deadPairPolicy = CallDeadPairPolicy()
@@ -197,13 +197,24 @@ class WebRtcEngineImpl(private val context: Context) : WebRtcEngine {
     override fun initialize(iceServers: List<IceServerDto>, mediaKind: CallMediaKind) =
         initialize(iceServers, mediaKind, captureVideo = mediaKind == CallMediaKind.VIDEO)
 
+    private fun iceConfig(iceServers: List<IceServerDto>, contact: Boolean): WebRtcIceConfig {
+        val preferences = context.getSharedPreferences(CallQualityPreferences.STORE, Context.MODE_PRIVATE)
+        return WebRtcIceTransportPolicy.buildConfig(iceServers, com.messenger.app.BuildConfig.DEBUG,
+            com.messenger.app.BuildConfig.FORCE_WEBRTC_RELAY,
+            CallPeerToPeer.resolved(preferences.getString(CallPeerToPeer.KEY, null)), contact)
+    }
+
+    override fun relayUnavailable(iceServers: List<IceServerDto>, peerIsContact: Boolean): Boolean =
+        iceConfig(iceServers, peerIsContact).relayUnavailable
+
     override fun initialize(iceServers: List<IceServerDto>, mediaKind: CallMediaKind, captureVideo: Boolean) {
+        val iceConfig = iceConfig(iceServers, peerIsContact)
+        peerIsContact = false // Membership must be supplied again for each new call.
+        check(!iceConfig.relayUnavailable) { "relay_unavailable" }
         sdpMutex = kotlinx.coroutines.sync.Mutex()
         localVideoSenderId = null
         videoNegotiationAllowed = mediaKind == CallMediaKind.VIDEO
         val preferences = context.getSharedPreferences(CallQualityPreferences.STORE, Context.MODE_PRIVATE)
-        saveCallData = CallQuality.parse(preferences.getString(CallQualityPreferences.VIDEO, null)) == CallQuality.ECONOMY ||
-            CallQuality.parse(preferences.getString(CallQualityPreferences.AUDIO, null)) == CallQuality.ECONOMY
         networkInterface = activeNetworkInterface()
         mediaProfile = networkProfile()
         videoLimits = CallVideoLimits(mediaProfile.width, mediaProfile.height, mediaProfile.fps, mediaProfile.maxVideoBitrate)
@@ -228,14 +239,6 @@ class WebRtcEngineImpl(private val context: Context) : WebRtcEngine {
             }
             builder.createIceServer()
         }
-        val iceConfig = WebRtcIceTransportPolicy.buildConfig(
-            iceServers,
-            com.messenger.app.BuildConfig.DEBUG,
-            com.messenger.app.BuildConfig.FORCE_WEBRTC_RELAY,
-            CallPeerToPeer.resolved(preferences.getString(CallPeerToPeer.KEY, null)),
-            peerIsContact,
-        )
-        peerIsContact = false // Membership must be supplied again for each new call.
         remoteRelayOnly = iceConfig.transports == IceTransportPolicy.RELAY
         val rtcConfig = PeerConnection.RTCConfiguration(rtcIceServers).apply {
             sdpSemantics = PeerConnection.SdpSemantics.UNIFIED_PLAN
@@ -385,6 +388,7 @@ class WebRtcEngineImpl(private val context: Context) : WebRtcEngine {
         try {
             applyVideoNegotiationIntent(pc)
             applyAudioCodecPreferences(pc)
+            applyVideoCodecPreferences(pc)
             return CallLocalSdp.createAndApply(pc, type, mediaProfile.requestsDtx,
                 isCurrent = isCurrent) { local ->
                 applyQualityLimits()
@@ -499,7 +503,7 @@ class WebRtcEngineImpl(private val context: Context) : WebRtcEngine {
     override fun currentMediaProfile() = mediaProfile
     override fun setDiagnosticsRecording(recording: Boolean) { diagnosticsRecording = recording }
 
-    private fun captureProfile() = if (saveCallData) CallMediaLadder.saving else CallMediaLadder.wifi
+    private fun captureProfile() = callDataSaving.captureProfile()
 
     private fun seedEstimate(bps: Int?) { if (bps != null) peerConnection?.setBitrate(null, bps, null) }
 
@@ -522,10 +526,17 @@ class WebRtcEngineImpl(private val context: Context) : WebRtcEngine {
 
     private fun networkProfile(): CallMediaProfile {
         val preferences = context.getSharedPreferences(CallQualityPreferences.STORE, Context.MODE_PRIVATE)
-        saveCallData = CallQuality.parse(preferences.getString(CallQualityPreferences.VIDEO, null)) == CallQuality.ECONOMY ||
-            CallQuality.parse(preferences.getString(CallQualityPreferences.AUDIO, null)) == CallQuality.ECONOMY
-        if (saveCallData) return CallMediaLadder.saving
-        return if (activeNetworkInterface() in listOf(NetworkCapabilities.TRANSPORT_WIFI, NetworkCapabilities.TRANSPORT_ETHERNET)) CallMediaLadder.wifi else CallMediaLadder.cellular
+        val saving = CallDataSaving.resolved(preferences.getString(CallDataSaving.KEY, null),
+            preferences.getString(CallQualityPreferences.VIDEO, null), preferences.getString(CallQualityPreferences.AUDIO, null))
+        val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = manager.getNetworkCapabilities(manager.activeNetwork)
+        val metered = manager.isActiveNetworkMetered
+        val tier = saving.tier(networkAvailable = capabilities != null,
+            cellular = capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) == true,
+            metered = metered,
+            constrained = metered && manager.restrictBackgroundStatus == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED)
+        callDataSaving = saving
+        return CallMediaLadder.profile(tier)
     }
 
     private fun updateNetworkProfile(now: Long) {
@@ -589,6 +600,19 @@ class WebRtcEngineImpl(private val context: Context) : WebRtcEngine {
         if (preferred.isEmpty()) return
         pc.transceivers.filter { it.mediaType == livekit.org.webrtc.MediaStreamTrack.MediaType.MEDIA_TYPE_AUDIO && !it.isStopped }
             .forEach { it.setCodecPreferences(preferred) }
+    }
+
+    /** Hardware H.264 first in both directions, VP8 and the rest kept ([CallVideoCodecPreference], B-047). */
+    private fun applyVideoCodecPreferences(pc: PeerConnection) {
+        val codecs = factory?.getRtpReceiverCapabilities(livekit.org.webrtc.MediaStreamTrack.MediaType.MEDIA_TYPE_VIDEO)?.codecs ?: return
+        val preferred = CallVideoCodecPreference.order(codecs.map { it.name to it.parameters?.get("profile-level-id") }).map { codecs[it] }
+        if (preferred.isEmpty()) return
+        pc.transceivers.filter { it.mediaType == livekit.org.webrtc.MediaStreamTrack.MediaType.MEDIA_TYPE_VIDEO && !it.isStopped }
+            .forEach { transceiver ->
+                // A refusal leaves WebRTC's own order; the call still negotiates.
+                runCatching { transceiver.setCodecPreferences(preferred) }
+                    .onFailure { android.util.Log.w(TAG, "video codec preferences refused: ${it.javaClass.simpleName}") }
+            }
     }
 
     private fun refreshRemoteReceivers(pc: PeerConnection) {

@@ -212,7 +212,7 @@
     <string name="voice_open_app_settings">Otevřít nastavení aplikace</string>
     <string name="notification_settings_system_on">Oznámení jsou v Androidu povolena</string>
     <string name="notification_settings_system_off">Oznámení jsou v Androidu blokována</string>
-    <string name="notification_settings_system_detail">Android řídí oprávnění, zobrazení na zamčené obrazovce, zvuk a vibrace, včetně správních a servisních oznámení. UNYRI nemůže přepsat vaše systémové volby.</string>
+    <string name="notification_settings_system_detail">V Androidu vyberte kanál zpráv nebo hovorů a nastavte zvuk a vibrace.</string>
     <string name="notification_settings_allow">Povolit oznámení</string>
     <string name="notification_settings_system_open">Otevřít nastavení oznámení Androidu</string>
     <string name="local_mode_notifications">Povolit oznámení</string>

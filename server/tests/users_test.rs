@@ -452,7 +452,7 @@ async fn avatar_presign_returns_key_and_url() {
 }
 
 #[tokio::test]
-async fn search_finds_matching_usernames() {
+async fn legacy_search_returns_empty_for_private_login_substrings_and_exact_login() {
     let (state, _fixture_guard) = spawn_state().await;
     let app = messenger_server::app(state);
     let ip = connect_info();
@@ -463,55 +463,38 @@ async fn search_finds_matching_usernames() {
     let response = app.clone().oneshot(register_request(ip, &username, "Findable User")).await.unwrap();
     assert_eq!(response.status(), StatusCode::OK);
 
-    let uri = format!("/users/search?q={needle}");
-    let response = app.oneshot(get_request(&uri, ip, Some(&searcher_token))).await.unwrap();
-    assert_eq!(response.status(), StatusCode::OK);
-    let body = body_json(response).await;
-    let items = body["items"].as_array().unwrap();
-    assert!(items.iter().any(|item| item["username"] == username));
+    for query in [needle.as_str(), username.as_str()] {
+        let uri = format!("/users/search?q={query}");
+        let response = app.clone().oneshot(get_request(&uri, ip, Some(&searcher_token))).await.unwrap();
+        assert_eq!(response.status(), StatusCode::OK);
+        assert_eq!(body_json(response).await, json!({"items":[],"next_offset":null}));
+    }
 }
 
 #[tokio::test]
-async fn search_paginates_results() {
+async fn legacy_search_never_reveals_accounts_at_any_page_offset() {
     let (state, _fixture_guard) = spawn_state().await;
     let app = messenger_server::app(state);
     let ip = connect_info();
     let (searcher_token, _id, _username) = register_user(&app, ip, "pager_").await;
 
     let needle: String = Uuid::new_v4().simple().to_string().chars().take(8).collect();
-    let mut usernames = Vec::new();
     for i in 0..5 {
         let username = format!("pg_{needle}_{i}");
         // Separate IP per registration: the register endpoint's own rate
         // limit (5/min) would otherwise trip when combined with the
         // searcher's registration above, which is unrelated to what this
-        // test is actually verifying (search pagination).
+        // test is actually verifying (retired search stays empty).
         let response = app.clone().oneshot(register_request(connect_info(), &username, "Page User")).await.unwrap();
         assert_eq!(response.status(), StatusCode::OK);
-        usernames.push(username);
     }
 
-    let mut seen = std::collections::HashSet::new();
-    let mut offset = 0i64;
-    loop {
+    for offset in [0, 2, 4, 200] {
         let uri = format!("/users/search?q={needle}&limit=2&offset={offset}");
         let response = app.clone().oneshot(get_request(&uri, ip, Some(&searcher_token))).await.unwrap();
         assert_eq!(response.status(), StatusCode::OK);
         let body = body_json(response).await;
-        let items = body["items"].as_array().unwrap().clone();
-        assert!(items.len() <= 2);
-        for item in &items {
-            let inserted = seen.insert(item["username"].as_str().unwrap().to_string());
-            assert!(inserted, "page returned a duplicate item");
-        }
-        match body["next_offset"].as_i64() {
-            Some(next) => offset = next,
-            None => break,
-        }
-    }
-
-    for username in &usernames {
-        assert!(seen.contains(username), "missing {username} across pages");
+        assert_eq!(body, json!({"items":[],"next_offset":null}));
     }
 }
 
@@ -573,36 +556,46 @@ async fn two_users_see_correct_public_data_about_each_other() {
     let register_body = body_json(register_response).await;
     let id_b = register_body["user"]["id"].as_str().unwrap().to_string();
 
-    let uri = format!("/users/search?q={needle}");
+    let uri = format!("/users/{id_b}/profile");
     let response = app.oneshot(get_request(&uri, ip, Some(&token_a))).await.unwrap();
     assert_eq!(response.status(), StatusCode::OK);
     let body = body_json(response).await;
-    let found = body["items"].as_array().unwrap().iter().find(|item| item["username"] == username_b).unwrap();
+    let found = body;
 
     assert_eq!(found["id"], id_b);
     assert_eq!(found["display_name"], "Public B");
+    assert_eq!(found["username"], "");
+    assert!(found["public_username"].is_null());
+    assert_eq!(found["unyri_number"].as_str().unwrap().len(), 9);
+    assert!(!found.to_string().contains(&username_b));
 }
 
 #[tokio::test]
-async fn search_never_leaks_private_fields() {
+async fn exact_public_profile_never_leaks_private_fields() {
     let (state, _fixture_guard) = spawn_state().await;
     let app = messenger_server::app(state);
     let ip = connect_info();
     let (token, _id, _username) = register_user(&app, ip, "priv_").await;
     let needle: String = Uuid::new_v4().simple().to_string().chars().take(8).collect();
     let username = format!("priv_tgt_{needle}");
-    app.clone().oneshot(register_request(ip, &username, "Private Target")).await.unwrap();
+    let registered = app.clone().oneshot(register_request(ip, &username, "Private Target")).await.unwrap();
+    assert_eq!(registered.status(), StatusCode::OK);
+    let target = body_json(registered).await["user"]["id"].as_str().unwrap().to_owned();
 
-    let uri = format!("/users/search?q={needle}");
+    let uri = format!("/users/{target}/profile");
     let response = app.oneshot(get_request(&uri, ip, Some(&token))).await.unwrap();
-    let body = body_json(response).await;
-    let item = body["items"].as_array().unwrap().iter().find(|item| item["username"] == username).unwrap();
+    assert_eq!(response.status(), StatusCode::OK);
+    let item = body_json(response).await;
 
     let allowed_keys: std::collections::HashSet<&str> =
-        ["id", "username", "display_name", "bio", "avatar_url", "profile_version", "avatar_version", "has_avatar"].into_iter().collect();
+        ["id", "username", "public_username", "unyri_number", "display_name", "bio", "avatar_url", "profile_version", "avatar_version", "has_avatar"].into_iter().collect();
     for key in item.as_object().unwrap().keys() {
-        assert!(allowed_keys.contains(key.as_str()), "unexpected field in search result: {key}");
+        assert!(allowed_keys.contains(key.as_str()), "unexpected field in public profile: {key}");
     }
+    assert_eq!(item["username"], "");
+    assert!(item["public_username"].is_null());
+    assert_eq!(item["unyri_number"].as_str().unwrap().len(), 9);
+    assert!(!item.to_string().contains(&username));
     assert!(item.get("password_hash").is_none());
     assert!(item.get("created_at").is_none());
     assert!(item.get("updated_at").is_none());
@@ -677,21 +670,27 @@ async fn no_op_patch_does_not_increment_profile_version() {
 }
 
 #[tokio::test]
-async fn text_fields_each_increment_profile_version_exactly_once() {
+async fn public_text_fields_increment_profile_version_once_but_private_login_does_not() {
     let (state, _fixture_guard) = spawn_state().await;
     let app = messenger_server::app(state);
     let ip = connect_info();
     let (token, _user_id, _username) = register_user(&app, ip, "ver_").await;
 
     let response = app.clone().oneshot(patch_request("/users/me", ip, &token, json!({ "display_name": "Renamed" }))).await.unwrap();
+    assert_eq!(response.status(), StatusCode::OK);
     assert_eq!(body_json(response).await["profile_version"], 2);
 
-    let response = app.clone().oneshot(patch_request("/users/me", ip, &token, json!({ "username": unique_username("veru_") }))).await.unwrap();
-    assert_eq!(body_json(response).await["profile_version"], 3);
+    let login = unique_username("veru_");
+    let response = app.clone().oneshot(patch_request("/users/me", ip, &token, json!({ "username": login }))).await.unwrap();
+    assert_eq!(response.status(), StatusCode::OK);
+    let body = body_json(response).await;
+    assert_eq!(body["username"], login, "the private login must still change");
+    assert_eq!(body["profile_version"], 2, "a private login change must not bump the public profile version");
 
     let response = app.clone().oneshot(patch_request("/users/me", ip, &token, json!({ "bio": "hello" }))).await.unwrap();
+    assert_eq!(response.status(), StatusCode::OK);
     let body = body_json(response).await;
-    assert_eq!(body["profile_version"], 4);
+    assert_eq!(body["profile_version"], 3);
     assert_eq!(body["avatar_version"], 0, "text-only changes must not touch avatar_version");
 }
 

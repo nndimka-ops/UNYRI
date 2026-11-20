@@ -71,18 +71,18 @@
 
     <!-- Profile -->
     <string name="profile_edit">Edit profile</string>
-    <string name="profile_privacy_security">Privacy &amp; Security</string>
+    <string name="profile_privacy_security">Privacy and security</string>
     <string name="profile_devices">Devices</string>
     <string name="profile_appearance">Appearance</string>
     <string name="profile_language">Language</string>
     <string name="profile_server">Server</string>
     <string name="profile_logout">Log out</string>
     <string name="settings_account">Account</string>
-    <string name="settings_about">About</string>
+    <string name="settings_about">Help and application</string>
     <string name="settings_navigation">Navigation</string>
     <string name="settings_show_calls_tab">Show Calls tab</string>
     <string name="settings_show_calls_subtitle">Show Calls in the side menu</string>
-    <string name="settings_data_storage">Data &amp; Storage</string>
+    <string name="settings_data_storage">Connection and storage</string>
     <string name="storage_usage">Storage Usage</string>
     <string name="storage_title">Storage</string>
     <string name="storage_calculating">Calculating…</string>
@@ -374,7 +374,7 @@
     <string name="alpha_terms_4">4. A problem report is sent only after your confirmation. Its description, selected screenshots, account identifier and app/OS versions are readable by the operator of the selected server. Remove passwords and private details before sending. The standard UNYRI server removes reports older than 30 days during its hourly cleanup; ask your operator about custom settings and backups. Optional automatic diagnostics are configured separately.</string>
     <string name="alpha_terms_5">5. Respect other people and applicable law. Do not use UNYRI for unlawful content, harassment, spam or attempts to compromise other accounts or servers. The selected server may have additional rules. Contact its operator about account access and reports.</string>
     <string name="alpha_terms_6">6. Alpha features and availability are not guaranteed. Do not rely on UNYRI for emergency communication or as the only copy of important data. These testing terms do not exclude rights that cannot lawfully be waived. Store publication and commercial licensing require separate finalized publisher and privacy information.</string>
-    <string name="server_edit_help">Enter an HTTPS server address. This alpha build can also use HTTP on a trusted local network. Sign out before changing servers.</string>
+    <string name="server_edit_help">Enter an HTTPS address. Sign out first to change servers.</string>
     <string name="server_edit_failed">Could not save the address. Check the scheme and host; paths, passwords and query parameters are not allowed.</string>
     <string name="server_signout_warning">Changing servers requires signing out. Local account data and pending messages will be cleared. Preserve important history and finish pending sends first.</string>
     <string name="feedback_title">Report a problem</string>
@@ -413,7 +413,7 @@
     <string name="chat_delete_scope_everyone">Your selected messages will be removed for all participants. Unsent messages will be cancelled.</string>
     <string name="chat_delete_scope_me">Selected messages will be removed for you. Unsent messages will be cancelled.</string>
     <string name="unified_search_placeholder">Chats, messages, people</string>
-    <string name="unified_search_hint">Search saved chats and messages offline. Find people on this server by username.</string>
+    <string name="unified_search_hint">Search saved chats and messages offline. Find people on this server by number or @username.</string>
     <string name="unified_search_people">People on this server</string>
     <string name="unified_search_network">Server search is unavailable. Local results remain available.</string>
     <string name="unified_search_local_error">Could not load saved messages. Try searching again.</string>
@@ -451,13 +451,13 @@
     <string name="settings_home_connection">Connection and storage</string>
     <string name="settings_home_help">Help and app</string>
     <string name="settings_home_chats_detail">Reactions and chat filters</string>
-    <string name="settings_home_connection_detail">Call quality, data and cache</string>
+    <string name="settings_home_connection_detail">Storage, downloads and cache</string>
     <string name="settings_home_connected">Connected</string>
     <string name="settings_home_history">History and transfer</string>
     <string name="settings_home_history_detail">Move to another phone or restore a backup</string>
     <string name="settings_home_transfer">Transfer</string>
     <string name="settings_home_backup">Backup</string>
-    <string name="settings_home_sign_out">Sign out of account</string>
+    <string name="settings_home_sign_out">Sign out</string>
     <string name="settings_offline_fallback">Profile is unavailable. Cached chats remain available; you can change the server or sign out.</string>
     <string name="settings_logout_history">History and backup</string>
     <string name="settings_logout_local_notice">Messages, calls, files, drafts and the history recovery key will be removed from this phone. Your next login will start with an empty history. Your account and encrypted server backup will remain.</string>
@@ -472,7 +472,7 @@
     <string name="blocked_users_add">Block an account</string>
     <string name="blocked_users_add_title">Block an account</string>
     <string name="blocked_users_add_detail">Find a person by name or username. Blocking does not create a chat or load their history.</string>
-    <string name="blocked_users_search">Name or @username</string>
+    <string name="blocked_users_search">Name, number or @username</string>
     <string name="blocked_users_empty">No blocked accounts</string>
     <string name="blocked_users_no_results">No accounts found</string>
     <string name="blocked_users_load_error">Could not load accounts. Check your connection and try again.</string>
@@ -505,7 +505,7 @@
     <string name="voice_open_app_settings">Open app settings</string>
     <string name="notification_settings_system_on">Android notifications are allowed</string>
     <string name="notification_settings_system_off">Android notifications are blocked</string>
-    <string name="notification_settings_system_detail">Android controls permission, lock-screen display, ringtone and vibration. Administrative and service notifications are also managed here. UNYRI cannot override your system choices.</string>
+    <string name="notification_settings_system_detail">Choose a message or call channel in Android to change its sound and vibration.</string>
     <string name="notification_settings_allow">Allow notifications</string>
     <string name="notification_settings_system_open">Open Android notification settings</string>
     <string name="local_mode_notifications">Allow notifications</string>

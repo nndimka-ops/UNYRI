@@ -183,6 +183,10 @@ internal class DirectFileStorage(private val context: Context, owner: String, pr
         try { Os.fsync(descriptor) } finally { Os.close(descriptor) }
     }
     companion object {
+        fun eraseAll(context: Context) {
+            eraseAll(context.filesDir)
+        }
+        internal fun eraseAll(filesRoot: File) = com.messenger.app.data.auth.WorkspaceWipe.eraseWithin(filesRoot, File(filesRoot, "direct-transfers"))
         fun digest(bytes: ByteArray): String = hex(MessageDigest.getInstance("SHA-256").digest(bytes))
         fun hex(bytes: ByteArray): String = bytes.joinToString("") { "%02x".format(it) }
         fun rawHash(hex: String): ByteArray { require(validHash(hex)); return ByteArray(32) { hex.substring(it * 2, it * 2 + 2).toInt(16).toByte() } }

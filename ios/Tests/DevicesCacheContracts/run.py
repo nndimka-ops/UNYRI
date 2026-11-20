@@ -13,6 +13,7 @@ import Foundation
 struct AccountDevice:Codable,Equatable { let id:String }
 enum ProbeFailure:Error {case network}
 @MainActor final class Auth {
+ var revokeOwnDeviceLocally: ((String) async throws -> Void)? = { _ in }
  var sessionGeneration:UInt64=1
  var cached=[AccountDevice(id:"current"),AccountDevice(id:"other")]
  var writes=0

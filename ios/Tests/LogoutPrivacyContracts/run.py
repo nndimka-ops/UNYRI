@@ -94,5 +94,5 @@ with tempfile.TemporaryDirectory() as folder:
     source = path/'main.swift'
     source.write_text(harness, encoding='utf-8')
     exe = path/'contracts.exe'
-    subprocess.run([args.swiftc, str(root/'ios/UNYRI/Signal/SignalReceiveJournal.swift'), str(source), '-o', str(exe)], check=True)
+    subprocess.run([args.swiftc, str(root/'ios/UNYRI/Support/LocalSecurityDecisions.swift'), str(root/'ios/UNYRI/Signal/SignalStorageKeys.swift'), str(root/'ios/UNYRI/Signal/SignalReceiveJournal.swift'), str(source), '-o', str(exe)], check=True)
     subprocess.run([str(exe)], check=True)

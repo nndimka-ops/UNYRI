@@ -36,7 +36,7 @@ enum DirectFileMediaPreviewGenerator {
         // Optional poster work has a tighter parsing budget than transferring
         // the original. Oversized/unsupported sources remain sendable as files.
         guard !Task.isCancelled, sourceBytes <= 256 * 1024 * 1024,
-              let source = CGImageSourceCreateWithURL(file as CFURL, [kCGImageSourceShouldCache: false] as CFDictionary),
+              let source = PeerImagePolicy.source(url: file),
               let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any],
               let width = properties[kCGImagePropertyPixelWidth] as? Int,
               let height = properties[kCGImagePropertyPixelHeight] as? Int,
@@ -89,7 +89,7 @@ enum DirectFileMediaPreviewGenerator {
 
     static func decode(_ preview: DirectFileMediaPreview) -> UIImage? {
         guard !Task.isCancelled, preview.valid, let bytes = preview.jpegData,
-              let source = CGImageSourceCreateWithData(bytes as CFData, [kCGImageSourceShouldCache: false] as CFDictionary),
+              let source = PeerImagePolicy.source(data: bytes, jpegOnly: true),
               CGImageSourceGetCount(source) == 1,
               CGImageSourceGetType(source).map({ $0 as String }) == UTType.jpeg.identifier,
               let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any],

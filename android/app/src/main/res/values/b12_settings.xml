@@ -2,11 +2,11 @@
 <resources>
     <string name="history_list_yesterday">Yesterday</string>
     <string name="settings_group_account_privacy">Account &amp; privacy</string>
-    <string name="settings_home_privacy_title">Privacy &amp; Security</string>
+    <string name="settings_home_privacy_title">Privacy and security</string>
     <string name="settings_home_account_summary">Profile and account access</string>
-    <string name="settings_home_notifications_summary">Messages, reminders and Android permission</string>
-    <string name="settings_home_appearance_summary">Text, background and language</string>
-    <string name="settings_home_chat_summary">Reactions, media, voice and reading</string>
+    <string name="settings_home_notifications_summary">Messages, calls and sound</string>
+    <string name="settings_home_appearance_summary">Theme, text and side menu</string>
+    <string name="settings_home_chat_summary">Reactions, media and history</string>
     <string name="settings_group_personalize">Personalize</string>
     <string name="settings_group_app_connection">App &amp; connection</string>
     <string name="settings_current_server">Current server</string>

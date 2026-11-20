@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_relay_unavailable">你的隐私设置要求通过中继连接此人，但此服务器尚未配置中继。文件传输无法连接。</string>
+</resources>

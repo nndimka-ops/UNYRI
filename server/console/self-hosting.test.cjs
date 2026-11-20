@@ -20,7 +20,7 @@ class Element {
 const all = (node) => [node, ...(node.children || []).flatMap((child) => typeof child === 'object' ? all(child) : [])];
 const settle = () => new Promise((resolve) => setImmediate(resolve));
 
-function fixture(language, role = 'owner') {
+function fixture(language, role = 'owner', moderation = null) {
   const elements = new Map();
   const calls = [], copied = [], shared = [];
   const document = {
@@ -30,12 +30,14 @@ function fixture(language, role = 'owner') {
   };
   const context = vm.createContext({ document, navigator: { language, clipboard: { writeText: async (text) => copied.push(text) }, share: async (data) => shared.push(data) },
     window: { addEventListener() {}, matchMedia: () => ({ matches: false, addEventListener() {} }) },
-    location: { origin: 'https://fixture.example.test' }, setTimeout: () => 1, clearTimeout() {}, URL, console,
+    location: { origin: 'https://fixture.example.test' }, setTimeout: () => 1, clearTimeout() {}, URL, URLSearchParams, AbortController, console,
   });
   // Keep definitions and listeners; suppress only the networked boot sequence.
   vm.runInContext(source.replace(/\bboot\(\);\s*$/, ''), context);
   const api = async (url, options = {}) => {
     calls.push({ url, ...options });
+    if (moderation && url === '/admin/users/fixture-user') return moderation;
+    if (moderation && (url.includes('/timeline') || url.includes('/notes') || url.startsWith('/admin/reports'))) return { items: [], next_before: null };
     if (url === '/admin/registration') return { registration_mode: 'open', registration_open: true };
     if (url === '/admin/invites' && options.method === 'POST') return { code: 'fixture-id.ABCD-EFGH-JKLM-NPQR' };
     if (url.startsWith('/admin/invites') && options.method !== 'POST') return { items: [{ id: 'fixture-id', creator: '<img onerror=bad>', created_by: 'creator-id', status: 'active', uses: 0, max_uses: 1, expires_at: '2026-12-01T00:00:00Z' }], next_before: null };
@@ -48,14 +50,26 @@ function fixture(language, role = 'owner') {
   };
   context.fixtureApi = api;
   context.fixtureRole = role;
-  vm.runInContext('api = fixtureApi; state.role = fixtureRole; globalThis.root = SECTIONS.selfhosting();', context);
-  return { context, root: context.root, calls, copied, shared };
+  context.fixtureModeration = moderation;
+  vm.runInContext('api = fixtureApi; state.role = fixtureRole; state.params = {userId: "fixture-user"}; globalThis.root = fixtureModeration ? SECTIONS.moderation() : SECTIONS.selfhosting();', context);
+  return { context, root: context.root, calls, copied, shared, elements };
 }
 
 test('all SH-2 strings exist in English, Russian and Ukrainian', () => {
   const { context } = fixture('en');
   const sets = JSON.parse(vm.runInContext('JSON.stringify(Object.fromEntries(Object.entries(SH2_TEXT).map(([locale, strings]) => [locale, Object.keys(strings).sort()])))', context));
   assert.deepEqual(sets.en, sets.ru); assert.deepEqual(sets.en, sets.uk);
+});
+
+test('B-033 public captions ignore legacy private identity fields', () => {
+  const { context } = fixture('en');
+  context.legacyPrivate = { username: 'private_login_fixture', reason: 'private_login_fixture' };
+  assert.equal(vm.runInContext('publicIdentity({...legacyPrivate, public_username:"alice", unyri_number:"123456789"})', context), '@alice');
+  assert.equal(vm.runInContext('publicIdentity({...legacyPrivate, unyri_number:"123456789"})', context), '123\u202f456\u202f789');
+  assert.equal(vm.runInContext('publicIdentity({...legacyPrivate, user_id:"account-uuid"})', context), 'account-uuid');
+  assert.equal(vm.runInContext('publicIdentity(legacyPrivate)', context), 'Unknown user');
+  assert.equal(vm.runInContext('sh2("publicIdentitySearch")', fixture('ru').context), 'Номер, публичное @имя, отображаемое имя или UUID');
+  assert.equal(vm.runInContext('sh2("publicIdentitySearch")', fixture('uk').context), 'Номер, публічне @ім’я, відображуване ім’я або UUID');
 });
 
 for (const language of ['en', 'ru', 'uk']) test(`owner controls, copy/share and literal server text (${language})`, async () => {
@@ -88,4 +102,61 @@ test('moderator can manage invites without loading owner diagnostics or policy',
   const f = fixture('en', 'moderator'); await settle();
   assert.deepEqual(f.calls.map((call) => call.url), ['/admin/invites']);
   assert.ok(!all(f.root).some((node) => node.tag === 'select'));
+});
+
+const moderationDetail = (overrides = {}) => ({
+  profile: { user_id: 'fixture-user', unyri_number: '123456789', display_name: '<script>fixture</script>' },
+  moderation: { status: 'active', reports_total: 0, reports_open: 0 },
+  suspend_allowed: true, moderation_allowed: true, is_administrator: false, devices: [], ...overrides,
+});
+
+test('permanent-delete confirmation uses the exact immutable number and a required reason', () => {
+  const f = fixture('en');
+  const evaluate = (expression) => vm.runInContext(expression, f.context);
+  assert.equal(evaluate('accountDeletionIdentity({unyri_number:"123456789", public_username:"alice", username:"private", user_id:"uuid"})'), '123456789');
+  assert.equal(evaluate('accountDeletionIdentity({user_id:"legacy-uuid"})'), 'legacy-uuid');
+  for (const [confirmation, reason] of [['@alice', 'reason'], ['123456788', 'reason'], ['123456789', ' '], ['123456789', 'x'.repeat(2001)]]) {
+    f.context.confirmation = confirmation; f.context.reason = reason;
+    assert.throws(() => evaluate('accountDeletionPayload({unyri_number:"123456789"}, confirmation, reason)'), /exact public number/);
+  }
+  assert.deepEqual(JSON.parse(evaluate('JSON.stringify(accountDeletionPayload({unyri_number:"123456789"}, "123456789", "  abuse  "))')),
+    { confirm_identity: '123456789', reason: 'abuse' });
+});
+
+for (const language of ['en', 'ru', 'uk']) test(`owner permanent-delete dialog requires number and reason (${language})`, async () => {
+  const f = fixture(language, 'owner', moderationDetail()); await settle();
+  const label = vm.runInContext('sh2("deleteAccount")', f.context);
+  const button = all(f.root).find((node) => node.tag === 'button' && node.textContent === label);
+  assert.ok(button); button.events.click(); await settle();
+  const confirm = f.elements.get('modal-confirm');
+  assert.equal(confirm.disabled, true);
+  const fields = all(f.elements.get('modal-body'));
+  const number = fields.find((node) => node.id === 'delete-account-number');
+  const reason = fields.find((node) => node.id === 'delete-account-reason');
+  number.value = '123456789'; number.events.input(); assert.equal(confirm.disabled, true);
+  reason.value = 'Account abuse'; reason.events.input(); assert.equal(confirm.disabled, false);
+  // Avoid loading another section after the completed action in this fixture.
+  vm.runInContext('go = () => {}; closeModal(true)', f.context);
+  await settle(); await settle();
+  const requests = f.calls.filter((call) => call.url.endsWith('/delete'));
+  assert.equal(requests.length, 1);
+  assert.equal(requests[0].url, '/admin/users/fixture-user/delete');
+  assert.equal(requests[0].method, 'POST');
+  assert.deepEqual(JSON.parse(JSON.stringify(requests[0].body)), { confirm_identity: '123456789', reason: 'Account abuse' });
+});
+
+test('moderators, administrators and protected targets have no permanent-delete action', async () => {
+  for (const [role, detail] of [['moderator', moderationDetail()], ['admin', moderationDetail()],
+    ['owner', moderationDetail({ is_administrator: true })], ['owner', moderationDetail({ moderation_allowed: false })]]) {
+    const f = fixture('en', role, detail); await settle();
+    assert.ok(!all(f.root).some((node) => node.tag === 'button' && node.textContent === 'Delete account permanently'));
+    assert.ok(!f.calls.some((call) => call.url.endsWith('/delete')));
+  }
+});
+
+test('cancelling permanent deletion never submits a request', async () => {
+  const f = fixture('en', 'owner', moderationDetail()); await settle();
+  all(f.root).find((node) => node.textContent === 'Delete account permanently').events.click();
+  vm.runInContext('closeModal(false)', f.context); await settle();
+  assert.ok(!f.calls.some((call) => call.url.endsWith('/delete')));
 });

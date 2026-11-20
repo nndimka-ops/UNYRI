@@ -34,6 +34,14 @@ interface ChatDao {
     suspend fun cachedChat(chatId: String): ChatEntity?
     @Query("SELECT * FROM chat_participants WHERE userId = :userId")
     suspend fun cachedParticipant(userId: String): ChatParticipantEntity?
+    @Query("UPDATE chat_participants SET username='',displayName=:label,avatarUrl=NULL,avatarVersion=0,hasAvatar=0,publicUsername=NULL WHERE userId=:userId")
+    suspend fun eraseDeletedPeerProfile(userId: String, label: String)
+    @Query("INSERT OR REPLACE INTO chat_workspace(chatId,name,value) VALUES('__deleted_profiles__',:userId,:label)")
+    suspend fun rememberDeletedPeer(userId: String, label: String)
+    @Transaction suspend fun eraseDeletedPeer(userId: String, label: String) {
+        rememberDeletedPeer(userId, label)
+        eraseDeletedPeerProfile(userId, label)
+    }
     @Query("SELECT userId FROM chat_members WHERE chatId = :chatId LIMIT 1")
     suspend fun boundPeer(chatId: String): String?
     @Query("SELECT chatId FROM chat_members WHERE userId=:peer")

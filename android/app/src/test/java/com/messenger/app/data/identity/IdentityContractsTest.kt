@@ -20,11 +20,37 @@ class IdentityContractsTest {
         assertEquals(AuthStep.SignIn, signIn.step)
         val signUp = signIn.toggle()
         assertEquals(AuthStep.SignUp, signUp.step)
-        assertEquals(signUp, signUp.next("secret_login", "password123", "different", true))
-        assertEquals(signUp, signUp.next("secret_login", "password123", "password123", false))
-        assertEquals(signUp, signUp.next("@public", "password123", "password123", true))
-        assertEquals(AuthStep.DisplayName, signUp.next("secret_login", "password123", "password123", true).step)
+        // "password123" advanced to the name step before B-048 and the server then refused it there.
+        val good = "river-lamp-42"
+        assertEquals(signUp, signUp.next("secret_login", good, "different", true))
+        assertEquals(signUp, signUp.next("secret_login", good, good, false))
+        assertEquals(signUp, signUp.next("@public", good, good, true))
+        assertEquals(AuthStep.DisplayName, signUp.next("secret_login", good, good, true).step)
         assertEquals(signIn, signUp.toggle())
+    }
+
+    @Test fun commonPasswordsStopAtThePasswordStepAndRefusalsReturnThere() {
+        val signUp = AuthForm(AuthStep.SignUp)
+        for (common in listOf("password123", "12345678", "Password1", "  QWERTY123 ", "пароль123")) {
+            assertTrue(IdentityPolicy.isCommonPassword(common), common)
+            assertEquals(signUp, signUp.next("secret_login", common, common, true), common)
+        }
+        assertFalse(IdentityPolicy.isCommonPassword("river-lamp-42"))
+        val name = AuthForm(AuthStep.DisplayName)
+        assertEquals(signUp, name.back(), "back from the name step returns to the password step")
+        assertEquals(AuthForm(AuthStep.SignIn), signUp.back())
+        assertEquals(signUp, name.afterRefusal("common_password"))
+        assertEquals(signUp, name.afterRefusal("username_taken"))
+        assertEquals(name, name.afterRefusal("display_name_reserved"), "name refusals stay on the name step")
+        assertEquals(name, name.afterRefusal(null))
+        assertEquals(signUp, signUp.afterRefusal("common_password"))
+    }
+
+    @Test fun commonPasswordListEqualsTheServerDenylist() {
+        val server = java.io.File("../../server/src/auth/common_passwords.txt").readLines(Charsets.UTF_8)
+            .map { it.trim() }.filter { it.isNotEmpty() }.toSet()
+        assertTrue(server.size >= 30, "server list read")
+        assertEquals(server, IdentityPolicy.commonPasswords)
     }
     @Test fun passwordStrengthIsGuidanceAndRespectsServerBounds() {
         assertFalse(IdentityPolicy.passwordAllowed("a".repeat(7)))
@@ -169,7 +195,9 @@ class IdentityContractsTest {
                 UsersApi(OkHttpClient(), ApiJson, origin), auth, serverOrigin = { origin }, identity = identity)
             server.enqueue(MockResponse().setResponseCode(404)) // Old routers may have no JSON body.
             server.enqueue(MockResponse().setBody("""{"items":[{"id":"peer","username":"old_login","display_name":"Peer"}]}"""))
-            assertEquals("old_login", repository.searchUsers("@old_login").getOrThrow().items.single().username)
+            val legacyPeer = repository.searchUsers("@old_login").getOrThrow().items.single()
+            assertEquals("", legacyPeer.username)
+            assertEquals("Peer", legacyPeer.visibleName)
             assertEquals("/users/me/identity", server.takeRequest().path)
             val oldPath = server.takeRequest().path!!
             assertTrue(oldPath.startsWith("/users/search?"))

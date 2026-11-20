@@ -6,7 +6,10 @@ import Dispatch
 struct ChatSummary {
     struct Peer {
         var displayName: String?; var username: String?
+        var publicUsername: String? = nil; var unyriNumber: String? = nil
         var visibleName: String { DisplayNameSanitizer.peer(displayName ?? "", username: username) }
+        // B-033: pickers search the public @username or number, never the private login.
+        var publicIdentityLabel: String { publicUsername.map { "@" + $0 } ?? unyriNumber ?? "" }
     }
     var chatId: String
     var chatType: String

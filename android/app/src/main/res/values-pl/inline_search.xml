@@ -19,7 +19,7 @@
     <string name="search_recent">Ostatnie wyszukiwania</string>
     <string name="search_scope_messages">Wiadomości</string>
     <string name="settings_search_label">Szukaj</string>
-    <string name="unified_search_hint">Przeszukuj zapisane czaty i wiadomości offline. Znajdź osoby na tym serwerze według nazwy użytkownika.</string>
+    <string name="unified_search_hint">Przeszukuj zapisane czaty i wiadomości bez połączenia. Znajduj osoby na tym serwerze po numerze lub @nazwie.</string>
     <string name="unified_search_network">Wyszukiwanie na serwerze jest niedostępne. Wyniki lokalne pozostają dostępne.</string>
     <string name="unified_search_local_error">Nie można wczytać zapisanych wiadomości. Wyszukaj ponownie.</string>
 </resources>

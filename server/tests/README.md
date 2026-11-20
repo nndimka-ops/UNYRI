@@ -1,5 +1,65 @@
 # Running server tests locally
 
+## Device-bound sessions (19 Nov)
+
+`device_bound_sessions_test` requires a **fresh disposable** database named
+`device_bound_test`, `COCO_DEVICE_BOUND_TEST_ISOLATED=1`, explicit loopback
+`TEST_DATABASE_URL` and a nonzero disposable Redis DB. It never loads dotenv,
+contacts storage or enables push providers. One sequential scenario owns the
+rollout switch, so another suite must not share its database during execution.
+It uses real routers, real P-256/DER signatures and a loopback WebSocket listener.
+
+Coverage includes legacy compatibility with enforcement off, login/signup
+binding, first-refresh enrollment of all ancestors, immutable key rotation,
+missing/malformed/wrong-key/context-substituted proofs, concurrent and sequential
+replay, refresh idempotency with fresh proofs, past/future clock challenges,
+proof rejection preserving the genuine device's rate budget, replay retention
+starting after transaction age/lock waits, the short HTTP bearer lifetime,
+WebSocket denial/admission/replay, required
+enrollment and refusal to downgrade after the owner disables enforcement again.
+Exact inclusive +/-60-second boundaries are provider-free library tests in the
+server verifier; integration timestamps stay inside/outside the boundary to avoid
+wall-clock flakiness. See [the protocol spec](../../docs/DEVICE_BOUND_SESSIONS_SPEC.md).
+
+The following command is for the lead after provisioning the isolated fixtures;
+this implementation task does not run network-backed tests:
+
+```powershell
+$env:CARGO_TARGET_DIR = '<worktree>/server/target'
+$env:COCO_DEVICE_BOUND_TEST_ISOLATED = '1'
+$env:TEST_DATABASE_URL = 'postgres://coco:test@127.0.0.1:55432/device_bound_test'
+$env:TEST_REDIS_URL = 'redis://127.0.0.1:56379/13'
+cargo test --offline --locked --manifest-path server/Cargo.toml --test device_bound_sessions_test -j 1 -- --test-threads=1
+```
+
+Recreate the database and clear its disposable Redis DB before repeating a failed
+run. The fixture asserts the migration's default enforcement is off, and a failed
+run may intentionally leave its isolated policy switch on.
+
+## Data deletion and phone wipe (19 Nov)
+
+`data_wipe_test` requires a fresh disposable database named `data_wipe_test`,
+`COCO_DATA_WIPE_TEST_ISOLATED=1`, explicit loopback `TEST_DATABASE_URL` and a
+nonzero disposable Redis DB. It never loads dotenv, contacts storage or live
+push providers. Run serially: scoped triggers assert a session-check wake exists
+**before** token invalidation/deletion (including FK cascades). Fake providers
+verify the wake contains no identity or content and disappears after delivery.
+It covers self/owner/inactivity deletion, HTTP/refresh/WebSocket reasons,
+correct-password-only suspended sign-in, installation bans, report/audit
+anonymization, reserved-number detachment/non-reassignment, peer `user.deleted`,
+and queue rollback/expiry. Docker-backed execution is left to the lead.
+
+```powershell
+$env:CARGO_TARGET_DIR = '<worktree>/server/target'
+$env:COCO_DATA_WIPE_TEST_ISOLATED = '1'
+$env:TEST_DATABASE_URL = 'postgres://coco:test@127.0.0.1:55432/data_wipe_test'
+$env:TEST_REDIS_URL = 'redis://127.0.0.1:56379/12'
+cargo test --offline --locked --manifest-path server/Cargo.toml --test data_wipe_test -j 1 -- --test-threads=1
+```
+
+Recreate that database before repeating a failed run. APNs payload/header coverage
+is a provider-free library test (`session_check_is_a_content_free_background_hint_even_with_alerts_denied`).
+
 ## Server security batch 3a
 
 `server_security_batch3_test` requires a **fresh disposable** database named
@@ -113,7 +173,7 @@ capacity. `-j 4` still controls build parallelism. This loop discovers every nor
 suite and stops on failure:
 
 ```powershell
-$special = @('self_hosting_test','auto_delete_test','blocked_users_test','chat_archive_test',
+$special = @('b033_login_privacy_test','b033_admin_privacy_test','self_hosting_test','auto_delete_test','blocked_users_test','chat_archive_test',
     'direct_transfers_test','history_backups_test','resource_bounds_test')
 try {
     Get-ChildItem server/tests/*_test.rs | Where-Object BaseName -notin $special | ForEach-Object {
@@ -138,6 +198,41 @@ The two ringing suites are separate binaries because their kill switch is cached
 per process. Push tests use fixture providers; the live OAuth suite skips by default.
 
 ## Suites with additional isolation requirements
+
+`b033_login_privacy_test` and `b033_admin_privacy_test` run sequentially against
+the isolated public-identity fixture `coco_login2_review_test`, with
+`COCO_LOGIN2_TEST_ISOLATED=1` and Redis database 11. They use
+the real router and a loopback WebSocket listener, disables push, and never loads
+dotenv or calls object storage or LiveKit. The conference approval case inserts
+an open fixture room and admitted members directly, then exercises real HTTP
+approval, directory and detail routes. The administration case fixtures an
+unlocked session and still exercises the real administrator extractor.
+
+After creating the disposable database, run from the repository root:
+
+```powershell
+$env:CARGO_TARGET_DIR = 'D:/cargo-target-b033f'
+$env:COCO_LOGIN2_TEST_ISOLATED = '1'
+$env:TEST_DATABASE_URL = 'postgres://coco:test@127.0.0.1:55432/coco_login2_review_test'
+$env:TEST_REDIS_URL = 'redis://127.0.0.1:56379/11'
+cargo test --offline --locked --manifest-path server/Cargo.toml --test b033_login_privacy_test --test b033_admin_privacy_test -j 2 -- --test-threads=1
+```
+
+The original six regressions cover public username/number compatibility in chats,
+contacts, blocks and call history; private-login enumeration retirement and
+exact public lookup; requester and participant conference payloads; profile
+moderation fallback; real WebSocket message, call and presence frames; and the
+unchanged private login in each account's own `/users/me`. B-033 worktree
+compilation is permitted only with at least 3 GB free RAM; otherwise the lead
+builds and runs the suite. No Docker-backed suite was run during implementation.
+
+The 19-Nov follow-up adds private-login change/conflict limits, registration
+installation/IP/global sliding conflict budgets, concurrent reservation/refund,
+durable invite lockout and private-only profile-version/event isolation.
+`b033_admin_privacy_test` seeds historical moderated names and proves migration
+0091's scoped/idempotent repair, snapshot/audit cleanup, public-only raw admin
+responses for owner/moderator sessions, public search and number/UUID deletion.
+The migration test runs its seeded repair inside a rolled-back transaction.
 
 Use the same Cargo command as above, replacing the suite name and setting the
 following variables first. Create the named databases with `psql`, for example

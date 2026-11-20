@@ -1,7 +1,7 @@
 //! Foreground presence is independent of transport/push liveness.
-use axum::{extract::{Query, State}, Json};
+use axum::{extract::State, Json};
 use chrono::{DateTime, Utc};
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 use std::collections::HashMap;
 use uuid::Uuid;
 use crate::net::ClientIp;
@@ -53,46 +53,6 @@ async fn snapshot_inner(state: &AppState, viewer: Uuid, device: Option<Uuid>, id
     Ok(items)
 }
 
-#[derive(Deserialize)]
-pub struct DirectoryQuery { #[serde(default)] q: String, limit: Option<i64>, offset: Option<i64> }
-#[derive(sqlx::FromRow)]
-struct DirectoryRow {
-    id: Uuid, username: String, display_name: String, bio: Option<String>, avatar_url: Option<String>,
-    avatar_key: Option<String>, profile_version: i64, avatar_version: i64, last_seen_at: Option<DateTime<Utc>>,
-    online_visible: bool, last_seen_visible: bool,
-}
-
-/// Shorter queries do not search the whole server: they list the
-/// requester's own direct contacts (an empty query lists all of them) plus
-/// an exact @handle match.
-pub const DIRECTORY_MIN_QUERY_CHARS: usize = 3;
-/// Deepest page start; together with the page size this bounds how many
-/// accounts one query can enumerate.
-pub const DIRECTORY_MAX_OFFSET: i64 = 200;
-
-/// Which accounts a directory query may return.
-#[derive(Debug, PartialEq, Eq)]
-enum DirectoryScope { Server, Contacts }
-
-fn directory_scope(q: &str) -> DirectoryScope {
-    if q.chars().count() >= DIRECTORY_MIN_QUERY_CHARS { DirectoryScope::Server } else { DirectoryScope::Contacts }
-}
-
-/// Next page start, or none once the next page would begin past the cap.
-fn directory_next_offset(more: bool, offset: i64, limit: i64) -> Option<i64> {
-    let next = offset + limit;
-    (more && next <= DIRECTORY_MAX_OFFSET).then_some(next)
-}
-
-/// Presence in directory rows: direct contacts per the owner's privacy
-/// settings (including the always/never lists); anyone else only while the
-/// owner's setting for that field is "everyone" (no stored row keeps the
-/// default "everyone") and the requester is not on the owner's never list.
-const DIRECTORY_PRESENCE: &str = "\
-    CASE WHEN contact.is_direct THEN user_presence_visible(u.id,$1,'online') \
-         ELSE COALESCE((SELECT p.online_visibility='everyone' AND NOT ($1=ANY(p.never_allow)) FROM user_privacy p WHERE p.user_id=u.id),true) END AS online_visible,\
-    CASE WHEN contact.is_direct THEN user_presence_visible(u.id,$1,'last_seen') \
-         ELSE COALESCE((SELECT p.last_seen_visibility='everyone' AND NOT ($1=ANY(p.never_allow)) FROM user_privacy p WHERE p.user_id=u.id),true) END AS last_seen_visible";
 #[derive(Serialize)]
 pub struct DirectoryUser {
     #[serde(flatten)] user: PublicUser,
@@ -102,8 +62,9 @@ pub struct DirectoryUser {
 #[derive(Serialize)]
 pub struct DirectoryResponse { items: Vec<DirectoryUser>, next_offset: Option<i64> }
 
-pub async fn directory(State(state): State<AppState>, ClientIp(addr): ClientIp, auth: AuthUser,
-    Query(query): Query<DirectoryQuery>) -> Result<Json<DirectoryResponse>, AppError> {
+/// Legacy directory clients receive an empty page. Discovery now uses exact
+/// public identity lookup; contacts and presence subscriptions are separate APIs.
+pub async fn directory(State(state): State<AppState>, ClientIp(addr): ClientIp, auth: AuthUser) -> Result<Json<DirectoryResponse>, AppError> {
     rate_limit::enforce(&state, "directory:ip", addr, 300, 60).await?;
     rate_limit::enforce(
         &state,
@@ -112,36 +73,7 @@ pub async fn directory(State(state): State<AppState>, ClientIp(addr): ClientIp, 
         120,
         60,
     ).await?;
-    let q = query.q.trim().trim_start_matches('@');
-    if q.chars().count() > 256 { return Err(AppError::Validation("Search query is too long.".into())); }
-    let escaped = q.replace('\\', "\\\\").replace('%', "\\%").replace('_', "\\_");
-    let pattern = format!("%{escaped}%");
-    let limit = query.limit.unwrap_or(30).clamp(1, 50);
-    let offset = query.offset.unwrap_or(0).max(0);
-    if offset > DIRECTORY_MAX_OFFSET {
-        return Ok(Json(DirectoryResponse { items: Vec::new(), next_offset: None }));
-    }
-    let server_wide = directory_scope(q) == DirectoryScope::Server;
-    let rows: Vec<DirectoryRow> = sqlx::query_as(&format!("SELECT u.id,u.username,u.display_name,u.bio,u.avatar_url,u.avatar_key,u.profile_version,u.avatar_version,u.last_seen_at,{DIRECTORY_PRESENCE} \
-        FROM users u CROSS JOIN LATERAL (SELECT EXISTS(SELECT 1 FROM chats c WHERE c.type='direct' AND c.user_a_id=LEAST($1,u.id) AND c.user_b_id=GREATEST($1,u.id)) AS is_direct) contact \
-        WHERE u.id<>$1 AND {ALLOWED} AND NOT user_device_blocked($5,u.id) \
-        AND ((($6 OR contact.is_direct) AND (u.username_normalized ILIKE $2 ESCAPE '\\' OR u.display_name ILIKE $2 ESCAPE '\\')) OR u.username_normalized=lower($7)) \
-        ORDER BY u.username_normalized,u.id LIMIT $3 OFFSET $4"))
-        .bind(auth.user_id).bind(pattern).bind(limit + 1).bind(offset).bind(auth.device_id).bind(server_wide).bind(q)
-        .fetch_all(&state.db).await?;
-    let more = rows.len() > limit as usize;
-    let mut items = Vec::new();
-    let statuses = state.ws_registry.foreground_batch(&rows.iter().map(|r| r.id).collect::<Vec<_>>()).await;
-    for row in rows.into_iter().take(limit as usize) {
-        let (online, confirmed) = statuses.get(&row.id).copied().unwrap_or((false, None));
-        items.push(DirectoryUser { online: row.online_visible && online,
-            last_seen_at: if row.last_seen_visible { row.last_seen_at.max(confirmed) } else { None }, user: PublicUser {
-                new_account: None,
-            id: row.id, username: row.username, display_name: row.display_name, bio: row.bio, avatar_url: row.avatar_url,
-            profile_version: row.profile_version, avatar_version: row.avatar_version, has_avatar: row.avatar_key.is_some(),
-        }});
-    }
-    Ok(Json(DirectoryResponse { items, next_offset: directory_next_offset(more, offset, limit) }))
+    Ok(Json(DirectoryResponse { items: Vec::new(), next_offset: None }))
 }
 
 #[cfg(test)]
@@ -168,29 +100,6 @@ mod lease_tests {
         assert!(matches!(current, ClientMessage::PresenceSubscribe { lease_ms: Some(60_000), .. }));
         assert!(LEGACY_VALID_FOR_MS <= 5_000, "pre-17-Nov clients cap leases at 5 s");
         assert!(PRESENCE_REFRESH.as_millis() * 2 <= VALID_FOR_MS as u128, "refresh well inside the lease");
-    }
-}
-
-#[cfg(test)]
-mod directory_tests {
-    use super::*;
-
-    #[test]
-    fn short_queries_stay_within_contacts() {
-        assert_eq!(directory_scope(""), DirectoryScope::Contacts);
-        assert_eq!(directory_scope("a"), DirectoryScope::Contacts);
-        assert_eq!(directory_scope("ab"), DirectoryScope::Contacts);
-        assert_eq!(directory_scope("абв"), DirectoryScope::Server);
-        assert_eq!(directory_scope("abc"), DirectoryScope::Server);
-    }
-
-    #[test]
-    fn pagination_stops_at_the_offset_cap() {
-        assert_eq!(directory_next_offset(true, 0, 30), Some(30));
-        assert_eq!(directory_next_offset(false, 0, 30), None);
-        assert_eq!(directory_next_offset(true, 150, 50), Some(200));
-        assert_eq!(directory_next_offset(true, 180, 30), None);
-        assert_eq!(directory_next_offset(true, 200, 50), None);
     }
 }
 

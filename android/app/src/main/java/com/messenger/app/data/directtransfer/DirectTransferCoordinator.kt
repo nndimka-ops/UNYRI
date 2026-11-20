@@ -52,7 +52,9 @@ class DirectTransferCoordinator internal constructor(
     private val api: DirectTransferApi,
     private val enqueueOffer: suspend (String, DirectFileOffer, Int) -> Unit,
     private val resolveRecipient: suspend (String) -> String,
-    private val stunUrls: suspend () -> List<String>,
+    private val iceServers: suspend () -> List<com.messenger.app.data.api.IceServerDto>,
+    private val peerToPeer: () -> com.messenger.app.data.call.CallPeerToPeer = { com.messenger.app.data.call.CallPeerToPeer.CONTACTS },
+    private val isContact: (String) -> Boolean = { false },
     private val canStream: () -> Boolean = { true },
     private val background: DirectTransferBackgroundController? = null,
     private val onComposerConsumed: (String, String, Int) -> Unit = { _, _, _ -> },
@@ -611,7 +613,8 @@ class DirectTransferCoordinator internal constructor(
         if (!DirectManualRuntime.state(record).manualByteEligible) { wakeNow(id); return@action }
         val now = System.currentTimeMillis()
         if (capacityAfterRecovery(record, now) == null) { _errors.tryEmit("manual_sync_cooldown"); return@action }
-        mutate(id, epoch) { live -> (capacityAfterRecovery(live, now) ?: live).copy(connectionFailures = 0, nextAttemptAt = 0, requestRetryCount = 0, requestCreatedAt = 0, requestAcknowledgedAt = 0) }
+        mutate(id, epoch) { live -> (capacityAfterRecovery(live, now) ?: live).copy(connectionFailures = 0, nextAttemptAt = 0, requestRetryCount = 0, requestCreatedAt = 0, requestAcknowledgedAt = 0,
+            reason = if (live.reason in setOf("relay_unavailable", "peer_relay_unavailable")) null else live.reason) }
         if (restartFromZero) {
             require(record.role == "receiver" && record.reason in setOf("prefix_mismatch", "integrity_failed", "integrity_mismatch", "verification_failed"))
             stopTransferResources(id)
@@ -1029,7 +1032,7 @@ class DirectTransferCoordinator internal constructor(
         val control = DirectFileControl(transferId = id, chatId = record.chatId, offerClientMessageId = record.offer.offerClientMessageId,
             clientSignalId = signalId, senderUserId = currentUser() ?: throw CancellationException(), senderDeviceId = auth.currentDeviceId() ?: throw CancellationException(),
             recipientUserId = if (record.role == "sender") record.offer.recipientUserId else record.offer.senderUserId, recipientDeviceId = recipient,
-            offerNonce = record.offer.offerNonce, attemptId = attempt, type = type, sdp = sdp, offset = offset, prefixSha256 = prefix, reason = reason,
+            offerNonce = record.offer.offerNonce, attemptId = attempt, type = type, sdp = sdp, offset = offset, prefixSha256 = prefix, reason = DirectManualRuntime.reasonForPeer(reason),
             pauseRevision = snapshot?.pauseRevision, paused = snapshot?.paused, ackPauseRevision = snapshot?.ackPauseRevision,
             requestAck = if (type == "pause_state") manualRequestAck else null)
         control.validatedManualSnapshot()
@@ -1105,7 +1108,7 @@ class DirectTransferCoordinator internal constructor(
         Long.MAX_VALUE else now + DirectManualTiming.RESET_COOLDOWN_MILLIS
 
     private fun retiringAfterPeerPause(record: DirectTransferRecord, control: DirectFileControl, observedCapacity: Boolean): DirectTransferRecord =
-        record.copy(state = "paused", reason = if (DirectManualRuntime.safetyBlocked(record)) record.reason else control.reason, requestId = null,
+        record.copy(state = "paused", reason = if (DirectManualRuntime.safetyBlocked(record)) record.reason else DirectManualRuntime.reasonFromPeer(control.reason), requestId = null,
             queue = if (observedCapacity && record.queue?.lastCapacityHintId != control.clientSignalId)
                 record.queue?.copy(remoteCapacityBlocked = false, lastCapacityHintId = control.clientSignalId) else record.queue,
             pausedForLocalCall = record.pausedForLocalCall && !canStream())
@@ -1988,7 +1991,7 @@ class DirectTransferCoordinator internal constructor(
             }
         }
         if (record.role == "receiver" && record.consent && record.state in setOf("accepted", "paused") &&
-            record.reason !in setOf("prefix_mismatch", "integrity_failed", "disk_full", "source_missing", "security_error", "unsupported", "call_in_progress") &&
+            !DirectManualRuntime.safetyBlocked(record) && record.reason != "call_in_progress" &&
             record.requestId == null && manualRequestEligible(record) && canStream() && slotAvailable(record) && record.connectionFailures < 5 && record.requestRetryCount < DirectTransferTiming.MAX_REQUESTS && System.currentTimeMillis() >= record.nextAttemptAt) requestResume(id, epoch)
         if (record.role == "sender" && manualByteEligible(record) && record.consent && (record.reason == "reconnect_required" || record.reason == "call_in_progress" && canStream()) && record.peerDeviceId != null && !record.terminal) {
             queueControl(id, "pause", epoch, reason = "reconnect_required")
@@ -2186,7 +2189,9 @@ class DirectTransferCoordinator internal constructor(
                 val offset = requireNotNull(control.offset)
                 if (workLanes.runOutboundHash { storage.hash(source, offset, stillRequested) } != control.prefixSha256) throw DirectStorageError("prefix_mismatch")
                 stillRequested()
-                val urls = stunUrls().filter(DirectPeerPolicy::isStunUrl).distinct().take(8)
+                val servers = iceServers()
+                stillRequested()
+                val ice = transferIce(record, servers).requireAvailable()
                 stillRequested()
                 mutate(id, epoch) { live ->
                     if (live.requestId != control.attemptId || !manualPacketMayArm(live, control)) throw DirectOperationRetired()
@@ -2196,7 +2201,7 @@ class DirectTransferCoordinator internal constructor(
                 // Persist negotiation ownership before constructing even the transport's coroutine scope.
                 // A journal failure leaves no unattached transport for the preparation job to leak.
                 stillRequested()
-                val transport = WebRtcDirectPeerTransport(context, urls)
+                val transport = WebRtcDirectPeerTransport(context, ice)
                 try {
                     stillRequested(); setConnection(id, control.attemptId, transport, epoch)
                     val sdp = transport.createOffer()
@@ -2236,9 +2241,11 @@ class DirectTransferCoordinator internal constructor(
                 if (ownedActive(id)?.lease?.attemptId == control.attemptId) return@withLock
                 stopConnection(id)
                 if (!reserveSlot(id, control.attemptId)) throw DirectOperationRetired()
-                val urls = stunUrls().filter(DirectPeerPolicy::isStunUrl).distinct().take(8)
+                val servers = iceServers()
                 requireOperation(id, generation, epoch, expected = lease)
-                val transport = WebRtcDirectPeerTransport(context, urls)
+                val ice = transferIce(record, servers).requireAvailable()
+                requireOperation(id, generation, epoch, expected = lease)
+                val transport = WebRtcDirectPeerTransport(context, ice)
                 try {
                     setConnection(id, control.attemptId, transport, epoch)
                     val answer = transport.acceptOffer(requireNotNull(control.sdp))
@@ -2386,6 +2393,12 @@ class DirectTransferCoordinator internal constructor(
     private fun currentUser(): String? = (auth.authState.value as? AuthSessionState.LoggedIn)?.user?.id
     private fun storage(epoch: Int): DirectFileStorage { ensureEpoch(epoch); check(loadedEpoch == epoch); return requireNotNull(accountStorage) }
     private fun wakeNow(id: String) { pollWakeVersions.computeIfAbsent(id) { java.util.concurrent.atomic.AtomicLong() }.incrementAndGet(); pollRuntime.wake(id); wake.trySend(Unit) }
+    private suspend fun transferIce(record: DirectTransferRecord, servers: List<com.messenger.app.data.api.IceServerDto>): DirectPeerIceConfig = withContext(Dispatchers.Main.immediate) {
+        val peer = if (record.role == "sender") record.offer.recipientUserId else record.offer.senderUserId
+        DirectPeerIcePolicy.resolve(servers, peerToPeer(), isContact(peer),
+            com.messenger.app.BuildConfig.DEBUG, com.messenger.app.BuildConfig.FORCE_WEBRTC_RELAY)
+    }
+
     private fun errorReason(error: Exception): String = when (error) {
         is DirectStorageError -> error.reason
         is DirectTransferApiError -> if (error.status == 404) { if (serviceEpoch == auth.currentSessionEpoch()) "network_waiting" else "unsupported" }

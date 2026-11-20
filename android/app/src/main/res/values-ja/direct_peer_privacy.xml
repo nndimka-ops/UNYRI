@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_relay_unavailable">この相手への接続にはプライバシー設定により中継サーバーが必要ですが、このサーバーでは設定されていません。ファイル転送を接続できません。</string>
+</resources>

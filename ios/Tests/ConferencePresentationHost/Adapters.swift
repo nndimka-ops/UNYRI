@@ -9,7 +9,8 @@ enum AppConfig {
 }
 struct HostUser {
     let id: String; let displayName: String; let username: String
-    var visibleName: String { DisplayNameSanitizer.peer(displayName, username: username) }
+    var visibleName: String { DisplayNameSanitizer.peer(displayName) }
+    var publicIdentityLabel: String { PeerIdentityPolicy.label(publicUsername: nil, unyriNumber: nil) }
     let avatarUrl: String? = nil; let avatarVersion: Int64 = 0
 }
 struct ChatSummary: Identifiable {
@@ -24,6 +25,7 @@ struct ChatListResponse { let items: [ChatSummary]; let nextOffset: Int64? }
 // Presentation boundary only: no signed URLs, credentials, or network avatars.
 // The full app exercises the real UsersRepository in its focused native proof.
 @MainActor final class UsersRepository: ObservableObject {
+    let legacyIdentityServer = false
     var blockedAccountScope: String? { "presentation-fixture" }
     func cachedAvatarURL(id: String, avatarUrl: String?, avatarVersion: Int64) -> URL? { nil }
     func avatarURL(id: String, avatarUrl: String?, avatarVersion: Int64) async -> URL? { nil }

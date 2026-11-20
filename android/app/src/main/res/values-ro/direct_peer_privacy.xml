@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_relay_unavailable">Setarea de confidențialitate necesită un releu pentru această persoană, dar serverul nu are unul configurat. Transferul fișierului nu se poate conecta.</string>
+</resources>

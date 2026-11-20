@@ -66,6 +66,7 @@ fun CallHistoryScreen(
         AlertDialog(onDismissRequest = { permissionError = null }, text = { Text(stringResource(resource)) }, confirmButton = { TextButton(onClick = { permissionError = null }) { Text(stringResource(android.R.string.ok)) } })
     }
     val calls by app.callHistory.calls.collectAsState()
+    val legacyIdentity by app.identityRepository.legacy.collectAsState()
     // The account-scoped view model already holds the last chat snapshot.
     // Starting a cold Room flow with emptyList here flashes fallback call labels.
     val chats by chatSummaries.collectAsState()
@@ -141,23 +142,12 @@ fun CallHistoryScreen(
         })
     com.messenger.app.ui.theme.CocoScreenSurface(modifier.fillMaxSize(), color = colors.background) {
         // The last rows must clear the system navigation bar (they ran under it, 14 Nov).
-        val navigationBottom = androidx.compose.foundation.layout.WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
-        LazyColumn(state = historyListState, contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 16.dp + LocalGlassBottomInset.current + navigationBottom)) {
+        LazyColumn(state = historyListState, modifier = Modifier.fillMaxSize().navigationBarsPadding(), contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 16.dp + LocalGlassBottomInset.current)) {
             item {
-                if (selection.isEmpty()) com.messenger.app.ui.settings.AuxiliaryConnectionToolbar(menu = {
+                if (selection.isEmpty()) com.messenger.app.ui.components.CocoPageHeader(title = stringResource(R.string.nav_calls), start = {
                     IconButton(onClick = onOpenMenu) {
                         Icon(androidx.compose.material.icons.Icons.Filled.Menu, stringResource(R.string.navigation_menu), tint = colors.primaryText)
                     }
-                }, connection = {
-                    com.messenger.app.ui.components.ChatConnectionHeader(app.messageRepository, !loaded, error != null,
-                        onRetry = com.messenger.app.ui.settings.auxiliaryConnectionRetry(app.messageRepository) { scope.launch {
-                            try {
-                                val next = app.callHistory.refresh()
-                                if (!loaded) { cursor = next; loaded = true }
-                                error = null
-                            } catch (cancelled: CancellationException) { throw cancelled }
-                            catch (_: Exception) { error = context.getString(R.string.calls_refresh_error) }
-                        } }, contentReady = loaded || calls.isNotEmpty())
                 }) else {
                 com.messenger.app.ui.components.CocoPageHeader(
                     title = stringResource(R.string.calls_selected, selection.size),
@@ -184,7 +174,7 @@ fun CallHistoryScreen(
             items(calls, key = { it.id }) { call ->
                 val peer = if (call.callerUserId == owner) call.calleeUserId else call.callerUserId
                 val chat = chatsByPeer[peer]
-                val identity = com.messenger.app.data.call.callPeerIdentity(call, owner, chat?.otherUser)
+                val identity = com.messenger.app.data.call.callPeerIdentity(call, owner, chat?.otherUser, legacyIdentity)
                 Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
                 Box(Modifier.weight(1f)) {
                 Box(Modifier.fillMaxWidth().combinedClickable(enabled = !deleting, onLongClick = { menuId = call.id }, onClick = {

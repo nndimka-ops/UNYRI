@@ -86,6 +86,8 @@ pub enum ServerMessage {
     ChatManagementChanged,
     #[serde(rename = "chat.deleted")]
     ChatDeleted { chat_id: Uuid },
+    #[serde(rename = "user.deleted")]
+    UserDeleted { user_id: Uuid },
     #[serde(rename = "chat.draft")]
     ChatDraft { chat_id: Uuid, user_id: Uuid, device_id: Uuid, stream: Uuid, revision: u64, payload: String, envelope: DraftEnvelope },
     #[serde(rename = "chat.activity")]

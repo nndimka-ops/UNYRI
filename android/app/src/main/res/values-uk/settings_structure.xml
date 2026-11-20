@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_group_accounts">Облікові записи</string>
+    <string name="settings_account_current">Поточний обліковий запис</string>
+    <string name="settings_group_main">Основне</string>
+    <string name="settings_group_appearance">Оформлення</string>
+    <string name="settings_group_server">Сервер</string>
+    <string name="settings_group_help">Допомога</string>
+    <string name="settings_privacy_visibility">Видимість</string>
+    <string name="settings_privacy_protection">Захист</string>
+    <string name="settings_privacy_diagnostics">Діагностика</string>
+    <string name="settings_recovery_key">Ключ відновлення</string>
+    <string name="settings_about_project">Про проєкт</string>
+    <string name="settings_performance_diagnostics">Діагностика продуктивності</string>
+    <string name="settings_home_connection_detail">Пам’ять, автозавантаження та кеш</string>
+    <string name="settings_home_sign_out">Вийти</string>
+</resources>

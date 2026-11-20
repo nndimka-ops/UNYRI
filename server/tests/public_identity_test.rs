@@ -537,7 +537,9 @@ async fn numbers_are_unique_immutable_and_optional_owner_fields_are_compatible()
     .await;
     assert_eq!(status, StatusCode::OK);
     assert_eq!(found["unyri_number"], one["unyri_number"]);
-    assert!(found.get("username").is_none());
+    assert_eq!(found["username"], name);
+    assert_eq!(found["public_username"], name);
+    assert!(!found.to_string().contains(&a.login));
     let (status, patched) =
         call(&app, &a, "PATCH", "/users/me", Some(json!({"bio":"hello"}))).await;
     assert_eq!(status, StatusCode::OK);
@@ -874,7 +876,9 @@ async fn owner_origin_and_overridden_quotas_are_local_to_each_server_configurati
     .await;
     assert_eq!(status, StatusCode::OK);
     assert!(profile.get("public_origin").is_none());
-    assert!(profile.get("username").is_none());
+    assert_eq!(profile["username"], "");
+    assert!(profile["public_username"].is_null());
+    assert!(!profile.to_string().contains(&actor.login));
     let shared_ip = ip();
     let payload = json!({"expected_revision":0,"public_username":"support"});
     // Actor's no-op above was write 1; one failed claim exhausts its custom 2.
@@ -935,7 +939,7 @@ async fn owner_origin_and_overridden_quotas_are_local_to_each_server_configurati
 }
 
 #[tokio::test]
-async fn everyone_contacts_and_nobody_apply_to_number_handle_and_uuid_without_login_search_regression(
+async fn everyone_contacts_and_nobody_apply_to_public_identity_without_legacy_search_bypass(
 ) {
     let state = spawn_state().await;
     let app = messenger_server::app(state.clone());
@@ -1020,8 +1024,8 @@ async fn everyone_contacts_and_nobody_apply_to_number_handle_and_uuid_without_lo
     )
     .await;
     assert_eq!(status, StatusCode::OK);
-    assert_eq!(old["items"][0]["username"], a.login);
-    assert!(old["items"][0].get("unyri_number").is_none());
+    assert_eq!(old, json!({"items":[],"next_offset":null}));
+    assert!(!old.to_string().contains(&a.login));
 }
 
 #[tokio::test]

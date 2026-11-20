@@ -89,6 +89,52 @@ func person(_ id: String, _ name: String, username: String? = nil) -> PublicUser
         let anna = person("a1", "Anna"), boris = person("b2", "boris"), own = person("owner", "Me")
         let zed = person("z9", "Zed"), anna2 = person("a0", "Anna", username: "anna_k")
 
+        // Cold session: no Contacts/search/profile view creates or loads the book.
+        do {
+            let service = Service(); service.rows = [anna]
+            let store = ContactsStore(service: service)
+            store.startSession()
+            store.markStale() // Replace the queued startup before it can enter reload.
+            await waitFor("queued startup replaced by sync") { store.phase == .loaded }
+            check(service.reads == 1 && store.isKnownPeerContact(anna.id),
+                  "a cancelled queued startup cannot consume the replacement load")
+            store.stopSession()
+        }
+        do {
+            let service = Service(); service.rows = [anna]
+            let gate = Gate(); service.readGate = gate
+            let store = ContactsStore(service: service)
+            check(!store.isKnownPeerContact(anna.id), "cold membership is unknown and must use relay")
+            store.startSession()
+            await waitFor("session contact bootstrap") { gate.entered }
+            check(!store.isKnownPeerContact(anna.id), "an unfinished book cannot admit direct ICE")
+            store.startSession()
+            gate.open()
+            await waitFor("session membership ready") { store.phase == .loaded }
+            check(store.isKnownPeerContact(anna.id.uppercased()), "saved contact is admitted without opening a screen")
+            check(service.reads == 1, "session startup is cached per account scope")
+            service.rows = [boris]
+            store.markStale()
+            await waitFor("offscreen sync refresh") { store.isKnownPeerContact(boris.id) }
+            check(!store.isKnownPeerContact(anna.id), "offscreen sync removal changes admission")
+            let otherService = Service(); otherService.blockedAccountScope = "other-account"
+            let other = ContactsStore(service: otherService)
+            check(!other.isKnownPeerContact(boris.id), "another account cannot borrow cached membership")
+            store.stopSession()
+            check(!store.isKnownPeerContact(boris.id), "retiring a session clears admission")
+        }
+        do {
+            let service = Service(); service.rows = [anna]
+            let gate = Gate(); service.readGate = gate
+            let store = ContactsStore(service: service); store.startSession()
+            await waitFor("old account bootstrap") { gate.entered }
+            service.blockedAccountScope = "replacement-session"
+            gate.open()
+            await waitFor("retired bootstrap discarded") { store.phase == .idle }
+            check(!store.isKnownPeerContact(anna.id), "late cold-start response cannot cross account scope")
+            store.stopSession()
+        }
+
         do {
             let service = Service(); service.rows = [zed, anna, boris, anna, own]
             let store = ContactsStore(service: service)
@@ -100,9 +146,12 @@ func person(_ id: String, _ name: String, username: String? = nil) -> PublicUser
             check(service.reads == 1, "a fresh list is not fetched again")
         }
         do {
-            let service = Service(); service.rows = [anna, anna2]
+            // B-033: the tie-break is the public @username, never the private login.
+            var first = anna; first.publicUsername = "anna_a"
+            var second = anna2; second.publicUsername = "anna_k"
+            let service = Service(); service.rows = [second, first]
             let store = ContactsStore(service: service); await store.reload()
-            check(store.entries.map(\.id) == ["a1", "a0"], "equal names order by username")
+            check(store.entries.map(\.id) == ["a1", "a0"], "equal names order by public username")
         }
         do {
             let service = Service()
@@ -257,14 +306,18 @@ func person(_ id: String, _ name: String, username: String? = nil) -> PublicUser
         }
         do {
             // Filtering uses keys folded once, off the main thread.
-            let zoe = person("o5", "Zoë Ångström", username: "zoe_a")
+            var zoe = person("o5", "Zoë Ångström", username: "private_credential")
+            zoe.publicUsername = "zoe_a"
+            zoe.unyriNumber = "123456789"
             let service = Service(); service.rows = [anna, boris, zoe]
             let store = ContactsStore(service: service)
             store.listAppeared(); await store.ensureLoaded()
             check(await store.matching("").map(\.id) == ["a1", "b2", "o5"], "an empty query lists everyone")
             check(await store.matching("ZOE").map(\.id) == ["o5"], "case and diacritics are ignored")
             check(await store.matching("angst").map(\.id) == ["o5"], "a name fragment matches")
-            check(await store.matching("zoe_").map(\.id) == ["o5"], "the username matches")
+            check(await store.matching("zoe_").map(\.id) == ["o5"], "the public username matches")
+            check(await store.matching("123456789").map(\.id) == ["o5"], "the public number matches")
+            check(await store.matching("private_credential").isEmpty, "the private login is excluded")
             check(await store.matching("nobody").isEmpty, "no match is empty")
             check(await store.set(person("c3", "Céline"), contact: true), "add to a loaded list")
             check(await store.matching("celine").map(\.id) == ["c3"], "an added row is searchable at once")

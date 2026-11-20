@@ -99,7 +99,10 @@ async fn populate_history_peers(state: &AppState, owner: Uuid, device: Uuid, cal
     ids.sort(); ids.dedup();
     if ids.is_empty() { return Ok(()); }
     let profiles: Vec<crate::users::models::PublicUser> = sqlx::query_as(
-        "SELECT id,username,display_name,bio,avatar_url,profile_version,avatar_version,(avatar_key IS NOT NULL) AS has_avatar FROM users WHERE id=ANY($1) AND deleted_at IS NULL AND NOT user_device_blocked($2,id)")
+        "SELECT u.id,COALESCE(i.public_username,'') AS username,i.public_username,i.unyri_number::text, \
+         u.display_name,u.bio,u.avatar_url,u.profile_version,u.avatar_version,(u.avatar_key IS NOT NULL) AS has_avatar \
+         FROM users u JOIN user_identities i ON i.user_id=u.id \
+         WHERE u.id=ANY($1) AND u.deleted_at IS NULL AND NOT user_device_blocked($2,u.id)")
         .bind(ids).bind(device).fetch_all(&state.db).await?;
     let profiles: std::collections::HashMap<_,_> = profiles.into_iter().map(|profile| (profile.id,profile)).collect();
     for call in calls {

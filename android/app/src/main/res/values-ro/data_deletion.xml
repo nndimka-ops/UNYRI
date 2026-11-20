@@ -1,0 +1,10 @@
+<resources>
+    <string name="auth_account_deleted">Cont șters</string>
+    <string name="auth_account_suspended">Cont blocat de administratorul serverului</string>
+    <string name="auth_session_ended">Sesiune încheiată</string>
+    <string name="privacy_prevent_screenshots">Interzice capturile de ecran</string>
+    <string name="admin_delete_account_forever">Șterge contul definitiv</string>
+    <string name="admin_delete_account_detail">Șterge contul și mesajele sale de pe server și telefoane.</string>
+    <string name="admin_delete_account_number">Introdu numărul public pentru confirmare</string>
+    <string name="deleted_account">Cont șters</string>
+</resources>

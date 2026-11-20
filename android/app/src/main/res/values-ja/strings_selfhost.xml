@@ -22,7 +22,7 @@
     <string name="sh_uses">使用回数</string>
     <string name="sh_days">有効期間（日）</string>
     <string name="sh_invite_bounds">使用回数1～10,000回、有効期間1～365日。</string>
-    <string name="sh_create_invite">招待を作成</string>
+    <string name="sh_create_invite">コードを作成</string>
     <string name="sh_active">有効</string>
     <string name="sh_revoked">取り消し済み</string>
     <string name="sh_expired">期限切れ</string>
@@ -30,15 +30,15 @@
     <string name="sh_unknown">不明</string>
     <string name="sh_expiry">有効期限</string>
     <string name="sh_creator">作成者</string>
-    <string name="sh_revoke">招待を取り消す</string>
+    <string name="sh_revoke">無効にする</string>
     <string name="sh_revoke_confirm">この招待を取り消しますか？新規登録には使えなくなります。</string>
     <string name="sh_more">ほかの招待</string>
     <string name="sh_self_check">サーバーを確認</string>
     <string name="sh_code_once">今すぐ保存または共有してください。コードは一度だけ表示されます。</string>
-    <string name="sh_copy_code">コードをコピー</string>
+    <string name="sh_copy_code">コピー</string>
     <string name="sh_share_code">コードを共有</string>
     <string name="sh_copy_link">リンクをコピー</string>
-    <string name="sh_share_link">リンクを共有</string>
+    <string name="sh_share_link">共有</string>
     <string name="sh_yes">はい</string>
     <string name="sh_no">いいえ</string>
     <string name="sh_ready">準備完了</string>
@@ -54,7 +54,7 @@
     <string name="sh_fix_storage">インストーラーでファイル保存先とアップロード権限を確認してください。</string>
     <string name="sh_fix_disk">1 GB以上の空きを確保し、整理前にバックアップしてください。</string>
     <string name="sh_fix_version">互換性のあるサーバー版を使い、更新の完了を待ってください。</string>
-    <string name="sh_guide">1. 常時稼働するPCに Docker と UNYRI を入れます。2. ドメインまたは DDNS を選びます。3. PCのアドレスを固定し HTTPS と通話ポートを転送します。CGNAT なら VPS またはトンネルを使います。4. HTTPS アドレスを確認するか招待 QR をスキャンします。5. ログイン後、プロフィールでインストールコードを使って所有者になり、管理者アクセスを保護します。6. 管理 → 自分のサーバー → サーバーを確認。モバイルデータから動作確認し、更新前にバックアップします。プッシュ通知には配信元が必要です。</string>
+    <string name="sh_guide">1. 常時稼働するPCに Docker と UNYRI を入れます。2. ドメインまたは DDNS を選びます。3. PCのアドレスを固定し HTTPS と通話ポートを転送します。CGNAT なら VPS またはトンネルを使います。4. HTTPS アドレスを確認するか招待 QR をスキャンします。5. ログイン後、プロフィールでインストールコードを使って所有者になり、管理者アクセスを保護します。6. 管理 → 登録と招待 → サーバーを確認。モバイルデータから動作確認し、更新前にバックアップします。プッシュ通知には配信元が必要です。</string>
     <string name="sh_check_setup">所有権の取得が可能</string>
     <string name="sh_check_url">公開アドレス</string>
     <string name="sh_check_url_config">公開アドレス設定済み</string>
@@ -88,4 +88,7 @@
     <string name="sh_compatibility">アプリのバージョンが互換</string>
     <string name="sh_socket">現在の WebSocket が接続済み</string>
     <string name="sh_scan_owner_code">オーナーコードをスキャン</string>
+    <string name="sh_registration_invites">登録と招待</string>
+    <string name="sh_mode_owner_only">登録方法を変更できるのは所有者のみです。</string>
+    <string name="sh_saved_codes_hint">コードは作成時にのみ表示されます。この画面を離れる前に、新しいコードを保存または共有してください。</string>
 </resources>

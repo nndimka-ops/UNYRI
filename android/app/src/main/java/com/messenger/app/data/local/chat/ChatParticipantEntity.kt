@@ -14,4 +14,6 @@ data class ChatParticipantEntity(
     val avatarUrl: String?,
     @androidx.room.ColumnInfo(defaultValue = "0") val avatarVersion: Long = 0,
     @androidx.room.ColumnInfo(defaultValue = "0") val hasAvatar: Boolean = false,
+    val publicNumber: String? = null,
+    val publicUsername: String? = null,
 )

@@ -1,0 +1,10 @@
+<resources>
+    <string name="auth_account_deleted">Hesap silindi</string>
+    <string name="auth_account_suspended">Hesap sunucu yöneticisi tarafından engellendi</string>
+    <string name="auth_session_ended">Oturum sona erdi</string>
+    <string name="privacy_prevent_screenshots">Ekran görüntülerini engelle</string>
+    <string name="admin_delete_account_forever">Hesabı kalıcı olarak sil</string>
+    <string name="admin_delete_account_detail">Hesabı ve mesajlarını sunucudan ve telefonlardan siler.</string>
+    <string name="admin_delete_account_number">Onaylamak için genel numarayı girin</string>
+    <string name="deleted_account">Silinmiş hesap</string>
+</resources>

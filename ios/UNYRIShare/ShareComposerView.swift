@@ -271,7 +271,7 @@ final class ShareComposerModel: ObservableObject {
                     var kind = ShareItemClassification.kind(selection, filename: name)
                     let bytes = try ShareContainer.regularSize(url)
                     if kind == .image, bytes > 25 * 1024 * 1024,
-                       let image = CGImageSourceCreateWithURL(url as CFURL, [kCGImageSourceShouldCache: false] as CFDictionary) {
+                       let image = PeerImagePolicy.source(url: url) {
                         let imageType = CGImageSourceGetType(image).map { $0 as String } ?? ""
                         if imageType == UTType.gif.identifier || imageType == UTType.webP.identifier || CGImageSourceGetCount(image) > 1 { kind = .file }
                     }
@@ -380,7 +380,7 @@ final class ShareComposerModel: ObservableObject {
         providerProgress = nil; loadingProvider = false; providerFraction = nil
     }
     nonisolated private static func preview(_ url: URL, kind: ShareJob.Kind) -> UIImage? {
-        if kind == .image, let source = CGImageSourceCreateWithURL(url as CFURL, [kCGImageSourceShouldCache: false] as CFDictionary),
+        if kind == .image, let source = PeerImagePolicy.source(url: url),
            let pixels = CGImageSourceCreateThumbnailAtIndex(source, 0, [kCGImageSourceCreateThumbnailFromImageAlways: true,
             kCGImageSourceCreateThumbnailWithTransform: true, kCGImageSourceThumbnailMaxPixelSize: 160] as CFDictionary) { return UIImage(cgImage: pixels) }
         if kind == .video {
@@ -459,7 +459,7 @@ struct ShareComposerView: View {
                     previews
                     if model.stale { Text(model.text("The chat list may be out of date. Open UNYRI to refresh it.")).font(.footnote).padding(.horizontal, 16) }
                     if let error = model.routeError { Text(model.text(error)).font(.footnote).foregroundStyle(.red).padding(.horizontal, 16) }
-                    if let error = model.error { Text(error).font(.footnote).padding(.horizontal, 16) }
+                    if let error = model.error { Text(verbatim: error).font(.footnote).padding(.horizontal, 16) }
                     if model.state == .sending {
                         ProgressView(value: Double(model.stagedCount), total: Double(model.itemCount))
                             .padding(.horizontal, 20).accessibilityLabel(model.text("Preparing share…"))
@@ -596,7 +596,7 @@ private struct ShareTargetAvatar: View {
             .task(id: url) {
                 guard let url else { image = nil; return }
                 // Snapshot JPEGs are <=120px; no original is ever decoded here.
-                let loaded = await Task.detached(priority: .utility) { UIImage(contentsOfFile: url.path) }.value
+                let loaded = await Task.detached(priority: .utility) { PeerImagePolicy.image(path: url.path) }.value
                 if !Task.isCancelled { image = loaded }
             }
     }

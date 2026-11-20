@@ -25,7 +25,10 @@ final class AuthRepository: ObservableObject {
             }
             #endif
             if let user = currentUser {
-                needsRegistrationRecovery = UserDefaults.standard.bool(forKey: signupRecoveryKey(user.id))
+                // B-049 (owner 19 Nov): sign-up has no recovery gate; the key is created when wanted in
+                // Settings -> «Восстановление аккаунта». Clear a flag an older build left behind.
+                UserDefaults.standard.removeObject(forKey: signupRecoveryKey(user.id))
+                needsRegistrationRecovery = false
                 // The retained sign-up password belongs to one account; never carry it across.
                 if signupPasswordOwner != user.id { signupPassword = nil; signupPasswordOwner = nil }
             } else { needsRegistrationRecovery = false; signupPassword = nil; signupPasswordOwner = nil }
@@ -106,6 +109,7 @@ final class AuthRepository: ObservableObject {
         }
     }
     #endif
+    @Published private(set) var sessionEndMessage: String?
     @Published private(set) var needsHistoryChoice = false
     @Published private(set) var needsRegistrationRecovery = false
     private var signupPassword: String?
@@ -139,6 +143,37 @@ final class AuthRepository: ObservableObject {
     @Published private(set) var installationProtectionIssue: String?
     private var historyContextLoading = false
 
+    #if os(iOS)
+
+
+    /// Runs after live I/O is drained and before any session store is erased,
+    /// including a launch-time 401 before AccountServices was ever initialized.
+    private static func preserveIdentityPins(origin: String, storageOrigin: String, userID: String, installationID: String, keychain: SignalKeychainStore = SignalKeychainStore()) throws {
+        let security = LocalSecurityDecisions.account(origin: origin, userID: userID)
+        let owner = SignalNamespace.make(userId: userID, installationId: installationID)
+        let selected = try SignalNamespaceBinding.resolve(origin: storageOrigin, owner: owner,
+            legacyPrefix: "server." + Data(storageOrigin.utf8).base64EncodedString() + ".",
+            read: { try keychain.data(forKey: $0) }, write: { try keychain.setData($1, forKey: $0) })
+        let namespaces = [selected]
+        let saved = try security.pins()
+        let keys = try keychain.keys()
+        for namespace in namespaces {
+            let prefix = namespace + ":trusted_identity."
+            for key in keys where key.hasPrefix(prefix) {
+                guard let address = SignalStorageKeys.decodeAddress(String(key.dropFirst(prefix.count))),
+                      !saved.contains(where: { $0.userId == address.name && $0.signalDeviceId == address.deviceId }),
+                      let identity = try keychain.data(forKey: key) else { continue }
+                let verified = try keychain.contains(namespace + ":verified_identity." + SignalStorageKeys.encodeAddress(name: address.name, deviceId: address.deviceId))
+                try security.pin(user: address.name, signal: address.deviceId, identity: identity, verified: verified)
+            }
+        }
+    }
+    @Published var localSecurityWarning: String?
+    var revokeOwnDeviceLocally: ((String) async throws -> Void)?
+    var localSecurity: LocalSecurityDecisions? {
+        currentUser.map { LocalSecurityDecisions.account(origin: api.client.baseURL.absoluteString, userID: $0.id) }
+    }
+    #endif
     private var api: AuthAPI
     #if os(iOS)
     var authenticatedServerURL: URL { api.client.baseURL }
@@ -173,6 +208,31 @@ final class AuthRepository: ObservableObject {
     private let prepareServerForBootstrap: (() throws -> URL)?
     var prepareForCacheErasure: (() async -> Void)?
     private var localCleanupTask: Task<Void, Never>?
+    #if os(iOS)
+    private var eraseSecurityAfterSignOut = false
+    private var securityCleanup: (origin: String, storageOrigin: String, user: String, installation: String)?
+    private struct DeletedSecurityCleanup: Codable {
+        let origin: String
+        let user: String
+    }
+    private static func deletedSecurityCleanupFile() throws -> URL {
+        guard let support = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { throw CocoaError(.fileNoSuchFile) }
+        return support.appendingPathComponent("COCOInstallation", isDirectory: true).appendingPathComponent("deleted-security-cleanup.json")
+    }
+    private static func queueDeletedSecurityCleanup(origin: String, user: String) throws {
+        let file = try deletedSecurityCleanupFile()
+        try FileManager.default.createDirectory(at: file.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try JSONEncoder().encode(DeletedSecurityCleanup(origin: origin, user: user)).write(to: file, options: .atomic)
+        try LocalSecurityDecisions.account(origin: origin, userID: user).erase()
+    }
+    private static func retryDeletedSecurityCleanup() throws {
+        let file = try deletedSecurityCleanupFile()
+        guard FileManager.default.fileExists(atPath: file.path) else { return }
+        let scope = try JSONDecoder().decode(DeletedSecurityCleanup.self, from: Data(contentsOf: file))
+        try LocalSecurityDecisions.account(origin: scope.origin, userID: scope.user).erase()
+        try FileManager.default.removeItem(at: file)
+    }
+    #endif
     private let installationProofs: InstallationProofCoordinator?
     private var installationBindingTask: Task<Void, Never>?
     private var boundInstallationSession: String?
@@ -260,6 +320,10 @@ final class AuthRepository: ObservableObject {
         // An account switch restores its target itself, after its writers drained.
         guard !accountTransition else { return }
         do {
+            #if os(iOS)
+            // Retry before any old Signal writer can recreate account trust.
+            try Self.retryDeletedSecurityCleanup()
+            #endif
             // Every entry point, including background history work and unlock
             // retry, must establish the old account's origin before workspace
             // checks can retire it or any credential is sent to a server.
@@ -273,6 +337,10 @@ final class AuthRepository: ObservableObject {
         }
         catch { state = .sessionUnavailable; return }
         let restoredUser = store.refreshToken() == nil ? nil : store.currentUser()
+        #if canImport(UIKit)
+        do { try AccountSecretScope.freezeSavedAccounts(restoredOwner: restoredUser?.id) }
+        catch { state = .sessionUnavailable; return }
+        #endif
         // The installation marker survives logout/cache erasure but disappears on
         // app deletion. Legacy active installs migrate from their existing database.
         do {
@@ -293,7 +361,7 @@ final class AuthRepository: ObservableObject {
                 // does not. Reset this separate non-account proof before marking
                 // the new installation, or fail closed if Keychain is locked.
                 try installationProofs?.resetForFreshInstallation()
-                try store.retireSessionForMissingWorkspace()
+                try store.retireSessionForMissingWorkspace(origin: api.client.baseURL)
                 try recordLocalInstallation()
                 await finishLocalSession()
                 return
@@ -330,16 +398,21 @@ final class AuthRepository: ObservableObject {
         let generation = beginSessionChange()
         let proof = try await prepareInstallationProof(generation: generation)
         guard generation == sessionGeneration else { throw CancellationError() }
-        let response = try await api.login(LoginRequest(
+        let request = LoginRequest(
             username: username,
             password: password,
-            installationId: device.installationId,
+            installationId: try device.installationId,
             devicePlatform: device.platform,
             deviceName: device.deviceName,
             osVersion: device.osVersion,
             appVersion: device.appVersion,
             installationCredential: proof
-        ))
+        )
+        #if os(iOS)
+        let response = try await store.loginWithDeviceKey(request, api: api)
+        #else
+        let response = try await api.login(request)
+        #endif
         guard generation == sessionGeneration else { throw CancellationError() }
         try admitAddedAccount(response)
         try persist(response)
@@ -411,22 +484,26 @@ final class AuthRepository: ObservableObject {
         let generation = beginSessionChange()
         let proof = try await prepareInstallationProof(generation: generation)
         guard generation == sessionGeneration else { throw CancellationError() }
-        let response = try await api.register(RegisterRequest(
+        let request = RegisterRequest(
             inviteCode: inviteCode,
             username: username,
             password: password,
             displayName: displayName,
-            installationId: device.installationId,
+            installationId: try device.installationId,
             devicePlatform: device.platform,
             deviceName: device.deviceName,
             osVersion: device.osVersion,
             appVersion: device.appVersion,
             installationCredential: proof
-        ))
+        )
+        #if os(iOS)
+        let response = try await store.registerWithDeviceKey(request, api: api)
+        #else
+        let response = try await api.register(request)
+        #endif
         guard generation == sessionGeneration else { throw CancellationError() }
         try admitAddedAccount(response)
-        UserDefaults.standard.set(true, forKey: signupRecoveryKey(response.user.id))
-        signupPassword = password; signupPasswordOwner = response.user.id
+        // No recovery step after sign-up (B-049): nothing is flagged and the password is not kept.
         try persist(response)
         if proof != nil { boundInstallationSession = installationSessionKey }
     }
@@ -532,7 +609,7 @@ final class AuthRepository: ObservableObject {
             do {
                 try await APIClient(baseURL: item.origin, preventRedirects: true).revokePendingSession(item.refreshToken)
                 try store.finishPendingLogout(item.id)
-            } catch APIError.server(let code, _) where code == "invalid_refresh_token" {
+            } catch APIError.server(let code, _) where ["invalid_refresh_token", "session_revoked", "account_deleted", "account_suspended"].contains(code) {
                 try? store.finishPendingLogout(item.id)
             } catch { /* Keep the original endpoint and credential for the next foreground retry. */ }
         }
@@ -549,6 +626,9 @@ final class AuthRepository: ObservableObject {
         guard generation == sessionGeneration else { throw CancellationError() }
         try await request(token, password)
         guard generation == sessionGeneration else { throw CancellationError() }
+        #if os(iOS)
+        eraseSecurityAfterSignOut = true
+        #endif
         _ = beginSessionChange()
         await finishLocalSession()
     }
@@ -570,8 +650,9 @@ final class AuthRepository: ObservableObject {
                 let tokens = try await store.readTokensAsync()
                 try Task.checkCancellation()
                 guard generation == sessionGeneration else { throw CancellationError() }
+                let refreshMargin = SessionStore.refreshMargin(accessToken: tokens.access)
                 if let token = tokens.access, let expiresAt = tokens.expiresAt,
-                   Date() < expiresAt.addingTimeInterval(-30) {
+                   Date() < expiresAt.addingTimeInterval(-refreshMargin) {
                     accounts?.bearerIssued(token, origin: origin)
                     return token
                 }
@@ -580,7 +661,12 @@ final class AuthRepository: ObservableObject {
                 UnyriDiag.auth(.refreshStart)
                 let refreshed: RefreshResponse
                 do {
-                    refreshed = try await api.refresh(RefreshRequest(refreshToken: refreshToken, requestId: try store.refreshRequestId()))
+                    let request = RefreshRequest(refreshToken: refreshToken, requestId: try store.refreshRequestId())
+                    #if os(iOS)
+                    refreshed = try await store.refreshWithDeviceKey(request, api: api)
+                    #else
+                    refreshed = try await api.refresh(request)
+                    #endif
                 } catch {
                     UnyriDiag.auth(.refreshFailed, code: UnyriDiag.code(for: error),
                                    durationMs: (ProcessInfo.processInfo.systemUptime - refreshStarted) * 1000)
@@ -596,6 +682,7 @@ final class AuthRepository: ObservableObject {
             } catch {
                 if generation == sessionGeneration, let apiError = error as? APIError,
                    Self.isTerminalAuthFailure(apiError) {
+                    recordTerminalFailure(apiError)
                     UnyriDiag.auth(.terminalLogout, code: UnyriDiag.code(for: apiError))
                     #if os(iOS)
                     invalidateShareInboxAccount()
@@ -613,8 +700,36 @@ final class AuthRepository: ObservableObject {
         return try await task.value
     }
 
+    #if os(iOS)
+    /// A legacy access token must enroll its key through refresh before its first
+    /// signed upgrade. The signature is produced off MainActor by Security.
+    func webSocketCredentials() async throws -> (token: String, proof: String) {
+        let generation = sessionGeneration
+        do {
+            var token = try await currentAccessToken()
+            guard generation == sessionGeneration else { throw CancellationError() }
+            if try store.deviceBindingSessionID() != DeviceBoundProof.accessSession(token) {
+                store.expireAccessToken(matching: token)
+                token = try await currentAccessToken()
+            }
+            guard generation == sessionGeneration else { throw CancellationError() }
+            let proof = try await store.webSocketDeviceProof(token: token)
+            guard generation == sessionGeneration else { throw CancellationError() }
+            return (token, proof)
+        } catch let error as APIError {
+            await handleAuthenticatedError(error, generation: generation)
+            throw error
+        }
+    }
+
+    func correctDeviceProofClock(serverTime: Int64) {
+        store.deviceBindingClock.correct(serverTime: serverTime)
+    }
+    #endif
+
     private func beginSessionChange() -> UInt64 {
         #if os(iOS)
+        localSecurityWarning = nil; revokeOwnDeviceLocally = nil
         ownerSetupTask?.cancel(); ownerSetupTask = nil; ownerSetupRevision &+= 1; ownerSetupAvailable = false
         UnyriShareLifecycle.retire?()
         invalidateShareInboxAccount()
@@ -639,6 +754,7 @@ final class AuthRepository: ObservableObject {
     /// A late response from a discarded account must never log out its successor.
     func handleAuthenticatedError(_ error: APIError, generation: UInt64) async {
         guard generation == sessionGeneration, Self.isTerminalAuthFailure(error) else { return }
+        recordTerminalFailure(error)
         _ = beginSessionChange()
         await finishLocalSession()
     }
@@ -659,8 +775,25 @@ final class AuthRepository: ObservableObject {
         // this final comparison synchronous on MainActor: an awaited snapshot
         // could otherwise return S0 after refresh has already committed S1.
         guard store.accessToken() == requestToken else { return }
+        recordTerminalFailure(error)
         _ = beginSessionChange()
         await finishLocalSession()
+    }
+
+    private func recordTerminalFailure(_ error: APIError) {
+        guard case .server(let code, _) = error else { return }
+        sessionEndMessage = APIError.localizedServerMessage(code: code == "invalid_refresh_token" ? "session_revoked" : code, message: "Session ended")
+        #if os(iOS)
+        if code == "account_deleted" { eraseSecurityAfterSignOut = true }
+        #endif
+    }
+
+    /// A wake is only a hint. Only a terminal authenticated refresh erases data.
+    func checkSessionNow() async {
+        if case .restoring = state { await bootstrap() }
+        guard currentUser != nil else { return }
+        if let token = store.accessToken() { store.expireAccessToken(matching: token) }
+        _ = try? await currentAccessToken()
     }
 
     private func requireCacheCleanup() async throws {
@@ -674,6 +807,8 @@ final class AuthRepository: ObservableObject {
     }
 
     private func finishLocalSession() async {
+        do { try store.eraseDeviceBinding() }
+        catch { state = .cleanupFailed("Could not remove local account data. Retry cleanup before signing in."); return }
         // Multi-account: only this account's data and notifications go and the
         // next signed-in account becomes active. Nil host = historical path.
         let endingUser = currentUser?.id ?? store.currentUser()?.id
@@ -681,6 +816,21 @@ final class AuthRepository: ObservableObject {
         let diagnosticOwner = endingUser.map { authenticatedServerURL.absoluteString + "|" + $0 }
         #endif
         let ending = accounts?.endingAccount(user: endingUser)
+        #if os(iOS)
+        if securityCleanup == nil, let endingUser {
+            do {
+                securityCleanup = (api.client.baseURL.absoluteString, AppConfig.storageOrigin, endingUser, try store.durableInstallationId())
+            } catch { state = .sessionUnavailable; return }
+        }
+        #endif
+        #if os(iOS)
+        // Preserve legacy trust before removing the only durable account/user
+        // metadata. A process death before the later drain/export must not lose it.
+        if let scope = securityCleanup, !eraseSecurityAfterSignOut {
+            do { try Self.preserveIdentityPins(origin: scope.origin, storageOrigin: scope.storageOrigin, userID: scope.user, installationID: scope.installation) }
+            catch { state = .cleanupFailed("Could not remove local account data. Retry cleanup before signing in."); return }
+        }
+        #endif
         // Another signed-in account stays: what it owns is not erased here.
         let lastAccount = accounts?.sharesInstallation != true
         #if os(iOS) && canImport(UserNotifications)
@@ -704,6 +854,12 @@ final class AuthRepository: ObservableObject {
         }
         #endif
         if let task = localCleanupTask { await task.value; return }
+        #if os(iOS)
+        if eraseSecurityAfterSignOut, let scope = securityCleanup {
+            do { try Self.queueDeletedSecurityCleanup(origin: scope.origin, user: scope.user) }
+            catch { state = .cleanupFailed("Could not remove local account data. Retry cleanup before signing in."); return }
+        }
+        #endif
         // Credentials disappear first. If the process dies during erasure,
         // bootstrap retries deletion before allowing another login.
         store.clearSession()
@@ -717,6 +873,10 @@ final class AuthRepository: ObservableObject {
             await prepare?()
             do {
                 #if os(iOS)
+                if let scope = securityCleanup {
+                    if eraseSecurityAfterSignOut { try LocalSecurityDecisions.account(origin: scope.origin, userID: scope.user).erase() }
+                    else { try Self.preserveIdentityPins(origin: scope.origin, storageOrigin: scope.storageOrigin, userID: scope.user, installationID: scope.installation) }
+                }
                 if let diagnosticOwner { await AutomaticDiagnosticReports.shared.eraseForLogout(owner: diagnosticOwner) }
                 await UnyriCrashDiagnostics.shared.eraseForLogout()
                 await PerformanceMonitor.shared.eraseForLogout()
@@ -727,6 +887,10 @@ final class AuthRepository: ObservableObject {
                     try await clearLocalData()
                 }
                 prepareForCacheErasure = nil
+                #if os(iOS)
+                if eraseSecurityAfterSignOut { try Self.retryDeletedSecurityCleanup() }
+                securityCleanup = nil; eraseSecurityAfterSignOut = false
+                #endif
                 // Also after the last account: sign-in must use the primary slot and its server.
                 if cleanupActivatedAccount { withholdCredentials = true }
                 followActiveAccountSlot()
@@ -776,6 +940,7 @@ final class AuthRepository: ObservableObject {
         needsHistoryChoice = store.needsHistoryChoice()
         historyContext = store.historyContext()
         historyBeforeSequence = store.historyBeforeSequence()
+        sessionEndMessage = nil
         state = .loggedIn(response.user)
     }
 
@@ -802,7 +967,7 @@ final class AuthRepository: ObservableObject {
     /// Only a definitive, terminal auth rejection clears the session.
     static func isTerminalAuthFailure(_ error: APIError) -> Bool {
         if case .server(let code, _) = error {
-            return code == "invalid_refresh_token" || code == "session_revoked"
+            return ["invalid_refresh_token", "session_revoked", "account_deleted", "account_suspended"].contains(code)
         }
         return false
     }

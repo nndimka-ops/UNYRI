@@ -87,6 +87,72 @@ class ContactsTransportTest {
         flowOf(rows)
     } as ChatRepository
 
+    @Test fun `cold session loads membership without opening Contacts and caches it per account`() = runTest {
+        val auth = FakeAuthRepository(self)
+        val remote = Remote()
+        val gate = CompletableDeferred<Unit>()
+        remote.page = { gate.await(); ContactsPageDto(listOf(ContactEntryDto(PublicUserDto(peer, "anna", "Anna"), "manual", ""))) }
+        val repo = ContactsRepository(remote, auth, chats(emptyList()), backgroundScope, { "https://isolated.invalid" },
+            kotlinx.coroutines.test.UnconfinedTestDispatcher(testScheduler))
+        assertFalse(repo.isKnownCallContact(peer))
+        val startup = async { repo.sessionChanged() }; runCurrent()
+        assertEquals(1, remote.pageReads)
+        assertFalse(repo.isKnownCallContact(peer)) // Unknown while the cold request waits.
+        gate.complete(Unit); startup.await()
+        assertTrue(repo.isKnownCallContact(peer))
+        repo.sessionChanged()
+        assertEquals(1, remote.pageReads) // Same account reuses its fresh book.
+        auth.switchSession(peer)
+        assertFalse(repo.isKnownCallContact(peer)) // Previous account cannot authorize direct ICE.
+        remote.page = { ContactsPageDto(emptyList()) }
+        repo.sessionChanged()
+        assertFalse(repo.isKnownCallContact(peer))
+        assertEquals(2, remote.pageReads)
+    }
+
+    @Test fun `session book refreshes on unnamed sync hint without a list viewer`() = runTest {
+        val remote = Remote().apply { page = {
+            ContactsPageDto(listOf(ContactEntryDto(PublicUserDto(peer, "anna", "Anna"), "manual", "")))
+        } }
+        val repo = ContactsRepository(remote, FakeAuthRepository(self), chats(emptyList()), backgroundScope,
+            { "https://isolated.invalid" }, kotlinx.coroutines.test.UnconfinedTestDispatcher(testScheduler))
+        repo.sessionChanged()
+        assertTrue(repo.isKnownCallContact(peer))
+        remote.page = { ContactsPageDto(emptyList()) }
+        repo.changed(null, null); runCurrent()
+        assertFalse(repo.isKnownCallContact(peer))
+        assertEquals(2, remote.pageReads)
+    }
+
+    @Test fun `failed cold load and legacy fallback remain relay only`() = runTest {
+        val remote = Remote().apply { page = { throw AuthApiException.Api("offline", "retry", 503) } }
+        val repo = ContactsRepository(remote, FakeAuthRepository(self),
+            chats(listOf(ChatSummary("chat", "direct", PublicUser(peer, "anna", "Anna", null), "", null))), backgroundScope,
+            { "https://isolated.invalid" }, kotlinx.coroutines.test.UnconfinedTestDispatcher(testScheduler))
+        repo.sessionChanged()
+        assertFalse(repo.isKnownCallContact(peer))
+        remote.page = { throw AuthApiException.Api("not_found", "old endpoint", 404) }
+        repo.sessionChanged()
+        assertFalse(repo.isKnownCallContact(peer))
+    }
+
+    @Test fun `real recovery refresh removes a contact from a fresh book and joins concurrent refreshes`() = runTest {
+        val remote = Remote().apply { page = {
+            ContactsPageDto(listOf(ContactEntryDto(PublicUserDto(peer, "anna", "Anna"), "manual", "")))
+        } }
+        val repo = ContactsRepository(remote, FakeAuthRepository(self), chats(emptyList()), backgroundScope,
+            { "https://isolated.invalid" }, kotlinx.coroutines.test.UnconfinedTestDispatcher(testScheduler))
+        repo.sessionChanged()
+        assertTrue(repo.isKnownCallContact(peer))
+        val gate = CompletableDeferred<Unit>()
+        remote.page = { gate.await(); ContactsPageDto(emptyList()) }
+        repo.refreshForSession(); repo.refreshForSession(); runCurrent()
+        assertEquals(2, remote.pageReads) // The second refresh joins the in-flight request.
+        gate.complete(Unit); runCurrent()
+        assertFalse(repo.isKnownCallContact(peer))
+        assertEquals(2, remote.pageReads)
+    }
+
     @Test fun `only 404 falls back to visible cached chat partners and hides duplicates self and blocks`() = runTest {
         val user = PublicUser(peer, "anna", "Anna", null)
         val blocked = PublicUser("33333333-3333-4333-8333-333333333333", "boris", "Boris", null)

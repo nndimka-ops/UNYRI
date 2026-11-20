@@ -14,6 +14,7 @@ import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.sync.withLock
 
 @Serializable
 data class SavedLocalAccount(
@@ -33,6 +34,7 @@ class AccountWorkspaces internal constructor(
     private val preferences: SharedPreferences,
     val avatarStore: com.messenger.app.data.avatar.AccountAvatarStore,
     private val context: Context? = null,
+    private val eraseInactiveForTest: (suspend (SavedLocalAccount, String?) -> Unit)? = null,
 ) {
     constructor(context: Context) : this(
         context.getSharedPreferences("local-accounts", Context.MODE_PRIVATE),
@@ -45,7 +47,7 @@ class AccountWorkspaces internal constructor(
         ?.takeIf(AccountWorkspaceLayout::validKey) ?: AccountWorkspaceLayout.LEGACY
 
     /** Storage delegate, also used by Activities. Never attach it as an Application's base. */
-    fun wrap(base: Context): Context = AccountWorkspaceContext(base, activeKey)
+    fun wrap(base: Context): Context = AccountWorkspaceContext(base, activeKey, storageOnly = false)
 
     @Synchronized
     fun accounts(): List<SavedLocalAccount> = runCatching {
@@ -79,6 +81,7 @@ class AccountWorkspaces internal constructor(
     @Synchronized
     fun select(key: String) {
         require(key == activeKey || accounts().any { it.key == key })
+        check(preferences.getString("erasing_$key", null) == null) { "Account removal is pending" }
         check(preferences.edit().putString("selected", key).commit())
     }
 
@@ -101,14 +104,53 @@ class AccountWorkspaces internal constructor(
         if (previous != next) check(preferences.edit().putString("accounts", Json.encodeToString(ListSerializer(SavedLocalAccount.serializer()), next)).commit())
     }
 
-    /** Forget an inactive sign-in; its workspace cannot be selected through the registry again. */
-    @Synchronized
-    fun removeInactive(key: String) {
+    /** Revocation is durably queued before any credentials disappear, including while offline. */
+    suspend fun removeInactive(key: String, terminalReason: String? = null) {
         require(key != activeKey && AccountWorkspaceLayout.validKey(key))
+        val account = accounts().firstOrNull { it.key == key } ?: return
+        synchronized(this) {
+            check(preferences.getString("selected", null) != key) { "Account switch is pending" }
+            check(preferences.edit().putString("erasing_$key", terminalReason ?: "logout").commit())
+        }
+        if (eraseInactiveForTest != null) eraseInactiveForTest.invoke(account, terminalReason)
+        else eraseInactiveStorage(account, terminalReason)
         avatarStore.purge(key)
         val next = accounts().filterNot { it.key == key }
-        check(preferences.edit().putString("accounts", Json.encodeToString(ListSerializer(SavedLocalAccount.serializer()), next)).commit())
+        check(preferences.edit().putString("accounts", Json.encodeToString(ListSerializer(SavedLocalAccount.serializer()), next)).remove("erasing_$key").commit())
         revision.value++
+    }
+
+    suspend fun resumePendingErasure() {
+        for (account in accounts().filter { it.key != activeKey }) {
+            val reason = preferences.getString("erasing_${account.key}", null) ?: continue
+            try { removeInactive(account.key, reason.takeUnless { it == "logout" }) }
+            catch (cancel: kotlinx.coroutines.CancellationException) { throw cancel }
+            catch (_: Exception) { /* The durable marker keeps the workspace unavailable until retry. */ }
+        }
+    }
+
+    private suspend fun eraseInactiveStorage(account: SavedLocalAccount, terminalReason: String?) {
+        val key = account.key
+        val base = requireNotNull(context)
+        val scoped = AccountWorkspaceContext(base, key)
+        val tokens = com.messenger.app.data.secure.SecureTokenStore(scoped)
+        tokens.refreshMutex.withLock {
+            PendingLogout.migrateLegacy(scoped)
+            InactiveAccountErasure.run(terminalReason, tokens.refreshToken(),
+                queueLogout = { PendingLogout.save(base, account.origin, it) }, eraseSecurity = {
+                val origin = com.messenger.app.data.api.ServerEndpoint.storageIdentity(account.origin,
+                    scoped.getSharedPreferences("server-endpoint", Context.MODE_PRIVATE).getString("tls_identity_origin", null))
+                val owner = tokens.userId()?.let { com.messenger.app.data.secure.LocalSecurityDecisions.owner(origin, it) }
+                if (owner != null) com.messenger.app.data.secure.DurableIdentityPins(
+                    com.messenger.app.data.signal.AndroidKeystoreSignalStore(scoped, "local_security_decisions"), { owner }).eraseAccount(owner)
+            }, eraseWorkspace = {
+            // Commit encrypted-value erasure before deleting keysets and files.
+            tokens.clearSession()
+            com.messenger.app.data.signal.AndroidKeystoreSignalStore(scoped).eraseAllAccountSecrets()
+            com.messenger.app.data.history.AndroidHistorySecretStorage(scoped).eraseAllAccountSecrets()
+            WorkspaceWipe.erase(base, key)
+            })
+        }
     }
 }
 
@@ -129,11 +171,16 @@ internal object AccountWorkspaceLayout {
     fun directory(key: String, root: File): File = if (key == LEGACY) root else File(root, "accounts/$key")
 }
 
-internal class AccountWorkspaceContext(base: Context, private val key: String) : ContextWrapper(base) {
+internal class AccountWorkspaceContext(base: Context, private val key: String, private val storageOnly: Boolean = true) : ContextWrapper(base) {
     init { require(AccountWorkspaceLayout.validKey(key)) }
 
     override fun getSharedPreferences(name: String, mode: Int): SharedPreferences =
         baseContext.getSharedPreferences(AccountWorkspaceLayout.preferenceName(key, name), mode)
+
+    // AndroidX storage captures applicationContext. Activities must still expose the actual app.
+    override fun getApplicationContext(): Context = if (storageOnly) this else baseContext.applicationContext
+    override fun deleteSharedPreferences(name: String): Boolean =
+        baseContext.deleteSharedPreferences(AccountWorkspaceLayout.preferenceName(key, name))
 
     override fun getDatabasePath(name: String): File =
         baseContext.getDatabasePath(AccountWorkspaceLayout.databaseName(key, name))
@@ -155,6 +202,22 @@ internal class AccountWorkspaceContext(base: Context, private val key: String) :
     }
 
     companion object {
+        fun keyOf(context: Context): String {
+            var current = context
+            while (current is ContextWrapper) {
+                if (current is AccountWorkspaceContext) return current.key
+                // MessengerApp delegates storage to its captured workspace.
+                if (current is com.messenger.app.MessengerApp) return current.accountWorkspaces.activeKey
+                current = current.baseContext
+            }
+            return AccountWorkspaceLayout.LEGACY
+        }
+
+        fun installationContext(context: Context): Context {
+            var current = context
+            while (current is ContextWrapper) current = current.baseContext
+            return current
+        }
         /** Installation protection belongs to the device, across all accounts. */
         fun installationDirectory(context: Context): File {
             var base = context

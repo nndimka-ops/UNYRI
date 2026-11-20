@@ -17,8 +17,14 @@ final class CallController: ObservableObject {
     }
     var currentSessionGeneration: UInt64 { api.currentSessionGeneration }
     var incomingCallAllowed: (String) -> Bool = { _ in true }
-    /// Whether this account has a direct chat with the user ("My contacts" for
-    /// peer-to-peer calls). Unknown means no: the safe side is the relay.
+    var incomingPeerAllowed: (String) -> Bool = { _ in true }
+    func localBlockChanged() {
+        guard case .incomingRinging(let call) = state, !incomingPeerAllowed(call.remoteUserId) else { return }
+        apply(.remoteEnded(callId: call.callId, reason: "rejected"), endedHere: true)
+        Task { _ = try? await api.perform(.reject, callId: UUID(uuidString: call.callId) ?? UUID()) }
+    }
+    /// Whether this account has saved the user in Contacts. A direct chat is
+    /// not membership. Unknown means no: the safe side is the relay.
     var isContact: (String) -> Bool = { _ in false }
     @Published private(set) var state: CallUiState = .idle {
         didSet {
@@ -498,6 +504,7 @@ final class CallController: ObservableObject {
     func acceptIncoming(until deadline: Date? = nil) async {
         func requireAnswer() throws {
             try requireSession()
+            if let peer = state.callInfo?.remoteUserId, !incomingPeerAllowed(peer) { throw CancellationError() }
             if let deadline, Date() >= deadline { throw CancellationError() }
         }
         guard !isShutDown, generation == apiGeneration, !Task.isCancelled,
@@ -574,6 +581,24 @@ final class CallController: ObservableObject {
         guard let call = state.callInfo, !state.isTerminal else { return }
         apply(.remoteEnded(callId: call.callId, reason: "hangup"), endedHere: true)
         Task { _ = try? await api.perform(.hangup, callId: UUID(uuidString: call.callId) ?? UUID()) }
+    }
+
+    /// B-059 (nuance role connectedswitch, 19 Nov): «Завершить и переключиться» ended the call here
+    /// and switched the account at once, so the fire-and-forget hangup above went out with the next
+    /// account's session (or not at all) and the peer saw «Ошибка» when the media timed out instead
+    /// of a normal end. Before an account switch, wait until the server took the hangup (bounded:
+    /// a dead network must not hold the switch for long).
+    func hangupDelivered(timeout: TimeInterval = 3) async {
+        guard let call = state.callInfo, !state.isTerminal else { return }
+        apply(.remoteEnded(callId: call.callId, reason: "hangup"), endedHere: true)
+        let id = UUID(uuidString: call.callId) ?? UUID()
+        let request = Task { _ = try? await api.perform(.hangup, callId: id) }
+        let deadline = Task {
+            try? await Task.sleep(nanoseconds: UInt64(max(0, timeout) * 1_000_000_000))
+            request.cancel()
+        }
+        _ = await request.value
+        deadline.cancel()
     }
 
     func failCall(callId: String) {
@@ -731,7 +756,7 @@ final class CallController: ObservableObject {
     func currentAudioRoute() -> AudioRoute { engine.currentAudioRoute() }
     func setAudioRoute(_ route: AudioRoute) { apply(.setAudioRoute(route)) }
     func toggleVideo() {
-        guard state.isInCallMedia, let c = audioControls, c.videoMode == .video else { return }
+        guard let c = audioControls, c.videoMode == .video else { return }
         if c.localVideoEnabled {
             apply(.setCameraEnabled(false))
             return
@@ -743,6 +768,12 @@ final class CallController: ObservableObject {
                 try self.requireSession()
                 guard let current = self.audioControls, current.videoMode == .video,
                       current.call.callId == c.call.callId, !current.localVideoEnabled else { return }
+                // Before media setup there is no peer connection to attach to.
+                // Initialization reads this choice after its asynchronous ICE fetch.
+                guard self.engineCallId == c.call.callId else {
+                    self.apply(.setCameraEnabled(true))
+                    return
+                }
                 guard self.engine.localVideoRunning()
                         || self.engine.startLocalVideo(capture: true, seedBitrate: self.bitrateSeed(.cameraStart)) else {
                     self.apply(.localVideoFailed)
@@ -845,6 +876,7 @@ final class CallController: ObservableObject {
                     (call.acceptedDeviceId != api.currentDeviceId ? .answeredElsewhere : .failed))
                 return false
             }
+            guard incomingPeerAllowed(call.callerUserId.uuidString.lowercased()) else { terminal(.failed); return false }
             if takeReject() {
                 _ = try? await api.perform(.reject, callId: callId)
                 return false
@@ -863,7 +895,7 @@ final class CallController: ObservableObject {
         switch event {
         case .ringing(let rawCallId, let callerUserId, let mediaKind):
             let callId = UUID(uuidString: rawCallId)?.uuidString.lowercased() ?? rawCallId
-            guard incomingCallAllowed(callId), !terminalCalls.isTerminal(callId), CallIncomingRecoveryPolicy.validIncomingIdentity(callId: callId, callerUserId: callerUserId, owner: api.ownerId) else { return }
+            guard incomingPeerAllowed(callerUserId), incomingCallAllowed(callId), !terminalCalls.isTerminal(callId), CallIncomingRecoveryPolicy.validIncomingIdentity(callId: callId, callerUserId: callerUserId, owner: api.ownerId) else { return }
             if externalMediaBusy() {
                 if let id = UUID(uuidString: callId) { Task { _ = try? await api.perform(.reject, callId: id) } }
                 return
@@ -1301,14 +1333,21 @@ final class CallController: ObservableObject {
                 try requireSession()
                 guard !Task.isCancelled, !isShutDown,
                       let callId, callId == reducerState.activeCallId else { return false }
+                let requiresRelay = relayOnly(for: callId)
+                let hasTurn = CallRelayFallbackPolicy.hasTurnServer(servers.servers.flatMap(\.urls))
+                guard CallRelayFallbackPolicy.canInitialize(relayOnly: requiresRelay, urls: servers.servers.flatMap(\.urls)) else {
+                    apply(.relayUnavailable(callId: callId))
+                    return false
+                }
                 let profile = currentMediaProfile
                 engine.initialize(iceServers: servers.servers, mediaKind: mediaKind, options: CallEngineOptions(
-                    relayOnly: relayOnly(for: callId), profile: profile,
-                    captureProfile: CallMediaLadder.captureProfile(saving: dataSaving)))
+                    relayOnly: requiresRelay, profile: profile,
+                    captureProfile: CallMediaLadder.captureProfile(saving: dataSaving),
+                    cameraEnabled: reducerState.audioControls?.localVideoEnabled ?? false))
                 engineCallId = callId
-                engineTurnKnown = CallRelayFallbackPolicy.hasTurnServer(servers.servers.flatMap(\.urls))
+                engineTurnKnown = hasTurn
                 // A relay-only call ("Peer-to-peer calls") has nothing to fall back to.
-                relayFallback = CallRelayFallbackPolicy(relayOnly: relayOnly(for: callId))
+                relayFallback = CallRelayFallbackPolicy(relayOnly: requiresRelay)
                 iceUp = false
                 if let fetchedAt, !servers.servers.isEmpty {
                     engineIce = (fetchedAt, CallIceCredentialPolicy.ttl(servers.ttlSeconds))
@@ -1323,7 +1362,7 @@ final class CallController: ObservableObject {
                 scheduleCredentialRefresh()
                 restoreAudioControls()
                 apply(.localCameraFacingChanged(engine.localCameraIsFrontFacing()))
-                if mediaKind == .video && !engine.localVideoRunning() {
+                if mediaKind == .video && reducerState.audioControls?.localVideoEnabled == true && !engine.localVideoRunning() {
                     apply(.localVideoFailed)
                 }
             } catch {

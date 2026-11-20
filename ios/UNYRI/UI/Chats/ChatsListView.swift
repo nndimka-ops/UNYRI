@@ -2,6 +2,8 @@ import SwiftUI
 
 @MainActor
 struct ChatsListView: View {
+    @Environment(\.accessibilityReduceTransparency) private var selectionBarReduceTransparency
+    @Environment(\.colorSchemeContrast) private var selectionBarContrast
     @Binding var showingArchive: Bool
     init(showingArchive: Binding<Bool> = .constant(false)) { _showingArchive = showingArchive }
     @State private var contactMenu: ContactMenuSnapshot?
@@ -34,12 +36,10 @@ struct ChatsListView: View {
     }
     /// A scanned profile QR (unyri://user/<username>): open or start that chat.
     private func openUserLink(_ name: String) async {
-        guard name.lowercased() != auth.currentUser?.username.lowercased() else { return }
+        guard let target = PublicIdentityPolicy.input(name.hasPrefix("@") ? name : "@" + name) else { userLinkError = true; return }
         do {
-            let found = try await usersRepository.search(query: name)
-            guard let user = found.items.first(where: { $0.username.lowercased() == name.lowercased() }) else {
-                userLinkError = true; return
-            }
+            let user = try await usersRepository.lookup(target).contact
+            guard user.id != auth.currentUser?.id else { return }
             let chat = try await chatsRepository.createOrOpenDirectChat(otherUserId: user.id)
             open(chat)
         } catch { userLinkError = true }
@@ -450,7 +450,7 @@ struct ChatsListView: View {
                 .alert("Could not update", isPresented: $showError) {
                     Button("Retry") { Task { await chatsRepository.replayPendingChatClears(); await load(reset: true) } }
                     Button("Cancel", role: .cancel) { }
-                } message: { Text(errorMessage ?? "") }
+                } message: { Text(verbatim: errorMessage ?? "") }
                 .onChange(of: chatsRepository.archiveReplayError) { message in
                     guard let message else { return }
                     errorMessage = message; showError = true
@@ -463,7 +463,7 @@ struct ChatsListView: View {
                 .navigationDestination(isPresented: $showingContacts) {
                     ContactsRoute(users: usersRepository, chats: chatsRepository, messages: messagesRepository,
                                   realtime: realtime, calls: callController,
-                                  displayName: auth.currentUser?.displayName ?? "UNYRI", username: auth.currentUser?.username ?? "")
+                                  displayName: auth.currentUser?.displayName ?? "UNYRI", username: usersRepository.ownIdentity?.publicUsername ?? "")
                         .equatable()
                 }
                 .navigationDestination(isPresented: $isShowingChat.transaction(openStyle == .zoom ? Transaction() : chatNavigationTransaction)) {
@@ -657,7 +657,7 @@ struct ChatsListView: View {
         case .pin: guard !pinBusy else { return }
         case .mute, .archive: guard !preferenceBusy else { return }
         case .delete: guard chat.chatType == "direct", !deletingChat else { return }
-        case .copy: guard let username = chat.otherUser?.username, !username.isEmpty else { return }
+        case .copy: guard let handle = chat.otherUser?.peerIdentityLabel(legacyServer: usersRepository.legacyIdentityServer), !handle.isEmpty else { return }
         case .open, .report, .block: guard !openingGate.isPending, !isShowingChat else { return }
         }
         // Plain menu buttons deliver feedback here only after accepting the
@@ -669,7 +669,7 @@ struct ChatsListView: View {
         case .pin: setPinned([chat.chatId], enabled: !pinned.contains(chat.chatId))
         case .mute: changeNotifications(chat)
         case .archive: changeArchive(chat)
-        case .copy: if let username = chat.otherUser?.username { UIPasteboard.general.string = "@" + username }
+        case .copy: UIPasteboard.general.string = chat.otherUser?.peerIdentityLabel(legacyServer: usersRepository.legacyIdentityServer)
         case .report: open(chat, safetyAction: "report")
         case .block: open(chat, safetyAction: "block")
         case .delete: deleteRequestId = UUID().uuidString; deleteOwner = snapshot.owner; deleteTarget = chat
@@ -698,7 +698,7 @@ struct ChatsListView: View {
     }
 
     private func contactMenuCard(_ chat: ChatSummary, snapshot: ContactMenuSnapshot) -> some View {
-        let title = chat.otherUser?.visibleName ?? chat.otherUser?.username ?? UnyriL10n.string("Chat")
+        let title = chat.otherUser?.visibleName ?? UnyriL10n.string("Chat")
         return VStack(spacing: 8) {
             Capsule().fill(UnyriColors.secondaryText.opacity(0.5)).frame(width: 34, height: 4).accessibilityHidden(true)
             HStack(spacing: 12) {
@@ -726,7 +726,7 @@ struct ChatsListView: View {
                         .disabled(preferenceBusy)
                 }
                 contactMenuDivider
-                if let username = chat.otherUser?.username, !username.isEmpty {
+                if let handle = chat.otherUser?.peerIdentityLabel(legacyServer: usersRepository.legacyIdentityServer), !handle.isEmpty {
                     contactMenuRow("Menu copy handle", icon: "doc.on.doc", tint: ChatControlPalette.blue) { performMenuAction(.copy, snapshot: snapshot) }
                 }
                 contactMenuRow("Menu report contact", icon: "flag", tint: ChatControlPalette.amber) { performMenuAction(.report, snapshot: snapshot) }
@@ -795,7 +795,9 @@ struct ChatsListView: View {
     }
 
     private var selectionActions: some View {
-        HStack(spacing: 8) {
+        let solid = selectionBarReduceTransparency || selectionBarContrast == .increased
+            || ProcessInfo.processInfo.isLowPowerModeEnabled
+        return HStack(spacing: 4) {
             selectionButton(selectedAllPinned ? "Unpin chats" : "Pin chats", icon: selectedAllPinned ? "pin.slash" : "pin", identifier: "chats-selection-pin") {
                 runSelectionAction(.pin(!selectedAllPinned))
             }
@@ -814,17 +816,25 @@ struct ChatsListView: View {
                 ])
                 UnyriHaptics.selection()
             }.disabled(selectionChats.contains { $0.chatType != "direct" })
-        }.padding(.horizontal, 16).padding(.top, 10).padding(.bottom, 8)
-            .background { Rectangle().fill(colorStyle.surface(ChatControlPalette.composer)).opacity(0.98) }
-            .overlay(alignment: .top) { Rectangle().fill(UnyriColors.outlineSubtle).frame(height: 0.5) }
+        }
+        .padding(.horizontal, 8).padding(.vertical, 6)
+        // B-045: a floating glass island with side margins, like the chat list's other glass
+        // surfaces, instead of a flat full-width strip that rows showed through and under.
+        .modifier(ChatSelectionBarGlass(solid: solid))
+        .shadow(color: .black.opacity(solid ? 0 : 0.28), radius: 18, y: 6)
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("chats-selection-bar")
+        .padding(.horizontal, 12).padding(.bottom, 6)
     }
 
     private func selectionButton(_ title: String, icon: String, identifier: String, destructive: Bool = false, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             VStack(spacing: 5) {
-                Image(systemName: icon).font(.system(size: 20, weight: .medium)).accessibilityHidden(true)
+                // One icon box for all four symbols, so the labels share a line (the archive
+                // box is shorter than the pin, bell and trash and lifted «В архив», B-045).
+                Image(systemName: icon).font(.system(size: 20, weight: .medium)).frame(height: 24).accessibilityHidden(true)
                 Text(LocalizedStringKey(title)).font(.caption).multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
-            }.frame(maxWidth: .infinity, minHeight: 48).padding(.vertical, 4).contentShape(Rectangle())
+            }.frame(maxWidth: .infinity, minHeight: 48, alignment: .top).padding(.vertical, 4).contentShape(Rectangle())
         }.buttonStyle(.plain).foregroundStyle(destructive ? UnyriColors.danger : UnyriColors.primaryText)
             .disabled(selection.isEmpty || batchBusy || pinBusy || preferenceBusy || deletingChat)
             .accessibilityIdentifier(identifier)
@@ -1478,7 +1488,7 @@ private struct ChatRow: View, Equatable {
 
     private var title: String {
         if chat.chatType == "saved" { return UnyriL10n.string("Saved Messages", comment: "") }
-        return chat.otherUser?.visibleName ?? chat.otherUser?.username ?? "Chat"
+        return chat.otherUser?.visibleName ?? "Chat"
     }
 
     private var avatarCacheKey: String {
@@ -2202,6 +2212,23 @@ private struct ChatSwipeTrayGlass<Content: View>: View {
             GlassEffectContainer(spacing: 16) { content() }
         } else {
             content()
+        }
+    }
+}
+
+/// The selection action island (B-045): Liquid Glass on iOS 26, material before, a solid
+/// fill under Reduce Transparency, Increase Contrast or Low Power — the swipe tray's rule.
+private struct ChatSelectionBarGlass: ViewModifier {
+    let solid: Bool
+    @ViewBuilder func body(content: Content) -> some View {
+        let shape = RoundedRectangle(cornerRadius: 26, style: .continuous)
+        if solid {
+            content.background(shape.fill(UnyriColors.glassPrimary))
+        } else if #available(iOS 26.0, *) {
+            content.glassEffect(.regular, in: shape)
+        } else {
+            content.background(shape.fill(.ultraThinMaterial)
+                .overlay(shape.strokeBorder(Color.white.opacity(0.10), lineWidth: 0.5)))
         }
     }
 }

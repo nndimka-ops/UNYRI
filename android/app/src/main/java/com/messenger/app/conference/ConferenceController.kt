@@ -426,7 +426,7 @@ class ConferenceController(
                         if (!currentRoom()) return@launch
                         if (revision != approvalRevision || _state.value.decidingJoinRequest != null) { delay(nextDelay); continue }
                         require(value.items.size <= 64 && value.items.all { it.conferenceId == current.roomId && it.status == "pending" })
-                        if (_state.value.joinRequests.map { listOf(it.requestId, it.status, it.displayName, it.username) } != value.items.map { listOf(it.requestId, it.status, it.displayName, it.username) })
+                        if (_state.value.joinRequests.map { listOf(it.requestId, it.status, it.displayName, it.username, it.publicUsername, it.publicNumber) } != value.items.map { listOf(it.requestId, it.status, it.displayName, it.username, it.publicUsername, it.publicNumber) })
                             _state.value = _state.value.copy(joinRequests = value.items)
                         nextDelay = 3_000L
                     } catch (cancelled: CancellationException) { if (cancelled !is TimeoutCancellationException) throw cancelled }

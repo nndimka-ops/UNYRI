@@ -7,10 +7,23 @@ enum HistoryAttachmentRestorer {
     static func resume(messages: MessageStore, attachments: AttachmentStore,
                        applyDeletedChat: (String) throws -> Void,
                        removeCachedFile: (String) throws -> Void,
+                       removeTranscript: (String) throws -> Void = { _ in },
                        assertCurrent: () throws -> Void) throws {
+        func removeUpload(_ id: String) throws {
+            let root = attachments.databaseDirectory.appendingPathComponent("attachments")
+            let encoded = Data(id.utf8).base64EncodedString().replacingOccurrences(of: "/", with: "_").replacingOccurrences(of: "+", with: "-").replacingOccurrences(of: "=", with: "")
+            try removeCachedFile(root.appendingPathComponent("upload-v2-" + encoded + ".enc").path)
+            if !id.isEmpty, id.utf8.count <= 128, id.utf8.allSatisfy({ (48...57).contains($0) || (65...90).contains($0) || (97...122).contains($0) || $0 == 45 || $0 == 95 }) {
+                try removeCachedFile(root.appendingPathComponent("upload-" + id + ".enc").path)
+            }
+        }
         for job in try messages.historyCleanupJobs() {
             try assertCurrent()
-            if let old = try attachments.attachment(byClientMessageId:job.client), let path = old.localPath { try removeCachedFile(path) }
+            if let old = try attachments.attachment(byClientMessageId:job.client) {
+                if let path = old.localPath { try removeCachedFile(path) }
+                try removeUpload(old.attachmentId)
+                try removeTranscript(old.attachmentId)
+            }
             try attachments.deleteRecords([job.client], chatId: job.chat)
             try messages.finishHistoryRestoreJob(chat:job.chat,name:"restore_cleanup:" + job.client,payload:job.payload)
             try attachments.reclaimConsumedFence(job.client, chatId: job.chat)
@@ -19,6 +32,8 @@ enum HistoryAttachmentRestorer {
             try assertCurrent()
             for row in try attachments.attachments(chatId:job.client) {
                 if let path = row.localPath { try removeCachedFile(path) }
+                try removeUpload(row.attachmentId)
+                try removeTranscript(row.attachmentId)
             }
             try applyDeletedChat(job.client)
             try attachments.deleteChat(job.client)

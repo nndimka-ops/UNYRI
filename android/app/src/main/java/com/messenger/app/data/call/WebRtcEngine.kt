@@ -27,6 +27,9 @@ interface WebRtcEngine {
     /** Synchronous, account-fenced Contacts membership for the next initialize. */
     fun setPeerContact(isContact: Boolean) {}
 
+    /** Read-only preflight before acquiring audio, camera or a native connection. */
+    fun relayUnavailable(iceServers: List<IceServerDto>, peerIsContact: Boolean): Boolean = false
+
     /** (Re)creates the underlying `PeerConnectionFactory`/`PeerConnection`
      *  for a fresh call - must be called exactly once per call, before any
      *  other method. */

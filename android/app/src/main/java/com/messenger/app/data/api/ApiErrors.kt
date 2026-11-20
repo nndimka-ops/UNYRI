@@ -11,7 +11,7 @@ internal fun parseApiException(json: Json, httpCode: Int, bodyString: String): A
         json.decodeFromString(ApiErrorDto.serializer(), bodyString)
     }.getOrNull()
     return if (parsed != null) {
-        AuthApiException.Api(parsed.error.code, parsed.error.message, httpCode)
+        AuthApiException.Api(parsed.error.code, parsed.error.message, httpCode, parsed.error.serverTime)
     } else if (httpCode in listOf(400, 404, 405, 410, 413, 415, 422)) {
         // A proxy may return HTML or an empty body for permanent request errors.
         AuthApiException.Api("http_error", "HTTP $httpCode", httpCode)

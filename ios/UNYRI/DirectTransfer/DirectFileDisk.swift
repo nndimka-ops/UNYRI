@@ -606,6 +606,15 @@ actor DirectFileDisk {
         try releaseAdmission(record.id)
     }
 
+    func eraseRemovedMessage(_ record: DirectFileRecord) async throws {
+        await suspend(record.id)
+        fileLeases[record.id] = UUID()
+        await bulk.cancelAndDrain(record.id)
+        inboundHashers[record.id] = nil
+        try await journal.eraseRemovedMessage(record.id)
+        ownedDirectories[record.id] = nil; createdDirectories.remove(record.id)
+    }
+
     func discardPreparedSource(id: String) async throws {
         fileLeases[id] = UUID()
         await bulk.cancelAndDrain(id)

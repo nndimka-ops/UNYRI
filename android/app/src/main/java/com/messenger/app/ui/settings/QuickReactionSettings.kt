@@ -3,6 +3,9 @@ package com.messenger.app.ui.settings
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.*
@@ -46,18 +49,22 @@ fun QuickReactionSettings() {
     val selected = rememberQuickReaction()
     val context = LocalContext.current
     val colors = com.messenger.app.ui.theme.LocalCocoColors.current
-    Column(Modifier.fillMaxWidth().padding(16.dp).selectableGroup()) {
-        Text(stringResource(R.string.quick_reaction), style = MaterialTheme.typography.titleMedium)
-        Text(stringResource(R.string.quick_reaction_hint), style = MaterialTheme.typography.bodySmall)
-        (QuickReactionPolicy.choices + "").forEach { emoji ->
-            Row(Modifier.fillMaxWidth().heightIn(min = 56.dp).selectable(
-                selected = selected == emoji, role = Role.RadioButton,
-                onClick = { context.getSharedPreferences("chat-interaction", Context.MODE_PRIVATE).edit().putString("quick-reaction", emoji).apply() }),
-                verticalAlignment = Alignment.CenterVertically) {
-                RadioButton(selected = selected == emoji, onClick = null,
-                    colors = RadioButtonDefaults.colors(selectedColor = colors.categoryMint))
-                Text(if (emoji.isEmpty()) stringResource(R.string.quick_reaction_off) else emoji, Modifier.padding(start = 12.dp))
+    Surface(Modifier.fillMaxWidth(), shape = RoundedCornerShape(24.dp), color = colors.surface) {
+        Column(Modifier.fillMaxWidth().padding(16.dp).selectableGroup(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(stringResource(R.string.quick_reaction), style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.quick_reaction_hint), style = MaterialTheme.typography.bodySmall, color = colors.secondaryText)
+            fun select(emoji: String) {
+                context.getSharedPreferences("chat-interaction", Context.MODE_PRIVATE).edit().putString("quick-reaction", emoji).apply()
             }
+            Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                QuickReactionPolicy.choices.forEach { emoji ->
+                    FilterChip(selected = selected == emoji, onClick = { select(emoji) },
+                        label = { Text(emoji) }, modifier = Modifier.heightIn(min = 48.dp),
+                        colors = FilterChipDefaults.filterChipColors(selectedContainerColor = colors.categoryMint.copy(alpha = .2f)))
+                }
+            }
+            FilterChip(selected = selected.isEmpty(), onClick = { select("") },
+                label = { Text(stringResource(R.string.quick_reaction_off)) }, modifier = Modifier.heightIn(min = 48.dp))
         }
     }
 }

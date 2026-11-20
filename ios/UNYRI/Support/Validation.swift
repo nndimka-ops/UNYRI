@@ -95,20 +95,54 @@ extension AppVersion {
 
     static let trustedUpdateHosts: Set<String> = ["apps.apple.com", "itunes.apple.com", "testflight.apple.com"]
 
-    /// Only Apple's store hosts: a hostile self-hosted server must not be able
-    /// to open a look-alike page from an "Update" button. Falls back to the
-    /// app's own Info.plist `UNYRI_UPDATE_URL`; nil means no button.
+    /// The publisher's bundled URL is the product pin, never server metadata.
+    /// A missing/invalid pin means no button; an unrelated server URL falls
+    /// back to that bundled destination. No production ID is guessed here.
     static func trustedUpdateURL(_ raw: String?) -> URL? {
-        trusted(raw) ?? trusted(Bundle.main.object(forInfoDictionaryKey: "UNYRI_UPDATE_URL") as? String)
+        trustedUpdateURL(raw, publisherURL: Bundle.main.object(forInfoDictionaryKey: "UNYRI_UPDATE_URL") as? String)
     }
 
-    private static func trusted(_ raw: String?) -> URL? {
+    static func trustedUpdateURL(_ raw: String?, publisherURL: String?) -> URL? {
+        guard let publisher = updateProduct(publisherURL) else { return nil }
+        if let candidate = updateProduct(raw), candidate.product == publisher.product { return candidate.url }
+        return publisher.url
+    }
+
+    private static func updateProduct(_ raw: String?) -> (product: String, url: URL)? {
         guard let raw = raw?.trimmingCharacters(in: .whitespacesAndNewlines), !raw.isEmpty, raw.utf8.count <= 512,
               let components = URLComponents(string: raw), components.scheme?.lowercased() == "https",
               let host = components.host?.lowercased(), trustedUpdateHosts.contains(host),
               components.user == nil, components.password == nil, components.port == nil,
+              components.query == nil, components.fragment == nil,
               let url = components.url else { return nil }
-        return url
+        // Exact path grammar: no percent-encoded separators, dot-segment
+        // normalization, trailing paths or query-driven navigation.
+        let path = components.percentEncodedPath
+        guard !path.contains("%"), !path.contains("\\") else { return nil }
+        var parts = path.split(separator: "/", omittingEmptySubsequences: false).map(String.init)
+        guard parts.first == "" else { return nil }
+        parts.removeFirst()
+        func asciiLetters(_ value: String) -> Bool {
+            !value.isEmpty && value.utf8.allSatisfy { (65...90).contains($0) || (97...122).contains($0) }
+        }
+        func asciiAlphanumeric(_ value: String) -> Bool {
+            !value.isEmpty && value.utf8.allSatisfy { (48...57).contains($0) || (65...90).contains($0) || (97...122).contains($0) }
+        }
+        if host == "testflight.apple.com" {
+            guard parts.count == 2, parts[0] == "join", parts[1].utf8.count == 8,
+                  asciiAlphanumeric(parts[1]) else { return nil }
+            return ("testflight:" + parts[1], url)
+        }
+        if let country = parts.first, country.utf8.count == 2, asciiLetters(country) { parts.removeFirst() }
+        guard (2...3).contains(parts.count), parts[0] == "app", let last = parts.last, last.hasPrefix("id") else { return nil }
+        if parts.count == 3 {
+            guard parts[1].utf8.allSatisfy({ (48...57).contains($0) || (65...90).contains($0) || (97...122).contains($0) || $0 == 45 }),
+                  !parts[1].isEmpty else { return nil }
+        }
+        let identifier = String(last.dropFirst(2))
+        guard let first = identifier.utf8.first, (49...57).contains(first),
+              identifier.utf8.allSatisfy({ (48...57).contains($0) }) else { return nil }
+        return ("appstore:" + identifier, url)
     }
 }
 

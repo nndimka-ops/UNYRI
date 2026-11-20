@@ -111,78 +111,109 @@ pub async fn register(
     let display_name = validate_display_name(&req.display_name)?;
     reject_reserved_display_name(&display_name)?;
 
-    let supplied_password = req.password.clone();
-    let password_hash = password::run(move || password::hash_password(&supplied_password)).await?;
+    // Retain only username conflicts in these sliding windows. All scopes are
+    // reserved before the uniqueness decision so concurrent registrations cannot
+    // exceed a budget by rotating either installation or network alone.
+    let installation_scope = format!("register:installation:{}", req.installation_id);
+    let ip_scope = format!("register:ip:{}", rate_limit::auth_client_key(addr));
+    let conflicts = rate_limit::ConflictBudget::reserve(&state, &[
+        (&installation_scope, 5, 86_400),
+        (&ip_scope, 10, 3_600),
+        ("register:global", 100, 900),
+    ]).await?;
+    let result = async {
+        let supplied_password = req.password.clone();
+        let password_hash = password::run(move || password::hash_password(&supplied_password)).await?;
 
-    let mut tx = state.db.begin().await?;
-    super::admission::lock(&mut tx, false).await?;
-    super::admission::check_installation(&mut tx, req.installation_id).await?;
-    let verified_installation = super::installations::verify(&mut tx, req.installation_credential.as_deref()).await?;
+        let mut tx = state.db.begin().await?;
+        super::admission::lock(&mut tx, false).await?;
+        super::admission::check_installation(&mut tx, req.installation_id).await?;
+        let verified_installation = super::installations::verify(&mut tx, req.installation_credential.as_deref()).await?;
 
-    let invite = match crate::self_hosting::consume_invite(&mut tx, req.invite_code.as_deref()).await {
-        Ok(invite) => invite,
-        Err(error) => {
-            tx.rollback().await?;
-            if matches!(error, AppError::InviteRequired | AppError::InviteInvalid) {
-                crate::self_hosting::audit_invite_refusal(&state.db).await?;
+        let invite = match crate::self_hosting::consume_invite(&mut tx, req.invite_code.as_deref()).await {
+            Ok(invite) => invite,
+            Err(error) => {
+                tx.rollback().await?;
+                if matches!(error, AppError::InviteRequired | AppError::InviteInvalid) {
+                    crate::self_hosting::audit_invite_refusal(&state.db).await?;
+                }
+                return Err(error);
             }
-            return Err(error);
+        };
+
+        // A failed username insert must not strand a permanent number allocation.
+        // Keep the invite lock outside this savepoint so its conflict lockout can
+        // commit independently of the failed account creation.
+        sqlx::query("SAVEPOINT b033_registration").execute(&mut *tx).await?;
+        let new_user_id = Uuid::new_v4();
+        crate::users::identity::allocate_number(&mut tx, new_user_id).await?;
+        let inserted: Option<(Uuid,)> = sqlx::query_as(
+            "INSERT INTO users (username, display_name, password_hash, id) \
+             VALUES ($1, $2, $3, $4) \
+             ON CONFLICT (username_normalized) DO NOTHING \
+             RETURNING id",
+        )
+        .bind(&req.username)
+        .bind(&display_name)
+        .bind(&password_hash)
+        .bind(new_user_id)
+        .fetch_optional(&mut *tx)
+        .await?;
+
+        let Some((user_id,)) = inserted else {
+            sqlx::query("ROLLBACK TO SAVEPOINT b033_registration").execute(&mut *tx).await?;
+            if let Some(invite_id) = invite {
+                // consume_invite already authenticated and locked this exact code.
+                // Restore its use, count the conflict, and lock it on the fifth.
+                sqlx::query("UPDATE registration_invites SET uses=uses-1, login_conflicts=login_conflicts+1, \
+                    revoked_at=CASE WHEN login_conflicts+1>=5 THEN COALESCE(revoked_at,now()) ELSE revoked_at END WHERE id=$1")
+                    .bind(invite_id).execute(&mut *tx).await?;
+            }
+            tx.commit().await?;
+            return Err(AppError::UsernameTaken);
+        };
+
+        let (device_id, _new_device_event) = upsert_device(
+            &mut tx,
+            user_id,
+            req.installation_id,
+            req.device_platform,
+            req.device_name.as_deref(),
+            req.os_version.as_deref(),
+            req.app_version.as_deref(),
+        )
+        .await?;
+        super::installations::bind_device(&mut tx, user_id, device_id, verified_installation).await?;
+        let exempt = matches!(req.device_platform, DevicePlatform::Desktop | DevicePlatform::Web);
+        let public_key = super::device_proof::enroll(&mut tx, &headers, req.device_key.as_ref(), "/auth/register", req.installation_id, exempt).await?;
+        let (access, refresh, _session_id) = create_session(&state, &mut tx, user_id, device_id,
+            public_key.as_deref(), req.device_key.as_ref().map(|key| key.protection.as_str())).await?;
+
+        if let Some(invite_id) = invite {
+            sqlx::query("INSERT INTO admin_audit(action,target,detail) VALUES('invite:register',$1,jsonb_build_object('invite_id',$2::uuid))")
+                .bind(user_id).bind(invite_id).execute(&mut *tx).await?;
         }
-    };
+        tx.commit().await?;
 
-    let new_user_id = Uuid::new_v4();
-    crate::users::identity::allocate_number(&mut tx, new_user_id).await?;
-    let inserted: Option<(Uuid,)> = sqlx::query_as(
-        "INSERT INTO users (username, display_name, password_hash, id) \
-         VALUES ($1, $2, $3, $4) \
-         ON CONFLICT (username_normalized) DO NOTHING \
-         RETURNING id",
-    )
-    .bind(&req.username)
-    .bind(&display_name)
-    .bind(&password_hash)
-    .bind(new_user_id)
-    .fetch_optional(&mut *tx)
-    .await?;
+        tracing::info!(%user_id, %device_id, installation_id = %req.installation_id, "user registered");
 
-    let Some((user_id,)) = inserted else {
-        return Err(AppError::UsernameTaken);
-    };
-
-    let (device_id, _new_device_event) = upsert_device(
-        &mut tx,
-        user_id,
-        req.installation_id,
-        req.device_platform,
-        req.device_name.as_deref(),
-        req.os_version.as_deref(),
-        req.app_version.as_deref(),
-    )
-    .await?;
-    super::installations::bind_device(&mut tx, user_id, device_id, verified_installation).await?;
-    let (access, refresh, _session_id) = create_session(&state, &mut tx, user_id, device_id).await?;
-
-    if let Some(invite_id) = invite {
-        sqlx::query("INSERT INTO admin_audit(action,target,detail) VALUES('invite:register',$1,jsonb_build_object('invite_id',$2::uuid))")
-            .bind(user_id).bind(invite_id).execute(&mut *tx).await?;
-    }
-    tx.commit().await?;
-
-    tracing::info!(%user_id, %device_id, installation_id = %req.installation_id, "user registered");
-
-    Ok(Json(AuthResponse {
-        history_before_sequence: 0,
-        access_token: access.token,
-        access_token_expires_at: access.expires_at,
-        refresh_token: refresh.token,
-        device_id,
-        user: UserPublic { id: user_id, username: req.username, display_name },
-    }))
+        Ok(Json(AuthResponse {
+            history_before_sequence: 0,
+            access_token: access.token,
+            access_token_expires_at: access.expires_at,
+            refresh_token: refresh.token,
+            device_id,
+            user: UserPublic { id: user_id, username: req.username, display_name },
+        }))
+    }.await;
+    if !matches!(&result, Err(AppError::UsernameTaken)) { conflicts.refund(&state).await; }
+    result
 }
 
 pub async fn login(
     State(state): State<AppState>,
     ClientIp(addr): ClientIp,
+    headers: axum::http::HeaderMap,
     Json(req): Json<LoginRequest>,
 ) -> Result<Json<AuthResponse>, AppError> {
     rate_limit::enforce_auth(&state, "login", addr, LOGIN_LIMIT, RATE_WINDOW_SECONDS).await?;
@@ -205,7 +236,7 @@ pub async fn login(
 
     let user: Option<UserRow> = sqlx::query_as(
         "SELECT id, username, display_name, password_hash FROM users \
-         WHERE username_normalized = $1 AND deleted_at IS NULL AND NOT EXISTS (SELECT 1 FROM server_suspensions b WHERE b.user_id=users.id AND (b.until_date IS NULL OR b.until_date>now()))",
+         WHERE username_normalized = $1 AND deleted_at IS NULL",
     )
     .bind(&normalized)
     .fetch_optional(&state.db)
@@ -244,8 +275,6 @@ pub async fn login(
 
     let mut tx = state.db.begin().await?;
     super::admission::lock(&mut tx, false).await?;
-    super::admission::check_installation(&mut tx, req.installation_id).await?;
-    let verified_installation = super::installations::verify(&mut tx, req.installation_credential.as_deref()).await?;
     let current_hash: Option<String> = sqlx::query_scalar(
         "SELECT password_hash FROM users WHERE id=$1 AND deleted_at IS NULL FOR UPDATE",
     ).bind(user.id).fetch_optional(&mut *tx).await?;
@@ -254,7 +283,9 @@ pub async fn login(
     }
     let suspended:bool=sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM server_suspensions WHERE user_id=$1 AND (until_date IS NULL OR until_date>now()))")
         .bind(user.id).fetch_one(&mut *tx).await?;
-    if suspended {return Err(AppError::InvalidCredentials)}
+    if suspended {return Err(AppError::AccountSuspended)}
+    super::admission::check_installation(&mut tx, req.installation_id).await?;
+    let verified_installation = super::installations::verify(&mut tx, req.installation_credential.as_deref()).await?;
     if !crate::users::identity_backfill::ensure(&mut tx,user.id).await? {
         return Err(AppError::InvalidCredentials);
     }
@@ -274,7 +305,10 @@ pub async fn login(
     )
     .await?;
     super::installations::bind_device(&mut tx, user.id, device_id, verified_installation).await?;
-    let (access, refresh, _session_id) = create_session(&state, &mut tx, user.id, device_id).await?;
+    let exempt = matches!(req.device_platform, DevicePlatform::Desktop | DevicePlatform::Web);
+    let public_key = super::device_proof::enroll(&mut tx, &headers, req.device_key.as_ref(), "/auth/login", req.installation_id, exempt).await?;
+    let (access, refresh, _session_id) = create_session(&state, &mut tx, user.id, device_id,
+        public_key.as_deref(), req.device_key.as_ref().map(|key| key.protection.as_str())).await?;
     tx.commit().await?;
 
     // Этап L.18: wake the user's other devices about this new device.
@@ -321,6 +355,7 @@ async fn refresh_device_versions(db: &sqlx::PgPool, device_id: Uuid, app_version
 pub async fn refresh(
     State(state): State<AppState>,
     ClientIp(ip): ClientIp,
+    headers: axum::http::HeaderMap,
     Json(req): Json<RefreshRequest>,
 ) -> Result<Json<RefreshResponse>, AppError> {
     rate_limit::enforce_auth(&state, "refresh-ip", ip, 120, 60).await?;
@@ -336,6 +371,8 @@ pub async fn refresh(
         revoked_at: Option<DateTime<Utc>>,
         replaced_by: Option<Uuid>,
         refresh_request_hash: Option<String>,
+        device_public_key: Option<Vec<u8>>,
+        device_key_protection: Option<String>,
     }
 
     let mut tx = state.db.begin().await?;
@@ -344,10 +381,28 @@ pub async fn refresh(
     // Account lock precedes session locks, shared with password recovery/login.
     let owner: Option<Uuid> = sqlx::query_scalar("SELECT user_id FROM sessions WHERE id=$1")
         .bind(session_id).fetch_optional(&mut *tx).await?;
-    let owner = owner.ok_or(AppError::InvalidRefreshToken)?;
+    let owner = match owner {
+        Some(owner) => owner,
+        None => {
+            let proof: Option<String> = sqlx::query_scalar("SELECT refresh_token_hash FROM deleted_session_proofs WHERE session_id=$1 AND expires_at>now()")
+                .bind(session_id).fetch_optional(&mut *tx).await?;
+            if proof.as_ref().is_some_and(|hash| refresh_token::constant_time_eq(hash.as_bytes(), refresh_token::hash_token(&req.refresh_token).as_bytes())) {
+                return Err(AppError::AccountDeleted);
+            }
+            return Err(AppError::InvalidRefreshToken);
+        }
+    };
     let active_owner: Option<Uuid> = sqlx::query_scalar("SELECT id FROM users WHERE id=$1 AND deleted_at IS NULL FOR UPDATE")
         .bind(owner).fetch_optional(&mut *tx).await?;
-    if active_owner.is_none() { return Err(AppError::InvalidRefreshToken); }
+    if active_owner.is_none() {
+        // Deletion may commit between the session lookup and account lock.
+        let proof: Option<String> = sqlx::query_scalar("SELECT refresh_token_hash FROM deleted_session_proofs WHERE session_id=$1 AND expires_at>now()")
+            .bind(session_id).fetch_optional(&mut *tx).await?;
+        if proof.as_ref().is_some_and(|hash| refresh_token::constant_time_eq(hash.as_bytes(), refresh_token::hash_token(&req.refresh_token).as_bytes())) {
+            return Err(AppError::AccountDeleted);
+        }
+        return Err(AppError::InvalidRefreshToken);
+    }
     // Administration readers lock role -> native admin session -> auth session.
     // Pin the bindings before the parent session to preserve that order.
     crate::admin::lock_role_row(&mut tx, owner).await?;
@@ -356,7 +411,7 @@ pub async fn refresh(
     // Row lock: two concurrent refreshes of the same token must be
     // serialized, otherwise both could "succeed" and desynchronize rotation.
     let session: Option<SessionRow> = sqlx::query_as(
-        "SELECT id, user_id, device_id, refresh_token_hash, expires_at, revoked_at, replaced_by, refresh_request_hash \
+        "SELECT id, user_id, device_id, refresh_token_hash, expires_at, revoked_at, replaced_by, refresh_request_hash, device_public_key, device_key_protection \
          FROM sessions WHERE id = $1 FOR UPDATE",
     )
     .bind(session_id)
@@ -372,15 +427,26 @@ pub async fn refresh(
         return Err(AppError::InvalidRefreshToken);
     }
 
+    let reason = super::middleware::terminal_reason(&mut *tx, session.user_id, session.device_id, session.id).await?;
+    if reason != "session_revoked" { return Err(super::middleware::terminal_error(reason)); }
+
     let allowed:bool=sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM devices d WHERE d.id=$1 AND d.revoked_at IS NULL AND NOT EXISTS(SELECT 1 FROM installation_suspensions b WHERE b.installation_id IN (SELECT d.installation_id UNION SELECT va.client_installation_id FROM verified_installation_aliases va WHERE va.installation_id=d.verified_installation_id) AND (b.until_date IS NULL OR b.until_date>now())) AND NOT EXISTS(SELECT 1 FROM server_suspensions b WHERE b.user_id=$2 AND (b.until_date IS NULL OR b.until_date>now())))")
         .bind(session.device_id).bind(session.user_id).fetch_one(&mut *tx).await?;
-    if !allowed {return Err(AppError::InvalidRefreshToken)}
+    if !allowed {return Err(AppError::SessionRevoked)}
+    // A stolen bearer token must not be enough to spend the genuine device's
+    // refresh budget. Authenticate possession before charging that scope.
+    let platform: String = sqlx::query_scalar("SELECT platform::text FROM devices WHERE id=$1")
+        .bind(session.device_id).fetch_one(&mut *tx).await?;
+    let exempt = super::device_proof::platform_exempt(&platform);
+    let bound = super::device_proof::refresh(&mut tx, &headers, req.device_key.as_ref(), session.id,
+        &req.refresh_token, session.device_public_key.as_deref(), session.device_key_protection.as_deref(), exempt).await?;
     // Every refresh inserts a session and keeps its parent; an unthrottled device
     // could grow its lineage without bound (audit server-031).
     if !rate_limit::try_enforce_key(&state, "refresh-device", &session.device_id.to_string(), REFRESH_LIMIT_PER_HOUR, 3600).await? {
         return Err(AppError::RateLimited);
     }
     if session.revoked_at.is_some() {
+        if session.replaced_by.is_none() { return Err(AppError::SessionRevoked); }
         if let (Some(request_id), Some(expected), Some(child_id)) =
             (req.request_id, session.refresh_request_hash.as_ref(), session.replaced_by)
         {
@@ -394,7 +460,7 @@ pub async fn refresh(
                 if let Some((hash,)) = child {
                     let refresh = refresh_token::for_retry(child_id, &req.refresh_token, request_id, &state.config.jwt_secret);
                     if refresh_token::constant_time_eq(hash.as_bytes(), refresh.hash.as_bytes()) {
-                        let access = jwt::issue_access_token(&state.config, session.user_id, session.device_id, child_id)?;
+                        let access = jwt::issue_session_access_token(&state.config, session.user_id, session.device_id, child_id, bound)?;
                         tx.commit().await?;
                         return Ok(Json(RefreshResponse { access_token: access.token,
                             access_token_expires_at: access.expires_at, refresh_token: refresh.token }));
@@ -447,8 +513,8 @@ pub async fn refresh(
     let new_expires_at = Utc::now() + Duration::seconds(state.config.refresh_token_ttl_seconds);
 
     sqlx::query(
-        "INSERT INTO sessions (id, user_id, device_id, refresh_token_hash, expires_at, last_used_at, family_id) \
-         VALUES ($1, $2, $3, $4, $5, now(), (SELECT family_id FROM sessions WHERE id=$6))",
+        "INSERT INTO sessions (id, user_id, device_id, refresh_token_hash, expires_at, last_used_at, family_id, device_public_key, device_key_protection) \
+         SELECT $1,$2,$3,$4,$5,now(),family_id,device_public_key,device_key_protection FROM sessions WHERE id=$6",
     )
     .bind(new_session_id)
     .bind(session.user_id)
@@ -473,7 +539,7 @@ pub async fn refresh(
         .execute(&mut *tx)
         .await?;
 
-    let access = jwt::issue_access_token(&state.config, session.user_id, session.device_id, new_session_id)?;
+    let access = jwt::issue_session_access_token(&state.config, session.user_id, session.device_id, new_session_id, bound)?;
 
     tx.commit().await?;
 
@@ -682,24 +748,28 @@ async fn create_session(
     tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
     user_id: Uuid,
     device_id: Uuid,
+    public_key: Option<&[u8]>,
+    key_protection: Option<&str>,
 ) -> Result<(jwt::IssuedAccessToken, refresh_token::IssuedRefreshToken, Uuid), AppError> {
     let session_id = Uuid::new_v4();
     let refresh = refresh_token::generate(session_id);
     let expires_at = Utc::now() + Duration::seconds(state.config.refresh_token_ttl_seconds);
 
     sqlx::query(
-        "INSERT INTO sessions (id, user_id, device_id, refresh_token_hash, expires_at, last_used_at) \
-         VALUES ($1, $2, $3, $4, $5, now())",
+        "INSERT INTO sessions (id, user_id, device_id, refresh_token_hash, expires_at, last_used_at, device_public_key, device_key_protection) \
+         VALUES ($1, $2, $3, $4, $5, now(), $6, $7)",
     )
     .bind(session_id)
     .bind(user_id)
     .bind(device_id)
     .bind(&refresh.hash)
     .bind(expires_at)
+    .bind(public_key)
+    .bind(key_protection)
     .execute(&mut **tx)
     .await?;
 
-    let access = jwt::issue_access_token(&state.config, user_id, device_id, session_id)?;
+    let access = jwt::issue_session_access_token(&state.config, user_id, device_id, session_id, public_key.is_some())?;
 
     Ok((access, refresh, session_id))
 }

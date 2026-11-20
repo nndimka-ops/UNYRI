@@ -11,7 +11,8 @@ class NotificationSettingsStore(context: Context) {
         enabled = preferences.getBoolean("enabled", true),
         messages = preferences.getBoolean("messages", true),
         calls = preferences.getBoolean("calls", true),
-        messageSound = preferences.getBoolean("message-sound", true),
+        // Android notification channels now own system sound and vibration.
+        messageSound = true,
         inAppSound = preferences.getBoolean("in-app-sound", true),
         inAppVibration = preferences.getBoolean("in-app-vibration", true),
         inAppBanners = preferences.getBoolean("in-app-banners", true),

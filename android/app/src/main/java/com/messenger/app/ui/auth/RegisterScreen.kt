@@ -99,11 +99,13 @@ fun RegisterScreen(
     val usernameLink = DisplayNamePolicy.containsLink(normalizedUsername)
     val usernameValid = normalizedUsername.matches(Regex("[A-Za-z0-9_.]{3,32}")) && !usernameReserved && !usernameLink
     val passwordsMismatch = confirmPassword.isNotEmpty() && password != confirmPassword
+    // B-048: the server refuses these at the end; say it while the password is typed.
+    val passwordCommon = password.isNotEmpty() && com.messenger.app.data.identity.IdentityPolicy.isCommonPassword(password)
     var accepted by remember { mutableStateOf(false) }
     var legalDocument by remember { mutableStateOf<String?>(null) }
     val sanitizedName = DisplayNamePolicy.sanitize(displayName)
     val nameError = DisplayNamePolicy.error(displayName, official = false)
-    val formValid = !signup.busy && !signup.failed && signup.policy?.open == true && (!inviteFieldVisible(signup.policy) || invite.isNotBlank()) && accepted && usernameValid && nameError == null && password.length in 8..256 && confirmPassword == password
+    val formValid = !signup.busy && !signup.failed && signup.policy?.open == true && (!inviteFieldVisible(signup.policy) || invite.isNotBlank()) && accepted && usernameValid && nameError == null && password.length in 8..256 && !passwordCommon && confirmPassword == password
 
     com.messenger.app.ui.theme.CocoScreenSurface(modifier = Modifier.fillMaxSize(), color = colors.background) {
         Column(
@@ -175,8 +177,8 @@ fun RegisterScreen(
                 label = { Text(stringResource(R.string.auth_password)) },
                 singleLine = true,
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                isError = password.isNotEmpty() && password.length !in 8..256,
-                supportingText = { Text(stringResource(R.string.auth_password_help)) },
+                isError = password.isNotEmpty() && (password.length !in 8..256 || passwordCommon),
+                supportingText = { Text(stringResource(if (passwordCommon) R.string.auth_error_common_password else R.string.auth_password_help)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Next),
                 trailingIcon = {
                     IconButton(modifier = Modifier.rejectObscuredTouches(), onClick = { passwordVisible = !passwordVisible }) {

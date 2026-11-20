@@ -55,6 +55,7 @@ enum CallSignalingEventParser {
         case "call.ice":
             struct P: Decodable { let callId: String; let candidate: String; let sdpMid: String?; let sdpMLineIndex: Int? }
             guard let p = try? decoder.decode(P.self, from: data) else { return nil }
+            guard p.candidate.utf8.count <= 2048 else { return nil }
             guard p.sdpMLineIndex.map({ (0...16).contains($0) && Int32(exactly: $0) != nil }) ?? true else { return nil }
             return .ice(callId: p.callId, candidate: p.candidate, sdpMid: p.sdpMid, sdpMLineIndex: p.sdpMLineIndex)
         case "call.peer_ringing":

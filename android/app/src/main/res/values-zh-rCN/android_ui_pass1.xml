@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chats_archive_detail">请通过聊天菜单将聊天移到这里，或选择多个聊天。收到新消息后，聊天仍会留在这里，直到您手动恢复。</string>
+    <string name="privacy_devices_blocks">设备与屏蔽</string>
+    <string name="privacy_messages_section">消息</string>
+    <string name="settings_privacy_visibility">可见性</string>
+    <string name="privacy_nobody_count">无人</string>
+    <string name="blocked_users_search">姓名、号码或 @用户名</string>
+    <plurals name="privacy_people_count_short">
+        <item quantity="one">%1$d 人</item>
+        <item quantity="few">%1$d 人</item>
+        <item quantity="many">%1$d 人</item>
+        <item quantity="other">%1$d 人</item>
+    </plurals>
+    <string name="drawer_report_short">报告</string>
+    <string name="peer_qr_title">对方的二维码</string>
+    <string name="peer_remove_confirm_title">移除此联系人？</string>
+    <string name="peer_remove_confirm_detail">此人将从您的联系人中移除。聊天和消息将保留。</string>
+    <string name="inline_search_people_hint">通过号码或@用户名查找用户。</string>
+    <string name="app_version_format">版本 %1$s (%2$d)</string>
+    <string name="server_current_title">当前服务器</string>
+    <string name="server_change_title">更换服务器</string>
+    <string name="server_edit_help">请输入 HTTPS 地址。更换服务器前请先退出账号。</string>
+    <string name="server_alpha_http_detail">Alpha 版本也允许在可信的局域网内使用 HTTP。</string>
+    <string name="server_max_file_size">加密文件大小上限</string>
+    <string name="server_user_quota">每个账号的存储空间</string>
+    <string name="server_no_limit">无限制</string>
+    <string name="settings_about">帮助与应用</string>
+    <string name="settings_data_storage">连接与存储</string>
+    <string name="notification_in_app_sound_detail">UNYRI打开时播放声音。</string>
+    <string name="notification_in_app_vibration_detail">UNYRI打开时振动。</string>
+    <string name="report_problem_detail">描述问题并附上屏幕截图。</string>
+    <string name="report_recent_problem_detail">标记最近问题的时间；请在下方开启诊断。</string>
+    <string name="sh_step_computer">一台始终开机的电脑</string>
+    <string name="sh_step_computer_summary">使用自己的电脑，或在网上租用一台电脑（VPS）。</string>
+    <string name="sh_step_install">安装UNYRI Server</string>
+    <string name="sh_step_install_summary">按照指南安装服务器程序。</string>
+    <string name="sh_step_internet">允许通过互联网访问</string>
+    <string name="sh_step_internet_summary">按照指南设置，让手机在外出时也能连接。</string>
+    <string name="sh_step_phone">连接手机</string>
+    <string name="sh_step_phone_summary">确认服务器地址或扫描邀请，然后创建账户。</string>
+    <string name="sh_step_owner">成为所有者</string>
+    <string name="sh_step_owner_summary">使用安装程序显示的一次性代码。</string>
+    <string name="sh_step_test">检查消息和通话</string>
+    <string name="sh_step_test_summary">关闭Wi-Fi，通过移动数据检查消息、通话和通知。</string>
+    <string name="sh_step_more">详细信息</string>
+    <string name="connection_checking">正在检查…</string>
+    <string name="sh_open_guide">指南和下载</string>
+    <string name="local_mode_description">无需互联网，通过Wi-Fi接收服务器的消息和通话。此模式会显示常驻通知，并消耗更多电量。强行停止或重启后，请重新打开UNYRI。</string>
+    <string name="local_mode_connected">已连接到您的服务器</string>
+    <string name="local_mode_signin">登录以启用本地连接。</string>
+    <string name="peer_qr_instruction">扫描此码以在UNYRI中打开对方的个人资料。</string>
+</resources>

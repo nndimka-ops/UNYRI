@@ -82,7 +82,8 @@ struct UnyriDrawerAView: View {
                 VStack(spacing: 2) {
                     row("settings", "Settings", asset: "UnyriSidebarSettings", secondary: true)
                     row("help", "Help", asset: "UnyriSidebarHelp", secondary: true)
-                    row("report", "Report a problem", asset: "UnyriSidebarReport", secondary: true)
+                    row("report", "Problem report", asset: "UnyriSidebarReport", secondary: true)
+                        .accessibilityLabel("Report a problem")
                 }
                 Spacer(minLength: 0)
                 server
@@ -117,6 +118,7 @@ struct UnyriDrawerAView: View {
                     // a long name wraps to a second line and the number follows it.
                     VStack(alignment: .leading, spacing: 2) { profileText; numberButton }
                     UnyriReactionRows(spacing: 4, rowGap: 6) { status; accounts }
+                    if showsAccounts { UnyriDrawerAccountError() }
                 }
             } else if dynamicTypeSize.isAccessibilitySize {
                 VStack(alignment: .leading, spacing: 12) {
@@ -145,8 +147,9 @@ struct UnyriDrawerAView: View {
                     .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : narrow ? 2 : 1).minimumScaleFactor(narrow ? 13.0 / 17.0 : 16.0 / 18.0)
                     .truncationMode(.tail).fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                if let username, !username.isEmpty {
-                    Text("@" + username).font(.system(size: (narrow ? 12 : 13) * textScale))
+                let alias = PeerIdentityPolicy.label(publicUsername: username, unyriNumber: nil)
+                if !alias.isEmpty {
+                    Text(alias).font(.system(size: (narrow ? 12 : 13) * textScale))
                         .lineLimit(1).minimumScaleFactor(CGFloat(DrawerCPolicy.usernameMinimumScale)).truncationMode(.middle)
                         .foregroundStyle(UnyriColors.secondaryText)
                 }
@@ -156,7 +159,7 @@ struct UnyriDrawerAView: View {
                 .contentShape(Rectangle())
         }.buttonStyle(.plain).padding(.top, narrow ? -8 : 0).padding(.bottom, narrow ? -1 : 0)
             .accessibilityLabel(Text(displayName)).accessibilityHint(Text("Open profile"))
-            .accessibilityValue(Text(username.flatMap { $0.isEmpty ? nil : "@" + $0 } ?? ""))
+            .accessibilityValue(Text(PeerIdentityPolicy.label(publicUsername: username, unyriNumber: nil)))
             .accessibilityIdentifier("drawer-name")
     }
 
@@ -186,10 +189,13 @@ struct UnyriDrawerAView: View {
         let layout = dynamicTypeSize.isAccessibilitySize
             ? AnyLayout(VStackLayout(alignment: .leading, spacing: 8))
             : AnyLayout(HStackLayout(spacing: 8))
-        return layout {
-            status
-            if !dynamicTypeSize.isAccessibilitySize { Spacer(minLength: 0) }
-            accounts
+        return VStack(alignment: .leading, spacing: 6) {
+            layout {
+                status
+                if !dynamicTypeSize.isAccessibilitySize { Spacer(minLength: 0) }
+                accounts
+            }
+            if showsAccounts { UnyriDrawerAccountError() }
         }.padding(.horizontal, 4)
     }
 
@@ -207,7 +213,7 @@ struct UnyriDrawerAView: View {
     }
 
     @ViewBuilder private var accounts: some View {
-        if showsAccounts { UnyriDrawerAccountSwitcher(compact: true) }
+        if showsAccounts { UnyriDrawerAccountSwitcher(compact: true, showsError: false) }
         else { UnyriDrawerAddAccountLabel(compact: true).opacity(0.7).allowsHitTesting(false).accessibilityHidden(true) }
     }
 

@@ -107,7 +107,7 @@ class ProfileRepositoryImpl(
         }
 
     override suspend fun cachedDirectory(query: String, limit: Int, offset: Long): Result<SearchResult> = runCatching {
-        // The legacy directory cache may contain private logins. Only an explicitly old server can expose it.
+        // Old-server directory fallback remains display-name/public-identity only.
         if (identity != null && !identity.legacy.value) return@runCatching SearchResult(emptyList(), null, cached = true)
         val epoch = authRepository.currentSessionEpoch()
         val origin = com.messenger.app.data.api.ServerEndpoint.current()
@@ -205,12 +205,13 @@ class ProfileRepositoryImpl(
 
     private fun PublicUserDto.toDomain() = PublicUser(
         id = id,
-        username = username,
+        username = "",
         displayName = displayName,
         avatarUrl = avatarUrl,
         bio = bio,
         profileVersion = profileVersion,
         avatarVersion = avatarVersion,
         hasAvatar = hasAvatar,
+        publicNumber = publicNumber, publicUsername = publicUsername,
     )
 }

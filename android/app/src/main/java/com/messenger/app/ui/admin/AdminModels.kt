@@ -88,14 +88,9 @@ internal data class AdminFeedbackDto(
 internal data class AdminUserRowDto(
     val id: String,
     @SerialName("user_id") val userId: String,
-    /**
-     * The search endpoint reuses the report/feedback row keys: `description`
-     * carries the display name and `reason` carries the username. The wire
-     * shape is not changed here, so the DTO documents the reuse instead of
-     * pretending the fields are something else.
-     */
-    @SerialName("description") val displayName: String? = null,
-    @SerialName("reason") val username: String? = null,
+    @SerialName("display_name") val displayName: String? = null,
+    @SerialName("public_username") val publicUsername: String? = null,
+    @SerialName("unyri_number") val unyriNumber: String? = null,
     @SerialName("sort_key") val sortKey: String? = null,
     @SerialName("installation_blocks") val installationBlocks: Long = 0,
     val status: String = "active",
@@ -106,10 +101,11 @@ internal data class AdminUserRowDto(
 @Serializable
 internal data class AdminProfileDto(
     @SerialName("user_id") val userId: String,
-    val username: String,
     @SerialName("display_name") val displayName: String,
     @SerialName("has_avatar") val hasAvatar: Boolean = false,
     @SerialName("created_at") val createdAt: String? = null,
+    @SerialName("public_username") val publicUsername: String? = null,
+    @SerialName("unyri_number") val unyriNumber: String? = null,
 )
 
 @Serializable
@@ -147,6 +143,12 @@ internal data class AdminUserDetailDto(
     val devices: List<AdminDeviceDto> = emptyList(),
     @SerialName("is_administrator") val isAdministrator: Boolean = false,
     @SerialName("suspend_allowed") val suspendAllowed: Boolean = false,
+)
+
+@Serializable
+internal data class AdminDeleteAccountBody(
+    @SerialName("confirm_identity") val confirmIdentity: String,
+    val reason: String,
 )
 
 /** Machine-readable, non-secret context carried by timeline and audit events. */

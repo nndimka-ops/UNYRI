@@ -58,6 +58,9 @@ struct CallReducerState: Equatable {
     var iceInterrupted = false
     var localCameraIsFrontFacing = true
     var pendingMuted = false
+    /// The user's camera choice survives ringing and asynchronous media setup.
+    var pendingCameraEnabled = true
+    var pendingNotice: CallNotice? = nil
     var selectedAudioRoute: AudioRoute? = nil
     /// The OS output route last reported for this call, in every phase,
     /// ringing included. `.earpiece` is only the default before the first
@@ -80,7 +83,7 @@ struct CallReducerState: Equatable {
     /// first frame, and connecting changes nothing but the phase.
     func pendingControls(for call: CallInfo) -> ConnectedState {
         let video = call.mediaKind == .video
-        let cameraAvailable = video && !localVideoUnavailable
+        let cameraAvailable = video && pendingCameraEnabled && !localVideoUnavailable
         var c = ConnectedState(call: call, videoMode: video ? .video : .audio)
         c.localCameraIsFrontFacing = localCameraIsFrontFacing
         c.isMuted = pendingMuted
@@ -90,11 +93,14 @@ struct CallReducerState: Equatable {
         c.localCameraState = cameraAvailable ? (localVideoFrameReady && !localCaptureInterrupted ? .on : .starting) : .off
         c.remoteVideoEnabled = remoteVideoSignaled ?? remoteVideoTrackAvailable
         c.remoteVideoState = c.remoteVideoEnabled ? .waiting : .off
+        c.notice = pendingNotice
         return c
     }
 
     mutating func updateAudioControls(_ c: ConnectedState) {
         pendingMuted = c.isMuted
+        pendingCameraEnabled = c.localVideoEnabled
+        pendingNotice = c.notice
         observedAudioRoute = c.audioRoute
         switch ui {
         case .connected: ui = .connected(c)
@@ -150,6 +156,7 @@ enum CallEvent: Equatable {
 
     // Local camera (imperative engine result folded back into the reducer)
     case mediaNegotiationFailed(callId: String)
+    case relayUnavailable(callId: String)
     case localCameraFacingChanged(Bool)
     case localVideoFailed
     case cameraDenied
@@ -645,12 +652,13 @@ enum CallStateReducer {
             s.pendingRemoteIce = []
             return (s, effects)
         case .remoteIce(let callId, let candidate, let sdpMid, let index):
-            guard callId == state.activeCallId else { return (state, []) }
+            guard callId == state.activeCallId, candidate.utf8.count <= 2048 else { return (state, []) }
             guard state.ui.callInfo != nil else { return (state, []) }
             if state.remoteDescriptionSet {
                 return (state, [.engineAddIce(callId: callId, candidate: candidate, sdpMid: sdpMid, sdpMLineIndex: index)])
             }
             var s = state
+            guard s.pendingRemoteIce.count < 64 else { return (state, []) }
             s.pendingRemoteIce.append(IceCandidate(candidate: candidate, sdpMid: sdpMid, sdpMLineIndex: index))
             return (s, [])
 
@@ -665,7 +673,8 @@ enum CallStateReducer {
                     let connected = state.pendingControls(for: call)
                     s.ui = .connected(connected)
                     return (s, [.restConnected(callId: callId), .startKeepAlive(callId: callId)]
-                        + (s.localCaptureInterrupted && connected.localVideoEnabled ? [.sendVideoState(callId: callId, enabled: false)] : [])
+                        + (connected.videoMode == .video && (!connected.localVideoEnabled || s.localCaptureInterrupted)
+                            ? [.sendVideoState(callId: callId, enabled: false)] : [])
                         + (connected.remoteVideoEnabled ? [.engineExpectRemoteVideoFrame] : []))
                 } else if case .reconnecting(let call) = state.ui {
                     // ICE recovered after a restart — restore the in-call
@@ -734,7 +743,7 @@ enum CallStateReducer {
             switch state.ui {
             case .outgoingRinging(let call), .connecting(let call):
                 // Kept for `.connected`, whose controls are built from it.
-                guard call.mediaKind == .video, !state.localVideoUnavailable else { return (state, []) }
+                guard state.pendingControls(for: call).localVideoEnabled else { return (state, []) }
                 s.localVideoFrameReady = true
             case .connected, .reconnecting:
                 // Also while reconnecting (into the kept controls): this frame
@@ -748,6 +757,12 @@ enum CallStateReducer {
                 return (state, [])
             }
             return (s, [])
+        case .relayUnavailable(let callId):
+            guard callId == state.activeCallId, !state.ui.isTerminal,
+                  let call = state.ui.callInfo else { return (state, []) }
+            var s = CallReducerState()
+            s.ui = .failed(call, reason: .relayUnavailable)
+            return (s, [.restFailed(callId: callId), .engineDispose, .stopKeepAlive])
         case .mediaNegotiationFailed(let callId):
             guard callId == state.activeCallId else { return (state, []) }
             if case .connected(var c) = state.ui {
@@ -800,9 +815,11 @@ enum CallStateReducer {
             s.updateAudioControls(c)
             return (s, [])
         case .cameraDenied:
-            guard case .connected(var c) = state.ui else { return (state, []) }
+            guard var c = state.audioControls else { return (state, []) }
             c.notice = .cameraDenied
-            return (state.withUI(.connected(c)), [])
+            var s = state
+            s.updateAudioControls(c)
+            return (s, [])
         case .noticeExpired(let notice):
             // Only the notice that timed out; a newer one keeps its own time.
             guard var c = state.audioControls, c.notice == notice else { return (state, []) }
@@ -879,7 +896,14 @@ enum CallStateReducer {
             c.localVideoEnabled = false
             return (state).withUI(.connected(c)).withEffects([.sendVideoUpgradeCancel(callId: c.call.callId), .engineStopLocalVideo, .cancelVideoUpgradeTimeout])
         case .remoteVideoUpgradeRequest(let callId):
-            guard callId == state.activeCallId, case .connected(var c) = state.ui, c.videoUpgrade == .idle else { return (state, []) }
+            guard callId == state.activeCallId, case .connected(var c) = state.ui else { return (state, []) }
+            if c.videoUpgrade == .requesting {
+                // Both users already consented to camera capture. Keep it running,
+                // acknowledge the crossing request and use the normal offer/glare path.
+                let (next, effects) = reduceEvent(state, .remoteVideoUpgradeAccept(callId: callId))
+                return (next, [.sendVideoUpgradeAccept(callId: callId)] + effects)
+            }
+            guard c.videoUpgrade == .idle else { return (state, []) }
             c.videoUpgrade = .incomingRequest
             return (state).withUI(.connected(c)).withEffects([.armVideoUpgradeTimeout])
         case .remoteVideoUpgradeAccept(let callId):
@@ -933,15 +957,15 @@ enum CallStateReducer {
             }
             return (s, enabled ? [.engineExpectRemoteVideoFrame] : [])
         case .setCameraEnabled(let enabled):
-            // Before connect the camera button only shows the call's intent:
-            // nothing would carry a change made there into `.connected`.
-            guard state.ui.isInCallMedia, var c = state.audioControls, c.videoMode == .video else { return (state, []) }
+            guard var c = state.audioControls, c.videoMode == .video else { return (state, []) }
             c.localVideoEnabled = enabled
             c.localCameraState = enabled ? .starting : .off
             // Turning the camera on again is a fresh try on the current link.
             let wasPaused = c.outgoingVideoPaused
             c.outgoingVideoPaused = false
             var s = state
+            s.localVideoUnavailable = false
+            s.localVideoFrameReady = false
             s.updateAudioControls(c)
             let resume: [CallEffect] = wasPaused ? [.engineSetVideoSendActive(true)] : []
             // End a pause only after the camera is off; reactivating its

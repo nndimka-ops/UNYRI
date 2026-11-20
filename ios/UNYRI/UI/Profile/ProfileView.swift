@@ -162,7 +162,7 @@ private struct DevicesSettingsView: View {
 
     var body: some View {
         UnyriSettingsPage("Devices") {
-            if let error { Text(error).font(.footnote).foregroundColor(UnyriColors.danger).fixedSize(horizontal: false, vertical: true) }
+            if let error { Text(verbatim: error).font(.footnote).foregroundColor(UnyriColors.danger).fixedSize(horizontal: false, vertical: true) }
             if showingCachedDevices { UnyriSettingsNote("Saved data. Connect to refresh.") }
             UnyriSettingsGroup("Active sessions") {
                 ForEach(devices) { device in
@@ -227,7 +227,11 @@ private struct DevicesSettingsView: View {
             guard generation == auth.sessionGeneration else { return }
             let response = try await client.get("/devices", accessToken: token, as: AccountDeviceList.self)
             guard generation == auth.sessionGeneration, !Task.isCancelled else { return }
-            devices = response.devices.sorted { $0.isCurrent && !$1.isCurrent }; error = nil
+            error = nil
+            if try auth.localSecurity?.claimRelistingWarning(response.devices.map(\.id)) == true {
+                error = UnyriL10n.string("A removed device is listed again. It remains blocked on this iPhone.")
+            }
+            devices = response.devices.sorted { $0.isCurrent && !$1.isCurrent }
             showingCachedDevices = false
             auth.saveScreen("devices", generation: generation, value: devices)
         } catch { self.error = UnyriErrorText.message(error) ?? self.error }
@@ -238,6 +242,9 @@ private struct DevicesSettingsView: View {
         busy = true
         let generation = auth.sessionGeneration
         do {
+            guard let revokeLocally = auth.revokeOwnDeviceLocally else { throw CancellationError() }
+            try await revokeLocally(id)
+            guard generation == auth.sessionGeneration else { busy = false; return }
             let token = try await auth.currentAccessToken()
             guard generation == auth.sessionGeneration else { busy = false; return }
             try await client.deleteNoContent("/devices/\(id)", accessToken: token)
@@ -365,8 +372,8 @@ private struct ConnectionSettingsView: View {
             var request = URLRequest(url: server.appendingPathComponent("health"))
             request.timeoutInterval = 12
             request.cachePolicy = .reloadIgnoringLocalCacheData
-            let (_, response) = try await URLSession.shared.data(for: request)
-            let code = (response as? HTTPURLResponse)?.statusCode ?? 0
+            let (_, response) = try await URLSession.shared.unyriBoundedData(for: request, maximumBytes: 16 * 1024)
+            let code = response.statusCode
             let ms = Int(Date().timeIntervalSince(started) * 1000)
             if (200..<300).contains(code) {
                 result.append(.init(title: "Secure connection", state: .ok, detail: String(format: UnyriL10n.string("Server is reachable · %d ms"), ms)))
@@ -927,7 +934,8 @@ struct ProfileView: View {
                     if let identity = users.ownIdentity {
                         Text(PublicIdentityPolicy.formattedNumber(identity.unyriNumber))
                             .font(UnyriTypography.bodySecondary.monospacedDigit()).foregroundColor(UnyriColors.secondaryText)
-                        if let username = identity.publicUsername { Text("@" + username).font(.caption).foregroundColor(UnyriColors.secondaryText) }
+                        let alias = PeerIdentityPolicy.label(publicUsername: identity.publicUsername, unyriNumber: nil)
+                        if !alias.isEmpty { Text(alias).font(.caption).foregroundColor(UnyriColors.secondaryText) }
                     }
                 }
                 Spacer(minLength: 8)
@@ -1198,7 +1206,7 @@ private struct DeleteAccountView: View {
                     .textContentType(.password).textInputAutocapitalization(.never).autocorrectionDisabled()
                     .padding(.horizontal, 14).frame(minHeight: 52)
             }
-            if let error { Text(error).font(.footnote).foregroundStyle(UnyriColors.danger).accessibilityAddTraits(.isStaticText) }
+            if let error { Text(verbatim: error).font(.footnote).foregroundStyle(UnyriColors.danger).accessibilityAddTraits(.isStaticText) }
             if deleting { ProgressView("Deleting account…").frame(maxWidth: .infinity) }
         }
         .safeAreaInset(edge: .bottom) {
@@ -1383,6 +1391,9 @@ private struct AdminReply: Decodable {
 private struct AdminReport: Decodable, Identifiable {
     var id: String
     var reason: String?
+    var publicUsername: String?
+    var unyriNumber: String?
+    var displayName: String?
     var description: String?
     var status: String?
     var userId: String?
@@ -1399,7 +1410,7 @@ import ImageIO
 private struct AdminScreenshot: Decodable {
     var dataBase64: String
     func thumbnail() -> UIImage? {
-        guard let data = Data(base64Encoded:dataBase64), let source = CGImageSourceCreateWithData(data as CFData,nil),
+        guard let data = Data(base64Encoded:dataBase64), let source = PeerImagePolicy.source(data: data),
               let image = CGImageSourceCreateThumbnailAtIndex(source,0,[kCGImageSourceCreateThumbnailFromImageAlways:true,kCGImageSourceThumbnailMaxPixelSize:2048,kCGImageSourceCreateThumbnailWithTransform:true] as CFDictionary) else { return nil }
         return UIImage(cgImage:image)
     }
@@ -1408,7 +1419,12 @@ private struct AdminScreenshot: Decodable {
 private struct AdminPanelView: View {
     let role: String
     @EnvironmentObject private var auth: AuthRepository
+    @EnvironmentObject private var users: UsersRepository
     @Environment(\.scenePhase) private var scenePhase
+    @State private var deletionTarget: String?
+    @State private var deletionIdentity = ""
+    @State private var deletionConfirmation = ""
+    @State private var deletionReason = ""
     @State private var paperKey = ""
     @State private var paperSaved = false
     @State private var showPaper = false
@@ -1423,7 +1439,7 @@ private struct AdminPanelView: View {
     @State private var rotating = false
     @State private var replacementKey = ""
     @State private var replacementSaved = false
-    private var pinName: String { "admin-public-pin:\(server.absoluteString)|\(auth.currentUser?.id ?? "")" }
+    private var pinName: String { AccountSecretScope.current(owner: auth.currentUser?.id ?? "").adminPin }
     @State private var password = ""
     @State private var code = ""
     @State private var recoveryMode = false
@@ -1508,6 +1524,7 @@ private struct AdminPanelView: View {
 
     @MainActor private func clear() {
         backgroundExpiry?.cancel(); backgroundExpiry = nil; backgroundAt = nil
+        deletionTarget = nil; deletionIdentity = ""; deletionConfirmation = ""; deletionReason = ""
         regenerate = false; manualPaper = false; copiedSecret = false; setupExpiresAt = nil
         clearOwnClipboard(); busy = false
         panelGeneration += 1
@@ -1549,9 +1566,10 @@ private struct AdminPanelView: View {
         configuration.timeoutIntervalForRequest = 25
         let session = URLSession(configuration: configuration, delegate: AdminRedirectPolicy(), delegateQueue: nil)
         defer { session.invalidateAndCancel() }
-        let (data, response) = try await session.data(for: request)
+        // Includes legacy feedback detail with up to three base64 screenshots.
+        let (data, http) = try await session.unyriBoundedData(for: request, maximumBytes: 8 * 1024 * 1024)
         guard generation == auth.sessionGeneration, operation == panelGeneration, !Task.isCancelled else { throw CancellationError() }
-        guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else { throw APIError.http((response as? HTTPURLResponse)?.statusCode ?? 500) }
+        guard (200..<300).contains(http.statusCode) else { throw APIError.http(http.statusCode) }
         let decoder = JSONDecoder(); decoder.keyDecodingStrategy = .convertFromSnakeCase
         let reply = try decoder.decode(T.self, from: data)
         lastAction = Date()
@@ -1562,6 +1580,14 @@ private struct AdminPanelView: View {
         guard data.keyProtocol == 1, let id = data.serverId else { throw APIError.invalidURL }
         unsupportedPolicy = (data.authProtocol ?? 1) >= 2 && AdminFactorPolicy(rawValue: data.authPolicy ?? "") == nil
         let policy = try AdminFactorPolicy.parse(protocolVersion: data.authProtocol, policy: data.authPolicy)
+        let oldPin = "admin-public-pin:\(server.absoluteString)|\(auth.currentUser?.id ?? "")"
+        for suffix in ["", "|pending"] {
+            _ = try AccountSecretScope.migrate(old: oldPin + suffix, new: pinName + suffix,
+                read: { try KeychainStore.checkedValue(forKey: $0).map { Data($0.utf8) } },
+                insert: { name, data in
+                    guard KeychainStore.set(String(decoding: data, as: UTF8.self), forKey: name) else { throw SessionStore.PersistenceError.failed }
+                }, remove: { try KeychainStore.checkedRemove($0, service: KeychainStore.defaultService) })
+        }
         let previous = try KeychainStore.checkedValue(forKey: pinName)
         let pending = try KeychainStore.checkedValue(forKey: pinName + "|pending")
         let observed = id + "|" + (data.signingPublicKey ?? "null")
@@ -1604,15 +1630,10 @@ private struct AdminPanelView: View {
                 adminDiagnostic = "ADMIN-\(adminRequestStage)-LOCAL"
                 if case APIError.http(let status) = error {
                     adminDiagnostic = "ADMIN-\(adminRequestStage)-\(status)"
-                    switch status {
-                    case 401: adminFailureMessage = UnyriL10n.string("The server rejected sign-in. Check your account password and the current authenticator code. This does not mean the code alone is wrong.")
-                    case 429: adminFailureMessage = UnyriL10n.string("Too many attempts. Wait 5 minutes before trying again.")
-                    case 500...599: adminFailureMessage = UnyriL10n.string("The server could not complete the request. Contact the server owner.")
-                    default: adminFailureMessage = nil
-                    }
+                    adminFailureMessage = AdminRequestFailurePolicy.messageKey(status: status).map { UnyriL10n.string($0) }
                 } else if error is URLError {
                     adminDiagnostic = "ADMIN-\(adminRequestStage)-NETWORK"
-                    adminFailureMessage = UnyriL10n.string("Could not connect securely to the server. Check the network and server certificate.")
+                    adminFailureMessage = AdminRequestFailurePolicy.messageKey(status: nil, networkFailure: true).map { UnyriL10n.string($0) }
                 }
             } }
         }
@@ -1700,7 +1721,7 @@ private struct AdminPanelView: View {
                     if authProtocol >= 2 { body["auth_policy"] = authPolicy.rawValue }
                     let reply = try await request("setup", body: body)
                     secret = reply.secret ?? ""
-                    qr = reply.qrPng.flatMap { Data(base64Encoded: $0) }.flatMap { UIImage(data: $0) }
+                    qr = reply.qrPng.flatMap { Data(base64Encoded: $0) }.flatMap { PeerImagePolicy.image(data: $0) }
                     setupExpiresAt = ProcessInfo.processInfo.systemUptime + 600
                     copiedSecret = false
                     setupReady = true
@@ -1803,7 +1824,7 @@ private struct AdminPanelView: View {
                     Text("Server users").tag("users")
                     if role == "owner" { Text("Action history").tag("audit") }
                 }.pickerStyle(.menu).frame(minHeight: 44).onChange(of:section) { _ in screenshots = []; screenshotIndex = nil; noScreenshots = false; perform { reports = try await request(section).items ?? [] } }.disabled(busy)
-                if section == "users" { TextField("Search username", text:$search).textInputAutocapitalization(.never).autocorrectionDisabled() }
+                if section == "users" { TextField("Search", text:$search).textInputAutocapitalization(.never).autocorrectionDisabled() }
                 if actionSaved { Text("Action saved") }
                 if section == "feedback" || section == "reports" {
                     TextField("Search loaded reports", text: $reportFilter)
@@ -1813,9 +1834,17 @@ private struct AdminPanelView: View {
                     if reports.isEmpty { Text("No reports") }
                     ForEach(reports.filter { reportFilter.isEmpty || !["feedback","reports"].contains(section) || [$0.description ?? "",$0.reason ?? "",$0.id].contains(where: { $0.localizedCaseInsensitiveContains(reportFilter) }) }) { report in
                         VStack(alignment:.leading) {
-                            Text(report.reason ?? report.action ?? "").font(.headline)
+                            if section == "users" {
+                                Text(DisplayNameSanitizer.peer(report.displayName ?? "", unknown: UnyriL10n.string("Unknown user"))).font(.headline)
+                                Text({ () -> String in
+                                    let label = PeerIdentityPolicy.label(publicUsername: report.publicUsername, unyriNumber: report.unyriNumber,
+                                        legacyUsername: report.reason, legacyServer: users.legacyIdentityServer)
+                                    // No public identity: the shortened account id, as on Android and the web console (B-033).
+                                    return label.isEmpty ? String((report.userId ?? report.id).prefix(8)) : label
+                                }()).font(.caption).foregroundStyle(.secondary)
+                            } else { Text(report.reason ?? report.action ?? "").font(.headline) }
                             if section == "feedback" { Text([report.platform,report.createdAt].compactMap { $0 }.joined(separator: " · ")).font(.caption).foregroundStyle(.secondary) }
-                            if let description = report.description { Text(description) }
+                            if section != "users", let description = report.description { Text(description) }
                             Text(LocalizedStringKey(section == "reports" ? reportStatusLabel(report.status) : (report.status ?? ""))).font(.caption)
                             if section == "users" { Text(String(format:UnyriL10n.string("Restricted known installations: %d"),report.installationBlocks ?? 0)).font(.caption) }
                             if section == "feedback" {
@@ -1826,7 +1855,14 @@ private struct AdminPanelView: View {
                                 } }.disabled(busy)
                             }
                             if section == "users" || section == "reports", let user = report.userId {
-                                Button("Restrict server access") { target = user; targetLabel = section == "users" ? "\(report.description ?? "") · @\(report.reason ?? "")" : ""; restrictionReason = ""; includeInstallations = false; temporary = true; showRestriction = true; actionSaved = false }.disabled(busy)
+                                Button("Restrict server access") { target = user; targetLabel = section == "users" ? [DisplayNameSanitizer.peer(report.displayName ?? "", unknown: UnyriL10n.string("Unknown user")), PeerIdentityPolicy.label(publicUsername: report.publicUsername, unyriNumber: report.unyriNumber)].filter { !$0.isEmpty }.joined(separator: " · ") : ""; restrictionReason = ""; includeInstallations = false; temporary = true; showRestriction = true; actionSaved = false }.disabled(busy)
+                            }
+                            if role == "owner", section == "users", let user = report.userId, user != auth.currentUser?.id {
+                                Button("Delete account permanently", role: .destructive) {
+                                    deletionTarget = user
+                                    deletionIdentity = report.unyriNumber ?? user
+                                    deletionConfirmation = ""; deletionReason = ""
+                                }.disabled(busy)
                             }
                             if section == "reports" {
                                 NavigationLink("Review report") {
@@ -1857,6 +1893,26 @@ private struct AdminPanelView: View {
                     .privacySensitive()
                     .overlay { if scenePhase != .active { Color(uiColor: .systemBackground).ignoresSafeArea() } }
                 }
+            }
+        }
+        .sheet(isPresented: Binding(get: { deletionTarget != nil && token != nil }, set: { if !$0 { deletionTarget = nil } })) {
+            NavigationStack {
+                Form {
+                    Text("Erases the account and its messages on the server and on phones when they connect.")
+                    Text(deletionIdentity).textSelection(.enabled)
+                    TextField("Enter the account number to confirm", text: $deletionConfirmation).textInputAutocapitalization(.never).autocorrectionDisabled()
+                    TextField("Reason for deletion", text: $deletionReason, axis: .vertical).lineLimit(2...5)
+                    Button("Delete account permanently", role: .destructive) { perform {
+                        guard role == "owner", let target = deletionTarget,
+                              deletionConfirmation == deletionIdentity,
+                              !deletionReason.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+                        _ = try await request("users/\(target)/delete", body: ["confirm_identity": deletionConfirmation, "reason": deletionReason])
+                        deletionTarget = nil; deletionReason = ""; deletionConfirmation = ""
+                        reports = try await request("users").items ?? []
+                    } }.disabled(busy || deletionConfirmation != deletionIdentity || deletionReason.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || deletionReason.utf8.count > 2000)
+                }
+                .navigationTitle("Delete account permanently")
+                .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel") { deletionTarget = nil } } }
             }
         }
         .sheet(isPresented:$showRestriction) {
@@ -2194,46 +2250,6 @@ struct ServerCardView: View {
 
 }
 
-private struct SelfHostingAdminReply: Decodable {
-    struct PublicURL: Decodable { let configured: Bool }
-    struct Turn: Decodable { let sane: Bool }
-    struct Rooms: Decodable { let configured: Bool }
-    struct Push: Decodable { let status: String }
-    struct Storage: Decodable { let reachable: Bool; let clientUploadsReady: Bool }
-    struct Disk: Decodable { let lowSpace: Bool? }
-    var ok: Bool?
-    var registrationMode: String?
-    var registrationOpen: Bool?
-    var items: [SelfHostingInvite]?
-    var nextBefore: String?
-    var id: String?
-    var code: String?
-    var expiresAt: String?
-    var publicUrl: PublicURL?
-    var turn: Turn?
-    var rooms: Rooms?
-    var push: Push?
-    var storage: Storage?
-    var disk: Disk?
-}
-
-private struct SelfHostingInvite: Decodable, Identifiable {
-    let id: String
-    let status: String
-    let maxUses: Int
-    let uses: Int
-    let expiresAt: String
-    var statusKey: String {
-        switch status {
-        case "active": return "Active invitation"
-        case "revoked": return "Revoked invitation"
-        case "expired": return "Expired invitation"
-        case "exhausted": return "Used invitation"
-        default: return "Invitation"
-        }
-    }
-}
-
 @MainActor
 private struct SelfHostingAdminView: View {
     let role: String
@@ -2242,22 +2258,28 @@ private struct SelfHostingAdminView: View {
     @Environment(\.scenePhase) private var scenePhase
     @State private var mode = ""
     @State private var registrationClosed = false
-    @State private var uses = "1"
-    @State private var days = "7"
+    @State private var uses = AdminInvitationPolicy.defaultUses
+    @State private var days = AdminInvitationPolicy.defaultDays
     @State private var selfCheck: SelfHostingAdminReply?
     @State private var revokeCandidate: SelfHostingInvite?
     @State private var invites: [SelfHostingInvite] = []
     @State private var nextBefore: String?
+    @State private var createdID: String?
     @State private var createdCode: String?
     @State private var createdLink: String?
+    @State private var issuedCodes = AdminIssuedInvitationCodes()
     @State private var qr: UIImage?
+    @State private var loaded = false
     @State private var busy = false
-    @State private var failed = false
+    @State private var failureMessage: String?
     @State private var generation: UInt64 = 0
     @State private var epoch = UUID()
     @State private var operationTask: Task<Void, Never>?
     @State private var captured = UIScreen.main.isCaptured
     @State private var copiedRevision: Int?
+    private var client: AdminRegistrationClient {
+        AdminRegistrationClient(role: role, request: { path, body in try await call(path, body) })
+    }
     var body: some View {
         UnyriSettingsPage("Registration and invitations") {
             registrationControls
@@ -2267,7 +2289,7 @@ private struct SelfHostingAdminView: View {
             Button("Refresh") { run { try await load() } }.disabled(busy)
             configurationChecks
             if busy { ProgressView() }
-            if failed { Text("Could not load or change invitations. Unlock administration again or retry. A lost creation response may have created an invitation; check the list before retrying.").font(.footnote) }
+            if let failureMessage { Text(failureMessage).font(.footnote).foregroundStyle(UnyriColors.warning) }
         }
         .task { generation = auth.sessionGeneration; run { try await load() } }
         .alert("Revoke invitation?", isPresented: Binding(get: { revokeCandidate != nil }, set: { if !$0 { revokeCandidate = nil } })) {
@@ -2276,9 +2298,9 @@ private struct SelfHostingAdminView: View {
                 guard let candidate = revokeCandidate else { return }
                 revokeCandidate = nil
                 run {
-                    guard UUID(uuidString: candidate.id) != nil else { throw APIError.invalidURL }
-                    let reply = try await call("invites/" + candidate.id + "/revoke", [:])
-                    guard reply.ok == true else { throw APIError.decoding("Invite revocation response") }
+                    try await client.revoke(candidate.id)
+                    issuedCodes.remove(candidate.id)
+                    if createdID == candidate.id { clearCreated() }
                     try await loadInvites()
                 }
             }
@@ -2288,54 +2310,64 @@ private struct SelfHostingAdminView: View {
         .onDisappear { retire() }
         .onReceive(NotificationCenter.default.publisher(for: UIScreen.capturedDidChangeNotification)) { _ in
             captured = UIScreen.main.isCaptured
-            if captured { clearCreated() }
+            if captured { clearCreated(); issuedCodes.clear() }
         }
     }
     @ViewBuilder private var registrationControls: some View {
-        if role == "owner", !mode.isEmpty {
-            Toggle("Require an invitation to register", isOn: Binding(get: { mode == "invite_only" }, set: { enabled in
-                let selected = enabled ? "invite_only" : "open"
-                run {
-                    let result = try await call("registration", ["registration_mode": selected])
-                    guard result.ok == true else { throw APIError.decoding("Registration mode response") }
-                    mode = selected
-                    RegistrationPolicyCache.shared.invalidate(auth.authenticatedServerURL.absoluteString)
-                }
-            })).disabled(busy)
-            Text("Closing registration temporarily is a separate server setting.").font(.footnote)
-            if registrationClosed { Text("Registration is temporarily closed by the server operator.").font(.footnote) }
+        if !mode.isEmpty {
+            UnyriSettingsGroup {
+                VStack(alignment: .leading, spacing: 10) {
+                    Toggle("Require an invitation to register", isOn: Binding(get: { mode == "invite_only" }, set: { enabled in
+                        guard AdminInvitationPolicy.mayChangeMode(role) else { return }
+                        let selected = enabled ? "invite_only" : "open"
+                        run {
+                            try await client.saveMode(selected)
+                            mode = selected
+                            RegistrationPolicyCache.shared.invalidate(auth.authenticatedServerURL.absoluteString)
+                        }
+                    })).disabled(busy || !AdminInvitationPolicy.mayChangeMode(role))
+                        .accessibilityIdentifier("admin-registration-mode")
+                    if !AdminInvitationPolicy.mayChangeMode(role) { Text("Only the owner can change registration mode.").font(.footnote) }
+                    Text("Closing registration temporarily is a separate server setting.").font(.footnote)
+                    if registrationClosed { Text("Registration is temporarily closed by the server operator.").font(.footnote) }
+                }.padding(16)
+            }
         }
     }
-
-    @ViewBuilder private var creationControls: some View {
-        TextField("Maximum invitation uses", text: $uses).keyboardType(.numberPad).unyriFieldStyle().disabled(busy)
-        TextField("Invitation lifetime in days", text: $days).keyboardType(.numberPad).unyriFieldStyle().disabled(busy)
-        Button("Create invitation") { run {
-            clearCreated()
-            guard let useCount = Int(uses), (1...10000).contains(useCount), let dayCount = Int(days), (1...365).contains(dayCount) else { return }
-            let created = try await call("invites", ["max_uses": useCount, "expires_in_seconds": dayCount * 86400])
-            guard let code = created.code, (1...256).contains(code.utf8.count),
-                  code.utf8.allSatisfy({ (65...90).contains($0) || (97...122).contains($0) || (48...57).contains($0) || [45, 46, 95].contains($0) }),
-                  UUID(uuidString: created.id ?? "") != nil else { throw APIError.decoding("Invite creation response") }
-            guard scenePhase == .active, !captured else { return }
-            createdCode = code
-            createdLink = SelfHostingPolicy.inviteLink(origin: auth.authenticatedServerURL.absoluteString, code: code)
-            qr = createdLink.flatMap(UnyriProfileQRSheet.qr)
-            try await loadInvites()
-        } }.unyriProminentAction().disabled(busy || captured || !validInvitationLimits)
-        Text("Choose 1–10000 uses and 1–365 days. Save the new code now; the server will not show it again.").font(.footnote)
+    private var creationControls: some View {
+        UnyriSettingsGroup {
+            VStack(alignment: .leading, spacing: 12) {
+                TextField("Maximum invitation uses", text: $uses).keyboardType(.numberPad).unyriFieldStyle().disabled(busy)
+                    .accessibilityLabel("Maximum invitation uses").accessibilityIdentifier("admin-invite-uses")
+                TextField("Invitation lifetime in days", text: $days).keyboardType(.numberPad).unyriFieldStyle().disabled(busy)
+                    .accessibilityLabel("Invitation lifetime in days").accessibilityIdentifier("admin-invite-days")
+                Button("Create code") { run {
+                    clearCreated()
+                    let created = try await client.create(uses: uses, days: days)
+                    guard let code = created.code, let id = created.id, scenePhase == .active, !captured else { return }
+                    createdID = id; createdCode = code
+                    issuedCodes.store(code, for: id)
+                    createdLink = SelfHostingPolicy.inviteLink(origin: auth.authenticatedServerURL.absoluteString, code: code)
+                    qr = createdLink.flatMap(UnyriProfileQRSheet.qr)
+                    if let maxUses = created.maxUses, let expiry = created.expiresAt {
+                        invites.insert(SelfHostingInvite(id: id, status: "active", maxUses: maxUses, uses: 0, expiresAt: expiry), at: 0)
+                        loaded = true
+                    }
+                } }.unyriProminentAction().disabled(busy || captured || AdminInvitationPolicy.limits(uses: uses, days: days) == nil)
+                    .accessibilityIdentifier("admin-invite-create")
+                Text("Choose 1–10000 uses and 1–365 days. Save the new code now; the server will not show it again.").font(.footnote)
+            }.padding(16)
+        }
     }
-
     @ViewBuilder private var createdInvitation: some View {
         if let code = createdCode, scenePhase == .active, !captured {
             UnyriSettingsGroup("New invitation") {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text(code).font(.body.monospaced()).privacySensitive()
-                    Button("Copy invitation code") { copy(code) }
-                    ShareLink(item: code) { Text("Share invitation code") }
+                    Text(code).font(.body.monospaced()).privacySensitive().accessibilityIdentifier("admin-invite-code")
+                    Button("Copy") { copy(code) }
                     if let link = createdLink {
                         Button("Copy invitation link") { copy(link) }
-                        ShareLink(item: link) { Text("Share invitation link") }
+                        ShareLink(item: link) { Text("Share") }
                     }
                     if let image = qr { Image(uiImage: image).interpolation(.none).resizable().scaledToFit().frame(maxWidth: 220).privacySensitive() }
                     Button("Done") { clearCreated() }
@@ -2343,26 +2375,31 @@ private struct SelfHostingAdminView: View {
             }
         }
     }
-
     @ViewBuilder private var invitationRows: some View {
+        if loaded, invites.isEmpty { UnyriSettingsNote("No invitation codes yet.") }
+        if !invites.isEmpty { UnyriSettingsNote("Only codes created on this screen can be copied or shared. The server cannot show older codes again.") }
         ForEach(invites) { invite in
             UnyriSettingsGroup {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(UnyriL10n.string(invite.statusKey)).font(.headline)
                     Text(invite.id).font(.caption.monospaced()).textSelection(.enabled)
                     Text(String(format: UnyriL10n.string("Invitation uses: %d / %d"), invite.uses, invite.maxUses))
-                    Text(invite.expiresAt).font(.caption)
+                    Text(String(format: UnyriL10n.string("Expires: %@"), formattedExpiry(invite.expiresAt))).font(.caption)
+                    if invite.status == "active", let code = issuedCodes[invite.id], scenePhase == .active, !captured {
+                        Button("Copy") { copy(code) }
+                        if let link = SelfHostingPolicy.inviteLink(origin: auth.authenticatedServerURL.absoluteString, code: code) {
+                            ShareLink(item: link) { Text("Share") }
+                        }
+                    }
                     if invite.status == "active" {
                         Button("Revoke invitation", role: .destructive) { revokeCandidate = invite }.disabled(busy)
                     }
                 }.padding(16)
             }
         }
-        if let cursor = nextBefore, UUID(uuidString: cursor) != nil {
+        if let cursor = nextBefore {
             Button("Load more") { run {
-                let page = try await call("invites?before=" + cursor, nil)
-                try validatePage(page)
-                guard page.nextBefore != cursor else { throw APIError.decoding("Invite pagination did not advance") }
+                let page = try await client.invitations(before: cursor)
                 let oldIDs = Set(invites.map(\.id))
                 invites.append(contentsOf: (page.items ?? []).filter { !oldIDs.contains($0.id) })
                 nextBefore = page.nextBefore
@@ -2390,20 +2427,25 @@ private struct SelfHostingAdminView: View {
         }
     }
 
+    private func formattedExpiry(_ value: String) -> String {
+        guard let date = AdminInvitationPolicy.expiry(value) else { return UnyriL10n.string("Unknown") }
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: UnyriL10n.language)
+        formatter.dateStyle = .medium; formatter.timeStyle = .short
+        return formatter.string(from: date)
+    }
     private func clearCreated() {
-        createdCode = nil; createdLink = nil; qr = nil
+        createdID = nil; createdCode = nil; createdLink = nil; qr = nil
         if let revision = copiedRevision, UIPasteboard.general.changeCount == revision { UIPasteboard.general.items = [] }
         copiedRevision = nil
     }
-    private func retire() { operationTask?.cancel(); operationTask = nil; epoch = UUID(); clearCreated(); invites = []; mode = ""; nextBefore = nil; selfCheck = nil; revokeCandidate = nil; busy = false }
-    private var validInvitationLimits: Bool {
-        guard uses.utf8.count <= 5, days.utf8.count <= 3, let count = Int(uses), let lifetime = Int(days) else { return false }
-        return (1...10000).contains(count) && (1...365).contains(lifetime)
+    private func retire() {
+        operationTask?.cancel(); operationTask = nil; epoch = UUID(); clearCreated()
+        invites = []; issuedCodes.clear(); mode = ""; nextBefore = nil; selfCheck = nil; revokeCandidate = nil; busy = false; loaded = false
     }
     private func checkRow(_ title: String, _ value: Bool?) -> some View {
         HStack {
-            Text(LocalizedStringKey(title))
-            Spacer()
+            Text(LocalizedStringKey(title)); Spacer()
             Text(UnyriL10n.string(value.map { $0 ? "Yes" : "No" } ?? "Unknown"))
         }.font(.footnote)
     }
@@ -2414,54 +2456,124 @@ private struct SelfHostingAdminView: View {
     }
     private func run(_ action: @escaping @MainActor () async throws -> Void) {
         guard !busy, scenePhase == .active, generation == auth.sessionGeneration else { return }
-        busy = true; failed = false
+        busy = true; failureMessage = nil
         let operation = epoch
         operationTask = Task { @MainActor in
             defer { if epoch == operation { busy = false; operationTask = nil } }
             do { try await action() }
             catch is CancellationError { }
-            catch { if epoch == operation, generation == auth.sessionGeneration { failed = true } }
+            catch {
+                if epoch == operation, generation == auth.sessionGeneration {
+                    let status: Int?
+                    if case APIError.http(let code) = error { status = code } else { status = nil }
+                    let key = AdminRequestFailurePolicy.messageKey(status: status, networkFailure: error is URLError, invitationOperation: true)
+                        ?? "Could not load or change invitations. Unlock administration again or retry. A lost creation response may have created an invitation; check the list before retrying."
+                    failureMessage = UnyriL10n.string(key)
+                    if status == 401 { clearCreated(); issuedCodes.clear() }
+                }
+            }
             if epoch != operation || generation != auth.sessionGeneration || scenePhase != .active { clearCreated() }
         }
     }
     private func call(_ path: String, _ body: [String: Any]?) async throws -> SelfHostingAdminReply {
         guard !Task.isCancelled, scenePhase == .active, generation == auth.sessionGeneration else { throw CancellationError() }
-        guard ["owner", "moderator"].contains(role), role == "owner" || path.hasPrefix("invites") else { throw APIError.http(404) }
+        guard AdminInvitationPolicy.mayManage(role), role == "owner" || path.hasPrefix("invites") else { throw APIError.http(404) }
         let operation = epoch
         let result = try await request(path, body)
         guard !Task.isCancelled, operation == epoch, scenePhase == .active, generation == auth.sessionGeneration else { throw CancellationError() }
         return result
     }
     private func loadInvites() async throws {
-        let reply = try await call("invites", nil)
-        try validatePage(reply)
-        invites = reply.items ?? []; nextBefore = reply.nextBefore
+        let reply = try await client.invitations()
+        invites = reply.items ?? []; nextBefore = reply.nextBefore; loaded = true
+        for item in invites where item.status != "active" { issuedCodes.remove(item.id) }
+        if let id = createdID, let item = invites.first(where: { $0.id == id }), item.status != "active" { clearCreated() }
     }
     private func load() async throws {
-        if role == "owner" {
-            let registration = try await call("registration", nil)
-            guard let selected = registration.registrationMode, ["open", "invite_only"].contains(selected) else { throw APIError.decoding("Registration mode response") }
-            mode = selected; registrationClosed = registration.registrationOpen == false
+        if AdminInvitationPolicy.mayChangeMode(role) {
+            let registration = try await client.registration()
+            mode = registration.registrationMode ?? ""; registrationClosed = registration.registrationOpen == false
+        } else {
+            // The admin registration endpoint is owner-only. Moderators read the
+            // public policy from their authenticated origin, without changing it.
+            let operation = epoch
+            let access = try await auth.currentAccessToken()
+            guard !Task.isCancelled, operation == epoch, generation == auth.sessionGeneration, scenePhase == .active else { throw CancellationError() }
+            let policy = try await APIClient(baseURL: auth.authenticatedServerURL, preventRedirects: true, ephemeral: true)
+                .get("/server-info", accessToken: access, as: RegistrationPolicy.self)
+            guard !Task.isCancelled, operation == epoch, generation == auth.sessionGeneration, scenePhase == .active else { throw CancellationError() }
+            guard let selected = policy.registrationMode, ["open", "invite_only"].contains(selected), policy.registrationOpen != nil else { throw AdminRegistrationError.invalidReply }
+            mode = selected; registrationClosed = policy.registrationOpen == false
         }
         try await loadInvites()
         if role == "owner" { selfCheck = try await call("self-check", nil) }
     }
-    private func validatePage(_ page: SelfHostingAdminReply) throws {
-        guard let items = page.items, items.count <= 100, Set(items.map(\.id)).count == items.count,
-              items.allSatisfy({ UUID(uuidString: $0.id) != nil && (1...10000).contains($0.maxUses) && $0.uses >= 0 && $0.expiresAt.utf8.count <= 64 }),
-              page.nextBefore == nil || UUID(uuidString: page.nextBefore ?? "") != nil else { throw APIError.decoding("Invalid invitation page") }
-    }
 }
 
 private struct SelfHostingPhoneGuide: View {
+    @Environment(\.openURL) private var openURL
+
     var body: some View {
         UnyriSettingsPage("Your own server") {
-            UnyriSettingsNote("Install the server on a PC that stays on or on a VPS. Use Docker and a domain name with a valid HTTPS certificate.")
-            UnyriSettingsNote("Forward HTTPS 443 and the configured call relay ports. With CGNAT, use a VPS or a tunnel. A DDNS name can follow a changing public IP address.")
-            UnyriSettingsNote("Scan a server invitation, confirm the address, and create an account. If invitations are required, the invitation code is filled in for that server.")
-            UnyriSettingsNote("On a fresh server, open Account → Server → Become the owner and enter or scan the installer code. Then enroll administrator sign-in protection.")
-            UnyriSettingsNote("Test messages and calls over mobile data. Connection checks do not prove that call relay ports or push delivery work. iOS background notifications need configured Apple push support or the planned relay.")
-            NavigationLink("Check connection") { ConnectionSettingsView() }
+            SelfHostingStepCard(number: 1, title: "A computer that stays on",
+                summary: "Use your own computer or rent one online (VPS).",
+                detail: "A server is a program on a computer that stays on: your home PC or a rented computer (VPS). The UNYRI page on GitHub has everything you need: UNYRI Server for Windows, one command for VPS/Linux, and a step-by-step guide. The program and guide are free.") { EmptyView() }
+            SelfHostingStepCard(number: 2, title: "Install UNYRI Server",
+                summary: "Install the server program using the guide.",
+                detail: "Follow the guide to install UNYRI Server on that computer. Docker is the tool that runs the server. You also need a domain (its internet name) and a valid HTTPS certificate for a secure connection.") {
+                Button("Guide and downloads") {
+                    openURL(SelfHostingGuidePolicy.guideURL(language: UnyriL10n.language))
+                }
+                .unyriProminentAction().frame(maxWidth: .infinity)
+                .accessibilityIdentifier("selfhosting-guide-downloads")
+            }
+            SelfHostingStepCard(number: 3, title: "Allow access from the internet",
+                summary: "Follow the guide so your phone can connect away from home.",
+                detail: "Let phones reach the server from the internet. In your router, open HTTPS port 443 and the ports listed in the guide that carry calls through the server. If your provider uses CGNAT (a shared internet address), use a tunnel (a connection through another server) or a VPS. DDNS gives the server a permanent name even when its internet address changes.") { EmptyView() }
+            SelfHostingStepCard(number: 4, title: "Connect your phone",
+                summary: "Confirm the server address or scan an invitation, then create an account.",
+                detail: "Scan a server invitation and confirm the address. Then create an account. If this server requires an invitation code, the app fills it in for that server.") { EmptyView() }
+            SelfHostingStepCard(number: 5, title: "Become the owner",
+                summary: "Use the one-time code shown by the installer.",
+                detail: "On a new server, choose Become the owner. Enter or scan the code from the installer. Then set up protection for administrator sign-in.") { EmptyView() }
+            SelfHostingStepCard(number: 6, title: "Check messages and calls",
+                summary: "Turn off Wi-Fi and check messages, calls and notifications using mobile data.",
+                detail: "Turn off Wi-Fi and test messages and calls using mobile data. A connection check cannot confirm that call relay ports work or notifications arrive. Notifications need a provider configured on the server. On iPhone, background notifications need Apple push support or the planned notification relay.") {
+                NavigationLink { ConnectionSettingsView() } label: { Text("Check connection") }
+                    .unyriProminentAction().frame(maxWidth: .infinity)
+            }
+        }
+    }
+}
+
+private struct SelfHostingStepCard<Actions: View>: View {
+    let number: Int
+    let title: String
+    let summary: String
+    let detail: String
+    private let actions: Actions
+
+    init(number: Int, title: String, summary: String, detail: String, @ViewBuilder actions: () -> Actions) {
+        self.number = number; self.title = title; self.summary = summary; self.detail = detail
+        self.actions = actions()
+    }
+
+    var body: some View {
+        UnyriSettingsGroup {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack(spacing: 10) {
+                    Text(number.formatted()).font(.subheadline.weight(.semibold))
+                        .frame(width: 32, height: 32)
+                        .background(UnyriColors.secondaryText.opacity(0.12), in: Circle())
+                    Text(LocalizedStringKey(title)).font(.headline).accessibilityAddTraits(.isHeader)
+                }
+                Text(LocalizedStringKey(summary)).font(.subheadline).fixedSize(horizontal: false, vertical: true)
+                DisclosureGroup("More details") {
+                    Text(LocalizedStringKey(detail)).font(.footnote).foregroundStyle(UnyriColors.secondaryText)
+                        .fixedSize(horizontal: false, vertical: true).padding(.top, 6)
+                }
+                actions
+            }.padding(14)
         }
     }
 }
@@ -2525,7 +2637,7 @@ private struct CallSettingsView: View {
                     if mode != CallPeerToPeer.allCases.last { UnyriSettingsDivider() }
                 }
             }
-            UnyriSettingsNote("A direct connection is usually faster, but the other person's device can see your IP address. Via the server, only the server's address is visible. Applies from the next call.")
+            UnyriSettingsNote("A direct connection is usually faster, but the other person's device can see your IP address. Via the server, only the server's address is visible. Applies from the next call. The same setting applies to file transfers.")
         }
     }
 
@@ -2574,7 +2686,7 @@ private struct CallSettingsView: View {
     private func peerDetail(_ mode: CallPeerToPeer) -> LocalizedStringKey {
         switch mode {
         case .everyone: return "Connect directly whenever possible. Best quality."
-        case .contacts: return "Directly only with people you have a chat with. Everyone else via the server."
+        case .contacts: return "Directly only with saved contacts. Everyone else via the server."
         case .nobody: return "Always via the server. Your IP address stays hidden."
         }
     }

@@ -139,6 +139,8 @@ internal fun directTransferStatusResource(status: DirectTransferStatus): Int = w
     DirectTransferStatus.QUEUED -> R.string.direct_queued
     DirectTransferStatus.SERVER_CAPACITY -> R.string.direct_server_capacity
     DirectTransferStatus.NO_ROUTE -> R.string.direct_no_route
+    DirectTransferStatus.RELAY_UNAVAILABLE -> R.string.direct_relay_unavailable
+    DirectTransferStatus.PEER_RELAY_UNAVAILABLE -> R.string.direct_peer_relay_unavailable
     DirectTransferStatus.PREFIX_MISMATCH -> R.string.direct_prefix_mismatch
     DirectTransferStatus.DISK_FULL -> R.string.direct_disk_full
     DirectTransferStatus.SOURCE_MISSING -> R.string.direct_source_missing
@@ -162,6 +164,8 @@ internal fun directTransferErrorResource(reason: String): Int = when (reason) {
     "too_many" -> R.string.direct_too_many
     "other_device" -> R.string.direct_other_device
     "security_error" -> R.string.direct_security_error
+    "relay_unavailable" -> R.string.direct_relay_unavailable
+    "peer_relay_unavailable" -> R.string.direct_peer_relay_unavailable
     "transfer_unavailable", "access_unavailable" -> R.string.direct_transfer_unavailable
     "manual_pause_save_failed" -> R.string.direct_pause_save_failed
     "manual_continue_save_failed" -> R.string.direct_continue_save_failed

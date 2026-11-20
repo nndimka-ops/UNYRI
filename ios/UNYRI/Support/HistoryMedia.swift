@@ -31,15 +31,17 @@ final class HistoryMediaSpool {
     private let digest: () -> any HistoryMediaDigest
     private let lock = NSLock()
     init(root: URL, digest: @escaping () -> any HistoryMediaDigest) {
-        self.root = root.standardizedFileURL.resolvingSymlinksInPath()
+        self.root = root.standardizedFileURL
         self.digest = digest
     }
     func receive(_ entry: HistoryMediaEntry, open: () throws -> InputStream, assertCurrent: () throws -> Void) throws -> URL {
         lock.lock(); defer { lock.unlock() }
         try entry.validate(); try assertCurrent()
         let fm = FileManager.default
+        let boundary = AttachmentCacheBoundary(root: root)
+        _ = try boundary.file(name: "containment-check")
         try fm.createDirectory(at: root, withIntermediateDirectories: true)
-        let destination = root.appendingPathComponent("\(entry.blob)-\(entry.sha256).cipher")
+        let destination = try boundary.file(name: "\(entry.blob)-\(entry.sha256).cipher")
         if fm.fileExists(atPath: destination.path) {
             try verify(destination, entry: entry, assertCurrent: assertCurrent)
             return destination
@@ -70,9 +72,9 @@ final class HistoryMediaSpool {
     }
     func verify(_ file: URL, entry: HistoryMediaEntry, assertCurrent: () throws -> Void) throws {
         try entry.validate(); try assertCurrent()
+        _ = try AttachmentCacheBoundary(root: root).checked(file)
         let canonical = file.standardizedFileURL.resolvingSymlinksInPath()
-        guard canonical.path == file.standardizedFileURL.path,
-              canonical.deletingLastPathComponent().path == root.path else { throw Failure.storage }
+        guard canonical.deletingLastPathComponent().path == root.resolvingSymlinksInPath().path else { throw Failure.storage }
         let attributes = try FileManager.default.attributesOfItem(atPath: file.path)
         guard attributes[.type] as? FileAttributeType == .typeRegular,
               (attributes[.size] as? NSNumber)?.int64Value == entry.bytes,

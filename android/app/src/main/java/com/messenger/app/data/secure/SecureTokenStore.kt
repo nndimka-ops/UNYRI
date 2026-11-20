@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.messenger.app.data.auth.DeviceBindingAvailability
 import com.messenger.app.data.sync.SyncCursorStore
 import java.time.Instant
 
@@ -12,20 +13,14 @@ import java.time.Instant
  * a key in the Android Keystore. Never store tokens in plain SharedPreferences.
  */
 class SecureTokenStore(context: Context, prefsName: String = PREFS_FILE_NAME) : SyncCursorStore {
+    private val deviceKeyContext = context
+    private var cachedDeviceBinding: com.messenger.app.data.auth.DeviceSessionBinding? = null
     private val installationPreferences = context.getSharedPreferences("installation-identity", Context.MODE_PRIVATE)
 
-    private val prefs: SharedPreferences = run {
-        val masterKey = MasterKey.Builder(context)
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
+    private val prefs: SharedPreferences = WorkspaceSecrets.open(context, prefsName)
 
-        EncryptedSharedPreferences.create(
-            context,
-            prefsName,
-            masterKey,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
-        )
+    init {
+        com.messenger.app.data.identity.PeerCacheUpgrade.clearDirectoryOnce(prefs)
     }
 
     // EncryptedSharedPreferences wrappers differ, but Android shares their underlying
@@ -33,6 +28,62 @@ class SecureTokenStore(context: Context, prefsName: String = PREFS_FILE_NAME) : 
     // serialize refresh-token rotation for that same saved session.
     internal val refreshMutex = synchronized(refreshLocks) {
         refreshLocks.getOrPut(context.getSharedPreferences(prefsName, Context.MODE_PRIVATE)) { kotlinx.coroutines.sync.Mutex() }
+    }
+
+    /** Existing alias + missing key is terminal; copied encrypted preferences must never re-enroll. */
+    @Synchronized
+    fun deviceSessionBinding(createForLegacy: Boolean = false): com.messenger.app.data.auth.DeviceSessionBinding? {
+        return DeviceBindingAvailability(
+            openEnrolled = {
+                prefs.getString("device_session_key", null)?.let { alias ->
+                    cachedDeviceBinding?.takeIf { it.alias == alias }
+                        ?: com.messenger.app.data.auth.DeviceSessionBinding.open(alias, prefs.getString("device_session_protection", null)).also { cachedDeviceBinding = it }
+                }
+            },
+            hardwareUnavailable = ::deviceSessionHardwareUnavailable,
+            create = ::createLegacyBinding,
+            rememberUnavailable = { check(prefs.edit().putBoolean("device_session_hardware_unavailable", true).commit()) },
+        ).binding(createForLegacy)
+    }
+
+    private fun createLegacyBinding(): com.messenger.app.data.auth.DeviceSessionBinding {
+        val binding = com.messenger.app.data.auth.DeviceSessionBinding.create(deviceKeyContext)
+        // A prepared key is not yet enrolled. Expire the cached legacy access atomically,
+        // so a lost enrollment response forces another signed refresh before WebSocket use.
+        try { check(prefs.edit().putString("device_session_key", binding.alias).putString("device_session_protection", binding.key.protection)
+            .putLong(KEY_ACCESS_EXPIRES_AT, 0).commit()) }
+        catch (error: Exception) { binding.erase(); throw error }
+        cachedDeviceBinding = binding
+        return binding
+    }
+
+    fun hasDeviceSessionBinding(): Boolean = prefs.contains("device_session_key")
+    fun deviceSessionHardwareUnavailable(): Boolean = prefs.getBoolean("device_session_hardware_unavailable", false)
+    fun signInHardwareUnavailable(): Boolean = prefs.getBoolean("pending_device_session_hardware_unavailable", false)
+    @Synchronized
+    fun createSignInBinding(): com.messenger.app.data.auth.DeviceSessionBinding? {
+        prefs.getString("pending_device_session_key", null)?.let { com.messenger.app.data.auth.DeviceSessionBinding.erase(it) }
+        check(prefs.edit().remove("pending_device_session_key").remove("pending_device_session_hardware_unavailable").commit())
+        val binding = DeviceBindingAvailability.createOrUnbound(
+            create = { com.messenger.app.data.auth.DeviceSessionBinding.create(deviceKeyContext) },
+            rememberUnavailable = { check(prefs.edit().putBoolean("pending_device_session_hardware_unavailable", true).commit()) },
+        ) ?: return null
+        try { check(prefs.edit().putString("pending_device_session_key", binding.alias).commit()) }
+        catch (error: Exception) { binding.erase(); throw error }
+        return binding
+    }
+    @Synchronized
+    fun discardSignInBinding(binding: com.messenger.app.data.auth.DeviceSessionBinding?) {
+        if (binding == null) {
+            check(prefs.edit().remove("pending_device_session_hardware_unavailable").commit())
+            return
+        }
+        // A crash or interrupted cache cleanup must leave an erasable durable pending alias.
+        if (prefs.getString("device_session_key", null) == binding.alias) return
+        binding.erase()
+        if (prefs.getString("pending_device_session_key", null) == binding.alias) {
+            check(prefs.edit().remove("pending_device_session_key").commit())
+        }
     }
 
     private fun screenOwner(): String? = userId()?.let {
@@ -83,11 +134,13 @@ class SecureTokenStore(context: Context, prefsName: String = PREFS_FILE_NAME) : 
         val encoded = kotlinx.serialization.json.Json.encodeToString(OfflineScreen.serializer(), OfflineScreen(owner, body))
         check(prefs.edit().putString("offline_$key", encoded).commit())
     }
+    fun eraseOfflineDirectory() { check(prefs.edit().remove("offline_directory").commit()) }
 
     fun saveTokens(accessToken: String, accessTokenExpiresAt: Instant, refreshToken: String) {
+        val localExpiry = if (hasDeviceSessionBinding()) com.messenger.app.data.auth.DeviceAccessExpiry.localExpiry(accessToken) else accessTokenExpiresAt
         check(prefs.edit()
             .putString(KEY_ACCESS_TOKEN, accessToken)
-            .putLong(KEY_ACCESS_EXPIRES_AT, accessTokenExpiresAt.epochSecond)
+            .putLong(KEY_ACCESS_EXPIRES_AT, localExpiry.epochSecond)
             .putString(KEY_REFRESH_TOKEN, refreshToken)
             .remove(KEY_REFRESH_REQUEST_ID)
             .commit()) { "Could not persist refreshed session" }
@@ -102,11 +155,21 @@ class SecureTokenStore(context: Context, prefsName: String = PREFS_FILE_NAME) : 
 
     @Synchronized
     fun saveSession(accessToken: String, expiresAt: Instant, refreshToken: String, userId: String,
-                    username: String, displayName: String, deviceId: String, historyBeforeSequence: Long? = null, signupPending: Boolean = false) {
+                    username: String, displayName: String, deviceId: String, historyBeforeSequence: Long? = null, signupPending: Boolean = false,
+                    deviceBinding: com.messenger.app.data.auth.DeviceSessionBinding? = null) {
+        val localExpiry = if (deviceBinding != null) com.messenger.app.data.auth.DeviceAccessExpiry.localExpiry(accessToken) else expiresAt
+        val oldAlias = prefs.getString("device_session_key", null)
         check(prefs.edit().putString(KEY_ACCESS_TOKEN, accessToken)
+            .putBoolean("device_session_hardware_unavailable", deviceBinding == null && signInHardwareUnavailable())
+            .remove("pending_device_session_key")
+            .remove("pending_device_session_hardware_unavailable")
+            .apply {
+                if (deviceBinding == null) { remove("device_session_key"); remove("device_session_protection") }
+                else { putString("device_session_key", deviceBinding.alias); putString("device_session_protection", deviceBinding.key.protection) }
+            }
             .remove("conference_owner_access").putString("conference_owner_nonce", java.util.UUID.randomUUID().toString())
             .putString(KEY_PUSH_SESSION, java.util.UUID.randomUUID().toString())
-            .putLong(KEY_ACCESS_EXPIRES_AT, expiresAt.epochSecond).putString(KEY_REFRESH_TOKEN, refreshToken)
+            .putLong(KEY_ACCESS_EXPIRES_AT, localExpiry.epochSecond).putString(KEY_REFRESH_TOKEN, refreshToken)
             .putString(KEY_USER_ID, userId).putString(KEY_USERNAME, username).putString(KEY_DISPLAY_NAME, displayName)
             .putString(KEY_DEVICE_ID, deviceId).putString(KEY_CACHE_OWNER_ID, userId)
             .putLong("history_before_sequence", historyBeforeSequence ?: 0L)
@@ -115,6 +178,8 @@ class SecureTokenStore(context: Context, prefsName: String = PREFS_FILE_NAME) : 
             .putBoolean("history_boundary_known", historyBeforeSequence != null)
             .remove("history_before_date")
             .remove(KEY_REFRESH_REQUEST_ID).commit()) { "Could not persist session" }
+        if (oldAlias != null && oldAlias != deviceBinding?.alias) com.messenger.app.data.auth.DeviceSessionBinding.erase(oldAlias)
+        cachedDeviceBinding = deviceBinding
     }
 
     fun historyBeforeSequence(): Long = if (userId() != null) prefs.getLong("history_before_sequence", 0L) else 0L
@@ -214,7 +279,14 @@ class SecureTokenStore(context: Context, prefsName: String = PREFS_FILE_NAME) : 
 
     @Synchronized
     fun clearSession() {
+        // Erase hardware authorization before removing the durable alias. Retry remains possible after failure.
+        prefs.getString("device_session_key", null)?.let { com.messenger.app.data.auth.DeviceSessionBinding.erase(it) }
+        prefs.getString("pending_device_session_key", null)?.let { com.messenger.app.data.auth.DeviceSessionBinding.erase(it) }
+        cachedDeviceBinding = null
         check(prefs.edit()
+            .remove("device_session_key").remove("device_session_protection")
+            .remove("pending_device_session_key")
+            .remove("device_session_hardware_unavailable").remove("pending_device_session_hardware_unavailable")
             .remove("conference_owner_access").remove("conference_owner_nonce")
             .remove("offline_profile").remove("offline_devices").remove("offline_directory")
             .remove("signup_recovery_pending")

@@ -16,6 +16,8 @@ import UIKit
 ///   diagnostics / diagnostics-help — signed-in QA report from drawer / Settings > Help
 ///   drawer / drawerc — A (default) / select C in Settings; run both at normal and accessibility-extra-large text
 ///   accountavatars — two isolated QA accounts with different photos, warmed once each; inspect A/C/Settings shots
+///   reactionmore / reactionslide / reactionsearch / reactionrecent — picker regressions on a fresh final bubble
+///   reactionpicker — instrumented picker latency and open/closed idle windows for Mac profiling
 @MainActor
 final class UNYRIWalkthroughUITests: XCTestCase {
     private var app: XCUIApplication!
@@ -35,6 +37,9 @@ final class UNYRIWalkthroughUITests: XCTestCase {
         app = XCUIApplication(bundleIdentifier: "com.messenger.unyri.X7G7M9PFJ3")
         app.launchArguments = ["-AppleLanguages", "(\(env["UNYRI_WALK_LANG"] ?? "ru"))", "-AppleLocale", env["UNYRI_WALK_LOCALE"] ?? "ru_RU"]
         app.launchEnvironment["UNYRI_FAKE_MIC"] = "1"   // simulator-only tone recorder
+        if ["reactionmore", "reactionslide", "reactionsearch", "reactionrecent", "reactionpicker"].contains(env["UNYRI_WALK_ROLE"] ?? "") {
+            app.launchEnvironment["UNYRI_QA_REACTION_PICKER"] = "1"
+        }
         if let callKit = env["UNYRI_WALK_CALLKIT"] { app.launchEnvironment["UNYRI_WALK_CALLKIT"] = callKit }
         // Simulators have no live peer picture: this shows the call's real glass look (alpha builds only).
         if env["UNYRI_WALK_FORCE_CALL_GLASS"] == "1" { app.launchEnvironment["UNYRI_WALK_FORCE_CALL_GLASS"] = "1" }
@@ -44,6 +49,8 @@ final class UNYRIWalkthroughUITests: XCTestCase {
         // A 10 s limit reaches the final seconds and the limit within one walkthrough.
         if env["UNYRI_WALK_ROLE"] == "videonotefx" { app.launchEnvironment["UNYRI_VIDEO_NOTE_MAX_SECONDS"] = "10" }
         if env["UNYRI_WALK_ROLE"] == "pushtap" { app.launchEnvironment["UNYRI_QA_PUSH_TAP_PEER"] = env["UNYRI_WALK_PEER_DISPLAY"] ?? "" }
+        // Shake reports on whatever the build's default (B-047 checks both paths).
+        if env["UNYRI_WALK_ROLE"] == "callshake" { app.launchArguments += ["-diagnosticReports.shake.v1", "YES"] }
         try FileManager.default.createDirectory(at: out, withIntermediateDirectories: true)
         app.launch()
     }
@@ -52,6 +59,8 @@ final class UNYRIWalkthroughUITests: XCTestCase {
         switch env["UNYRI_WALK_ROLE"] {
         case "register": try register()
         case "login2": try register(login2: true)
+        case "loginglass": try loginGlassProbe()
+        case "signin": try signInExisting()
         case "message": try message()
         case "inbox": try inbox()
         case "media": try media()
@@ -69,6 +78,8 @@ final class UNYRIWalkthroughUITests: XCTestCase {
         case "sharephotos": try photosShareProbe()
         case "emoji": try emojiProbe()
         case "callstart": try callStartProbe()
+        case "callbuttons": try callButtonsProbe()
+        case "callshake": try callShakeProbe()
         case "callrotate": try callRotateProbe()
         case "chatmenu":
             openChat(with: env["UNYRI_WALK_PEER"]!); sleep(1)
@@ -208,6 +219,7 @@ final class UNYRIWalkthroughUITests: XCTestCase {
             try callBannerProbe()
         case "topscroll": try topScrollProbe()
         case "accounts": try accountsProbe()
+        case "callswitch": try callSwitchProbe()
         case "callanswer": try callAnswerProbe()
         case "callpair": try callPairProbe()
         case "switchchats": try switchChatsProbe()
@@ -220,6 +232,11 @@ final class UNYRIWalkthroughUITests: XCTestCase {
         case "serverknow": try serverKnowledgeProbe()
         case "qrorigin": try qrOriginProbe()
         case "drawerheader": try drawerHeaderProbe()
+        case "chatmediagrid": try chatMediaGridProbe()
+
+        case "selectionbar": try selectionBarProbe()
+        case "contactsnumber": try contactsNumberProbe()
+        case "callstranger": try callStrangerProbe()
         case "screens": try screensProbe()
         case "pushtap": try pushTapProbe()
         case "diagnostics": try diagnosticsProbe()
@@ -265,6 +282,11 @@ final class UNYRIWalkthroughUITests: XCTestCase {
         case "videonote": try videoNoteProbe()
         case "videonotefx": try videoNoteEffectProbe()
         case "reactfx": try reactionEffectProbe()
+        case "reactionmore": try reactionMoreProbe()
+        case "reactionslide": try reactionSlideProbe()
+        case "reactionsearch": try reactionSearchProbe()
+        case "reactionrecent": try reactionRecentProbe()
+        case "reactionpicker": try reactionPickerTimingProbe()
         case "holddrag": try holdDragProbe()
         case "videoplayer": try videoPlayerProbe()
         case "bgresume":
@@ -293,7 +315,7 @@ final class UNYRIWalkthroughUITests: XCTestCase {
             // Leave and re-enter the same chat quickly: rows and media must come back at once.
             openChat(with: env["UNYRI_WALK_PEER"]!)
             sleep(2); shot("reopen-first")
-            let handle = env["UNYRI_WALK_PEER"]!
+            let handle = env["UNYRI_WALK_PEER_DISPLAY"]!
             for pass in 1...3 {
                 let back = app.buttons["chat-navigation-back"].firstMatch
                 guard back.waitForExistence(timeout: 5) else { shot("reopen-no-back"); break }
@@ -575,6 +597,412 @@ final class UNYRIWalkthroughUITests: XCTestCase {
         }
     }
 
+    // MARK: - Reaction picker (B-057)
+
+    private func reactionElement(_ identifier: String) -> XCUIElement {
+        app.descendants(matching: .any).matching(identifier: identifier).firstMatch
+    }
+
+    /// A unique last bubble keeps a previous run's reactions from satisfying an assertion.
+    /// Reopening also closes the keyboard, matching the owner's recorded B-057 steps.
+    private func seedReactionBubble(_ purpose: String) throws -> XCUIElement {
+        let host = URL(string: env["UNYRI_WALK_SERVER"] ?? "")?.host ?? ""
+        guard ["localhost", "127.0.0.1", "::1", "[::1]"].contains(host) else {
+            XCTFail("Reaction walkthroughs may only send to the isolated loopback QA fixture")
+            throw NSError(domain: "UNYRIWalk", code: 57)
+        }
+        openChat(with: env["UNYRI_WALK_PEER"]!)
+        let text = "QA \(purpose) \(UUID().uuidString.prefix(8))"
+        send(text)
+        sleep(2)
+        reopenPeerChat()
+        let bubble = lastBubble(containing: text)
+        XCTAssertTrue(bubble.waitForExistence(timeout: 10), "The last sent walk bubble must be visible")
+        XCTAssertTrue(bubble.isHittable)
+        return bubble
+    }
+
+    @discardableResult
+    private func openReactionPanel(on bubble: XCUIElement) -> XCUIElement {
+        bubble.press(forDuration: 0.8)
+        let expand = app.buttons["reaction-expand"]
+        if !expand.waitForExistence(timeout: 5) {
+            // Run the same owner gesture on 0.4.25 too: its old More button has no ID.
+            let oldMore = app.buttons.matching(NSPredicate(format: "label IN %@", ["More", "Ещё", "Еще", "Ще"])).firstMatch
+            if oldMore.exists { oldMore.tap() }
+        } else {
+            XCTAssertTrue(expand.isHittable)
+            expand.tap()
+        }
+        let panel = reactionElement("reaction-panel")
+        XCTAssertTrue(panel.waitForExistence(timeout: 5), "B-057: expand must grow an anchored, safe-area panel")
+        return panel
+    }
+
+    /// The probe is a real UIKit view at window.safeAreaLayoutGuide.layoutFrame.
+    /// No phone model/status-bar-height guesses are used for the home-indicator inset.
+    private func assertReactionPanelInsideSafeArea(_ panel: XCUIElement) {
+        let safe = reactionElement("reaction-safe-area")
+        XCTAssertTrue(safe.waitForExistence(timeout: 3), "App must expose the actual overlay window safe area")
+        guard panel.exists, safe.exists else { return }
+        let window = app.windows.firstMatch.frame
+        let bounds = safe.frame.intersection(window)
+        let frame = panel.frame
+        XCTAssertGreaterThan(bounds.height, 0)
+        XCTAssertGreaterThan(frame.width, 0)
+        XCTAssertGreaterThan(frame.height, 0)
+        XCTAssertGreaterThanOrEqual(frame.minY, bounds.minY + 7.5, "B-057: panel must clear the status bar by 8 pt")
+        XCTAssertLessThanOrEqual(frame.maxY, bounds.maxY - 7.5, "B-057: panel must clear the home indicator by 8 pt")
+        XCTAssertGreaterThanOrEqual(frame.minX, bounds.minX + 15.5)
+        XCTAssertLessThanOrEqual(frame.maxX, bounds.maxX - 15.5)
+        XCTAssertLessThanOrEqual(frame.height, window.height * 0.6 + 0.5)
+        XCTAssertLessThanOrEqual(frame.width, 420.5)
+        let search = app.textFields["reaction-search"]
+        XCTAssertTrue(search.waitForExistence(timeout: 5))
+        XCTAssertTrue(search.isHittable, "B-057: search must be tappable below the status bar")
+        let first = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "reaction-grid-")).firstMatch
+        XCTAssertTrue(first.waitForExistence(timeout: 5), "The first emoji row must be visible immediately")
+        if first.exists {
+            XCTAssertTrue(first.isHittable)
+            XCTAssertGreaterThanOrEqual(first.frame.height, 43.5)
+            XCTAssertGreaterThanOrEqual(first.frame.minY, frame.minY)
+            XCTAssertLessThanOrEqual(first.frame.maxY, frame.maxY - 8, "The first row must be fully above the bottom fade")
+        }
+        print("WALK_PROBE reactionmore safe=\(bounds) panel=\(frame) search=\(search.frame) first=\(first.frame)")
+    }
+
+    private func dismissReactionPicker() {
+        // The left 16 pt gutter is outside both the pill and the expanded panel.
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0.45)).withOffset(CGVector(dx: 4, dy: 0)).tap()
+        let closed = XCTNSPredicateExpectation(predicate: NSPredicate(format: "exists == false"), object: reactionElement("reaction-pill"))
+        XCTAssertEqual(XCTWaiter().wait(for: [closed], timeout: 5), .completed)
+        XCTAssertFalse(reactionElement("reaction-panel").exists)
+    }
+
+    private func reactionMoreProbe() throws {
+        let bubble = try seedReactionBubble("reactionmore")
+        let panel = openReactionPanel(on: bubble)
+        assertReactionPanelInsideSafeArea(panel)
+        shot("reactionmore-safe-area-first-row")
+        if panel.exists { dismissReactionPicker() }
+    }
+
+    /// Find the mine chip beside this exact last bubble, rather than an older emoji match.
+    private func waitForReactionChip(_ emoji: String, beside bubble: XCUIElement) {
+        let appeared = XCTNSPredicateExpectation(predicate: NSPredicate { [weak self] _, _ in
+            guard let self, bubble.exists else { return false }
+            let text = bubble.frame
+            return self.app.buttons.matching(identifier: "message-reaction-\(emoji)").allElementsBoundByIndex.contains {
+                $0.exists && $0.isSelected && $0.isHittable && $0.frame.minY >= text.minY - 2 && $0.frame.maxY <= text.maxY + 90
+            }
+        }, object: app)
+        XCTAssertEqual(XCTWaiter().wait(for: [appeared], timeout: 10), .completed, "The chosen \(emoji) chip must belong to the last walk bubble")
+        XCTAssertFalse(reactionElement("reaction-pill").exists, "Choosing must close the menu")
+        XCTAssertFalse(reactionElement("reaction-panel").exists)
+    }
+
+    private func reactionSlideProbe() throws {
+        let bubble = try seedReactionBubble("reactionslide")
+        // Measure the real third slot, then repeat the long-press without lifting the finger.
+        // Personal ranking and left/right message alignment can both change its position.
+        bubble.press(forDuration: 0.8)
+        let third = app.buttons["reaction-pill-2"]
+        XCTAssertTrue(third.waitForExistence(timeout: 5))
+        guard third.exists else { shot("reactionslide-missing-pill"); return }
+        let emoji = third.value as? String ?? ""
+        XCTAssertFalse(emoji.isEmpty, "Pill slot exposes its actual emoji as its accessibility value")
+        let target = third.frame
+        shot("reactionslide-third-slot")
+        dismissReactionPicker()
+        let destination = app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: target.midX, dy: target.midY))
+        bubble.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+            .press(forDuration: 0.8, thenDragTo: destination, withVelocity: 180, thenHoldForDuration: 0.15)
+        waitForReactionChip(emoji, beside: bubble)
+        shot("reactionslide-sent")
+        // Releasing over the bubble itself must leave the menu available for taps.
+        bubble.press(forDuration: 0.8)
+        XCTAssertTrue(app.buttons["reaction-pill-2"].waitForExistence(timeout: 5))
+        shot("reactionslide-release-outside-keeps-menu")
+        dismissReactionPicker()
+    }
+
+    @discardableResult
+    private func searchReaction(_ query: String, expecting emoji: String) -> XCUIElement {
+        let field = app.textFields["reaction-search"]
+        XCTAssertTrue(field.waitForExistence(timeout: 5))
+        field.tap()
+        let current = field.value as? String ?? ""
+        if !current.isEmpty && current != field.placeholderValue {
+            field.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: current.count))
+        }
+        field.typeText(query)
+        XCTAssertEqual(field.value as? String, query)
+        let result = app.buttons["reaction-grid-\(emoji)"]
+        let visible = XCTNSPredicateExpectation(predicate: NSPredicate(format: "exists == true AND hittable == true"), object: result)
+        XCTAssertEqual(XCTWaiter().wait(for: [visible], timeout: 5), .completed, "\(query) must find \(emoji)")
+        return result
+    }
+
+    private func reactionSearchProbe() throws {
+        let bubble = try seedReactionBubble("reactionsearch")
+        let panel = openReactionPanel(on: bubble)
+        guard panel.exists else { return }
+        searchReaction("кошка", expecting: "🐈")
+        shot("reactionsearch-cat")
+        searchReaction("дякую", expecting: "🙏")
+        shot("reactionsearch-thanks-uk")
+        let rocket = searchReaction("ракета", expecting: "🚀")
+        shot("reactionsearch-rocket")
+        guard rocket.exists && rocket.isHittable else { return }
+        rocket.tap()
+        waitForReactionChip("🚀", beside: bubble)
+        shot("reactionsearch-chosen-chip")
+    }
+
+    private func reactionRecentProbe() throws {
+        let bubble = try seedReactionBubble("reactionrecent")
+        let panel = openReactionPanel(on: bubble)
+        guard panel.exists else { return }
+        let rocket = searchReaction("ракета", expecting: "🚀")
+        guard rocket.exists && rocket.isHittable else { return }
+        rocket.tap()
+        waitForReactionChip("🚀", beside: bubble)
+        openReactionPanel(on: bubble)
+        let recent = app.buttons["reaction-recent-🚀"]
+        XCTAssertTrue(recent.waitForExistence(timeout: 5))
+        XCTAssertTrue(recent.isHittable, "A successful send intent must put rocket in the local recent row")
+        shot("reactionrecent-rocket-in-recent")
+        dismissReactionPicker()
+        // The isolated walk accounts have bounded fixture history. Each pair toggles this
+        // bubble off then on; only the add intent is eligible to increase local usage.
+        var ranked = false
+        for use in 0...8 {
+            bubble.press(forDuration: 0.8)
+            XCTAssertTrue(app.buttons["reaction-pill-0"].waitForExistence(timeout: 5))
+            ranked = (0..<7).contains { (app.buttons["reaction-pill-\($0)"].value as? String) == "🚀" }
+            if ranked { shot("reactionrecent-rocket-in-pill-\(use)"); dismissReactionPicker(); break }
+            if use == 8 { dismissReactionPicker(); break }
+            let expand = app.buttons["reaction-expand"]
+            guard expand.exists else { XCTFail("Missing expand button"); return }
+            expand.tap()
+            let pick = searchReaction("ракета", expecting: "🚀")
+            guard pick.exists else { return }
+            pick.tap() // remove mine
+            bubble.press(forDuration: 0.8)
+            app.buttons["reaction-expand"].tap()
+            let add = searchReaction("ракета", expecting: "🚀")
+            guard add.exists else { return }
+            add.tap() // add mine: counts once
+            waitForReactionChip("🚀", beside: bubble)
+        }
+        XCTAssertTrue(ranked, "After repeated send intents rocket must enter the personal top seven of the QA fixture")
+    }
+
+    /// XCTest wall timings include its accessibility/idling overhead. Compare the same
+    /// runner on baseline/candidate; use the 5 s windows with Mac CPU sampling as well.
+    private func reactionPickerTimingProbe() throws {
+        let bubble = try seedReactionBubble("reactionpicker")
+        var start = Date()
+        bubble.press(forDuration: 0.8)
+        let expand = app.buttons["reaction-expand"]
+        let legacyMore = app.buttons.matching(NSPredicate(format: "label IN %@", ["More", "Ещё", "Еще", "Ще"])).firstMatch
+        let ready = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in expand.exists || legacyMore.exists }, object: app)
+        XCTAssertEqual(XCTWaiter().wait(for: [ready], timeout: 5), .completed, "A candidate pill or the release's More button must appear")
+        let candidate = expand.exists
+        let mode = candidate ? "candidate" : "legacy"
+        if candidate {
+            XCTAssertTrue(reactionElement("reaction-pill").exists, "Candidate IDs are required once its expand button is present")
+        } else {
+            guard legacyMore.exists else { shot("reactionpicker-no-pill"); return }
+        }
+        print("WALK_PROBE reactionpicker mode=\(mode) longpress_to_pill_ms=\(Date().timeIntervalSince(start) * 1000)")
+        start = Date()
+        (candidate ? expand : legacyMore).tap()
+        let field: XCUIElement
+        if candidate {
+            XCTAssertTrue(reactionElement("reaction-panel").waitForExistence(timeout: 5))
+            field = app.textFields["reaction-search"]
+        } else {
+            // The shipped picker exposes its real placeholder, but no reaction IDs.
+            field = textField(["Найти эмодзи", "Find emoji"])
+        }
+        XCTAssertTrue(field.waitForExistence(timeout: 5))
+        guard field.exists else { shot("reactionpicker-no-search"); return }
+        XCTAssertTrue(field.isHittable)
+        print("WALK_PROBE reactionpicker mode=\(mode) expand_to_settled_ms=\(Date().timeIntervalSince(start) * 1000)")
+        field.tap()
+        start = Date()
+        field.typeText("кошка")
+        let result = candidate ? app.buttons["reaction-grid-🐈"] : app.buttons.matching(NSPredicate(format: "label == %@", "🐈")).firstMatch
+        let empty = candidate ? reactionElement("reaction-no-results")
+            : app.staticTexts.matching(NSPredicate(format: "label IN %@", ["Ничего не найдено", "No results"])).firstMatch
+        let answered = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in result.exists || empty.exists }, object: app)
+        let answer = XCTWaiter().wait(for: [answered], timeout: 5)
+        let outcome = result.exists ? "match" : empty.exists ? "empty" : "timeout"
+        if candidate {
+            XCTAssertEqual(answer, .completed)
+            XCTAssertTrue(result.exists, "Candidate search must expose the matching emoji ID")
+        }
+        print("WALK_PROBE reactionpicker mode=\(mode) query_to_results_ms=\(Date().timeIntervalSince(start) * 1000) outcome=\(outcome)")
+        field.typeText("\n")
+        shot("reactionpicker-results")
+        print("WALK_PROBE reactionpicker mode=\(mode) idle_open_begin=\(Date().timeIntervalSince1970)")
+        sleep(5)
+        print("WALK_PROBE reactionpicker mode=\(mode) idle_open_end=\(Date().timeIntervalSince1970)")
+        if candidate {
+            dismissReactionPicker()
+        } else {
+            let close = app.buttons.matching(NSPredicate(format: "label IN %@", ["Close", "Закрыть", "Закрити"]))
+                .allElementsBoundByIndex.first { $0.isHittable }
+            if let close { close.tap() }
+            else { app.coordinate(withNormalizedOffset: CGVector(dx: 0.01, dy: 0.8)).tap() }
+            let closed = XCTNSPredicateExpectation(predicate: NSPredicate(format: "exists == false"), object: field)
+            let didClose = XCTWaiter().wait(for: [closed], timeout: 5)
+            XCTAssertEqual(didClose, .completed, "The release picker must close before measuring closed idle")
+            guard didClose == .completed else { shot("reactionpicker-legacy-close-failed"); return }
+        }
+        print("WALK_PROBE reactionpicker mode=\(mode) idle_closed_begin=\(Date().timeIntervalSince1970)")
+        sleep(5)
+        print("WALK_PROBE reactionpicker mode=\(mode) idle_closed_end=\(Date().timeIntervalSince1970)")
+    }
+
+    /// Signs the simulator back in to its existing QA walk account (UNYRI_WALK_HANDLE /
+    /// UNYRI_WALK_PASSWORD from the private walk config) when the app shows the sign-in screen.
+    /// 19 Nov: a session bound by the device-bound build was refused to the older 0.4.24 app
+    /// (bound sessions never downgrade), which ended the session on WalkAnya.
+    private func signInExisting() throws {
+        let menu = app.buttons["main-open-menu"]
+        if menu.waitForExistence(timeout: 8) { print("WALK_PROBE signin already signed in"); return }
+        let handle = env["UNYRI_WALK_HANDLE"]!, password = env["UNYRI_WALK_PASSWORD"]!
+        shot("signin-screen")
+        let server = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@ OR label CONTAINS[c] %@", "Server", "Сервер")).firstMatch
+        let serverURL = env["UNYRI_WALK_SERVER"] ?? "http://127.0.0.1:18080"
+        if server.waitForExistence(timeout: 10), !server.label.contains(serverURL.replacingOccurrences(of: "http://", with: "")) {
+            server.tap()
+            let field = app.textFields[serverPlaceholder].exists ? app.textFields[serverPlaceholder] : app.textFields.firstMatch
+            XCTAssertTrue(field.waitForExistence(timeout: 5)); field.tap()
+            let current = (field.value as? String) ?? ""
+            if current != serverURL {
+                if !current.isEmpty && current != field.placeholderValue {
+                    field.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: current.count))
+                }
+                field.typeText(serverURL)
+            }
+            for _ in 0..<3 where app.textFields[serverPlaceholder].exists {
+                tapFirst(["Done", "Готово"], required: false); sleep(1)
+            }
+        }
+        type(into: textField(["Private login", "Личный логин", "Особистий логін"]), handle)
+        type(into: textField(["Password", "Пароль"]), password)
+        app.typeText("\n")
+        tapFirst(["Log in", "Войти", "Увійти"], required: false)
+        let fresh = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@ OR label CONTAINS[c] %@", "without restored", "без восстановлен")).firstMatch
+        for _ in 0..<45 where !menu.exists && !fresh.exists { sleep(1) }
+        if fresh.exists { shot("signin-history-choice"); fresh.tap() }
+        XCTAssertTrue(menu.waitForExistence(timeout: 40), "sign-in did not reach the chat list")
+        shot("signin-chat-list")
+        print("WALK_PROBE signin signed in")
+    }
+
+    /// B-060 (owner, 19 Nov, on a screenshot of the sign-in screen: «Я увидел этот полукруг или что это?
+    /// С логином и паролем»): the login and password fields sat in a glass capsule - semicircular sides
+    /// (a shape made for 44 pt drawer controls stretched over a ~150 pt card) with the fields' own corners
+    /// showing outside it. The card must be a rounded rectangle: 16 pt inside each of its corners is still
+    /// glass, not the dark background. Checks the sign-in card, then the sign-up card.
+    private func loginGlassProbe() throws {
+        let login = [app.textFields["Private login"], app.textFields["Личный логин"]].first { $0.exists } ?? app.textFields["Личный логин"]
+        XCTAssertTrue(login.waitForExistence(timeout: 30), "the sign-in screen")
+        sleep(2)
+        let password = [app.secureTextFields["Password"], app.secureTextFields["Пароль"], app.textFields["Password"], app.textFields["Пароль"]].first { $0.exists }
+        let server = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@ OR label CONTAINS[c] %@", "Server", "Сервер")).firstMatch
+        let card = app.otherElements["login-credentials"]
+        let frame: CGRect
+        if card.exists { frame = card.frame }
+        else {
+            // Builds before the fix have no card identifier: the card spans the Server button's width
+            // and the two fields plus their 12 pt row padding and the 16 pt card padding.
+            let bottom = password?.frame.maxY ?? login.frame.maxY + 60
+            frame = CGRect(x: server.frame.minX, y: login.frame.minY - 28, width: server.frame.width, height: bottom + 28 - (login.frame.minY - 28))
+        }
+        shot("loginglass-signin")
+        let signInResult = glassCornerFailures(frame)
+        let signIn = signInResult.failures
+        XCTAssertEqual(signInResult.checked.count, 4, "B-060: every sign-in card corner must be measured on screen")
+        print("WALK_PROBE loginglass signin card=\(Int(frame.minX)),\(Int(frame.minY)) \(Int(frame.width))x\(Int(frame.height)) identified=\(card.exists) corners=\(signIn)")
+        XCTAssertTrue(signIn.isEmpty, "B-060: the sign-in card is not a rounded rectangle: " + signIn.joined(separator: "; "))
+        tapFirst(["Create an account", "Создать аккаунт"], required: false); sleep(2)
+        let registerCard = app.otherElements["register-credentials"]
+        if registerCard.waitForExistence(timeout: 5) {
+            shot("loginglass-signup")
+            // The sign-up card is taller than the screen (queue80: its bottom corners were off screen and read
+            // as black): measure the corners on screen, scroll the card's bottom into view, measure the rest.
+            var checked = Set<String>()
+            var signUp: [String] = []
+            func measure() {
+                let result = glassCornerFailures(registerCard.frame)
+                for name in result.checked where checked.insert(name).inserted {
+                    signUp += result.failures.filter { $0.hasPrefix(name + " ") }
+                }
+            }
+            measure()
+            for _ in 0..<5 where checked.count < 4 { app.swipeUp(); sleep(1); measure() }
+            shot("loginglass-signup-bottom")
+            print("WALK_PROBE loginglass signup checked=\(checked.sorted()) corners=\(signUp)")
+            XCTAssertEqual(checked.count, 4, "B-060: every sign-up card corner must be measured on screen")
+            XCTAssertTrue(signUp.isEmpty, "B-060: the sign-up card is not a rounded rectangle: " + signUp.joined(separator: "; "))
+        } else { print("WALK_PROBE loginglass signup card not identified (build before the fix)") }
+    }
+
+    /// Mean brightness (0...1) of a small square of the current screen, in points. The crop is drawn
+    /// into an 8-bit RGBA context like looksBlank, so wide-colour screenshots read the same.
+    private func screenBrightness(_ image: UIImage, around point: CGPoint, side: CGFloat = 6) -> CGFloat {
+        guard let cg = image.cgImage else { return 0 }
+        let scale = CGFloat(cg.width) / max(1, image.size.width)
+        let rect = CGRect(x: (point.x - side / 2) * scale, y: (point.y - side / 2) * scale,
+                          width: side * scale, height: side * scale).integral
+        guard let crop = cg.cropping(to: rect) else { return 0 }
+        let cells = 4
+        var pixels = [UInt8](repeating: 0, count: cells * cells * 4)
+        let drawn: Bool = pixels.withUnsafeMutableBytes { buffer in
+            guard let context = CGContext(data: buffer.baseAddress, width: cells, height: cells, bitsPerComponent: 8,
+                bytesPerRow: cells * 4, space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { return false }
+            context.interpolationQuality = .medium
+            context.draw(crop, in: CGRect(x: 0, y: 0, width: cells, height: cells))
+            return true
+        }
+        guard drawn else { return 0 }
+        var total: Double = 0
+        for i in stride(from: 0, to: pixels.count, by: 4) {
+            let red = Double(pixels[i]), green = Double(pixels[i + 1]), blue = Double(pixels[i + 2])
+            total += (red + green + blue) / (3 * 255)
+        }
+        return CGFloat(total / Double(cells * cells))
+    }
+
+    /// Corners of a glass card whose 16 pt inset area shows the dark page instead of the glass.
+    /// Only corners whose sample point is on screen (clear of the status bar and the home indicator) are
+    /// measured; `checked` names them.
+    private func glassCornerFailures(_ frame: CGRect) -> (checked: [String], failures: [String]) {
+        let image = XCUIScreen.main.screenshot().image
+        let window = app.windows.firstMatch.frame
+        let visible = CGRect(x: window.minX, y: window.minY + 60, width: window.width, height: max(0, window.height - 100))
+        let inset: CGFloat = 16
+        let corners: [(String, CGPoint)] = [
+            ("top-left", CGPoint(x: frame.minX + inset, y: frame.minY + inset)),
+            ("top-right", CGPoint(x: frame.maxX - inset, y: frame.minY + inset)),
+            ("bottom-left", CGPoint(x: frame.minX + inset, y: frame.maxY - inset)),
+            ("bottom-right", CGPoint(x: frame.maxX - inset, y: frame.maxY - inset)),
+        ]
+        // The card glass is about 0.13-0.18; the page is near black with thin pattern lines.
+        let onScreen = corners.filter { visible.contains($0.1) }
+        let failures: [String] = onScreen.compactMap { name, point in
+            let value = screenBrightness(image, around: point)
+            return value < 0.08 ? name + String(format: " %.3f", value) : nil
+        }
+        return (onScreen.map(\.0), failures)
+    }
+
     private func register(login2: Bool = false) throws {
         if login2 {
             let origin = URL(string: env["UNYRI_WALK_SERVER"] ?? "http://127.0.0.1:18080")
@@ -620,7 +1048,7 @@ final class UNYRIWalkthroughUITests: XCTestCase {
         }
         shot("register-filled")
         tapFirst(["Register", "Зарегистрироваться"])
-        try completeSignupRecovery(capture: login2)
+        try expectNoSignupRecoveryGate()
         let fresh = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@ OR label CONTAINS[c] %@", "without restored", "без восстановления")).firstMatch
         _ = fresh.waitForExistence(timeout: 40)
         if fresh.exists { shot("history-choice"); fresh.tap() }
@@ -644,10 +1072,13 @@ final class UNYRIWalkthroughUITests: XCTestCase {
         shot("chat-list-after-saved")
     }
 
-    /// Never put the recovery key into logs or accessibility-tree artifacts.
-    private func completeSignupRecovery(capture: Bool = false) throws {
-        // The first-run notification prompt can appear over the recovery gate (18 Nov walk);
-        // answer it on the next interaction so it cannot cover the gate's controls.
+    /// B-049 (owner 19 Nov, «зачем это сразу после регистрации, убери»; «после удачной
+    /// регистрации пользователь попадал в приложение»): a successful sign-up lands on the chat
+    /// list, with no recovery key gate and no history choice. The key is created later in
+    /// Settings -> «Восстановление аккаунта». Fails on any screen in between.
+    private func expectNoSignupRecoveryGate() throws {
+        // The first-run notification prompt can appear right after sign-up (18 Nov walk);
+        // answer it on the next interaction so it cannot cover the app.
         addUIInterruptionMonitor(withDescription: "Notification permission") { alert in
             for label in ["Allow", "Разрешить", "Дозволити"] where alert.buttons[label].exists {
                 alert.buttons[label].tap(); return true
@@ -656,32 +1087,28 @@ final class UNYRIWalkthroughUITests: XCTestCase {
         }
         let consent = app.buttons.matching(NSPredicate(format: "label IN %@", ["Use this HTTP server", "Использовать этот HTTP-сервер", "Використовувати цей HTTP-сервер"])).firstMatch
         if consent.waitForExistence(timeout: 2) { consent.tap() }
-        let number = app.staticTexts["login2-signup-number"], key = app.staticTexts["login2-signup-recovery"]
-        guard number.waitForExistence(timeout: 40), key.waitForExistence(timeout: 30) else {
-            throw NSError(domain: "Login2Walkthrough", code: 1, userInfo: [NSLocalizedDescriptionKey: "Signup must show the public number and recovery key"])
-        }
-        XCTAssertEqual(number.label.filter(\.isNumber).count, 9)
-        let confirm = app.buttons["login2-recovery-confirm"]
-        XCTAssertFalse(confirm.isEnabled, "Saving must be explicitly acknowledged")
-        if capture {
-            step += 1
-            let screenshot = XCUIScreen.main.screenshot().image
-            let image = UIGraphicsImageRenderer(size: screenshot.size).image { context in
-                screenshot.draw(at: .zero)
-                UIColor.black.setFill(); context.fill(key.frame.insetBy(dx: -4, dy: -4))
+        let gate = [app.staticTexts["login2-signup-recovery"], app.buttons["login2-recovery-confirm"], app.switches["login2-recovery-saved"]]
+        let landed = app.buttons["main-open-menu"]
+        let fresh = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@ OR label CONTAINS[c] %@", "without restored", "без восстановления")).firstMatch
+        let deadline = Date().addingTimeInterval(45)
+        while Date() < deadline {
+            if gate.contains(where: { $0.exists }) {
+                shot("signup-recovery-gate")
+                XCTFail("sign-up showed the recovery key gate (B-049)")
+                return
             }
-            let file = out.appendingPathComponent(String(format: "login2-%02d-number-and-key-redacted.png", step))
-            try image.pngData()?.write(to: file)
+            // A brand-new account has no earlier history: the history choice must not appear either
+            // (owner 19 Nov: «после удачной регистрации пользователь попадал в приложение»).
+            if fresh.exists {
+                shot("signup-history-choice")
+                XCTFail("sign-up showed the history choice before the app (B-049)")
+                return
+            }
+            if landed.exists { shot("signup-landed"); return }
+            usleep(300_000)
         }
-        let saved = app.switches["login2-recovery-saved"]
-        for _ in 0..<6 where !saved.isHittable { app.swipeUp() }
-        // iOS 26: only the switch itself toggles a SwiftUI Toggle; a tap on the
-        // labelled row's centre lands on the text and changes nothing (18 Nov walk).
-        let savedKnob = saved.switches.firstMatch
-        (savedKnob.exists ? savedKnob : saved).tap()
-        XCTAssertEqual(saved.value as? String, "1", "The saved-key switch turns on")
-        for _ in 0..<6 where !confirm.isHittable { app.swipeUp() }
-        XCTAssertTrue(confirm.isEnabled); confirm.tap()
+        shot("signup-not-landed")
+        XCTFail("sign-up did not reach the app")
     }
 
     private func message() throws {
@@ -792,6 +1219,28 @@ final class UNYRIWalkthroughUITests: XCTestCase {
 
     /// Call button: the call screen must appear at once; a double tap must not
     /// claim another call is active.
+    /// B-067 (owner screenshot 20 Nov, outgoing call «Пока не в сети»): microphone, End and output sat ~38 pt right of
+    /// centre because the not-yet-usable video button kept an empty square on the left. While calling, the visible
+    /// buttons must be centred on the screen (±2 pt) and no invisible video slot may exist.
+    private func callButtonsProbe() throws {
+        openChat(with: env["UNYRI_WALK_PEER"]!)
+        sleep(1)
+        let call = app.buttons.matching(NSPredicate(format: "label == %@ OR label == %@", "Call", "Позвонить")).firstMatch
+        XCTAssertTrue(call.waitForExistence(timeout: 5), "the chat offers a call"); call.tap()
+        let end = app.buttons["call-end"]
+        XCTAssertTrue(end.waitForExistence(timeout: 5), "the call screen shows End")
+        sleep(2); shot("callbuttons-calling")
+        let screen = app.windows.firstMatch.frame
+        let row = ["call-mute", "call-end", "call-output"].map { app.descendants(matching: .any)[$0].firstMatch }
+            .filter { $0.exists && $0.isHittable }.map(\.frame)
+        let left = row.map(\.minX).min() ?? end.frame.minX, right = row.map(\.maxX).max() ?? end.frame.maxX
+        let offset = (left + right) / 2 - screen.midX
+        print("WALK_PROBE callbuttons visible=\(row.count) left=\(Int(left)) right=\(Int(right)) offset=\(String(format: "%.1f", offset))")
+        XCTAssertLessThanOrEqual(abs(offset), 2, "B-067: the call buttons must be centred while calling (offset \(offset) pt)")
+        end.tap(); sleep(2)
+        app.buttons["chat-navigation-back"].firstMatch.tap(); sleep(1)
+    }
+
     private func callStartProbe() throws {
         openChat(with: env["UNYRI_WALK_PEER"]!)
         sleep(1)
@@ -814,6 +1263,61 @@ final class UNYRIWalkthroughUITests: XCTestCase {
         openChat(with: env["UNYRI_WALK_PEER"]!); sleep(2); shot("callstart-reopened")
         let row = app.descendants(matching: .any).matching(NSPredicate(format: "label CONTAINS[c] %@", "звонок")).allElementsBoundByIndex.last
         if let row, row.isHittable { row.tap(); usleep(300_000); shot("callstart-row-callback") }
+    }
+
+    /// B-047 (0.4.22 build 68, both iPhones of a call): shaking the phone
+    /// during a call aborted the app. The owner's steps: call, shake while
+    /// the call is live; the app must stay on the call. After the call the
+    /// same shake must still open the report (the feature itself works).
+    /// Needs walk.py with the host shake service (Simulator's Device → Shake).
+    private func callShakeProbe() throws {
+        openChat(with: env["UNYRI_WALK_PEER"]!)
+        let call = app.buttons.matching(NSPredicate(format: "label == %@ OR label == %@", "Call", "Позвонить")).firstMatch
+        guard call.waitForExistence(timeout: 5) else { XCTFail("call button missing"); return }
+        let latest = app.buttons.matching(NSPredicate(format: "label == %@ OR label == %@", "Latest messages", "К последним сообщениям")).firstMatch
+        if latest.exists { latest.tap(); sleep(1) }
+        call.tap()
+        guard requireLiveCall() else { return }
+        shot("callshake-live")
+        guard hostShake("in-call") else { return }
+        // 0.4.22 left for the home screen a few seconds after the shake while an
+        // immediate state read still said foreground (19 Nov run): wait for it.
+        if app.wait(for: .notRunning, timeout: 6) || app.state != .runningForeground {
+            shot("callshake-app-gone")
+            XCTFail("the app quit after a shake during the call (B-047), state \(app.state.rawValue)")
+            return
+        }
+        shot("callshake-after-shake")
+        XCTAssertTrue(requireLiveCall(), "the call ended after a shake during it (B-047)")
+        let end = app.buttons.matching(NSPredicate(format: "label == %@ OR label == %@", "End call", "Завершить звонок")).firstMatch
+        if end.waitForExistence(timeout: 3) { end.tap() }
+        sleep(4)
+        shot("callshake-ended")
+        guard hostShake("after-call") else { return }
+        let report = app.staticTexts.matching(NSPredicate(format: "label == %@ OR label == %@", "Report a problem", "Сообщить о проблеме")).firstMatch
+        XCTAssertTrue(report.waitForExistence(timeout: 6), "a shake outside a call no longer opens the report")
+        XCTAssertEqual(app.state, .runningForeground, "the app quit after a shake outside a call")
+        shot("callshake-report")
+        let done = app.buttons.matching(NSPredicate(format: "label == %@ OR label == %@", "Done", "Готово")).firstMatch
+        if done.waitForExistence(timeout: 3) { done.tap(); sleep(1) }
+    }
+
+    /// Asks walk.py on the Mac to shake this simulator (Simulator's Device →
+    /// Shake): a request file in the capture folder, answered with a `.done`
+    /// file once `notifyutil` delivered the shake.
+    private func hostShake(_ name: String) -> Bool {
+        let request = out.appendingPathComponent("host-shake-" + name + ".request")
+        let done = out.appendingPathComponent("host-shake-" + name + ".done")
+        guard FileManager.default.createFile(atPath: request.path, contents: Data()) else {
+            XCTFail("could not write the host shake request"); return false
+        }
+        let deadline = Date().addingTimeInterval(20)
+        while Date() < deadline {
+            if FileManager.default.fileExists(atPath: done.path) { return true }
+            usleep(200_000)
+        }
+        XCTFail("the Mac did not shake the simulator (walk.py without the host shake service?)")
+        return false
     }
 
     /// Inspect only the call capsule: ended calls can retain a duration too,
@@ -1324,11 +1828,39 @@ final class UNYRIWalkthroughUITests: XCTestCase {
         entry.tap()
         let field = app.textFields["contacts-query"]
         XCTAssertTrue(field.waitForExistence(timeout: 10)); sleep(2); shot("contacts-header")
+        XCTAssertFalse(app.buttons["contacts-add-identity"].exists, "B-038: Contacts has one search field and no separate add form")
+        // A login2 fixture can supply its peer's public number or @username.
+        // Reuse the search row's add button; the removed sheet is never opened.
+        if let identity = env["UNYRI_WALK_CONTACT_IDENTITY"], !identity.isEmpty {
+            // The walk peer is normally a saved contact: take him out first so the exact search has
+            // someone to add; the add below restores the pair.
+            let display = env["UNYRI_WALK_PEER_DISPLAY"] ?? ""
+            let saved = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@ AND label CONTAINS[c] %@", "contacts-person-", display)).firstMatch
+            if !display.isEmpty, saved.waitForExistence(timeout: 5) {
+                XCTAssertTrue(removeFromContacts(saved), "the walk peer left Contacts before the exact add")
+            }
+            type(into: field, identity)
+            field.typeText("\n")
+            let add = contactAddButton()
+            XCTAssertTrue(add.waitForExistence(timeout: 20), "Seed a discoverable peer that is not yet a contact")
+            shot("contacts-exact-identity-row")
+            add.tap()
+            XCTAssertTrue(add.waitForNonExistence(timeout: 10), "The existing row adds the exact identity")
+            XCTAssertFalse(app.textFields["contacts-add-username"].exists)
+            shot("contacts-exact-identity-added")
+            app.buttons["contacts-clear-query"].tap()
+        } else {
+            let reason = env["UNYRI_WALK_CONTACT_IDENTITY_SKIP_REASON"] ?? "Set UNYRI_WALK_CONTACT_IDENTITY to a discoverable peer's public number or @username."
+            XCTContext.runActivity(named: "SKIP contacts exact-add: " + reason) { _ in }
+            print("SKIP contacts exact-add: " + reason)
+        }
         app.swipeUp(); usleep(300_000); shot("contacts-glass-scrolled")
         for _ in 0..<5 { app.swipeUp(); usleep(150_000) }
         shot("contacts-scroll-end")
         for _ in 0..<6 { app.swipeDown(); usleep(100_000) }
-        let handle = env["UNYRI_WALK_PEER"] ?? "uiqa"
+        // The menu gate needs the saved contact row. 19 Nov: an exact number query lists the person
+        // only in the server section (the local filter does not match numbers), under the keyboard.
+        let handle = env["UNYRI_WALK_PEER_DISPLAY"] ?? env["UNYRI_WALK_CONTACT_IDENTITY"] ?? env["UNYRI_WALK_PEER_NUMBER"] ?? env["UNYRI_WALK_PEER"] ?? "uiqa"
         type(into: field, handle); sleep(2); shot("contacts-typed")
         let server = app.staticTexts["contacts-server"]
         for _ in 0..<12 {
@@ -1505,6 +2037,10 @@ final class UNYRIWalkthroughUITests: XCTestCase {
     }
 
     private func openChat(with handle: String) {
+        // Local contacts match display names; first-contact discovery uses an exact public number.
+        // The sign-in login is private on login2 servers.
+        let display = handle == env["UNYRI_WALK_PEER"] ? (env["UNYRI_WALK_PEER_DISPLAY"] ?? handle) : handle
+        let search = handle == env["UNYRI_WALK_PEER"] ? (env["UNYRI_WALK_PEER_NUMBER"] ?? display) : display
         let contactsBack = app.buttons["contacts-back"]
         if contactsBack.exists { contactsBack.tap(); sleep(1) }
         XCTAssertTrue(app.buttons["main-open-menu"].waitForExistence(timeout: 30))
@@ -1512,11 +2048,10 @@ final class UNYRIWalkthroughUITests: XCTestCase {
         let people = revealDrawerControl("drawer-contacts")
         XCTAssertTrue(people.waitForExistence(timeout: 10)); people.tap()
         let query = app.textFields["contacts-query"]
-        XCTAssertTrue(query.waitForExistence(timeout: 10)); type(into: query, handle)
+        let lookup = handle == env["UNYRI_WALK_PEER"] ? (env["UNYRI_WALK_CONTACT_IDENTITY"] ?? search) : search
+        XCTAssertTrue(query.waitForExistence(timeout: 10)); type(into: query, lookup)
         sleep(2); shot("contacts-search")
-        // Login step 2 keeps private logins out of contact rows; the walk peer is then found by its
-        // display name (walk.json UNYRI_WALK_PEER_DISPLAY). Other handles still match by login.
-        let display = handle == env["UNYRI_WALK_PEER"] ? (env["UNYRI_WALK_PEER_DISPLAY"] ?? handle) : handle
+        // Public identities are exact; legacy fixtures can still use a display-name directory search.
         let result = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@ AND (label CONTAINS[c] %@ OR label CONTAINS[c] %@)",
             "contacts-person-", handle, display)).firstMatch
         XCTAssertTrue(result.waitForExistence(timeout: 20)); result.tap()
@@ -1561,7 +2096,7 @@ final class UNYRIWalkthroughUITests: XCTestCase {
         let parts = role.split(separator: "_").map(String.init)
         guard parts.count >= 3, let index = Int(parts[2]) else { return }
         let rows: [String: [String]] = [
-            "account": ["Редактировать профиль", "Подключение к серверу", "Карточка сервера", "Восстановление аккаунта", "Удалить аккаунт"],
+            "account": ["Редактировать профиль", "Подключение к серверу", "Карточка сервера", "Восстановление аккаунта", "Удалить аккаунт", "Свой сервер"],
             "privacy": ["Блокировка приложения", "Статус в сети", "Устройства", "Автоудаление аккаунта", "Заблокированные"],
             "notifications": [],
             "appearance": ["Оформление темы", "Оформление боковой панели"],
@@ -1585,8 +2120,12 @@ final class UNYRIWalkthroughUITests: XCTestCase {
         let row = app.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", label)).firstMatch
         tries = 0
         while !(row.exists && row.isHittable) && tries < 4 { app.swipeUp(); tries += 1; usleep(300_000) }
+        if label == "Свой сервер" { XCTAssertTrue(row.exists && row.isHittable, "The own-server guide must be reachable from Account") }
         guard row.exists else { shot("missing-" + label); return }
         row.tap(); sleep(2); shot(section + "-" + label)
+        if label == "Свой сервер" {
+            XCTAssertTrue(app.buttons["selfhosting-guide-downloads"].waitForExistence(timeout: 5), "The own-server guide must offer the official guide and downloads")
+        }
         app.swipeUp(); usleep(600_000); shot(section + "-" + label + "-more")
     }
 
@@ -1610,13 +2149,17 @@ final class UNYRIWalkthroughUITests: XCTestCase {
             let row = app.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", label)).firstMatch
             var tries = 0
             while !(row.exists && row.isHittable) && tries < 3 { app.swipeUp(); tries += 1; usleep(300_000) }
+            if label == "Свой сервер" { XCTAssertTrue(row.exists && row.isHittable, "The own-server guide must be reachable from Account") }
             guard row.exists else { shot(prefix + "-missing-" + label); return }
             row.tap(); sleep(2); shot(prefix + "-" + label)
+            if label == "Свой сервер" {
+                XCTAssertTrue(app.buttons["selfhosting-guide-downloads"].waitForExistence(timeout: 5), "The own-server guide must offer the official guide and downloads")
+            }
             app.swipeUp(); usleep(500_000); shot(prefix + "-" + label + "-more")
             goBack()
         }
         let sections: [(String, String, [String])] = [
-            ("settings-account", "account", ["Редактировать профиль", "Подключение к серверу", "Карточка сервера", "Восстановление аккаунта", "Удалить аккаунт"]),
+            ("settings-account", "account", ["Редактировать профиль", "Подключение к серверу", "Карточка сервера", "Свой сервер", "Восстановление аккаунта", "Удалить аккаунт"]),
             ("settings-privacy", "privacy", ["Блокировка приложения", "Статус в сети", "Устройства", "Автоудаление аккаунта", "Заблокированные"]),
             ("settings-notifications", "notifications", []),
             ("settings-appearance", "appearance", ["Оформление темы", "Оформление боковой панели"]),
@@ -1732,7 +2275,7 @@ final class UNYRIWalkthroughUITests: XCTestCase {
             scrollShot("contacts")
             let field = app.searchFields.firstMatch.exists ? app.searchFields.firstMatch : app.textFields.firstMatch
             if field.waitForExistence(timeout: 3) {
-                field.tap(); field.typeText("uiqa"); sleep(2); shot("contacts-search")
+                field.tap(); field.typeText(env["UNYRI_WALK_PEER_NUMBER"] ?? env["UNYRI_WALK_PEER_DISPLAY"] ?? "QA"); sleep(2); shot("contacts-search")
                 if app.keyboards.count > 0 { app.swipeDown(); usleep(500_000) }
             }
             back(); sleep(1)
@@ -1792,6 +2335,242 @@ final class UNYRIWalkthroughUITests: XCTestCase {
         shot("qr-origin")
         print("QRORIGIN shown=\(caption.label) expected=\(expected)")
         XCTAssertEqual(caption.label, expected, "The QR must name the server this phone is connected to")
+    }
+
+    /// B-044 (owner screenshot, iPhone, 18 Nov): in «Вложения чата» → «Фото» the tiles did not
+    /// stay in their cells — wide photos and videos covered neighbours and ran past the screen
+    /// edge, tall ones stretched their row, and a video's duration was cut off. Every visible
+    /// tile must be a square inside the screen, and no two tiles may overlap. The tiles are
+    /// found by position under the Фото/Файлы/Голос control, so the role also runs on builds
+    /// without the tile identifiers (before/after). It first sends two library photos (wide or
+    /// tall, never square): square seed videos alone lay out fine even on the broken build.
+    /// The system photo prompt after «Доступ к фото»: allow full access. The
+    /// simulator's own language may be English while the app runs in Russian.
+    private func allowSystemPhotoPrompt() {
+        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        let labels = ["Allow Full Access", "Разрешить полный доступ", "Allow Access to All Photos",
+                      "Разрешить доступ ко всем фото", "Allow", "Разрешить"]
+        for (index, label) in labels.enumerated() {
+            let button = springboard.buttons[label]
+            if button.waitForExistence(timeout: index == 0 ? 3 : 0.5) { button.tap(); sleep(2); return }
+        }
+    }
+
+    private func chatMediaGridProbe() throws {
+        openChat(with: env["UNYRI_WALK_PEER"]!); sleep(1)
+        app.buttons["chat-composer-attach"].tap()
+        let library = app.buttons["chat-attach-photos"]
+        if library.waitForExistence(timeout: 5) { library.tap() }
+        sleep(2)
+        for label in ["Photo access", "Доступ к фото"] where app.buttons[label].exists {
+            app.buttons[label].tap(); sleep(1)
+            allowSystemPhotoPrompt()
+        }
+        XCTAssertTrue(app.scrollViews["gallery-grid"].waitForExistence(timeout: 10), "photo library grid for the seed photos")
+        let picks = app.buttons.matching(identifier: "gallery-select-photo").allElementsBoundByIndex.filter { $0.isHittable }
+        // 18 Nov v4: the simulator's photo grant was not honoured, the grid stayed
+        // empty and the sheet stayed open over the chat, so every later step failed
+        // for an unrelated reason. Stop here with the real cause instead.
+        guard picks.count >= 2 else {
+            shot("chatmedia-no-library-photos")
+            XCTFail("no library photos to seed (photo access not granted?); B-044 not measured")
+            return
+        }
+        for pick in picks.prefix(2) { pick.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap(); usleep(400_000) }
+        app.buttons["gallery-add"].tap(); sendTray("chatmedia-seed"); sleep(8)
+        let options = app.buttons["chat-options"]
+        XCTAssertTrue(options.waitForExistence(timeout: 10), "chat options button")
+        options.tap(); sleep(1)
+        let media = [app.buttons["chat-menu-media"], app.buttons["Медиа"], app.buttons["Media"]].first { $0.exists }
+        XCTAssertNotNil(media, "Media row in the chat menu"); media?.tap()
+        let tabs = app.segmentedControls.firstMatch
+        XCTAssertTrue(tabs.waitForExistence(timeout: 10), "chat media tabs"); sleep(3)
+        shot("chatmedia-grid")
+        let screen = app.windows.firstMatch.frame
+        let grid = app.scrollViews["chat-media-grid"].exists ? app.scrollViews["chat-media-grid"]
+            : app.scrollViews.allElementsBoundByIndex.first { $0.frame.minY >= tabs.frame.maxY - 2 }
+        XCTAssertNotNil(grid, "chat media grid")
+        let tiles = (grid?.buttons.allElementsBoundByIndex ?? []).map(\.frame)
+            .filter { $0.height > 40 && $0.minY < screen.maxY - 40 && $0.maxY > tabs.frame.maxY }
+        print("WALK_PROBE chatmedia screen=\(Int(screen.width)) tiles=\(tiles.count) "
+              + tiles.prefix(12).map { "\(Int($0.minX)),\(Int($0.minY)) \(Int($0.width))x\(Int($0.height))" }.joined(separator: "; "))
+        XCTAssertGreaterThanOrEqual(tiles.count, 4, "needs at least 4 photos or videos in this chat (run role media first)")
+        var failures: [String] = []
+        for tile in tiles {
+            if abs(tile.width - tile.height) > 1.5 { failures.append("not square \(Int(tile.width))x\(Int(tile.height))") }
+            if tile.minX < screen.minX + 8 || tile.maxX > screen.maxX - 8 { failures.append("past the screen edge x \(Int(tile.minX))…\(Int(tile.maxX))") }
+        }
+        for (index, first) in tiles.enumerated() {
+            for second in tiles.dropFirst(index + 1) {
+                let overlap = first.intersection(second)
+                if !overlap.isNull && overlap.width > 0.5 && overlap.height > 0.5 {
+                    failures.append("overlap \(Int(first.minX)),\(Int(first.minY)) with \(Int(second.minX)),\(Int(second.minY))")
+                }
+            }
+        }
+        print("WALK_PROBE chatmedia failures=\(failures.count) " + failures.prefix(8).joined(separator: "; "))
+        XCTAssertTrue(failures.isEmpty, "chat media tiles leave their cells: " + failures.prefix(8).joined(separator: "; "))
+        [app.buttons["Готово"], app.buttons["Done"]].first { $0.exists }?.tap()
+    }
+
+    /// Removes a saved contact through its row menu and reports whether the person is no longer
+    /// a saved contact. 19 Nov: a tap during the menu's appear animation left the menu open and
+    /// removed nothing, so the tap is retried until the menu closes.
+    @discardableResult
+    private func removeFromContacts(_ row: XCUIElement) -> Bool {
+        let id = row.identifier.replacingOccurrences(of: "contacts-person-", with: "")
+        row.press(forDuration: 0.8); sleep(1)
+        let remove = app.buttons.matching(NSPredicate(format: "label == %@ OR label == %@", "Remove from contacts", "Удалить из контактов")).firstMatch
+        XCTAssertTrue(remove.waitForExistence(timeout: 5), "Remove from contacts in the row menu")
+        for _ in 0..<3 where remove.exists {
+            sleep(1)
+            if remove.isHittable { remove.tap() }
+            _ = remove.waitForNonExistence(timeout: 3)
+        }
+        sleep(2)
+        return !row.exists || contactAddButton(id).exists
+    }
+
+    /// The add button of a listed person who is not a contact. 19 Nov: the row's own
+    /// identifier (`contacts-person-<id>`) replaces the button's `contacts-add-<id>` (SwiftUI
+    /// applies a container's identifier to its children), so the button is also matched by its
+    /// label inside the row.
+    private func contactAddButton(_ id: String? = nil) -> XCUIElement {
+        let en = "Add to contacts", ru = "Добавить в контакты"
+        if let id {
+            return app.buttons.matching(NSPredicate(format: "identifier == %@ OR (identifier == %@ AND (label == %@ OR label == %@))",
+                "contacts-add-" + id, "contacts-person-" + id, en, ru)).firstMatch
+        }
+        return app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@ OR (identifier BEGINSWITH %@ AND (label == %@ OR label == %@))",
+            "contacts-add-", "contacts-person-", en, ru)).firstMatch
+    }
+
+    /// Opens Contacts from the drawer and returns the peer's saved-contact row (added first by
+    /// the exact public identity when it is missing, so both builds measure the same state).
+    private func peerContactRow(addIfMissing: Bool) -> XCUIElement {
+        let menu = app.buttons["main-open-menu"]
+        XCTAssertTrue(menu.waitForExistence(timeout: 30)); menu.tap()
+        let entry = revealDrawerControl("drawer-contacts")
+        XCTAssertTrue(entry.waitForExistence(timeout: 5)); entry.tap()
+        let field = app.textFields["contacts-query"]
+        XCTAssertTrue(field.waitForExistence(timeout: 10)); sleep(3)
+        let display = env["UNYRI_WALK_PEER_DISPLAY"]!
+        let row = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@ AND label CONTAINS[c] %@", "contacts-person-", display)).firstMatch
+        if !row.waitForExistence(timeout: 8), addIfMissing, let identity = env["UNYRI_WALK_CONTACT_IDENTITY"] {
+            type(into: field, identity); sleep(3)
+            let add = contactAddButton()
+            let found = add.waitForExistence(timeout: 10)
+            shot("contacts-identity-search")
+            print("WALK_PROBE contactsadd found=\(found) buttons=\(app.buttons.allElementsBoundByIndex.filter { $0.identifier.hasPrefix("contacts-") }.map { $0.identifier + "|" + $0.label }.prefix(8))")
+            if found { add.tap(); sleep(3) }
+            if app.buttons["contacts-clear-query"].exists { app.buttons["contacts-clear-query"].tap() }
+            sleep(2)
+        }
+        return row
+    }
+
+    /// B-051 (owner, iPhone 0.4.22, 19 Nov: «почему я не вижу персональный номер людей в
+    /// контактах»): a saved contact's row must name the person's public number, grouped by three.
+    private func contactsNumberProbe() throws {
+        let row = peerContactRow(addIfMissing: true)
+        XCTAssertTrue(row.waitForExistence(timeout: 10), "the peer is a saved contact")
+        sleep(2); shot("contacts-number")
+        let label = row.label
+        let grouped = label.range(of: "[0-9]{3}[^0-9][0-9]{3}[^0-9][0-9]{3}", options: .regularExpression) != nil
+        print("WALK_PROBE contactsnumber grouped=\(grouped) label=\"\(label)\"")
+        XCTAssertTrue(grouped, "B-051: the contact row shows no public number: \(label)")
+    }
+
+    /// B-052 (owner, iPhone 0.4.22, 19 Nov: removed a person from contacts on one iPhone, then
+    /// called — the call connected directly, exposing the IP; owner decision 13 Nov: direct
+    /// connections only with contacts). Caller side of pair `stranger`: remove the peer from
+    /// Contacts (skipped when an earlier run already did), call from the chat, and watch the
+    /// call route. A direct route fails; a relayed route passes; a call that cannot connect
+    /// because the QA server has no TURN relay also passes (nothing direct was offered).
+    private func callStrangerProbe() throws {
+        let display = env["UNYRI_WALK_PEER_DISPLAY"]!
+        let row = peerContactRow(addIfMissing: false)
+        if row.exists {
+            let removed = removeFromContacts(row)
+            shot("stranger-removed")
+            print("WALK_PROBE callstranger removed the contact=\(removed)")
+            XCTAssertTrue(removed, "the peer is no longer a saved contact")
+        } else {
+            print("WALK_PROBE callstranger the peer was already not a contact")
+        }
+        // A menu dismissal can swallow the first tap on Back.
+        for _ in 0..<2 where app.buttons["contacts-back"].exists { app.buttons["contacts-back"].tap(); sleep(2) }
+        let chat = chatRow(display)
+        XCTAssertTrue(chat.waitForExistence(timeout: 20), "chat with the peer"); chat.tap(); sleep(2)
+        let call = app.buttons.matching(NSPredicate(format: "label == %@ OR label == %@", "Call", "Позвонить")).firstMatch
+        XCTAssertTrue(call.waitForExistence(timeout: 5), "call button"); call.tap()
+        let direct = app.descendants(matching: .any)["call-route-direct"]
+        let relay = app.descendants(matching: .any)["call-route-relay"]
+        var sawDirect = false, sawRelay = false
+        for second in 0..<50 {
+            if direct.exists { sawDirect = true }
+            if relay.exists { sawRelay = true }
+            if sawDirect || sawRelay { break }
+            if second % 10 == 0 { shot("stranger-call-\(second)") }
+            sleep(1)
+        }
+        shot("stranger-route")
+        print("WALK_PROBE callstranger direct=\(sawDirect) relay=\(sawRelay)")
+        let end = app.buttons.matching(NSPredicate(format: "label == %@ OR label == %@", "End call", "Завершить звонок")).firstMatch
+        if end.exists { end.tap() }
+        sleep(3); shot("stranger-ended")
+        restorePeerContact()
+        XCTAssertFalse(sawDirect, "B-052: after removing the contact the call connected directly (IP exposed)")
+    }
+
+    /// The rest of the battery expects the walk pair to be mutual contacts. 19 Nov: after this
+    /// role ran, contactsnumber, message and chatmediagrid failed on 0.4.24 (empty Contacts).
+    /// Adds the peer back by the exact public number (UNYRI_WALK_CONTACT_IDENTITY).
+    private func restorePeerContact() {
+        for _ in 0..<3 where !app.buttons["main-open-menu"].isHittable { back(); sleep(1) }
+        let row = peerContactRow(addIfMissing: true)
+        var restored = false
+        if row.waitForExistence(timeout: 10) {
+            // A listed non-contact still shows its own add button: that is not restored yet.
+            let add = contactAddButton(row.identifier.replacingOccurrences(of: "contacts-person-", with: ""))
+            if add.exists { add.tap(); sleep(3) }
+            restored = row.exists && !add.exists
+        }
+        print("WALK_PROBE callstranger contact restored=\(restored)")
+        XCTAssertTrue(restored, "the peer is a contact again after the stranger call")
+        if app.buttons["contacts-back"].exists { app.buttons["contacts-back"].tap(); sleep(1) }
+    }
+
+    /// B-045 (owner screenshot, iPhone, 18 Nov): in chat selection mode the action bar
+    /// (Открепить · Без звука · В архив · Удалить) was a flat full-width strip — a row showed
+    /// through it and list rows showed under it, in the home-indicator area. It must be one
+    /// glass island with side margins, above the home indicator, holding all four actions.
+    private func selectionBarProbe() throws {
+        let filter = app.descendants(matching: .any).matching(identifier: "chats-filter").firstMatch
+        XCTAssertTrue(filter.waitForExistence(timeout: 10), "chat list filter menu"); filter.tap()
+        let select = app.buttons["chats-filter-select"]
+        XCTAssertTrue(select.waitForExistence(timeout: 5), "Select chats"); select.tap()
+        XCTAssertTrue(app.buttons["chats-selection-pin"].waitForExistence(timeout: 5), "selection actions")
+        let all = app.buttons["chats-select-all"]
+        if all.waitForExistence(timeout: 3) { all.tap() }
+        sleep(1); shot("selectionbar")
+        let screen = app.windows.firstMatch.frame
+        let bar = app.otherElements["chats-selection-bar"]
+        let actions = ["chats-selection-pin", "chats-selection-mute", "chats-selection-archive", "chats-selection-delete"]
+            .map { app.buttons[$0] }.filter { $0.exists }.map(\.frame)
+        print("WALK_PROBE selectionbar screen=\(Int(screen.width))x\(Int(screen.height)) bar="
+              + (bar.exists ? "\(Int(bar.frame.minX)),\(Int(bar.frame.minY)) \(Int(bar.frame.width))x\(Int(bar.frame.height))" : "none")
+              + " actions=" + actions.map { "\(Int($0.minX))…\(Int($0.maxX))" }.joined(separator: ","))
+        XCTAssertTrue(bar.exists, "the selection actions sit on one island (chats-selection-bar)")
+        if bar.exists {
+            let island = bar.frame
+            XCTAssertGreaterThanOrEqual(island.minX - screen.minX, 10, "the island keeps a left margin")
+            XCTAssertGreaterThanOrEqual(screen.maxX - island.maxX, 10, "the island keeps a right margin")
+            XCTAssertLessThanOrEqual(island.maxY, screen.maxY - 34, "the island sits above the home indicator")
+            XCTAssertEqual(actions.count, 4, "four actions")
+            for action in actions { XCTAssertTrue(island.insetBy(dx: -0.5, dy: -0.5).contains(action), "action \(action) inside the island") }
+        }
+        [app.buttons["Cancel"], app.buttons["Отмена"]].first { $0.exists }?.tap()
     }
 
     /// B-031 (owner, 18 Nov): in drawer A the name and the number sat ~43 pt apart (44 pt
@@ -1901,6 +2680,112 @@ final class UNYRIWalkthroughUITests: XCTestCase {
 
     /// Two accounts: add a freshly registered second account, check that it does not see
     /// the first account's chats, switch back, then remove the added account.
+    /// Adds a second account on this simulator and switches back to the first one.
+    private func addSecondAccountAndReturn() {
+        let menu = app.buttons["main-open-menu"]
+        let add = revealDrawerControl("drawer-add-account")
+        XCTAssertTrue(add.waitForExistence(timeout: 5), "add account in the menu"); add.tap(); sleep(2)
+        tapFirst(["Create an account", "Создать аккаунт"]); sleep(1)
+        let handle = "uiqa_sw2_" + String(UUID().uuidString.lowercased().replacingOccurrences(of: "-", with: "").prefix(8))
+        let password = env["UNYRI_WALK_PASSWORD"]!
+        type(into: textField(["Your name", "Ваше имя"]), "Второй QA"); app.typeText("\n")
+        type(into: app.textFields["register-login"], handle)
+        tapFirst(["Show password", "Показать пароль"])
+        type(into: textField(["Password", "Пароль"]), password); app.typeText("\n")
+        type(into: textField(["Confirm password", "Повторите пароль", "Подтвердите пароль"]), password); app.typeText("\n")
+        tapFirst(["Hide password", "Скрыть пароль"])
+        let agreement = app.switches.firstMatch
+        if agreement.exists {
+            let knob = agreement.switches.firstMatch
+            (knob.exists ? knob : agreement).tap()
+        }
+        tapFirst(["Register", "Зарегистрироваться"])
+        XCTAssertTrue(menu.waitForExistence(timeout: 40)); sleep(3)
+        switchToWalkAccount()
+    }
+
+    /// Makes the walk account (the one that has the peer chat) active again.
+    private func switchToWalkAccount() {
+        let menu = app.buttons["main-open-menu"]
+        let peerRow = chatRow(env["UNYRI_WALK_PEER_DISPLAY"]!)
+        for _ in 0..<2 where !peerRow.waitForExistence(timeout: 8) {
+            XCTAssertTrue(menu.waitForExistence(timeout: 40)); menu.tap(); sleep(1)
+            let other = app.buttons["drawer-account-1"]
+            guard other.waitForExistence(timeout: 5) else { break }
+            other.tap(); sleep(6)
+        }
+        XCTAssertTrue(peerRow.waitForExistence(timeout: 30), "the walk account with the peer chat is active")
+    }
+
+    /// B-055 (owner, iPhone 0.4.23, 19 Nov): during a room (and the same in a call) he tapped his
+    /// other account in the side menu; the refusal line made the menu wider than its panel and
+    /// every label was cut at the left edge. Needs a second account here (added once if missing).
+    /// Starts an outgoing call nobody answers, minimizes it, opens the menu, taps the other account.
+    private func callSwitchProbe() throws {
+        let menu = app.buttons["main-open-menu"]
+        XCTAssertTrue(menu.waitForExistence(timeout: 30)); sleep(2)
+        switchToWalkAccount()
+        menu.tap(); sleep(1)
+        if app.buttons["drawer-account-1"].waitForExistence(timeout: 4) {
+            app.coordinate(withNormalizedOffset: CGVector(dx: 0.98, dy: 0.5)).tap(); sleep(1)
+        } else {
+            addSecondAccountAndReturn()
+        }
+        let peerRow = chatRow(env["UNYRI_WALK_PEER_DISPLAY"]!)
+        XCTAssertTrue(peerRow.waitForExistence(timeout: 20), "the peer chat on the walk account"); peerRow.tap(); sleep(2)
+        let call = app.buttons.matching(NSPredicate(format: "label == %@ OR label == %@", "Call", "Позвонить")).firstMatch
+        XCTAssertTrue(call.waitForExistence(timeout: 5), "call button"); call.tap(); sleep(3)
+        shot("callswitch-calling")
+        let minimize = app.buttons["call-minimize"]
+        if minimize.waitForExistence(timeout: 5) { minimize.tap(); sleep(2) }
+        if !menu.exists { back(); sleep(2) }
+        XCTAssertTrue(menu.waitForExistence(timeout: 10), "chat list with the call minimized"); menu.tap(); sleep(1)
+        let other = app.buttons["drawer-account-1"]
+        XCTAssertTrue(other.waitForExistence(timeout: 5), "the other account in the menu")
+        other.tap(); sleep(2)
+        shot("callswitch-after-tap")
+        let screen = app.windows.firstMatch.frame
+        let ids = ["drawer-name", "drawer-public-number", "drawer-qr", "drawer-contacts", "drawer-account-1"]
+        let present = ids.compactMap { id -> (String, CGRect)? in
+            let element = app.descendants(matching: .any)[id]
+            return element.exists ? (id, element.frame) : nil
+        }
+        let cut = present.filter { $0.1.minX < screen.minX - 1 }
+        let dialog = app.buttons.matching(NSPredicate(format: "label == %@ OR label == %@", "End and switch", "Завершить и переключить")).firstMatch
+        let dialogShown = dialog.waitForExistence(timeout: 3)
+        print("WALK_PROBE callswitch rows=\(present.count) minX=\(present.map { "\($0.0)=\(Int($0.1.minX))" }.joined(separator: ",")) cut=\(cut.count) dialog=\(dialogShown)")
+        XCTAssertTrue(cut.isEmpty, "B-055: menu rows cut at the left edge: " + cut.map { "\($0.0) x=\(Int($0.1.minX))" }.joined(separator: ", "))
+        XCTAssertTrue(dialogShown, "B-055: no «End the call and switch» confirmation")
+        // Cancel (a popover has no Cancel button: tap outside it), then close the drawer.
+        let cancel = app.buttons.matching(NSPredicate(format: "label == %@ OR label == %@", "Cancel", "Отмена")).firstMatch
+        if cancel.exists { cancel.tap() } else { app.coordinate(withNormalizedOffset: CGVector(dx: 0.97, dy: 0.96)).tap() }
+        _ = dialog.waitForNonExistence(timeout: 4); sleep(1)
+        shot("callswitch-cancelled")
+        if app.buttons["drawer-account-1"].isHittable {
+            app.coordinate(withNormalizedOffset: CGVector(dx: 0.97, dy: 0.5)).tap(); sleep(1)
+        }
+        // Leave no call ringing: open the call from its bar and end it.
+        let bar = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@ OR label CONTAINS[c] %@", "Нажмите, чтобы вернуться", "Tap to return")).firstMatch
+        let end = app.buttons.matching(NSPredicate(format: "label == %@ OR label == %@", "End call", "Завершить звонок")).firstMatch
+        if !end.exists, bar.waitForExistence(timeout: 4) { bar.tap(); sleep(2) }
+        // An unanswered outgoing call may already have ended by itself (no bar, no call screen).
+        if end.waitForExistence(timeout: 6) { end.tap(); sleep(3) } else { print("WALK_PROBE callswitchend the call had already ended") }
+        // Owner, 19 Nov: after leaving the room the broken menu stayed. After the call ends the
+        // menu must be whole again (rows found, none past the left edge).
+        if !menu.isHittable { back(); sleep(1) }
+        XCTAssertTrue(menu.waitForExistence(timeout: 10)); menu.tap(); sleep(1)
+        shot("callswitch-after-call")
+        let after = ids.compactMap { id -> (String, CGRect)? in
+            let element = app.descendants(matching: .any)[id]
+            return element.exists ? (id, element.frame) : nil
+        }
+        let cutAfter = after.filter { $0.1.minX < screen.minX - 1 }
+        print("WALK_PROBE callswitchafter rows=\(after.count) cut=\(cutAfter.count) error=\(app.staticTexts["drawer-account-error"].exists) bar=\(bar.exists)")
+        XCTAssertGreaterThanOrEqual(after.count, 3, "the menu opened after the call")
+        XCTAssertTrue(cutAfter.isEmpty, "B-055: the menu stays broken after the call ended")
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.97, dy: 0.5)).tap(); sleep(1)
+    }
+
     private func accountsProbe() throws {
         let peerDisplay = env["UNYRI_WALK_PEER_DISPLAY"]!
         let menu = app.buttons["main-open-menu"]
@@ -1931,7 +2816,7 @@ final class UNYRIWalkthroughUITests: XCTestCase {
         }
         shot("acc-register-filled")
         tapFirst(["Register", "Зарегистрироваться"])
-        try completeSignupRecovery()
+        try expectNoSignupRecoveryGate()
         let fresh = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@ OR label CONTAINS[c] %@", "without restored", "без восстановления")).firstMatch
         _ = fresh.waitForExistence(timeout: 40)
         if fresh.exists { fresh.tap() }

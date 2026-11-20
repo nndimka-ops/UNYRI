@@ -189,32 +189,38 @@ class AdminPresentationTest {
     }
 
     @Test
-    fun `account labels prefer the username and fall back to a shortened id`() {
+    fun `account labels use explicit public identity and ignore compatibility logins`() {
         val cache = AdminCache().apply {
             users = AdminPage(
-                listOf(AdminUserRowDto(id = "u1", userId = "u1", username = "anna")),
+                listOf(AdminUserRowDto(id = "u1", userId = "u1", publicUsername = "anna"),
+                    AdminUserRowDto(id = "u3", userId = "3c2b1a00-5d6e-4f70-8a9b-0c1d2e3f4a5b")),
             )
         }
         assertEquals("@anna", AdminTitles.account("u1", cache))
+        // No public identity: the shortened account id (ids are UUIDs), never the compatibility login.
+        assertEquals("3c2b1a00", AdminTitles.account("3c2b1a00-5d6e-4f70-8a9b-0c1d2e3f4a5b", cache))
         // A row that was not loaded still renders, but never as an empty string.
         assertEquals("9f1c4d3a", AdminTitles.account("9f1c4d3a-77aa", cache))
         assertEquals("—", AdminTitles.account(null, cache))
         assertEquals("—", AdminTitles.account("  ", cache))
 
         assertEquals("@bob", AdminTitles.accountLabel("u2", "bob"))
+        assertEquals("123\u202f456\u202f789", AdminTitles.accountLabel("u2", "", "123456789"))
         assertEquals("9f1c4d3a", AdminTitles.accountLabel("9f1c4d3a-77aa", null))
     }
 
     @Test
-    fun `an account row falls back through display name, username and id`() {
+    fun `an account row falls back through display name public identity and id`() {
         assertEquals(
             "Anna",
             AdminTitles.displayName(AdminUserRowDto(id = "u1", userId = "u1", displayName = "Anna")),
         )
         assertEquals(
-            "anna",
-            AdminTitles.displayName(AdminUserRowDto(id = "u1", userId = "u1", username = "anna")),
+            "@anna",
+            AdminTitles.displayName(AdminUserRowDto(id = "u1", userId = "u1", publicUsername = "anna")),
         )
+        assertEquals("3c2b1a00", AdminTitles.displayName(
+            AdminUserRowDto(id = "u1", userId = "3c2b1a00-5d6e-4f70-8a9b-0c1d2e3f4a5b")))
         assertEquals(
             "9f1c4d3a",
             AdminTitles.displayName(AdminUserRowDto(id = "u1", userId = "9f1c4d3a-77aa")),
@@ -224,7 +230,7 @@ class AdminPresentationTest {
         assertEquals(
             "Anna",
             AdminTitles.profileName(
-                AdminProfileDto(userId = "u1", username = "anna", displayName = "Anna"),
+                AdminProfileDto(userId = "u1", displayName = "Anna"),
             ),
         )
         assertEquals("—", AdminTitles.profileName(null))

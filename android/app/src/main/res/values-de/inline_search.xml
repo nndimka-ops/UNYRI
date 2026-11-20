@@ -19,7 +19,7 @@
     <string name="search_recent">Letzte Suchen</string>
     <string name="search_scope_messages">Nachrichten</string>
     <string name="settings_search_label">Suchen</string>
-    <string name="unified_search_hint">Gespeicherte Chats und Nachrichten offline durchsuchen. Personen auf diesem Server nach Benutzernamen finden.</string>
+    <string name="unified_search_hint">Durchsuchen Sie gespeicherte Chats und Nachrichten offline. Personen auf diesem Server finden Sie per Nummer oder @Name.</string>
     <string name="unified_search_network">Die Serversuche ist nicht verfügbar. Lokale Ergebnisse bleiben verfügbar.</string>
     <string name="unified_search_local_error">Gespeicherte Nachrichten konnten nicht geladen werden. Suche erneut.</string>
 </resources>

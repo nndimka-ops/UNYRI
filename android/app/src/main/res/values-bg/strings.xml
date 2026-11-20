@@ -212,7 +212,7 @@
     <string name="voice_open_app_settings">Отваряне на настройките на приложението</string>
     <string name="notification_settings_system_on">Известията са разрешени в Android</string>
     <string name="notification_settings_system_off">Известията са блокирани в Android</string>
-    <string name="notification_settings_system_detail">Android управлява разрешението, показването на заключения екран, звука и вибрацията, включително административните и служебните известия. UNYRI не може да променя системния ви избор.</string>
+    <string name="notification_settings_system_detail">Изберете канал за съобщения или разговори в Android, за да настроите звука и вибрацията.</string>
     <string name="notification_settings_allow">Разрешаване на известия</string>
     <string name="notification_settings_system_open">Отваряне на настройките за известия на Android</string>
     <string name="local_mode_notifications">Разрешаване на известия</string>

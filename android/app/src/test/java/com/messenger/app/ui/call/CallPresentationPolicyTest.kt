@@ -15,6 +15,17 @@ class CallPresentationPolicyTest {
         for (w in listOf(240f, 320f, 360f, 600f)) assertEquals(4, CallPresentationPolicy.controlsPerRow(w))
         for (w in listOf(120f, 180f, 220f)) assertEquals(2, CallPresentationPolicy.controlsPerRow(w))
     }
+    @Test fun `audio upgrade is hidden until connected and inactive media controls are hidden`() {
+        val audio=call.copy(mediaKind=CallMediaKind.AUDIO)
+        assertFalse(CallPresentationPolicy.videoUpgradeVisible(CallUiState.OutgoingRinging(audio)))
+        assertFalse(CallPresentationPolicy.videoUpgradeVisible(CallUiState.Connecting(audio)))
+        assertTrue(CallPresentationPolicy.videoUpgradeVisible(live.copy(call=audio,videoMode=VideoMode.AUDIO)))
+        assertFalse(CallPresentationPolicy.videoUpgradeVisible(live))
+        assertFalse(CallPresentationPolicy.videoUpgradeVisible(CallUiState.Ended(audio,CallEndReason.HANGUP)))
+        assertTrue(CallPresentationPolicy.controlsVisible(true,false))
+        assertFalse(CallPresentationPolicy.controlsVisible(false,false))
+        assertFalse(CallPresentationPolicy.controlsVisible(true,true))
+    }
     @Test fun `flip exists only for current running multi camera self view`() {
         assertTrue(CallPresentationPolicy.flipVisible(live, true))
         assertTrue(CallPresentationPolicy.canFlip("call-a", live, true))

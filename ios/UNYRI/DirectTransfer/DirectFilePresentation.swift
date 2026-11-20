@@ -61,6 +61,8 @@ enum DirectFileFailureText {
         case "unsupported": return "Update UNYRI on both devices and retry."
         case "background": return "Open UNYRI on both devices to continue."
         case "direct_unavailable", "no_direct_route": return "A direct connection is unavailable on this network. Try another network."
+        case "relay_unavailable": return "A relay is required by your peer-to-peer setting, but this server has no relay configured. The transfer cannot connect safely."
+        case "peer_relay_unavailable": return "The other person allows server-only connections, but the relay server is unavailable."
         default: return "Waiting for a direct connection. Keep UNYRI open on both devices."
         }
     }

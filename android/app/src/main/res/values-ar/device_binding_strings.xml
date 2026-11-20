@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auth_hardware_binding_required">لا يستطيع هذا الهاتف حماية الجلسة بمفتاح عتادي، والخادم يتطلب هذه الحماية.</string>
+</resources>

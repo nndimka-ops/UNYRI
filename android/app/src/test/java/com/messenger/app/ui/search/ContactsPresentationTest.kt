@@ -28,7 +28,7 @@ class ContactsPresentationTest {
         assertEquals("z", ContactsPresentation.rows(entries, "", emptySet(), Locale.ENGLISH).last { it.section != "#" }.entry.id)
     }
     @Test fun filtersNamesAndHandlesWithNormalizationAndDeduplicatesServerPages() {
-        val boris = entry("boris", "Борис", "boris_qa")
+        val boris = ContactEntry(entry("boris", "Борис", "private_login").user.copy(publicUsername = "boris_qa"))
         val entries = listOf(boris, entry("anna", "Анна"), entry("accent", "José"), boris)
         assertEquals(listOf("boris"), ContactsPresentation.rows(entries, "  @BORIS_qa ", emptySet()).map { it.entry.id })
         assertEquals(listOf("boris"), ContactsPresentation.rows(entries, "бор", emptySet()).map { it.entry.id })

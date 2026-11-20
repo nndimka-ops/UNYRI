@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chats_archive_detail">انقلوا المحادثات إلى هنا من قائمتها أو حددوا عدة محادثات. تبقى هنا عند وصول رسائل جديدة حتى تعيدوها يدوياً.</string>
+    <string name="privacy_devices_blocks">الأجهزة والحظر</string>
+    <string name="privacy_messages_section">الرسائل</string>
+    <string name="settings_privacy_visibility">الظهور</string>
+    <string name="privacy_nobody_count">لا أحد</string>
+    <string name="blocked_users_search">الاسم أو الرقم أو @اسم_المستخدم</string>
+    <plurals name="privacy_people_count_short">
+        <item quantity="one">%1$d شخص</item>
+        <item quantity="few">%1$d أشخاص</item>
+        <item quantity="many">%1$d شخص</item>
+        <item quantity="other">%1$d شخص</item>
+        <item quantity="two">شخصان</item>
+        <item quantity="zero">لا أحد</item>
+    </plurals>
+    <string name="drawer_report_short">بلاغ</string>
+    <string name="peer_qr_title">رمز QR لهذا الشخص</string>
+    <string name="peer_remove_confirm_title">إزالة جهة الاتصال؟</string>
+    <string name="peer_remove_confirm_detail">سيُزال هذا الشخص من جهات اتصالك. ستبقى المحادثة والرسائل.</string>
+    <string name="inline_search_people_hint">ابحث عن أشخاص بالرقم أو @اسم_المستخدم.</string>
+    <string name="app_version_format">الإصدار %1$s (%2$d)</string>
+    <string name="server_current_title">الخادم الحالي</string>
+    <string name="server_change_title">تغيير الخادم</string>
+    <string name="server_edit_help">أدخلوا عنوان HTTPS. سجلوا الخروج أولاً لتغيير الخادم.</string>
+    <string name="server_alpha_http_detail">تسمح إصدارات ألفا أيضاً باستخدام HTTP على شبكة محلية موثوقة.</string>
+    <string name="server_max_file_size">أقصى حجم للملف المشفر</string>
+    <string name="server_user_quota">مساحة التخزين لكل حساب</string>
+    <string name="server_no_limit">بلا حدود</string>
+    <string name="settings_about">المساعدة والتطبيق</string>
+    <string name="settings_data_storage">الاتصال والتخزين</string>
+    <string name="notification_in_app_sound_detail">تشغيل صوت أثناء فتح UNYRI.</string>
+    <string name="notification_in_app_vibration_detail">الاهتزاز أثناء فتح UNYRI.</string>
+    <string name="report_problem_detail">صفوا المشكلة وأرفقوا لقطات شاشة.</string>
+    <string name="report_recent_problem_detail">حددوا وقت المشكلة الأخيرة؛ فعّلوا التشخيص أدناه.</string>
+    <string name="sh_step_computer">كمبيوتر يعمل دائمًا</string>
+    <string name="sh_step_computer_summary">استخدموا الكمبيوتر الخاص بكم أو استأجروا كمبيوتر عبر الإنترنت (VPS).</string>
+    <string name="sh_step_install">تثبيت UNYRI Server</string>
+    <string name="sh_step_install_summary">ثبّتوا برنامج الخادم باتباع الدليل.</string>
+    <string name="sh_step_internet">السماح بالوصول من الإنترنت</string>
+    <string name="sh_step_internet_summary">اتبعوا الدليل ليتصل الهاتف أيضًا من خارج المنزل.</string>
+    <string name="sh_step_phone">توصيل الهاتف</string>
+    <string name="sh_step_phone_summary">أكدوا عنوان الخادم أو امسحوا دعوة، ثم أنشئوا حسابًا.</string>
+    <string name="sh_step_owner">أصبحوا المالك</string>
+    <string name="sh_step_owner_summary">استخدموا الرمز لمرة واحدة الذي يعرضه برنامج التثبيت.</string>
+    <string name="sh_step_test">فحص الرسائل والمكالمات</string>
+    <string name="sh_step_test_summary">أوقفوا Wi-Fi واختبروا الرسائل والمكالمات والإشعارات باستخدام بيانات الهاتف.</string>
+    <string name="sh_step_more">المزيد من التفاصيل</string>
+    <string name="connection_checking">جارٍ الفحص…</string>
+    <string name="sh_open_guide">الدليل والتنزيلات</string>
+    <string name="local_mode_description">رسائل ومكالمات من خادمكم عبر Wi-Fi دون إنترنت. يعرض هذا الوضع إشعارًا دائمًا ويستهلك بطارية أكثر. افتحوا UNYRI مجددًا بعد الإيقاف القسري أو إعادة التشغيل.</string>
+    <string name="local_mode_connected">متصل بخادمكم</string>
+    <string name="local_mode_signin">سجّلوا الدخول لتفعيل الاتصال المحلي.</string>
+    <string name="peer_qr_instruction">امسح هذا الرمز لفتح ملف هذا الشخص في UNYRI.</string>
+</resources>

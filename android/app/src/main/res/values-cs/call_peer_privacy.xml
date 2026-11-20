@@ -4,5 +4,5 @@
     <string name="call_p2p_everyone">Všichni</string>
     <string name="call_p2p_contacts">Moje kontakty</string>
     <string name="call_p2p_nobody">Nikdo</string>
-    <string name="call_p2p_note">Přímé spojení je obvykle rychlejší, ale druhé zařízení vidí vaši IP adresu. Přes server je vidět pouze adresa serveru. Moje kontakty povoluje přímé spojení jen s lidmi v Kontaktech. Platí od příštího hovoru.</string>
+    <string name="call_p2p_note">Přímé spojení je obvykle rychlejší, ale druhé zařízení vidí vaši IP adresu. Přes server je vidět pouze adresa serveru. Moje kontakty povoluje přímé spojení jen s lidmi v Kontaktech. Platí od příštího hovoru. Stejné nastavení platí i pro přenos souborů.</string>
 </resources>

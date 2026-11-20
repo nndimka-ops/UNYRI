@@ -22,7 +22,7 @@
     <string name="sh_uses">Uses</string>
     <string name="sh_days">Valid for (days)</string>
     <string name="sh_invite_bounds">1–10,000 uses; 1–365 days.</string>
-    <string name="sh_create_invite">Create invitation</string>
+    <string name="sh_create_invite">Create code</string>
     <string name="sh_active">Active</string>
     <string name="sh_revoked">Revoked</string>
     <string name="sh_expired">Expired</string>
@@ -30,15 +30,15 @@
     <string name="sh_unknown">Unknown</string>
     <string name="sh_expiry">Expires</string>
     <string name="sh_creator">Created by</string>
-    <string name="sh_revoke">Revoke invitation</string>
+    <string name="sh_revoke">Revoke</string>
     <string name="sh_revoke_confirm">Revoke this invitation? It will stop accepting new registrations.</string>
     <string name="sh_more">More invitations</string>
     <string name="sh_self_check">Check server</string>
     <string name="sh_code_once">Save or share now. The code is only shown once.</string>
-    <string name="sh_copy_code">Copy code</string>
+    <string name="sh_copy_code">Copy</string>
     <string name="sh_share_code">Share code</string>
     <string name="sh_copy_link">Copy link</string>
-    <string name="sh_share_link">Share link</string>
+    <string name="sh_share_link">Share</string>
     <string name="sh_yes">yes</string>
     <string name="sh_no">no</string>
     <string name="sh_ready">ready</string>
@@ -54,7 +54,7 @@
     <string name="sh_fix_storage">Check file storage and upload permissions in the installer.</string>
     <string name="sh_fix_disk">Keep at least 1 GB free and back up before clearing space.</string>
     <string name="sh_fix_version">Use a compatible server release and let its installer finish the upgrade.</string>
-    <string name="sh_guide">1. Install Docker and the UNYRI server on a PC that stays on. 2. Choose a domain or DDNS name. 3. Reserve the PC address in the router and forward HTTPS and call ports. With CGNAT, use a VPS or tunnel. 4. Confirm the HTTPS server address or scan an invitation QR. 5. Sign in, open Profile and claim ownership with the installer code, then protect administrator access. 6. Open Administration → Own server → Check server. Configuration checks do not prove external ports work; test from mobile data. Back up before updates. Push notifications need a configured provider.</string>
+    <string name="sh_guide">1. Install Docker and the UNYRI server on a PC that stays on. 2. Choose a domain or DDNS name. 3. Reserve the PC address in the router and forward HTTPS and call ports. With CGNAT, use a VPS or tunnel. 4. Confirm the HTTPS server address or scan an invitation QR. 5. Sign in, open Profile and claim ownership with the installer code, then protect administrator access. 6. Open Administration → Registration and invitations → Check server. Configuration checks do not prove external ports work; test from mobile data. Back up before updates. Push notifications need a configured provider.</string>
     <string name="sh_check_setup">Ownership available</string>
     <string name="sh_check_url">Public address</string>
     <string name="sh_check_url_config">Public address configured</string>
@@ -88,4 +88,7 @@
     <string name="sh_compatibility">App version compatible</string>
     <string name="sh_socket">Current WebSocket connected</string>
     <string name="sh_scan_owner_code">Scan the owner code</string>
+    <string name="sh_registration_invites">Registration and invitations</string>
+    <string name="sh_mode_owner_only">Only the owner can change registration mode.</string>
+    <string name="sh_saved_codes_hint">Codes are shown only when created. Save or share a new code before leaving this screen.</string>
 </resources>

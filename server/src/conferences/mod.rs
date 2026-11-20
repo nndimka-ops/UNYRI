@@ -153,6 +153,9 @@ pub struct ParticipantDto {
     pub user_id: Uuid,
     pub device_id: Uuid,
     pub display_name: String,
+    pub username: String,
+    pub public_username: Option<String>,
+    pub unyri_number: String,
     pub participant_identity: String,
     pub audio_publish_blocked: bool,
 }
@@ -161,6 +164,10 @@ pub struct ConferenceDto {
     pub id: Uuid,
     pub title: String,
     pub owner_user_id: Uuid,
+    /// Public identity of the owner; the legacy username is never a login.
+    pub username: String,
+    pub public_username: Option<String>,
+    pub unyri_number: String,
     pub max_participants: i16,
     pub admission_locked: bool,
     pub approval_required: bool,
@@ -288,8 +295,8 @@ fn first_join_expired(room: &Room, now: DateTime<Utc>) -> bool {
         && room.created_at + Duration::seconds(FIRST_JOIN_TIMEOUT_SECONDS) <= now
 }
 async fn dto(state: &AppState, id: Uuid) -> Result<ConferenceDto, AppError> {
-    let mut room:ConferenceDto=sqlx::query_as("SELECT id,title,owner_user_id,max_participants,admission_locked,approval_required,description,listed,access_mode,settings_revision,access_revision,CASE WHEN state='open' AND expires_at>now() THEN 'active' ELSE 'ended' END AS state,created_at,expires_at,end_reason FROM conferences WHERE id=$1").bind(id).fetch_optional(&state.db).await?.ok_or_else(not_found)?;
-    room.participants=sqlx::query_as("SELECT m.user_id,m.device_id,u.display_name,m.user_id::text||':'||m.device_id::text||':'||m.admission_id::text AS participant_identity,COALESCE(p.audio_publish_blocked,false) AS audio_publish_blocked FROM conference_members m JOIN users u ON u.id=m.user_id LEFT JOIN conference_participant_policy p ON p.conference_id=m.conference_id AND p.user_id=m.user_id WHERE m.conference_id=$1 ORDER BY m.joined_at,m.user_id").bind(id).fetch_all(&state.db).await?;
+    let mut room:ConferenceDto=sqlx::query_as("SELECT c.id,c.title,c.owner_user_id,COALESCE(i.public_username,'') AS username,i.public_username,i.unyri_number::text,c.max_participants,c.admission_locked,c.approval_required,c.description,c.listed,c.access_mode,c.settings_revision,c.access_revision,CASE WHEN c.state='open' AND c.expires_at>now() THEN 'active' ELSE 'ended' END AS state,c.created_at,c.expires_at,c.end_reason FROM conferences c JOIN user_identities i ON i.user_id=c.owner_user_id WHERE c.id=$1").bind(id).fetch_optional(&state.db).await?.ok_or_else(not_found)?;
+    room.participants=sqlx::query_as("SELECT m.user_id,m.device_id,COALESCE(NULLIF(trim(u.display_name),''),'@'||i.public_username,i.unyri_number::text) AS display_name,COALESCE(i.public_username,'') AS username,i.public_username,i.unyri_number::text,m.user_id::text||':'||m.device_id::text||':'||m.admission_id::text AS participant_identity,COALESCE(p.audio_publish_blocked,false) AS audio_publish_blocked FROM conference_members m JOIN users u ON u.id=m.user_id JOIN user_identities i ON i.user_id=u.id LEFT JOIN conference_participant_policy p ON p.conference_id=m.conference_id AND p.user_id=m.user_id WHERE m.conference_id=$1 ORDER BY m.joined_at,m.user_id").bind(id).fetch_all(&state.db).await?;
     Ok(room)
 }
 
@@ -483,7 +490,8 @@ pub async fn join(
         sqlx::query("UPDATE conference_members SET last_authorized_at=clock_timestamp() WHERE user_id=$1 AND admission_id=$2")
         .bind(auth.user_id).bind(admission).execute(&mut *tx).await?;
         let display_name: String = sqlx::query_scalar(
-            "SELECT COALESCE(NULLIF(trim(display_name),''),username) FROM users WHERE id=$1",
+            "SELECT COALESCE(NULLIF(trim(u.display_name),''),'@'||i.public_username,i.unyri_number::text) \
+             FROM users u JOIN user_identities i ON i.user_id=u.id WHERE u.id=$1",
         )
         .bind(auth.user_id)
         .fetch_one(&mut *tx)

@@ -12,6 +12,7 @@ enum RealtimeEvent: Equatable {
     case sessionRevoked(reason: String)
     case chatManagementChanged
     case chatDeleted(chatId: String)
+    case userDeleted(userId: String)
 }
 
 /// Pure JSON -> event parser. Never crashes the socket loop on a malformed
@@ -40,6 +41,7 @@ enum RealtimeEventParser {
     private struct SessionRevokedEnvelope: Decodable {
         let reason: String
     }
+    private struct UserDeletedEnvelope: Decodable { let userId: String }
     private struct ChatDeletedEnvelope: Decodable { let chatId: String }
 
     private static let decoder: JSONDecoder = {
@@ -77,6 +79,9 @@ enum RealtimeEventParser {
             }
         case "session.revoked":
             return (try? decoder.decode(SessionRevokedEnvelope.self, from: data)).map { .sessionRevoked(reason: $0.reason) }
+        case "user.deleted":
+            guard let value = try? decoder.decode(UserDeletedEnvelope.self, from: data), UUID(uuidString: value.userId) != nil else { return nil }
+            return .userDeleted(userId: value.userId.lowercased())
         case "chat.management_changed": return .chatManagementChanged
         case "chat.deleted":
             guard let event = try? decoder.decode(ChatDeletedEnvelope.self, from: data), UUID(uuidString: event.chatId) != nil else { return nil }

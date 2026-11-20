@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_relay_unavailable">Ustawienie prywatności wymaga przekaźnika dla tej osoby, ale ten serwer nie ma go skonfigurowanego. Przesyłanie pliku nie może się połączyć.</string>
+</resources>

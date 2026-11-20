@@ -53,7 +53,7 @@ final class RealtimeClient: ObservableObject {
         if state == .connecting, let socket {
             UnyriDiag.realtime(.ready, attempt: attempt,
                 durationMs: connectStartedAt.map { (ProcessInfo.processInfo.systemUptime - $0) * 1000 })
-            attempt = 0
+            readySince = ProcessInfo.processInfo.systemUptime
             state = .connected
             startPing(socket)
         }
@@ -394,6 +394,7 @@ final class RealtimeClient: ObservableObject {
         if activity.count < 128 { activity[chat] = (kind, Date()) }
     }
     func start() {
+        if stopped { deviceProofClockBlocked = false; deviceProofClockRetried = false }
         stopped = false
         if state == .connecting || state == .connected { return }
         attempt = 0
@@ -446,8 +447,12 @@ final class RealtimeClient: ObservableObject {
 
     // MARK: - Connection
 
+    private var deviceProofClockRetried = false
+    private var deviceProofClockBlocked = false
+    private var lastProofSocket: URLSessionWebSocketTask?
+
     private func connect() {
-        guard !stopped else { return }
+        guard !stopped, !deviceProofClockBlocked else { return }
         resetApplicationProbe()
         reconnectTask?.cancel()
         reconnectTask = nil
@@ -460,8 +465,16 @@ final class RealtimeClient: ObservableObject {
         Task { @MainActor [self] in
             guard !stopped, connectionAttempt == ticket, generation == auth.sessionGeneration else { return }
             let token: String
+            #if os(iOS)
+            let deviceProof: String
+            #endif
             do {
+                #if os(iOS)
+                let credentials = try await auth.webSocketCredentials()
+                token = credentials.token; deviceProof = credentials.proof
+                #else
                 token = try await auth.currentAccessToken()
+                #endif
             } catch {
                 guard !stopped, connectionAttempt == ticket else { return }
                 state = .disconnected
@@ -476,9 +489,13 @@ final class RealtimeClient: ObservableObject {
             socket?.cancel(with: .normalClosure, reason: nil)
             var request = URLRequest(url: wsURL)
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            #if os(iOS)
+            request.setValue(deviceProof, forHTTPHeaderField: DeviceBoundProof.header)
+            #endif
             request.setValue("call-ring-ack", forHTTPHeaderField: "X-Unyri-Capabilities")
             let socket = session.webSocketTask(with: request)
             self.socket = socket
+            lastProofSocket = socket
             socket.resume()
 
             receiveLoop(socket)
@@ -491,9 +508,21 @@ final class RealtimeClient: ObservableObject {
         guard generation == auth.sessionGeneration, !stopped else { return }
         UnyriDiag.realtime(.transportError, attempt: attempt, status: status, code: code)
     }
-    fileprivate func handshakeUnauthorized(token: String) {
-        guard generation == auth.sessionGeneration else { return }
+    fileprivate func handshakeUnauthorized(token: String, task: URLSessionTask, proofTime: Int64?) {
+        guard generation == auth.sessionGeneration, lastProofSocket === task else { return }
         UnyriDiag.realtime(.handshakeRejected, attempt: attempt, status: 401)
+        #if os(iOS)
+        if let proofTime {
+            reconnectTask?.cancel(); reconnectTask = nil
+            socket?.cancel(with: .goingAway, reason: nil); socket = nil
+            state = .disconnected
+            if deviceProofClockRetried { deviceProofClockBlocked = true; return }
+            deviceProofClockRetried = true
+            auth.correctDeviceProofClock(serverTime: proofTime)
+            connect()
+            return
+        }
+        #endif
         auth.accessTokenRejected(token)
     }
 
@@ -502,6 +531,7 @@ final class RealtimeClient: ObservableObject {
     fileprivate func socketOpened(_ socket: URLSessionWebSocketTask) {
         guard !stopped, self.socket === socket, state == .connecting,
               generation == auth.sessionGeneration else { return }
+        deviceProofClockRetried = false; deviceProofClockBlocked = false
         UnyriDiag.realtime(.opened, attempt: attempt,
             durationMs: connectStartedAt.map { (ProcessInfo.processInfo.systemUptime - $0) * 1000 })
         beginApplicationProbe(allowConnecting: true)
@@ -557,12 +587,13 @@ final class RealtimeClient: ObservableObject {
     }
 
     private var connectStartedAt: TimeInterval?
+    private var readySince: TimeInterval?
     private func scheduleReconnect() {
-        guard !stopped else { return }
+        guard !stopped, !deviceProofClockBlocked else { return }
         let shift = min(attempt, Self.maxBackoffShift)
         let delayMs = min(Self.maxDelayMs, Self.baseDelayMs << shift)
         UnyriDiag.realtime(.reconnectScheduled, attempt: attempt + 1, durationMs: Double(delayMs))
-        attempt += 1
+        attempt = min(attempt, Self.maxBackoffShift) + 1
         reconnectTask?.cancel()
         reconnectTask = Task { @MainActor [self] in
             try? await Task.sleep(nanoseconds: UInt64(delayMs) * 1_000_000)
@@ -575,9 +606,17 @@ final class RealtimeClient: ObservableObject {
 
     private struct FrameTypeEnvelope: Decodable { let type: String }
     private static let frameTypeDecoder = JSONDecoder()
+    private var invalidationBudget = ServerEventBudget()
+    private var frameBudget = ServerEventBudget()
 
     private func dispatchFrame(_ data: Data) {
+        let now = ProcessInfo.processInfo.systemUptime
+        guard frameBudget.admit(now: now, limit: 120, window: 1) else {
+            handleDisconnect(); return
+        }
         guard let type = (try? Self.frameTypeDecoder.decode(FrameTypeEnvelope.self, from: data))?.type else { return }
+        if ["privacy.changed", "auto_delete.changed", "call.history_changed", "appearance.changed", "profile.changed", "contacts.changed", "chat.management_changed", "chat.deleted"].contains(type),
+           !invalidationBudget.admit(now: now) { return }
         switch type {
         case "PONG":
             receiveDisplayPong(data)
@@ -599,7 +638,7 @@ final class RealtimeClient: ObservableObject {
             receiveContactsChange(data)
         case "chat.draft":
             liveDrafts.receive(data)
-        case "message.new", "message.sent", "receipt.updated", "session.revoked", "chat.management_changed", "chat.deleted":
+        case "message.new", "message.sent", "receipt.updated", "session.revoked", "chat.management_changed", "chat.deleted", "user.deleted":
             if let event = RealtimeEventParser.parse(data) {
                 events.send(event)
             }
@@ -616,7 +655,7 @@ final class RealtimeClient: ObservableObject {
                 guard let self, !self.stopped, self.socket === socket else { return }
                 switch result {
                 case .success(let message):
-                    if self.state == .connected { self.attempt = 0 }
+                    if let readySince = self.readySince, ProcessInfo.processInfo.systemUptime - readySince >= 30 { self.attempt = 0 }
                     switch message {
                     case .string(let text):
                         self.dispatchFrame(Data(text.utf8))
@@ -647,6 +686,7 @@ final class RealtimeClient: ObservableObject {
     }
 
     private func handleDisconnect() {
+        readySince = nil
         if state == .connected || socket != nil { UnyriDiag.realtime(.disconnected, attempt: attempt) }
         resetApplicationProbe()
         socket?.cancel(with: .goingAway, reason: nil)
@@ -672,9 +712,17 @@ final class RealtimeClient: ObservableObject {
 private final class RealtimeWebSocketOpenDelegate: NSObject, URLSessionWebSocketDelegate {
     weak var owner: RealtimeClient?
 
+    nonisolated func urlSession(_ session: URLSession, task: URLSessionTask,
+        willPerformHTTPRedirection response: HTTPURLResponse, newRequest request: URLRequest,
+        completionHandler: @escaping (URLRequest?) -> Void) {
+        // A token and its signed proof belong only to the original upgrade.
+        completionHandler(nil)
+    }
+
     /// A handshake refused with 401 means the bearer expired by the server's clock.
     nonisolated func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        let status = (task.response as? HTTPURLResponse)?.statusCode
+        let response = task.response as? HTTPURLResponse
+        let status = response?.statusCode
         if let error, (error as? URLError)?.code != .cancelled {
             let code = (error as? URLError).map { abs($0.code.rawValue) } ?? abs((error as NSError).code)
             Task { @MainActor [weak self] in self?.owner?.transportFailed(status: status, code: code) }
@@ -683,7 +731,8 @@ private final class RealtimeWebSocketOpenDelegate: NSObject, URLSessionWebSocket
               let header = task.originalRequest?.value(forHTTPHeaderField: "Authorization"),
               header.hasPrefix("Bearer ") else { return }
         let token = String(header.dropFirst("Bearer ".count))
-        Task { @MainActor [weak self] in self?.owner?.handshakeUnauthorized(token: token) }
+        let proofTime = response?.value(forHTTPHeaderField: "X-UNYRI-Proof-Time").flatMap(Int64.init)
+        Task { @MainActor [weak self] in self?.owner?.handshakeUnauthorized(token: token, task: task, proofTime: proofTime) }
     }
 
     nonisolated func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask,

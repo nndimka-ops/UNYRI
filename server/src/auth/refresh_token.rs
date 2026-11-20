@@ -50,10 +50,8 @@ pub fn parse_session_id(token: &str) -> Option<Uuid> {
 }
 
 pub fn constant_time_eq(a: &[u8], b: &[u8]) -> bool {
-    if a.len() != b.len() {
-        return false;
-    }
-    a.iter().zip(b).fold(0u8, |acc, (x, y)| acc | (x ^ y)) == 0
+    use subtle::ConstantTimeEq;
+    bool::from(a.ct_eq(b))
 }
 
 fn to_hex(bytes: &[u8]) -> String {

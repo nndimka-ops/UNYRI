@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_relay_unavailable">Votre réglage de confidentialité exige un relais pour cette personne, mais ce serveur ne dispose pas de relais configuré. Le transfert du fichier ne peut pas se connecter.</string>
+</resources>

@@ -47,6 +47,10 @@ fn test_turn_config() -> messenger_server::config::TurnConfig {
 }
 
 async fn spawn_state() -> AppState {
+    // This binary owns its encryption fixture; do not depend on a deployment key
+    // or a runner's human-readable placeholder (the server requires 32-byte hex).
+    static ADMIN_KEY: std::sync::Once = std::sync::Once::new();
+    ADMIN_KEY.call_once(|| std::env::set_var("COCO_ADMIN_KEY", "11".repeat(32)));
     dotenvy::dotenv().ok();
     let database_url = std::env::var("TEST_DATABASE_URL").unwrap_or_else(|_| {
         "postgres://messenger:messenger@localhost:5432/messenger_test".to_string()
@@ -223,8 +227,15 @@ async fn unlock_admin(
         .oneshot(post_json_request("/admin/setup", ip, &account.token, credentials))
         .await
         .unwrap();
-    assert_eq!(setup.status(), StatusCode::OK, "administrative setup must succeed");
-    let secret = totp_rs::Secret::try_from_base32(body_json(setup).await["secret"].as_str().unwrap())
+    let setup_status = setup.status();
+    let setup_body = body_text(setup).await;
+    assert_eq!(
+        setup_status,
+        StatusCode::OK,
+        "administrative setup must succeed: status={setup_status}, body={setup_body}"
+    );
+    let setup: Value = serde_json::from_str(&setup_body).expect("administrative setup JSON");
+    let secret = totp_rs::Secret::try_from_base32(setup["secret"].as_str().unwrap())
         .unwrap();
     let otp = totp_rs::Builder::new().with_secret(secret).build().unwrap();
     let seed = account.id.as_bytes()[0].max(1);

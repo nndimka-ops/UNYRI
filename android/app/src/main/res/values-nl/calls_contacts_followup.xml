@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_relay_unavailable">Deze server heeft geen TURN-relay. Voor een gesprek met deze persoon is die nodig om een directe verbinding te vermijden.</string>
+    <string name="direct_peer_relay_unavailable">Je gesprekspartner staat alleen verbindingen via een server toe, maar de relay is niet beschikbaar.</string>
+</resources>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chats_archive_detail">Преместете чатове тук от менюто им или изберете няколко. Новите съобщения ги оставят тук, докато не ги възстановите.</string>
+    <string name="privacy_devices_blocks">Устройства и блокирания</string>
+    <string name="privacy_messages_section">Съобщения</string>
+    <string name="settings_privacy_visibility">Видимост</string>
+    <string name="privacy_nobody_count">Никого</string>
+    <string name="blocked_users_search">Име, номер или @име</string>
+    <plurals name="privacy_people_count_short">
+        <item quantity="one">%1$d човек</item>
+        <item quantity="few">%1$d души</item>
+        <item quantity="many">%1$d души</item>
+        <item quantity="other">%1$d души</item>
+    </plurals>
+    <string name="drawer_report_short">Сигнал</string>
+    <string name="peer_qr_title">QR код на събеседника</string>
+    <string name="peer_remove_confirm_title">Премахване на контакта?</string>
+    <string name="peer_remove_confirm_detail">Този човек ще бъде премахнат от контактите ви. Чатът и съобщенията ще останат.</string>
+    <string name="inline_search_people_hint">Търсете хора по номер или @име.</string>
+    <string name="app_version_format">Версия %1$s (%2$d)</string>
+    <string name="server_current_title">Текущ сървър</string>
+    <string name="server_change_title">Смяна на сървър</string>
+    <string name="server_edit_help">Въведете HTTPS адрес. Първо излезте от акаунта, за да смените сървъра.</string>
+    <string name="server_alpha_http_detail">Алфа версиите позволяват и HTTP в доверена локална мрежа.</string>
+    <string name="server_max_file_size">Максимален размер на шифрован файл</string>
+    <string name="server_user_quota">Място за един акаунт</string>
+    <string name="server_no_limit">Без ограничение</string>
+    <string name="settings_about">Помощ и приложение</string>
+    <string name="settings_data_storage">Връзка и памет</string>
+    <string name="notification_in_app_sound_detail">Звук, докато UNYRI е отворено.</string>
+    <string name="notification_in_app_vibration_detail">Вибрация, докато UNYRI е отворено.</string>
+    <string name="report_problem_detail">Опишете проблема и приложете екранни снимки.</string>
+    <string name="report_recent_problem_detail">Отбележете часа на скорошен проблем; включете диагностиката по-долу.</string>
+    <string name="sh_step_computer">Компютър, който винаги е включен</string>
+    <string name="sh_step_computer_summary">Използвайте своя компютър или наемете компютър в интернет (VPS).</string>
+    <string name="sh_step_install">Инсталирайте UNYRI Server</string>
+    <string name="sh_step_install_summary">Инсталирайте сървърната програма според ръководството.</string>
+    <string name="sh_step_internet">Разрешете достъп от интернет</string>
+    <string name="sh_step_internet_summary">Следвайте ръководството, за да се свързва телефонът и извън дома.</string>
+    <string name="sh_step_phone">Свържете телефона</string>
+    <string name="sh_step_phone_summary">Потвърдете адреса на сървъра или сканирайте покана, след което създайте акаунт.</string>
+    <string name="sh_step_owner">Станете собственик</string>
+    <string name="sh_step_owner_summary">Използвайте еднократния код, показан от инсталатора.</string>
+    <string name="sh_step_test">Проверете съобщенията и разговорите</string>
+    <string name="sh_step_test_summary">Изключете Wi-Fi и проверете съобщенията, разговорите и известията чрез мобилни данни.</string>
+    <string name="sh_step_more">Подробности</string>
+    <string name="connection_checking">Проверка…</string>
+    <string name="sh_open_guide">Ръководство и изтегляния</string>
+    <string name="local_mode_description">Съобщения и разговори от вашия сървър по Wi-Fi, без интернет. Режимът показва постоянно известие и използва повече батерия. След принудително спиране или рестартиране отворете UNYRI отново.</string>
+    <string name="local_mode_connected">Свързано с вашия сървър</string>
+    <string name="local_mode_signin">Влезте в акаунта си, за да включите локалната връзка.</string>
+    <string name="peer_qr_instruction">Сканирайте кода, за да отворите профила на този човек в UNYRI.</string>
+</resources>

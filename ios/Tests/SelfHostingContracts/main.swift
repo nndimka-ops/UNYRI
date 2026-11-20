@@ -6,6 +6,17 @@ func check(_ condition: @autoclosure () -> Bool, _ name: String) {
     if !condition() { fatalError("SH-3 contract failed: " + name) }
 }
 let server = "https://example.test"
+for (language, file) in [
+    ("ru", "SELF_HOSTING.md"), ("ru-RU", "SELF_HOSTING.md"),
+    ("uk", "SELF_HOSTING_UK.md"), ("uk_UA", "SELF_HOSTING_UK.md"),
+    ("en", "SELF_HOSTING_EN.md"), ("de", "SELF_HOSTING_EN.md"), ("", "SELF_HOSTING_EN.md")
+] {
+    let url = SelfHostingGuidePolicy.guideURL(language: language)
+    check(url.scheme == "https" && url.host == "github.com", "official HTTPS guide host")
+    check(url.path == "/nndimka-ops/UNYRI/blob/main/docs/" + file, "guide language routing")
+    check(url.absoluteString.hasPrefix(SelfHostingGuidePolicy.repositoryURL.absoluteString + "/"), "guide uses the official repository constant")
+}
+check(SelfHostingGuidePolicy.releasesURL.absoluteString == SelfHostingGuidePolicy.repositoryURL.absoluteString + "/releases", "official downloads destination")
 let link = "https://example.test/#server=https%3A%2F%2Fexample.test&invite_code=opaque.secret"
 let parsed = SelfHostingPolicy.parseInvite(link)
 check(parsed?.origin == server && parsed?.code == "opaque.secret", "fragment import")

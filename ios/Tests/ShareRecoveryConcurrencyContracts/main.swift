@@ -12,20 +12,25 @@ struct EventProbe<Value> { func send(_ value: Value) {} }
 @MainActor final class ConsumedSignal {
     let plaintext: Data
     var decryptions = 0
+    var afterDecrypt: (() throws -> Void)?
+    var finishedReceiveIDs: [String] = []
     let consumed = AsyncStream<Void>.makeStream()
     init(_ content: MessageContent) throws { plaintext = try JSONEncoder().encode(content) }
     func resolveSignalDeviceId(senderId: String, senderDeviceId: String) async throws -> UInt32 { 1 }
     func receiveID(chatID: String, sequence: Int64, context: [String]) throws -> String { try JSONEncoder().encode(context).base64EncodedString() }
     func recoveredReceive(id: String) async throws -> Data? { nil }
-    func finishReceive(id: String) async throws {}
+    func finishReceive(id: String) async throws { finishedReceiveIDs.append(id) }
     func decryptReceived(ciphertextBase64: String, messageType: Int, senderUserId: String, senderSignalDeviceId: UInt32, receiveID: String? = nil, receiveMetadata: Data = Data()) async throws -> Data {
         guard decryptions == 0 else { throw SignalError.replay }
         decryptions += 1; consumed.continuation.yield(())
+        try afterDecrypt?()
         return plaintext
     }
 }
 
 @MainActor final class Ingestion {
+    struct Auth { let localSecurity: LocalSecurityDecisions? }
+    let auth: Auth
     let store: MessageStore
     let attachmentStore: AttachmentStore
     let sessionManager: ConsumedSignal
@@ -33,6 +38,9 @@ struct EventProbe<Value> { func send(_ value: Value) {} }
     var authorizeIncoming: ((MessageDto) async throws -> Void)? = { _ in }
     var onDirectFileOffer: ((String, DirectFileOffer) -> Void)?
     init(_ store: MessageStore, _ attachments: AttachmentStore, _ signal: ConsumedSignal) {
+        var decisions: Data?
+        auth = Auth(localSecurity: LocalSecurityDecisions(origin: "https://fixture.invalid", userID: "owner",
+            read: { decisions }, write: { decisions = $0 }, remove: { decisions = nil }))
         self.store = store; attachmentStore = attachments; sessionManager = signal
         attachmentStore.startFenceReclamation()
     }
@@ -42,9 +50,17 @@ struct EventProbe<Value> { func send(_ value: Value) {} }
         let result = try await ingestOne(dto, token: "fixture", myUserId: "owner")
         precondition(expectStored ? result.finalStatus == .delivered : result.finalStatus == nil)
     }
+    func receiveExcluded(_ dto: MessageDto) async throws {
+        let result = try await ingestOne(dto, token: "fixture", myUserId: "owner")
+        precondition(!result.changed && result.finalStatus == nil && !result.allowsDeliveryReceipt,
+            "Security exclusion stored content or permitted a delivery receipt")
+    }
 }
 
-@MainActor enum VoiceTranscriber { static func forget(_ ids: [String]) {} }
+@MainActor enum VoiceTranscriber {
+    static func forget(_ ids: [String]) {}
+    static func forgetForDeletion(_ ids: [String]) throws {}
+}
 @MainActor final class PurgeDownloads { func cancelAndWait(_ ids: [String]) async {} }
 @MainActor final class PurgeAdapter {
     let store: AttachmentStore
@@ -162,8 +178,8 @@ final class HeldInspection: @unchecked Sendable {
         return (directory, try AttachmentStore(databaseURL: directory.appendingPathComponent("attachments.sqlite3"), draftMigrationHooks: hooks, incomingWriteHooks: incomingHooks),
             try MessageStore(databaseURL: directory.appendingPathComponent("messages.sqlite3")))
     }
-    static func packet(_ sequence: Int64 = 1) -> MessageDto {
-        MessageDto(id: UUID().uuidString, chatId: chat, clientMessageId: UUID().uuidString, senderId: "peer",
+    static func packet(_ sequence: Int64 = 1, sender: String = "peer") -> MessageDto {
+        MessageDto(id: UUID().uuidString, chatId: chat, clientMessageId: UUID().uuidString, senderId: sender,
             senderDeviceId: "device", sequence: sequence, createdAt: Date(), messageType: 1, ciphertext: "consumed-packet",
             kind: "content", targetMessageId: nil)
     }
@@ -175,6 +191,40 @@ final class HeldInspection: @unchecked Sendable {
         precondition(sqlite3_open(database.path, &handle) == SQLITE_OK)
         defer { sqlite3_close(handle) }
         guard sqlite3_exec(handle, command, nil, nil, nil) == SQLITE_OK else { throw AttachmentStore.StoreError.stepFailed }
+    }
+
+    @MainActor static func securityExclusion(_ root: URL) async throws {
+        for reason in ["blocked", "revoked"] {
+            for timing in ["before", "afterDecrypt"] {
+                let (_, attachments, messages) = try fixture(root)
+                let dto = packet(sender: reason == "revoked" ? "owner" : "peer")
+                let attachmentID = "excluded-" + reason + "-" + timing
+                let signal = try ConsumedSignal(content(attachmentID))
+                let ingestion = Ingestion(messages, attachments, signal)
+                let security = ingestion.auth.localSecurity!
+                let exclude: () throws -> Void = {
+                    if reason == "blocked" { try security.setBlocked(dto.senderId, blocked: true) }
+                    else { try security.revoke(.init(userId: dto.senderId, serverDeviceId: dto.senderDeviceId,
+                        signalDeviceId: nil, identityFingerprint: nil)) }
+                }
+                if timing == "before" { try exclude() } else { signal.afterDecrypt = exclude }
+                try await ingestion.receiveExcluded(dto)
+                let stored = try messages.message(byClientMessageId: dto.clientMessageId)
+                let metadata = try attachments.attachment(byId: attachmentID)
+                let journal = try messages.chatValue(chatId: chat, name: "restore_attachment:" + dto.clientMessageId)
+                let exclusion = try messages.chatValue(chatId: chat, name: "security_excluded:" + dto.clientMessageId)
+                let expectedDecryptions = timing == "before" ? 0 : 1
+                precondition(signal.decryptions == expectedDecryptions && stored == nil && metadata == nil && journal == nil && exclusion == "1",
+                    "Blocked/revoked ingress reached persistence or lost its durable exclusion")
+                precondition(signal.finishedReceiveIDs.count == 1, "Excluded ingress did not retire its receive journal")
+                // A fresh decision store has no block/revocation; the real
+                // message-store exclusion must still prevent replay delivery.
+                try await Ingestion(messages, attachments, signal).receiveExcluded(dto)
+                precondition(signal.decryptions == expectedDecryptions && signal.finishedReceiveIDs.count == 2,
+                    "Durable security exclusion allowed replay after decision-store replacement")
+            }
+        }
+        print("PASS: real local blocks/revocations exclude ingress before/after decryption, deny receipts and persist across decision-store replacement")
     }
 
     @MainActor static func concurrentIngestion(_ root: URL) async throws {
@@ -460,6 +510,7 @@ final class HeldInspection: @unchecked Sendable {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent("share-recovery-" + UUID().uuidString)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: root) }
+        try await securityExclusion(root)
         try await concurrentIngestion(root)
         try await plaintextSurvivesMetadataFailure(root)
         try await indirectCancellation(root)

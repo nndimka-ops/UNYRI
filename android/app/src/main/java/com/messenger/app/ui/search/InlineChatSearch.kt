@@ -146,7 +146,7 @@ fun InlineChatSearch(viewModel: SearchViewModel, onClose: () -> Unit, onOpenChat
                 }), color = if (category == tab) colors.accent else colors.secondaryText)
             } }
         }
-        LazyColumn(state = listState, modifier = Modifier.weight(1f).testTag("search-results"), contentPadding = PaddingValues(16.dp)) {
+        LazyColumn(state = listState, modifier = Modifier.weight(1f).navigationBarsPadding().testTag("search-results"), contentPadding = PaddingValues(16.dp)) {
             if (term.isEmpty()) {
                 if (recentPeople.isNotEmpty()) item {
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) { items(recentPeople, key = { it.id }) { user ->
@@ -156,7 +156,7 @@ fun InlineChatSearch(viewModel: SearchViewModel, onClose: () -> Unit, onOpenChat
                         }
                     } }
                 }
-                item { Row(verticalAlignment = Alignment.CenterVertically) {
+                if (recent.isNotEmpty() || recentPeople.isNotEmpty()) item { Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(stringResource(R.string.search_recent), Modifier.weight(1f))
                     if (recent.isNotEmpty() || recentPeople.isNotEmpty()) TextButton(onClick = history::clear, Modifier.testTag("search-clear-history")) { Text(stringResource(R.string.search_clear)) }
                 } }

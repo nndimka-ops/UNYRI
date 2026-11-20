@@ -17,6 +17,8 @@ pub struct DeleteAccountRequest {
 }
 
 pub struct DeletedAccountEffects {
+    pub user_id: Uuid,
+    pub profile_peers: Vec<Uuid>,
     pub peers: Vec<(Uuid, Uuid)>,
     pub devices: Vec<Uuid>,
     pub call_peers: Vec<Uuid>,
@@ -96,6 +98,29 @@ pub async fn delete_account_data(
         .bind(user_id)
         .fetch_all(&mut **tx)
         .await?;
+    // Capture the final wake before push-token FKs cascade. It never carries a
+    // wipe command: the receiving app must verify its own server session.
+    state.push.enqueue_session_check_transactional(tx, &devices).await?;
+    sqlx::query("INSERT INTO deleted_session_proofs(session_id,refresh_token_hash,expires_at) SELECT id,refresh_token_hash,expires_at FROM sessions WHERE user_id=$1 AND expires_at>now() ON CONFLICT DO NOTHING")
+        .bind(user_id).execute(&mut **tx).await?;
+    let profile_peers: Vec<Uuid> = sqlx::query_scalar("SELECT DISTINCT peer FROM (SELECT owner_id AS peer FROM user_contacts WHERE contact_id=$1 UNION SELECT user_id FROM user_blocks WHERE blocked_user_id=$1 UNION SELECT user_id FROM chat_members WHERE chat_id IN (SELECT chat_id FROM chat_members WHERE user_id=$1) AND user_id<>$1 UNION SELECT CASE WHEN caller_user_id=$1 THEN callee_user_id ELSE caller_user_id END FROM calls WHERE caller_user_id=$1 OR callee_user_id=$1 UNION SELECT user_id FROM conference_members WHERE conference_id IN (SELECT conference_id FROM conference_members WHERE user_id=$1 UNION SELECT id FROM conferences WHERE owner_user_id=$1) UNION SELECT owner_user_id FROM conferences WHERE id IN (SELECT conference_id FROM conference_members WHERE user_id=$1)) p WHERE peer<>$1")
+        .bind(user_id).fetch_all(&mut **tx).await?;
+    let number: Option<String> = sqlx::query_scalar("SELECT unyri_number::text FROM user_identities WHERE user_id=$1")
+        .bind(user_id).fetch_optional(&mut **tx).await?;
+    // UUIDs in moderation snapshots remain only as safety-record join keys.
+    // Names, public handles and historical login fields are not retained.
+    sqlx::query("UPDATE chat_reports r SET participants_snapshot=(SELECT COALESCE(jsonb_agg(CASE WHEN p->>'id'=$1::text OR p->>'user_id'=$1::text THEN jsonb_build_object('id',$1,'user_id',$1,'unyri_number',COALESCE($2,p->>'unyri_number'),'display_name','Удалённый аккаунт') ELSE p END),'[]'::jsonb) FROM jsonb_array_elements(r.participants_snapshot) p) WHERE EXISTS(SELECT 1 FROM jsonb_array_elements(r.participants_snapshot) p WHERE p->>'id'=$1::text OR p->>'user_id'=$1::text)")
+        .bind(user_id).bind(&number).execute(&mut **tx).await?;
+    sqlx::query("UPDATE admin_audit SET detail=jsonb_build_object('unyri_number',$2,'identity',COALESCE($2,$1::text)) WHERE target=$1")
+        .bind(user_id).bind(&number).execute(&mut **tx).await?;
+    sqlx::query("UPDATE admin_audit SET detail=detail-'actor_name'-'actor_username'-'actor_display_name' WHERE actor=$1 AND target IS DISTINCT FROM $1")
+        .bind(user_id).execute(&mut **tx).await?;
+    // A random source key keeps independent bans independently manageable,
+    // without retaining a link to this former account or its display metadata.
+    sqlx::query("UPDATE installation_suspensions SET source_user_id=gen_random_uuid(),reason='Deleted account',actor='00000000-0000-0000-0000-000000000000' WHERE source_user_id=$1")
+        .bind(user_id).execute(&mut **tx).await?;
+    sqlx::query("UPDATE installation_suspensions SET actor='00000000-0000-0000-0000-000000000000' WHERE actor=$1")
+        .bind(user_id).execute(&mut **tx).await?;
     // Lock chats before collecting their attachment objects: new messages cannot race deletion.
     let chats: Vec<Uuid> = sqlx::query_scalar("SELECT id FROM chats WHERE user_a_id=$1 OR user_b_id=$1 OR owner_user_id=$1 ORDER BY id FOR UPDATE")
         .bind(user_id).fetch_all(&mut **tx).await?;
@@ -152,7 +177,9 @@ pub async fn delete_account_data(
         .bind(user_id)
         .execute(&mut **tx)
         .await?;
-    Ok(DeletedAccountEffects { peers, devices, call_peers })
+    sqlx::query("UPDATE public_numbers SET user_id=NULL WHERE user_id=$1")
+        .bind(user_id).execute(&mut **tx).await?;
+    Ok(DeletedAccountEffects { user_id, profile_peers, peers, devices, call_peers })
 }
 
 pub async fn lock_account_deletion_roles(tx: &mut Transaction<'_, Postgres>) -> Result<(), AppError> {
@@ -166,6 +193,7 @@ pub async fn is_last_owner(tx: &mut Transaction<'_, Postgres>, user: Uuid) -> Re
 }
 
 pub async fn notify_account_deleted(state: &AppState, effects: DeletedAccountEffects) {
+    state.push.wake_worker();
     if sweep_deleted_performance(state).await.is_err() {
         tracing::warn!("deleted account performance cleanup pending");
     }
@@ -179,6 +207,9 @@ pub async fn notify_account_deleted(state: &AppState, effects: DeletedAccountEff
     }
     for (user, chat_id) in effects.peers {
         websocket::notify_user(state, user, &ServerMessage::ChatDeleted { chat_id }).await;
+    }
+    for user in effects.profile_peers {
+        websocket::notify_user(state, user, &ServerMessage::UserDeleted { user_id: effects.user_id }).await;
     }
     for user in effects.call_peers {
         websocket::notify_user(state, user, &ServerMessage::CallHistoryChanged).await;
@@ -244,6 +275,8 @@ pub fn spawn_cleanup(state: AppState) {
             if sweep_deleted_performance(&state).await.is_err() {
                 tracing::warn!("deleted account performance cleanup pending");
             }
+            let _ = sqlx::query("DELETE FROM deleted_session_proofs WHERE expires_at<=now()").execute(&state.db).await;
+            let _ = sqlx::query("DELETE FROM session_check_wakes WHERE expires_at<=now() OR attempts>=10").execute(&state.db).await;
         }
     });
 }

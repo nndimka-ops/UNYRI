@@ -2,6 +2,36 @@ import Foundation
 import Security
 import Combine
 import CryptoKit
+
+extension AccountSecretScope {
+    static func current(owner: String) -> Self {
+        Self(origin: AppConfig.storageOrigin, slot: UnyriActiveAccountSlot.current.id, owner: owner)
+    }
+    static func freezeSavedAccounts(restoredOwner: String?) throws {
+        var scopes = try UnyriAccountRegistry.load()?.accounts.map {
+            Self(origin: $0.origin, slot: $0.slot, owner: $0.userId)
+        } ?? []
+        if let restoredOwner { scopes.append(current(owner: restoredOwner)) }
+        freezeLegacyOwners(scopes, defaults: .standard)
+        let manifestKey = "account-secret-v2.legacyHistoryRecords"
+        if UserDefaults.standard.object(forKey: manifestKey) == nil {
+            var manifest: [String: [String]] = [:]
+            let service = UnyriAccountSlot.baseService + ".history-recovery"
+            for name in try KeychainStore.itemNames(service: service) {
+                let fields = name.split(separator: ":", omittingEmptySubsequences: false).map(String.init)
+                guard fields.count == 3, fields[0] == "history-v1", UUID(uuidString: fields[1]) != nil,
+                      UUID(uuidString: fields[2]) != nil,
+                      let scope = scopes.first(where: { $0.owner == fields[2].lowercased() && $0.ownsLegacy(defaults: .standard) }) else { continue }
+                manifest[scope.id, default: []].append(name)
+            }
+            UserDefaults.standard.set(manifest, forKey: manifestKey)
+        }
+    }
+    var legacyHistoryRecords: [String] {
+        guard ownsLegacy(defaults: .standard) else { return [] }
+        return UserDefaults.standard.dictionary(forKey: "account-secret-v2.legacyHistoryRecords")?[id] as? [String] ?? []
+    }
+}
 #if canImport(UIKit)
 import UIKit
 #endif
@@ -79,6 +109,8 @@ struct UnyriAccountRecord: Codable, Equatable, Identifiable {
     var username: String
     var displayName: String
     var deviceId: String?
+    var publicUsername: String? = nil
+    var unyriNumber: String? = nil
     var id: String { slot }
 
     var pushScope: UnyriPushScope? {
@@ -217,7 +249,7 @@ enum UnyriAccountPurger {
         }
         // Kept per account outside its folder: its voice transcripts and paused reminders.
         await VoiceTranscriber.erase(owner: account.storageOrigin + "|" + user)
-        UnyriPausedReminderArchive.accountArchive(owner: user).clear(owner: user)
+        UnyriPausedReminderArchive.accountArchive(owner: user, server: account.storageOrigin).clear(owner: user)
         let manager = FileManager.default
         let support = manager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
         let caches = manager.urls(for: .cachesDirectory, in: .userDomainMask).first
@@ -268,6 +300,8 @@ enum UnyriAccountPurger {
     /// A reserved "Add account" slot whose sign-in never completed.
     static func eraseUnusedSlot(_ slot: UnyriAccountSlot) {
         guard !slot.isPrimary else { return }
+        do { try SessionStore.bound(to: slot).eraseDeviceBinding() }
+        catch { return }
         try? KeychainStore.removeAccountService(slot.keychainService)
         erasePreferences(UnyriEndingAccount(slot: slot, user: nil, storageOrigin: ""))
         #if os(iOS)
@@ -283,40 +317,28 @@ enum UnyriAccountPurger {
         SHA256.hash(data: Data(value.utf8)).map { String(format: "%02x", $0) }.joined()
     }
 
-    /// "admin-public-pin:<server>|<user>" and its "|pending" twin.
-    private static func adminPinOwner(_ name: String) -> String? {
-        guard name.hasPrefix("admin-public-pin:") else { return nil }
-        var parts = name.split(separator: "|", omittingEmptySubsequences: false).map(String.init)
-        if parts.count > 2, parts.last == "pending" { parts.removeLast() }
-        return parts.count >= 2 ? parts.last?.lowercased() : nil
-    }
-
     static func eraseKeychain(_ account: UnyriEndingAccount, remaining: [UnyriAccountRecord]) throws {
+        try SessionStore.bound(to: account.slot).eraseDeviceBinding()
         let base = UnyriAccountSlot.baseService
-        let user = account.user?.lowercased()
-        let kept = Set(remaining.map { $0.userId.lowercased() })
+        let scope = AccountSecretScope(origin: account.storageOrigin, slot: account.slot.id, owner: account.user ?? "")
+        let pins = Set(scope.pinRecords(legacyOwner: account.user))
         if account.slot.isPrimary {
             // Same rule as the single-account purge (everything except device
             // items), but other accounts' admin pins in this service survive.
             for name in try KeychainStore.itemNames(service: base) where !deviceKeys.contains(name) {
-                if let owner = adminPinOwner(name), owner != user, kept.contains(owner) { continue }
+                if (name.hasPrefix("admin-public-pin:") || name.hasPrefix("admin-public-pin-v2:")) && !pins.contains(name) { continue }
                 try KeychainStore.checkedRemove(name, service: base)
             }
         } else {
             try KeychainStore.removeAccountService(account.slot.keychainService)
-            if let user {
-                for name in try KeychainStore.itemNames(service: base) where adminPinOwner(name) == user {
-                    try KeychainStore.checkedRemove(name, service: base)
-                }
-            }
         }
-        guard let owner = account.user, let user else { return }
+        for name in pins { try KeychainStore.checkedRemove(name, service: base) }
+        guard let owner = account.user else { return }
         if let installation = try KeychainStore.checkedValue(forKey: "installation_id"), !installation.isEmpty {
             try eraseSignal(user: owner, storageOrigin: account.storageOrigin, installation: installation)
         }
         let history = base + ".history-recovery"
-        for name in try KeychainStore.itemNames(service: history)
-        where name.hasPrefix("history-v1:") && name.lowercased().hasSuffix(":" + user) {
+        for name in scope.historyRecords(in: try KeychainStore.itemNames(service: history), legacy: scope.legacyHistoryRecords) {
             try KeychainStore.checkedRemove(name, service: history)
         }
     }
@@ -345,23 +367,24 @@ enum UnyriAccountPurger {
         }
         UnyriAccountPreferences.forget(account.slot, defaults: defaults)
         guard let user = account.user?.lowercased(), !user.isEmpty else { return }
+        UnyriReactionStore.erase(account: account.storageOrigin + "|" + user, defaults: defaults)
+        let scope = AccountSecretScope(origin: account.storageOrigin, slot: account.slot.id, owner: user)
+        let legacyMapping = "history-auto-server:" + scope.origin + ":" + (account.user ?? user)
+        let legacyServer = defaults.string(forKey: legacyMapping)
+        let legacyPrefix = legacyServer.map { "history-auto-v1:\($0):\(account.user ?? user):" }
+        var legacyPrefixes = scope.legacyHistoryRecords.map { $0.replacingOccurrences(of: "history-v1:", with: "history-auto-v1:") + ":" }
+        if scope.ownsLegacy(defaults: defaults), let legacyPrefix { legacyPrefixes.append(legacyPrefix) }
+        let directKey = URL(string: scope.origin).flatMap { DirectSendPreference.scope(server: $0, owner: user) }
+        let ownedNames = Set(scope.preferenceRecords(in: Array(snapshot.keys), legacyHistoryPrefixes: legacyPrefixes,
+            legacyMapping: legacyMapping, directSend: directKey, legacyOwner: account.user))
         for (key, value) in snapshot {
-            let lower = key.lowercased()
-            let owned = (key.hasPrefix("history-auto-v1:") && lower.contains(":" + user + ":")) ||
-                (key.hasPrefix("history-auto-server:") && lower.hasSuffix(":" + user)) ||
-                (key.hasPrefix("chatPins|") && lower.hasSuffix("|" + user)) ||
-                (key.hasPrefix(DirectSendPreference.prefix) && directSendOwner(key) == user) ||
-                (key == "openHistoryBackupForAccount" && (value as? String)?.lowercased() == user) ||
-                (key == "chatReminderRoute" && ((value as? [String: Any])?["owner"] as? String)?.lowercased() == user)
+            let owned = ownedNames.contains(key) ||
+                (account.slot == UnyriActiveAccountSlot.current && key == "openHistoryBackupForAccount" && (value as? String)?.lowercased() == user) ||
+                (account.slot == UnyriActiveAccountSlot.current && key == "chatReminderRoute" && ((value as? [String: Any])?["owner"] as? String)?.lowercased() == user)
             if owned { defaults.removeObject(forKey: key) }
         }
     }
 
-    private static func directSendOwner(_ key: String) -> String? {
-        guard let data = Data(base64Encoded: String(key.dropFirst(DirectSendPreference.prefix.count))),
-              let identity = String(data: data, encoding: .utf8) else { return nil }
-        return identity.split(separator: "\n").last.map { String($0).lowercased() }
-    }
 }
 
 // MARK: - Notifications of one account
@@ -403,11 +426,15 @@ final class UnyriAccountManager: ObservableObject, UnyriAccountSessionHost {
     @Published private(set) var returnSlot: String?
     @Published private(set) var busy = false
     @Published var lastError: String?
+    /// B-055 (owner, 19 Nov): a switch asked for during a call or room waits for a
+    /// confirmation («Завершить и переключиться?») instead of a refusal line in the menu.
+    @Published var pendingMediaSwitch: UnyriAccountRecord?
+    /// Ends the call and leaves the room for a confirmed switch; set by the signed-in services.
+    var endActiveMedia: (@MainActor () async -> Void)?
     /// Last known unread total of each inactive account (counted when it was
     /// left, plus message pushes received for it since). Not a server value.
     @Published private(set) var unread: [String: Int] = [:]
-    /// Inactive accounts whose server session ended (a refresh was definitively
-    /// rejected). Nothing of theirs is erased until the person switches to them.
+    /// Definitively rejected accounts are inaccessible while erasure is retried.
     @Published private(set) var needsSignIn: Set<String> = []
 
     private var registry: UnyriAccountRegistryState?
@@ -415,6 +442,7 @@ final class UnyriAccountManager: ObservableObject, UnyriAccountSessionHost {
     private var observers = [AnyCancellable]()
     private var pendingRouteSlot: String?
     private var countedMessages: [String] = []
+    private var terminalInactiveCodes: [String: String] = UserDefaults.standard.dictionary(forKey: "unyri.accounts.terminalCleanup") as? [String: String] ?? [:]
     private var inactiveRefreshes: [String: Task<String, Error>] = [:]
     private var leavingAddForRoute = false
     private var lastInactiveSessionCheck: Date?
@@ -470,6 +498,15 @@ final class UnyriAccountManager: ObservableObject, UnyriAccountSessionHost {
         guard auth?.currentUser == nil else { return }
         var state = try UnyriAccountRegistry.load()
         if let stale = state, (try? installationMarker()) == false {
+            for record in stale.accounts {
+                let old = SessionStore.bound(to: UnyriAccountSlot(id: record.slot))
+                try old.requireReadableSession()
+                try old.eraseDeviceBinding()
+                if let refresh = old.refreshToken() {
+                    guard let origin = URL(string: record.origin) else { throw SessionStore.PersistenceError.failed }
+                    try SessionStore.bound(to: .primary).enqueueLogout(origin: origin, refreshToken: refresh)
+                }
+            }
             for slot in Set(stale.accounts.map(\.slot) + [stale.adding].compactMap { $0 }) where slot != UnyriAccountSlot.primary.id {
                 try? KeychainStore.removeAccountService(UnyriAccountSlot(id: slot).keychainService)
             }
@@ -524,6 +561,10 @@ final class UnyriAccountManager: ObservableObject, UnyriAccountSessionHost {
     private func apply(_ state: UnyriAccountRegistryState?) {
         registry = state
         if records != (state?.accounts ?? []) { records = state?.accounts ?? [] }
+        terminalInactiveCodes = terminalInactiveCodes.filter { slot, saved in
+            records.contains { $0.slot == slot && saved.hasSuffix("|" + $0.userId) }
+        }
+        UserDefaults.standard.set(terminalInactiveCodes, forKey: "unyri.accounts.terminalCleanup")
         if addingSlot != state?.adding { addingSlot = state?.adding }
         if returnSlot != state?.returnTo { returnSlot = state?.returnTo }
         let slot = state.map { UnyriAccountSlot(id: $0.active) } ?? .primary
@@ -631,7 +672,8 @@ final class UnyriAccountManager: ObservableObject, UnyriAccountSessionHost {
         let ownProfile = profile.flatMap { $0.id.lowercased() == user.id.lowercased() ? $0 : nil }
         let record = UnyriAccountRecord(slot: activeSlot.id, origin: auth.authenticatedServerURL.absoluteString, userId: user.id,
             username: ownProfile?.username ?? user.username, displayName: ownProfile?.displayName ?? user.displayName,
-            deviceId: auth.currentDeviceId?.uuidString.lowercased())
+            deviceId: auth.currentDeviceId?.uuidString.lowercased(), publicUsername: ownProfile?.publicUsername,
+            unyriNumber: ownProfile?.unyriNumber)
         if state.adding == activeSlot.id {
             guard admits(user: user.id, origin: auth.authenticatedServerURL), state.accounts.count < UnyriAccountRegistry.limit else { return }
             if UserDefaults.standard.string(forKey: AppConfig.serverPreferenceKey) == nil {
@@ -660,10 +702,23 @@ final class UnyriAccountManager: ObservableObject, UnyriAccountSessionHost {
 
     private func saveUnread() { UserDefaults.standard.set(unread, forKey: Self.unreadKey) }
 
-    func switchTo(_ record: UnyriAccountRecord) async {
-        guard let auth, !busy, record.slot != activeSlot.id, addingSlot == nil,
-              records.contains(where: { $0.slot == record.slot }), auth.currentUser != nil else { return }
+    /// The person confirmed: end the call / leave the room, wait (bounded) until the media
+    /// is released, then switch. If it is still busy, say so instead of switching.
+    func confirmMediaSwitch(_ record: UnyriAccountRecord) async {
+        pendingMediaSwitch = nil
+        await endActiveMedia?()
+        var waited = 0
+        while blockedByMedia() && waited < 40 {
+            try? await Task.sleep(nanoseconds: 50_000_000); waited += 1
+        }
         guard !blockedByMedia() else { lastError = UnyriL10n.string("Finish the call before switching accounts."); return }
+        await switchTo(record)
+    }
+
+    func switchTo(_ record: UnyriAccountRecord) async {
+        guard let auth, !busy, terminalInactiveCodes[record.slot] == nil, record.slot != activeSlot.id, addingSlot == nil,
+              records.contains(where: { $0.slot == record.slot }), auth.currentUser != nil else { return }
+        guard !blockedByMedia() else { lastError = nil; pendingMediaSwitch = record; return }
         busy = true; lastError = nil
         defer { busy = false }
         rememberLeavingUnread()
@@ -761,6 +816,7 @@ final class UnyriAccountManager: ObservableObject, UnyriAccountSessionHost {
         do {
             try await UnyriAccountPurger.erase(UnyriEndingAccount(slot: slot, user: record.userId,
                 storageOrigin: AppConfig.storageOrigin(for: slot)), remaining: remaining, sweepTemporary: false)
+            try LocalSecurityDecisions.account(origin: record.origin, userID: record.userId).erase()
             state.accounts = remaining
             unread[record.slot] = nil; saveUnread()
             try commit(state)
@@ -850,6 +906,16 @@ final class UnyriAccountManager: ObservableObject, UnyriAccountSessionHost {
     /// `inactiveRenewalAge` ago. A failure is retried at a later check.
     func renewInactiveSessionsIfDue(now: Date = Date()) {
         guard !busy else { return }
+        if !terminalInactiveCodes.isEmpty {
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                for record in self.otherAccounts {
+                    if let saved = self.terminalInactiveCodes[record.slot], let code = saved.split(separator: "|").first {
+                        try? await self.eraseTerminalInactive(record, error: .server(code: String(code), message: "Session ended"))
+                    }
+                }
+            }
+        }
         if let last = lastInactiveSessionCheck, last <= now, now.timeIntervalSince(last) < Self.inactiveCheckInterval { return }
         let candidates = otherAccounts.filter { !needsSignIn.contains($0.slot) }
         guard !candidates.isEmpty else { return }
@@ -877,8 +943,8 @@ final class UnyriAccountManager: ObservableObject, UnyriAccountSessionHost {
 
     /// A usable access token of an inactive account, refreshed when needed (or when
     /// `renew`) through the same endpoint, request id and storage as its own session
-    /// would use, with its own slot and server. A definitive rejection only marks
-    /// the account as needing sign-in: nothing of it is erased here.
+    /// would use, with its own slot and server. A definitive rejection erases
+    /// the workspace immediately and removes its switcher entry.
     func inactiveAccessToken(for record: UnyriAccountRecord, renew: Bool = false) async throws -> String {
         if let running = inactiveRefreshes[record.slot] { return try await running.value }
         let task = Task { @MainActor [weak self] () throws -> String in
@@ -896,18 +962,24 @@ final class UnyriAccountManager: ObservableObject, UnyriAccountSessionHost {
               let origin = try? AppConfig.normalizedServerURL(record.origin) else { throw APIError.missingSession }
         let store = SessionStore.bound(to: slot)
         let tokens = try await store.readTokensAsync()
-        if !renew, let access = tokens.access, let expires = tokens.expiresAt, Date() < expires.addingTimeInterval(-30) {
+        let refreshMargin = SessionStore.refreshMargin(accessToken: tokens.access)
+        if !renew, let access = tokens.access, let expires = tokens.expiresAt, Date() < expires.addingTimeInterval(-refreshMargin) {
             UnyriBearerOrigins.record(access, origin: origin)
             return access
         }
         guard let refresh = tokens.refresh else { throw APIError.missingSession }
         let response: RefreshResponse
         do {
-            response = try await AuthAPI(client: APIClient(baseURL: origin, preventRedirects: true))
-                .refresh(RefreshRequest(refreshToken: refresh, requestId: try store.refreshRequestId()))
+            let request = RefreshRequest(refreshToken: refresh, requestId: try store.refreshRequestId())
+            let api = AuthAPI(client: APIClient(baseURL: origin, preventRedirects: true))
+            #if os(iOS)
+            response = try await store.refreshWithDeviceKey(request, api: api)
+            #else
+            response = try await api.refresh(request)
+            #endif
         } catch let error as APIError where AuthRepository.isTerminalAuthFailure(error) {
-            if slot != activeSlot, records.contains(where: { $0.slot == record.slot }) {
-                setNeedsSignIn(needsSignIn.union([record.slot]))
+            if slot != activeSlot, records.contains(where: { $0.slot == record.slot }), store.refreshToken() == refresh {
+                try await eraseTerminalInactive(record, error: error)
             }
             throw error
         }
@@ -922,6 +994,48 @@ final class UnyriAccountManager: ObservableObject, UnyriAccountSessionHost {
                              refreshToken: response.refreshToken)
         UnyriBearerOrigins.record(response.accessToken, origin: origin)
         return response.accessToken
+    }
+
+    /// Saved accounts supply origins and proofs; a push never supplies either.
+    func checkInactiveSessionsNow() async {
+        for record in otherAccounts { _ = try? await inactiveAccessToken(for: record, renew: true) }
+    }
+
+    private func eraseTerminalInactive(_ record: UnyriAccountRecord, error: APIError) async throws {
+        guard record.slot != activeSlot.id, var state = registry,
+              state.accounts.contains(where: { $0.slot == record.slot }) else { return }
+        if case .server(let code, _) = error {
+            terminalInactiveCodes[record.slot] = code + "|" + record.userId
+            UserDefaults.standard.set(terminalInactiveCodes, forKey: "unyri.accounts.terminalCleanup")
+        }
+        setNeedsSignIn(needsSignIn.union([record.slot]))
+        // An already-started switch owns the registry until it finishes. The
+        // existing foreground cadence retries this durable terminal cleanup.
+        guard !busy else { return }
+        busy = true
+        defer { busy = false }
+        let remaining = state.accounts.filter { $0.slot != record.slot }
+        if let scope = record.pushScope { UnyriPushNotificationCoordinator.shared.retireInactive(scope) }
+        UnyriAccountNotifications.remove(owner: record.userId)
+        do {
+            if case .server(let code, _) = error, code == "account_deleted" {
+                try LocalSecurityDecisions.account(origin: record.origin, userID: record.userId).erase()
+            }
+            let slot = UnyriAccountSlot(id: record.slot)
+            try await UnyriAccountPurger.erase(UnyriEndingAccount(slot: slot,
+                user: record.userId, storageOrigin: AppConfig.storageOrigin(for: slot)),
+                remaining: remaining, sweepTemporary: false)
+            guard record.slot != activeSlot.id, let current = registry else { return }
+            state = current; state.accounts.removeAll { $0.slot == record.slot }
+            unread[record.slot] = nil; saveUnread()
+            try commit(state)
+            setNeedsSignIn(needsSignIn.subtracting([record.slot]))
+            terminalInactiveCodes[record.slot] = nil
+            UserDefaults.standard.set(terminalInactiveCodes, forKey: "unyri.accounts.terminalCleanup")
+        } catch {
+            lastError = UnyriL10n.string("Could not remove the account from this iPhone. Try again.")
+            throw error
+        }
     }
 
     private func setNeedsSignIn(_ value: Set<String>) {

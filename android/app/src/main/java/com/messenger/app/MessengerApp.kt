@@ -80,6 +80,12 @@ class MessengerApp : Application() {
         private set
     private var switchingAccount = false
     private lateinit var workspaceStorage: android.content.Context
+    private lateinit var savedAccountSessions: com.messenger.app.data.auth.SavedAccountSessions
+
+    suspend fun checkSavedSessionsNow() {
+        kotlinx.coroutines.withTimeoutOrNull(7_500) { (authRepository as? AuthRepositoryImpl)?.checkSessionNow() }
+        savedAccountSessions.check(force = true)
+    }
 
     override fun attachBaseContext(base: android.content.Context) {
         accountWorkspaces = com.messenger.app.data.auth.AccountWorkspaces(base)
@@ -331,9 +337,9 @@ class MessengerApp : Application() {
             val token = request.header("Authorization")?.removePrefix("Bearer ")
             if (token != null && response.code in listOf(401, 403)) {
                 val failure = com.messenger.app.data.api.parseApiException(json, response.code, response.peekBody(16_384).string())
-                if (failure is com.messenger.app.data.api.AuthApiException.Api && failure.code == "session_revoked") {
+                if (failure is com.messenger.app.data.api.AuthApiException.Api && com.messenger.app.data.auth.isTerminalAuthFailure(failure)) {
                     applicationScope.launch {
-                        (authRepository as? AuthRepositoryImpl)?.handleRevokedAccessToken(token, epoch)
+                        (authRepository as? AuthRepositoryImpl)?.handleRevokedAccessToken(token, epoch, failure.code)
                     }
                 }
             }
@@ -355,10 +361,15 @@ class MessengerApp : Application() {
         // SecureTokenStore.lastSyncedSequence), so auth and sync agree on
         // exactly one persisted copy, cleared together on logout.
         val database = MessengerDatabase.create(this)
+        com.messenger.app.data.local.chat.MessageDeletionMaintenance(this, database, applicationScope).start()
+        savedAccountSessions = com.messenger.app.data.auth.SavedAccountSessions(this, accountWorkspaces)
+        applicationScope.launch { savedAccountSessions.check() }
         com.messenger.app.data.auth.PendingLogout.scheduleSaved(this)
         authRepository = AuthRepositoryImpl(api = authApi, tokenStore = tokenStore,
+            deviceName = { com.messenger.app.data.auth.SystemDeviceName.read(this) },
             installationCredentials = installationCredentials,
             signupIdentity = { origin, _ -> identityApi.supports(origin) != false },
+            refreshSavedAccounts = { applicationScope.launch { savedAccountSessions.check() }; Unit },
             deferLogout = { com.messenger.app.data.auth.PendingLogout.save(this, it) },
             clearAccountData = {
                 kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main.immediate) { voicePlayerController.stop() }
@@ -370,6 +381,7 @@ class MessengerApp : Application() {
                     }
                     com.messenger.app.push.ChatReminderReceiver.clear(this@MessengerApp)
                     database.clearAllTables()
+                    com.messenger.app.data.directtransfer.DirectFileStorage.eraseAll(this@MessengerApp)
                     AndroidKeystoreSignalStore(this@MessengerApp).eraseAllAccountSecrets()
                     com.messenger.app.data.history.AndroidHistorySecretStorage(this@MessengerApp).eraseAllAccountSecrets()
                     com.messenger.app.data.push.PushTokenStore(this@MessengerApp).clearUploadedFlag()
@@ -396,9 +408,13 @@ class MessengerApp : Application() {
         }
         identityRepository = com.messenger.app.data.identity.IdentityRepository(identityApi, authRepository)
         applicationScope.launch {
-            authRepository.authState.collectLatest { state ->
+            authRepository.authState.map { identityRepository.ownerKey() }.distinctUntilChanged().collectLatest { owner ->
                 identityRepository.invalidate()
-                if (state is AuthSessionState.LoggedIn) runCatching { identityRepository.refresh() }
+                if (owner != null) {
+                    try { identityRepository.refresh() }
+                    catch (cancelled: kotlinx.coroutines.CancellationException) { throw cancelled }
+                    catch (_: Exception) { /* Foreground and reconnect events retry failed identity reads. */ }
+                }
             }
         }
         val usersApi = UsersApi(client = httpClient, json = json, baseUrl = BuildConfig.API_BASE_URL)
@@ -505,6 +521,11 @@ class MessengerApp : Application() {
         val chatRepositoryImpl = ChatRepositoryImpl(api = chatsApi, dao = database.chatDao(), authRepository = authRepository, deletedChatDao = database.deletedChatDao(), workspaceDao = database.workspaceDao(), pinPreferences = getSharedPreferences("chat_pins", MODE_PRIVATE), localSecurity = localSecurity, scope = applicationScope)
         chatRepository = chatRepositoryImpl
         contactsRepository = com.messenger.app.data.profile.ContactsRepository(usersApi, authRepository, chatRepository, applicationScope)
+        applicationScope.launch {
+            authRepository.authState.map { contactsRepository.ownerKey() }.distinctUntilChanged().collectLatest {
+                contactsRepository.sessionChanged()
+            }
+        }
         chatRepositoryImpl.onPeerBlockChanged = { id, blocked ->
             val owner = contactsRepository.ownerKey()
             applicationScope.launch {
@@ -584,6 +605,19 @@ class MessengerApp : Application() {
             authRepository = authRepository,
             json = json,
         )
+        socketClient.onUserDeleted = { user, epoch ->
+            applicationScope.launch {
+                authRepository.withSessionWrite(epoch) {
+                    kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                        avatarRepository.invalidate(user)
+                        tokenStore.eraseOfflineDirectory()
+                        database.chatDao().eraseDeletedPeer(user, applyLocale(com.messenger.app.ui.theme.LanguagePreference(this@MessengerApp).current()).getString(R.string.deleted_account))
+                    }
+                    contactsRepository.eraseDeletedPeer(user)
+                }
+            }
+            Unit
+        }
         var privacyRefresh: kotlinx.coroutines.Job? = null
         socketClient.onAccountBlocksChanged = {
             val owner = contactsRepository.ownerKey()
@@ -769,7 +803,11 @@ class MessengerApp : Application() {
                     com.messenger.app.data.directtransfer.directFileDestination(summary, user, epoch), chat, currentUser, epoch,
                 ) ?: throw com.messenger.app.data.directtransfer.DirectStorageError("destination_unavailable")
             },
-            stunUrls = { callApi.iceServers().flatMap { it.urls }.filter { it.startsWith("stun:") || it.startsWith("stuns:") } },
+            iceServers = { callApi.iceServers() },
+            peerToPeer = { com.messenger.app.data.call.CallPeerToPeer.resolved(getSharedPreferences(
+                com.messenger.app.data.call.CallQualityPreferences.STORE, android.content.Context.MODE_PRIVATE
+            ).getString(com.messenger.app.data.call.CallPeerToPeer.KEY, null)) },
+            isContact = contactsRepository::isKnownCallContact,
             canStream = {
                 com.messenger.app.data.directtransfer.directTransferCanStream(
                     if (::callController.isInitialized) callController.state.value else null,
@@ -1003,6 +1041,11 @@ class MessengerApp : Application() {
         // A dedicated notification manager + foreground tracker, so the
         // CallController stays framework-free. FCM/process-dead wake is
         // handled by the push components below (Этап K).
+        com.messenger.app.data.identity.IdentityRefreshCoordinator(
+            authRepository.authState.map { identityRepository.ownerKey() }.distinctUntilChanged(),
+            foregroundTracker.isForeground, socketClient.connectionState, applicationScope,
+            identityRepository::refreshOnForeground, identityRepository::refreshOnConnection,
+        )
         val profileRefresh = com.messenger.app.data.profile.SelfProfileRefreshCoordinator(
             profileRepository, authRepository, socketClient.connectionState, foregroundTracker.isForeground, applicationScope,
         )
@@ -1049,11 +1092,14 @@ class MessengerApp : Application() {
                 refreshCallActivity()
                 callController.refreshOutgoingRinging()
                 directTransfers.recoveryEvent()
+                contactsRepository.refreshForSession()
             }
         } }
         applicationScope.launch { socketClient.connectionState.collect {
             accountActivityReporter.setRealtimeConnected(it == com.messenger.app.domain.repository.SocketConnectionState.CONNECTED)
-            if (it == com.messenger.app.domain.repository.SocketConnectionState.CONNECTED) { refreshCallActivity(); directTransfers.recoveryEvent() }
+            if (it == com.messenger.app.domain.repository.SocketConnectionState.CONNECTED) {
+                refreshCallActivity(); directTransfers.recoveryEvent(); contactsRepository.refreshForSession()
+            }
         } }
         applicationScope.launch {
             socketClient.events.collect { event ->

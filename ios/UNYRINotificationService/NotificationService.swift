@@ -19,27 +19,50 @@ final class NotificationService: UNNotificationServiceExtension {
     private let lock = NSLock()
     private var contentHandler: ((UNNotificationContent) -> Void)?
     private var content: UNNotificationContent?
+    private var deliveryTask: URLSessionDataTask?
 
     override func didReceive(_ request: UNNotificationRequest,
                              withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
+        PeerImagePolicy.install()
         lock.lock(); self.contentHandler = contentHandler; content = request.content; lock.unlock()
         guard let report = DeliveryReport(userInfo: request.content.userInfo) else { finish(); return }
         var post = URLRequest(url: report.url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 8)
         post.httpMethod = "POST"
         post.setValue("application/json", forHTTPHeaderField: "Content-Type")
         post.httpBody = report.body
-        Self.session.dataTask(with: post) { [weak self] _, _, _ in self?.finish() }.resume()
+        let task = Self.session.dataTask(with: post)
+        task.delegate = DeliveryResponseDiscarder { [weak self] in self?.finish() }
+        lock.lock()
+        let active = self.contentHandler != nil
+        if active { deliveryTask = task }
+        lock.unlock()
+        if active { task.resume() } else { task.cancel() }
     }
 
     override func serviceExtensionTimeWillExpire() { finish() }
 
     private func finish() {
         lock.lock()
-        let handler = contentHandler, shown = content
+        let handler = contentHandler, shown = content, task = deliveryTask
         contentHandler = nil
+        deliveryTask = nil
         lock.unlock()
+        task?.cancel()
         if let handler, let shown { handler(shown) }
     }
+}
+
+/// The extension never needs acknowledgement bytes. Cancel before any body is
+/// delivered, for success and error statuses alike, then show the notification.
+private final class DeliveryResponseDiscarder: NSObject, URLSessionDataDelegate {
+    private let finished: () -> Void
+    init(finished: @escaping () -> Void) { self.finished = finished }
+
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse,
+                    completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
+        completionHandler(.cancel)
+    }
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) { finished() }
 }
 
 struct DeliveryReport {

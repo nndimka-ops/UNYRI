@@ -286,6 +286,10 @@ pub struct DirectoryRoom {
     description: String,
     owner_user_id: Uuid,
     owner_display_name: String,
+    /// Public identity of the owner, matching the legacy peer contract.
+    username: String,
+    public_username: Option<String>,
+    unyri_number: String,
     participant_count: i64,
     max_participants: i16,
     access_mode: String,
@@ -353,7 +357,7 @@ pub async fn directory(
             .replace('%', "\\%")
             .replace('_', "\\_")
     );
-    let sql = format!("SELECT c.id,c.title,c.description,c.owner_user_id,COALESCE(NULLIF(trim(u.display_name),''),u.username) AS owner_display_name,(SELECT count(*) FROM conference_members m WHERE m.conference_id=c.id) AS participant_count,c.max_participants,c.access_mode,c.admission_locked,c.approval_required,c.created_at,c.expires_at,EXISTS(SELECT 1 FROM conference_members p WHERE p.conference_id=c.id AND p.supports_key_handoff AND p.key_service_seen_at>now()-interval '15 seconds' AND conference_session_active(p.session_id,p.user_id,p.device_id) AND NOT EXISTS(SELECT 1 FROM conference_participant_policy q WHERE q.conference_id=p.conference_id AND q.user_id=p.user_id AND (q.removed OR q.needs_sync))) AS key_available FROM conferences c JOIN users u ON u.id=c.owner_user_id WHERE c.listed AND c.state='open' AND c.expires_at>now() AND (c.first_joined_at IS NOT NULL OR c.created_at>now()-interval '120 seconds') AND ({ROOM_HEALTHY}) AND lower(c.title) LIKE $1 ESCAPE '\\' AND NOT user_device_blocked($2,c.owner_user_id) AND NOT user_device_blocked(c.owner_device_id,$3) AND NOT EXISTS(SELECT 1 FROM conference_members m WHERE m.conference_id=c.id AND (user_device_blocked($2,m.user_id) OR user_device_blocked(m.device_id,$3))) AND NOT EXISTS(SELECT 1 FROM conference_participant_policy p WHERE p.conference_id=c.id AND p.user_id=$3 AND p.removed) AND ($4::timestamptz IS NULL OR (c.created_at,c.id)<($4,$5)) ORDER BY c.created_at DESC,c.id DESC LIMIT $6");
+    let sql = format!("SELECT c.id,c.title,c.description,c.owner_user_id,COALESCE(NULLIF(trim(u.display_name),''),'@'||i.public_username,i.unyri_number::text) AS owner_display_name,COALESCE(i.public_username,'') AS username,i.public_username,i.unyri_number::text,(SELECT count(*) FROM conference_members m WHERE m.conference_id=c.id) AS participant_count,c.max_participants,c.access_mode,c.admission_locked,c.approval_required,c.created_at,c.expires_at,EXISTS(SELECT 1 FROM conference_members p WHERE p.conference_id=c.id AND p.supports_key_handoff AND p.key_service_seen_at>now()-interval '15 seconds' AND conference_session_active(p.session_id,p.user_id,p.device_id) AND NOT EXISTS(SELECT 1 FROM conference_participant_policy q WHERE q.conference_id=p.conference_id AND q.user_id=p.user_id AND (q.removed OR q.needs_sync))) AS key_available FROM conferences c JOIN users u ON u.id=c.owner_user_id JOIN user_identities i ON i.user_id=u.id WHERE c.listed AND c.state='open' AND c.expires_at>now() AND (c.first_joined_at IS NOT NULL OR c.created_at>now()-interval '120 seconds') AND ({ROOM_HEALTHY}) AND lower(c.title) LIKE $1 ESCAPE '\\' AND NOT user_device_blocked($2,c.owner_user_id) AND NOT user_device_blocked(c.owner_device_id,$3) AND NOT EXISTS(SELECT 1 FROM conference_members m WHERE m.conference_id=c.id AND (user_device_blocked($2,m.user_id) OR user_device_blocked(m.device_id,$3))) AND NOT EXISTS(SELECT 1 FROM conference_participant_policy p WHERE p.conference_id=c.id AND p.user_id=$3 AND p.removed) AND ($4::timestamptz IS NULL OR (c.created_at,c.id)<($4,$5)) ORDER BY c.created_at DESC,c.id DESC LIMIT $6");
     let mut items: Vec<DirectoryRoom> = sqlx::query_as(&sql)
         .bind(pattern)
         .bind(auth.device_id)

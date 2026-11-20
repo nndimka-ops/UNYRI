@@ -193,7 +193,7 @@ pub async fn enqueue_new_device_alert(
 /// rejected with 401 by `AuthUser` regardless (Postgres, not the socket, is
 /// the source of truth).
 async fn send_session_revoked(state: &AppState, device_id: Uuid) {
-    if let Ok(payload) = serde_json::to_string(&ServerMessage::SessionRevoked { reason: "device_revoked".to_string() }) {
+    if let Ok(payload) = serde_json::to_string(&ServerMessage::SessionRevoked { reason: "session_revoked".to_string() }) {
         crate::websocket::terminate_revoked_device(&state, device_id, &payload).await;
     }
 }

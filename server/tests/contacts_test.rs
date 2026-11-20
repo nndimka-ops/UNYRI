@@ -245,7 +245,10 @@ async fn manual_add_and_remove_are_idempotent_private_and_one_way() {
     let item = &page["items"][0];
     assert_eq!(item["source"], "manual");
     assert!(item["added_at"].is_string());
-    assert_eq!(item["user"]["username"], username_b.as_str());
+    assert_eq!(item["user"]["username"], "");
+    assert!(item["user"]["public_username"].is_null());
+    assert_eq!(item["user"]["unyri_number"].as_str().unwrap().len(), 9);
+    assert!(!page.to_string().contains(&username_b));
     assert_eq!(item["user"]["display_name"], "Test User");
     for key in ["bio", "avatar_url", "profile_version", "avatar_version", "has_avatar"] {
         assert!(item["user"].get(key).is_some(), "{key}");

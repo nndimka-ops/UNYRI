@@ -29,13 +29,17 @@ pub struct UserProfile {
     pub updated_at: DateTime<Utc>,
 }
 
-/// What another user is allowed to see about you (`GET /users/search`).
+/// What another user is allowed to see about you (chats, calls and contacts).
 /// Deliberately narrower than `UserProfile`: no timestamps, no internal ids
 /// beyond the public user id, and no `avatar_key` (it stays internal).
 #[derive(Debug, Clone, Serialize, sqlx::FromRow)]
 pub struct PublicUser {
     pub id: Uuid,
+    /// Compatibility key for older clients: public username or empty, never login.
     pub username: String,
+    pub public_username: Option<String>,
+    /// Canonical public number as raw digits, matching `/users/me/identity`.
+    pub unyri_number: String,
     pub display_name: String,
     pub bio: Option<String>,
     pub avatar_url: Option<String>,
@@ -81,13 +85,6 @@ pub struct UpdateProfileRequest {
     pub bio: Patch<String>,
     #[serde(default)]
     pub avatar_url: Patch<String>,
-}
-
-#[derive(Debug, Deserialize)]
-pub struct SearchQuery {
-    pub q: String,
-    pub limit: Option<i64>,
-    pub offset: Option<i64>,
 }
 
 #[derive(Debug, Serialize)]

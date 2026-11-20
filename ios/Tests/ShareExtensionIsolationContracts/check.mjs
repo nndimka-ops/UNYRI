@@ -58,7 +58,7 @@ const files = phase => ids(object(phase).match(/files = \(([\s\S]*?)\)/)[1]).map
 });
 const sources = files('E14000000000000000000001');
 const expected = ['UNYRIShare/ShareViewController.swift', 'UNYRIShare/LegacyShareViewController.swift', 'UNYRIShare/ShareComposerView.swift', 'UNYRIShare/ShareStrings.swift',
-    ...['UnyriShareStore','ShareContainer','ShareJob','ShareRoutePolicy','ShareTargetSnapshot','ShareSignal','MessageTextPolicy','ShareItemClassification'].map(name => `Shared/${name}.swift`)];
+    ...['UnyriShareStore','ShareContainer','ShareJob','ShareRoutePolicy','ShareTargetSnapshot','ShareSignal','MessageTextPolicy','ShareItemClassification','PeerImagePolicy'].map(name => `Shared/${name}.swift`)];
 check([...sources].sort().join('|') === expected.sort().join('|'), 'extension source allowlist');
 for (const path of sources) check(existsSync(resolve(root, 'ios', path)), 'source exists: ' + path);
 const extensionTarget = object('E13000000000000000000001');
@@ -70,11 +70,11 @@ const allExtension = sources.map(path => read('ios/' + path)).join('\n');
 for (const token of ['import LibSignalClient', 'import WebRTC', 'import SQLite3', 'SessionStore', 'SignalStateStore', 'URLSession', 'INSendMessageIntent', 'NSFilePresenter', 'flock(']) {
     check(!allExtension.includes(token), 'extension isolation: ' + token);
 }
-for (const shared of ['ShareContainer','ShareJob','ShareRoutePolicy','ShareTargetSnapshot','ShareSignal','MessageTextPolicy','ShareItemClassification']) {
+for (const shared of ['ShareContainer','ShareJob','ShareRoutePolicy','ShareTargetSnapshot','ShareSignal','MessageTextPolicy','ShareItemClassification','PeerImagePolicy']) {
     check(project.includes(`${shared}.swift in Sources (app)`) || shared === 'MessageTextPolicy', 'app membership: ' + shared);
 }
 const appSources = files('DD0000000000000000000001');
-for (const path of ['ShareContainer','ShareJob','ShareRoutePolicy','ShareTargetSnapshot','ShareSignal','MessageTextPolicy','ShareItemClassification'].map(name => `Shared/${name}.swift`)) {
+for (const path of ['ShareContainer','ShareJob','ShareRoutePolicy','ShareTargetSnapshot','ShareSignal','MessageTextPolicy','ShareItemClassification','PeerImagePolicy'].map(name => `Shared/${name}.swift`)) {
     check(appSources.includes(path) && sources.includes(path), 'actual membership in both targets: ' + path);
 }
 const strings = read('ios/UNYRIShare/ShareStrings.swift');

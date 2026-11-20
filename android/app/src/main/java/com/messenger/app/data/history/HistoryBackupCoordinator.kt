@@ -135,7 +135,8 @@ class HistoryBackupCoordinator(
             val readBack = read(info, key)
             // Compare parsed data, not JSON key order; read() already authenticated
             // the exact uploaded ciphertext hash and account/backup context.
-            check(readBack == archive)
+            // The writer deliberately drops historical peer sign-in logins.
+            check(readBack == archive.withoutPeerLogins())
             local.verifyBackupReady(archive)
             fence()
             val confirmed = remote.confirm(HistoryBackupConfirm(staged.revision, id, digest)).also(::validateState)

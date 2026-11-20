@@ -69,7 +69,7 @@ class DirectTransferNativeTest {
         val complete = AtomicBoolean(false)
         val interrupt = AtomicBoolean(false)
         val sentBytes = AtomicLong(0)
-        val rtc = WebRtcDirectPeerTransport(context, emptyList())
+        val rtc = WebRtcDirectPeerTransport(context, DirectPeerIceConfig(emptyList(), relayOnly = false))
         val transport = object : DirectPeerTransport by rtc {
             override suspend fun send(bytes: ByteArray, binary: Boolean) {
                 if (binary && bytes.size >= 14 && bytes[1].toInt() == DirectFileWire.CHUNK) sentBytes.addAndGet((bytes.size - 14).toLong())

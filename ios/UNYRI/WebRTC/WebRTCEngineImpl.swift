@@ -419,7 +419,7 @@ final class WebRTCEngineImpl: NSObject, WebRTCEngine {
         // `setupLocalVideo` runs inside `initialize` for CallMediaKind.VIDEO),
         // never at CallScreen open / call creation. Seeded just above.
         if mediaKind == .video {
-            _ = startLocalVideo(capture: true, seedBitrate: nil)
+            _ = startLocalVideo(capture: options.cameraEnabled, seedBitrate: nil)
         }
         // Routes are observed once, by CallKitCoordinator (the system
         // route-change notification); the engine no longer reports them too.
@@ -473,6 +473,7 @@ final class WebRTCEngineImpl: NSObject, WebRTCEngine {
         guard let pc = peerConnection else { throw EngineError.notInitialized }
         try applyVideoNegotiationIntent(pc)
         applyAudioCodecPreferences(pc)
+        applyVideoCodecPreferences(pc)
         let constraints = RTCMediaConstraints(mandatoryConstraints: offerConstraints, optionalConstraints: nil)
         let sdp = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<RTCSessionDescription, Error>) in
             pc.offer(for: constraints) { sdp, error in
@@ -488,6 +489,7 @@ final class WebRTCEngineImpl: NSObject, WebRTCEngine {
         guard let pc = peerConnection else { throw EngineError.notInitialized }
         try applyVideoNegotiationIntent(pc)
         applyAudioCodecPreferences(pc)
+        applyVideoCodecPreferences(pc)
         let constraints = RTCMediaConstraints(mandatoryConstraints: answerConstraints, optionalConstraints: nil)
         let sdp = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<RTCSessionDescription, Error>) in
             pc.answer(for: constraints) { sdp, error in
@@ -536,6 +538,22 @@ final class WebRTCEngineImpl: NSObject, WebRTCEngine {
         catch { cameraLogger.error("Audio codec preferences refused: \(error.localizedDescription, privacy: .public)") }
     }
 
+    /// Hardware H.264 first in both directions, VP8 and the rest kept
+    /// (`CallVideoCodecPreference`, B-047). On every video transceiver before
+    /// every offer and answer; a refusal leaves WebRTC's own order.
+    private func applyVideoCodecPreferences(_ pc: RTCPeerConnection) {
+        let transceivers = pc.transceivers.filter { $0.mediaType == .video && !$0.isStopped }
+        guard !transceivers.isEmpty else { return }
+        let codecs = CallPeerConnectionFactory.shared.rtpReceiverCapabilities(forKind: kRTCMediaStreamTrackKindVideo).codecs
+        let order = CallVideoCodecPreference.order(codecs.map { (name: $0.name, profileLevelId: $0.parameters["profile-level-id"]) })
+        guard !order.isEmpty else { return }
+        let preferred = order.map { codecs[$0] }
+        for transceiver in transceivers {
+            do { try transceiver.setCodecPreferences(preferred, error: ()) }
+            catch { cameraLogger.error("Video codec preferences refused: \(error.localizedDescription, privacy: .public)") }
+        }
+    }
+
     private func setLocal(_ sdp: RTCSessionDescription) async throws {
         guard let pc = peerConnection else { throw EngineError.notInitialized }
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
@@ -571,7 +589,7 @@ final class WebRTCEngineImpl: NSObject, WebRTCEngine {
 
     func setRemoteDescription(type: String, sdp: String) async throws {
         guard let pc = peerConnection else { throw EngineError.notInitialized }
-        let description = RTCSessionDescription(type: type == "offer" ? .offer : .answer, sdp: sdp)
+        let description = RTCSessionDescription(type: type == "offer" ? .offer : .answer, sdp: RemoteIcePolicy.filterSDP(sdp, relayOnly: pc.configuration.iceTransportPolicy == .relay))
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             pc.setRemoteDescription(description) { error in
                 if let error { continuation.resume(throwing: error) }
@@ -586,6 +604,7 @@ final class WebRTCEngineImpl: NSObject, WebRTCEngine {
 
     func addIceCandidate(candidate: String, sdpMid: String?, sdpMLineIndex: Int?) {
         guard let pc = peerConnection else { return }
+        guard RemoteIcePolicy.allows(candidate, relayOnly: pc.configuration.iceTransportPolicy == .relay) else { return }
         guard let index = try? HostileInteger.iceIndex(sdpMLineIndex ?? 0) else { return }
         pc.add(RTCIceCandidate(sdp: candidate, sdpMLineIndex: index, sdpMid: sdpMid))
     }

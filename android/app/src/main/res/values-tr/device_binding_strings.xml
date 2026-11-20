@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auth_hardware_binding_required">Bu telefon oturumu bir donanım anahtarıyla koruyamıyor, ancak sunucu bu korumayı gerektiriyor.</string>
+</resources>

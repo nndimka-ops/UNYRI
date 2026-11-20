@@ -12,7 +12,7 @@ enum class CallPeerToPeer(val wire: String) {
 
     companion object {
         const val KEY = "callPeerToPeer.v1"
-        fun resolved(stored: String?): CallPeerToPeer = entries.firstOrNull { it.wire == stored } ?: EVERYONE
+        fun resolved(stored: String?): CallPeerToPeer = entries.firstOrNull { it.wire == stored } ?: CONTACTS
     }
 }
 
@@ -24,31 +24,28 @@ data class WebRtcIceConfig(
     val transports: IceTransportPolicy,
     val hasStunServer: Boolean,
     val hasTurnServer: Boolean,
-)
+) {
+    val relayUnavailable: Boolean get() = transports == IceTransportPolicy.RELAY && !hasTurnServer
+}
 
 object WebRtcIceTransportPolicy {
 
     /** Privacy applies in every build; the debug flag may only tighten it. */
     fun resolve(isDebug: Boolean, forceRelayFlag: Boolean,
-                setting: CallPeerToPeer = CallPeerToPeer.EVERYONE, peerIsContact: Boolean? = null): IceTransportPolicy =
+                setting: CallPeerToPeer = CallPeerToPeer.CONTACTS, peerIsContact: Boolean? = null): IceTransportPolicy =
         if ((isDebug && forceRelayFlag) || setting == CallPeerToPeer.NOBODY ||
             (setting == CallPeerToPeer.CONTACTS && peerIsContact != true)) IceTransportPolicy.RELAY else IceTransportPolicy.ALL
 
-    /** Resolves the transport policy and classifies the supplied ICE servers
-     *  into a JVM-testable config. A forced-RELAY request with no TURN server
-     *  present is still reported faithfully (`transports = RELAY`,
-     *  `hasTurnServer = false`) - the engine will then fail at ICE rather
-     *  than silently falling back to host/prflx, which is exactly the
-     *  J.1-2 negative-test behaviour. */
+    /** Classifies ICE before media setup; a required missing TURN ends the call. */
     fun buildConfig(
         iceServers: List<IceServerDto>,
         isDebug: Boolean,
         forceRelayFlag: Boolean,
-        setting: CallPeerToPeer = CallPeerToPeer.EVERYONE,
+        setting: CallPeerToPeer = CallPeerToPeer.CONTACTS,
         peerIsContact: Boolean? = null,
     ): WebRtcIceConfig {
         val hasStun = iceServers.any { server -> server.urls.any { it.startsWith("stun:") } }
-        val hasTurn = iceServers.any { server -> server.urls.any { it.startsWith("turn:") } }
+        val hasTurn = iceServers.any { server -> server.urls.any { it.startsWith("turn:") || it.startsWith("turns:") } }
         return WebRtcIceConfig(
             transports = resolve(isDebug, forceRelayFlag, setting, peerIsContact),
             hasStunServer = hasStun,

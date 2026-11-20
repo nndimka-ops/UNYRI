@@ -74,11 +74,8 @@ object InactiveMessageNotifications {
                     val cached = account.session.accessToken()
                     if (rejected != null && cached != null && cached != rejected) return@withLock cached
                     val oldRefresh = account.session.refreshToken() ?: error("Session unavailable")
-                    val body = json.encodeToString(com.messenger.app.data.api.RefreshRequestDto.serializer(),
-                        com.messenger.app.data.api.RefreshRequestDto(oldRefresh, account.session.refreshRequestId()))
-                    val response = client.executeCancellableApi(Request.Builder().url("$origin/auth/refresh")
-                        .post(body.toRequestBody("application/json".toMediaType())).build(), json)
-                    val renewed = json.decodeFromString(com.messenger.app.data.api.RefreshResponseDto.serializer(), response)
+                    val renewed = com.messenger.app.data.auth.refreshDeviceSession(client, json, origin,
+                        account.session.deviceSessionBinding(createForLegacy = true), oldRefresh, account.session.refreshRequestId())
                     check(account.session.userId() == owner && account.session.deviceId() == device && account.session.refreshToken() == oldRefresh)
                     withContext(kotlinx.coroutines.NonCancellable) {
                         account.session.saveTokens(renewed.accessToken, Instant.parse(renewed.accessTokenExpiresAt), renewed.refreshToken)
@@ -90,7 +87,12 @@ object InactiveMessageNotifications {
                     .post("{\"sequence\":${event.sequence.toLong()}}".toRequestBody("application/json".toMediaType())).build(), json)
                 val access = account.session.accessToken() ?: refresh()
                 try { confirm(access) } catch (error: com.messenger.app.data.api.AuthApiException.Api) {
+                    if (com.messenger.app.data.auth.isTerminalAuthFailure(error)) throw error
                     if (error.httpStatus == 401 || error.code == "unauthorized") confirm(refresh(access)) else throw error
+                }
+            }.onFailure { failure ->
+                if (failure is com.messenger.app.data.api.AuthApiException.Api && com.messenger.app.data.auth.isTerminalAuthFailure(failure)) {
+                    app.accountWorkspaces.removeInactive(account.key, failure.code)
                 }
             }
         }

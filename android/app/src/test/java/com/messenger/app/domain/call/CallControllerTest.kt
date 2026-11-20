@@ -215,6 +215,8 @@ private class RecordingSdpPeer(private val sdp: String, private val applied: Mut
 }
 
 internal class FakeWebRtcEngine : WebRtcEngine {
+    var missingRequiredRelay = false
+    override fun relayUnavailable(iceServers: List<IceServerDto>, peerIsContact: Boolean) = missingRequiredRelay
     override val torchState = kotlinx.coroutines.flow.MutableStateFlow(com.messenger.app.data.call.CallTorchState())
     var torchToggleCommands = 0
     val torchSetCommands = mutableListOf<Boolean>()
@@ -229,6 +231,7 @@ internal class FakeWebRtcEngine : WebRtcEngine {
     private val flow = MutableSharedFlow<WebRtcEvent>(extraBufferCapacity = 16)
     override val events = flow
     var initializeCount = 0
+    var resetRouteOnInitialize = false
     val initializedCameraIntents = mutableListOf<Boolean>()
     var prepareAudioCount = 0
     var preparingAudio: (() -> Unit)? = null
@@ -283,7 +286,10 @@ internal class FakeWebRtcEngine : WebRtcEngine {
         check(flow.tryEmit(event)) { "buffer full" }
     }
 
-    override fun initialize(iceServers: List<IceServerDto>, mediaKind: CallMediaKind) { initializeCount++; videoNegotiationAllowed = mediaKind == CallMediaKind.VIDEO }
+    override fun initialize(iceServers: List<IceServerDto>, mediaKind: CallMediaKind) {
+        initializeCount++; videoNegotiationAllowed = mediaKind == CallMediaKind.VIDEO
+        if (resetRouteOnInitialize) currentRoute = routes.first()
+    }
     override fun initialize(iceServers: List<IceServerDto>, mediaKind: CallMediaKind, captureVideo: Boolean) {
         initializedCameraIntents += captureVideo
         initialize(iceServers, mediaKind)
@@ -395,6 +401,18 @@ private class Harness(gracePeriodMs: Long = 15_000L, videoUpgradeTimeoutMs: Long
 }
 
 class CallControllerTest {
+    @Test fun missingRequiredRelayEndsBeforeNativeMediaSetup(): Unit = runBlocking {
+        val h = Harness()
+        h.engine.missingRequiredRelay = true
+        h.controller.startCall("bob", "Bob", CallMediaKind.AUDIO)
+        h.signaling.emit(CallSignalingEvent.Accepted("call-0"))
+        val failed = assertIs<CallUiState.Failed>(h.controller.state.value)
+        assertEquals(CallFailureReason.RELAY_UNAVAILABLE, failed.reason)
+        assertEquals(0, h.engine.initializeCount)
+        assertTrue(h.signaling.sentOffers.isEmpty())
+        assertTrue("markFailed" in h.callApi.calls)
+        h.scope.coroutineContext[kotlinx.coroutines.Job]?.cancel()
+    }
     @Test fun blockedCallerCannotRingThroughSocketOrPush(): Unit = runBlocking {
         var blocked = true
         val h = Harness(isLocallyBlocked = { it == "blocked" && blocked })

@@ -54,6 +54,9 @@ struct ConferenceDirectoryRoom: Decodable, Identifiable {
     let keyAvailable: Bool
     let createdAt: Date
     let expiresAt: Date
+    var username: String? = nil
+    var unyriNumber: String? = nil
+    var publicUsername: String? = nil
     var access: ConferenceAccessMode? { ConferenceAccessMode(rawValue: accessMode) }
     var canRequestKey: Bool { access.map { !$0.needsInvitation } == true && !admissionLocked && participantCount >= 0 && (2...30).contains(maxParticipants) && participantCount < maxParticipants && expiresAt > Date() }
 }

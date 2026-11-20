@@ -89,7 +89,7 @@ internal fun BlockedUsersContent(
     CocoScreenSurface(modifier.fillMaxSize().testTag("blocked-users-screen"), color = colors.background) {
         Column(Modifier.fillMaxSize().navigationBarsPadding().imePadding().padding(bottom = LocalGlassBottomInset.current)) {
             com.messenger.app.ui.components.CocoPageHeader(
-                title = stringResource(if (adding) R.string.blocked_users_add_header else R.string.blocked_users_header),
+                title = stringResource(if (adding) R.string.blocked_users_add_header else R.string.blocked_users_title),
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 6.dp),
                 titleFontWeight = FontWeight.SemiBold,
                 start = {
@@ -153,7 +153,7 @@ internal fun BlockedUsersContent(
                                 colors.categoryViolet.copy(alpha = .14f), colors.categoryViolet, size = 44.dp)
                             Column(Modifier.weight(1f).padding(horizontal = 12.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                                 Text(user.visibleName, color = colors.primaryText, style = MaterialTheme.typography.titleMedium, maxLines = 2, overflow = TextOverflow.Ellipsis)
-                                if (user.username.isNotBlank()) Text(com.messenger.app.ui.publicHandle(user), color = colors.mutedText, style = MaterialTheme.typography.bodySmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                Text(com.messenger.app.ui.publicHandle(user), color = colors.mutedText, style = MaterialTheme.typography.bodySmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
                             }
                             IconButton(onClick = { tap { focus.clearFocus(); onChoose(user) } }, enabled = !state.actionBusy,
                                 modifier = Modifier.testTag("blocked-users-action-${user.id}")) {

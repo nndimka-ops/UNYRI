@@ -164,6 +164,7 @@ struct UnyriMessageMenuLayout {
     let columns: Int
     let showReactions: Bool
     let showReactionShortcut: Bool
+    let reactionsBelow: Bool
     let previewSize: CGSize
     let menuWidth: CGFloat
     let menuHeight: CGFloat
@@ -176,13 +177,16 @@ struct UnyriMessageMenuLayout {
         let safeTop = top + 8
         let available = max(0, viewport.height - safeTop - bottom - 8)
         let availableWidth = max(1, viewport.width - left - right - 32)
-        reactionWidth = min(288, availableWidth)
-        columns = reactionWidth >= 264 ? 6 : 3
+        reactionWidth = min(368, availableWidth)
+        columns = 8
         let reactionRows = (reactionCount + columns - 1) / columns
         let naturalReactions = CGFloat(reactionRows * 44 + 8)
         showReactions = allowReactions && reactionCount > 0 && available >= 180 && naturalReactions <= available * 0.3
         showReactionShortcut = allowReactions && reactionCount > 0 && !showReactions
         let reactionHeight = showReactions ? naturalReactions : 0
+        // A top-of-chat bubble puts both the pill and its eventual panel below
+        // the preview, so expansion never has to cross over the message.
+        let preferBelow = anchor.minY - safeTop < 240 && viewport.height - bottom - anchor.maxY > 240
         menuWidth = min(260, availableWidth)
         let desiredMenu = CGFloat(max(1, rows + (showReactionShortcut ? 1 : 0))) * rowHeight + 8
         let menuReserve = min(max(0, available - reactionHeight), max(44, min(desiredMenu, available * 0.55)))
@@ -194,7 +198,12 @@ struct UnyriMessageMenuLayout {
         width = max(menuWidth, max(previewSize.width, showReactions ? reactionWidth : 0))
         totalHeight = menuHeight + reactionHeight + previewSize.height + gaps
         let x = max(left + 16, min(outgoing ? anchor.maxX - width : anchor.minX, viewport.width - right - width - 16))
-        let y = max(safeTop, min(anchor.minY - reactionHeight - 8, viewport.height - bottom - 8 - totalHeight))
+        let desiredY = preferBelow ? anchor.minY : anchor.minY - reactionHeight - 8
+        let y = max(safeTop, min(desiredY, viewport.height - bottom - 8 - totalHeight))
+        let proposedBubbleY = y + (showReactions ? reactionHeight + 8 : 0)
+        let above = proposedBubbleY - safeTop - 8
+        let below = viewport.height - bottom - 16 - proposedBubbleY - previewSize.height
+        reactionsBelow = preferBelow || (showReactions && above < 240 && below > above)
         origin = CGPoint(x: x, y: y)
     }
 }
@@ -205,6 +214,11 @@ enum UnyriMessageMenuPreviewGeometry {
               proposed.width > 0, proposed.height > 0 else { return source }
         return proposed
     }
+}
+
+@MainActor
+final class UnyriReactionSlideState: ObservableObject {
+    @Published var hovered: String?
 }
 
 @MainActor
@@ -220,8 +234,27 @@ final class UnyriMessageMenuPresenter: ObservableObject {
     let reactionTargets = NSMapTable<NSString, UIView>(keyOptions: .strongMemory, valueOptions: .weakMemory)
     /// The open menu's emoji cells: a picked emoji's flyer starts where its cell was.
     let menuReactionCells = NSMapTable<NSString, UIView>.strongToWeakObjects()
+    let slide = UnyriReactionSlideState()
+    private var slideChoices: [String] = []
+    private var slideSend: ((String) -> Void)?
+    private var slideEnabled = false
+    func trackReactionSlide(_ point: CGPoint, in window: UIWindow, ended: Bool, cancelled: Bool) {
+        guard overlay != nil, slideEnabled else { return }
+        let hovered = cancelled ? nil : slideChoices.first { emoji in
+            guard let cell = menuReactionCells.object(forKey: emoji as NSString), cell.window === window else { return false }
+            return cell.convert(cell.bounds, to: window).contains(point)
+        }
+        if slide.hovered != hovered {
+            slide.hovered = hovered
+            if hovered != nil { UnyriHaptics.selection() }
+        }
+        if ended {
+            if let hovered { slideSend?(hovered) }
+            slide.hovered = nil
+        }
+    }
     private var pendingReactionOrigin: UnyriReactionBursts.Origin?
-    /// The picked cell's spot, once, for the bubble's react closure (nil from the extended picker).
+    /// The picked cell's spot, once, for the bubble's encrypted react closure.
     func takeReactionOrigin() -> UnyriReactionBursts.Origin? {
         defer { pendingReactionOrigin = nil }
         return pendingReactionOrigin
@@ -229,7 +262,7 @@ final class UnyriMessageMenuPresenter: ObservableObject {
 
     func show(primary: [UnyriMessageMenuAction], extra: [UnyriMessageMenuAction],
               deletion: [UnyriMessageMenuAction], reactions: [String], selectedReaction: String? = nil,
-              react: @escaping (String) -> Void, outgoing: Bool) {
+              react: @escaping (String) -> Void, outgoing: Bool, reactionAccount: String? = nil) {
         guard canOpen, overlay == nil, let anchor, let window = anchor.window,
               var parent = window.rootViewController else { return }
         let sourceRect = anchor.convert(anchor.bounds, to: window)
@@ -252,32 +285,44 @@ final class UnyriMessageMenuPresenter: ObservableObject {
         let keyboardInset = keyboardFrame.height > 0 && keyboardFrame.minY > 0
             ? max(window.safeAreaInsets.bottom, window.bounds.maxY - keyboardFrame.minY) : window.safeAreaInsets.bottom
         menuReactionCells.removeAllObjects()
+        let store = reactionAccount.map { UnyriReactionStore(account: $0) }
+        let quick = UnyriQuickReactionPolicy.normalize(UserDefaults.standard.string(forKey: "quickReaction") ?? "👍")
+        let personal = reactions.isEmpty ? [] : (store?.history ?? UnyriReactionHistory()).ranked(quick: quick, now: Date())
+        slideChoices = personal
+        slide.hovered = nil
+        slideEnabled = true
+        let send: (String) -> Void = { [weak self] emoji in
+            guard let self, self.overlay != nil, !self.reactionSelected else { return }
+            self.reactionSelected = true
+            if let cell = self.menuReactionCells.object(forKey: emoji as NSString), let cellWindow = cell.window {
+                self.pendingReactionOrigin = UnyriReactionBursts.Origin(window: cellWindow,
+                    point: cell.convert(CGPoint(x: cell.bounds.midX, y: cell.bounds.midY), to: nil), glyph: 30 * 1.35, source: .menu)
+            } else { self.pendingReactionOrigin = nil }
+            react(emoji)
+            self.dismiss()
+        }
+        slideSend = send
         let host = UIHostingController(rootView: UnyriMessageMenuOverlay(
             preview: preview, anchor: CGRect(origin: rect.origin, size: previewSize),
             insets: UIEdgeInsets(top: window.safeAreaInsets.top, left: window.safeAreaInsets.left,
-                                 bottom: keyboardInset,
+                                 bottom: window.safeAreaInsets.bottom,
                                  right: window.safeAreaInsets.right), outgoing: outgoing,
-            primary: primary, extra: extra, deletion: deletion, reactions: reactions, selectedReaction: selectedReaction,
-            cells: menuReactionCells,
-            choose: { [weak self] action in self?.dismiss(then: action) },
-            react: { [weak self] emoji in
-                guard let self, self.overlay != nil, !self.reactionSelected else { return }
-                self.reactionSelected = true
-                // A strip cell still on screen is where the flyer starts; the pressed glyph
-                // is the 30 pt emoji scaled 1.35 by UnyriReactionItemButtonStyle.
-                if let cell = self.menuReactionCells.object(forKey: emoji as NSString), let cellWindow = cell.window {
-                    self.pendingReactionOrigin = UnyriReactionBursts.Origin(window: cellWindow,
-                        point: cell.convert(CGPoint(x: cell.bounds.midX, y: cell.bounds.midY), to: nil), glyph: 30 * 1.35, source: .menu)
-                } else { self.pendingReactionOrigin = nil }
-                // Commit the durable reaction immediately. UIKit dismissal is
-                // presentation cleanup, not the owner of the user's selection.
-                react(emoji)
-                self.dismiss()
+            initialKeyboardInset: keyboardInset,
+            keyboardOverlap: { frame in
+                let local = window.convert(frame, from: window.screen.coordinateSpace)
+                return local.intersects(window.bounds) ? max(0, window.bounds.maxY - local.minY) : 0
             },
+            primary: primary, extra: extra, deletion: deletion, reactions: personal, selectedReaction: selectedReaction,
+            cells: menuReactionCells, slide: slide, store: store,
+            expanded: { [weak self] in self?.slideEnabled = false; self?.slide.hovered = nil },
+            choose: { [weak self] action in self?.dismiss(then: action) },
+            react: send,
             close: { [weak self] in self?.dismiss() })
                 .unyriLocale()
                 .preferredColorScheme(.dark))
         host.modalPresentationStyle = .overFullScreen
+        // iOS 16.4+: the overlay lays out its own safe-area geometry; earlier releases keep the default.
+        if #available(iOS 16.4, *) { host.safeAreaRegions = [] }
         host.view.backgroundColor = .clear
         host.view.accessibilityViewIsModal = true
         // This independently presented host must keep UNYRI's dark material,
@@ -294,6 +339,9 @@ final class UnyriMessageMenuPresenter: ObservableObject {
     func dismiss(then action: (() -> Void)? = nil) {
         guard let overlay else { return }
         self.overlay = nil
+        slideSend = nil
+        slideChoices = []
+        slide.hovered = nil
         if Self.active === self { Self.active = nil }
         Self.ignoreTapsUntil = CACurrentMediaTime() + 0.2
         overlay.dismiss(animated: false, completion: action)
@@ -405,6 +453,10 @@ final class UnyriMessageMenuHub: NSObject, UIGestureRecognizerDelegate {
     }
     @objc private func held(_ gesture: UILongPressGestureRecognizer) {
         if gesture.state == .began { target?.fire() }
+        if let window, gesture.state == .changed || gesture.state == .ended || gesture.state == .cancelled {
+            target?.presenter?.trackReactionSlide(gesture.location(in: window), in: window,
+                ended: gesture.state == .ended || gesture.state == .cancelled, cancelled: gesture.state == .cancelled)
+        }
         if gesture.state == .ended || gesture.state == .cancelled || gesture.state == .failed { target = nil }
     }
 }
@@ -520,25 +572,22 @@ struct UnyriCallHistoryMenuRow: View {
 }
 
 
-private struct UnyriReactionItemButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .scaleEffect(configuration.isPressed ? 1.35 : 1.0)
-            .animation(.spring(response: 0.22, dampingFraction: 0.55), value: configuration.isPressed)
-    }
-}
-
 private struct UnyriMessageMenuOverlay: View {
     let preview: AnyView
     let anchor: CGRect
     let insets: UIEdgeInsets
     let outgoing: Bool
+    let initialKeyboardInset: CGFloat
+    let keyboardOverlap: (CGRect) -> CGFloat
     let primary: [UnyriMessageMenuAction]
     let extra: [UnyriMessageMenuAction]
     let deletion: [UnyriMessageMenuAction]
     let reactions: [String]
     let selectedReaction: String?
     let cells: NSMapTable<NSString, UIView>
+    @ObservedObject var slide: UnyriReactionSlideState
+    let store: UnyriReactionStore?
+    let expanded: () -> Void
     let choose: (@escaping () -> Void) -> Void
     let react: (String) -> Void
     let close: () -> Void
@@ -548,23 +597,31 @@ private struct UnyriMessageMenuOverlay: View {
     @State private var reactionStripAppeared = false
     @State private var pendingDeletion: UnyriMessageMenuAction?
     @State private var alsoDelete = false
+    @State private var catalog: UnyriReactionCatalog?
+    @State private var keyboardBottom: CGFloat?
     @ScaledMetric(relativeTo: .body) private var rowHeight: CGFloat = 46
 
     var body: some View {
         GeometryReader { geometry in
             let rows = pendingDeletion != nil ? 7 : page == 0 ? primary.count + (extra.isEmpty ? 0 : 1) + (deletion.isEmpty ? 0 : 1) : 1 + (page == 1 ? extra.count : deletion.count)
+            let bottom = max(insets.bottom, keyboardBottom ?? initialKeyboardInset)
             let layout = UnyriMessageMenuLayout(viewport: geometry.size, anchor: anchor,
-                top: insets.top, bottom: insets.bottom, left: insets.left, right: insets.right,
+                top: insets.top, bottom: bottom, left: insets.left, right: insets.right,
                 outgoing: outgoing, rows: rows, rowHeight: rowHeight, reactionCount: reactions.count, allowReactions: page != 2)
+            let bubble = CGRect(x: outgoing ? layout.origin.x + layout.width - layout.previewSize.width : layout.origin.x,
+                                y: layout.origin.y + (layout.showReactions && !layout.reactionsBelow ? 60 : 0),
+                                width: layout.previewSize.width, height: layout.previewSize.height)
+            let pill = CGRect(x: outgoing ? layout.origin.x + layout.width - layout.reactionWidth : layout.origin.x,
+                              y: layout.reactionsBelow ? bubble.maxY + 8 : layout.origin.y,
+                              width: layout.reactionWidth, height: 52)
+            let panel = UnyriReactionPanelGeometry.frame(viewport: geometry.size, bubble: bubble,
+                top: insets.top, bottom: bottom, left: insets.left, right: insets.right, outgoing: outgoing)
+            let surface = extendedReactions ? panel : pill
             ZStack(alignment: .topLeading) {
                 UnyriChatMenuBackdrop(close: close)
-                if !extendedReactions { VStack(alignment: outgoing ? .trailing : .leading, spacing: 8) {
-                    if layout.showReactions {
-                        reactionStrip(width: layout.reactionWidth, columns: layout.columns)
-                            .scaleEffect(reactionStripAppeared || reduceMotion ? 1.0 : 0.72, anchor: outgoing ? .topTrailing : .topLeading)
-                            .opacity(reactionStripAppeared || reduceMotion ? 1.0 : 0.0)
-                            .zIndex(1)
-
+                VStack(alignment: outgoing ? .trailing : .leading, spacing: 8) {
+                    if layout.showReactions && !layout.reactionsBelow {
+                        Color.clear.frame(width: layout.reactionWidth, height: 52).accessibilityHidden(true)
                     }
                     if layout.previewSize.height > 0 {
                         Group {
@@ -573,10 +630,13 @@ private struct UnyriMessageMenuOverlay: View {
                                     .frame(width: layout.previewSize.width, height: layout.previewSize.height, alignment: .topLeading)
                         }.clipped().allowsHitTesting(false).accessibilityHidden(true)
                     }
+                    if layout.showReactions && layout.reactionsBelow {
+                        Color.clear.frame(width: layout.reactionWidth, height: 52).accessibilityHidden(true)
+                    }
                     ScrollView(showsIndicators: false) {
                         VStack(spacing: 0) {
                             if layout.showReactionShortcut {
-                                navigationRow("React", symbol: "face.smiling") { extendedReactions = true }
+                                navigationRow("React", symbol: "face.smiling", action: expand)
                             }
                             if let pending = pendingDeletion {
                                 navigationRow("Back", symbol: "chevron.left") { pendingDeletion = nil; alsoDelete = false; page = 0 }
@@ -606,53 +666,90 @@ private struct UnyriMessageMenuOverlay: View {
                         }.padding(.vertical, 4)
                     }.id("\(page)-\(pendingDeletion?.id ?? "")").frame(width: layout.menuWidth, height: layout.menuHeight)
                         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 18))
+                        .opacity(extendedReactions ? 0 : 1).allowsHitTesting(!extendedReactions)
+                        .accessibilityHidden(extendedReactions)
+                        .animation(.easeOut(duration: 0.15), value: extendedReactions)
                 }
                     .frame(width: layout.width, alignment: outgoing ? .trailing : .leading).offset(x: layout.origin.x, y: layout.origin.y)
-                } else { UnyriEmojiPicker(embedded: true, close: { extendedReactions = false }) { emoji in react(emoji) } }
+                if layout.showReactions || extendedReactions {
+                    ZStack {
+                        if extendedReactions {
+                            UnyriReactionPickerPanel(store: store, cells: cells, choose: react, close: close)
+                                .transition(.opacity)
+                        } else {
+                            reactionStrip(width: layout.reactionWidth, columns: layout.columns)
+                                .transition(.opacity)
+                        }
+                    }
+                    .animation(.easeInOut(duration: 0.15), value: extendedReactions)
+                    .frame(width: surface.width, height: surface.height)
+                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: extendedReactions ? 24 : 26))
+                    .overlay(RoundedRectangle(cornerRadius: extendedReactions ? 24 : 26).stroke(.white.opacity(0.12), lineWidth: 0.7))
+                    .clipShape(RoundedRectangle(cornerRadius: extendedReactions ? 24 : 26))
+                    .scaleEffect(reactionStripAppeared || reduceMotion ? 1 : 0.72,
+                                 anchor: UnitPoint(x: outgoing ? 1 : 0, y: layout.reactionsBelow ? 0 : 1))
+                    .opacity(reactionStripAppeared ? 1 : 0)
+                    .offset(x: surface.minX, y: surface.minY)
+                    .animation(reduceMotion ? nil : .spring(duration: 0.32, bounce: 0.12), value: extendedReactions)
+                    .zIndex(2)
+                }
+                UnyriReactionSafeAreaProbe().allowsHitTesting(false).frame(width: geometry.size.width, height: geometry.size.height)
             }.frame(width: geometry.size.width, height: geometry.size.height)
-        }.ignoresSafeArea().animation(reduceMotion ? nil : .easeInOut(duration: 0.16), value: extendedReactions)
+        }.ignoresSafeArea()
+        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillChangeFrameNotification)) { note in
+            if let frame = note.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+                keyboardBottom = keyboardOverlap(frame)
+            }
+        }
+        .task { catalog = await UnyriReactionCatalog.load() }
+        .simultaneousGesture(DragGesture(minimumDistance: 24).onEnded { value in
+            if value.startLocation.x < 24 && value.translation.width > 80 && abs(value.translation.width) > abs(value.translation.height) { close() }
+        })
         .onAppear {
-            withAnimation(reduceMotion ? nil : .spring(response: 0.32, dampingFraction: 0.72)) {
+            withAnimation(reduceMotion ? .easeIn(duration: 0.15) : .spring(duration: 0.28, bounce: 0.12)) {
                 reactionStripAppeared = true
             }
         }
             .accessibilityAction(.escape) {
-                if pendingDeletion != nil { pendingDeletion = nil; alsoDelete = false; page = 0 }
+                if extendedReactions { close() }
+                else if pendingDeletion != nil { pendingDeletion = nil; alsoDelete = false; page = 0 }
                 else if page != 0 { page = 0 }
                 else { close() }
             }
     }
+    private func expand() {
+        UnyriHaptics.selection()
+        expanded()
+        extendedReactions = true
+    }
     private func reactionStrip(width: CGFloat, columns: Int) -> some View {
-        let rowCount = (reactions.count + columns - 1) / columns
-        let cellWidth = width / CGFloat(columns)
-        return VStack(spacing: 0) {
-            ForEach(0..<rowCount, id: \.self) { row in
-                HStack(spacing: 0) {
-                    ForEach(0..<min(columns, reactions.count - row * columns), id: \.self) { column in
-                        let emoji = reactions[row * columns + column]
-                        Button {
-                            if emoji == "＋" {
-                                UnyriHaptics.selection()
-                                extendedReactions = true
-                            } else {
-                                react(emoji)
-                            }
-                        } label: {
-                            ZStack {
-                                if selectedReaction == emoji {
-                                    Circle().fill(UnyriColors.primaryText.opacity(0.2)).frame(width: 38, height: 38)
-                                }
-                                if emoji == "＋" {
-                                    VStack(spacing: 2) { Image(systemName: "square.grid.2x2.fill").font(.system(size: 18)); Text(UnyriL10n.language == "ru" ? "Ещё" : "More").font(.system(size: 10)) }.foregroundColor(UnyriColors.accentSoft)
-                                } else { Text(emoji).font(.system(size: 30)) }
-                            }.frame(width: cellWidth, height: 44).contentShape(Rectangle())
-                                .background(UnyriMenuReactionCell(cells: cells, emoji: emoji))
-                        }.buttonStyle(UnyriReactionItemButtonStyle())
-                            .accessibilityAddTraits(selectedReaction == emoji ? [.isSelected] : [])
-                    }
-                }.frame(width: width, alignment: .leading)
+        let cellWidth = width / CGFloat(reactions.count + 1)
+        return HStack(spacing: 0) {
+            ForEach(Array(reactions.enumerated()), id: \.offset) { index, emoji in
+                UnyriReactionEmojiButton(emoji: emoji,
+                    name: catalog?.entries.first(where: { $0.emoji == UnyriReactionTones.base(of: emoji) })?.localizedName(language: UnyriL10n.language) ?? emoji,
+                    preferred: emoji, cells: cells, identifier: "reaction-pill-\(index)", choose: react,
+                    rememberTone: { store?.setTone($0, for: emoji) })
+                        .scaleEffect(!reduceMotion && slide.hovered == emoji ? 1.35 : 1)
+                        .animation(reduceMotion ? nil : .spring(duration: 0.16), value: slide.hovered)
+                        .frame(width: cellWidth, height: 44)
+                        .background {
+                            if selectedReaction == emoji { Circle().stroke(.white.opacity(0.65), lineWidth: 1.5).padding(3) }
+                        }
+                        .contentShape(Rectangle())
+                    .accessibilityAddTraits(selectedReaction == emoji ? [.isSelected] : [])
             }
-        }
+            Button(action: expand) {
+                Image(systemName: "chevron.down").font(.system(size: 15, weight: .semibold))
+                    .frame(width: 32, height: 32).background(.white.opacity(0.10), in: Circle())
+                    .frame(width: cellWidth, height: 44).contentShape(Rectangle())
+            }.buttonStyle(.plain).accessibilityLabel("All reactions").accessibilityIdentifier("reaction-expand")
+        }.padding(.vertical, 4).frame(width: width)
+            .accessibilityElement(children: .contain).accessibilityIdentifier("reaction-pill")
+            .accessibilityLabel(Text(String(format: UnyriL10n.string("Reactions, %lld options"), reactions.count)))
+            .simultaneousGesture(DragGesture(minimumDistance: 24).onEnded { value in
+                if value.translation.height < -24 && abs(value.translation.height) > abs(value.translation.width) { expand() }
+            })
     }
     private func row(_ action: UnyriMessageMenuAction) -> some View {
         // Reaction and selection callbacks own their feedback, including
@@ -1261,7 +1358,7 @@ private struct UnyriGalleryPreview: View {
                 image = UnyriAttachmentImages.best(.file(url))?.image
                 if let image, max(image.size.width, image.size.height) * image.scale >= 1600 { return }
                 let decoded = await Task.detached(priority: .utility) {
-                    guard let source = CGImageSourceCreateWithURL(url as CFURL, nil),
+                    guard let source = PeerImagePolicy.source(url: url),
                           let frame = CGImageSourceCreateThumbnailAtIndex(source, 0, [kCGImageSourceCreateThumbnailFromImageAlways: true, kCGImageSourceCreateThumbnailWithTransform: true, kCGImageSourceThumbnailMaxPixelSize: 1600] as CFDictionary) else { return nil as UIImage? }
                     return UIImage(cgImage: frame)
                 }.value

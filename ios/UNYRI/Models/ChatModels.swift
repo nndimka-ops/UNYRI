@@ -28,7 +28,7 @@ struct ChatSummary: Codable, Identifiable, Equatable {
     let otherMemberReadSequence: Int64
     /// Last-message preview overlaid from the LOCAL message cache (never
     /// decoded from JSON — see `CodingKeys`). Nil until the cache has a
-    /// displayable message for this chat; callers fall back to @username.
+    /// displayable message for this chat; callers fall back to public identity.
     var lastPreview: ChatPreview?
     var ownReadSequence: Int64? = nil
     var isMuted: Bool? = nil
@@ -94,6 +94,7 @@ final class ChatStore {
     }
 
     private var db: OpaquePointer?
+    private lazy var erasureCheckpoint = ChatErasureCheckpoint(url: databaseURL)
     private let databaseURL: URL
 
     init(databaseURL: URL, readOnly: Bool = false) throws {
@@ -104,11 +105,16 @@ final class ChatStore {
             throw StoreError.openFailed
         }
         db = handle
+        guard sqlite3_exec(handle, "PRAGMA secure_delete=ON;", nil, nil, nil) == SQLITE_OK else {
+            sqlite3_close(handle); db = nil; throw StoreError.openFailed
+        }
         sqlite3_busy_timeout(handle, 1000)
         if readOnly { return }
+        erasureCheckpoint.request()
         try execute("PRAGMA journal_mode=WAL;")
         try execute(
             """
+            CREATE TABLE IF NOT EXISTS deleted_peers (user_id TEXT PRIMARY KEY NOT NULL);
             CREATE TABLE IF NOT EXISTS chat_unbound_history (chat_id TEXT PRIMARY KEY NOT NULL);
             CREATE TABLE IF NOT EXISTS chat_security_binding (
                 chat_id TEXT PRIMARY KEY NOT NULL, identity TEXT NOT NULL, frozen INTEGER NOT NULL DEFAULT 0
@@ -145,6 +151,28 @@ final class ChatStore {
             );
             """
         )
+        var participantColumns = Set<String>()
+        try withStatement("PRAGMA table_info(chat_participants);") { stmt in
+            var step = sqlite3_step(stmt)
+            while step == SQLITE_ROW {
+                if let name = columnOptionalText(stmt, 1) { participantColumns.insert(name) }
+                step = sqlite3_step(stmt)
+            }
+            guard step == SQLITE_DONE else { throw StoreError.stepFailed }
+        }
+        for column in ["public_username", "unyri_number"] where !participantColumns.contains(column) {
+            try execute("ALTER TABLE chat_participants ADD COLUMN \(column) TEXT;")
+        }
+        // B-033: remove credentials retained by pre-public-identity clients once.
+        // Keep the marker and scrub atomic so an interrupted upgrade retries.
+        try execute("CREATE TABLE IF NOT EXISTS chat_store_migrations (name TEXT PRIMARY KEY NOT NULL);")
+        try execute("""
+            BEGIN IMMEDIATE;
+            UPDATE chat_participants SET username = ''
+                WHERE NOT EXISTS (SELECT 1 FROM chat_store_migrations WHERE name = 'b033_private_login');
+            INSERT OR IGNORE INTO chat_store_migrations(name) VALUES ('b033_private_login');
+            COMMIT;
+            """)
         // Zero-peer legacy direct rows retain an unresolved direct type. Only
         // multiple peers or conflicting types prove a contradictory binding.
         try execute("""
@@ -155,6 +183,9 @@ final class ChatStore {
                 WHERE LOWER(c.chat_id) NOT IN (SELECT chat_id FROM chat_unbound_history)
                 GROUP BY LOWER(c.chat_id);
             """)
+        for operation in ["INSERT", "UPDATE"] {
+            try execute("CREATE TRIGGER IF NOT EXISTS deleted_peer_profile_\(operation) BEFORE \(operation) ON chat_participants WHEN EXISTS(SELECT 1 FROM deleted_peers WHERE user_id=NEW.user_id) BEGIN SELECT RAISE(IGNORE); END;")
+        }
     }
 
     deinit {
@@ -342,18 +373,20 @@ final class ChatStore {
             try withStatement(
                 """
                 INSERT OR REPLACE INTO chat_participants
-                (user_id, username, display_name, avatar_url, bio, profile_version, avatar_version, has_avatar)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+                (user_id, username, display_name, avatar_url, bio, profile_version, avatar_version, has_avatar, public_username, unyri_number)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
                 """
             ) { stmt in
                 try bindText(stmt, 1, other.id)
-                try bindText(stmt, 2, other.username)
+                try bindText(stmt, 2, "")
                 try bindText(stmt, 3, other.displayName)
                 try bindOptionalText(stmt, 4, other.avatarUrl)
                 try bindOptionalText(stmt, 5, other.bio)
                 sqlite3_bind_int64(stmt, 6, other.profileVersion)
                 sqlite3_bind_int64(stmt, 7, other.avatarVersion)
                 sqlite3_bind_int64(stmt, 8, other.hasAvatar ? 1 : 0)
+                try bindOptionalText(stmt, 9, other.publicUsername)
+                try bindOptionalText(stmt, 10, other.unyriNumber)
                 guard sqlite3_step(stmt) == SQLITE_DONE else { throw StoreError.stepFailed }
             }
             try withStatement(
@@ -364,6 +397,22 @@ final class ChatStore {
                 guard sqlite3_step(stmt) == SQLITE_DONE else { throw StoreError.stepFailed }
             }
         }
+    }
+
+    func erasePeerProfile(_ userID: String) throws {
+        try execute("BEGIN IMMEDIATE;")
+        do {
+            try withStatement("UPDATE chat_participants SET username='',display_name=?,avatar_url=NULL,bio=NULL,has_avatar=0,public_username=NULL WHERE user_id=?;") { stmt in
+                try bindText(stmt, 1, UnyriL10n.string("Deleted account")); try bindText(stmt, 2, userID)
+                guard sqlite3_step(stmt) == SQLITE_DONE else { throw StoreError.stepFailed }
+            }
+            try withStatement("INSERT OR IGNORE INTO deleted_peers(user_id) VALUES(?);") { stmt in
+                try bindText(stmt, 1, userID)
+                guard sqlite3_step(stmt) == SQLITE_DONE else { throw StoreError.stepFailed }
+            }
+            try execute("COMMIT;")
+            erasureCheckpoint.request()
+        } catch { try? execute("ROLLBACK;"); throw error }
     }
 
     func deletedChatIDs() throws -> Set<String> {
@@ -427,7 +476,8 @@ final class ChatStore {
             SELECT c.chat_id, c.type, c.created_at, c.last_message_at,
                    c.other_delivered_sequence, c.other_read_sequence,
                    p.user_id, p.username, p.display_name, p.avatar_url, p.bio,
-                   p.profile_version, p.avatar_version, p.has_avatar, cp.muted, cp.until_date, cp.blocked, cp.blocked_user
+                   p.profile_version, p.avatar_version, p.has_avatar, cp.muted, cp.until_date, cp.blocked, cp.blocked_user,
+                   p.public_username, p.unyri_number
             FROM chats c
             LEFT JOIN chat_preferences cp ON cp.chat_id = c.chat_id
             LEFT JOIN chat_members m ON m.chat_id = c.chat_id
@@ -466,13 +516,15 @@ final class ChatStore {
         if sqlite3_column_type(stmt, 6) != SQLITE_NULL {
             otherUser = PublicUser(
                 id: String(cString: sqlite3_column_text(stmt, 6)),
-                username: columnOptionalText(stmt, 7) ?? "",
+                username: "",
                 displayName: columnOptionalText(stmt, 8) ?? "",
                 bio: columnOptionalText(stmt, 10),
                 avatarUrl: columnOptionalText(stmt, 9),
                 profileVersion: sqlite3_column_int64(stmt, 11),
                 avatarVersion: sqlite3_column_int64(stmt, 12),
-                hasAvatar: sqlite3_column_int64(stmt, 13) != 0
+                hasAvatar: sqlite3_column_int64(stmt, 13) != 0,
+                unyriNumber: columnOptionalText(stmt, 19),
+                publicUsername: columnOptionalText(stmt, 18)
             )
         }
         return ChatSummary(
@@ -496,6 +548,7 @@ final class ChatStore {
             sqlite3_free(errorMessage)
             throw StoreError.openFailed
         }
+        if sql.contains("DELETE FROM") { erasureCheckpoint.request() }
     }
 
     private func withStatement(
@@ -508,6 +561,10 @@ final class ChatStore {
         }
         defer { sqlite3_finalize(stmt) }
         try body(stmt)
+        if sql.contains("DELETE FROM") || (sql.contains("UPDATE messages") &&
+            (sql.contains("delete_sequence") || sql.contains("hidden_locally"))) {
+            erasureCheckpoint.request()
+        }
     }
 
     private func columnOptionalText(_ stmt: OpaquePointer, _ index: Int32) -> String? {
@@ -528,4 +585,61 @@ final class ChatStore {
             sqlite3_bind_null(stmt, index)
         }
     }
+}
+
+/// Debounced WAL truncation on a separate connection; no recurring timer or UI work.
+private final class ChatErasureCheckpoint: @unchecked Sendable {
+    private let url: URL
+    private let lock = NSLock()
+    private var revision: UInt64 = 0
+    private var pending: DispatchWorkItem?
+    init(url: URL) { self.url = url }
+    func request(attempt: Int = 0) {
+        lock.lock()
+        // A durable, content-free marker survives process death and a busy WAL.
+        // A later writable open calls request again; no idle poll is installed.
+        let marker = URL(fileURLWithPath: url.path + ".erase-pending")
+        if FileManager.default.fileExists(atPath: url.path), !FileManager.default.fileExists(atPath: marker.path) {
+            try? Data([1]).write(to: marker, options: .atomic)
+        }
+        revision &+= 1
+        let ticket = revision
+        pending?.cancel()
+        let work = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            self.lock.lock()
+            let current = self.revision == ticket
+            self.lock.unlock()
+            guard current else { return }
+            // READWRITE without CREATE: an account wipe can never resurrect its DB.
+            var db: OpaquePointer?
+            guard sqlite3_open_v2(self.url.path, &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX, nil) == SQLITE_OK else {
+                if let db { sqlite3_close(db) }; return
+            }
+            defer { sqlite3_close(db) }
+            sqlite3_busy_timeout(db, 1000)
+            // A fresh handle has not opened the WAL yet. Without a completed
+            // schema read, checkpoint can return OK with -1/-1 and do no work.
+            guard sqlite3_exec(db, "PRAGMA secure_delete=ON;", nil, nil, nil) == SQLITE_OK,
+                  sqlite3_exec(db, "SELECT name FROM sqlite_master LIMIT 1;", nil, nil, nil) == SQLITE_OK else { return }
+            var logFrames: Int32 = -1
+            var checkpointedFrames: Int32 = -1
+            let status = sqlite3_wal_checkpoint_v2(db, "main", SQLITE_CHECKPOINT_TRUNCATE, &logFrames, &checkpointedFrames)
+            self.lock.lock()
+            let stillCurrent = self.revision == ticket
+            if status == SQLITE_OK, logFrames >= 0, checkpointedFrames >= 0, stillCurrent {
+                try? FileManager.default.removeItem(at: marker)
+            }
+            self.lock.unlock()
+            // Bounded retries only while deletion work is pending. Long readers
+            // keep the marker until another real deletion or writable open.
+            if stillCurrent, [SQLITE_BUSY, SQLITE_LOCKED].contains(status), attempt < 2 {
+                self.request(attempt: attempt + 1)
+            }
+        }
+        pending = work
+        lock.unlock()
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 0.6, execute: work)
+    }
+    deinit { pending?.cancel() }
 }

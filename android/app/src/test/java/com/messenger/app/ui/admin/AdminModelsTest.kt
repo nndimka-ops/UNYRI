@@ -12,6 +12,17 @@ import kotlin.test.assertTrue
 // is exactly what the previous org.json approach could not do: Android's org.json
 // is only a stub in local unit tests.
 class AdminModelsTest {
+    @Test fun `account search decodes explicit public identity without legacy report keys`() {
+        val row = json.decodeFromString<AdminUserRowDto>(
+            """{"id":"u1","user_id":"u1","display_name":"Alice","public_username":"alice","unyri_number":"123456789"}""",
+        )
+        assertEquals("Alice", row.displayName)
+        assertEquals("alice", row.publicUsername)
+        assertEquals("123456789", row.unyriNumber)
+        val text = json.encodeToString(AdminUserRowDto.serializer(), row)
+        assertFalse(text.contains("\"username\"")); assertFalse(text.contains("\"reason\""))
+    }
+
 
     private val json = AdminJson.format
 
@@ -66,9 +77,9 @@ class AdminModelsTest {
     }
 
     @Test
-    fun `the moderation centre parses nested profile, state and devices`() {
+    fun `the moderation centre parses nested public profile, state and devices without a login`() {
         val detail = json.decodeFromString<AdminUserDetailDto>(
-            """{"profile":{"user_id":"u1","username":"anna","display_name":"Anna","has_avatar":true,
+            """{"profile":{"user_id":"u1","public_username":"anna","unyri_number":"123456789","display_name":"Anna","has_avatar":true,
                 "created_at":"2026-01-01T00:00:00.000000Z"},
                 "moderation":{"status":"suspended","until":null,"reason":"spam","reports_total":4,
                 "reports_open":2,"notes":1},
@@ -79,7 +90,8 @@ class AdminModelsTest {
                 "is_administrator_device":false}],
                 "is_administrator":false,"suspend_allowed":true}""",
         )
-        assertEquals("anna", detail.profile.username)
+        assertEquals("anna", detail.profile.publicUsername)
+        assertEquals("123456789", detail.profile.unyriNumber)
         assertEquals("Anna", detail.profile.displayName)
         assertEquals("suspended", detail.moderation.status)
         assertEquals(4, detail.moderation.reportsTotal)
@@ -94,7 +106,7 @@ class AdminModelsTest {
     @Test
     fun `an empty device list is an empty list, not a missing value`() {
         val detail = json.decodeFromString<AdminUserDetailDto>(
-            """{"profile":{"user_id":"u1","username":"a","display_name":"A"},"devices":[]}""",
+            """{"profile":{"user_id":"u1","display_name":"A"},"devices":[]}""",
         )
         assertTrue(detail.devices.isEmpty())
         assertEquals("active", detail.moderation.status)

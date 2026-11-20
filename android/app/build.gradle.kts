@@ -68,8 +68,8 @@ android {
         applicationId = "com.messenger.app"
         minSdk = 26
         targetSdk = 36
-        versionCode = 2026111401
-        versionName = "0.4.17"
+        versionCode = 2026111902
+        versionName = "0.4.25"
 
         // Instrumentation (androidTest) runner for the real-SQLite/Room tests
         // (M.1 verification closure - FTS migration/triggers/DAO).

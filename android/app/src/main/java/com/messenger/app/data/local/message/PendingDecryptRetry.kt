@@ -22,6 +22,8 @@ internal object PendingDecryptRetrySql {
     const val THROUGH = " AND (sequence, clientMessageId) <= (:sequence, :client)"
     const val INDEX_ALL = "CREATE INDEX IF NOT EXISTS index_pending_decrypts_retry ON pending_decrypts(sequence,clientMessageId) WHERE " + ELIGIBLE
     const val INDEX_SENDER = "CREATE INDEX IF NOT EXISTS index_pending_decrypts_sender_retry ON pending_decrypts(senderId,sequence,clientMessageId) WHERE " + ELIGIBLE
+    /** Room does not model these partial indexes; every migration drops them (MessengerDatabase). */
+    val INDEX_NAMES = listOf("index_pending_decrypts_retry", "index_pending_decrypts_sender_retry")
 }
 
 internal fun nextDecryptRetryCount(count: Int): Int = if (count == Int.MAX_VALUE) count else count + 1

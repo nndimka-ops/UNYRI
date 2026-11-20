@@ -4,9 +4,9 @@
     <string name="settings_group_account_privacy">Аккаунт и приватность</string>
     <string name="settings_home_privacy_title">Приватность и защита</string>
     <string name="settings_home_account_summary">Профиль и доступ к аккаунту</string>
-    <string name="settings_home_notifications_summary">Сообщения, напоминания и разрешение Android</string>
-    <string name="settings_home_appearance_summary">Текст, фон и язык</string>
-    <string name="settings_home_chat_summary">Реакции, медиа, голосовые и чтение</string>
+    <string name="settings_home_notifications_summary">Сообщения, звонки и звук</string>
+    <string name="settings_home_appearance_summary">Тема, текст и боковая панель</string>
+    <string name="settings_home_chat_summary">Реакции, медиа и история</string>
     <string name="settings_group_personalize">Оформление и чат</string>
     <string name="settings_group_app_connection">Приложение и связь</string>
     <string name="settings_current_server">Текущий сервер</string>

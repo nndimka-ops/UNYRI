@@ -212,7 +212,7 @@
     <string name="voice_open_app_settings">Uygulama ayarlarını aç</string>
     <string name="notification_settings_system_on">Android bildirimlerine izin veriliyor</string>
     <string name="notification_settings_system_off">Android bildirimleri engelleniyor</string>
-    <string name="notification_settings_system_detail">İzin, kilit ekranı, ses ve titreşim Android tarafından yönetilir. Yönetim ve hizmet bildirimleri de buna dahildir. UNYRI sistem seçimlerinizi geçersiz kılamaz.</string>
+    <string name="notification_settings_system_detail">Ses ve titreşimi ayarlamak için Android’de bir mesaj veya arama kanalı seçin.</string>
     <string name="notification_settings_allow">Bildirimlere izin ver</string>
     <string name="notification_settings_system_open">Android bildirim ayarlarını aç</string>
     <string name="local_mode_notifications">Bildirimlere izin ver</string>

@@ -30,7 +30,7 @@ import java.util.UUID
     val colors = LocalCocoColors.current
     val savedTitle = stringResource(R.string.saved_messages)
     val chatTitle = stringResource(R.string.chat_default_title)
-    fun title(chat: ChatSummary) = if (chat.type == "saved") savedTitle else chat.otherUser?.visibleName ?: chat.otherUser?.username ?: chatTitle
+    fun title(chat: ChatSummary) = if (chat.type == "saved") savedTitle else chat.otherUser?.visibleName ?: chatTitle
     AlertDialog(onDismissRequest = { if (!busy) onClose() }, title = { Text(stringResource(R.string.media_share)) }, text = {
         Column(Modifier.imePadding()) {
             Text("${uris.size} · ${chosen?.let(::title) ?: "UNYRI"}")

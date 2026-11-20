@@ -22,6 +22,7 @@ internal object ChatListSql {
                p.userId AS otherUserId, p.username AS otherUsername,
                p.displayName AS otherDisplayName, p.avatarUrl AS otherAvatarUrl,
                p.avatarVersion AS otherAvatarVersion, p.hasAvatar AS otherHasAvatar,
+               p.publicNumber AS otherPublicNumber, p.publicUsername AS otherPublicUsername,
                (SELECT COUNT(*) FROM messages m INDEXED BY index_messages_chatId_sequence
                     WHERE m.chatId = c.chatId AND m.senderId != :myUserId
                     AND m.kind = 'content' AND m.hiddenLocally = 0 AND m.isDeletedForEveryone = 0

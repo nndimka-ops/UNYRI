@@ -2,8 +2,9 @@ import Foundation
 
 // Transport/store fakes; the scheduler under test is the production SyncManager.
 enum ConnectionSyncPhase { case idle, running, failed }
+struct SyncMessage { let sequence: Int64 }
 struct SyncResponse {
-    var messages: [Int] = []
+    var messages: [SyncMessage] = []
     var nextSequence: Int64 = 0
     var hasMore = false
     var historyClearedBeforeMs: Int64? = nil
@@ -29,7 +30,7 @@ struct SyncResponse {
     var count = 0
     var success = true
     var advances: [Bool] = []
-    func ingest(_ messages: [Int], advanceCursor: Bool) async -> Bool { count += 1; advances.append(advanceCursor); return success }
+    func ingest(_ messages: [SyncMessage], advanceCursor: Bool) async -> Bool { count += 1; advances.append(advanceCursor); return success }
     func retryPendingDecrypts(automatic: Bool) async { }
 }
 @MainActor final class AuthRepository {
@@ -41,15 +42,20 @@ final class SessionStore { func lastSyncedSequence() -> Int64? { 0 } }
 @main struct OfflineSyncContracts {
     @MainActor static func main() async {
         let api = SyncAPI(), ingestor = MessageIngestor(), auth = AuthRepository()
-        let manager = SyncManager(api: api, ingestor: ingestor, auth: auth, sessionStore: SessionStore())
+        var now: TimeInterval = 100
+        let manager = SyncManager(api: api, ingestor: ingestor, auth: auth, sessionStore: SessionStore(), clock: { now })
         let old = Task { await manager.runCatchUpSync() }
         while api.release == nil { await Task.yield() }
         for _ in 0..<10 { await manager.runCatchUpSync() }
         precondition(api.calls == 1, "Requests must remain serialized")
         api.release?.resume()
         await old.value
-        precondition(api.calls == 2, "Reconnect after a failed request must run once")
-        precondition(ingestor.count == 1, "Failed request must not ingest or duplicate messages")
+        precondition(api.calls == 1, "Failed catch-up must back off queued reconnect triggers")
+        precondition(ingestor.count == 0, "Failed request must not ingest or duplicate messages")
+        now += 31
+        await manager.runCatchUpSync()
+        precondition(api.calls == 2, "A real trigger after cooldown retries")
+        now += 3
         await manager.runCatchUpSync()
         precondition(api.calls == 3, "Scheduler must remain reusable")
         func incomplete() async {
@@ -57,12 +63,12 @@ final class SessionStore { func lastSyncedSequence() -> Int64? { 0 } }
             catch SyncManager.HistoryPreparationFailure.incompleteSource {}
             catch { fatalError("Unexpected failure: \(error)") }
         }
-        api.response = SyncResponse(historyClearedBeforeMs: 1, historyClearedThroughSequence: 10)
+        api.response = SyncResponse(historyClearedBeforeMs: 1, historyClearedThroughSequence: 0)
         await incomplete()
         manager.onHistoryClear = { _, _ in }
         api.response.historyClearedThroughSequence = nil
         await incomplete()
-        api.response = SyncResponse(deletedChatIds: ["deleted"])
+        api.response = SyncResponse(deletedChatIds: ["11111111-1111-4111-8111-111111111111"])
         await incomplete()
         manager.onDeletedChat = { _ in }
         api.response = SyncResponse(nextSequence: 0, hasMore: true)

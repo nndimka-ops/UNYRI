@@ -40,8 +40,16 @@ final class ChatsRepository: ObservableObject {
         cacheRevision &+= 1
     }
 
+    func peerDeleted(_ userID: String) {
+        guard generation == auth.sessionGeneration else { return }
+        try? store?.erasePeerProfile(userID)
+        let refreshed = (try? store?.loadChats()) ?? []
+        preferenceCache = Dictionary(refreshed.map { ($0.chatId, $0) }, uniquingKeysWith: { _, last in last })
+        cacheRevision &+= 1
+    }
+
     func accountBlocksChangedRemotely() {
-        accountBlockOverrides.removeAll()
+        // Server refreshes cannot remove local user decisions.
         preferenceRevision &+= 1
     }
     private var replayingPreferences = false
@@ -346,6 +354,7 @@ final class ChatsRepository: ObservableObject {
         self.api = api
         self.auth = auth
         self.generation = auth.sessionGeneration
+        accountBlockOverrides = (try? auth.localSecurity?.blockDecisions()) ?? [:]
         self.receipts = .shared(auth: auth, generation: auth.sessionGeneration)
     }
 
@@ -563,7 +572,16 @@ final class ChatsRepository: ObservableObject {
             Task { [weak self] in await self?.replayPreferences() }
             return chat
         }
-        try await api.updatePreference(accessToken: try await currentToken(), chatId: chatId, action: action, body: body)
+        if action == "block" || action == "unblock" {
+            guard let security = auth.localSecurity,
+                  let peer = try store?.pinnedDirectPeer(chatId) ?? body.blockedUserId ?? preferenceCache[chatId]?.otherUser?.id else { throw DirectChatBindingError.unavailable }
+            try security.setBlocked(peer, blocked: action == "block")
+            applyAccountBlock(userID: peer, blocked: action == "block")
+            onAccountBlockChange?(peer, action == "block")
+            try? await api.updatePreference(accessToken: try await currentToken(), chatId: chatId, action: action, body: body)
+        } else {
+            try await api.updatePreference(accessToken: try await currentToken(), chatId: chatId, action: action, body: body)
+        }
         guard generation == auth.sessionGeneration else { throw CancellationError() }
         guard !isDeleted(chatId) else { throw APIError.http(404) }
         // A successful mutation must not depend on a second network request.
@@ -596,8 +614,9 @@ final class ChatsRepository: ObservableObject {
         cacheRevision &+= 1
         if action == "block" || action == "unblock" {
             if let userID = preferencePeer {
-                applyAccountBlock(userID: userID, blocked: action == "block")
-                onAccountBlockChange?(userID, action == "block")
+                let blocked = try auth.localSecurity?.blockDecision(userID) ?? (action == "block")
+                applyAccountBlock(userID: userID, blocked: blocked)
+                onAccountBlockChange?(userID, blocked)
             }
         }
         return chat

@@ -127,6 +127,19 @@ private class StorageViewModelFactory(private val manager: MediaCacheManager) : 
 }
 
 class MainActivity : ComponentActivity() {
+    private var recentsPrivacyCover: android.view.View? = null
+    override fun onPause() {
+        if (Build.VERSION.SDK_INT < 33 && recentsPrivacyCover == null) {
+            recentsPrivacyCover = android.view.View(this).apply { setBackgroundColor(android.graphics.Color.BLACK) }
+            (window.decorView as? android.view.ViewGroup)?.addView(recentsPrivacyCover,
+                android.view.ViewGroup.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT))
+        }
+        super.onPause()
+    }
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= 33) setRecentsScreenshotEnabled(false)
+    }
     private val profileLinks by viewModels<com.messenger.app.ui.ProfileLinkViewModel>()
     val appLockController by lazy { com.messenger.app.security.AppLockController(this) }
     override fun dispatchTouchEvent(event: android.view.MotionEvent): Boolean {
@@ -318,6 +331,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
+        recentsPrivacyCover?.let { (it.parent as? android.view.ViewGroup)?.removeView(it) }
+        recentsPrivacyCover = null
         if (!isInPictureInPictureMode && pipVisible) {
             pipVisible = false
             pipRestoreGeneration++

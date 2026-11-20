@@ -54,6 +54,8 @@ final class DirectFileTransfers: ObservableObject {
         actionErrors.send(message)
     }
     var canStream: () -> Bool = { false }
+    /// Bound to the same account-scoped Contacts membership as calls.
+    var isContact: (String) -> Bool = { _ in false }
 
     private let auth: AuthRepository
     private let signal: SignalSessionManager
@@ -176,9 +178,7 @@ final class DirectFileTransfers: ObservableObject {
 
     private var now: Int64 { Int64(Date().timeIntervalSince1970) }
     private func hardRecoveryFailure(_ record: DirectFileRecord) -> Bool {
-        ["prefix_mismatch", "source_missing", "source_changed", "disk_full", "storage_error",
-         "integrity_failed", "integrity_mismatch", "verification_failed", "security_error",
-         "permission_denied", "unsupported", "claimed_elsewhere", "transfer_unavailable", "invalid_control"].contains(record.errorCode ?? "")
+        DirectFileRecoveryPolicy.hardStop(record.errorCode)
     }
     private func eligibleNetworkWaiter(_ record: DirectFileRecord) -> Bool {
         !record.outgoing && record.consentGiven && record.phase == .paused && !record.mailboxClosed &&
@@ -277,6 +277,13 @@ final class DirectFileTransfers: ObservableObject {
                         for var record in saved {
                             guard record.localDeviceId == self.device,
                                   (record.outgoing ? record.offer.senderUserId : record.offer.recipientUserId) == self.owner else { continue }
+                            let original = try self.store.message(byClientMessageId: record.offer.offerClientMessageId)
+                            let removedChat = try self.store.isChatDeleted(record.chatId)
+                            if original == nil || original?.hiddenLocally == true || original?.isDeletedForEveryone == true ||
+                                removedChat {
+                                try await self.disk.eraseRemovedMessage(record)
+                                continue
+                            }
                             if record.outgoing, !record.phase.terminal,
                                (try? self.store.message(byClientMessageId: record.offer.offerClientMessageId)) == nil {
                                 // The journal-before-outbox admission gap never
@@ -422,11 +429,12 @@ final class DirectFileTransfers: ObservableObject {
                             record.durableOffset = max(record.durableOffset, offset)
                         }
                         guard !record.phase.terminal else { return }
-                        record.pausedForLocalCall = true; record.phase = .paused; record.errorCode = "call_in_progress"
+                        record.pausedForLocalCall = true; record.phase = .paused
+                        if !self.hardRecoveryFailure(record) { record.errorCode = "call_in_progress" }
                         record.senderRequest = nil; record.requestStartedAt = nil
                         try await self.save(record)
                         if let attempt = record.attemptId, !record.outgoing || record.peerVerified {
-                            try? await self.queueControl(record, type: .pause, attempt: attempt, reason: "call_in_progress")
+                            try? await self.queueControl(record, type: .pause, attempt: attempt, reason: record.errorCode)
                         }
                     }
                 }
@@ -437,7 +445,8 @@ final class DirectFileTransfers: ObservableObject {
                 for id in ids {
                     try? await self.serialized(for: id) {
                         guard var record = self.stateRecords[id], record.pausedForLocalCall, !record.phase.terminal else { return }
-                        record.pausedForLocalCall = false; record.errorCode = "reconnect_required"
+                        record.pausedForLocalCall = false
+                        if !self.hardRecoveryFailure(record) { record.errorCode = "reconnect_required" }
                         try await self.save(record)
                         // A call ending never clears either manual hold.
                         if record.outgoing, record.peerVerified, self.manualByteEligible(id), let attempt = record.attemptId {
@@ -827,7 +836,7 @@ final class DirectFileTransfers: ObservableObject {
         if !record.mailboxRegistered, record.errorCode == "offer_send_failed" { return true }
         return canStream() && record.peerVerified &&
             [nil, "network_waiting", "connection_lost", "direct_unavailable", "busy", "reconnect_required",
-             "background", "disconnected", "no_direct_route", "retry", "call_in_progress",
+             "background", "disconnected", "no_direct_route", "relay_unavailable", "peer_relay_unavailable", "retry", "call_in_progress",
              "disk_full", "storage_error", "permission_denied", "queued"].contains(record.errorCode)
     }
     func retrySender(_ id: String) {
@@ -854,7 +863,9 @@ final class DirectFileTransfers: ObservableObject {
                         record.phase = .awaitingAcceptance; record.errorCode = nil; record.updatedAt = self.now
                         try await self.save(record); return
                     }
-                    guard self.manualByteEligible(id), let attempt = record.attemptId else { return }
+                    // The explicit Retry action may clear its retryable failure;
+                    // automatic work must keep using manualByteEligible instead.
+                    guard self.manualIntentEligible(id), let attempt = record.attemptId else { return }
                     await self.retirePeer(id)
                     record.errorCode = "reconnect_required"; record.updatedAt = self.now
                     try await self.save(record)
@@ -872,7 +883,7 @@ final class DirectFileTransfers: ObservableObject {
     }
 
     func offerMessageRemoved(_ clientMessageId: String) {
-        for record in stateRecords.values where record.offer.offerClientMessageId == clientMessageId && !record.phase.terminal {
+        for record in stateRecords.values where record.offer.offerClientMessageId == clientMessageId {
             let id = record.id
             terminalRequests.insert(id); controlPreparations[id]?.cancel(); controlPreparations[id] = nil
             stopTransportImmediately(id)
@@ -883,19 +894,10 @@ final class DirectFileTransfers: ObservableObject {
         for record in stateRecords.values where record.chatId == chatId { offerMessageRemoved(record.offer.offerClientMessageId) }
     }
     private func retireHiddenOffer(_ id: String) async throws {
-        guard var record = stateRecords[id], !record.phase.terminal else { return }
-        record.phase = .cancelled; record.updatedAt = now
-        // Removing one unaccepted local offer must not claim the mailbox away
-        // from another device belonging to this recipient account.
-        if !record.outgoing && !record.consentGiven { record.mailboxClosed = true }
-        try await save(record)
-        await retirePeer(id); try await disk.discardUnfinished(record)
-        if record.mailboxRegistered {
-            if record.outgoing && !record.peerVerified {
-                try await api.close(id, context: apiContext(id, priority: .control, terminal: true))
-                record.mailboxClosed = true; try await save(record)
-            } else { try await sendTerminalIfPossible(id, type: .cancel) }
-        }
+        guard let record = stateRecords[id] else { return }
+        await retirePeer(id)
+        try await disk.eraseRemovedMessage(record)
+        stateRecords[id] = nil; records[id] = nil; progress[id] = nil
     }
 
     /// Invoked only after the native UI explains that the saved partial will
@@ -1254,7 +1256,7 @@ final class DirectFileTransfers: ObservableObject {
             guard (retryAfter[id] ?? 0) <= ProcessInfo.processInfo.systemUptime else { return }
             do {
             guard var record = stateRecords[id] else { return }
-            if !record.phase.terminal {
+            do {
                 let message = try store.message(byClientMessageId: record.offer.offerClientMessageId)
                 let chatDeleted = try store.isChatDeleted(record.chatId)
                 if message == nil || message?.hiddenLocally == true || message?.isDeletedForEveryone == true ||
@@ -1401,6 +1403,17 @@ final class DirectFileTransfers: ObservableObject {
 
     private func handlePollFailure(_ error: Error, id: String) async throws {
         try requireCurrent()
+        if case DirectFilePeer.Failure.relayUnavailable = error {
+            if var record = stateRecords[id], !record.phase.terminal, !record.mailboxClosed {
+                record.phase = .paused; record.errorCode = "relay_unavailable"
+                try await save(record); await retirePeer(id)
+                if let attempt = record.attemptId {
+                    try? await queueControl(record, type: .pause, attempt: attempt, reason: "peer_relay_unavailable")
+                }
+            }
+            reportActionError(error)
+            return
+        }
         if var terminal = stateRecords[id], terminal.mailboxRegistered, terminal.phase.terminal,
            DirectFileAPI.classify(error) == .notFound || DirectFileAPI.classify(error) == .closed {
             // The routing record can disappear after the peer removes
@@ -1455,7 +1468,9 @@ final class DirectFileTransfers: ObservableObject {
             record.seenSignals.append(envelope.clientSignalId)
             if !record.phase.terminal {
                 record.phase = .paused
-                record.errorCode = recovering ? "reconnect_required" : "invalid_control"
+                if !hardRecoveryFailure(record) {
+                    record.errorCode = recovering ? "reconnect_required" : "invalid_control"
+                }
             }
             try await save(record)
             if !record.phase.terminal { await retirePeer(id) }
@@ -1463,7 +1478,7 @@ final class DirectFileTransfers: ObservableObject {
             // completion and sticky cancellation remain exactly as journaled.
             if recovering, record.outgoing, record.peerVerified, record.peerDeviceId != nil {
                 if record.phase == .completed { try await requestCompletionReplay(id) }
-                else if !record.phase.terminal {
+                else if !record.phase.terminal, !hardRecoveryFailure(record) {
                     try await queueControl(record, type: .pause,
                         attempt: record.attemptId ?? UUID().uuidString.lowercased(), reason: "reconnect_required")
                 }
@@ -1580,6 +1595,10 @@ final class DirectFileTransfers: ObservableObject {
             DirectFileTiming.mark(.requestReceived, id: id, outgoing: record.outgoing, status: DirectFileTiming.control(control.type))
             guard record.outgoing, !record.phase.terminal,
                   let offset = control.offset, offset <= record.offer.size, control.prefixSHA256 != nil else { throw Failure.invalid }
+            if hardRecoveryFailure(record) {
+                record.incomingControls.removeAll { $0.clientSignalId == control.clientSignalId }
+                try await save(record); return
+            }
             if !slotAvailable(id) {
                 record.phase = .paused; record.errorCode = "queued"; record.attemptId = control.attemptId
                 record.usedAttempts.append(control.attemptId); record.senderRequest = nil
@@ -1680,7 +1699,7 @@ final class DirectFileTransfers: ObservableObject {
             controlPreparations[id]?.cancel(); controlPreparations[id] = nil
             await retirePeer(id)
             record = stateRecords[id] ?? record
-            record.phase = .paused; record.errorCode = control.reason
+            record.phase = .paused; record.errorCode = DirectFileRecoveryPolicy.receivedPauseReason(control.reason)
             if !record.outgoing, control.reason == "reconnect_required", record.consentGiven {
                 // The sender is back (foreground, network, or a free slot) and asks for a new
                 // attempt: retry now instead of at the end of the backoff.
@@ -1744,6 +1763,7 @@ final class DirectFileTransfers: ObservableObject {
         guard current, loaded, !admissionBlocked, manualStopFences[id] == nil,
               manualSaveFailures[id] == nil, !terminalRequests.contains(id), let record = stateRecords[id],
               !record.outgoing, record.consentGiven, !record.phase.terminal, !record.mailboxClosed,
+              !hardRecoveryFailure(record),
               record.continuedProcessing?.requiresContinue != true else { return false }
         let state = record.manualPause ?? DirectManualPauseState()
         guard !state.localPaused, !state.peerPaused else { return false }
@@ -1831,7 +1851,7 @@ final class DirectFileTransfers: ObservableObject {
     }
 
     private func makePeer(_ record: DirectFileRecord, initiator: Bool, offset: Int64) async throws -> DirectFilePeer {
-        guard canStream(), slotAvailable(record.id), manualByteEligible(record.id), let attempt = record.attemptId,
+        guard canStream(), slotAvailable(record.id), manualByteEligible(record.id), !hardRecoveryFailure(record), let attempt = record.attemptId,
               !record.outgoing || record.peerVerified else { throw Failure.busy }
         let role = record.outgoing
         roleReservations[role] = record.id
@@ -1843,10 +1863,12 @@ final class DirectFileTransfers: ObservableObject {
         }
         try requireCurrent()
         guard let latest = stateRecords[record.id], latest.attemptId == attempt,
-              !latest.phase.terminal, slotAvailable(record.id), manualByteEligible(record.id),
+              !latest.phase.terminal, slotAvailable(record.id), manualByteEligible(record.id), !hardRecoveryFailure(latest),
               !terminalRequests.contains(record.id), foreground, canStream() else { throw CancellationError() }
         let useTrickle = record.ice?.attemptId == attempt && record.ice?.mode == .trickle
-        let peer = try DirectFilePeer(stunURLs: servers.flatMap(\.urls), initiator: initiator, trickleICE: useTrickle)
+        let peerUserId = record.outgoing ? record.offer.recipientUserId : record.offer.senderUserId
+        let relayOnly = CallRelayPolicy.relayOnly(UnyriDeviceSettings.shared.callPeerToPeer, peerIsContact: isContact(peerUserId))
+        let peer = try DirectFilePeer(iceServers: servers, relayOnly: relayOnly, initiator: initiator, trickleICE: useTrickle)
         peer.timingID = record.id; peer.timingOutgoing = record.outgoing
         DirectFileTiming.mark(.peerCreated, id: record.id, outgoing: record.outgoing, status: useTrickle ? 1 : 0)
         let owned = Active(id: record.id, attempt: attempt, peer: peer, outgoing: record.outgoing)
@@ -2347,7 +2369,8 @@ final class DirectFileTransfers: ObservableObject {
             offerClientMessageId: record.offer.offerClientMessageId, offerNonce: record.offer.offerNonce, clientSignalId: id,
             senderUserId: owner, senderDeviceId: device, recipientUserId: recipient,
             recipientDeviceId: peerDevice, attemptId: attempt, type: type, sdp: sdp,
-            offset: offset, prefixSHA256: prefix, reason: reason)
+            offset: offset, prefixSHA256: prefix,
+            reason: type == .pause ? DirectFileRecoveryPolicy.pauseReasonForPeer(reason) : reason)
         if [.accept, .resume].contains(type), record.ice?.attemptId == attempt,
            record.ice?.mode == .awaitingConfirmation, record.ice?.requested == true { control.iceCandidatesVersion = 1 }
         if [.offer, .answer].contains(type), record.ice?.attemptId == attempt,
@@ -2529,6 +2552,10 @@ final class DirectFileTransfers: ObservableObject {
         return nil
     }
     private func manualByteEligible(_ id: String) -> Bool {
+        guard let record = stateRecords[id] else { return false }
+        return DirectFileRecoveryPolicy.byteEligible(manualEligible: manualIntentEligible(id), reason: record.errorCode)
+    }
+    private func manualIntentEligible(_ id: String) -> Bool {
         guard loaded, !admissionBlocked, manualStopFences[id] == nil, manualSaveFailures[id] == nil,
               let record = stateRecords[id], !manualStopLatches.contains(id),
               record.continuedProcessing?.requiresContinue != true else { return false }
@@ -2553,7 +2580,8 @@ final class DirectFileTransfers: ObservableObject {
             return
         }
         if let checkpoint { record.durableOffset = max(record.durableOffset, checkpoint) }
-        record.phase = .paused; record.errorCode = reason; record.updatedAt = now
+        record.phase = .paused; record.updatedAt = now
+        if !hardRecoveryFailure(record) { record.errorCode = reason }
         if !record.outgoing, record.ice?.mode == .trickle,
            ["no_direct_route", "connection_lost", "direct_unavailable"].contains(reason),
            manualByteEligible(id), !hardRecoveryFailure(original) {
@@ -2567,7 +2595,7 @@ final class DirectFileTransfers: ObservableObject {
             if !hardRecoveryFailure(record) { record.errorCode = "background_interrupted" }
         }
         try? await save(record)
-        if notify, current { try? await queueControl(record, type: .pause, attempt: owned.attempt, reason: reason) }
+        if notify, current { try? await queueControl(record, type: .pause, attempt: owned.attempt, reason: record.errorCode) }
     }
 
     @discardableResult private func stopTransportImmediately(_ id: String, preservingReceiverLease: UUID? = nil, finishContinued: Bool = true) -> Task<Int64?, Never>? {
@@ -3228,6 +3256,7 @@ final class DirectFileTransfers: ObservableObject {
 
     private func userMessage(_ error: Error, stage: DirectFileTiming.Stage? = nil) -> String {
         DirectFileFailureDiag.record(error, stage: stage)
+        if case DirectFilePeer.Failure.relayUnavailable = error { return UnyriL10n.string("A relay is required by your peer-to-peer setting, but this server has no relay configured. The transfer cannot connect safely.") }
         if case DirectFileDisk.Failure.admissionUnavailable = error { return "The transfer queue on this device could not be loaded. Existing completed files are retained." }
         if case Failure.unsupported = error { return "Update the UNYRI server to use direct file transfers." }
         if case Failure.busy = error { return "The transfer is waiting for an available slot." }

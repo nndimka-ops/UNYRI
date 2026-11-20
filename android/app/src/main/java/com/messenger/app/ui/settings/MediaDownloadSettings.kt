@@ -13,6 +13,7 @@ import com.messenger.app.ui.theme.LocalCocoColors
 
 @Composable
 fun MediaDownloadSettings() {
+    val locale = androidx.compose.ui.platform.LocalConfiguration.current.locales[0]
     val context = LocalContext.current
     val preferences = remember(context) { MediaDownloadPreferences(context) }
     var revision by remember { mutableIntStateOf(0) }
@@ -23,9 +24,9 @@ fun MediaDownloadSettings() {
             for (kind in DownloadKind.entries) {
                 val current = remember(revision, network, kind) { preferences.limitMb(network, kind) }
                 val off = stringResource(R.string.media_download_off)
-                val options = listOf(0, 1, 5, 10, 25, 50, 100).map { it to if (it == 0) off else "$it MB" }
+                val options = listOf(0, 1, 5, 10, 25, 50, 100).map { it to if (it == 0) off else FileSizeFormatter.format(it * 1024L * 1024L, locale) }
                 SettingChoiceRow(stringResource(when(kind) { DownloadKind.PHOTO -> R.string.storage_photos; DownloadKind.VIDEO -> R.string.media_download_video; DownloadKind.VOICE -> R.string.storage_voice; DownloadKind.FILE -> R.string.storage_files }),
-                    if (current == 0) off else "$current MB", options) { preferences.setLimitMb(network, kind, it); revision++ }
+                    if (current == 0) off else FileSizeFormatter.format(current * 1024L * 1024L, locale), options) { preferences.setLimitMb(network, kind, it); revision++ }
             }
         }
     }

@@ -62,18 +62,30 @@ class ContactsStore(
     private val hidden = mutableSetOf<String>()
     private var loadedAt: Long? = null
     private var loadedMembershipAuthoritative = false
+    val hasLoadedMembership: Boolean get() = loadedAt != null && loadedMembershipAuthoritative
     private var stale = true
     private var viewers = 0
+    private var retainedForSession = false
     private var keys = emptyMap<String, String>()
     private val current get() = owner != null && service.ownerKey() == owner
     private val fresh get() = loadedAt?.let { now() - it < FRESHNESS_MS } == true
 
     fun listAppeared() { viewers++ }
     fun listDisappeared() { viewers = (viewers - 1).coerceAtLeast(0) }
+    fun retainForSession() { retainedForSession = true }
 
     suspend fun ensureLoaded() {
         if (!current) { clear(); return }
         if (_phase.value == Phase.LOADING || (!stale && fresh && _phase.value != Phase.FAILED)) return
+        reload()
+    }
+
+    /** A real reconnect/foreground event invalidates a fresh book too. */
+    suspend fun refreshForSession() {
+        if (_phase.value == Phase.LOADING) return
+        stale = true
+        _nonMembers.value = emptySet()
+        _revision.value++
         reload()
     }
 
@@ -91,7 +103,7 @@ class ContactsStore(
                 val page = service.page(cursor)
                 if (ticket != request) return
                 if (!current) { clear(); return }
-                collected += page.items
+                collected += page.items.map { it.copy(user = it.user.copy(username = "")) }
                 membershipAuthoritative = membershipAuthoritative && page.membershipAuthoritative
                 val next = page.nextCursor ?: break
                 val normalized = canonicalUuid(next) ?: error("Invalid contacts cursor")
@@ -136,8 +148,7 @@ class ContactsStore(
         return withContext(worker) {
             val term = fold(query.trim().removePrefix("@"))
             if (term.isEmpty()) rows else rows.filter {
-                if (legacyLogins) searchKeys[it.id].orEmpty().contains(term)
-                else fold(com.messenger.app.domain.model.DisplayNameSanitizer.peer(it.user.displayName)).contains(term) ||
+                fold(com.messenger.app.domain.model.DisplayNameSanitizer.peer(it.user.displayName)).contains(term) ||
                     (com.messenger.app.data.identity.IdentityPolicy.input(query)?.takeIf { target -> target.parameter == "number" }
                         ?.let { target -> it.user.publicNumber == target.value } == true) ||
                     it.user.publicUsername?.let { name -> "@$name" == query.lowercase(java.util.Locale.ROOT) } == true
@@ -218,6 +229,18 @@ class ContactsStore(
         if (interrupted || (stale && loadedAt != null)) restartIfListed()
     }
 
+    fun eraseDeletedPeer(id: String) {
+        if (!current) return
+        supersede()
+        hidden += id
+        storedMembers -= id
+        _ids.value -= id
+        _nonMembers.value -= id
+        _entries.value = _entries.value.filterNot { it.id == id }
+        keys -= id
+        markStale()
+    }
+
     suspend fun set(user: PublicUser, contact: Boolean): Boolean {
         val id = user.id
         if (!current || id == service.ownerId || id in _changing.value) return false
@@ -236,7 +259,7 @@ class ContactsStore(
                 while (id in _ids.value && !isHidden(id)) {
                     val snapshot = _entries.value
                     val rows = withContext(worker) {
-                        ContactsOrdering.sorted((snapshot + ContactEntry(user)).distinctBy { it.id })
+                        ContactsOrdering.sorted((snapshot + ContactEntry(user.copy(username = ""))).distinctBy { it.id })
                     }
                     if (!current) { clear(); return false }
                     if (snapshot !== _entries.value) continue
@@ -292,7 +315,7 @@ class ContactsStore(
         return true
     }
 
-    private fun restartIfListed() { if (viewers > 0) scope.launch { reload() } }
+    private fun restartIfListed() { if (viewers > 0 || retainedForSession) scope.launch { reload() } }
 
     fun clear() {
         ticket++
@@ -300,6 +323,7 @@ class ContactsStore(
         _phase.value = Phase.IDLE; _changing.value = emptySet(); _checking.value = emptySet()
         touched.clear(); storedMembers.clear(); hidden.clear()
         keys = emptyMap(); loadedAt = null; loadedMembershipAuthoritative = false; stale = true
+        retainedForSession = false
     }
 
     companion object {
@@ -307,7 +331,7 @@ class ContactsStore(
         const val PAGE_LIMIT = 25
         fun fold(text: String): String = Normalizer.normalize(text, Normalizer.Form.NFD)
             .replace("\\p{M}+".toRegex(), "").lowercase(Locale.ROOT)
-        private fun searchKey(user: PublicUser) = fold(user.visibleName + "\n" + user.username)
+        private fun searchKey(user: PublicUser) = fold(user.visibleName + "\n" + user.publicUsername.orEmpty() + "\n" + user.publicNumber.orEmpty())
         fun canonicalUuid(value: String): String? = runCatching { UUID.fromString(value).toString().takeIf { it.equals(value, true) } }.getOrNull()
     }
 }

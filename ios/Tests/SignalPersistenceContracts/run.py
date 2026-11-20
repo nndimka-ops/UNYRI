@@ -31,7 +31,7 @@ for name in ["SignalStateStore.swift","UnyriSignalStores.swift","SignalMetadataS
  if name=="SignalStateStore.swift":
   for symbol in ["SecItemCopyMatching","SecItemUpdate","SecItemAdd","SecItemDelete"]:text=text.replace(symbol+"(","Own"+symbol+"(")
  data=text.encode("utf-8");(out/name).write_bytes(data);files[name]=sha(data);pins[name]=sha(raw)
-for name in ["Models/SignalModels.swift","Support/Base64.swift","Signal/SignalKeyBootstrap.swift","Support/HostileInteger.swift"]:
+for name in ["Models/SignalModels.swift","Support/Base64.swift","Signal/SignalKeyBootstrap.swift","Support/HostileInteger.swift","Support/LocalSecurityDecisions.swift"]:
  raw=(repo/"ios/UNYRI"/name).read_bytes();key=Path(name).name;(out/key).write_bytes(raw);files[key]=sha(raw);pins[key]=sha(raw)
 methods={}
 for name,markers,properties in [

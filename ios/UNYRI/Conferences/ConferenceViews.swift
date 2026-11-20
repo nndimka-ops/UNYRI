@@ -47,8 +47,8 @@ struct ConferenceLobby: View {
                         }.disabled(controller.isBusy).frame(minHeight: 44).accessibilityIdentifier("conference-join-confirm")
                     }
                 }
-                if let parsingError { Section { Text(LocalizedStringKey(parsingError)).foregroundStyle(UnyriColors.danger) } }
-                if let error = controller.error { Section { Text(LocalizedStringKey(error)).foregroundStyle(UnyriColors.danger) } }
+                if let parsingError { Section { Text(verbatim: UnyriL10n.string(parsingError)).foregroundStyle(UnyriColors.danger) } }
+                if let error = controller.error { Section { Text(verbatim: UnyriL10n.string(error)).foregroundStyle(UnyriColors.danger) } }
             }.scrollContentBackground(.hidden).background(UnyriColors.background)
                 .scrollDismissesKeyboard(.interactively).tint(colors.role(.categoryBlue))
                 .navigationTitle("Join by invitation").navigationBarTitleDisplayMode(.inline)
@@ -264,6 +264,6 @@ struct ConferencePresentation: ViewModifier {
                     }
                     Button("OK") { controller.error = nil }
                 }
-                message: { Text(LocalizedStringKey(controller.error ?? "")) }
+                message: { Text(verbatim: UnyriL10n.string(controller.error ?? "")) }
     }
 }

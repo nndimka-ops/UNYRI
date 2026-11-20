@@ -119,15 +119,16 @@ final class MessageIngestor {
             return await ingestBatch(dtos, advanceCursor: advanceCursor)
         }
         ingestTail = task
-        return await task.value
+        return await withTaskCancellationHandler(operation: { await task.value }, onCancel: { task.cancel() })
     }
 
     private var lastAutomaticRetry: [String: Date] = [:]
     private var retryTail: Task<Void, Never>?
+    private var retryRequests = 0
     private var deliveryRequests = Set<String>()
 
     private func ingestBatch(_ dtos: [MessageDto], advanceCursor: Bool) async -> Bool {
-        guard generation == auth.sessionGeneration else { return false }
+        guard ServerWorkDeadline.allowsWork, generation == auth.sessionGeneration else { return false }
         do { try await replayReceiveJournals() } catch { return false }
         guard !dtos.isEmpty else { return true }
 
@@ -160,7 +161,8 @@ final class MessageIngestor {
         var deliveredWatermarks: [String: Int64] = [:]
         var establishedSenders = Set<String>()
         for dto in dtos.sorted(by: { $0.sequence < $1.sequence }) {
-            guard generation == auth.sessionGeneration else { return false }
+            await Task.yield()
+            guard ServerWorkDeadline.allowsWork, generation == auth.sessionGeneration else { return false }
             do {
                 // `ingestOne` resolves the live pre-state itself when the page
                 // prefetch had no row (own-device echo / retry path), so a good
@@ -168,6 +170,7 @@ final class MessageIngestor {
                 let outcome = try await ingestOne(dto, token: token, myUserId: myUserId,
                                                   known: prefetched[dto.clientMessageId])
                 if outcome.changed { touched.insert(dto.chatId) }
+                if outcome.allowsDeliveryReceipt { deliveredWatermarks[dto.chatId] = max(deliveredWatermarks[dto.chatId] ?? 0, dto.sequence) }
                 if (outcome.priorStatus == nil || outcome.priorStatus == .decryptFailed || outcome.priorStatus == .identityChanged),
                    dto.messageType == SignalMessageType.preKey,
                    let finalStatus = outcome.finalStatus,
@@ -181,7 +184,6 @@ final class MessageIngestor {
                 return false
             }
             guard generation == auth.sessionGeneration else { return false }
-            deliveredWatermarks[dto.chatId] = max(deliveredWatermarks[dto.chatId] ?? 0, dto.sequence)
             if advanceCursor {
                 let last = sessionStore.lastSyncedSequence() ?? 0
                 if dto.sequence > last {
@@ -276,6 +278,9 @@ final class MessageIngestor {
         /// Status of the row after processing, `nil` when the row was not
         /// stored (deleted chat / cleared-through sequence).
         let finalStatus: MessageStatus?
+        var allowsDeliveryReceipt = true
+        var retainedError: Error? = nil
+        static let securityExcluded = IngestOutcome(changed: false, priorStatus: nil, finalStatus: nil, allowsDeliveryReceipt: false)
         static let notStored = IngestOutcome(changed: false, priorStatus: nil, finalStatus: nil)
     }
 
@@ -288,9 +293,23 @@ final class MessageIngestor {
         return try sessionManager.receiveID(chatID: dto.chatId, sequence: dto.sequence, context: context)
     }
 
+    private func excludeIncoming(_ dto: MessageDto, journalID: String) async throws -> Bool {
+        let exclusionKey = "security_excluded:" + dto.clientMessageId
+        guard let security = auth.localSecurity else { throw CancellationError() }
+        let excluded = try store.chatValue(chatId: dto.chatId, name: exclusionKey) != nil
+        if try excluded || security.blockDecision(dto.senderId) == true || security.isRevoked(user: dto.senderId, device: dto.senderDeviceId) {
+            if !excluded { try store.saveChatValue(chatId: dto.chatId, name: exclusionKey, value: "1") }
+            try store.deletePendingDecrypt(clientMessageId: dto.clientMessageId)
+            try await sessionManager.finishReceive(id: journalID)
+            return true
+        }
+        return false
+    }
+
     private func ingestOne(_ dto: MessageDto, token: String?, myUserId: String,
                            known: MessageStore.IngestMessageState? = nil) async throws -> IngestOutcome {
         let journalID = try receiveID(dto)
+        if try await excludeIncoming(dto, journalID: journalID) { return .securityExcluded }
         guard try !store.isChatDeleted(dto.chatId), dto.sequence > (try store.personalCutoff(dto.chatId)) else {
             try await sessionManager.finishReceive(id: journalID)
             return .notStored
@@ -350,6 +369,7 @@ final class MessageIngestor {
         let status: MessageStatus
         var retained = false
         var failureErrorClass: String?
+        var retainedError: Error?
 
         do {
             let plaintext: Data
@@ -408,12 +428,14 @@ final class MessageIngestor {
             UnyriDiag.decryptFailed(identityChanged: identityChange)
             retained = true
             failureErrorClass = identityChange ? "identity_changed" : String(describing: type(of: error))
+            retainedError = error
         }
 
         guard try !store.isChatDeleted(dto.chatId), dto.sequence > (try store.personalCutoff(dto.chatId)) else {
             try await sessionManager.finishReceive(id: journalID)
             return .notStored
         }
+        if try await excludeIncoming(dto, journalID: journalID) { return .securityExcluded }
         // Этап I: lifecycle events (edit/delete/reaction) are never rendered as
         // their own bubble — they apply a side effect to the target content row
         // and are persisted only so the clientMessageId dedup boundary survives
@@ -454,7 +476,7 @@ final class MessageIngestor {
             // A repeated failed retry rewrites the same placeholder bytes, so
             // only a status transition is a visible change (old before != after:
             // the pending-decrypt lastErrorClass lives in another table).
-            return IngestOutcome(changed: before?.status != status, priorStatus: before?.status, finalStatus: status)
+            return IngestOutcome(changed: before?.status != status, priorStatus: before?.status, finalStatus: status, retainedError: retainedError)
         } else {
             guard try await persistDecryptedMessage(message, dto: dto) else { return .notStored }
             try await sessionManager.finishReceive(id: journalID)
@@ -557,13 +579,18 @@ final class MessageIngestor {
     /// Retry only after a relevant session change or explicit identity acceptance.
     /// Serialize requests so accepting a key during another retry is not lost.
     func retryPendingDecrypts(senderId: String? = nil, automatic: Bool = false) async {
+        // Automatic catch-up must not wait behind an unrelated explicit retry.
+        // A later real trigger can retry; the retained ciphertext stays durable.
+        guard !automatic || retryRequests == 0 else { return }
+        retryRequests += 1
+        defer { retryRequests -= 1 }
         let previous = retryTail
         let task = Task {
             await previous?.value
             await retryRetainedDecrypts(senderId: senderId, automatic: automatic)
         }
         retryTail = task
-        await task.value
+        await withTaskCancellationHandler(operation: { await task.value }, onCancel: { task.cancel() })
     }
 
     private func retryRetainedDecrypts(senderId: String?, automatic: Bool) async {
@@ -577,16 +604,23 @@ final class MessageIngestor {
         guard let token = try? await auth.currentAccessToken(), token != nil else { return }
         guard generation == auth.sessionGeneration else { return }
         guard let myUserId = auth.currentUser?.id else { return }
-        guard let pending = try? store.pendingDecrypts(senderId: senderId), !pending.isEmpty else { return }
+        guard ServerWorkDeadline.allowsWork else { return }
+        guard let pending = try? (automatic ? store.pendingDecryptRetryBatch(senderId: senderId) : store.pendingDecrypts(senderId: senderId)),
+              !pending.isEmpty else { return }
         var recovered = Set<String>()
-        for entry in pending.prefix(automatic ? 128 : pending.count) {
-            guard generation == auth.sessionGeneration else { return }
+        defer { if !recovered.isEmpty { changes.send(recovered) } }
+        for entry in pending {
+            await Task.yield()
+            guard ServerWorkDeadline.allowsWork, generation == auth.sessionGeneration else { return }
             do {
-                _ = try await ingestOne(entry.toDto(), token: token, myUserId: myUserId)
+                if automatic { try store.advancePendingDecryptRetryCursor(entry, senderId: senderId) }
+                let outcome = try await ingestOne(entry.toDto(), token: token, myUserId: myUserId)
+                try requireSession()
                 let status = try store.status(forClientMessageId: entry.clientMessageId)
                 if status == .decryptFailed || status == .identityChanged {
                     try store.bumpPendingDecrypt(clientMessageId: entry.clientMessageId,
-                        retryCount: entry.retryCount + 1, lastErrorClass: entry.lastErrorClass)
+                        retryCount: entry.retryCount == Int.max ? Int.max : entry.retryCount + 1,
+                        lastErrorClass: outcome.retainedError.map { errorClass($0) })
                     continue
                 }
                 try store.deletePendingDecrypt(clientMessageId: entry.clientMessageId)
@@ -594,16 +628,20 @@ final class MessageIngestor {
             } catch is CancellationError {
                 return
             } catch {
-                // Still undecryptable: keep the ciphertext, bump diagnostics only.
+                // Keep the ciphertext even for permanent failures. Explicit
+                // retries remain available; automatic selection skips only
+                // errors known not to improve after a session/key change.
                 try? store.bumpPendingDecrypt(clientMessageId: entry.clientMessageId,
-                    retryCount: entry.retryCount + 1, lastErrorClass: errorClass(error))
+                    retryCount: entry.retryCount == Int.max ? Int.max : entry.retryCount + 1, lastErrorClass: errorClass(error))
             }
         }
-        if !recovered.isEmpty { changes.send(recovered) }
     }
 
     private func errorClass(_ error: Error) -> String {
         if case SignalError.untrustedIdentity = error { return "identity_changed" }
+        if case SignalError.duplicatedMessage = error { return "permanent_duplicate" }
+        if case SignalDecryptionError.malformedCiphertext = error { return "permanent_malformed_ciphertext" }
+        if case SignalDecryptionError.unsupportedMessageType = error { return "permanent_unsupported_type" }
         return String(describing: type(of: error))
     }
 

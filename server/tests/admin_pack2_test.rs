@@ -1191,7 +1191,8 @@ async fn moderation_center_notes_timeline_and_device_suspension_are_enforced() {
             .unwrap(),
     )
     .await;
-    assert_eq!(detail["profile"]["username"], target.username);
+    assert!(detail["profile"].get("username").is_none());
+    assert!(detail["profile"]["unyri_number"].is_string());
     assert_eq!(detail["profile"]["display_name"], "Test User");
     assert_eq!(detail["moderation"]["status"], "active");
     assert_eq!(detail["moderation"]["reports_total"], 1);
@@ -1347,7 +1348,11 @@ async fn moderation_center_notes_timeline_and_device_suspension_are_enforced() {
             .fetch_one(&state.db)
             .await
             .unwrap();
-    assert_eq!(profile_after.0, target.username);
+    let public_number: String = sqlx::query_scalar(
+        "SELECT unyri_number::text FROM user_identities WHERE user_id=$1",
+    ).bind(target.id).fetch_one(&state.db).await.unwrap();
+    assert_eq!(profile_after.0, format!("{}\u{202f}{}\u{202f}{}", &public_number[..3], &public_number[3..6], &public_number[6..]));
+    assert_ne!(profile_after.0, target.username, "moderation must not publish the private login");
     assert!(profile_after.1.is_none());
     assert!(profile_after.2.is_none());
 
@@ -1385,7 +1390,7 @@ async fn moderation_center_notes_timeline_and_device_suspension_are_enforced() {
     );
     for (filter, expected) in [("restricted", 1), ("read_only", 1), ("active", 0)] {
         let listed = body_json(app.clone().oneshot(with_admin(get_request(
-            &format!("/admin/users?query={}&status={filter}", target.username), ip, Some(&owner.token)), &admin)).await.unwrap()).await;
+            &format!("/admin/users?query={}&status={filter}", target.id), ip, Some(&owner.token)), &admin)).await.unwrap()).await;
         assert_eq!(listed["items"].as_array().unwrap().len(), expected);
         if expected == 1 { assert_eq!(listed["items"][0]["status"], "read_only"); }
     }
@@ -2188,6 +2193,10 @@ async fn moderation_center_notes_timeline_and_device_suspension_are_enforced() {
     );
 
     let delete_target = register(&app, connect_info(), "pack2_delete_user_").await;
+    let delete_number: String = sqlx::query_scalar("SELECT unyri_number::text FROM user_identities WHERE user_id=$1")
+        .bind(delete_target.id).fetch_one(&state.db).await.unwrap();
+    let other_admin_number: String = sqlx::query_scalar("SELECT unyri_number::text FROM user_identities WHERE user_id=$1")
+        .bind(other_admin.id).fetch_one(&state.db).await.unwrap();
     let avatar_key = format!("avatars/{}", Uuid::new_v4());
     sqlx::query("UPDATE users SET avatar_key=$2,avatar_url=$2 WHERE id=$1")
         .bind(delete_target.id)
@@ -2202,7 +2211,7 @@ async fn moderation_center_notes_timeline_and_device_suspension_are_enforced() {
                     &format!("/admin/users/{}/delete", delete_target.id),
                     ip,
                     &moderator.token,
-                    json!({"confirm_username": delete_target.username, "reason": "policy violation"})
+                    json!({"confirm_identity": delete_number, "reason": "policy violation"})
                 ),
                 &mod_token
             ))
@@ -2219,7 +2228,7 @@ async fn moderation_center_notes_timeline_and_device_suspension_are_enforced() {
                     &format!("/admin/users/{}/delete", owner.id),
                     ip,
                     &owner.token,
-                    json!({"confirm_username": owner.username, "reason": "self"})
+                    json!({"confirm_identity": owner.username, "reason": "self"})
                 ),
                 &admin
             ))
@@ -2236,7 +2245,7 @@ async fn moderation_center_notes_timeline_and_device_suspension_are_enforced() {
                     &format!("/admin/users/{}/delete", other_admin.id),
                     ip,
                     &owner.token,
-                    json!({"confirm_username": other_admin.username, "reason": "peer"})
+                    json!({"confirm_identity": other_admin_number, "reason": "peer"})
                 ),
                 &admin
             ))
@@ -2253,7 +2262,7 @@ async fn moderation_center_notes_timeline_and_device_suspension_are_enforced() {
                     &format!("/admin/users/{}/delete", delete_target.id),
                     ip,
                     &owner.token,
-                    json!({"confirm_username": "wrong-name", "reason": "policy violation"})
+                    json!({"confirm_identity": "wrong-name", "reason": "policy violation"})
                 ),
                 &admin
             ))
@@ -2261,7 +2270,7 @@ async fn moderation_center_notes_timeline_and_device_suspension_are_enforced() {
             .unwrap()
             .status(),
         StatusCode::BAD_REQUEST,
-        "deletion requires the exact username"
+        "deletion requires the exact public number or UUID"
     );
     assert_eq!(
         app.clone()
@@ -2270,7 +2279,7 @@ async fn moderation_center_notes_timeline_and_device_suspension_are_enforced() {
                     &format!("/admin/users/{}/delete", delete_target.id),
                     ip,
                     &owner.token,
-                    json!({"confirm_username": delete_target.username, "reason": "  policy violation  "})
+                    json!({"confirm_identity": delete_number, "reason": "  policy violation  "})
                 ),
                 &admin
             ))
@@ -2286,11 +2295,11 @@ async fn moderation_center_notes_timeline_and_device_suspension_are_enforced() {
         .unwrap();
     assert!(!still_exists);
     let audited: bool = sqlx::query_scalar(
-        "SELECT EXISTS(SELECT 1 FROM admin_audit WHERE actor=$1 AND target=$2 AND action='account_delete' AND reason='policy violation' AND detail->>'username'=$3)",
+        "SELECT EXISTS(SELECT 1 FROM admin_audit WHERE actor=$1 AND target=$2 AND action='account_delete' AND reason='policy violation' AND detail->>'identity'=$3)",
     )
     .bind(owner.id)
     .bind(delete_target.id)
-    .bind(&delete_target.username)
+    .bind(&delete_number)
     .fetch_one(&state.db)
     .await
     .unwrap();

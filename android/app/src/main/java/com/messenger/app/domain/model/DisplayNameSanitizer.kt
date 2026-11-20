@@ -33,10 +33,7 @@ object DisplayNameSanitizer {
         return result
     }
 
-    fun peer(raw: String, username: String? = null, unknown: String = unknownUser): String {
-        val handle = display(username.orEmpty()).removePrefix("@")
-        return display(raw, if (handle.isNotEmpty()) "@$handle" else unknown.ifBlank { "Unknown user" })
-    }
+    fun peer(raw: String): String = display(raw, unknownUser.ifBlank { "Unknown user" })
 
     private val spaces = Regex(" +")
     private fun clean(raw: String): String {

@@ -25,6 +25,7 @@ struct CallEngineOptions: Equatable {
     var relayOnly = false
     var profile: CallMediaProfile = CallMediaLadder.cellular
     var captureProfile: CallMediaProfile = CallMediaLadder.wifi
+    var cameraEnabled = true
 }
 
 /// Abstraction over the real WebRTC `PeerConnection` lifecycle (mirror of

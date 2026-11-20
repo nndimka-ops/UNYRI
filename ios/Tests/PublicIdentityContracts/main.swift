@@ -1,9 +1,9 @@
 import Foundation
 
 var checks = 0
-func check(_ condition: @autoclosure () -> Bool, _ label: String) {
+func check(_ condition: @autoclosure () -> Bool, _ label: String, file: StaticString = #file, line: UInt = #line) {
     checks += 1
-    if !condition() { fatalError("Public identity contract failed: " + label) }
+    if !condition() { fatalError("Public identity contract failed: " + label, file: file, line: line) }
 }
 let validNumbers = ["1", "99999999", "100000000", "999999999"]
 for value in validNumbers { check(PublicIdentityPolicy.number(value) == value, "valid number") }
@@ -15,6 +15,19 @@ check(PublicIdentityPolicy.formattedNumber("12") == "12", "short alias display")
 check(PublicIdentityPolicy.input(" 123 456 789 ") == .number("123456789"), "field grouping")
 check(PublicIdentityPolicy.input("@Alice_1") == .username("alice_1"), "handle input")
 check(PublicIdentityPolicy.input("alice_1") == nil, "never guess private login")
+check(PublicIdentityPolicy.contactsSearch("123 456 789") == .exact(.number("123456789")), "Contacts public number is exact")
+check(PublicIdentityPolicy.contactsSearch("@Alice_1") == .exact(.username("alice_1")), "Contacts @username is exact")
+check(PublicIdentityPolicy.contactsSearch("Alice") == .directory("Alice"), "display-name directory remains available")
+check(PublicIdentityPolicy.contactsSearch("@ab") == .none, "partial public username sends nothing")
+check(PublicIdentityPolicy.contactsSearch("@bad__name") == .invalidIdentity, "invalid handle cannot fall back to discovery")
+check(PublicIdentityPolicy.contactsSearch("000000000") == .invalidIdentity, "invalid public number cannot fall back to discovery")
+for suffix in ["я", "€", "🦊"] {
+    let input = String(repeating: "a", count: 4095) + suffix
+    let bounded = PublicIdentityPolicy.boundedContactsInput(input)
+    check(bounded.utf8.count == 4095 && bounded == String(repeating: "a", count: 4095), "trim only an incomplete UTF8 suffix")
+}
+check(PublicIdentityPolicy.boundedContactsInput(String(repeating: "я", count: 3000)).utf8.count == 4096, "multibyte input obeys byte limit")
+check(PublicIdentityPolicy.boundedContactsInput("a🦊") == "a🦊", "short Unicode input is unchanged")
 for value in ["abcd", "1alice", "a__bc", "alice.name", "@alice", "Alice ", "аlice", String(repeating: "a", count: 33)] {
     check(PublicIdentityPolicy.username(value) == nil, "reject handle")
 }
@@ -46,6 +59,13 @@ for (raw, expected) in origins {
 let prefix = "unyri://u/n/123456789?server="
 check(PublicIdentityPolicy.parse("UNYRI://U/@Alice_1?server=chat.example") == .init(origin: "https://chat.example", target: .username("alice_1")), "case and handle normalization")
 check(PublicIdentityPolicy.parse("unyri://u/n/1?server=chat.example")?.target == .number("1"), "vanity alias")
+check(PublicIdentityPolicy.parse("https://Chat.Example:8443/u/n/123456789") == .init(origin: "https://chat.example:8443", target: .number("123456789")), "HTTPS number profile link preserves origin")
+check(PublicIdentityPolicy.parse("https://chat.example/u/@Alice_1") == .init(origin: "https://chat.example", target: .username("alice_1")), "HTTPS public username profile link")
+for value in ["http://chat.example/u/n/123456789", "https://user:pass@chat.example/u/n/123456789",
+              "https://chat.example/u/n/%31", "https://chat.example/u/n/1?server=evil.example",
+              "https://chat.example/u/n/1/", "https://chat.example/u/@Alice_1#fragment"] {
+    check(PublicIdentityPolicy.parse(value) == nil, "strict HTTPS profile path and origin")
+}
 check(PublicIdentityPolicy.parse(prefix + "http%3A%2F%2F127.0.0.1%3A8080")?.origin == "http://127.0.0.1:8080", "HTTP preserved")
 for value in ["unyri://user/alice", "unyri://u/n/123456789", "unyri://u:123/n/123456789?server=chat.example",
               "unyri://x@u/n/123456789?server=chat.example", "unyri://u/N/123456789?server=chat.example",
@@ -75,9 +95,26 @@ let profile = try decoder.decode(DiscoveredProfile.self, from: Data("""
 {"id":"00000000-0000-0000-0000-000000000001","unyri_number":"123456789","public_username":null,"display_name":"Test","bio":null,"avatar_url":null,"has_avatar":false,"profile_version":1,"avatar_version":0}
 """.utf8))
 check(profile.publicUsername == nil && profile.contact.username.isEmpty, "discovery requires no login")
-check(profile.contact.publicIdentityLabel == "123456789", "authorized discovery supplies the public caption")
+check(profile.contact.publicIdentityLabel == "123 456 789", "authorized discovery supplies the grouped public caption")
 let oldPublicUser = try decoder.decode(PublicUser.self, from: Data("{\"id\":\"00000000-0000-0000-0000-000000000001\",\"username\":\"private_fixture\",\"display_name\":\"Fixture\",\"bio\":null,\"avatar_url\":null,\"has_avatar\":false,\"profile_version\":1,\"avatar_version\":0}".utf8))
 check(oldPublicUser.publicIdentityLabel.isEmpty, "legacy login is never a public caption")
+check(oldPublicUser.username.isEmpty, "legacy peer login is discarded on decode")
+let cleanPeerBytes = try encoder.encode(oldPublicUser)
+check(!String(decoding: cleanPeerBytes, as: UTF8.self).contains("private_fixture"), "contact/directory JSON never persists peer login")
+let legacyDirectoryBytes = Data("{\"scope\":\"fixture\",\"users\":[]}".utf8)
+let legacyDirectory = try decoder.decode(DirectoryIdentityCache.self, from: legacyDirectoryBytes)
+check(legacyDirectory.peerPrivacyVersion == nil, "pre-B-033 directory cache requires one-time scrub")
+let directoryFile = FileManager.default.temporaryDirectory.appendingPathComponent("unyri-b033-directory-\(UUID().uuidString).json")
+defer { try? FileManager.default.removeItem(at: directoryFile) }
+let oldDirectoryPeer: [String: Any] = ["id": oldPublicUser.id, "username": "private_fixture", "displayName": "Fixture",
+    "profileVersion": 1, "avatarVersion": 0, "hasAvatar": false, "publicUsername": "public_fixture", "unyriNumber": "123456789"]
+try JSONSerialization.data(withJSONObject: ["scope": "fixture", "users": [oldDirectoryPeer]]).write(to: directoryFile)
+let cleanedDirectory = DirectoryCachePolicy.load(file: directoryFile, scope: "fixture", query: "")
+check(cleanedDirectory.first?.username.isEmpty == true && cleanedDirectory.first?.publicUsername == "public_fixture",
+      "directory upgrade preserves public identity and discards login")
+let cleanedDirectoryBytes = try Data(contentsOf: directoryFile)
+check(!String(decoding: cleanedDirectoryBytes, as: UTF8.self).contains("private_fixture"), "directory upgrade removes login bytes from disk")
+check(DirectoryCachePolicy.load(file: directoryFile, scope: "fixture", query: "") == cleanedDirectory, "directory upgrade is idempotent")
 check(IdentityErrorText.key(status: 409, code: "unavailable") == "Public username is unavailable", "claim conflict")
 check(IdentityErrorText.key(status: 503, code: "unavailable") != "Public username is unavailable", "outage is not a taken name")
 check(IdentityErrorText.key(status: 409, code: "conflict").contains("Reloaded"), "revision error")
@@ -107,6 +144,7 @@ check(finalOwner.link?.contains("123456789") == true && finalOwner.revision == 0
 
 let ownerProfile = try decoder.decode(UserProfile.self, from: Data("{\"id\":\"00000000-0000-0000-0000-000000000001\",\"username\":\"private_fixture\",\"display_name\":\"Fixture\",\"bio\":null,\"avatar_url\":null,\"profile_version\":1,\"avatar_version\":0,\"has_avatar\":false,\"created_at\":\"2026-11-18T00:00:00Z\",\"updated_at\":\"2026-11-18T00:00:00Z\",\"unyri_number\":\"123456789\",\"public_username\":null,\"discoverability\":\"everyone\"}".utf8))
 check(ownerProfile.unyriNumber == "123456789" && ownerProfile.discoverability == "everyone", "owner profile optional identity additions")
+check(ownerProfile.username == "private_fixture", "own authentication/settings profile retains private login")
 
 
 for malformedProfile in ["12345678", "012345678", "1234567890"] {
@@ -116,5 +154,23 @@ for malformedProfile in ["12345678", "012345678", "1234567890"] {
 
 
 let encodedPublicContact = try JSONSerialization.jsonObject(with: encoder.encode(profile.contact)) as! [String: Any]
-check(encodedPublicContact["unyri_number"] == nil && encodedPublicContact["public_username"] == nil, "authorized peer captions are not persisted in legacy DTO caches")
+check(encodedPublicContact["unyri_number"] as? String == "123456789", "public identity survives peer DTO caches")
+// B-048: common passwords are refused while typed; the set equals the server denylist.
+for common in ["password123", "12345678", "Password1", "  QWERTY123 ", "пароль123"] {
+    check(PublicIdentityPolicy.isCommonPassword(common), "common password refused: " + common)
+}
+check(!PublicIdentityPolicy.isCommonPassword("river-lamp-42"), "an ordinary password passes")
+if let serverList = try? String(contentsOfFile: "server/src/auth/common_passwords.txt", encoding: .utf8) {
+    let server = Set(serverList.split(whereSeparator: \.isNewline).map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty })
+    check(server.count >= 30 && server == PublicIdentityPolicy.commonPasswords, "common passwords equal the server denylist")
+} else {
+    check(false, "server denylist readable (run from the repository root)")
+}
+// B-051 (owner, 19 Nov): a Contacts row always names the grouped public number, then the
+// public @username when one is set; legacy servers expose neither.
+check(PeerIdentityPolicy.contactCaption(publicUsername: nil, unyriNumber: "604743993") == "604 743 993", "B-051: contact without @username shows the grouped number")
+check(PeerIdentityPolicy.contactCaption(publicUsername: "alice_7", unyriNumber: " 604743993 ") == "604 743 993 · @alice_7", "B-051: number first, then the public @username")
+check(PeerIdentityPolicy.contactCaption(publicUsername: "@alice_7", unyriNumber: nil) == "@alice_7", "B-051: only the @username when no number arrived")
+check(PeerIdentityPolicy.contactCaption(publicUsername: "", unyriNumber: "") == "", "B-051: nothing public, nothing shown")
+check(PeerIdentityPolicy.contactCaption(publicUsername: "alice_7", unyriNumber: "604743993", legacyServer: true) == "", "B-051: legacy servers expose no public identity")
 print("PASS: \(checks) final public identity and auth contracts")

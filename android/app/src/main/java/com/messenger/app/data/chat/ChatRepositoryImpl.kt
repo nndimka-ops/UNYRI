@@ -437,7 +437,7 @@ class ChatRepositoryImpl(
         val blocked = localBlock ?: (newerPreferences?.isBlocked ?: dto.isBlocked)
         val chat = ChatEntity(chatId = dto.chatId, type = dto.type, createdAt = dto.createdAt, lastMessageAt = dto.lastMessageAt, isMuted = mute?.enabled ?: dto.isMuted, mutedUntil = if (mute != null) mute.until else dto.mutedUntil, isBlocked = blocked, blockedUserId = if (blocked) peer else null)
         val otherUser = dto.otherUser?.let {
-            ChatParticipantEntity(userId = it.id, username = it.username, displayName = it.displayName, avatarUrl = it.avatarUrl, avatarVersion = it.avatarVersion, hasAvatar = it.hasAvatar)
+            ChatParticipantEntity(userId = it.id, username = "", displayName = it.displayName, avatarUrl = it.avatarUrl, avatarVersion = it.avatarVersion, hasAvatar = it.hasAvatar, publicNumber = it.publicNumber, publicUsername = it.publicUsername)
         }
         dao.upsertChatWithOtherUser(chat, otherUser)
         // Called under the original session write fence. Only the effective
@@ -478,7 +478,7 @@ class ChatRepositoryImpl(
         chatId = chatId,
         type = type,
         otherUser = otherUser?.let {
-            PublicUser(it.id, it.username, it.displayName, it.avatarUrl, bio = it.bio, profileVersion = it.profileVersion, avatarVersion = it.avatarVersion, hasAvatar = it.hasAvatar)
+            PublicUser(it.id, "", it.displayName, it.avatarUrl, bio = it.bio, profileVersion = it.profileVersion, avatarVersion = it.avatarVersion, hasAvatar = it.hasAvatar, publicNumber = it.publicNumber, publicUsername = it.publicUsername)
         },
         createdAt = createdAt,
         lastMessageAt = lastMessageAt,
@@ -494,7 +494,7 @@ class ChatRepositoryImpl(
         chatId = chatId,
         type = type,
         otherUser = otherUserId?.let { id ->
-            PublicUser(id = id, username = otherUsername.orEmpty(), displayName = otherDisplayName.orEmpty(), avatarUrl = otherAvatarUrl, avatarVersion = otherAvatarVersion ?: 0, hasAvatar = otherHasAvatar ?: false)
+            PublicUser(id = id, username = "", displayName = otherDisplayName.orEmpty(), avatarUrl = otherAvatarUrl, avatarVersion = otherAvatarVersion ?: 0, hasAvatar = otherHasAvatar ?: false, publicNumber = otherPublicNumber, publicUsername = otherPublicUsername)
         },
         createdAt = createdAt,
         lastMessageAt = lastMessageAt,

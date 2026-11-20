@@ -50,7 +50,7 @@
     <string name="file_preview">Файл</string>
     <string name="deleted_message_preview">Сообщение удалено</string>
     <string name="profile_edit">Редактировать профиль</string>
-    <string name="profile_privacy_security">Конфиденциальность и безопасность</string>
+    <string name="profile_privacy_security">Приватность и защита</string>
     <string name="profile_devices">Устройства</string>
     <string name="profile_appearance">Внешний вид</string>
     <string name="profile_language">Язык</string>
@@ -284,7 +284,7 @@
     <string name="alpha_terms_4">4. Отчёт об ошибке отправляется только после вашего подтверждения. Описание, выбранные скриншоты, идентификатор аккаунта и версии приложения/ОС доступны владельцу выбранного сервера. Удалите пароли и личные сведения перед отправкой. Стандартный сервер UNYRI удаляет отчёты старше 30 дней при ежечасной очистке; уточните у владельца собственные настройки и резервное копирование. Необязательная автоматическая диагностика настраивается отдельно.</string>
     <string name="alpha_terms_5">5. Уважайте других людей и соблюдайте применимое законодательство. Не используйте UNYRI для незаконного контента, преследования, спама или взлома чужих аккаунтов и серверов. У выбранного сервера могут быть дополнительные правила. По вопросам доступа к аккаунту и обращений связывайтесь с его владельцем.</string>
     <string name="alpha_terms_6">6. Стабильность и доступность альфа-функций не гарантируются. Не полагайтесь на UNYRI для экстренной связи или как на единственное место хранения важных данных. Условия тестирования не исключают права, от которых нельзя отказаться по закону. Для публикации в магазинах и коммерческого лицензирования необходимы окончательные сведения об издателе и обработке данных.</string>
-    <string name="server_edit_help">Введите HTTPS-адрес сервера. Альфа-сборка также поддерживает HTTP в доверенной локальной сети. Перед сменой сервера выйдите из аккаунта.</string>
+    <string name="server_edit_help">Введите HTTPS-адрес. Чтобы сменить сервер, сначала выйдите из аккаунта.</string>
     <string name="server_edit_failed">Не удалось сохранить адрес. Проверьте протокол и имя сервера; пути, пароли и параметры запроса не допускаются.</string>
     <string name="server_signout_warning">Для смены сервера нужно выйти из аккаунта. Локальные данные аккаунта и ожидающие отправки сообщения будут очищены. Сначала сохраните важную историю и завершите отправки.</string>
     <string name="feedback_title">Сообщить о проблеме</string>
@@ -319,8 +319,8 @@
     <string name="call_history_audio">Аудио</string>
     <string name="call_history_video">Видео</string>
     <string name="settings_account">Аккаунт</string>
-    <string name="settings_about">О приложении и поддержка</string>
-    <string name="settings_data_storage">Данные и хранилище</string>
+    <string name="settings_about">Помощь и приложение</string>
+    <string name="settings_data_storage">Связь и память</string>
     <string name="storage_usage">Использование хранилища</string>
 
     <string name="live_draft_setting">Показывать мой черновик</string>
@@ -339,7 +339,7 @@
     <string name="chat_delete_scope_everyone">Ваши выбранные сообщения будут удалены у всех участников. Неотправленные сообщения будут отменены.</string>
     <string name="chat_delete_scope_me">Выбранные сообщения будут удалены у вас. Неотправленные сообщения будут отменены.</string>
     <string name="unified_search_placeholder">Чаты, сообщения, люди</string>
-    <string name="unified_search_hint">Ищите сохранённые чаты и сообщения без сети, а людей на этом сервере — по имени пользователя.</string>
+    <string name="unified_search_hint">Ищите сохранённые чаты и сообщения без сети, а людей на этом сервере — по номеру или @имени.</string>
     <string name="unified_search_people">Люди на этом сервере</string>
     <string name="unified_search_network">Поиск на сервере недоступен. Сохранённые данные остаются доступны.</string>
     <string name="unified_search_local_error">Не удалось загрузить сохранённые сообщения. Повторите поиск.</string>
@@ -400,13 +400,13 @@
     <string name="settings_home_connection">Связь и память</string>
     <string name="settings_home_help">Помощь и приложение</string>
     <string name="settings_home_chats_detail">Реакции и фильтры списка</string>
-    <string name="settings_home_connection_detail">Качество звонков, трафик и кэш</string>
+    <string name="settings_home_connection_detail">Память, автозагрузка и кэш</string>
     <string name="settings_home_connected">На связи</string>
     <string name="settings_home_history">История и перенос</string>
     <string name="settings_home_history_detail">На другой телефон или обратно из копии</string>
     <string name="settings_home_transfer">Перенести</string>
     <string name="settings_home_backup">Резервная копия</string>
-    <string name="settings_home_sign_out">Выйти из аккаунта</string>
+    <string name="settings_home_sign_out">Выйти</string>
     <string name="settings_offline_fallback">Профиль недоступен. Кэшированные чаты остаются доступны; можно сменить сервер или выйти из аккаунта.</string>
     <string name="settings_logout_history">История и резервная копия</string>
     <string name="settings_logout_local_notice">С телефона будут удалены сообщения, звонки, файлы, черновики и ключ восстановления истории. При следующем входе история будет пустой. Аккаунт и зашифрованная резервная копия на сервере сохранятся.</string>
@@ -421,7 +421,7 @@
     <string name="blocked_users_add">Заблокировать аккаунт</string>
     <string name="blocked_users_add_title">Заблокировать аккаунт</string>
     <string name="blocked_users_add_detail">Найдите человека по имени или логину. Блокировка не создаёт чат и не загружает историю.</string>
-    <string name="blocked_users_search">Имя или @логин</string>
+    <string name="blocked_users_search">Имя, номер или @имя</string>
     <string name="blocked_users_empty">Нет заблокированных аккаунтов</string>
     <string name="blocked_users_no_results">Никого не найдено</string>
     <string name="blocked_users_load_error">Не удалось загрузить аккаунты. Проверьте соединение и повторите.</string>
@@ -454,7 +454,7 @@
     <string name="voice_open_app_settings">Открыть настройки приложения</string>
     <string name="notification_settings_system_on">Уведомления разрешены в Android</string>
     <string name="notification_settings_system_off">Уведомления заблокированы в Android</string>
-    <string name="notification_settings_system_detail">Разрешение, показ на экране блокировки, мелодия и вибрация зависят от Android. Административные и служебные уведомления также управляются здесь. UNYRI не меняет системный выбор за вас.</string>
+    <string name="notification_settings_system_detail">Выберите канал сообщений или звонков в Android, чтобы настроить его звук и вибрацию.</string>
     <string name="notification_settings_allow">Разрешить уведомления</string>
     <string name="notification_settings_system_open">Открыть настройки уведомлений Android</string>
     <string name="local_mode_notifications">Разрешить уведомления</string>

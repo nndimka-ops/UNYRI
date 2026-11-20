@@ -129,9 +129,13 @@ final class UnyriAppLock: ObservableObject {
     }
     func phase(_ phase: ScenePhase) {
         inactive = phase != .active
-        if phase == .background { generation &+= 1; context?.invalidate(); context = nil; authenticating = false; policy.background(at: ProcessInfo.processInfo.systemUptime) }
-        if phase == .active { policy.activate(at: ProcessInfo.processInfo.systemUptime); locked = policy.locked }
+        if phase == .background { generation &+= 1; context?.invalidate(); context = nil; authenticating = false; policy.background(at: Date().timeIntervalSince1970) }
+        if phase == .active { policy.activate(at: Date().timeIntervalSince1970); locked = policy.locked }
         render()
+    }
+    func protectedDataUnavailable() {
+        generation &+= 1; context?.invalidate(); context = nil; authenticating = false
+        policy.invalidate(); locked = true; render()
     }
     func authenticate() async -> Bool {
         guard ownerIsCurrent, !authenticating else { return false }
@@ -193,7 +197,7 @@ private struct UnyriLockScreen: View {
                 lock.mediaControls
                 Button("Unlock") { Task { await lock.unlock() } }.buttonStyle(.borderedProminent).disabled(lock.authenticating)
                 if lock.authenticating { ProgressView().tint(.white) }
-                if let error = lock.error { Text(error).font(.footnote).foregroundStyle(.white).multilineTextAlignment(.center) }
+                if let error = lock.error { Text(verbatim: error).font(.footnote).foregroundStyle(.white).multilineTextAlignment(.center) }
             }.padding(32)
         }.preferredColorScheme(.dark).unyriLocale()
     }

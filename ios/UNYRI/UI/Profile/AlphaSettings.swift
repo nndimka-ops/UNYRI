@@ -152,7 +152,7 @@ struct AlphaTermsView: View {
             UnyriSettingsGroup("Screenshots") {
                 ForEach(Array(screenshots.enumerated()), id: \.offset) { index, data in
                     HStack(spacing: 12) {
-                        if let image = UIImage(data: data) { Image(uiImage: image).resizable().scaledToFit().frame(height: 110).clipShape(RoundedRectangle(cornerRadius: 10)) }
+                        if let image = PeerImagePolicy.image(data: data) { Image(uiImage: image).resizable().scaledToFit().frame(height: 110).clipShape(RoundedRectangle(cornerRadius: 10)) }
                         Spacer(minLength: 8)
                         Button("Remove", role: .destructive) { screenshots.remove(at: index); reportID = UUID().uuidString.lowercased(); receipt = nil }
                             .frame(minWidth: 44, minHeight: 44)
@@ -335,7 +335,7 @@ private struct FeedbackPhotoPicker: UIViewControllerRepresentable {
                         let gate = FeedbackImportGate { continuation.resume(returning: $0) }
                         DispatchQueue.main.asyncAfter(deadline: .now() + 30) { gate.finish(nil) }
                         let progress = result.itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.image.identifier) { url, _ in
-                            guard let url, let source = CGImageSourceCreateWithURL(url as CFURL, [kCGImageSourceShouldCache:false] as CFDictionary),
+                            guard let url, let source = PeerImagePolicy.source(url: url),
                                   let cg = CGImageSourceCreateThumbnailAtIndex(source, 0, [kCGImageSourceCreateThumbnailFromImageAlways:true,kCGImageSourceCreateThumbnailWithTransform:true,kCGImageSourceThumbnailMaxPixelSize:1280] as CFDictionary),
                                   let data = UIImage(cgImage: cg).jpegData(compressionQuality: 0.7), data.count <= 1024 * 1024 else { gate.finish(nil); return }
                             gate.finish(data)

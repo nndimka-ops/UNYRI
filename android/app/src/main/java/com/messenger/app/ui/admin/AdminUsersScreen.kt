@@ -36,7 +36,7 @@ import kotlinx.coroutines.delay
 // ---------------------------------------------------------------------------
 // Admin Product Pack 2.1 - account search.
 //
-// Search runs on the server (username or display name) with a debounce, is
+// Search runs on the server for public identity or display name with a debounce, is
 // cursor-paged, and can be narrowed to restricted accounts. The account itself
 // is opened in the User Moderation Center.
 // ---------------------------------------------------------------------------
@@ -187,8 +187,9 @@ private fun AdminUserRow(row: AdminUserRowDto, onClick: () -> Unit) {
                     color = colors.primaryText,
                     fontWeight = FontWeight.Medium,
                 )
-                AdminTitles.meaningful(row.username)?.let {
-                    Text("@$it", style = MaterialTheme.typography.bodySmall, color = colors.mutedText)
+                com.messenger.app.ui.publicHandle(row.unyriNumber, row.publicUsername)
+                    .takeIf { it.isNotEmpty() }?.let {
+                    Text(it, style = MaterialTheme.typography.bodySmall, color = colors.mutedText)
                 }
             }
             AdminStatusChip(

@@ -15,5 +15,5 @@
     <string name="chats_restore_short">Вернуть</string>
     <string name="chats_archive_back">Назад к чатам</string>
     <string name="chats_archive_empty">В архиве пока пусто</string>
-    <string name="chats_archive_detail">Переноси чаты через их меню или выбери несколько. Новые сообщения оставляют их здесь до ручного возврата.</string>
+    <string name="chats_archive_detail">Переносите чаты через их меню или выберите несколько. Новые сообщения оставляют их здесь до ручного возврата.</string>
 </resources>

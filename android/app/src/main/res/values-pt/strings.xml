@@ -212,7 +212,7 @@
     <string name="voice_open_app_settings">Abrir configurações do aplicativo</string>
     <string name="notification_settings_system_on">Notificações do Android permitidas</string>
     <string name="notification_settings_system_off">Notificações do Android bloqueadas</string>
-    <string name="notification_settings_system_detail">O Android controla a permissão, a tela de bloqueio, o som e a vibração, inclusive para notificações administrativas e de serviço. O UNYRI não pode substituir suas escolhas do sistema.</string>
+    <string name="notification_settings_system_detail">Escolha um canal de mensagens ou chamadas no Android para ajustar som e vibração.</string>
     <string name="notification_settings_allow">Permitir notificações</string>
     <string name="notification_settings_system_open">Abrir configurações de notificações do Android</string>
     <string name="local_mode_notifications">Permitir notificações</string>

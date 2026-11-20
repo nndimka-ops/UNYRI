@@ -36,7 +36,7 @@ data class PublicUserDto(
     @SerialName("public_username") val publicUsername: String? = null,
 ) {
     init { HostileWire.nonnegative(profileVersion); HostileWire.nonnegative(avatarVersion) }
-    val visibleName: String get() = com.messenger.app.domain.model.DisplayNameSanitizer.peer(displayName, username)
+    val visibleName: String get() = com.messenger.app.domain.model.DisplayNameSanitizer.display(displayName, com.messenger.app.data.identity.PeerIdentityPolicy.handle(publicUsername, publicNumber).ifEmpty { com.messenger.app.domain.model.DisplayNameSanitizer.unknownUser })
 }
 
 @Serializable

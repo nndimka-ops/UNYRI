@@ -4,10 +4,10 @@
     <string name="chat_show_earlier_calls">Показать звонки до этого входа</string>
     <string name="chat_hide_earlier_calls">Скрыть звонки до этого входа</string>
     <string name="settings_account_summary">Профиль, сервер, удаление аккаунта</string>
-    <string name="settings_appearance_summary">Язык и навигация</string>
-    <string name="settings_privacy_summary">Устройства, активность и черновик</string>
+    <string name="settings_appearance_summary">Тема, текст и боковая панель</string>
+    <string name="settings_privacy_summary">Видимость, устройства и ключ восстановления</string>
     <string name="settings_storage_summary">Память и загрузка медиа</string>
-    <string name="settings_about_summary">Поддержка, диагностика и условия</string>
+    <string name="settings_about_summary">О проекте и правовые документы</string>
     <string name="chat_pin_action">Закрепить у себя</string>
     <string name="chat_select_loaded">Выбрать все загруженные</string>
     <string name="chat_open">Открыть чат</string>

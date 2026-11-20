@@ -347,12 +347,15 @@ final class MessageStore {
         case openFailed
         case stepFailed
         case bindingFailed
+        case sqliteFailed(operation: String, code: Int32, extendedCode: Int32, message: String)
 
         var errorDescription: String? {
             switch self {
             case .openFailed: return "Could not open the local message store."
             case .stepFailed: return "Local message store query failed."
             case .bindingFailed: return "Local message store write failed."
+            case let .sqliteFailed(operation, code, extendedCode, message):
+                return "Local message store \(operation) failed (SQLite \(code)/\(extendedCode)): \(message)"
             }
         }
     }
@@ -360,6 +363,7 @@ final class MessageStore {
     private var db: OpaquePointer?
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
+    private lazy var erasureCheckpoint = MessageErasureCheckpoint(url: databaseURL)
     private let databaseURL: URL
     private let readQueue = DispatchQueue(label: "unyri.messages.read", qos: .userInitiated)
     private var reader: MessageStore?
@@ -389,9 +393,15 @@ final class MessageStore {
         var handle: OpaquePointer?
         let flags = (readOnly ? SQLITE_OPEN_READONLY : SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE) | SQLITE_OPEN_FULLMUTEX
         guard sqlite3_open_v2(databaseURL.path, &handle, flags, nil) == SQLITE_OK else {
-            throw StoreError.openFailed
+            let error = sqliteFailure("open", handle: handle)
+            if let handle { sqlite3_close(handle) }
+            throw error
         }
         db = handle
+        guard sqlite3_exec(handle, "PRAGMA secure_delete=ON;", nil, nil, nil) == SQLITE_OK else {
+            let error = sqliteFailure("secure delete", handle: handle)
+            sqlite3_close(handle); db = nil; throw error
+        }
         sqlite3_busy_timeout(handle, 1000)
         if readOnly {
             sqlite3_busy_timeout(handle, 1000)
@@ -479,6 +489,8 @@ final class MessageStore {
                 notification_batch_alert INTEGER
             );
             CREATE INDEX IF NOT EXISTS idx_pending_decrypts_sender ON pending_decrypts(sender_id);
+            CREATE INDEX IF NOT EXISTS idx_pending_decrypts_retry ON pending_decrypts(sequence,client_message_id) WHERE COALESCE(last_error_class,'') NOT IN ('permanent_duplicate','permanent_malformed_ciphertext','permanent_unsupported_type');
+            CREATE INDEX IF NOT EXISTS idx_pending_decrypts_sender_retry ON pending_decrypts(sender_id,sequence,client_message_id) WHERE COALESCE(last_error_class,'') NOT IN ('permanent_duplicate','permanent_malformed_ciphertext','permanent_unsupported_type');
             """
         )
         // Forward-compatible column migration for databases created before the
@@ -497,6 +509,69 @@ final class MessageStore {
         try ensureColumn(table: "messages", column: "pending_edit_revision", definition: "INTEGER NOT NULL DEFAULT 0")
         try ensureColumn(table: "messages", column: "send_attempted", definition: "INTEGER NOT NULL DEFAULT 0")
         try execute("CREATE INDEX IF NOT EXISTS idx_messages_ui_tail ON messages(chat_id, created_at DESC, COALESCE(sequence,9223372036854775807) DESC, client_message_id DESC) WHERE kind='content' AND hidden_locally=0 AND delete_sequence=0;")
+
+        // Install the erasure boundary atomically with respect to other writers.
+        try execute("BEGIN IMMEDIATE;")
+        do {
+            // Scrub the persisted projection at the DB boundary, including restore,
+            // sync, local hide and optimistic deletion paths. Retain identity/sequence
+            // tombstones so old lifecycle events cannot restore erased plaintext.
+            // The journal needs an explicit UPSERT: an outer message UPSERT overrides
+            // a trigger's legacy OR REPLACE policy when the cleanup key already exists.
+            for operation in ["INSERT", "UPDATE"] {
+                // Replace the previous trigger on existing installations too.
+                try execute("DROP TRIGGER IF EXISTS erase_message_content_\(operation);")
+                try execute("""
+                    CREATE TRIGGER erase_message_content_\(operation)
+                    AFTER \(operation) ON messages
+                    WHEN (NEW.hidden_locally=1 OR NEW.delete_sequence>0) AND
+                      (NEW.content_json IS NOT '{"kind":"delete"}' OR NEW.payload_text IS NOT NULL OR NEW.pending_edit_text IS NOT NULL OR NEW.pending_edit_revision<>0)
+                    BEGIN
+                      INSERT INTO chat_workspace(chat_id,name,value)
+                        VALUES(NEW.chat_id,'restore_cleanup:' || NEW.client_message_id,'1')
+                        ON CONFLICT(chat_id,name) DO UPDATE SET value=excluded.value;
+                      DELETE FROM chat_workspace WHERE chat_id=NEW.chat_id AND name='restore_attachment:' || NEW.client_message_id;
+                      UPDATE messages SET content_json='{"kind":"delete"}',payload_text=NULL,pending_edit_text=NULL,pending_edit_revision=0
+                        WHERE client_message_id=NEW.client_message_id;
+                      DELETE FROM pending_decrypts WHERE client_message_id=NEW.client_message_id;
+                      UPDATE messages SET content_json='{"kind":"delete"}',payload_text=NULL,pending_edit_text=NULL,pending_edit_revision=0
+                        WHERE chat_id=NEW.chat_id AND target_message_id=NEW.server_id AND kind='edit';
+                      UPDATE messages SET content_json=json_remove(content_json,'$.reply_snapshot'),payload_text=NULL
+                        WHERE chat_id=NEW.chat_id AND target_message_id=NEW.server_id AND kind='content' AND json_valid(content_json);
+                    END;
+                    """)
+            }
+            // Clearing a bounded history can physically remove a target while a
+            // later reply survives. Erase only its quoted snapshot, not its own text.
+            try execute("DROP TRIGGER IF EXISTS erase_deleted_target_snapshot;")
+            try execute("""
+                CREATE TRIGGER erase_deleted_target_snapshot AFTER DELETE ON messages
+                BEGIN
+                  DELETE FROM pending_decrypts WHERE client_message_id=OLD.client_message_id;
+                  UPDATE messages SET content_json=json_remove(content_json,'$.reply_snapshot'),payload_text=NULL
+                    WHERE chat_id=OLD.chat_id AND target_message_id=OLD.server_id AND kind='content' AND json_valid(content_json);
+                  UPDATE messages SET content_json='{"kind":"delete"}',payload_text=NULL,pending_edit_text=NULL
+                    WHERE chat_id=OLD.chat_id AND target_message_id=OLD.server_id AND kind='edit';
+                END;
+                """)
+            for operation in ["INSERT", "UPDATE"] {
+                try execute("DROP TRIGGER IF EXISTS erase_late_reply_snapshot_\(operation);")
+                try execute("""
+                    CREATE TRIGGER erase_late_reply_snapshot_\(operation) AFTER \(operation) ON messages
+                    WHEN NEW.kind='content' AND CASE WHEN json_valid(NEW.content_json) THEN json_type(NEW.content_json,'$.reply_snapshot') IS NOT NULL ELSE 0 END
+                      AND EXISTS(SELECT 1 FROM messages target WHERE target.server_id=NEW.target_message_id AND target.chat_id=NEW.chat_id AND (target.hidden_locally=1 OR target.delete_sequence>0))
+                    BEGIN
+                      UPDATE messages SET content_json=json_remove(content_json,'$.reply_snapshot'),payload_text=NULL WHERE client_message_id=NEW.client_message_id;
+                    END;
+                    """)
+            }
+            try execute("UPDATE messages SET content_json=content_json WHERE hidden_locally=1 OR delete_sequence>0;")
+            try execute("COMMIT;")
+        } catch {
+            try? execute("ROLLBACK;")
+            throw error
+        }
+        erasureCheckpoint.request()
 
         // One-time conservative backfill: a pending row that predates this
         // schema may already have been POSTed, so it must not be treated as a
@@ -1444,6 +1519,7 @@ final class MessageStore {
             let removed = "SELECT server_id FROM messages WHERE sequence IS NOT NULL AND sequence <= (SELECT CAST(value AS INTEGER) FROM chat_workspace WHERE chat_id='__server_history__' AND name='cleared_through_sequence')"
             try execute("DELETE FROM reactions WHERE target_message_id IN (\(removed));")
             try execute("DELETE FROM messages WHERE sequence IS NOT NULL AND sequence <= (SELECT CAST(value AS INTEGER) FROM chat_workspace WHERE chat_id='__server_history__' AND name='cleared_through_sequence');")
+            try execute("DELETE FROM pending_decrypts WHERE sequence <= (SELECT CAST(value AS INTEGER) FROM chat_workspace WHERE chat_id='__server_history__' AND name='cleared_through_sequence');")
             try execute("COMMIT;")
         } catch { try? execute("ROLLBACK;"); throw error }
         return touched
@@ -1542,7 +1618,7 @@ final class MessageStore {
         do {
             for sql in [
                 "DELETE FROM reactions WHERE target_message_id IN (SELECT server_id FROM messages WHERE chat_id=?);",
-                "DELETE FROM messages WHERE chat_id=?;", "DELETE FROM call_activity WHERE chat_id=?;", "DELETE FROM chat_workspace WHERE chat_id=?;",
+                "DELETE FROM messages WHERE chat_id=?;", "DELETE FROM pending_decrypts WHERE chat_id=?;", "DELETE FROM call_activity WHERE chat_id=?;", "DELETE FROM chat_workspace WHERE chat_id=?;",
                 "DELETE FROM local_read_receipts WHERE chat_id=?;", "DELETE FROM peer_receipts WHERE chat_id=?;"
             ] {
                 try withStatement(sql) { stmt in
@@ -2639,7 +2715,7 @@ final class MessageStore {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(client_message_id) DO UPDATE SET
                 ciphertext = excluded.ciphertext,
-                retry_count = excluded.retry_count,
+                retry_count = MAX(pending_decrypts.retry_count, excluded.retry_count),
                 last_error_class = excluded.last_error_class,
                 notification_batch_alert = COALESCE(pending_decrypts.notification_batch_alert, excluded.notification_batch_alert);
             """
@@ -2671,7 +2747,7 @@ final class MessageStore {
     }
 
     func bumpPendingDecrypt(clientMessageId: String, retryCount: Int, lastErrorClass: String?) throws {
-        try withStatement("UPDATE pending_decrypts SET retry_count = ?, last_error_class = ? WHERE client_message_id = ?;") { stmt in
+        try withStatement("UPDATE pending_decrypts SET retry_count = ?, last_error_class = COALESCE(?, last_error_class) WHERE client_message_id = ?;") { stmt in
             sqlite3_bind_int64(stmt, 1, Int64(retryCount))
             try bindOptionalText(stmt, 2, lastErrorClass)
             try bindText(stmt, 3, clientMessageId)
@@ -2701,6 +2777,55 @@ final class MessageStore {
         return result
     }
 
+    private struct PendingDecryptRetryCursor: Codable {
+        let sequence: Int64
+        let clientMessageId: String
+    }
+
+    /// A durable round-robin cursor, independent of diagnostic retry counts.
+    /// Two indexed, limited ranges wrap once without materializing the queue.
+    func pendingDecryptRetryBatch(senderId: String?, limit: Int = 128) throws -> [PendingDecrypt] {
+        guard (1...128).contains(limit) else { throw StoreError.stepFailed }
+        let name = senderId.map { "sender:" + $0 } ?? "all"
+        let saved = try chatValue(chatId: "__decrypt_retry__", name: name)
+        // An unreadable cursor restarts the rotation instead of stalling automatic retries.
+        let cursor = saved.flatMap { try? JSONDecoder().decode(PendingDecryptRetryCursor.self, from: Data($0.utf8)) }
+        let columns = "client_message_id, server_id, chat_id, sender_id, sender_device_id, sequence, created_at, message_type, ciphertext, kind, target_message_id, retry_count, last_error_class, notification_batch_alert"
+        let eligible = "COALESCE(last_error_class,'') NOT IN ('permanent_duplicate','permanent_malformed_ciphertext','permanent_unsupported_type')"
+        var result: [PendingDecrypt] = []
+        for wrapping in [false, true] {
+            if wrapping && (cursor == nil || result.count == limit) { break }
+            var sql = "SELECT \(columns) FROM pending_decrypts WHERE \(eligible)"
+            if senderId != nil { sql += " AND sender_id = ?" }
+            if cursor != nil { sql += wrapping ? " AND (sequence,client_message_id) <= (?,?)" : " AND (sequence,client_message_id) > (?,?)" }
+            sql += " ORDER BY sequence ASC, client_message_id ASC LIMIT ?;"
+            try withStatement(sql) { stmt in
+                var index: Int32 = 1
+                if let senderId { try bindText(stmt, index, senderId); index += 1 }
+                if let cursor {
+                    sqlite3_bind_int64(stmt, index, cursor.sequence); index += 1
+                    try bindText(stmt, index, cursor.clientMessageId); index += 1
+                }
+                sqlite3_bind_int64(stmt, index, Int64(limit - result.count))
+                var step = sqlite3_step(stmt)
+                while step == SQLITE_ROW {
+                    result.append(try decodePendingDecrypt(stmt))
+                    step = sqlite3_step(stmt)
+                }
+                guard step == SQLITE_DONE else { throw StoreError.stepFailed }
+            }
+        }
+        return result
+    }
+
+    /// Save before the attempt: cancellation, a storage error or a process exit
+    /// must not repeatedly pin the head of the next automatic batch.
+    func advancePendingDecryptRetryCursor(_ entry: PendingDecrypt, senderId: String?) throws {
+        let cursor = PendingDecryptRetryCursor(sequence: entry.sequence, clientMessageId: entry.clientMessageId)
+        let value = String(decoding: try JSONEncoder().encode(cursor), as: UTF8.self)
+        try saveChatValue(chatId: "__decrypt_retry__", name: senderId.map { "sender:" + $0 } ?? "all", value: value)
+    }
+
     private func decodePendingDecrypt(_ stmt: OpaquePointer) throws -> PendingDecrypt {
         var pending = PendingDecrypt(
             clientMessageId: String(cString: sqlite3_column_text(stmt, 0)),
@@ -2723,12 +2848,19 @@ final class MessageStore {
 
     // MARK: - Helpers
 
+    // Capture before finalize/rollback replaces the connection's diagnostic.
+    // SQLite reports the engine error, never our SQL, bindings or message bodies.
+    private func sqliteFailure(_ operation: String, handle: OpaquePointer? = nil) -> StoreError {
+        let connection = handle ?? db
+        return .sqliteFailed(operation: operation, code: sqlite3_errcode(connection),
+            extendedCode: sqlite3_extended_errcode(connection), message: String(cString: sqlite3_errmsg(connection)))
+    }
+
     private func execute(_ sql: String) throws {
-        var errorMessage: UnsafeMutablePointer<CChar>?
-        guard sqlite3_exec(db, sql, nil, nil, &errorMessage) == SQLITE_OK else {
-            sqlite3_free(errorMessage)
-            throw StoreError.openFailed
+        guard sqlite3_exec(db, sql, nil, nil, nil) == SQLITE_OK else {
+            throw sqliteFailure("execute")
         }
+        if sql.contains("DELETE FROM") { erasureCheckpoint.request() }
     }
 
     private func withStatement(
@@ -2737,10 +2869,24 @@ final class MessageStore {
     ) throws {
         var stmt: OpaquePointer?
         guard sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK, let stmt else {
-            throw StoreError.stepFailed
+            let error = sqliteFailure("prepare")
+            if let stmt { sqlite3_finalize(stmt) }
+            throw error
         }
         defer { sqlite3_finalize(stmt) }
-        try body(stmt)
+        do {
+            try body(stmt)
+        } catch StoreError.stepFailed {
+            let code = sqlite3_errcode(db)
+            if code != SQLITE_OK && code != SQLITE_ROW && code != SQLITE_DONE {
+                throw sqliteFailure("step")
+            }
+            throw StoreError.stepFailed
+        }
+        if sql.contains("DELETE FROM") || (sql.contains("UPDATE messages") &&
+            (sql.contains("delete_sequence") || sql.contains("hidden_locally"))) {
+            erasureCheckpoint.request()
+        }
     }
 
     private func decodeRow(_ stmt: OpaquePointer) throws -> DecryptedChatMessage {
@@ -2850,4 +2996,61 @@ final class MessageStore {
             sqlite3_bind_null(stmt, index)
         }
     }
+}
+
+/// Debounced WAL truncation on a separate connection; no recurring timer or UI work.
+private final class MessageErasureCheckpoint: @unchecked Sendable {
+    private let url: URL
+    private let lock = NSLock()
+    private var revision: UInt64 = 0
+    private var pending: DispatchWorkItem?
+    init(url: URL) { self.url = url }
+    func request(attempt: Int = 0) {
+        lock.lock()
+        // A durable, content-free marker survives process death and a busy WAL.
+        // A later writable open calls request again; no idle poll is installed.
+        let marker = URL(fileURLWithPath: url.path + ".erase-pending")
+        if FileManager.default.fileExists(atPath: url.path), !FileManager.default.fileExists(atPath: marker.path) {
+            try? Data([1]).write(to: marker, options: .atomic)
+        }
+        revision &+= 1
+        let ticket = revision
+        pending?.cancel()
+        let work = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            self.lock.lock()
+            let current = self.revision == ticket
+            self.lock.unlock()
+            guard current else { return }
+            // READWRITE without CREATE: an account wipe can never resurrect its DB.
+            var db: OpaquePointer?
+            guard sqlite3_open_v2(self.url.path, &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX, nil) == SQLITE_OK else {
+                if let db { sqlite3_close(db) }; return
+            }
+            defer { sqlite3_close(db) }
+            sqlite3_busy_timeout(db, 1000)
+            // A fresh handle has not opened the WAL yet. Without a completed
+            // schema read, checkpoint can return OK with -1/-1 and do no work.
+            guard sqlite3_exec(db, "PRAGMA secure_delete=ON;", nil, nil, nil) == SQLITE_OK,
+                  sqlite3_exec(db, "SELECT name FROM sqlite_master LIMIT 1;", nil, nil, nil) == SQLITE_OK else { return }
+            var logFrames: Int32 = -1
+            var checkpointedFrames: Int32 = -1
+            let status = sqlite3_wal_checkpoint_v2(db, "main", SQLITE_CHECKPOINT_TRUNCATE, &logFrames, &checkpointedFrames)
+            self.lock.lock()
+            let stillCurrent = self.revision == ticket
+            if status == SQLITE_OK, logFrames >= 0, checkpointedFrames >= 0, stillCurrent {
+                try? FileManager.default.removeItem(at: marker)
+            }
+            self.lock.unlock()
+            // Bounded retries only while deletion work is pending. Long readers
+            // keep the marker until another real deletion or writable open.
+            if stillCurrent, [SQLITE_BUSY, SQLITE_LOCKED].contains(status), attempt < 2 {
+                self.request(attempt: attempt + 1)
+            }
+        }
+        pending = work
+        lock.unlock()
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 0.6, execute: work)
+    }
+    deinit { pending?.cancel() }
 }

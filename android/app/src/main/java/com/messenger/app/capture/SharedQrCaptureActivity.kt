@@ -13,7 +13,7 @@ class SharedQrCaptureActivity : CaptureActivity() {
     override fun initializeContent(): DecoratedBarcodeView = super.initializeContent().also { scanner = it }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        com.messenger.app.security.ScreenshotPrivacy.apply(this)
         super.onCreate(savedInstanceState)
         // initializeFromIntent installs its CameraSettings during super.onCreate.
         // Configure afterwards, before onResume opens the camera. ZXing falls

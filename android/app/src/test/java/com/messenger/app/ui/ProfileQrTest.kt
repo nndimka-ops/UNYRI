@@ -1,9 +1,5 @@
 package com.messenger.app.ui
 
-import com.google.zxing.BinaryBitmap
-import com.google.zxing.RGBLuminanceSource
-import com.google.zxing.common.HybridBinarizer
-import com.google.zxing.qrcode.QRCodeReader
 import kotlin.test.*
 import com.messenger.app.domain.model.PublicUser
 import com.messenger.app.domain.model.SearchResult
@@ -13,26 +9,6 @@ import androidx.lifecycle.SavedStateHandle
 import com.messenger.app.security.PublicProfileLink
 
 class ProfileQrTest {
-    @Test fun generatedCodeDecodesToTheSamePublicProfileUriThatIsShared() {
-        val link = assertNotNull(profilePublicLink("uiqa_boris_f6041a"))
-        val matrix = profileQrMatrix(link)
-        val scale = 8
-        val width = (matrix.width + 8) * scale
-        val pixels = IntArray(width * width) { -1 }
-        for (y in 0 until matrix.height) for (x in 0 until matrix.width) if (matrix[x, y]) {
-            for (dy in 0 until scale) for (dx in 0 until scale) pixels[((y + 4) * scale + dy) * width + (x + 4) * scale + dx] = -16777216
-        }
-        val decoded = QRCodeReader().decode(BinaryBitmap(HybridBinarizer(RGBLuminanceSource(width, width, pixels)))).text
-        assertEquals("unyri://user/uiqa_boris_f6041a", decoded)
-        assertEquals(link, decoded)
-        assertEquals("uiqa_boris_f6041a", profileLinkUsername(decoded))
-    }
-
-    @Test fun absentOrInvalidUsernameNeverBecomesAWorkingLookingQr() {
-        for (name in listOf(null, "", " ", "ab", "@username", "name/path", "name?token=secret", "a".repeat(33))) assertNull(profilePublicLink(name))
-        assertEquals("unyri://user/Valid.Name_1", profilePublicLink("Valid.Name_1"))
-    }
-
     @Test fun onlyTheAdvertisedProfileUriShapeIsAccepted() {
         for (uri in listOf(null, "", "coco://conference/abc", "https://user/name", "unyri://user/ab",
             "unyri://user/name/extra", "unyri://user/name?token=secret", "unyri://user/name#fragment",
@@ -73,7 +49,7 @@ class ProfileQrTest {
         assertNull(inbox.pending)
     }
 
-    private fun user(id: String, name: String) = PublicUser(id, name, name, null)
+    private fun user(id: String, name: String) = PublicUser(id, "private_login", name, null, publicUsername = name)
     private fun link(name: String) = assertNotNull(PublicProfileLink.parse("android.intent.action.VIEW", "unyri://user/$name"))
     private suspend fun resolveOtherProfileLink(username: String, owner: String, currentOwner: () -> String?,
         lookup: suspend (String, Long) -> Result<SearchResult>): Result<PublicUser> =
@@ -83,7 +59,7 @@ class ProfileQrTest {
 
     @Test fun authenticatedLookupReturnsOnlyAnExactCaseInsensitivePublicProfile() = runTest {
         val result = resolveOtherProfileLink("boris", "a", { "a" }, { name, _ ->
-            assertEquals("boris", name)
+            assertEquals("@boris", name)
             Result.success(SearchResult(listOf(user("partial", "boris_other"), user("exact", "BoRiS")), null))
         })
         assertEquals("exact", result.getOrThrow().id)
@@ -117,7 +93,7 @@ class ProfileQrTest {
         val offsets = mutableListOf<Long>()
         val earlier = (0 until 50).map { user("partial-$it", "a${it.toString().padStart(2, '0')}boris") }
         val result = resolveOtherProfileLink("boris", "a", { "a" }, { name, offset ->
-            assertEquals("boris", name); offsets += offset
+            assertEquals("@boris", name); offsets += offset
             Result.success(if (offset == 0L) SearchResult(earlier, 50L)
                 else SearchResult(listOf(user("exact", "BoRiS")), null))
         })

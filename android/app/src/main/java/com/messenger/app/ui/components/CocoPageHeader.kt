@@ -16,13 +16,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.constrainHeight
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import com.messenger.app.ui.theme.LocalCocoColors
 
 /**
- * Inset-free page heading. Equal space on both sides keeps the title centered
- * in the whole page, even when only one side has controls. Callers own every
- * navigation guard, action, and system inset. Text may wrap at large font sizes.
+ * Inset-free heading. Prefer page centering, then the space between controls,
+ * then a full-width title above the controls, according to its longest word.
+ * Callers own navigation guards, actions and insets. Titles wrap between words.
  */
 @Composable
 internal fun CocoPageHeader(
@@ -54,19 +55,17 @@ internal fun CocoPageHeader(
         val leading = measurables[0].measure(loose)
         val trailing = measurables[2].measure(loose)
         val gap = 8.dp.roundToPx()
-        val symmetricSide = maxOf(leading.width, trailing.width)
-        val inlineTitleWidth = (width - 2 * (symmetricSide + if (symmetricSide > 0) gap else 0)).coerceAtLeast(0)
-        // Wide translated actions get their own row instead of covering the
-        // heading or shrinking Back/Save/Delete below their existing targets.
-        val actionsBelow = trailing.width > 0 && inlineTitleWidth < 112.dp.roundToPx()
-        val titleSide = if (actionsBelow) leading.width else symmetricSide
-        val titleWidth = (width - 2 * (titleSide + if (titleSide > 0) gap else 0)).coerceAtLeast(0)
-        val heading = measurables[1].measure(loose.copy(minWidth = titleWidth, maxWidth = titleWidth))
-        val rowHeight = maxOf(leading.height, heading.height, if (actionsBelow) 0 else trailing.height)
-        val actionHeight = if (actionsBelow) gap + trailing.height else 0
+        val placement = pageHeaderPlacement(
+            width, leading.width, trailing.width, gap,
+            measurables[1].minIntrinsicWidth(Constraints.Infinity),
+        )
+        val actionsBelow = placement.mode == PageHeaderMode.ActionsBelow
+        val heading = measurables[1].measure(loose.copy(minWidth = placement.titleWidth, maxWidth = placement.titleWidth))
+        val rowHeight = if (actionsBelow) heading.height else maxOf(leading.height, heading.height, trailing.height)
+        val actionHeight = if (actionsBelow) gap + maxOf(leading.height, trailing.height) else 0
         layout(width, constraints.constrainHeight(rowHeight + actionHeight)) {
-            leading.placeRelative(0, (rowHeight - leading.height) / 2)
-            heading.placeRelative((width - heading.width) / 2, (rowHeight - heading.height) / 2)
+            leading.placeRelative(0, if (actionsBelow) rowHeight + gap else (rowHeight - leading.height) / 2)
+            heading.placeRelative(placement.titleStart, (rowHeight - heading.height) / 2)
             trailing.placeRelative(width - trailing.width,
                 if (actionsBelow) rowHeight + gap else (rowHeight - trailing.height) / 2)
         }

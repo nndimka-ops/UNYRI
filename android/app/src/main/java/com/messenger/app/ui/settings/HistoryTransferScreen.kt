@@ -47,8 +47,7 @@ fun HistoryTransferScreen(session:HistoryKeySettingsSession,receive:Boolean,call
     val scope=rememberCoroutineScope()
     val context=androidx.compose.ui.platform.LocalContext.current
     val transferApp=context.applicationContext as com.messenger.app.MessengerApp
-    val transferAuth by transferApp.authRepository.authState.collectAsState()
-    val transferUser=(transferAuth as? com.messenger.app.domain.model.AuthSessionState.LoggedIn)?.user
+    val transferIdentity by transferApp.identityRepository.identity.collectAsState()
     val serverLabel=android.net.Uri.parse(com.messenger.app.data.api.ServerEndpoint.current()).host.orEmpty()
     var qr by remember { mutableStateOf<HistoryTransferQR?>(null) }
     var record by remember { mutableStateOf<HistoryTransferRecord?>(null) }
@@ -179,7 +178,7 @@ fun HistoryTransferScreen(session:HistoryKeySettingsSession,receive:Boolean,call
     SettingsScaffold(stringResource(R.string.history_transfer_entry_heading),onClose, compactHeader = true,
         end = { SettingsDialogButton(onClick = onDone ?: onClose) { Text(stringResource(R.string.done)) } }) {
         Column(Modifier.fillMaxSize().imePadding().verticalScroll(rememberScrollState()).padding(bottom=16.dp),verticalArrangement=Arrangement.spacedBy(16.dp)) {
-            HistoryTransferSummary(transferUser?.username.orEmpty(), serverLabel)
+            HistoryTransferSummary(com.messenger.app.data.identity.PeerIdentityPolicy.handle(transferIdentity?.username, transferIdentity?.number), serverLabel)
             if(!done)Text(stringResource(R.string.history_transfer_direction),style=MaterialTheme.typography.bodySmall)
             HistorySettingsCard {
             Text(stringResource(when {
@@ -338,7 +337,7 @@ internal fun HistoryTransferPreparationScreen(username: String, server: String, 
 private fun HistoryTransferSummary(username: String, server: String) {
     val colors = com.messenger.app.ui.theme.LocalCocoColors.current
     HistorySettingsCard {
-        listOf(R.string.history_transfer_account_label to if (username.isBlank()) stringResource(R.string.chats_unknown_user) else "@${username.removePrefix("@")}",
+        listOf(R.string.history_transfer_account_label to if (username.isBlank()) stringResource(R.string.chats_unknown_user) else username,
             R.string.history_transfer_server_label to server).forEach { (label, value) ->
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text(stringResource(label), Modifier.weight(1f), color = colors.secondaryText, fontSize = 12.sp)

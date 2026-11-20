@@ -53,7 +53,7 @@ struct UserAvatar: View {
                     data = bytes
                 }
                 guard data.count <= 3 * 1024 * 1024,
-                      let source = CGImageSourceCreateWithData(data as CFData, nil),
+                      let source = PeerImagePolicy.source(data: data),
                       let thumbnail = CGImageSourceCreateThumbnailAtIndex(source, 0, [
                         kCGImageSourceCreateThumbnailFromImageAlways: true,
                         kCGImageSourceCreateThumbnailWithTransform: true,

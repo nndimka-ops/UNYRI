@@ -48,8 +48,8 @@ let ringingJSON = """
  "accepted_at":null,"connected_at":null,"ended_at":null}
 """
 
-func check(_ condition: @autoclosure () -> Bool, _ description: String) {
-    guard condition() else { fatalError(description) }
+func check(_ condition: @autoclosure () -> Bool, _ description: String, file: StaticString = #file, line: UInt = #line) {
+    guard condition() else { fatalError(description, file: file, line: line) }
 }
 
 let ringing = try decoder.decode(CallDTO.self, from: Data(ringingJSON.utf8))
@@ -60,11 +60,14 @@ peerPayload["peer"] = ["id":ringing.calleeUserId.uuidString,"username":"fixture_
     "profile_version":1,"avatar_version":0,"has_avatar":false]
 let namedCall = try decoder.decode(CallDTO.self,from:JSONSerialization.data(withJSONObject:peerPayload))
 check(namedCall.validatedPeer(owner:ringing.callerUserId)?.displayName == "Fixture Peer", "Calls receive peer name independently of local chat list")
+check(namedCall.peer?.username.isEmpty == true, "Legacy call peer credential is discarded on decode")
+let cleanCallBytes = try JSONEncoder().encode(namedCall)
+check(!String(decoding: cleanCallBytes, as: UTF8.self).contains("fixture_peer"), "New call cache writes exclude legacy login")
 check(namedCall.validatedPeer(owner:ringing.calleeUserId) == nil && namedCall.validatedPeer(owner:UUID()) == nil, "Cached peer identity must match the current owner's other participant")
 check(CallActivityPolicy.merged(namedCall,ringing).peer == namedCall.peer, "Lifecycle endpoints without peer retain the validated cached public profile")
-check(CallPeerTitlePolicy.title(displayName:"  Fixture Peer  ",username:"fixture_peer",unknown:"Unknown user") == "Fixture Peer", "Title uses trimmed display name")
-check(CallPeerTitlePolicy.title(displayName:"  ",username:"fixture_peer",unknown:"Unknown user") == "@fixture_peer", "Empty display name falls back to handle")
-check(CallPeerTitlePolicy.title(displayName:nil,username:nil,unknown:"Unknown user") == "Unknown user", "Unknown title does not duplicate a call outcome")
+check(CallPeerTitlePolicy.title(displayName:"  Fixture Peer  ",publicIdentity:"@fixture_peer",unknown:"Unknown user") == "Fixture Peer", "Title uses trimmed display name")
+check(CallPeerTitlePolicy.title(displayName:"  ",publicIdentity:"@fixture_peer",unknown:"Unknown user") == "@fixture_peer", "Empty display name falls back to public identity")
+check(CallPeerTitlePolicy.title(displayName:nil,publicIdentity:nil,unknown:"Unknown user") == "Unknown user", "Unknown title does not duplicate a call outcome")
 check(!CallActivityPolicy.eligible(ringing, owner: ringing.callerUserId, since: .distantFuture), "Unknown device history boundary fails closed")
 check(!CallActivityPolicy.eligible(ringing, owner: UUID(), since: .distantPast), "Other account cannot project call activity")
 var canonical = ringing
@@ -107,6 +110,24 @@ check(saved.count == 1, "repeated pages deduplicate by call ID")
 let reopened = CallHistoryStore(file: directory.appendingPathComponent("calls.json"))
 let restored = try await reopened.load()
 check(restored == saved, "call history survives restart")
+// B-033 upgrades both historical file shapes without losing call rows or peers.
+var oldCall = try JSONSerialization.jsonObject(with: JSONEncoder().encode(namedCall)) as! [String: Any]
+var oldPeer = oldCall["peer"] as! [String: Any]
+oldPeer["username"] = "private_login_b033_fixture"; oldCall["peer"] = oldPeer
+let legacySnapshot: [String: Any] = ["rows": [oldCall], "restoredIds": [String]()]
+let legacyFiles: [(String, Any)] = [("array", [oldCall]), ("snapshot", legacySnapshot)]
+for (name, object) in legacyFiles {
+    let file = directory.appendingPathComponent("b033-\(name).json")
+    try JSONSerialization.data(withJSONObject: object).write(to: file)
+    let legacyStore = CallHistoryStore(file: file)
+    let migratedRows = try await legacyStore.load()
+    check(migratedRows.first?.peer?.displayName == "Fixture Peer" && migratedRows.first?.peer?.username.isEmpty == true,
+          "Call cache upgrade preserves public name and removes a stored login")
+    let clean = try Data(contentsOf: file)
+    check(!String(decoding: clean, as: UTF8.self).contains("private_login_b033_fixture"), "Call cache upgrade removes login bytes from disk")
+    let marker = try JSONSerialization.jsonObject(with: clean) as! [String: Any]
+    check(marker["peerPrivacyVersion"] as? Int == 1, "Call cache upgrade records one-time privacy migration")
+}
 let deletionStore = CallHistoryStore(file: directory.appendingPathComponent("deleted-calls.json"))
 _ = try await deletionStore.merge([missed])
 _ = try await deletionStore.remove(ids: [missed.id], cursor: 10)

@@ -59,6 +59,7 @@ struct InlineChatSearchView: View, Equatable {
     @State private var retry = 0
     @State private var pageRequest = 0
     @State private var handledPage = 0
+    @State private var legacyIdentityServer = false
     @ScaledMetric(relativeTo: .body) private var rowHeight: CGFloat = 80
     private var term: String { SearchPresentation.query(query) }
     private var sections: [SearchSection] { SearchPresentation.sections(localCount: localPeople.count, messageCount: hits.count, query: term) }
@@ -90,6 +91,7 @@ struct InlineChatSearchView: View, Equatable {
         .task(id: requestID) { await search() }
         .task(id: requestID + "|page:\(pageRequest)") { await moreDirectory() }
         .onChange(of: active) { if !$0 { focusRequest = .dismiss(UUID()) } }
+        .onReceive(users.$legacyIdentityServer.removeDuplicates()) { legacyIdentityServer = $0 }
         .onDisappear { opening?.cancel(); opening = nil }
         .simultaneousGesture(DragGesture(minimumDistance: 30).onEnded { value in
             if value.startLocation.x < 24 && value.translation.width > 90 && abs(value.translation.height) < 60 { close() }
@@ -159,6 +161,7 @@ struct InlineChatSearchView: View, Equatable {
                 }.padding(.vertical, 12)
             }.accessibilityIdentifier("search-recent-people")
         }
+        if !recentPeople.isEmpty || !recentQueries.isEmpty {
         HStack {
             section("Recent")
             Spacer()
@@ -169,16 +172,17 @@ struct InlineChatSearchView: View, Equatable {
                 }.font(.caption).frame(minHeight: 44).accessibilityIdentifier("search-clear-history")
             }
         }
+        }
         ForEach(recentQueries, id: \.self) { value in
             Button { query = value; focusRequest = .focus(UUID()) } label: {
                 Label(value, systemImage: "clock").lineLimit(1).frame(maxWidth: .infinity, minHeight: 52, alignment: .leading)
             }.buttonStyle(.plain).foregroundStyle(UnyriColors.primaryText)
         }
         ForEach(recentPeople) { user in
-            Button { openPerson(user) } label: { InlineSearchPersonRow(user: user, title: user.visibleName, users: users, height: rowHeight) }
+            Button { openPerson(user) } label: { InlineSearchPersonRow(user: user, title: user.visibleName, users: users, height: rowHeight, legacyIdentityServer: legacyIdentityServer) }
                 .buttonStyle(.plain)
         }
-        if recentQueries.isEmpty && recentPeople.isEmpty { notice("Search saved chats and messages offline.") }
+        if recentQueries.isEmpty && recentPeople.isEmpty { notice("Search saved chats and messages offline. Find people on this server by number or @username.") }
         if openingError { notice("Could not open the conversation. Your search results are still here. Try tapping the person again.") }
     }
 
@@ -197,16 +201,16 @@ struct InlineChatSearchView: View, Equatable {
                     Button {
                         if let chat = person.chat { navigate(chat) }
                         else if let user = person.user { openPerson(user) }
-                    } label: { InlineSearchPersonRow(user: person.user, title: person.title, users: users, height: rowHeight) }
+                    } label: { InlineSearchPersonRow(user: person.user, title: person.title, users: users, height: rowHeight, legacyIdentityServer: legacyIdentityServer) }
                         .buttonStyle(.plain)
                 }
             }
             if sections.contains(.global) {
                 section("Global Search").accessibilityIdentifier("search-section-global")
-                notice("Search by name or @username. This query is sent to your server.")
+                notice("Search by number or @username. This query is sent to your server.")
                 if directoryLoading { ProgressView().frame(maxWidth: .infinity, minHeight: 36) }
                 ForEach(globalPeople) { user in
-                    Button { openPerson(user) } label: { InlineSearchPersonRow(user: user, title: user.visibleName, users: users, height: rowHeight) }
+                    Button { openPerson(user) } label: { InlineSearchPersonRow(user: user, title: user.visibleName, users: users, height: rowHeight, legacyIdentityServer: legacyIdentityServer) }
                         .buttonStyle(.plain)
                 }
                 if let directoryError {
@@ -321,7 +325,7 @@ struct InlineChatSearchView: View, Equatable {
         var people = local.map { InlineSearchPerson(id: $0.otherUser?.id ?? $0.chatId, title: chatTitle($0), user: $0.otherUser, chat: $0) }
         var known = Set(people.map(\.id))
         people += contacts.filter { known.insert($0.id).inserted }.map { InlineSearchPerson(id: $0.id, title: $0.visibleName, user: $0, chat: nil) }
-        let candidates = people.map { SearchCandidate(id: $0.id, title: $0.title, username: $0.user?.username ?? "") }
+        let candidates = people.map { SearchCandidate(id: $0.id, title: $0.title, username: $0.user?.publicIdentityLabel ?? "") }
         let ranked = await Task.detached(priority: .userInitiated) { SearchPresentation.ranked(candidates, query: value) }.value
         var found: [DecryptedChatMessage] = []
         do { found = try await messages.searchCachedMessages(query: value) }
@@ -524,12 +528,13 @@ private struct InlineSearchPersonRow: View {
     let title: String
     let users: UsersRepository
     let height: CGFloat
+    let legacyIdentityServer: Bool
     var body: some View {
         HStack(spacing: 12) {
             UserAvatar(url: user.flatMap { users.cachedAvatarURL(id: $0.id, avatarUrl: $0.avatarUrl, avatarVersion: $0.avatarVersion) }, name: title, size: 44)
             VStack(alignment: .leading, spacing: 3) {
                 Text(title).font(.body.weight(.medium)).lineLimit(1)
-                Text(user.map { $0.publicIdentityLabel } ?? UnyriL10n.string("Saved Messages"))
+                Text(user.map { $0.peerIdentityLabel(legacyServer: legacyIdentityServer) } ?? UnyriL10n.string("Saved Messages"))
                     .font(.caption).foregroundStyle(UnyriColors.secondaryText).lineLimit(1)
             }
             Spacer(minLength: 0)

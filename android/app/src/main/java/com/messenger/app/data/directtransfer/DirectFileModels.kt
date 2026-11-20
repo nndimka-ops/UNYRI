@@ -221,6 +221,6 @@ data class DirectFilePresentation(
     val mailboxClosed: Boolean = false,
 )
 
-internal val DIRECT_CONTROL_REASONS = setOf("network_waiting", "connection_lost", "direct_unavailable", "prefix_mismatch", "source_missing", "source_changed",
+internal val DIRECT_CONTROL_REASONS = setOf("network_waiting", "connection_lost", "direct_unavailable", "relay_unavailable", "peer_relay_unavailable", "prefix_mismatch", "source_missing", "source_changed",
     "disk_full", "integrity_failed", "busy", "queued", "call_in_progress", "reconnect_required", "security_error", "storage_error", "user_cancelled", "user_declined",
     "background", "disconnected", "no_direct_route", "integrity_mismatch", "expired", "retry", "verification_failed", "unsupported", "account_changed", "permission_denied")

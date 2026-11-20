@@ -575,6 +575,7 @@ private fun callFailureReasonRes(reason: CallFailureReason): Int = when (reason)
     CallFailureReason.DEVICE_RESTRICTED -> R.string.call_device_restricted
     CallFailureReason.BUSY -> R.string.call_line_busy
     CallFailureReason.RATE_LIMITED -> R.string.call_rate_limited
+    CallFailureReason.RELAY_UNAVAILABLE -> R.string.call_relay_unavailable
 }
 
 @Composable
@@ -959,6 +960,7 @@ fun ActiveCallScreen(
     terminal: Boolean = false,
 ) = CallTheme {
     val colors = LocalCocoColors.current
+    val liveControls = CallPresentationPolicy.controlsVisible(controlsAvailable, terminal)
     val videoCall = LocalCallChrome.current?.state?.let(CallPresentationPolicy::isVideoCall) == true
     Surface(modifier = Modifier.fillMaxSize(), color = colors.callBackground) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -990,11 +992,14 @@ fun ActiveCallScreen(
                     modifier = Modifier.padding(top = CocoSpacing.sm))
                 }
 
-                // Compact icon controls retain their full accessibility descriptions.
-                // iOS audio order: Output · Mute · Video · End.
+                // Only live actions occupy the approved camera/mic/end/output slots.
                 if (videoControls != null && onToggleCamera != null) {
+                    // The same layout reserves both rows and its own bottom gap after end.
                     VideoCallControlTray(videoControls, availableRoutes, onToggleCamera, onToggleMute, onHangup, onSelectRoute,
-                        enabled = controlsAvailable && !terminal, landscape = landscape)
+                        modifier = if (terminal) Modifier.alpha(0f).clearAndSetSemantics {} else Modifier,
+                        enabled = liveControls, landscape = landscape)
+                } else if (terminal) {
+                    Spacer(Modifier.height(controlSize + CocoSpacing.md * 2))
                 } else Surface(
                     shape = CocoShapes.radiusCallControl,
                     color = Color.Transparent,
@@ -1005,19 +1010,18 @@ fun ActiveCallScreen(
                         verticalArrangement = Arrangement.spacedBy(CocoSpacing.md),
                         modifier = Modifier.padding(horizontal = trayPadding, vertical = CocoSpacing.md),
                     ) {
-                        CallAudioOutputButton(
-                            currentKind = currentRouteKind,
-                            availableRoutes = availableRoutes,
-                            onSelectRoute = onSelectRoute,
+                        if (onRequestVideo != null && LocalCallChrome.current?.state?.let(CallPresentationPolicy::videoUpgradeVisible) == true) CallActionButton(
+                            icon = CocoIcons.VideoCall,
+                            label = stringResource(if (requestingVideo) R.string.cancel else R.string.call_video),
+                            caption = stringResource(R.string.call_caption_video),
                             tint = colors.primaryText,
                             background = colors.glassPrimary,
-                            labelColor = colors.secondaryText,
                             size = controlSize,
-                            showLabel = false,
-                            videoCall = videoCall,
-                            enabled = controlsAvailable,
-                        )
-                        CallActionButton(
+                            onClick = onRequestVideo,
+                            sensitive = true,
+                            testTag = "call-video",
+                        ) else Spacer(Modifier.size(controlSize))
+                        if (liveControls) CallActionButton(
                             icon = if (isMuted) CocoIcons.MicOff else CocoIcons.Mic,
                             label = stringResource(if (isMuted) R.string.call_unmute else R.string.call_mute),
                             caption = stringResource(R.string.call_caption_mute),
@@ -1026,21 +1030,8 @@ fun ActiveCallScreen(
                             active = isMuted,
                             size = controlSize,
                             onClick = onToggleMute,
-                            enabled = controlsAvailable,
                             testTag = "call-mute",
-                        )
-                        CallActionButton(
-                            icon = CocoIcons.VideoCall,
-                            label = stringResource(if (requestingVideo) R.string.cancel else R.string.call_video),
-                            caption = stringResource(R.string.call_caption_video),
-                            tint = colors.primaryText,
-                            background = colors.glassPrimary,
-                            size = controlSize,
-                            onClick = { onRequestVideo?.invoke() },
-                            sensitive = true,
-                            enabled = controlsAvailable && onRequestVideo != null,
-                            testTag = "call-video",
-                        )
+                        ) else Spacer(Modifier.size(controlSize))
                         CallActionButton(
                             icon = CocoIcons.EndCall,
                             label = stringResource(R.string.call_end),
@@ -1053,6 +1044,17 @@ fun ActiveCallScreen(
                             enabled = !terminal,
                             testTag = "call-end",
                         )
+                        if (liveControls) CallAudioOutputButton(
+                            currentKind = currentRouteKind,
+                            availableRoutes = availableRoutes,
+                            onSelectRoute = onSelectRoute,
+                            tint = colors.primaryText,
+                            background = colors.glassPrimary,
+                            labelColor = colors.secondaryText,
+                            size = controlSize,
+                            showLabel = false,
+                            videoCall = videoCall,
+                        ) else Spacer(Modifier.size(controlSize))
                     }
                 }
                 if (videoControls == null) Spacer(modifier = Modifier.height(if (landscape) landscapeBottomGap else CallControlsBottomGap))
@@ -1157,6 +1159,7 @@ fun CallAudioOutputButton(
     videoCall: Boolean = false,
     enabled: Boolean = true,
 ) {
+    if (!enabled) return
     val colors = LocalCocoColors.current
     var routeSheetOpen by remember { mutableStateOf(false) }
     val routes by LocalCallChrome.current?.audioRoutes?.collectAsState() ?: remember(availableRoutes) { mutableStateOf(availableRoutes) }
@@ -1168,7 +1171,7 @@ fun CallAudioOutputButton(
     val highlighted = presentation.highlighted
     // Keep the output slot mounted while Android discovers routes; the toggle still works.
     LaunchedEffect(routes.isEmpty()) { if (routes.isEmpty()) routeSheetOpen = false }
-    Column(Modifier.alpha(if (enabled) 1f else .45f), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Surface(
             shape = CircleShape,
             color = if (highlighted) CallWhite else Color.White.copy(alpha = 0.18f),
@@ -1332,8 +1335,8 @@ internal fun EndedCallScreen(reason: CallEndReason, message: String? = null, rin
         else -> null
     }
     if (peerCall != null) {
-        // The controller still owns the existing delayed dismissal. Keep the
-        // identity and four locked controls at the same anchors until then.
+        // The controller owns delayed dismissal. Retain the identity and tray
+        // spacing until then, without presenting inactive call actions.
         val controls = retainedControls?.takeIf { it.callId == peerCall.callId } ?: CallTerminalControls.initial(peerCall)
         ActiveCallScreen(title = message ?: reasonLabel(reason), name = peerCall.otherDisplayName,
             durationMs = null, onHangup = onDismiss, controlsAvailable = false,
@@ -1439,9 +1442,10 @@ internal fun CallActionButton(
     modifier: Modifier = Modifier,
     interactive: Boolean = true,
 ) {
+    if (!enabled) return
     val colors = LocalCocoColors.current
     val presentation = if (interactive) modifier else modifier.clearAndSetSemantics { }
-    Column(presentation.alpha(if (enabled) 1f else 0.45f), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(presentation, horizontalAlignment = Alignment.CenterHorizontally) {
         val circleContent: @Composable () -> Unit = {
             Box(
                 modifier = Modifier

@@ -79,6 +79,12 @@ fn default_ttl() -> u32 {
 }
 
 impl PushEvent {
+    /// Content-free hint. The authenticated server response is the only wipe authority.
+    pub fn session_check() -> Self {
+        Self { event: "session_check".into(), data: BTreeMap::new(),
+            priority: PushPriority::High, ttl_seconds: 3600,
+            collapse_key: Some("session_check".into()), presentation: Presentation::Background }
+    }
     pub fn incoming_call(call_id: uuid::Uuid, media_kind: &str) -> Self {
         PushEvent {
             event: "incoming_call".into(),

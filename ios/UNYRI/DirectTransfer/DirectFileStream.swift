@@ -315,6 +315,7 @@ enum DirectFileSenderFailurePolicy {
         if let failure = error as? DirectFilePeer.Failure {
             switch failure {
             case .nonDirectRoute: return "no_direct_route"
+            case .relayUnavailable: return "relay_unavailable"
             case .protocolViolation: return "security_error"
             default: return "connection_lost"
             }

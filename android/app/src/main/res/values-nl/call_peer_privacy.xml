@@ -4,5 +4,5 @@
     <string name="call_p2p_everyone">Iedereen</string>
     <string name="call_p2p_contacts">Mijn contacten</string>
     <string name="call_p2p_nobody">Niemand</string>
-    <string name="call_p2p_note">Een directe verbinding is meestal sneller, maar het andere apparaat ziet je IP-adres. Via de server is alleen het serveradres zichtbaar. Mijn contacten staat directe verbindingen alleen toe met personen in Contacten. Geldt vanaf het volgende gesprek.</string>
+    <string name="call_p2p_note">Een directe verbinding is meestal sneller, maar het andere apparaat ziet je IP-adres. Via de server is alleen het serveradres zichtbaar. Mijn contacten staat directe verbindingen alleen toe met personen in Contacten. Geldt vanaf het volgende gesprek. Dezelfde instelling geldt voor bestandsoverdrachten.</string>
 </resources>

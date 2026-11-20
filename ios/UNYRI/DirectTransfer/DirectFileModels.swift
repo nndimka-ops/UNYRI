@@ -386,7 +386,7 @@ struct DirectFileControl: Codable, Equatable {
         }
     }
 
-    static let reasons: Set<String> = ["network_waiting", "connection_lost", "direct_unavailable", "prefix_mismatch", "source_missing", "source_changed", "disk_full", "integrity_failed", "busy", "queued", "call_in_progress", "reconnect_required", "security_error", "storage_error", "user_cancelled", "user_declined", "background", "disconnected", "no_direct_route", "integrity_mismatch", "expired", "retry", "verification_failed", "unsupported", "account_changed", "permission_denied"]
+    static let reasons: Set<String> = ["network_waiting", "connection_lost", "direct_unavailable", "prefix_mismatch", "source_missing", "source_changed", "disk_full", "integrity_failed", "busy", "queued", "call_in_progress", "reconnect_required", "security_error", "storage_error", "user_cancelled", "user_declined", "background", "disconnected", "no_direct_route", "relay_unavailable", "peer_relay_unavailable", "integrity_mismatch", "expired", "retry", "verification_failed", "unsupported", "account_changed", "permission_denied"]
 
     func validatedManualSnapshot() throws -> DirectManualSnapshot? {
         try DirectManualWire.validate(type: type.rawValue, revision: pauseRevision, paused: paused,
@@ -448,7 +448,7 @@ struct DirectFileIceCandidate: Codable, Equatable, Hashable {
     }
     var textBytes: Int { sdp.utf8.count + (sdpMid?.utf8.count ?? 0) + (ufrag?.utf8.count ?? 0) }
     var validBase: Bool {
-        sdpMLineIndex == 0 && DirectFilePeerPolicy.directCandidate(sdp) &&
+        sdpMLineIndex == 0 && DirectFilePeerPolicy.transportCandidate(sdp) &&
             (sdpMid == nil || Self.validMid(sdpMid!))
     }
     var valid: Bool {

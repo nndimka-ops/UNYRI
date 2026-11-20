@@ -212,7 +212,7 @@
     <string name="voice_open_app_settings">App-Einstellungen öffnen</string>
     <string name="notification_settings_system_on">Android-Benachrichtigungen sind erlaubt</string>
     <string name="notification_settings_system_off">Android-Benachrichtigungen sind blockiert</string>
-    <string name="notification_settings_system_detail">Android steuert Berechtigungen, Sperrbildschirmanzeige, Ton und Vibration, auch für Verwaltungs- und Dienstmeldungen. UNYRI kann deine Systemeinstellungen nicht übergehen.</string>
+    <string name="notification_settings_system_detail">Wählen Sie in Android einen Nachrichten- oder Anrufkanal für Ton und Vibration.</string>
     <string name="notification_settings_allow">Benachrichtigungen erlauben</string>
     <string name="notification_settings_system_open">Android-Benachrichtigungseinstellungen öffnen</string>
     <string name="local_mode_notifications">Benachrichtigungen erlauben</string>

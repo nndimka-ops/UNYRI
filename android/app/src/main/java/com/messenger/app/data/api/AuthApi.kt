@@ -5,6 +5,9 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import com.messenger.app.data.auth.DeviceSessionBinding
+import com.messenger.app.data.auth.deviceBoundPost
+import com.messenger.app.data.auth.refreshDeviceSession
 
 private val JSON_MEDIA_TYPE = "application/json".toMediaType()
 
@@ -29,22 +32,25 @@ class AuthApi(
         ).credential
     }
 
-    suspend fun register(request: RegisterRequestDto): AuthResponseDto {
+    suspend fun register(request: RegisterRequestDto, binding: DeviceSessionBinding? = null): AuthResponseDto {
         requireProofTransport(request.installationCredential)
-        return post("/auth/register", json.encodeToString(RegisterRequestDto.serializer(), request))
+        return json.decodeFromString(deviceBoundPost(client, json, ServerEndpoint.resolve(baseUrl), "/auth/register",
+            json.encodeToString(RegisterRequestDto.serializer(), request.copy(deviceKey = binding?.key)), binding, request.installationId, ""))
     }
 
-    suspend fun login(request: LoginRequestDto): AuthResponseDto {
+    suspend fun login(request: LoginRequestDto, binding: DeviceSessionBinding? = null): AuthResponseDto {
         requireProofTransport(request.installationCredential)
-        return post("/auth/login", json.encodeToString(LoginRequestDto.serializer(), request))
+        return json.decodeFromString(deviceBoundPost(client, json, ServerEndpoint.resolve(baseUrl), "/auth/login",
+            json.encodeToString(LoginRequestDto.serializer(), request.copy(deviceKey = binding?.key)), binding, request.installationId, ""))
     }
 
     private fun requireProofTransport(credential: String?) {
         if (credential != null) require(java.net.URI(ServerEndpoint.resolve(baseUrl)).scheme == "https") { "Installation protection requires HTTPS" }
     }
 
-    suspend fun refresh(request: RefreshRequestDto): RefreshResponseDto =
-        post("/auth/refresh", json.encodeToString(RefreshRequestDto.serializer(), request))
+    suspend fun refresh(request: RefreshRequestDto, binding: DeviceSessionBinding? = null): RefreshResponseDto =
+        refreshDeviceSession(client, json, ServerEndpoint.resolve(baseUrl), binding, request.refreshToken, request.requestId,
+            request.appVersion, request.osVersion)
 
     suspend fun logout(accessToken: String) {
         val httpRequest = Request.Builder()

@@ -21,6 +21,7 @@ class AccountWorkspaceAvatarTest {
             arrayOf(SharedPreferences.Editor::class.java)) { self, method, args ->
             when (method.name) {
                 "putString" -> { values[args!![0] as String] = args[1] as String; self }
+                "remove" -> { values.remove(args!![0] as String); self }
                 "commit" -> true
                 else -> error("Unexpected editor operation: ${method.name}")
             }
@@ -40,7 +41,7 @@ class AccountWorkspaceAvatarTest {
         try {
             val preferences = Preferences()
             val store = AccountAvatarStore(root)
-            val primary = AccountWorkspaces(preferences.instance, store)
+            val primary = AccountWorkspaces(preferences.instance, store, eraseInactiveForTest = { _, _ -> })
             primary.record(AuthSessionState.LoggedIn(AuthUser("alice", "alice", "Alice")), origin)
             preferences.values["selected"] = second
             AccountWorkspaces(preferences.instance, store).record(AuthSessionState.LoggedIn(AuthUser("bob", "bob", "Bob")), origin)
@@ -53,12 +54,12 @@ class AccountWorkspaceAvatarTest {
         val a = store.begin("legacy", alice, "1")
         val b = store.begin(second, bob, "1")
         store.write(byteArrayOf(1), a); store.write(byteArrayOf(2), b)
-        primary.removeInactive(second)
+        kotlinx.coroutines.runBlocking { primary.removeInactive(second) }
         assertEquals(listOf("legacy"), primary.accounts().map { it.key })
         assertArrayEquals(byteArrayOf(1), store.read("legacy", alice)?.jpeg)
         assertNull(store.read(second, bob))
         assertFalse(store.write(byteArrayOf(3), b))
-        assertThrows(IllegalArgumentException::class.java) { primary.removeInactive("legacy") }
+        assertThrows(IllegalArgumentException::class.java) { kotlinx.coroutines.runBlocking { primary.removeInactive("legacy") } }
     }
 
     @Test fun loggedOutPurgesActiveButUnknownDoesNotAndTheLastAccountSweepsOrphans() = fixture { preferences, store, primary ->

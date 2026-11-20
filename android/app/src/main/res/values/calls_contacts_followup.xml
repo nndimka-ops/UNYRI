@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_relay_unavailable">This server has no TURN relay. A call with this person needs one to avoid a direct connection.</string>
+    <string name="direct_peer_relay_unavailable">Your peer allows server-only connections, but the relay is unavailable.</string>
+</resources>

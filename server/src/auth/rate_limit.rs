@@ -77,6 +77,52 @@ async fn increment(state: &AppState, key: &str, window_seconds: u64) -> Result<u
     ).key(key).arg(ttl).invoke_async(&mut conn).await.map_err(redis_error)
 }
 
+/// Failure-only sliding windows. Reserve all scopes atomically before a
+/// uniqueness decision, retain conflicts, and refund every other outcome.
+/// Redis time and unique members bound parallel probes across server processes.
+pub struct ConflictBudget {
+    keys: Vec<String>,
+    reservation: String,
+}
+
+impl ConflictBudget {
+    pub async fn reserve(state: &AppState, scopes: &[(&str, u64, u64)]) -> Result<Self, AppError> {
+        if scopes.is_empty() || scopes.iter().any(|(_, limit, window)| *limit == 0 || *window == 0) {
+            return Err(AppError::RateLimited);
+        }
+        let budget = Self {
+            keys: scopes.iter().map(|(key, _, _)| format!("ratelimit:conflicts:{key}")).collect(),
+            reservation: uuid::Uuid::new_v4().to_string(),
+        };
+        let script = redis::Script::new(
+            "local t=redis.call('TIME'); local now=t[1]*1000+math.floor(t[2]/1000); \
+             local allowed=true; for i,key in ipairs(KEYS) do \
+               local window=tonumber(ARGV[i*2+1])*1000; \
+               redis.call('ZREMRANGEBYSCORE',key,'-inf',now-window); \
+               if redis.call('ZCARD',key)>=tonumber(ARGV[i*2]) then allowed=false end; \
+             end; if not allowed then return 0 end; \
+             for i,key in ipairs(KEYS) do redis.call('ZADD',key,now,ARGV[1]); \
+               redis.call('EXPIRE',key,tonumber(ARGV[i*2+1])+1); end; return 1"
+        );
+        let mut call = script.prepare_invoke();
+        for key in &budget.keys { call.key(key); }
+        call.arg(&budget.reservation);
+        for (_, limit, window) in scopes { call.arg(*limit).arg(*window); }
+        let admitted: bool = call.invoke_async(&mut state.redis.clone()).await.map_err(redis_error)?;
+        if admitted { Ok(budget) } else { Err(AppError::RateLimited) }
+    }
+
+    pub async fn refund(&self, state: &AppState) {
+        let script = redis::Script::new(
+            "for _,key in ipairs(KEYS) do redis.call('ZREM',key,ARGV[1]); end; return 1"
+        );
+        let mut call = script.prepare_invoke();
+        for key in &self.keys { call.key(key); }
+        let result: Result<i64, _> = call.arg(&self.reservation).invoke_async(&mut state.redis.clone()).await;
+        if let Err(err) = result { tracing::warn!(error = %err, "conflict budget refund failed"); }
+    }
+}
+
 /// Failure-only reservation counter, scoped either to an account/network or
 /// to the account across every network.
 ///

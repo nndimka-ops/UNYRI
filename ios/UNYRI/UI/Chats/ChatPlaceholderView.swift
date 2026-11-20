@@ -3,6 +3,7 @@ import SwiftUI
 /// Stage 3A placeholder: no message history or composer yet.
 struct ChatPlaceholderView: View {
     let chat: ChatSummary
+    @EnvironmentObject private var users: UsersRepository
 
     var body: some View {
         VStack(spacing: 8) {
@@ -10,7 +11,7 @@ struct ChatPlaceholderView: View {
                 Text(other.visibleName)
                     .font(.title2)
                     .fontWeight(.semibold)
-                Text("@\(other.username)")
+                Text(other.peerIdentityLabel(legacyServer: users.legacyIdentityServer))
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             } else {

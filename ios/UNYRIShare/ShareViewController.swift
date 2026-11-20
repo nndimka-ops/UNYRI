@@ -9,6 +9,7 @@ final class ShareViewController: UIViewController {
     private var observer: AnyCancellable?
     private var legacy: LegacyShareViewController?
     override func viewDidLoad() {
+        PeerImagePolicy.install()
         super.viewDidLoad()
         overrideUserInterfaceStyle = .dark
         view.backgroundColor = UIColor(white: 0.125, alpha: 1)

@@ -272,7 +272,7 @@ final class MessageOutbox {
                       abs(oriented.height) <= 100_000, duration.isFinite, duration >= 0, duration <= 86400 * 365 else { throw CocoaError(.fileReadCorruptFile) }
                 value = QueuedMediaVisual(width: Int(abs(oriented.width)), height: Int(abs(oriented.height)), durationMs: Int64(duration * 1000))
             } else {
-                guard let source = CGImageSourceCreateWithURL(url as CFURL, [kCGImageSourceShouldCache: false] as CFDictionary),
+                guard let source = PeerImagePolicy.source(url: url),
                       let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any],
                       let width = properties[kCGImagePropertyPixelWidth] as? Int,
                       let height = properties[kCGImagePropertyPixelHeight] as? Int else { throw CocoaError(.fileReadCorruptFile) }

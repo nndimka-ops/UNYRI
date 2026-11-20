@@ -1526,7 +1526,9 @@ final class MessagesRepository: ObservableObject {
                 kind: "delete",
                 plaintext: MessageContentCodec.encodeDelete()
             )
+            try store.setOptimisticDeleted(clientMessageId: clientMessageId, deleted: true)
             directFiles?.offerMessageRemoved(clientMessageId)
+            purgeRemovedMessageMedia(clientMessageId: clientMessageId)
             try requireSession()
         } catch {
             guard generation == auth.sessionGeneration else { return false }
@@ -1549,6 +1551,9 @@ final class MessagesRepository: ObservableObject {
                 let urls = try await self.attachmentManager.purgeMessageMedia(clientMessageId: clientMessageId)
                 try self.requireSession()
                 for url in urls { self.discardUnownedDraftSource(url) }
+                if let target = try self.store.message(byClientMessageId: clientMessageId) {
+                    try self.store.finishHistoryRestoreJob(chat: target.chatId, name: "restore_cleanup:" + clientMessageId, payload: "1")
+                }
                 self.invalidateLocalMediaCache()
             } catch { /* Best effort: the gallery already leaves removed messages out. */ }
         }
@@ -1559,7 +1564,7 @@ final class MessagesRepository: ObservableObject {
     private func contentDeletedForEveryone(chatId: String, targetServerId: String) {
         guard generation == auth.sessionGeneration,
               let target = try? store.message(byServerId: targetServerId), target.chatId == chatId,
-              target.kind == "content", target.isDeletedForEveryone, target.content.attachment != nil else { return }
+              target.kind == "content", target.isDeletedForEveryone else { return }
         purgeRemovedMessageMedia(clientMessageId: target.clientMessageId)
     }
 
@@ -1575,7 +1580,7 @@ final class MessagesRepository: ObservableObject {
             try store.hideLocally(clientMessageId: clientMessageId)
             directFiles?.offerMessageRemoved(clientMessageId)
             if wasPending { outbox.cancelMedia(clientMessageId) }
-            else if let target, target.kind == "content", target.serverId != nil, target.content.attachment != nil {
+            else if let target, target.kind == "content" {
                 purgeRemovedMessageMedia(clientMessageId: clientMessageId)
             }
             reload()

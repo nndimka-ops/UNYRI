@@ -8,13 +8,7 @@ import java.util.Base64
 
 /** Dedicated OS-protected namespace; separate from auth and Signal state. */
 class AndroidHistorySecretStorage internal constructor(private val prefs: SharedPreferences) : HistorySecretStorage {
-    constructor(context: Context) : this(EncryptedSharedPreferences.create(
-        context.applicationContext, "coco_history_recovery",
-        MasterKey.Builder(context.applicationContext, "coco_history_recovery_master")
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build(),
-        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
-    ))
+    constructor(context: Context) : this(com.messenger.app.data.secure.WorkspaceSecrets.open(context, "coco_history_recovery", history = true))
     override fun read(name: String): ByteArray? = synchronized(persistenceLock) {
         // SharedPreferences updates its memory cache even when commit() fails.
         // Do not report that cache as a durably saved recovery key on retry.

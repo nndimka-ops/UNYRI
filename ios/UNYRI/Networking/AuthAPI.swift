@@ -17,18 +17,18 @@ struct AuthAPI {
         try await client.identityTransport().getPublic("/server-info", as: RegistrationPolicy.self)
     }
 
-    func register(_ request: RegisterRequest) async throws -> AuthResponse {
+    func register(_ request: RegisterRequest, deviceProof: String? = nil) async throws -> AuthResponse {
         guard request.installationCredential == nil || client.baseURL.scheme?.lowercased() == "https" else { throw APIError.invalidURL }
-        return try await APIClient(baseURL: client.baseURL, preventRedirects: true).post("/auth/register", body: request, as: AuthResponse.self)
+        return try await APIClient(baseURL: client.baseURL, preventRedirects: true).post("/auth/register", body: request, deviceProof: deviceProof, as: AuthResponse.self)
     }
 
-    func login(_ request: LoginRequest) async throws -> AuthResponse {
+    func login(_ request: LoginRequest, deviceProof: String? = nil) async throws -> AuthResponse {
         guard request.installationCredential == nil || client.baseURL.scheme?.lowercased() == "https" else { throw APIError.invalidURL }
-        return try await APIClient(baseURL: client.baseURL, preventRedirects: true).post("/auth/login", body: request, as: AuthResponse.self)
+        return try await APIClient(baseURL: client.baseURL, preventRedirects: true).post("/auth/login", body: request, deviceProof: deviceProof, as: AuthResponse.self)
     }
 
-    func refresh(_ request: RefreshRequest) async throws -> RefreshResponse {
-        try await client.identityTransport().post("/auth/refresh", body: request, as: RefreshResponse.self)
+    func refresh(_ request: RefreshRequest, deviceProof: String? = nil) async throws -> RefreshResponse {
+        try await client.identityTransport().post("/auth/refresh", body: request, deviceProof: deviceProof, as: RefreshResponse.self)
     }
 
     func logout(accessToken: String) async throws {

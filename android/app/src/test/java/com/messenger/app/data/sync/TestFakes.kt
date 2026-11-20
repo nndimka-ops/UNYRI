@@ -331,9 +331,18 @@ class InMemoryChatDao : ChatDao {
     override suspend fun locallyKnownChatIds(historyCutoff: Long): List<String> = knownChatIds
     override fun observeMissingChatIds(historyCutoff: Long): Flow<List<String>> = flowOf(emptyList())
     private val chats = LinkedHashMap<String, ChatEntity>()
+    private val participants = LinkedHashMap<String, ChatParticipantEntity>()
+    val deletedPeers = LinkedHashMap<String, String>()
     override suspend fun locallyReadChats(): List<ChatEntity> = chats.values.filter { it.lastReadSequence > 0 }
     override suspend fun cachedChat(chatId: String): ChatEntity? = chats[chatId]
-    override suspend fun cachedParticipant(userId: String): ChatParticipantEntity? = null
+    override suspend fun cachedParticipant(userId: String): ChatParticipantEntity? = participants[userId]
+    override suspend fun eraseDeletedPeerProfile(userId: String, label: String) {
+        participants[userId]?.let {
+            participants[userId] = it.copy(username = "", displayName = label, avatarUrl = null,
+                avatarVersion = 0, hasAvatar = false, publicUsername = null)
+        }
+    }
+    override suspend fun rememberDeletedPeer(userId: String, label: String) { deletedPeers[userId] = label }
     override suspend fun cachedSavedChat(): ChatEntity? = chats.values.firstOrNull { it.type == "saved" }
     override suspend fun recordPeerReceipt(chatId: String, delivered: Long, read: Long) {
         chats[chatId]?.let { chats[chatId] = it.copy(peerDeliveredSequence = maxOf(it.peerDeliveredSequence, delivered), peerReadSequence = maxOf(it.peerReadSequence, read)) }
@@ -358,7 +367,7 @@ class InMemoryChatDao : ChatDao {
     private val members = mutableSetOf<ChatMemberEntity>()
     override suspend fun upsertMember(member: ChatMemberEntity) { members.removeAll { it.chatId == member.chatId && it.userId == member.userId }; members += member }
 
-    override suspend fun upsertParticipant(participant: ChatParticipantEntity) = Unit
+    override suspend fun upsertParticipant(participant: ChatParticipantEntity) { participants[participant.userId] = participant }
 
     override suspend fun updateLastReadSequence(chatId: String, sequence: Long) {
         chats[chatId]?.let { chats[chatId] = it.copy(lastReadSequence = maxOf(it.lastReadSequence, sequence)) }

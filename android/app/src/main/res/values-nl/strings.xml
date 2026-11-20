@@ -212,7 +212,7 @@
     <string name="voice_open_app_settings">App-instellingen openen</string>
     <string name="notification_settings_system_on">Android-meldingen zijn toegestaan</string>
     <string name="notification_settings_system_off">Android-meldingen zijn geblokkeerd</string>
-    <string name="notification_settings_system_detail">Android beheert toestemming, weergave op het vergrendelscherm, geluid en trillingen, ook voor beheer- en servicemeldingen. UNYRI kan je systeemkeuzes niet wijzigen.</string>
+    <string name="notification_settings_system_detail">Kies in Android een berichten- of oproepkanaal om geluid en trillen in te stellen.</string>
     <string name="notification_settings_allow">Meldingen toestaan</string>
     <string name="notification_settings_system_open">Android-meldingsinstellingen openen</string>
     <string name="local_mode_notifications">Meldingen toestaan</string>

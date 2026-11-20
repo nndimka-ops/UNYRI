@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chats_archive_detail">Sohbetleri menülerinden buraya taşıyın veya birkaçını seçin. Yeni mesajlar, siz geri alana kadar sohbetleri burada tutar.</string>
+    <string name="privacy_devices_blocks">Cihazlar ve engellemeler</string>
+    <string name="privacy_messages_section">Mesajlar</string>
+    <string name="settings_privacy_visibility">Görünürlük</string>
+    <string name="privacy_nobody_count">Hiç kimse</string>
+    <string name="blocked_users_search">Ad, numara veya @kullanıcıadı</string>
+    <plurals name="privacy_people_count_short">
+        <item quantity="one">%1$d kişi</item>
+        <item quantity="few">%1$d kişi</item>
+        <item quantity="many">%1$d kişi</item>
+        <item quantity="other">%1$d kişi</item>
+    </plurals>
+    <string name="drawer_report_short">Rapor</string>
+    <string name="peer_qr_title">Bu kişinin QR kodu</string>
+    <string name="peer_remove_confirm_title">Kişi kaldırılsın mı?</string>
+    <string name="peer_remove_confirm_detail">Bu kişi kişilerinizden kaldırılacak. Sohbet ve mesajlar korunacak.</string>
+    <string name="inline_search_people_hint">Kişileri numara veya @ad ile arayın.</string>
+    <string name="app_version_format">Sürüm %1$s (%2$d)</string>
+    <string name="server_current_title">Geçerli sunucu</string>
+    <string name="server_change_title">Sunucuyu değiştir</string>
+    <string name="server_edit_help">Bir HTTPS adresi girin. Sunucuyu değiştirmeden önce çıkış yapın.</string>
+    <string name="server_alpha_http_detail">Alfa sürümler, güvenilen yerel ağlarda HTTP kullanımına da izin verir.</string>
+    <string name="server_max_file_size">Şifrelenmiş dosya boyutu üst sınırı</string>
+    <string name="server_user_quota">Hesap başına depolama</string>
+    <string name="server_no_limit">Sınırsız</string>
+    <string name="settings_about">Yardım ve uygulama</string>
+    <string name="settings_data_storage">Bağlantı ve depolama</string>
+    <string name="notification_in_app_sound_detail">UNYRI açıkken ses çal.</string>
+    <string name="notification_in_app_vibration_detail">UNYRI açıkken titreşim kullan.</string>
+    <string name="report_problem_detail">Sorunu açıklayın ve ekran görüntüleri ekleyin.</string>
+    <string name="report_recent_problem_detail">Son sorunun saatini işaretleyin; aşağıdan tanılamayı açın.</string>
+    <string name="sh_step_computer">Her zaman açık bir bilgisayar</string>
+    <string name="sh_step_computer_summary">Kendi bilgisayarınızı kullanın veya internetten bir bilgisayar kiralayın (VPS).</string>
+    <string name="sh_step_install">UNYRI Server kurun</string>
+    <string name="sh_step_install_summary">Kılavuzu izleyerek sunucu programını kurun.</string>
+    <string name="sh_step_internet">İnternetten erişime izin verin</string>
+    <string name="sh_step_internet_summary">Telefonunuzun ev dışından da bağlanması için kılavuzu izleyin.</string>
+    <string name="sh_step_phone">Telefonu bağlayın</string>
+    <string name="sh_step_phone_summary">Sunucu adresini onaylayın veya davet tarayın, ardından hesap oluşturun.</string>
+    <string name="sh_step_owner">Sunucu sahibi olun</string>
+    <string name="sh_step_owner_summary">Kurulum programının gösterdiği tek kullanımlık kodu kullanın.</string>
+    <string name="sh_step_test">Mesajları ve aramaları kontrol edin</string>
+    <string name="sh_step_test_summary">Wi-Fi’yi kapatıp mesajları, aramaları ve bildirimleri mobil veriyle deneyin.</string>
+    <string name="sh_step_more">Ayrıntılar</string>
+    <string name="connection_checking">Kontrol ediliyor…</string>
+    <string name="sh_open_guide">Kılavuz ve indirmeler</string>
+    <string name="local_mode_description">İnternet olmadan Wi-Fi üzerinden sunucunuzdan mesajlar ve aramalar. Bu mod sürekli bildirim gösterir ve daha fazla pil kullanır. Zorla durdurma veya yeniden başlatma sonrası UNYRI’yi yeniden açın.</string>
+    <string name="local_mode_connected">Sunucunuza bağlandı</string>
+    <string name="local_mode_signin">Yerel bağlantıyı açmak için oturum açın.</string>
+    <string name="peer_qr_instruction">Bu kişinin UNYRI profilini açmak için kodu tarayın.</string>
+</resources>

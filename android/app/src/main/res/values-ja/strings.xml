@@ -212,7 +212,7 @@
     <string name="voice_open_app_settings">アプリの設定を開く</string>
     <string name="notification_settings_system_on">Androidの通知は許可されています</string>
     <string name="notification_settings_system_off">Androidの通知はブロックされています</string>
-    <string name="notification_settings_system_detail">許可、ロック画面の表示、音、振動はAndroidが管理します。管理・サービス通知も対象です。UNYRIはシステムの選択を変更できません。</string>
+    <string name="notification_settings_system_detail">Androidでメッセージや通話のチャンネルを選び、音と振動を設定します。</string>
     <string name="notification_settings_allow">通知を許可</string>
     <string name="notification_settings_system_open">Androidの通知設定を開く</string>
     <string name="local_mode_notifications">通知を許可</string>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chats_archive_detail">Mutați conversațiile aici din meniul lor sau selectați mai multe. Mesajele noi le păstrează aici până le restaurați.</string>
+    <string name="privacy_devices_blocks">Dispozitive și blocări</string>
+    <string name="privacy_messages_section">Mesaje</string>
+    <string name="settings_privacy_visibility">Vizibilitate</string>
+    <string name="privacy_nobody_count">Nimeni</string>
+    <string name="blocked_users_search">Nume, număr sau @nume</string>
+    <plurals name="privacy_people_count_short">
+        <item quantity="one">%1$d pers.</item>
+        <item quantity="few">%1$d pers.</item>
+        <item quantity="many">%1$d pers.</item>
+        <item quantity="other">%1$d pers.</item>
+    </plurals>
+    <string name="drawer_report_short">Raport</string>
+    <string name="peer_qr_title">Codul QR al acestei persoane</string>
+    <string name="peer_remove_confirm_title">Eliminați contactul?</string>
+    <string name="peer_remove_confirm_detail">Această persoană va fi eliminată din contacte. Conversația și mesajele vor rămâne.</string>
+    <string name="inline_search_people_hint">Căutați persoane după număr sau @nume.</string>
+    <string name="app_version_format">Versiunea %1$s (%2$d)</string>
+    <string name="server_current_title">Serverul curent</string>
+    <string name="server_change_title">Schimbați serverul</string>
+    <string name="server_edit_help">Introduceți o adresă HTTPS. Deconectați-vă înainte de a schimba serverul.</string>
+    <string name="server_alpha_http_detail">Versiunile alfa permit și HTTP într-o rețea locală de încredere.</string>
+    <string name="server_max_file_size">Dimensiunea maximă a fișierului criptat</string>
+    <string name="server_user_quota">Spațiu pentru fiecare cont</string>
+    <string name="server_no_limit">Fără limită</string>
+    <string name="settings_about">Ajutor și aplicație</string>
+    <string name="settings_data_storage">Conexiune și stocare</string>
+    <string name="notification_in_app_sound_detail">Redă un sunet când UNYRI este deschis.</string>
+    <string name="notification_in_app_vibration_detail">Vibrează când UNYRI este deschis.</string>
+    <string name="report_problem_detail">Descrieți problema și atașați capturi de ecran.</string>
+    <string name="report_recent_problem_detail">Marcați ora unei probleme recente; activați diagnosticarea mai jos.</string>
+    <string name="sh_step_computer">Un computer mereu pornit</string>
+    <string name="sh_step_computer_summary">Folosiți computerul propriu sau închiriați unul pe internet (VPS).</string>
+    <string name="sh_step_install">Instalați UNYRI Server</string>
+    <string name="sh_step_install_summary">Instalați programul serverului conform ghidului.</string>
+    <string name="sh_step_internet">Permiteți accesul de pe internet</string>
+    <string name="sh_step_internet_summary">Urmați ghidul pentru ca telefonul să se conecteze și din afara casei.</string>
+    <string name="sh_step_phone">Conectați telefonul</string>
+    <string name="sh_step_phone_summary">Confirmați adresa serverului sau scanați o invitație, apoi creați un cont.</string>
+    <string name="sh_step_owner">Deveniți proprietar</string>
+    <string name="sh_step_owner_summary">Folosiți codul de unică folosință afișat de programul de instalare.</string>
+    <string name="sh_step_test">Verificați mesajele și apelurile</string>
+    <string name="sh_step_test_summary">Opriți Wi-Fi și verificați mesajele, apelurile și notificările prin date mobile.</string>
+    <string name="sh_step_more">Mai multe detalii</string>
+    <string name="connection_checking">Se verifică…</string>
+    <string name="sh_open_guide">Ghid și descărcări</string>
+    <string name="local_mode_description">Mesaje și apeluri de la serverul dumneavoastră prin Wi-Fi, fără internet. Modul afișează o notificare permanentă și consumă mai multă baterie. După oprire forțată sau repornire, deschideți UNYRI din nou.</string>
+    <string name="local_mode_connected">Conectat la serverul dumneavoastră</string>
+    <string name="local_mode_signin">Conectați-vă pentru a activa conexiunea locală.</string>
+    <string name="peer_qr_instruction">Scanați codul pentru a deschide profilul acestei persoane în UNYRI.</string>
+</resources>

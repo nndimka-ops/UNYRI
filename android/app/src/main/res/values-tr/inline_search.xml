@@ -19,7 +19,7 @@
     <string name="search_recent">Son aramalar</string>
     <string name="search_scope_messages">Mesajlar</string>
     <string name="settings_search_label">Ara</string>
-    <string name="unified_search_hint">Kayıtlı sohbet ve mesajları çevrimdışı arayın. Bu sunucudaki kişileri kullanıcı adıyla bulun.</string>
+    <string name="unified_search_hint">Kayıtlı sohbetleri ve mesajları çevrimdışı arayın. Bu sunucudaki kişileri numara veya @ad ile bulun.</string>
     <string name="unified_search_network">Sunucuda arama kullanılamıyor. Yerel sonuçlar kullanılabilir durumda.</string>
     <string name="unified_search_local_error">Kayıtlı mesajlar yüklenemedi. Tekrar aramayı deneyin.</string>
 </resources>

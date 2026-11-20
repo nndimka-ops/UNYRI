@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_relay_unavailable">Deine Datenschutzeinstellung erfordert für diese Person einen Relayserver, der hier nicht eingerichtet ist. Die Dateiübertragung kann keine Verbindung herstellen.</string>
+</resources>

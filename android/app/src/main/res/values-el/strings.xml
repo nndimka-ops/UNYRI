@@ -212,7 +212,7 @@
     <string name="voice_open_app_settings">Άνοιγμα ρυθμίσεων εφαρμογής</string>
     <string name="notification_settings_system_on">Οι ειδοποιήσεις Android επιτρέπονται</string>
     <string name="notification_settings_system_off">Οι ειδοποιήσεις Android είναι αποκλεισμένες</string>
-    <string name="notification_settings_system_detail">Το Android ελέγχει την άδεια, την εμφάνιση στην οθόνη κλειδώματος, τον ήχο και τη δόνηση, μαζί με τις διοικητικές και υπηρεσιακές ειδοποιήσεις. Το UNYRI δεν μπορεί να παρακάμψει τις επιλογές του συστήματος.</string>
+    <string name="notification_settings_system_detail">Επιλέξτε κανάλι μηνυμάτων ή κλήσεων στο Android για ήχο και δόνηση.</string>
     <string name="notification_settings_allow">Να επιτρέπονται ειδοποιήσεις</string>
     <string name="notification_settings_system_open">Άνοιγμα ρυθμίσεων ειδοποιήσεων Android</string>
     <string name="local_mode_notifications">Να επιτρέπονται ειδοποιήσεις</string>

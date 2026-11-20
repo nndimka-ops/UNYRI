@@ -26,6 +26,16 @@ fn endpoint_is_fcm_http_v1() {
     );
 }
 
+#[test]
+fn session_check_is_high_priority_data_only_without_identity_or_content() {
+    let provider = FcmPushProvider::new("fixture".into(),
+        FcmAccessTokenProvider::new(Arc::new(FakeTokenSource::new())),Arc::new(FakeFcmTransport::new()));
+    let value=provider.build_message("fixture-token",&PushEvent::session_check());
+    assert_eq!(value["message"]["data"],serde_json::json!({"event":"session_check"}));
+    assert_eq!(value["message"]["android"]["priority"],"high");
+    assert!(value["message"].get("notification").is_none());
+}
+
 #[tokio::test]
 async fn bearer_header_is_the_oauth_token() {
     let transport = Arc::new(FakeFcmTransport::new());

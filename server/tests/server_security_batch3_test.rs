@@ -334,7 +334,7 @@ async fn revoked_socket_receives_explicit_reason_then_close() {
     assert_eq!(send(&app,"DELETE",&format!("/devices/{}",a.auth.device_id),&other.token,Value::Null).await.0,StatusCode::NO_CONTENT);
     let frame=tokio::time::timeout(std::time::Duration::from_secs(3),socket.next()).await.unwrap().unwrap().unwrap();
     let Message::Text(text)=frame else {panic!("reason must arrive before close")};
-    let event:Value=serde_json::from_str(&text).unwrap();assert_eq!(event,json!({"type":"session.revoked","reason":"device_revoked"}));
+    let event:Value=serde_json::from_str(&text).unwrap();assert_eq!(event,json!({"type":"session.revoked","reason":"session_revoked"}));
     let close=tokio::time::timeout(std::time::Duration::from_secs(3),socket.next()).await.unwrap();
     assert!(matches!(close,Some(Ok(Message::Close(_)))|None));server.abort();
 }

@@ -58,15 +58,24 @@ class SavedAccountPushWorker(context: Context, params: WorkerParameters) : Corou
                 acknowledged = journal::acknowledged,
                 register = { owner, value ->
                     val store = session(owner.account)
-                    client.register(owner, object : SavedPushSession {
+                    try { client.register(owner, object : SavedPushSession {
                         override val refreshMutex = store.refreshMutex
                         override fun isCurrent() = current(owner)
                         override fun accessToken() = store.accessToken()
                         override fun expiresAt() = store.accessTokenExpiresAt()
                         override fun refreshToken() = store.refreshToken()
                         override fun refreshRequestId() = store.refreshRequestId()
+                        override fun deviceBinding() = store.deviceSessionBinding(createForLegacy = true)
                         override fun saveTokens(access: String, expiry: Instant, refresh: String) = store.saveTokens(access, expiry, refresh)
-                    }, value)
+                    }, value) } catch (failure: com.messenger.app.data.api.AuthApiException.Api) {
+                        if (com.messenger.app.data.auth.isTerminalAuthFailure(failure) && current(owner)) {
+                            if (owner.account.workspace != accounts.activeKey) accounts.removeInactive(owner.account.workspace, failure.code)
+                            else (applicationContext as? com.messenger.app.MessengerApp)?.let { app ->
+                                (app.authRepository as? com.messenger.app.data.auth.AuthRepositoryImpl)?.handleRevokedSession(app.authRepository.currentSessionEpoch(), failure.code)
+                            }
+                        }
+                        throw failure
+                    }
                 },
                 isCurrent = ::current,
                 acknowledge = { owner, value ->

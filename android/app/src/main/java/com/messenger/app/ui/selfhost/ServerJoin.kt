@@ -1,6 +1,7 @@
 package com.messenger.app.ui.selfhost
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.Modifier
@@ -86,7 +87,7 @@ fun ServerJoinHost(canShow: Boolean, onJoined: () -> Unit) {
 }
 
 @Composable
-fun JoinServerScanner() {
+fun JoinServerScanner(asSettingsRow: Boolean = false) {
     val context = LocalContext.current
     val app = context.applicationContext as com.messenger.app.MessengerApp
     var failed by remember { mutableStateOf(false) }
@@ -97,12 +98,16 @@ fun JoinServerScanner() {
                 scanningEpoch, ServerEndpoint.current())
         }
     }
-    TextButton(onClick = {
+    val scan = {
         scanningEpoch = app.authRepository.currentSessionEpoch()
         scanner.launch(com.journeyapps.barcodescanner.ScanOptions()
             .setCaptureActivity(com.messenger.app.capture.SharedQrCaptureActivity::class.java)
             .setOrientationLocked(false).setDesiredBarcodeFormats(com.journeyapps.barcodescanner.ScanOptions.QR_CODE)
             .setBeepEnabled(false).setBarcodeImageEnabled(false))
-    }) { Text(stringResource(R.string.sh_scan_join)) }
+    }
+    if (asSettingsRow) com.messenger.app.ui.settings.SettingsSecondaryButton(
+        modifier = Modifier.fillMaxWidth(), onClick = scan) {
+        Text(stringResource(R.string.sh_scan_join))
+    } else TextButton(onClick = scan) { Text(stringResource(R.string.sh_scan_join)) }
     if (failed) Text(stringResource(R.string.sh_link_invalid))
 }

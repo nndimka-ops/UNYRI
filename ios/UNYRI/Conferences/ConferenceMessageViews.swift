@@ -141,7 +141,7 @@ struct ConferenceInvitationShareSheet: View {
         let query = normalizedSearch
         return destinations.filter {
             query.isEmpty || ($0.otherUser?.visibleName ?? "").localizedCaseInsensitiveContains(query) ||
-                ($0.otherUser?.username ?? "").localizedCaseInsensitiveContains(query)
+                ($0.otherUser?.publicIdentityLabel ?? "").localizedCaseInsensitiveContains(query)
         }
     }
     private var emptyMessage: String? {
@@ -297,7 +297,7 @@ private struct ConferenceInvitationRecipientRow: View {
     @State private var failedRequest: ConferenceInvitationAvatarRequest?
     @State private var retry: UInt64 = 0
 
-    private var title: String { chat.otherUser?.visibleName ?? chat.otherUser?.username ?? "Chat" }
+    private var title: String { chat.otherUser?.visibleName ?? "Chat" }
     private var avatarRequest: ConferenceInvitationAvatarRequest {
         // Observing auth also invalidates the row immediately when its epoch ends.
         _ = auth.sessionGeneration

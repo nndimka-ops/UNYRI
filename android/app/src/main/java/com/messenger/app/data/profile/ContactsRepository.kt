@@ -19,6 +19,7 @@ class ContactsRepository(
     private val chats: ChatRepository,
     private val scope: CoroutineScope,
     private val origin: () -> String = { ServerEndpoint.current() },
+    private val worker: kotlinx.coroutines.CoroutineDispatcher = kotlinx.coroutines.Dispatchers.Default,
 ) : ContactsService {
     private var activeOwner: String? = null
     private var activeStore: ContactsStore? = null
@@ -38,13 +39,42 @@ class ContactsRepository(
         val owner = ownerKey() ?: return false
         if (activeOwner != owner) return false
         val id = userId.lowercase(java.util.Locale.ROOT)
-        return activeStore?.ids?.value?.contains(id) == true && id !in hidden && owner == ownerKey()
+        return activeStore?.hasLoadedMembership == true && activeStore?.ids?.value?.contains(id) == true &&
+            id !in hidden && owner == ownerKey()
+    }
+
+    /** Session startup owns the book even when no Contacts UI has been opened. */
+    suspend fun sessionChanged() {
+        ensureOwner()
+        if (activeOwner == null) return
+        val book = store
+        book.retainForSession()
+        book.ensureLoaded()
+    }
+
+    /** Missed removals must refresh even when the account cache is still fresh. */
+    fun refreshForSession() {
+        val owner = ownerKey() ?: return
+        scope.launch {
+            if (owner != ownerKey()) return@launch
+            ensureOwner()
+            val book = store
+            book.retainForSession()
+            book.refreshForSession()
+        }
+    }
+
+    fun eraseDeletedPeer(id: String) {
+        if (activeOwner == ownerKey()) {
+            hidden += id
+            activeStore?.eraseDeletedPeer(id)
+        }
     }
 
     val store: ContactsStore
         get() {
             ensureOwner()
-            if (activeStore == null) activeStore = ContactsStore(this, scope)
+            if (activeStore == null) activeStore = ContactsStore(this, scope, worker)
             return checkNotNull(activeStore)
         }
 
@@ -64,7 +94,7 @@ class ContactsRepository(
             val page = api.contacts(token, cursor, server)
             ContactsPage(page.items.filter { it.user.id !in hidden }.map { entry ->
                 val user = entry.user
-                ContactEntry(PublicUser(user.id, user.username, user.displayName, user.avatarUrl, user.bio,
+                ContactEntry(PublicUser(user.id, "", user.displayName, user.avatarUrl, user.bio,
                     user.profileVersion, user.avatarVersion, user.hasAvatar, user.publicNumber, user.publicUsername), entry.source, entry.addedAt)
             }, page.nextCursor)
         } catch (failure: AuthApiException) {
@@ -74,7 +104,7 @@ class ContactsRepository(
             }
             if (status != 404) throw failure
             ContactsPage(chats.chats.first().filter { it.type == "direct" && !it.isBlocked }.mapNotNull { it.otherUser }
-                .filter { it.id !in hidden }.distinctBy { it.id }.map { ContactEntry(it, "legacy_chat") },
+                .filter { it.id !in hidden }.distinctBy { it.id }.map { ContactEntry(it.copy(username = ""), "legacy_chat") },
                 membershipAuthoritative = false)
         }
     }

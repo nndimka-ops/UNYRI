@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_relay_unavailable">تتطلب إعدادات الخصوصية خادم ترحيل لهذا الشخص، لكن هذا الخادم لا يوفره. تعذر توصيل نقل الملف.</string>
+</resources>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_relay_unavailable">Този сървър няма TURN реле. Разговорът с този човек изисква реле, за да се избегне пряка връзка.</string>
+    <string name="direct_peer_relay_unavailable">Събеседникът разрешава връзки само през сървър, но релето е недостъпно.</string>
+</resources>

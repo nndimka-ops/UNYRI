@@ -70,13 +70,13 @@ pub async fn lock_active_session(
             .fetch_optional(&mut **tx)
             .await?;
     if user.is_none() {
-        return Err(AppError::SessionRevoked);
+        return Err(AppError::AccountDeleted);
     }
     let active: bool = sqlx::query_scalar(
         "SELECT EXISTS(SELECT 1 FROM sessions s JOIN devices d ON d.id=s.device_id WHERE s.id=$1 AND s.user_id=$2 AND s.device_id=$3 AND s.revoked_at IS NULL AND s.expires_at>now() AND d.revoked_at IS NULL AND NOT EXISTS(SELECT 1 FROM installation_suspensions b WHERE b.installation_id IN (SELECT d.installation_id UNION SELECT va.client_installation_id FROM verified_installation_aliases va WHERE va.installation_id=d.verified_installation_id) AND (b.until_date IS NULL OR b.until_date>now())) AND NOT EXISTS(SELECT 1 FROM server_suspensions b WHERE b.user_id=s.user_id AND (b.until_date IS NULL OR b.until_date>now())))",
     ).bind(auth.session_id).bind(auth.user_id).bind(auth.device_id).fetch_one(&mut **tx).await?;
     if !active {
-        return Err(AppError::SessionRevoked);
+        return Err(terminal_error(terminal_reason(&mut **tx, auth.user_id, auth.device_id, auth.session_id).await?));
     }
     Ok(())
 }
@@ -86,6 +86,29 @@ struct SessionStatusRow {
     revoked_at: Option<chrono::DateTime<Utc>>,
     expires_at: chrono::DateTime<Utc>,
     read_only: bool,
+}
+
+pub fn terminal_error(reason: &str) -> AppError {
+    match reason {
+        "account_deleted" => AppError::AccountDeleted,
+        "account_suspended" => AppError::AccountSuspended,
+        _ => AppError::SessionRevoked,
+    }
+}
+
+/// Call only after verifying a server-signed access token or the exact refresh
+/// proof. Public sign-in never uses this lookup before password verification.
+pub async fn terminal_reason<'e, E>(db: E, user: Uuid, device: Uuid, session: Uuid) -> Result<&'static str, AppError>
+where E: sqlx::Executor<'e, Database=sqlx::Postgres> {
+    let (deleted, suspended): (bool, bool) = sqlx::query_as(
+        "SELECT NOT EXISTS(SELECT 1 FROM users WHERE id=$1 AND deleted_at IS NULL), \
+         EXISTS(SELECT 1 FROM server_suspensions WHERE user_id=$1 AND (until_date IS NULL OR until_date>now())) \
+         OR EXISTS(SELECT 1 FROM devices d JOIN installation_suspensions b ON b.installation_id IN \
+             (SELECT d.installation_id UNION SELECT va.client_installation_id FROM verified_installation_aliases va WHERE va.installation_id=d.verified_installation_id) \
+             WHERE d.id=$2 AND (b.until_date IS NULL OR b.until_date>now())) \
+         OR EXISTS(SELECT 1 FROM sessions s WHERE s.id=$3 AND s.revocation_reason='account_suspended')"
+    ).bind(user).bind(device).bind(session).fetch_one(db).await?;
+    Ok(if deleted { "account_deleted" } else if suspended { "account_suspended" } else { "session_revoked" })
 }
 
 fn read_only_allows(parts: &Parts) -> bool {
@@ -138,17 +161,20 @@ impl FromRequestParts<AppState> for AuthUser {
         let claims = decode_access_token(&state.config, token)?;
 
         let session = sqlx::query_as::<_, SessionStatusRow>(
-            "SELECT s.revoked_at, s.expires_at, EXISTS(SELECT 1 FROM admin_user_controls c WHERE c.user_id=s.user_id AND (c.read_only_until IS NULL OR c.read_only_until>now()) AND c.read_only_reason IS NOT NULL) AS read_only FROM sessions s WHERE s.id = $1 AND NOT EXISTS(SELECT 1 FROM devices d JOIN installation_suspensions b ON b.installation_id IN (SELECT d.installation_id UNION SELECT va.client_installation_id FROM verified_installation_aliases va WHERE va.installation_id=d.verified_installation_id) WHERE d.id=s.device_id AND (b.until_date IS NULL OR b.until_date>now())) AND NOT EXISTS (SELECT 1 FROM server_suspensions b WHERE b.user_id=s.user_id AND (b.until_date IS NULL OR b.until_date>now()))",
+            "SELECT s.revoked_at, s.expires_at, EXISTS(SELECT 1 FROM admin_user_controls c WHERE c.user_id=s.user_id AND (c.read_only_until IS NULL OR c.read_only_until>now()) AND c.read_only_reason IS NOT NULL) AS read_only FROM sessions s WHERE s.id = $1 AND EXISTS(SELECT 1 FROM users u WHERE u.id=s.user_id AND u.deleted_at IS NULL) AND NOT EXISTS(SELECT 1 FROM devices d JOIN installation_suspensions b ON b.installation_id IN (SELECT d.installation_id UNION SELECT va.client_installation_id FROM verified_installation_aliases va WHERE va.installation_id=d.verified_installation_id) WHERE d.id=s.device_id AND (b.until_date IS NULL OR b.until_date>now())) AND NOT EXISTS (SELECT 1 FROM server_suspensions b WHERE b.user_id=s.user_id AND (b.until_date IS NULL OR b.until_date>now()))",
         )
         .bind(claims.session_id)
         .fetch_optional(&state.db)
-        .await?
-        // A valid server-signed token whose session no longer exists (including
-        // account deletion) must clear the client's former account state.
-        .ok_or(AppError::SessionRevoked)?;
+        .await?;
+
+        // A successful request remains one round trip. A terminal lookup happens
+        // after a missing/revoked row so a concurrent deletion wins its reason.
+        let Some(session) = session else {
+            return Err(terminal_error(terminal_reason(&state.db, claims.sub, claims.device_id, claims.session_id).await?));
+        };
 
         if session.revoked_at.is_some() {
-            return Err(AppError::SessionRevoked);
+            return Err(terminal_error(terminal_reason(&state.db, claims.sub, claims.device_id, claims.session_id).await?));
         }
         if session.expires_at < Utc::now() {
             return Err(AppError::SessionRevoked);

@@ -34,19 +34,20 @@ private val publicCardFields = listOf(
     "contact" to R.string.manage_contact,
     "rules" to R.string.manage_rules,
     "retention" to R.string.manage_retention,
-    "max_file_bytes" to R.string.manage_file,
-    "user_quota_bytes" to R.string.manage_quota,
+    "max_file_bytes" to R.string.server_max_file_size,
+    "user_quota_bytes" to R.string.server_user_quota,
 )
 
 @Composable
 fun ServerCard(serverAddress: String? = null, onClose: () -> Unit) {
+    val locale = androidx.compose.ui.platform.LocalConfiguration.current.locales[0]
     var data by remember { mutableStateOf<JSONObject?>(null) }
     var failed by remember { mutableStateOf(false) }
     var attempt by remember { mutableStateOf(0) }
     val base = remember(serverAddress) {
         serverAddress ?: com.messenger.app.data.api.ServerEndpoint.resolve(com.messenger.app.BuildConfig.API_BASE_URL)
     }
-    LaunchedEffect(attempt) {
+    LaunchedEffect(base, attempt) {
         failed = false
         try {
             data = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
@@ -75,8 +76,16 @@ fun ServerCard(serverAddress: String? = null, onClose: () -> Unit) {
                 else if (data == null) CircularProgressIndicator()
                 data?.let { card ->
                     publicCardFields.forEach { (key, label) ->
+                        if (!card.has(key) || card.isNull(key)) return@forEach
+                        val raw = card.optString(key).trim()
+                        if (raw.isBlank()) return@forEach
+                        val value = if (key.endsWith("_bytes")) {
+                            val bytes = ServerCardValuePolicy.parseLimit(raw) ?: return@forEach
+                            if (bytes == 0L) stringResource(R.string.server_no_limit)
+                            else com.messenger.app.ui.settings.FileSizeFormatter.format(bytes, locale)
+                        } else raw
                         Text(stringResource(label), style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(top = 12.dp))
-                        Text(card.optString(key).ifBlank { "—" })
+                        Text(value)
                     }
                 }
             }

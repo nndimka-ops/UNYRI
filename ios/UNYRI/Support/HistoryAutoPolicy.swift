@@ -2,22 +2,37 @@ import Foundation
 
 struct HistoryAutoPreferences {
     let prefix: String
-    init(server: String, owner: String) { prefix = "history-auto-v1:\(server):\(owner):" }
+    private let defaults: UserDefaults
+    init(server: String, owner: String, scope: AccountSecretScope? = nil, defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+        let old = "history-auto-v1:\(server):\(owner):"
+        prefix = scope.map { $0.preferencePrefix + "history:" + server.lowercased() + ":" } ?? old
+        if let scope, scope.ownsLegacy(defaults: defaults) {
+            for suffix in ["enabled", "wifi", "uploadsAllowed", "success"] where defaults.object(forKey: prefix + suffix) == nil {
+                if let value = defaults.object(forKey: old + suffix) {
+                    defaults.set(value, forKey: prefix + suffix)
+                    if let saved = defaults.object(forKey: prefix + suffix) as? NSObject, saved.isEqual(value) {
+                        defaults.removeObject(forKey: old + suffix)
+                    }
+                }
+            }
+        }
+    }
     var enabled: Bool {
-        get { UserDefaults.standard.bool(forKey: prefix + "enabled") }
-        nonmutating set { UserDefaults.standard.set(newValue, forKey: prefix + "enabled") }
+        get { defaults.bool(forKey: prefix + "enabled") }
+        nonmutating set { defaults.set(newValue, forKey: prefix + "enabled") }
     }
     var wifiOnly: Bool {
-        get { UserDefaults.standard.object(forKey: prefix + "wifi") as? Bool ?? true }
-        nonmutating set { UserDefaults.standard.set(newValue, forKey: prefix + "wifi") }
+        get { defaults.object(forKey: prefix + "wifi") as? Bool ?? true }
+        nonmutating set { defaults.set(newValue, forKey: prefix + "wifi") }
     }
     var uploadsAllowed: Bool {
-        get { UserDefaults.standard.object(forKey: prefix + "uploadsAllowed") as? Bool ?? false }
-        nonmutating set { UserDefaults.standard.set(newValue, forKey: prefix + "uploadsAllowed") }
+        get { defaults.object(forKey: prefix + "uploadsAllowed") as? Bool ?? false }
+        nonmutating set { defaults.set(newValue, forKey: prefix + "uploadsAllowed") }
     }
     var lastSuccess: Double {
-        get { UserDefaults.standard.double(forKey: prefix + "success") }
-        nonmutating set { UserDefaults.standard.set(newValue, forKey: prefix + "success") }
+        get { defaults.double(forKey: prefix + "success") }
+        nonmutating set { defaults.set(newValue, forKey: prefix + "success") }
     }
     var due: Bool { Date().timeIntervalSince1970 - lastSuccess >= 86400 }
 }

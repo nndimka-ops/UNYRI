@@ -212,7 +212,7 @@
     <string name="voice_open_app_settings">打开应用设置</string>
     <string name="notification_settings_system_on">Android 通知已允许</string>
     <string name="notification_settings_system_off">Android 通知已被禁止</string>
-    <string name="notification_settings_system_detail">Android 管理权限、锁屏显示、铃声和振动，包括管理和服务通知。UNYRI 无法覆盖你的系统选择。</string>
+    <string name="notification_settings_system_detail">在Android中选择消息或通话通知渠道，设置声音和振动。</string>
     <string name="notification_settings_allow">允许通知</string>
     <string name="notification_settings_system_open">打开 Android 通知设置</string>
     <string name="local_mode_notifications">允许通知</string>

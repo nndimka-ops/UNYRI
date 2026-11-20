@@ -47,6 +47,15 @@ class DirectTransferRecoveryTest {
         val rejected = base().copy(state = "rejected")
         assertEquals(rejected, rejected.afterProcessRestart(1234))
     }
+    @Test fun missingRelayRemainsPausedWithoutAutomaticRetryAfterRestart() {
+        for (role in listOf("sender", "receiver")) {
+            val paused = base().copy(role=role,state="paused",reason="relay_unavailable",durableOffset=0).afterProcessRestart(1234)
+            assertEquals("relay_unavailable",paused.reason)
+            assertTrue(DirectManualRuntime.safetyBlocked(paused))
+            assertFalse(DirectManualRuntime.byteEligible(paused))
+            assertFalse(DirectManualRuntime.requestEligible(paused))
+        }
+    }
     @Test fun initialMailbox404PreservesExplicitConsentAndCannotBypassRealAccessRevocation() {
         val offered = base().copy(consent = false, state = "offered", registered = false)
         assertTrue(offered.isAwaitingRegistration(404, false))

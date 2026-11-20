@@ -42,6 +42,8 @@ pub struct BlockedResponse {
 struct BlockedRow {
     id: Uuid,
     username: String,
+    public_username: Option<String>,
+    unyri_number: String,
     display_name: String,
     bio: Option<String>,
     avatar_url: Option<String>,
@@ -78,7 +80,8 @@ pub async fn list(
     );
     let limit = query.limit.unwrap_or(50).clamp(1, 50);
     let rows: Vec<BlockedRow> = sqlx::query_as(
-        "SELECT b.blocked_user_id AS id, COALESCE(u.username,'') AS username, \
+        "SELECT b.blocked_user_id AS id, COALESCE(i.public_username,'') AS username, \
+         i.public_username, COALESCE(i.unyri_number::text,'') AS unyri_number, \
          COALESCE(u.display_name,CASE WHEN EXISTS(SELECT 1 FROM users actual WHERE actual.id=b.blocked_user_id) \
              THEN 'Недоступный аккаунт' ELSE 'Удалённый аккаунт' END) AS display_name, u.bio, u.avatar_url, \
          COALESCE(u.profile_version,1) AS profile_version, COALESCE(u.avatar_version,0) AS avatar_version, (u.avatar_key IS NOT NULL) AS has_avatar, \
@@ -86,8 +89,10 @@ pub async fn list(
          AND NOT EXISTS(SELECT 1 FROM user_blocks reverse_block WHERE reverse_block.user_id=u.id AND reverse_block.blocked_user_id=$1) \
          AND NOT EXISTS(SELECT 1 FROM user_block_installations restricted JOIN devices viewer ON viewer.verified_installation_id=restricted.installation_id \
              WHERE viewer.id=$5 AND restricted.user_id=u.id) \
+         LEFT JOIN user_identities i ON i.user_id=u.id \
          WHERE b.user_id=$1 AND ($2::uuid IS NULL OR b.blocked_user_id>$2) \
-         AND (COALESCE(u.username_normalized,'') ILIKE $3 ESCAPE '\\' OR COALESCE(u.display_name,'Удалённый аккаунт') ILIKE $3 ESCAPE '\\') \
+         AND (COALESCE(i.public_username,'') ILIKE $3 ESCAPE '\\' OR COALESCE(i.unyri_number::text,'') ILIKE $3 ESCAPE '\\' \
+              OR COALESCE(u.display_name,'Удалённый аккаунт') ILIKE $3 ESCAPE '\\') \
          ORDER BY b.blocked_user_id LIMIT $4",
     )
     .bind(auth.user_id)
@@ -105,6 +110,8 @@ pub async fn list(
             user: PublicUser {
                 id: row.id,
                 username: row.username,
+                public_username: row.public_username,
+                unyri_number: row.unyri_number,
                 display_name: row.display_name,
                 bio: row.bio,
                 avatar_url: row.avatar_url,

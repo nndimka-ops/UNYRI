@@ -123,7 +123,7 @@ internal fun AdminHomeScreen(
 
         val summary = cache.summary
         AdminCard {
-            AdminActionRow(stringResource(R.string.sh_tools), enabled = !busy, onClick = { onOpen(AdminTarget.SelfHosting) })
+            AdminActionRow(stringResource(R.string.sh_registration_invites), enabled = !busy, onClick = { onOpen(AdminTarget.SelfHosting) })
         }
         val summaryFailure = cache.summaryFailed
         when {

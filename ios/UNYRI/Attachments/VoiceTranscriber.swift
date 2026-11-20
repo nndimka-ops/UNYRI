@@ -219,6 +219,17 @@ final class VoiceTranscriber {
         if let folder = transcriber.folder { VoiceTranscriptDisk.remove(ids, folder: folder) }
     }
 
+    /// Deletion journals may be consumed only after the disk removal commits.
+    static func forgetForDeletion(_ ids: [String]) throws {
+        forget(ids)
+        if let folder = shared.folder { try VoiceTranscriptDisk.removeChecked(ids, folder: folder) }
+    }
+
+    /// History recovery runs on its own actor and has an explicit account owner.
+    nonisolated static func erasePersisted(_ ids: [String], owner: String) throws {
+        try VoiceTranscriptDisk.removeChecked(ids, folder: folderName(owner: owner))
+    }
+
     /// The last local session ended: no transcript of any account stays in memory or on disk.
     static func eraseAll() {
         shared.dropMemory()
@@ -451,6 +462,15 @@ private enum VoiceTranscriptDisk {
 
     static func remove(_ ids: [String], folder: String) {
         queue.async { for id in ids { try? FileManager.default.removeItem(at: file(id, folder: folder)) } }
+    }
+
+    static func removeChecked(_ ids: [String], folder: String) throws {
+        try queue.sync {
+            for id in ids {
+                let target = file(id, folder: folder)
+                if FileManager.default.fileExists(atPath: target.path) { try FileManager.default.removeItem(at: target) }
+            }
+        }
     }
 
     static func removeFolder(_ folder: String) {

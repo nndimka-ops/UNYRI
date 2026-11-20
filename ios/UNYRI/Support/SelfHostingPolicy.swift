@@ -1,5 +1,22 @@
 import Foundation
 
+/// Official, app-owned destinations; no server response can replace these links.
+enum SelfHostingGuidePolicy {
+    static let repositoryURL = URL(string: "https://github.com/nndimka-ops/UNYRI")!
+    static let releasesURL = repositoryURL.appendingPathComponent("releases")
+
+    static func guideURL(language: String) -> URL {
+        let code = language.lowercased().split(whereSeparator: { $0 == "-" || $0 == "_" }).first.map(String.init) ?? ""
+        let file: String
+        switch code {
+        case "ru": file = "SELF_HOSTING.md"
+        case "uk": file = "SELF_HOSTING_UK.md"
+        default: file = "SELF_HOSTING_EN.md"
+        }
+        return repositoryURL.appendingPathComponent("blob/main/docs").appendingPathComponent(file)
+    }
+}
+
 /// Pure SH-3 rules shared with the offline Swift contract runner.
 enum SelfHostingPolicy {
     struct Invite: Equatable, CustomStringConvertible {

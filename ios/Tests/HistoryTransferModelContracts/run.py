@@ -48,8 +48,11 @@ final class LAContext {
 enum AVMediaType { case video }
 enum AVCaptureDevice { static func requestAccess(for type: AVMediaType) async -> Bool { true } }
 struct HistoryAutoPreferences {
-    init(server: String, owner: String) {}
+    init(server: String, owner: String, scope: AccountSecretScope? = nil) {}
     var lastSuccess: Double { get { 0 } nonmutating set {} }
+}
+extension AccountSecretScope {
+    static func current(owner: String) -> Self { Self(origin: "https://fixture.invalid", slot: "fixture", owner: owner) }
 }
 final class HistoryAccountLease {
     var operation = false
@@ -268,6 +271,6 @@ with tempfile.TemporaryDirectory(prefix="coco-transfer-model-") as directory:
         'check(try fixtureKeys(server: server, owner: owner, device: recipientID).load() == key,',
         'let durable = try fixtureKeys(server: server, owner: owner, device: recipientID).load(); check(durable == key,')
     source.write_text(fixture + "\n" + model + "\n" + checks, encoding="utf-8")
-    sources = ["HistoryArchive.swift", "HistoryBackupCoordinator.swift", "HistoryBackupCrypto.swift", "HistoryRecoveryKeys.swift", "HistoryTransfer.swift"]
+    sources = ["AccountSecretScope.swift", "HistoryArchive.swift", "HistoryBackupCoordinator.swift", "HistoryBackupCrypto.swift", "HistoryRecoveryKeys.swift", "HistoryTransfer.swift"]
     subprocess.run(["swiftc", "-parse-as-library", *[str(root / "ios/UNYRI/Support" / name) for name in sources], str(source), "-o", str(executable)], check=True)
     subprocess.run([str(executable)], check=True, timeout=40)

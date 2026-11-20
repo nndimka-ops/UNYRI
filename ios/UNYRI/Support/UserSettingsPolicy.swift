@@ -104,13 +104,16 @@ struct AppLockPolicy: Equatable {
     var timeout: TimeInterval = 0
     private(set) var locked = true
     private(set) var backgroundUptime: TimeInterval?
-    mutating func background(at uptime: TimeInterval) { backgroundUptime = uptime; if enabled && timeout == 0 { locked = true } }
-    mutating func activate(at uptime: TimeInterval) {
-        if enabled, let backgroundUptime, uptime - backgroundUptime >= timeout { locked = true }
+    private var backgroundContinuous: ContinuousClock.Instant?
+    mutating func background(at uptime: TimeInterval, continuous: ContinuousClock.Instant = .now) { backgroundUptime = uptime; backgroundContinuous = continuous; if enabled && timeout == 0 { locked = true } }
+    mutating func activate(at uptime: TimeInterval, continuous: ContinuousClock.Instant = .now) {
+        if enabled, let start = backgroundContinuous, continuous >= start + .seconds(timeout) { locked = true }
+        backgroundContinuous = nil
+        if enabled, let backgroundUptime, (uptime < backgroundUptime || uptime - backgroundUptime >= timeout) { locked = true }
         backgroundUptime = nil
     }
     mutating func unlock() { locked = false }
-    mutating func invalidate() { locked = true; backgroundUptime = nil }
+    mutating func invalidate() { locked = true; backgroundUptime = nil; backgroundContinuous = nil }
 }
 
 /// Reading requires content the current account can actually see. Transport

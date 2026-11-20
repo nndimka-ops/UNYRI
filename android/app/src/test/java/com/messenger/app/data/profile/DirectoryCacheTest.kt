@@ -5,13 +5,25 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class DirectoryCacheTest {
-    private fun users(start: Int, count: Int) = (start until start + count).map { PublicUser("$it", "user$it", "Person $it", "temporary-url", "bio") }
+    @Test fun `legacy cached logins are removed on read and never written into new people caches`() {
+        val privatePeer = PublicUser("peer", "private_login", "Alice", null, publicNumber = "123456789", publicUsername = "alice")
+        val historical = DirectoryCache(listOf(privatePeer))
+        assertEquals("", historical.search("Alice", 30, 0).items.single().username)
+        for (clean in listOf(DirectoryCache().append(0, listOf(privatePeer)), historical.remember(listOf(privatePeer)))) {
+            val encoded = kotlinx.serialization.json.Json.encodeToString(DirectoryCache.serializer(), clean)
+            assertFalse(encoded.contains("private_login"))
+            assertEquals("alice", clean.items.single().publicUsername)
+            assertEquals("123456789", clean.items.single().publicNumber)
+        }
+    }
+
+    private fun users(start: Int, count: Int) = (start until start + count).map { PublicUser("$it", "user$it", "Person $it", "temporary-url", "bio", publicUsername = "user$it") }
     @Test fun `only contiguous prefix is cached with bounded identities and no volatile fields`() {
         val initial = DirectoryCache().append(0, users(0, 30))
         assertEquals(initial, initial.append(60, users(60, 30)))
         val full = initial.append(30, users(30, 30)).append(60, users(60, 30)).append(90, users(90, 30))
         assertEquals(100, full.items.size)
-        assertTrue(full.items.all { it.bio == null && it.avatarUrl == null })
+        assertTrue(full.items.all { it.bio == null && it.avatarUrl == null && it.username.isEmpty() })
         assertEquals(2, full.append(0, users(200, 2)).items.size)
     }
     @Test fun `saved directory survives encoding and supports local nickname and display filtering`() {

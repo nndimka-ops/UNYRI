@@ -1,5 +1,5 @@
 import Foundation
-#if canImport(Security)
+#if canImport(UIKit) && canImport(Security)
 import Security
 #endif
 
@@ -12,9 +12,10 @@ struct HistoryRecoveryKeys {
     private let name: String
     private let read: (String) throws -> Data?
     private let insert: (String, Data) throws -> Void
-    init(server: String, owner: String, read: @escaping (String) throws -> Data?, insert: @escaping (String, Data) throws -> Void, replace: ((String, Data) throws -> Void)? = nil) throws {
+    init(server: String, owner: String, scope: AccountSecretScope? = nil, read: @escaping (String) throws -> Data?, insert: @escaping (String, Data) throws -> Void, replace: ((String, Data) throws -> Void)? = nil) throws {
         try HistoryArchive.validateId(server); try HistoryArchive.validateId(owner)
-        name = "history-v1:\(server):\(owner)"; self.read = read; self.insert = insert; self.replace = replace
+        name = scope.map { $0.historyPrefix + server.lowercased() } ?? "history-v1:\(server):\(owner)"
+        self.read = read; self.insert = insert; self.replace = replace
     }
     func load() throws -> Data? {
         Self.lock.lock(); defer { Self.lock.unlock() }
@@ -48,15 +49,18 @@ struct HistoryRecoveryKeys {
     }
 }
 
-#if canImport(Security)
+#if canImport(UIKit) && canImport(Security)
 extension HistoryRecoveryKeys {
     static func deviceStore(server: String, owner: String) throws -> HistoryRecoveryKeys {
+        Self.lock.lock(); defer { Self.lock.unlock() }
+        try HistoryArchive.validateId(server); try HistoryArchive.validateId(owner)
+        let scope = AccountSecretScope.current(owner: owner)
         let service = (Bundle.main.bundleIdentifier ?? "com.messenger.coco") + ".history-recovery"
         func query(_ name: String) -> [String: Any] {
             [kSecClass as String: kSecClassGenericPassword, kSecAttrService as String: service,
              kSecAttrAccount as String: name, kSecAttrSynchronizable as String: false]
         }
-        return try HistoryRecoveryKeys(server: server, owner: owner, read: { name in
+        func read(_ name: String) throws -> Data? {
             var request = query(name)
             request[kSecReturnData as String] = true
             request[kSecMatchLimit as String] = kSecMatchLimitOne
@@ -66,7 +70,8 @@ extension HistoryRecoveryKeys {
             guard status == errSecSuccess else { throw NSError(domain: NSOSStatusErrorDomain, code: Int(status)) }
             guard let data = item as? Data else { throw Failure.damaged }
             return data
-        }, insert: { name, key in
+        }
+        func insert(_ name: String, _ key: Data) throws {
             var request = query(name)
             request[kSecValueData as String] = key
             request[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
@@ -74,7 +79,18 @@ extension HistoryRecoveryKeys {
             // Never SecItemUpdate here: two concurrent setup screens must not
             // replace each other's recovery key. Caller can reload after conflict.
             guard status == errSecSuccess else { throw NSError(domain: NSOSStatusErrorDomain, code: Int(status)) }
-        }, replace: { name, key in
+        }
+        let name = scope.historyPrefix + server.lowercased()
+        if scope.ownsLegacy(defaults: .standard) {
+            _ = try AccountSecretScope.migrate(old: "history-v1:\(server):\(owner)", new: name, read: read, insert: { name, data in
+                guard data.count == 32 else { throw Failure.damaged }
+                try insert(name, data)
+            }, remove: { old in
+                let status = SecItemDelete(query(old) as CFDictionary)
+                guard status == errSecSuccess || status == errSecItemNotFound else { throw Failure.persistence }
+            })
+        }
+        return try HistoryRecoveryKeys(server: server, owner: owner, scope: scope, read: read, insert: insert, replace: { name, key in
             let status = SecItemUpdate(query(name) as CFDictionary, [kSecValueData as String: key] as CFDictionary)
             guard status == errSecSuccess else { throw NSError(domain: NSOSStatusErrorDomain, code: Int(status)) }
         })

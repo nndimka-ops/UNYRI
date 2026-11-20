@@ -19,7 +19,7 @@
     <string name="search_recent">最近の検索</string>
     <string name="search_scope_messages">メッセージ</string>
     <string name="settings_search_label">検索</string>
-    <string name="unified_search_hint">保存済みのチャットとメッセージをオフラインで検索します。このサーバーのユーザーをユーザー名で探します。</string>
+    <string name="unified_search_hint">保存したチャットやメッセージをオフラインで検索できます。このサーバーの人を番号または@ユーザー名で探せます。</string>
     <string name="unified_search_network">サーバー検索を利用できません。ローカルの検索結果は引き続き利用できます。</string>
     <string name="unified_search_local_error">保存済みのメッセージを読み込めませんでした。もう一度検索してください。</string>
 </resources>

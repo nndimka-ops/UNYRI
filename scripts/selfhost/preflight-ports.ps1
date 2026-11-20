@@ -1,4 +1,8 @@
-function Get-SelfhostPorts([bool]$Rooms) {
+# -Check executes the installer preflight; dot-sourcing remains supported.
+[CmdletBinding()]
+param([switch]$Check, [switch]$Rooms, [switch]$LocalTrial)
+function Get-SelfhostPorts([bool]$Rooms, [bool]$LocalTrial = $false) {
+    if ($LocalTrial) { return @(@{ Port = 18080; Protocol = 'TCP' }, @{ Port = 18443; Protocol = 'TCP' }, @{ Port = 13478; Protocol = 'TCP' }, @{ Port = 13478; Protocol = 'UDP' }) + @(59152..59200 | ForEach-Object { @{ Port = $_; Protocol = 'UDP' } }) }
     $ports = @(
         @{ Port = 80; Protocol = 'TCP' }, @{ Port = 443; Protocol = 'TCP' },
         @{ Port = 3478; Protocol = 'TCP' }, @{ Port = 3478; Protocol = 'UDP' }
@@ -31,9 +35,9 @@ function Format-SelfhostPortConflicts([hashtable]$Conflicts) {
     }
 }
 
-function Test-SelfhostPorts([bool]$Rooms) {
+function Test-SelfhostPorts([bool]$Rooms, [bool]$LocalTrial = $false) {
     $wanted = @{}; $ours = @{}; $conflicts = @{}
-    foreach ($entry in (Get-SelfhostPorts $Rooms)) { $wanted["$($entry.Port)/$($entry.Protocol)"] = $true }
+    foreach ($entry in (Get-SelfhostPorts $Rooms $LocalTrial)) { $wanted["$($entry.Port)/$($entry.Protocol)"] = $true }
     # No embedded double quotes in native arguments (Windows PowerShell 5.1 strips
     # them): read all labels and pick the compose project here.
     $containers = @(& docker ps --format '{{.ID}}|{{.Names}}|{{.Labels}}')
@@ -98,3 +102,5 @@ function Get-SelfhostFirewallRules([bool]$Rooms) {
 function Format-SelfhostFirewallRule($Rule) {
     return "New-NetFirewallRule -Name '$($Rule[0])' -DisplayName '$($Rule[0])' -Direction Inbound -Action Allow -Protocol $($Rule[1]) -LocalPort $($Rule[2]) -Profile Any"
 }
+
+if ($Check) { if (Test-SelfhostPorts ([bool]$Rooms) ([bool]$LocalTrial)) { exit 0 } else { exit 1 } }

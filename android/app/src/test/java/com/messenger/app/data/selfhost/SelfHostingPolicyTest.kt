@@ -14,6 +14,23 @@ import kotlinx.serialization.encodeToString
 import kotlin.test.*
 
 class SelfHostingPolicyTest {
+    @Test fun `guide language selects only official GitHub pages`() {
+        for ((language, filename) in listOf(
+            "ru" to "SELF_HOSTING.md", "ru-RU" to "SELF_HOSTING.md",
+            "uk" to "SELF_HOSTING_UK.md", "UK_ua" to "SELF_HOSTING_UK.md",
+            "en" to "SELF_HOSTING_EN.md", "ro" to "SELF_HOSTING_EN.md",
+            "" to "SELF_HOSTING_EN.md", "https://untrusted.test" to "SELF_HOSTING_EN.md",
+        )) {
+            val url = java.net.URI(SelfHostingGuidePolicy.guideUrl(language))
+            assertEquals("https", url.scheme)
+            assertEquals("github.com", url.host)
+            assertEquals("/nndimka-ops/UNYRI/blob/main/docs/$filename", url.path)
+            assertNull(url.userInfo)
+            assertNull(url.query)
+            assertNull(url.fragment)
+        }
+    }
+
     @Test fun `missing invalid and closed registration have distinct localized feedback and refresh policy`() {
         val messages = listOf("invite_required", "invite_invalid", "conflict").map { code ->
             assertTrue(registrationPolicyStale(code)); assertNotNull(registrationFailureMessage(code))

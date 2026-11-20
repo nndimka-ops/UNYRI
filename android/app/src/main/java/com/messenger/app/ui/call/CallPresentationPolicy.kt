@@ -39,6 +39,10 @@ object CallPresentationPolicy {
     fun cameraTarget(requestedId: String, live: CallUiState): Boolean? =
         videoControls(live)?.takeIf { it.callId == requestedId }?.let { !it.localVideoEnabled }
 
+    fun controlsVisible(available: Boolean, terminal: Boolean): Boolean = available && !terminal
+
+    fun videoUpgradeVisible(state: CallUiState): Boolean = connected(state)?.videoMode == VideoMode.AUDIO
+
     fun flipVisible(state: CallUiState, multipleCameras: Boolean, chrome: Boolean = true): Boolean =
         connected(state)?.let { chrome && multipleCameras && it.videoMode == VideoMode.VIDEO &&
             it.localVideoEnabled && it.localCameraState == LocalCameraState.ON } == true

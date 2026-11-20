@@ -6,6 +6,7 @@ struct ContactListPerson: Equatable, Sendable {
     let name: String
     let username: String
     let online: Bool
+    var number: String = ""
 }
 
 struct ContactListSection: Equatable, Identifiable, Sendable {
@@ -28,6 +29,8 @@ enum ContactsPresentation {
     }
 
     static func matches(_ person: ContactListPerson, query raw: String) -> Bool {
+        if let target = PublicIdentityPolicy.input(raw), case .number(let number) = target,
+           number.count == 9, person.number == number { return true }
         let term = fold(query(raw))
         return term.isEmpty || fold(person.name).contains(term) || fold(person.username).contains(term)
     }

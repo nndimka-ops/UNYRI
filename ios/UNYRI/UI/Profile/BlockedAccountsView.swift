@@ -35,7 +35,7 @@ private struct BlockedAccountsList: View {
             UnyriSettingsGroup {
                 HStack(spacing: 10) {
                     Image(systemName: "magnifyingglass").foregroundStyle(UnyriColors.secondaryText)
-                    TextField(LocalizedStringKey(model.mode == .blocked ? "Search blocked accounts" : "Search people"), text: $model.query)
+                    TextField(LocalizedStringKey("Name, number or @username"), text: $model.query)
                         .textInputAutocapitalization(.never).autocorrectionDisabled()
                         .accessibilityIdentifier("blocked-accounts-search")
                     if !model.query.isEmpty {
@@ -115,8 +115,8 @@ private struct BlockedAccountRow: View {
             VStack(alignment: .leading, spacing: 3) {
                 Text(user.visibleName)
                     .font(.body.weight(.medium)).foregroundStyle(UnyriColors.primaryText).lineLimit(2)
-                if !user.publicIdentityLabel.isEmpty {
-                    Text(user.publicIdentityLabel).font(.subheadline).foregroundStyle(UnyriColors.secondaryText).lineLimit(1)
+                if !user.peerIdentityLabel(legacyServer: users.legacyIdentityServer).isEmpty {
+                    Text(user.peerIdentityLabel(legacyServer: users.legacyIdentityServer)).font(.subheadline).foregroundStyle(UnyriColors.secondaryText).lineLimit(1)
                 }
             }.frame(maxWidth: .infinity, alignment: .leading)
             if changing { ProgressView() }

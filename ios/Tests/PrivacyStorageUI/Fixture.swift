@@ -49,6 +49,7 @@ struct FixtureAccount { let id = "00000000-0000-0000-0000-000000000001" }
     func postNoContent(_ path: String, bearerToken: String) async throws {}
 }
 @MainActor final class UsersRepository: ObservableObject {
+    let legacyIdentityServer = false
     func search(query: String) async throws -> SearchResponse {
         SearchResponse(items: [PublicUser(id: "00000000-0000-0000-0000-000000000002", username: "alex", displayName: "Alexandra With A Long Display Name", bio: nil, avatarUrl: nil, profileVersion: 1, avatarVersion: 0, hasAvatar: false)], nextOffset: nil)
     }

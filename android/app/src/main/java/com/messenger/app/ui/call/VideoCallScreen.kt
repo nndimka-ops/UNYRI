@@ -388,55 +388,61 @@ internal fun VideoCallControlTray(
         }
         val controlSize = minOf(CallLayoutPolicy.controlSize(maxWidth.value, if (CallPresentationPolicy.controlsPerRow(maxWidth.value) == 2) 2 else controlCount).dp, if (CallPresentationPolicy.controlsPerRow(maxWidth.value) == 2) 64.dp else pixelFit)
         val primaryControls: @Composable () -> Unit = {
-            CallActionButton(
-                icon = if (state.localVideoEnabled) CocoIcons.Videocam else CallVideoOffIcon,
-                label = stringResource(if (state.localVideoEnabled) R.string.call_camera_off else R.string.call_camera_on),
-                caption = stringResource(R.string.call_caption_camera),
-                tint = if (!state.localVideoEnabled) colors.onAccent else colors.primaryText,
-                background = if (!state.localVideoEnabled) colors.accent else colors.glassPrimary,
-                active = !state.localVideoEnabled,
-                size = controlSize,
-                onClick = onCamera,
-                sensitive = true,
-                enabled = enabled,
-                testTag = "call-camera",
-            )
-            CallActionButton(
-                icon = if (state.isMuted) CocoIcons.MicOff else CocoIcons.Mic,
-                label = stringResource(if (state.isMuted) R.string.call_unmute else R.string.call_mute),
-                caption = stringResource(R.string.call_caption_mute),
-                tint = if (state.isMuted) colors.onAccent else colors.primaryText,
-                background = if (state.isMuted) colors.accent else colors.glassPrimary,
-                active = state.isMuted,
-                size = controlSize,
-                onClick = onToggleMute,
-                enabled = enabled,
-                testTag = "call-mute",
-            )
-            CallActionButton(
-                icon = CocoIcons.EndCall,
-                label = stringResource(R.string.call_end),
-                caption = stringResource(R.string.call_caption_end),
-                tint = colors.onDanger,
-                background = colors.danger,
-                endCall = true,
-                size = controlSize,
-                onClick = onHangup,
-                enabled = enabled,
-                testTag = "call-end",
-            )
-            CallAudioOutputButton(
-                currentKind = state.audioRoute,
-                availableRoutes = availableRoutes,
-                onSelectRoute = onSelectRoute,
-                tint = colors.primaryText,
-                background = colors.glassPrimary,
-                labelColor = colors.secondaryText,
-                size = controlSize,
-                showLabel = false,
-                videoCall = true,
-                enabled = enabled,
-            )
+            if (!enabled) {
+                // Disabled buttons omit themselves. Keep four inert layout children
+                // so the terminal tray retains its real wrapping height and gap.
+                repeat(controlCount) { Spacer(Modifier.size(controlSize)) }
+            } else {
+                CallActionButton(
+                    icon = if (state.localVideoEnabled) CocoIcons.Videocam else CallVideoOffIcon,
+                    label = stringResource(if (state.localVideoEnabled) R.string.call_camera_off else R.string.call_camera_on),
+                    caption = stringResource(R.string.call_caption_camera),
+                    tint = if (!state.localVideoEnabled) colors.onAccent else colors.primaryText,
+                    background = if (!state.localVideoEnabled) colors.accent else colors.glassPrimary,
+                    active = !state.localVideoEnabled,
+                    size = controlSize,
+                    onClick = onCamera,
+                    sensitive = true,
+                    enabled = enabled,
+                    testTag = "call-camera",
+                )
+                CallActionButton(
+                    icon = if (state.isMuted) CocoIcons.MicOff else CocoIcons.Mic,
+                    label = stringResource(if (state.isMuted) R.string.call_unmute else R.string.call_mute),
+                    caption = stringResource(R.string.call_caption_mute),
+                    tint = if (state.isMuted) colors.onAccent else colors.primaryText,
+                    background = if (state.isMuted) colors.accent else colors.glassPrimary,
+                    active = state.isMuted,
+                    size = controlSize,
+                    onClick = onToggleMute,
+                    enabled = enabled,
+                    testTag = "call-mute",
+                )
+                CallActionButton(
+                    icon = CocoIcons.EndCall,
+                    label = stringResource(R.string.call_end),
+                    caption = stringResource(R.string.call_caption_end),
+                    tint = colors.onDanger,
+                    background = colors.danger,
+                    endCall = true,
+                    size = controlSize,
+                    onClick = onHangup,
+                    enabled = enabled,
+                    testTag = "call-end",
+                )
+                CallAudioOutputButton(
+                    currentKind = state.audioRoute,
+                    availableRoutes = availableRoutes,
+                    onSelectRoute = onSelectRoute,
+                    tint = colors.primaryText,
+                    background = colors.glassPrimary,
+                    labelColor = colors.secondaryText,
+                    size = controlSize,
+                    showLabel = false,
+                    videoCall = true,
+                    enabled = enabled,
+                )
+            }
         }
         Surface(
             shape = CocoShapes.radiusCallControl,

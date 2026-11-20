@@ -37,7 +37,7 @@ let dipLow = (1..<1000).map { Burst.dipScale(CGFloat($0) / 1000) }.min() ?? 1
 check(bumpPeak >= 1.10 && bumpPeak <= 1.14, "bump peak")
 check(dipLow >= 0.89 && dipLow <= 0.93, "dip trough")
 check(Burst.flightDuration(distance: 0) == 0.26, "shortest flight")
-check(Burst.flightDuration(distance: 10_000) == 0.38, "longest flight")
+check(Burst.flightDuration(distance: 10_000) == 0.35, "longest flight is bounded to 350 ms")
 check((0..<100).allSatisfy { Burst.flightDuration(distance: CGFloat($0) * 10) <= Burst.flightDuration(distance: CGFloat($0 + 1) * 10) }, "flight grows with distance")
 for (from, to) in [(CGPoint(x: 200, y: 300), CGPoint(x: 80, y: 600)), (CGPoint(x: 80, y: 600), CGPoint(x: 300, y: 200)),
                    (CGPoint(x: 100, y: 400), CGPoint(x: 104, y: 402)), (CGPoint(x: 10, y: 10), CGPoint(x: 390, y: 800)),

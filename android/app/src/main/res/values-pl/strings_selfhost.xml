@@ -22,7 +22,7 @@
     <string name="sh_uses">Użycia</string>
     <string name="sh_days">Ważność (dni)</string>
     <string name="sh_invite_bounds">1–10 000 użyć; 1–365 dni.</string>
-    <string name="sh_create_invite">Utwórz zaproszenie</string>
+    <string name="sh_create_invite">Utwórz kod</string>
     <string name="sh_active">Aktywne</string>
     <string name="sh_revoked">Odwołane</string>
     <string name="sh_expired">Wygasłe</string>
@@ -30,15 +30,15 @@
     <string name="sh_unknown">Nieznane</string>
     <string name="sh_expiry">Wygasa</string>
     <string name="sh_creator">Utworzone przez</string>
-    <string name="sh_revoke">Odwołaj zaproszenie</string>
+    <string name="sh_revoke">Unieważnij</string>
     <string name="sh_revoke_confirm">Odwołać to zaproszenie? Nie pozwoli już na nowe rejestracje.</string>
     <string name="sh_more">Więcej zaproszeń</string>
     <string name="sh_self_check">Sprawdź serwer</string>
     <string name="sh_code_once">Zapisz lub udostępnij teraz. Kod jest wyświetlany tylko raz.</string>
-    <string name="sh_copy_code">Kopiuj kod</string>
+    <string name="sh_copy_code">Kopiuj</string>
     <string name="sh_share_code">Udostępnij kod</string>
     <string name="sh_copy_link">Kopiuj link</string>
-    <string name="sh_share_link">Udostępnij link</string>
+    <string name="sh_share_link">Udostępnij</string>
     <string name="sh_yes">tak</string>
     <string name="sh_no">nie</string>
     <string name="sh_ready">gotowe</string>
@@ -54,7 +54,7 @@
     <string name="sh_fix_storage">Sprawdź magazyn plików i uprawnienia przesyłania w instalatorze.</string>
     <string name="sh_fix_disk">Zostaw co najmniej 1 GB wolnego miejsca i zrób kopię przed czyszczeniem.</string>
     <string name="sh_fix_version">Użyj zgodnej wersji serwera i poczekaj na zakończenie aktualizacji.</string>
-    <string name="sh_guide">1. Zainstaluj Docker i UNYRI na stale włączonym komputerze. 2. Wybierz domenę lub DDNS. 3. Zarezerwuj adres komputera i przekieruj HTTPS i porty rozmów; przy CGNAT użyj VPS lub tunelu. 4. Potwierdź adres HTTPS lub zeskanuj QR zaproszenia. 5. Zaloguj się, odbierz prawa właściciela w Profilu kodem instalatora i zabezpiecz administrację. 6. Administracja → Własny serwer → Sprawdź serwer. Testuj przez dane komórkowe. Rób kopie przed aktualizacją; push wymaga dostawcy.</string>
+    <string name="sh_guide">1. Zainstaluj Docker i UNYRI na stale włączonym komputerze. 2. Wybierz domenę lub DDNS. 3. Zarezerwuj adres komputera i przekieruj HTTPS i porty rozmów; przy CGNAT użyj VPS lub tunelu. 4. Potwierdź adres HTTPS lub zeskanuj QR zaproszenia. 5. Zaloguj się, odbierz prawa właściciela w Profilu kodem instalatora i zabezpiecz administrację. 6. Administracja → Rejestracja i zaproszenia → Sprawdź serwer. Testuj przez dane komórkowe. Rób kopie przed aktualizacją; push wymaga dostawcy.</string>
     <string name="sh_check_setup">Prawa właściciela dostępne</string>
     <string name="sh_check_url">Adres publiczny</string>
     <string name="sh_check_url_config">Adres publiczny skonfigurowany</string>
@@ -88,4 +88,7 @@
     <string name="sh_compatibility">Wersja aplikacji zgodna</string>
     <string name="sh_socket">Bieżący WebSocket połączony</string>
     <string name="sh_scan_owner_code">Zeskanuj kod właściciela</string>
+    <string name="sh_registration_invites">Rejestracja i zaproszenia</string>
+    <string name="sh_mode_owner_only">Tylko właściciel może zmieniać tryb rejestracji.</string>
+    <string name="sh_saved_codes_hint">Kod jest widoczny tylko po utworzeniu. Zapisz lub udostępnij nowy kod przed opuszczeniem tego ekranu.</string>
 </resources>

@@ -298,10 +298,6 @@ async fn privacy_read_only_accounts_can_restrict_visibility_and_account_requests
 async fn assert_presence(app: &axum::Router, state: &AppState, ip: ConnectInfo<SocketAddr>, viewer: &str, viewer_id: &str, owner: &str, chat: &str, online: bool, seen: bool) {
     let direct = body_json(app.clone().oneshot(get_request(&format!("/chats/{chat}/presence"), ip, Some(viewer))).await.unwrap()).await;
     assert_eq!(direct["online"], online); assert_eq!(direct["last_seen_at"].is_string(), seen);
-    let username: String = sqlx::query_scalar("SELECT username FROM users WHERE id=$1").bind(Uuid::parse_str(owner).unwrap()).fetch_one(&state.db).await.unwrap();
-    let directory = body_json(app.clone().oneshot(get_request(&format!("/users/directory?q={username}"), ip, Some(viewer))).await.unwrap()).await;
-    let item = directory["items"].as_array().unwrap().iter().find(|item| item["id"] == owner).unwrap();
-    assert_eq!(item["online"], online); assert_eq!(item["last_seen_at"].is_string(), seen);
     let snapshot = messenger_server::presence::snapshot(state, Uuid::parse_str(viewer_id).unwrap(), &[Uuid::parse_str(owner).unwrap()]).await.unwrap();
     assert_eq!(snapshot.len(), 1); assert_eq!(snapshot[0].online, online); assert_eq!(snapshot[0].last_seen_at.is_some(), seen);
 }
@@ -340,7 +336,7 @@ async fn privacy_presence_projects_independent_fields_exceptions_and_blocks_on_r
 }
 
 #[tokio::test]
-async fn directory_is_bounded_and_shows_presence_only_to_contacts_or_everyone() {
+async fn retired_directory_stays_empty_and_known_peer_presence_respects_exceptions() {
     let state = spawn_state().await; let app = messenger_server::app(state.clone()); let ip = connect_info();
     let (viewer, viewer_id, _, _) = register_user(&app, ip, "dirviewer_").await;
     let (_, contact_id, _, _) = register_user(&app, ip, "dircontact_").await;
@@ -351,40 +347,35 @@ async fn directory_is_bounded_and_shows_presence_only_to_contacts_or_everyone() 
         let viewer = viewer.clone();
         async move { body_json(app.oneshot(get_request(&format!("/users/directory?{query}"), ip, Some(&viewer))).await.unwrap()).await }
     };
-    let ids = |body: &Value| body["items"].as_array().unwrap().iter().map(|item| item["id"].as_str().unwrap().to_owned()).collect::<Vec<_>>();
-
-    // An empty query lists the requester's contacts, never the whole server.
-    let empty = directory("q=".into()).await;
-    assert!(ids(&empty).contains(&contact_id));
-    assert!(!ids(&empty).contains(&stranger_id));
-    // So do one or two characters.
-    let short = directory("q=di".into()).await;
-    assert!(ids(&short).contains(&contact_id));
-    assert!(!ids(&short).contains(&stranger_id));
-    // Three or more characters search the server.
-    let full = directory(format!("q=%40{stranger_name}")).await;
-    assert_eq!(ids(&full), vec![stranger_id.clone()]);
-    // Pagination ends at the offset cap.
-    let deep = directory("q=dir&offset=201".into()).await;
-    assert!(ids(&deep).is_empty());
-    assert!(deep["next_offset"].is_null());
+    // No legacy query can expose contacts, display-name matches or private logins.
+    for query in ["q=".to_owned(), "q=di".into(), "q=dir&offset=201".into(),
+        format!("q=%40{stranger_name}"), format!("q={stranger_name}")] {
+        let page = directory(query).await;
+        assert_eq!(page, json!({"items":[],"next_offset":null}));
+        assert!(!page.to_string().contains(&stranger_name));
+    }
 
     let id = Uuid::parse_str(&stranger_id).unwrap(); let device = Uuid::parse_str(&stranger_device).unwrap();
     let (conn, _rx) = state.ws_registry.register(device).await;
     state.ws_registry.foreground(id, device, conn, true).await;
     messenger_server::presence::persist_user(&state, id).await;
-    // Default privacy is "everyone": a non-contact sees presence.
-    let item = directory(format!("q={stranger_name}")).await["items"][0].clone();
-    assert_eq!(item["online"], true); assert!(item["last_seen_at"].is_string());
-    // "Nobody, except the viewer" still applies to live presence, but the
-    // directory shows non-contacts presence only for "everyone".
+    // Retiring discovery does not change presence for an already known UUID.
+    let viewer_uuid = Uuid::parse_str(&viewer_id).unwrap();
+    let visible = messenger_server::presence::snapshot(&state, viewer_uuid, &[id]).await.unwrap();
+    assert!(visible[0].online && visible[0].last_seen_at.is_some());
+    // An explicit allow exception still applies to that UUID snapshot.
     let mut p = update(&privacy(&app, ip, &stranger).await);
     p["online_visibility"] = json!("nobody"); p["last_seen_visibility"] = json!("nobody"); p["always_allow"] = json!([viewer_id]);
     save(&app, ip, &stranger, p).await;
-    let snapshot = messenger_server::presence::snapshot(&state, Uuid::parse_str(&viewer_id).unwrap(), &[id]).await.unwrap();
-    assert!(snapshot[0].online);
-    let item = directory(format!("q={stranger_name}")).await["items"][0].clone();
-    assert_eq!(item["online"], false); assert!(item["last_seen_at"].is_null());
+    let snapshot = messenger_server::presence::snapshot(&state, viewer_uuid, &[id]).await.unwrap();
+    assert!(snapshot[0].online && snapshot[0].last_seen_at.is_some());
+    let mut p = update(&privacy(&app, ip, &stranger).await);
+    p["always_allow"] = json!([]);
+    save(&app, ip, &stranger, p).await;
+    let snapshot = messenger_server::presence::snapshot(&state, viewer_uuid, &[id]).await.unwrap();
+    assert!(!snapshot[0].online && snapshot[0].last_seen_at.is_none());
+    assert_eq!(directory(format!("q={stranger_name}")).await,
+        json!({"items":[],"next_offset":null}));
     state.ws_registry.unregister(device, conn).await;
 }
 

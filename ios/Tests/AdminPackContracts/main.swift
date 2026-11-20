@@ -103,7 +103,7 @@ check(row.screenshots.isEmpty)
 // The moderation centre. Every key here is what `GET /admin/users/:id` actually
 // returns, so the fixture cannot drift away from the server unnoticed.
 let centre: AdminUserDetailDTO = decode("""
-{"profile":{"user_id":"u1","username":"anna","display_name":"Anna","has_avatar":true,
+{"profile":{"user_id":"u1","public_username":"anna_public","unyri_number":"123456789","display_name":"Anna","has_avatar":true,
   "created_at":"2026-01-01T00:00:00.000000Z"},
  "moderation":{"status":"suspended","until":null,"reason":"spam","reports_total":4,
   "reports_open":2,"notes":1},
@@ -114,7 +114,8 @@ let centre: AdminUserDetailDTO = decode("""
    "restriction_reason":"compromised","is_administrator_device":false}],
  "is_administrator":false,"suspend_allowed":true}
 """)
-check(centre.profile.username == "anna")
+check(centre.profile.publicUsername == "anna_public")
+check(centre.profile.unyriNumber == "123456789")
 check(centre.moderation.status == "suspended")
 check(centre.moderation.reportsTotal == 4)
 check(centre.devices.count == 1)
@@ -122,10 +123,11 @@ check(centre.devices[0].installationId == "i1")
 check(centre.devices[0].restrictionActive)
 check(centre.suspendAllowed)
 
-// The account search reuses the report/feedback row keys.
-let userRow: AdminUserRowDTO = decode("{\"id\":\"u1\",\"user_id\":\"u1\",\"description\":\"Anna\",\"reason\":\"anna\",\"status\":\"suspended\"}")
+// The account search exposes explicit public identity fields.
+let userRow: AdminUserRowDTO = decode("{\"id\":\"u1\",\"user_id\":\"u1\",\"display_name\":\"Anna\",\"public_username\":\"anna_public\",\"unyri_number\":\"123456789\",\"status\":\"suspended\"}")
 check(userRow.displayName == "Anna")
-check(userRow.username == "anna")
+check(userRow.publicUsername == "anna_public")
+check(userRow.unyriNumber == "123456789")
 check(userRow.status == "suspended")
 
 // Timeline events keep their semantic kind and a stable reference.

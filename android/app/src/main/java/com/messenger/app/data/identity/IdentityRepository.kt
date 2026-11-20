@@ -16,21 +16,42 @@ class IdentityRepository(private val api: IdentityApi, private val auth: AuthRep
     private val mutex = Mutex()
     private var scope: String? = null
     private var known = false
+    private var refreshedAt: Long? = null
+    private val refreshPolicy = IdentityRefreshPolicy()
     private val mutable = MutableStateFlow<OwnerIdentity?>(null)
     val identity: StateFlow<OwnerIdentity?>
         get() { if (scope != owner()) invalidate(); return mutable }
     private val legacyMutable = MutableStateFlow(false)
     val legacy: StateFlow<Boolean>
         get() { if (scope != owner()) invalidate(); return legacyMutable }
+    internal fun ownerKey() = owner()
     private fun owner() = (auth.authState.value as? AuthSessionState.LoggedIn)?.user?.id?.let {
         "${server()}|$it|${auth.currentSessionEpoch()}"
     }
-    fun invalidate() { scope = null; known = false; mutable.value = null; legacyMutable.value = false }
+    fun invalidate() { scope = null; known = false; refreshedAt = null; mutable.value = null; legacyMutable.value = false }
     suspend fun supports(origin: String) = api.supports(origin)
-    suspend fun refresh(force: Boolean = false): OwnerIdentity? = mutex.withLock {
+    suspend fun refresh(force: Boolean = false): OwnerIdentity? {
         val captured = owner() ?: throw AuthApiException.Api("unauthorized", "Signed out")
-        if (scope != captured) { known = false; mutable.value = null; legacyMutable.value = false; scope = captured }
-        if (known && !force) return@withLock mutable.value
+        return mutex.withLock { refreshLocked(captured, force) }
+    }
+    internal suspend fun refreshOnForeground(expectedOwner: String): Unit = mutex.withLock {
+        if (expectedOwner != owner()) return@withLock
+        refreshLocked(expectedOwner, force = true, foreground = true)
+        Unit
+    }
+    internal suspend fun refreshOnConnection(expectedOwner: String, reconnect: Boolean): Unit = mutex.withLock {
+        if (expectedOwner != owner()) return@withLock
+        refreshLocked(expectedOwner, force = reconnect)
+        Unit
+    }
+    private suspend fun refreshLocked(captured: String, force: Boolean, foreground: Boolean = false): OwnerIdentity? {
+        check(captured == owner()) { "Identity owner changed" }
+        if (scope != captured) { invalidate(); scope = captured }
+        // The session epoch fences responses, but does not reset an account's foreground budget.
+        val account = captured.substringBeforeLast('|')
+        if (foreground && !refreshPolicy.foregroundDue(account, legacyMutable.value, mutable.value == null, refreshedAt)) return mutable.value
+        if (known && !force) return mutable.value
+        refreshPolicy.attempted(account)
         val origin = server()
         val token = auth.currentAccessToken() ?: error("Signed out")
         check(captured == owner())
@@ -38,7 +59,8 @@ class IdentityRepository(private val api: IdentityApi, private val auth: AuthRep
         check(captured == owner())
         check(response == null || response.userId == (auth.authState.value as AuthSessionState.LoggedIn).user.id)
         mutable.value = response; legacyMutable.value = response == null; known = true
-        response
+        refreshedAt = refreshPolicy.now()
+        return response
     }
     suspend fun update(current: OwnerIdentity, username: String?, policy: Discoverability): OwnerIdentity = mutex.withLock {
         val captured = owner(); check(captured != null && captured == scope)
@@ -48,6 +70,7 @@ class IdentityRepository(private val api: IdentityApi, private val auth: AuthRep
         val result = api.update(origin, token, current, username, policy, username != current.username)
         check(captured == owner() && result.userId == current.userId)
         mutable.value = result
+        refreshedAt = refreshPolicy.now()
         result
     }
     /** Null means an explicitly detected old server; empty means a new server found no exact match. */

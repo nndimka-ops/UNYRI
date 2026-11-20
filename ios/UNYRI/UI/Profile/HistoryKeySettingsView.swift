@@ -63,7 +63,7 @@ private final class HistoryKeySettingsModel: ObservableObject {
         let latest = try await coordinator.status(); try fence()
         keySaved = try keys(latest).load() != nil
         state = latest
-        let preferences = HistoryAutoPreferences(server: latest.serverId, owner: owner)
+        let preferences = HistoryAutoPreferences(server: latest.serverId, owner: owner, scope: AccountSecretScope.current(owner: owner))
         preferences.uploadsAllowed = latest.desiredEnabled
         UserDefaults.standard.set(latest.serverId, forKey: "history-auto-server:" + AppConfig.apiBaseURL.absoluteString + ":" + owner)
         automatic = preferences.enabled; wifiOnly = preferences.wifiOnly
@@ -123,7 +123,7 @@ private final class HistoryKeySettingsModel: ObservableObject {
         do {
             try fence()
             if enabled { guard state.desiredEnabled, try keys(state).load() != nil else { throw APIError.missingSession } }
-            let preferences = HistoryAutoPreferences(server: state.serverId, owner: owner)
+            let preferences = HistoryAutoPreferences(server: state.serverId, owner: owner, scope: AccountSecretScope.current(owner: owner))
             preferences.enabled = enabled; automatic = enabled
             HistoryAutomaticBackup.shared.schedule(enabled: enabled, earliest: HistoryAutoPolicy.next(lastSuccess: preferences.lastSuccess, now: Date().timeIntervalSince1970))
             if enabled { HistoryAutomaticBackup.shared.foreground() }
@@ -133,7 +133,7 @@ private final class HistoryKeySettingsModel: ObservableObject {
         guard let state else { return }
         guard (try? fence()) != nil else { return }
         HistoryAutomaticBackup.shared.cancelCurrent()
-        HistoryAutoPreferences(server: state.serverId, owner: owner).wifiOnly = enabled; wifiOnly = enabled
+        HistoryAutoPreferences(server: state.serverId, owner: owner, scope: AccountSecretScope.current(owner: owner)).wifiOnly = enabled; wifiOnly = enabled
     }
     func replaceEnteredKey() {
         guard let coordinator, let state else { return }
@@ -165,7 +165,7 @@ private final class HistoryKeySettingsModel: ObservableObject {
             progress = "Synchronizing history and verifying encrypted files…"
             _ = try await coordinator.backup(recoveryKey: key)
             try fence()
-            HistoryAutoPreferences(server: state.serverId, owner: owner).lastSuccess = Date().timeIntervalSince1970
+            HistoryAutoPreferences(server: state.serverId, owner: owner, scope: AccountSecretScope.current(owner: owner)).lastSuccess = Date().timeIntervalSince1970
         }
     }
     func restoreBackup() {
@@ -178,7 +178,7 @@ private final class HistoryKeySettingsModel: ObservableObject {
     }
     func pause(_ revision: Int64) {
         guard let coordinator else { return }
-        if let state { HistoryAutoPreferences(server: state.serverId, owner: owner).uploadsAllowed = false }
+        if let state { HistoryAutoPreferences(server: state.serverId, owner: owner, scope: AccountSecretScope.current(owner: owner)).uploadsAllowed = false }
         HistoryAutomaticBackup.shared.schedule(enabled: false)
         Task { [weak self] in
             await HistoryAutomaticBackup.shared.stopCurrent()
@@ -644,7 +644,7 @@ struct UnyriHistoryErrorLine: View {
     var body: some View {
         HStack(alignment: .top, spacing: 8) {
             Image(systemName: "exclamationmark.circle.fill").foregroundColor(UnyriColors.danger).accessibilityHidden(true)
-            Text(LocalizedStringKey(message)).foregroundStyle(UnyriColors.danger).fixedSize(horizontal: false, vertical: true)
+            Text(verbatim: UnyriL10n.string(message)).foregroundStyle(UnyriColors.danger).fixedSize(horizontal: false, vertical: true)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }

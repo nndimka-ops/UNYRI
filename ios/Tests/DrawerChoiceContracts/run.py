@@ -28,7 +28,8 @@ with tempfile.TemporaryDirectory(prefix="unyri-drawer-choice-") as directory:
     extracted.write_text(standins + snapshot + "\n" + store, encoding="utf-8")
     sources = [ROOT / "ios/UNYRI/Support/SavedSidebarStyle.swift",
                ROOT / "ios/UNYRI/Support/SidebarAppearanceSettings.swift",
-               ROOT / "ios/UNYRI/Support/ContactsPresentation.swift", extracted,
+               ROOT / "ios/UNYRI/Support/ContactsPresentation.swift",
+               ROOT / "ios/UNYRI/Support/PublicIdentityPolicy.swift", extracted,
                Path(__file__).with_name("main.swift")]
     binary = folder / ("checks.exe" if os.name == "nt" else "checks")
     subprocess.run(["swiftc", "-parse-as-library", *map(str, sources), "-o", str(binary)], check=True, timeout=180)

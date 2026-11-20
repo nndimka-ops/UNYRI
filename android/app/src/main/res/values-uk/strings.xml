@@ -46,7 +46,7 @@
     <string name="file_preview">Файл</string>
     <string name="deleted_message_preview">Повідомлення видалено</string>
     <string name="profile_edit">Редагувати профіль</string>
-    <string name="profile_privacy_security">Приватність і безпека</string>
+    <string name="profile_privacy_security">Приватність і захист</string>
     <string name="profile_devices">Пристрої</string>
     <string name="profile_appearance">Вигляд</string>
     <string name="profile_language">Мова</string>
@@ -233,8 +233,8 @@
     <string name="call_history_audio">Аудіо</string>
     <string name="call_history_video">Відео</string>
     <string name="settings_account">Обліковий запис</string>
-    <string name="settings_about">Про застосунок і підтримка</string>
-    <string name="settings_data_storage">Дані та сховище</string>
+    <string name="settings_about">Допомога та застосунок</string>
+    <string name="settings_data_storage">Зв’язок і пам’ять</string>
     <string name="storage_usage">Використання сховища</string>
 
     <string name="live_draft_setting">Показувати мою чернетку</string>
@@ -253,7 +253,7 @@
     <string name="chat_delete_scope_everyone">Ваші вибрані повідомлення буде видалено для всіх учасників. Ненадіслані повідомлення буде скасовано.</string>
     <string name="chat_delete_scope_me">Вибрані повідомлення буде видалено у вас. Ненадіслані повідомлення буде скасовано.</string>
     <string name="unified_search_placeholder">Чати, повідомлення, люди</string>
-    <string name="unified_search_hint">Шукайте збережені чати й повідомлення без мережі, а людей на цьому сервері — за іменем користувача.</string>
+    <string name="unified_search_hint">Шукайте збережені чати й повідомлення без мережі, а людей на цьому сервері — за номером або @іменем.</string>
     <string name="unified_search_people">Люди на цьому сервері</string>
     <string name="unified_search_network">Пошук на сервері недоступний. Збережені дані залишаються доступними.</string>
     <string name="unified_search_local_error">Не вдалося завантажити збережені повідомлення. Повторіть пошук.</string>
@@ -281,7 +281,7 @@
     <string name="blocked_users_add">Заблокувати акаунт</string>
     <string name="blocked_users_add_title">Заблокувати акаунт</string>
     <string name="blocked_users_add_detail">Знайдіть людину за ім’ям або логіном. Блокування не створює чат і не завантажує історію.</string>
-    <string name="blocked_users_search">Ім’я або @логін</string>
+    <string name="blocked_users_search">Ім’я, номер або @ім’я</string>
     <string name="blocked_users_empty">Немає заблокованих акаунтів</string>
     <string name="blocked_users_no_results">Нікого не знайдено</string>
     <string name="blocked_users_load_error">Не вдалося завантажити акаунти. Перевірте з’єднання та повторіть.</string>
@@ -323,7 +323,7 @@
     <string name="voice_open_app_settings">Відкрити налаштування застосунку</string>
     <string name="notification_settings_system_on">Сповіщення дозволені в Android</string>
     <string name="notification_settings_system_off">Сповіщення заблоковані в Android</string>
-    <string name="notification_settings_system_detail">Дозвіл, показ на заблокованому екрані, мелодія та вібрація залежать від Android. Адміністративні й службові сповіщення також керуються тут. UNYRI не змінює системний вибір за вас.</string>
+    <string name="notification_settings_system_detail">Виберіть канал повідомлень або дзвінків в Android, щоб налаштувати його звук і вібрацію.</string>
     <string name="notification_settings_allow">Дозволити сповіщення</string>
     <string name="notification_settings_system_open">Відкрити налаштування сповіщень Android</string>
     <string name="local_mode_notifications">Дозволити сповіщення</string>

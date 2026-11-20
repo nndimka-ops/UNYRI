@@ -134,7 +134,7 @@ class DisplayNamePolicyTest {
 
     @Test fun peerPresentationSanitizesWithoutChangingTheStoredName() {
         val raw = "\u202EAl\u200Bice"
-        val person = PublicUser("peer", "alice", raw, null)
+        val person = PublicUser("peer", "private_login", raw, null, publicUsername = "alice")
         assertEquals("Alice", person.visibleName)
         assertEquals(raw, person.displayName)
         assertEquals("@alice", person.copy(displayName = "\u3164").visibleName)

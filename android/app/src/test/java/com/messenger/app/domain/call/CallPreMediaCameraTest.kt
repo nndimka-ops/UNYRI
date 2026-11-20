@@ -89,4 +89,21 @@ class CallPreMediaCameraTest {
         assertNull(f.engine.videoEnabled)
         assertFalse(f.signaling.sentVideoStates.any { it.first=="call-1" })
     }
+    @Test fun `ringing mute and selected audio output survive native media initialization`() = runTest {
+        for (kind in CallMediaKind.entries) {
+            val f=Fixture(backgroundScope+UnconfinedTestDispatcher(testScheduler))
+            f.engine.resetRouteOnInitialize=true
+            f.start(kind);runCurrent()
+            f.controller.toggleMute()
+            f.controller.setAudioRoute(AudioRoute(AudioRouteKind.SPEAKER,"Speaker"))
+            val ringing=assertIs<CallUiState.OutgoingRinging>(f.controller.state.value)
+            assertTrue(ringing.isMuted);assertEquals(AudioRouteKind.SPEAKER,ringing.audioRoute)
+            f.accept();runCurrent()
+            assertEquals(true,f.engine.muted);assertEquals(AudioRouteKind.SPEAKER,f.engine.currentRoute.kind)
+            f.connect();runCurrent()
+            val connected=assertIs<CallUiState.Connected>(f.controller.state.value)
+            assertTrue(connected.isMuted);assertEquals(AudioRouteKind.SPEAKER,connected.audioRoute)
+            f.controller.hangup();runCurrent()
+        }
+    }
 }

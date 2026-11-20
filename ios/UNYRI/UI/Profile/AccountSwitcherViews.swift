@@ -4,6 +4,9 @@ import SwiftUI
 /// or Add when the registry allows a second account.
 struct UnyriDrawerAccountSwitcher: View {
     var compact = false
+    /// The narrow drawer lays this chip out in a flow row that measures children at their
+    /// single-line width (B-055): there the error is drawn by UnyriDrawerAccountError below.
+    var showsError = true
     @ObservedObject private var accounts = UnyriAccountManager.shared
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @ScaledMetric(relativeTo: .body) private var textScale: CGFloat = 1
@@ -69,12 +72,53 @@ struct UnyriDrawerAccountSwitcher: View {
                     UnyriDrawerAddAccountLabel(compact: compact)
                 }.buttonStyle(.plain).disabled(accounts.busy).accessibilityLabel("Add account").accessibilityIdentifier("drawer-add-account")
             }
-            if let error = accounts.lastError {
-                Text(error).font(.footnote).foregroundStyle(UnyriColors.secondaryText)
+            if showsError, let error = accounts.lastError {
+                Text(verbatim: error).font(.footnote).foregroundStyle(UnyriColors.secondaryText)
                     .fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("drawer-account-error")
             }
         }.accessibilityElement(children: .contain).accessibilityIdentifier("drawer-accounts")
             .unyriAccountRemoval($removal)
+            .unyriMediaSwitchConfirmation(accounts)
+    }
+}
+
+/// B-055: the switch refusal or failure as its own full-width row under the drawer header,
+/// wrapping by words; observes only the account manager, not the drawer.
+struct UnyriDrawerAccountError: View {
+    @ObservedObject private var accounts = UnyriAccountManager.shared
+    var body: some View {
+        if let error = accounts.lastError {
+            Text(verbatim: error).font(.footnote).foregroundStyle(UnyriColors.secondaryText)
+                .fixedSize(horizontal: false, vertical: true).frame(maxWidth: .infinity, alignment: .leading)
+                .accessibilityIdentifier("drawer-account-error")
+        }
+    }
+}
+
+/// B-055 (owner, 19 Nov): switching during a call or a room asks first.
+private struct UnyriMediaSwitchConfirmation: ViewModifier {
+    @ObservedObject var accounts: UnyriAccountManager
+    func body(content: Content) -> some View {
+        content.confirmationDialog(
+            Text("A call is in progress"),
+            isPresented: Binding(get: { accounts.pendingMediaSwitch != nil },
+                                 set: { if !$0 { accounts.pendingMediaSwitch = nil } }),
+            titleVisibility: .visible,
+            presenting: accounts.pendingMediaSwitch
+        ) { record in
+            Button(role: .destructive) {
+                Task { @MainActor in await accounts.confirmMediaSwitch(record) }
+            } label: { Text("End and switch") }
+            Button(role: .cancel) { accounts.pendingMediaSwitch = nil } label: { Text("Cancel") }
+        } message: { record in
+            Text(String(format: UnyriL10n.string("End the call and switch to %@?"), record.displayName))
+        }
+    }
+}
+
+extension View {
+    func unyriMediaSwitchConfirmation(_ accounts: UnyriAccountManager) -> some View {
+        modifier(UnyriMediaSwitchConfirmation(accounts: accounts))
     }
 }
 
@@ -170,13 +214,14 @@ struct UnyriAccountsSettingsGroup: View {
                 .accessibilityIdentifier("settings-add-account")
             }
             if let error = accounts.lastError {
-                Text(error).font(.footnote).foregroundColor(UnyriColors.secondaryText)
+                Text(verbatim: error).font(.footnote).foregroundColor(UnyriColors.secondaryText)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.horizontal, 14).padding(.bottom, 12)
             }
         }
         .onAppear { accounts.lastError = nil }
         .unyriAccountRemoval($removal)
+        .unyriMediaSwitchConfirmation(accounts)
     }
 }
 

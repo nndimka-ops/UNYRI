@@ -90,6 +90,22 @@ struct ChatVideoNoteStage: ViewModifier {
                     }
                     .allowsHitTesting(false)
                     .zIndex(1)
+                    // A sibling of the non-interactive preview: its accessibility
+                    // element and hit target must stay independent of the circle.
+                    GeometryReader { geometry in
+                        if presented, recorder.torchAvailable {
+                            let side = max(140, min(420, geometry.size.width * 0.72 + 2 * VideoNotePreviewUIView.ringInset,
+                                                    geometry.size.height - 24))
+                            let point = torchPosition(size: geometry.size, side: side)
+                            CallTorchButton(isOn: recorder.torchOn, action: recorder.toggleTorch,
+                                            accessibilityID: "video-note-torch")
+                                .position(point)
+                        }
+                    }
+                    // The call's accessory also changes availability immediately;
+                    // its 0.18 s fade is only for hiding the call chrome.
+                    .transaction { $0.animation = nil }
+                    .zIndex(2)
                 }
             }
             .onAppear { presented = recorder.isActive }
@@ -109,6 +125,21 @@ struct ChatVideoNoteStage: ViewModifier {
             }
             // Leaving the chat ends a note that is playing in it.
             .onDisappear { UnyriVideoNotePlayer.shared.stop() }
+    }
+
+    private func torchPosition(size: CGSize, side: CGFloat) -> CGPoint {
+        // The 30 pt glass circle touches the outside of the recording rim
+        // (radius side/2 - 2), leaving the camera picture entirely uncovered.
+        let radius = side / 2 - 2 + 15
+        let availableX = max(0, size.width / 2 - 22)
+        let availableY = max(0, size.height / 2 - 22)
+        var x = min(radius / CGFloat(2).squareRoot(), availableX)
+        let y = min((radius * radius - x * x).squareRoot(), availableY)
+        // A short stage moves the accessory along the rim before constraining
+        // the complete 44 pt target to the viewport.
+        x = min((radius * radius - y * y).squareRoot(), availableX)
+        return CGPoint(x: size.width / 2 + (layoutDirection == .rightToLeft ? -x : x),
+                       y: size.height / 2 + y)
     }
 
     private func circleTransition(_ flight: VideoNoteFlight) -> AnyTransition {

@@ -39,7 +39,7 @@ enum UnyriReactionBurstPolicy {
     static func key(chat: String, server: String, emoji: String) -> String { "\(chat)|\(server)|\(emoji)" }
     static func messageKey(chat: String, server: String) -> String { "\(chat)|\(server)" }
 
-    static func flightDuration(distance d: CGFloat) -> Double { Double(min(0.38, max(0.26, 0.24 + d / 1600))) }
+    static func flightDuration(distance d: CGFloat) -> Double { Double(min(0.35, max(0.26, 0.24 + d / 1600))) }
 
     /// The flight's quadratic control point: always bowed toward the top of the screen.
     static func arcControl(from o: CGPoint, to t: CGPoint) -> CGPoint {

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_relay_unavailable">Η ρύθμιση απορρήτου απαιτεί αναμετάδοση για αυτό το άτομο, αλλά ο διακομιστής δεν την έχει ρυθμίσει. Η μεταφορά αρχείου δεν μπορεί να συνδεθεί.</string>
+</resources>

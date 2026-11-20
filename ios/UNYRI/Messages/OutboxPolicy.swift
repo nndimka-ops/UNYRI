@@ -77,7 +77,7 @@ enum OutboxPolicy {
                 switch code {
                 case "rate_limited", "internal_error", "recipient_not_ready":
                     return .transient
-                case "invalid_refresh_token", "session_revoked", "unauthorized":
+                case "invalid_refresh_token", "session_revoked", "account_deleted", "account_suspended", "unauthorized":
                     return .authTerminal
                 case "validation_error":
                     // Recoverable own-device coverage: rebuilding envelopes on

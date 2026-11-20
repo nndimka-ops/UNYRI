@@ -31,7 +31,7 @@ class AdminGuardTest {
         feedbackDetails = mapOf("f1" to AdminFeedbackDto(id = "f1", description = "full"))
         feedbackFailed = AdminPresentation.Failure.RateLimited
 
-        users = AdminPage(listOf(AdminUserRowDto(id = "u1", userId = "u1", username = "anna")))
+        users = AdminPage(listOf(AdminUserRowDto(id = "u1", userId = "u1")))
         usersState = AdminLoadState.Ready
         usersSearched = true
         usersFailed = AdminPresentation.Failure.Session
@@ -41,7 +41,7 @@ class AdminGuardTest {
         auditFailed = AdminPresentation.Failure.Failed
 
         moderation = AdminUserDetailDto(
-            profile = AdminProfileDto(userId = "u1", username = "anna", displayName = "Anna"),
+            profile = AdminProfileDto(userId = "u1", displayName = "Anna"),
             devices = listOf(
                 AdminDeviceDto(id = "d1", installationId = "i1", restrictionActive = true),
             ),

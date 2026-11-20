@@ -30,6 +30,9 @@ enum APIError: Error, LocalizedError {
     static func localizedServerMessage(code: String, message: String) -> String {
         let key: String
         switch code {
+        case "account_deleted": key = "Account deleted"
+        case "account_suspended": key = "Account suspended by the server administrator"
+        case "session_revoked", "invalid_refresh_token": key = "Session ended"
         case "display_name_reserved": key = "This name is reserved for the service. Choose another name."
         case "display_name_link": key = "Display name must not contain URLs or domains."
         case "display_name_leading_at": key = "Display name must not start with '@'."
@@ -68,6 +71,7 @@ enum APIError: Error, LocalizedError {
 struct APIClient {
     let baseURL: URL
     let directHTTPGate = DirectFileHTTPGate() // shared by copies of this configured client, never owner epochs
+    private let profileReadBudget = ServerProfileReadBudget()
     private let session: URLSession
     private let encoder: JSONEncoder
     private let decoder: JSONDecoder
@@ -119,10 +123,11 @@ struct APIClient {
     func post<Body: Encodable, Response: Decodable>(
         _ path: String,
         body: Body,
+        deviceProof: String? = nil,
         as: Response.Type
     ) async throws -> Response {
         let data = try encoder.encode(body)
-        let (responseData, _) = try await dispatch(path, method: "POST", query: [], body: data, bearerToken: nil)
+        let (responseData, _) = try await dispatch(path, method: "POST", query: [], body: data, bearerToken: nil, deviceProof: deviceProof)
         return try decode(responseData, as: Response.self)
     }
 
@@ -260,10 +265,18 @@ struct APIClient {
     /// client; it must never carry the next account's token to another server.
     private func dispatch(_ path: String, method: String, query: [URLQueryItem], body: Data?,
                           bearerToken: String?, requestTimeout: TimeInterval? = nil,
-                          preserveServerStatus: Bool = false, identityErrors: Bool = false) async throws -> (Data, HTTPURLResponse) {
+                          preserveServerStatus: Bool = false, identityErrors: Bool = false,
+                          deviceProof: String? = nil) async throws -> (Data, HTTPURLResponse) {
+        try ServerWorkDeadline.check()
+        if method == "GET", path == "/users/me", !profileReadBudget.admit(now: ProcessInfo.processInfo.systemUptime) {
+            throw APIError.http(429)
+        }
         if let bearerToken, !UnyriBearerOrigins.permits(bearerToken, to: baseURL) { throw APIError.missingSession }
-        return try await send(path, method: method, query: query, body: body, bearerToken: bearerToken,
-                              requestTimeout: requestTimeout, preserveServerStatus: preserveServerStatus, identityErrors: identityErrors)
+        let result = try await send(path, method: method, query: query, body: body, bearerToken: bearerToken,
+                                   requestTimeout: requestTimeout, preserveServerStatus: preserveServerStatus,
+                                   identityErrors: identityErrors, deviceProof: deviceProof)
+        try ServerWorkDeadline.check()
+        return result
     }
 
     private func decode<Response: Decodable>(_ data: Data, as: Response.Type) throws -> Response {
@@ -282,7 +295,8 @@ struct APIClient {
         bearerToken: String?,
         requestTimeout: TimeInterval? = nil,
         preserveServerStatus: Bool = false,
-        identityErrors: Bool = false
+        identityErrors: Bool = false,
+        deviceProof: String? = nil
     ) async throws -> (Data, HTTPURLResponse) {
         #if os(iOS)
         let performanceOperation = Self.performanceOperation(path: path, method: method)
@@ -308,6 +322,7 @@ struct APIClient {
             request.cachePolicy = .reloadIgnoringLocalCacheData
         }
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        if let deviceProof { request.setValue(deviceProof, forHTTPHeaderField: "X-UNYRI-Device-Proof") }
         if let bearerToken {
             request.setValue("Bearer \(bearerToken)", forHTTPHeaderField: "Authorization")
         }
@@ -349,6 +364,13 @@ struct APIClient {
         #endif
         UnyriDiag.observeServerDate(http.value(forHTTPHeaderField: "Date"))
         guard (200..<300).contains(http.statusCode) else {
+            #if os(iOS)
+            if http.statusCode == 401,
+               let detail = try? decoder.decode(APIErrorBody.self, from: data).error,
+               detail.code == "device_proof_stale", let serverTime = detail.serverTime {
+                throw DeviceBoundClockChallenge(serverTime: serverTime)
+            }
+            #endif
             ClientDiagnostics.shared.report(baseURL: baseURL, path: path, token: bearerToken, status: http.statusCode)
             let error: APIError = preserveServerStatus && (500..<600).contains(http.statusCode)
                 ? .http(http.statusCode) : parseError(data: data, statusCode: http.statusCode)
@@ -457,6 +479,9 @@ enum ISO8601Cocoa {
     }()
 
     static func parse(_ string: String) -> Date? {
+        // Bound network dates before any downstream epoch/unit conversion.
+        guard string.utf8.count <= 64, string.prefix(4).utf8.allSatisfy({ (48...57).contains($0) }),
+              string.dropFirst(4).first == "-" else { return nil }
         if let date = fractional.date(from: string) { return date }
         if let date = plain.date(from: string) { return date }
 
@@ -504,7 +529,9 @@ private final class ClientDiagnostics {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = try? JSONSerialization.data(withJSONObject: ["platform": "ios", "operation": operation, "status": status])
         // Best effort: never retain reports or tokens for a future account/session.
-        transport.dataTask(with: request) { _, _, _ in }.resume()
+        let task = transport.dataTask(with: request)
+        task.delegate = DiscardedHTTPBody()
+        task.resume()
     }
     private func operation(_ path: String) -> String? {
         if path.hasPrefix("/chats/") && (path.hasSuffix("/read") || path.hasSuffix("/delivered")) { return "receipts" }
@@ -513,6 +540,15 @@ private final class ClientDiagnostics {
             if path == "/\(name)" || path.hasPrefix("/\(name)/") { return name }
         }
         return nil
+    }
+}
+
+/// Acknowledgements have no useful body, including on errors. Stop at headers
+/// rather than asking URLSession's completion-handler API to buffer it all.
+private final class DiscardedHTTPBody: NSObject, URLSessionDataDelegate {
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse,
+                    completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
+        completionHandler(.cancel)
     }
 }
 

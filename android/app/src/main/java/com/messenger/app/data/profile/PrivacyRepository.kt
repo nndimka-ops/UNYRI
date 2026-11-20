@@ -62,7 +62,7 @@ class PrivacyRepository(private val api: UsersApi, private val auth: AuthReposit
         check(owner == ownerKey())
         val public = identity?.search(query, 0L)
         val result = if (public != null) public.items.map {
-            com.messenger.app.data.api.PublicUserDto(it.id, it.publicUsername.orEmpty(), it.displayName,
+            com.messenger.app.data.api.PublicUserDto(it.id, "", it.displayName,
                 publicNumber = it.publicNumber, publicUsername = it.publicUsername)
         } else api.privacyDirectory(token, query.take(128), server).items
         check(owner == ownerKey())

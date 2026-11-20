@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -20,16 +21,16 @@ import com.messenger.app.ui.theme.LocalCocoColors
 import kotlinx.coroutines.launch
 
 @Composable
-fun PrivacySettingsContent() {
+fun PrivacySettingsContent(showVisibility: Boolean = true, showReadReceipts: Boolean = true) {
     val app = LocalContext.current.applicationContext as com.messenger.app.MessengerApp
     val auth by app.authRepository.authState.collectAsState()
     val repository = app.privacyRepository
     val owner = repository.ownerKey()
-    key(owner) { PrivacySettingsOwned(repository, owner) }
+    key(owner) { PrivacySettingsOwned(repository, owner, showVisibility, showReadReceipts) }
 }
 
 @Composable
-private fun PrivacySettingsOwned(repository: com.messenger.app.data.profile.PrivacyRepository, owner: String?) {
+private fun PrivacySettingsOwned(repository: com.messenger.app.data.profile.PrivacyRepository, owner: String?, showVisibility: Boolean, showReadReceipts: Boolean) {
     val scope = rememberCoroutineScope()
     val snapshot by repository.state.collectAsState()
     var busy by remember { mutableStateOf(false) }
@@ -37,12 +38,12 @@ private fun PrivacySettingsOwned(repository: com.messenger.app.data.profile.Priv
     var exceptions by remember { mutableStateOf<Boolean?>(null) }
     val lifecycle = LocalLifecycleOwner.current
     fun refresh() { scope.launch { busy = true; failed = repository.refresh().isFailure; busy = false } }
-    DisposableEffect(lifecycle, owner) {
-        val observer = LifecycleEventObserver { _, event -> if (event == Lifecycle.Event.ON_RESUME) refresh() }
+    DisposableEffect(lifecycle, owner, showVisibility) {
+        val observer = LifecycleEventObserver { _, event -> if (showVisibility && event == Lifecycle.Event.ON_RESUME) refresh() }
         lifecycle.lifecycle.addObserver(observer)
         onDispose { lifecycle.lifecycle.removeObserver(observer) }
     }
-    LaunchedEffect(owner) { refresh() }
+    LaunchedEffect(owner, showVisibility) { if (showVisibility) refresh() }
     fun update(change: (PrivacySnapshot) -> PrivacySnapshot) {
         if (busy) return
         scope.launch { busy = true; failed = repository.update(change).isFailure; busy = false }
@@ -56,20 +57,25 @@ private fun PrivacySettingsOwned(repository: com.messenger.app.data.profile.Priv
         if (current == null) {
             if (!failed) CircularProgressIndicator(Modifier.size(24.dp))
         } else {
+            if (showVisibility) {
             SettingChoiceRow(stringResource(R.string.privacy_online), if (current.onlineVisibility == "everyone") stringResource(R.string.privacy_everyone) else stringResource(R.string.privacy_nobody),
                 listOf("everyone" to stringResource(R.string.privacy_everyone), "nobody" to stringResource(R.string.privacy_nobody)), !busy) { value -> update { it.copy(onlineVisibility = value) } }
             SettingChoiceRow(stringResource(R.string.privacy_last_seen), if (current.lastSeenVisibility == "everyone") stringResource(R.string.privacy_everyone) else stringResource(R.string.privacy_nobody),
                 listOf("everyone" to stringResource(R.string.privacy_everyone), "nobody" to stringResource(R.string.privacy_nobody)), !busy) { value -> update { it.copy(lastSeenVisibility = value) } }
-            SettingActionRow(stringResource(R.string.privacy_always_allow), stringResource(R.string.privacy_people_count, current.alwaysAllow.size), !busy) { exceptions = true }
-            SettingActionRow(stringResource(R.string.privacy_never_allow), stringResource(R.string.privacy_people_count, current.neverAllow.size), !busy) { exceptions = false }
+            SettingActionRow(stringResource(R.string.privacy_always_allow), privacyPeopleLabel(current.alwaysAllow.size), !busy) { exceptions = true }
+            SettingActionRow(stringResource(R.string.privacy_never_allow), privacyPeopleLabel(current.neverAllow.size), !busy) { exceptions = false }
             Text(stringResource(R.string.privacy_exceptions_detail), style = MaterialTheme.typography.bodySmall, color = LocalCocoColors.current.mutedText)
-            Row(Modifier.fillMaxWidth().heightIn(min = 56.dp), verticalAlignment = Alignment.CenterVertically) {
-                Text(stringResource(R.string.privacy_read_receipts), modifier = Modifier.weight(1f), color = LocalCocoColors.current.primaryText)
-                Switch(current.sendReadReceipts, enabled = !busy, onCheckedChange = { checked -> update { it.copy(sendReadReceipts = checked) } })
             }
-            Text(stringResource(R.string.privacy_read_detail), style = MaterialTheme.typography.bodySmall, color = LocalCocoColors.current.mutedText)
-            if (busy) LinearProgressIndicator(Modifier.fillMaxWidth().padding(top = 8.dp))
         }
+    }
+    snapshot?.let { current ->
+        if (showReadReceipts) com.messenger.app.ui.profile.SettingsToggleRow(
+            title = stringResource(R.string.privacy_read_receipts), subtitle = stringResource(R.string.privacy_read_detail),
+            checked = current.sendReadReceipts, enabled = !busy,
+            onCheckedChange = { checked -> update { it.copy(sendReadReceipts = checked) } })
+    }
+    Column(Modifier.fillMaxWidth().padding(horizontal = 14.dp)) {
+        if (busy) LinearProgressIndicator(Modifier.fillMaxWidth().padding(top = 8.dp))
     }
     val allow = exceptions
     val current = snapshot
@@ -134,4 +140,13 @@ internal fun <T> SettingChoiceRow(title: String, value: String, options: List<Pa
             }
         } }
     }, confirmButton = { SettingsDialogButton(onClick = { show = false }) { Text(stringResource(R.string.cancel)) } })
+}
+
+@Composable
+private fun privacyPeopleLabel(count: Int): String = if (PrivacyPeoplePolicy.isNobody(count)) {
+    stringResource(R.string.privacy_nobody_count)
+} else pluralStringResource(R.plurals.privacy_people_count_short, count, count)
+
+internal object PrivacyPeoplePolicy {
+    fun isNobody(count: Int): Boolean = count <= 0
 }

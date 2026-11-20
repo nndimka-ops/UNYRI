@@ -4,5 +4,5 @@
     <string name="call_p2p_everyone">Tutti</string>
     <string name="call_p2p_contacts">I miei contatti</string>
     <string name="call_p2p_nobody">Nessuno</string>
-    <string name="call_p2p_note">La connessione diretta è solitamente più veloce, ma l’altro dispositivo vede il tuo indirizzo IP. Tramite il server è visibile solo il suo indirizzo. I miei contatti consente connessioni dirette solo con le persone in Contatti. Si applica dalla prossima chiamata.</string>
+    <string name="call_p2p_note">La connessione diretta è solitamente più veloce, ma l’altro dispositivo vede il tuo indirizzo IP. Tramite il server è visibile solo il suo indirizzo. I miei contatti consente connessioni dirette solo con le persone in Contatti. Si applica dalla prossima chiamata. La stessa impostazione si applica ai trasferimenti di file.</string>
 </resources>

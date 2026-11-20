@@ -6,12 +6,17 @@ import kotlin.test.*
 /** Framework lifecycle wiring supplements the native crypto/persistence tests. */
 class IdentityPinLifecycleWiringTest {
     private fun source(path: String): String = listOf(File("src/main/java/com/messenger/app/$path"), File("app/src/main/java/com/messenger/app/$path")).first { it.isFile }.readText()
-    @Test fun everySessionWipeKeepsInstallationTrustAndOnlyExplicitDeletionQueuesErase() {
+    @Test fun sessionWipesKeepInstallationTrustUnlessTheAccountWasDeleted() {
         val auth = source("data/auth/AuthRepositoryImpl.kt")
-        assertEquals(1, Regex("requestAccountSecurityErase\\(").findAll(auth).count())
+        assertEquals(2, Regex("requestAccountSecurityErase\\(").findAll(auth).count())
         val deletion = auth.substringAfter("override suspend fun deleteAccount").substringBefore("suspend fun handleRevokedAccessToken")
+        assertEquals(1, Regex("requestAccountSecurityErase\\(").findAll(deletion).count())
         assertTrue(deletion.indexOf("api.deleteAccount(token, password)") < deletion.indexOf("requestAccountSecurityErase"))
         assertTrue(deletion.indexOf("requestAccountSecurityErase") < deletion.indexOf("endLocalSession()"))
+        val terminal = auth.substringAfter("private suspend fun endTerminalSession(reason: String)").substringBefore("private suspend fun endLocalSession()")
+        assertEquals(1, Regex("requestAccountSecurityErase\\(").findAll(terminal).count())
+        assertTrue(terminal.contains("if (reason == \"account_deleted\") tokenStore.userId()?.let {"))
+        assertTrue(terminal.indexOf("requestAccountSecurityErase") < terminal.indexOf("endLocalSession()"))
         val teardown = auth.substringAfter("private suspend fun endLocalSession()")
         assertTrue(teardown.indexOf("sessionEpoch.incrementAndGet()") < teardown.indexOf("clearRoom { clearAccountData() }"))
         val app = source("MessengerApp.kt")
@@ -22,11 +27,15 @@ class IdentityPinLifecycleWiringTest {
         assertTrue(cleanup.indexOf("identityPins.eraseAccount(owner)") < cleanup.indexOf("tokenStore.completeAccountSecurityErase()"))
         val shared = source("data/auth/AccountWorkspaces.kt")
         assertTrue(shared.contains("\"local_security_decisions\""))
-        assertFalse(shared.substringAfter("fun removeInactive").substringBefore("internal object").contains("eraseAccount"))
+        val inactive = shared.substringAfter("private suspend fun eraseInactiveStorage").substringBefore("internal object")
+        assertTrue(inactive.contains("InactiveAccountErasure.run(terminalReason, tokens.refreshToken(),"))
+        val eraseSecurity = inactive.substringAfter("eraseSecurity = {").substringBefore("}, eraseWorkspace = {")
+        assertTrue(eraseSecurity.contains(".eraseAccount(owner)"))
+        assertTrue(inactive.indexOf(".eraseAccount(owner)") < inactive.indexOf("tokens.clearSession()"))
         assertFalse(source("ui/auth/AuthViewModel.kt").contains("eraseAccount"))
         assertFalse(source("ui/search/SearchViewModel.kt").contains("eraseAccount"))
     }
-    @Test fun interruptedExplicitEraseIsReplayedBeforeAnySessionRestores() {
+    @Test fun interruptedAccountSecurityEraseIsReplayedBeforeAnySessionRestores() {
         val app = source("MessengerApp.kt")
         assertTrue(app.indexOf("pendingAccountSecurityErase()?.let") < app.indexOf("authRepository = AuthRepositoryImpl"))
         val tokens = source("data/secure/SecureTokenStore.kt")

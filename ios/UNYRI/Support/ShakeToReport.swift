@@ -2,25 +2,31 @@ import SwiftUI
 import UIKit
 import ObjectiveC
 
-/// SwiftUI owns the UIWindow. Install the motionEnded hook on UIWindow itself,
-/// copying its inherited implementation first so UIResponder is never swizzled.
-/// The original handler still receives every shake we do not consume (Undo).
+/// SwiftUI owns the UIWindow. Install the motionEnded hook on UIWindow itself;
+/// UIResponder is never changed. The original handler still receives every
+/// shake we do not consume (Undo), and it must run under its own selector:
+/// UIKit forwards an unhandled motion event up the responder chain with the
+/// selector it was called with (`_cmd`). The earlier exchange with a renamed
+/// method sent that name to the window scene, which does not implement it, so
+/// every shake the report did not take aborted the app: during a call, while
+/// typing, with shake reports off (B-047, 0.4.22 build 68 on two iPhones).
 @MainActor private enum DiagnosticWindowMotion {
+    private typealias Handler = @convention(c) (UIWindow, Selector, UIEvent.EventSubtype, UIEvent?) -> Void
     static let install: Void = {
-        let original = #selector(UIResponder.motionEnded(_:with:))
-        let replacement = #selector(UIWindow.unyriReportMotionEnded(_:with:))
-        guard let inherited = class_getInstanceMethod(UIWindow.self, original) else { return }
-        class_addMethod(UIWindow.self, original, method_getImplementation(inherited), method_getTypeEncoding(inherited))
-        guard let first = class_getInstanceMethod(UIWindow.self, original),
-              let second = class_getInstanceMethod(UIWindow.self, replacement) else { return }
-        method_exchangeImplementations(first, second)
+        let selector = #selector(UIResponder.motionEnded(_:with:))
+        guard let method = class_getInstanceMethod(UIWindow.self, selector) else { return }
+        // UIWindow's own implementation, or the one it inherits from UIResponder.
+        let original = unsafeBitCast(method_getImplementation(method), to: Handler.self)
+        let hook: @convention(block) (UIWindow, UIEvent.EventSubtype, UIEvent?) -> Void = { window, motion, event in
+            if motion == .motionShake, MainActor.assumeIsolated({ ShakeReportPresenter.shared.present(from: window) }) { return }
+            original(window, selector, motion, event)
+        }
+        let implementation = imp_implementationWithBlock(unsafeBitCast(hook, to: AnyObject.self))
+        // Inherited: UIWindow gets an entry of its own. Already its own: replace it.
+        if !class_addMethod(UIWindow.self, selector, implementation, method_getTypeEncoding(method)) {
+            method_setImplementation(method, implementation)
+        }
     }()
-}
-extension UIWindow {
-    @objc fileprivate func unyriReportMotionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        if motion == .motionShake, ShakeReportPresenter.shared.present(from: self) { return }
-        unyriReportMotionEnded(motion, with: event)
-    }
 }
 
 @MainActor enum DiagnosticReportPresentation { static var visibleReports = 0 }

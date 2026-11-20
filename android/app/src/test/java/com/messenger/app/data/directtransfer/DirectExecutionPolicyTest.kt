@@ -3,6 +3,19 @@ package com.messenger.app.data.directtransfer
 import kotlin.test.*
 
 class DirectExecutionPolicyTest {
+    @Test fun localAndPeerMissingRelayKeepAllRtcAndRequestAdmissionStopped() {
+        assertEquals("peer_relay_unavailable", DirectManualRuntime.reasonForPeer("relay_unavailable"))
+        assertEquals("peer_relay_unavailable", DirectManualRuntime.reasonFromPeer("relay_unavailable")) // Legacy sender.
+        assertEquals("peer_relay_unavailable", DirectManualRuntime.reasonFromPeer("peer_relay_unavailable"))
+        assertEquals("network_waiting", DirectManualRuntime.reasonFromPeer("network_waiting"))
+        for (role in listOf("sender", "receiver")) for (reason in listOf("relay_unavailable", "peer_relay_unavailable", "claimed_elsewhere", "invalid_control")) {
+            val stopped = record(role).copy(state = "paused", reason = reason, manualPause = DirectManualPauseState())
+            assertTrue(DirectManualRuntime.safetyBlocked(stopped))
+            assertFalse(DirectManualRuntime.byteEligible(stopped))
+            assertFalse(DirectManualRuntime.requestEligible(stopped))
+            assertEquals(reason, DirectManualRuntime.retiringNegotiation(stopped).reason)
+        }
+    }
     private val marker = "10000000-0000-4000-8000-000000000010"
     private val other = "10000000-0000-4000-8000-000000000011"
     private val epoch = 12

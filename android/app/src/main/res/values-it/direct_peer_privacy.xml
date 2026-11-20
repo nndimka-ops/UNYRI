@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_relay_unavailable">La tua impostazione di privacy richiede un relay per questa persona, ma questo server non ne ha uno configurato. Il trasferimento del file non può connettersi.</string>
+</resources>

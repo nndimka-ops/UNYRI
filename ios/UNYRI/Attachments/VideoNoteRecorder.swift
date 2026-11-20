@@ -129,6 +129,8 @@ final class VideoNoteRecorder: ObservableObject, ChatRecordingSource {
     /// `phase`, so it is deliberately not @Published.
     private(set) var ending = Ending.discarded
     @Published private(set) var frontCamera = true
+    @Published private(set) var torchAvailable = false
+    @Published private(set) var torchOn = false
     /// The session delivers frames (the preview connection exists from here on).
     @Published private(set) var previewLive = false
     /// Set when the camera or microphone permission is denied: drives the Settings alert.
@@ -146,6 +148,7 @@ final class VideoNoteRecorder: ObservableObject, ChatRecordingSource {
 
     private var capture: (any VideoNoteCapturing)?
     private var token = 0
+    private var torchRevision: UInt64 = 0
     private var startedAt: TimeInterval?
     private var frozenSeconds: TimeInterval = 0
     private var finishTask: Task<VideoNoteRecording?, Never>?
@@ -155,6 +158,12 @@ final class VideoNoteRecorder: ObservableObject, ChatRecordingSource {
     private var captureClaim: NonCallCaptureOwnership.Claim?
     private var ownsAudioSession = false
     private var observers: [NSObjectProtocol] = []
+
+    deinit {
+        // The capture retains itself until its session-queue shutdown completes, even
+        // if the chat releases the recorder without explicitly ending the take.
+        capture?.stop {}
+    }
 
     var isActive: Bool { phase != .idle }
     var isRecording: Bool { phase == .recording }
@@ -271,6 +280,8 @@ final class VideoNoteRecorder: ObservableObject, ChatRecordingSource {
         frozenSeconds = 0
         ending = .discarded
         frontCamera = true
+        torchRevision = 0
+        resetTorchState()
         previewLive = false
         orientation = Self.interfaceOrientation()
         observeInterruptions(capture.session)
@@ -283,6 +294,11 @@ final class VideoNoteRecorder: ObservableObject, ChatRecordingSource {
     func flipCamera() {
         guard phase == .starting || phase == .recording else { return }
         capture?.flip()
+    }
+
+    func toggleTorch() {
+        guard phase == .starting || phase == .recording, torchAvailable else { return }
+        capture?.toggleTorch()
     }
 
     /// Stops recording and returns the file, or nil when nothing usable was recorded.
@@ -350,7 +366,19 @@ final class VideoNoteRecorder: ObservableObject, ChatRecordingSource {
             // Replacing the camera recreates the preview connection.
             orientPreview()
             if frontCamera != front { frontCamera = front }
+        case .torch(let available, let on, let revision):
+            // Capture callbacks hop to MainActor independently. Ignore an old result
+            // and never resurrect controls after Send, Discard or an interruption.
+            guard phase == .starting || phase == .recording, revision > torchRevision else { return }
+            torchRevision = revision
+            if torchAvailable != available { torchAvailable = available }
+            if torchOn != on { torchOn = on }
         }
+    }
+
+    private func resetTorchState() {
+        if torchAvailable { torchAvailable = false }
+        if torchOn { torchOn = false }
     }
 
     /// The preview follows the interface orientation the recording started in.
@@ -374,6 +402,10 @@ final class VideoNoteRecorder: ObservableObject, ChatRecordingSource {
     }
 
     private func beginFinish() -> Task<VideoNoteRecording?, Never> {
+        resetTorchState()
+        // Queue the off operation now, before either asynchronous file/session task.
+        // This also prevents a queued tap from relighting this take while it closes.
+        capture?.disableTorch()
         if let finishTask { return finishTask }
         let capture = self.capture
         let current = token
@@ -452,6 +484,9 @@ final class VideoNoteRecorder: ObservableObject, ChatRecordingSource {
                   AVAudioSession.InterruptionType(rawValue: raw) == .began else { return }
             MainActor.assumeIsolated { self?.interrupt() }
         })
+        observers.append(center.addObserver(forName: UIApplication.willResignActiveNotification, object: nil, queue: .main) { [weak self] _ in
+            MainActor.assumeIsolated { self?.interrupt() }
+        })
     }
 
     private func removeObservers() {
@@ -480,12 +515,16 @@ private enum VideoNoteCaptureEvent: Sendable {
     case limitReached
     case failed
     case camera(front: Bool)
+    case torch(available: Bool, on: Bool, revision: UInt64)
 }
 
 private protocol VideoNoteCapturing: AnyObject, Sendable {
     var session: AVCaptureSession? { get }
     func start(front: Bool, orientation: VideoNoteOrientation, events: @escaping @Sendable (VideoNoteCaptureEvent) -> Void)
     func flip()
+    func toggleTorch()
+    /// Permanently darkens this take before finalization, interruption or shutdown.
+    func disableTorch()
     /// Idempotent: stops writing, finalizes the file and reports it (nil if unusable).
     /// Does not wait for capture to stop; frames that still arrive are dropped.
     func finish(_ completion: @escaping @Sendable (VideoNoteRecording?) -> Void)
@@ -513,6 +552,9 @@ private final class VideoNoteCameraCapture: NSObject, VideoNoteCapturing,
     private var cameraInput: AVCaptureDeviceInput?
     private var orientation = VideoNoteOrientation.portrait
     private var stopped = false
+    private var torchDisabled = false
+    private var torchRevision: UInt64 = 0
+    private var torchAvailability: NSKeyValueObservation?
 
     // Data queue only.
     private var writer: AVAssetWriter?
@@ -567,8 +609,12 @@ private final class VideoNoteCameraCapture: NSObject, VideoNoteCapturing,
                 try dataQueue.sync { try prepareWriter(audio: hasAudio) }
                 captureSession.startRunning()
                 guard captureSession.isRunning else { throw VideoNoteRecordError.couldNotStart }
+                emit(.camera(front: cameraInput?.device.position == .front))
+                observeTorch()
+                refreshTorchState()
                 emit(.running)
             } catch {
+                disableTorchOnSessionQueue()
                 dataQueue.sync { accepting = false }
                 emit(.failed)
             }
@@ -580,22 +626,53 @@ private final class VideoNoteCameraCapture: NSObject, VideoNoteCapturing,
             guard !stopped, captureSession.isRunning, let current = cameraInput else { return }
             let front = current.device.position != .front
             guard let device = Self.camera(front: front), let input = try? AVCaptureDeviceInput(device: device) else { return }
+            torchAvailability = nil
+            turnTorchOff(current.device)
             captureSession.beginConfiguration()
             captureSession.removeInput(current)
+            cameraInput = nil
             if captureSession.canAddInput(input) {
                 captureSession.addInput(input)
                 cameraInput = input
             } else if captureSession.canAddInput(current) {
                 captureSession.addInput(current)
+                cameraInput = current
             }
             // Replacing the input recreates the output connection.
             orientOutput()
             captureSession.commitConfiguration()
+            if let device = cameraInput?.device { turnTorchOff(device) }
             emit(.camera(front: cameraInput?.device.position == .front))
+            observeTorch()
+            refreshTorchState()
         }
     }
 
+    func toggleTorch() {
+        sessionQueue.async { [self] in
+            guard !stopped, !torchDisabled, captureSession.isRunning,
+                  let device = cameraInput?.device, device.position == .back,
+                  device.hasTorch, device.isTorchAvailable else {
+                refreshTorchState()
+                return
+            }
+            do {
+                try device.lockForConfiguration()
+                defer { device.unlockForConfiguration() }
+                device.torchMode = device.torchMode == .on ? .off : .on
+            } catch {
+                // A refused lock leaves the device unchanged; publish what it reports.
+            }
+            refreshTorchState()
+        }
+    }
+
+    func disableTorch() {
+        sessionQueue.async { [self] in disableTorchOnSessionQueue() }
+    }
+
     func finish(_ completion: @escaping @Sendable (VideoNoteRecording?) -> Void) {
+        disableTorch()
         // Not behind stopRunning: once finalize starts, `accepting` is false and late
         // buffers are dropped, so the note ends where the finger lifted.
         dataQueue.async { [self] in finalize(completion) }
@@ -605,6 +682,7 @@ private final class VideoNoteCameraCapture: NSObject, VideoNoteCapturing,
         sessionQueue.async { [self] in
             if !stopped {
                 stopped = true
+                disableTorchOnSessionQueue()
                 if captureSession.isRunning { captureSession.stopRunning() }
                 videoOutput.setSampleBufferDelegate(nil, queue: nil)
                 audioOutput.setSampleBufferDelegate(nil, queue: nil)
@@ -614,6 +692,50 @@ private final class VideoNoteCameraCapture: NSObject, VideoNoteCapturing,
     }
 
     // MARK: Session queue
+
+    private func disableTorchOnSessionQueue() {
+        torchDisabled = true
+        torchAvailability = nil
+        if let device = cameraInput?.device { turnTorchOff(device) }
+        refreshTorchState()
+    }
+
+    private func turnTorchOff(_ device: AVCaptureDevice) {
+        guard device.hasTorch, device.torchMode != .off else { return }
+        do {
+            try device.lockForConfiguration()
+            defer { device.unlockForConfiguration() }
+            // Attempt off even when heat/interruption has removed availability.
+            device.torchMode = .off
+        } catch {
+            // Removing the input or stopping the session also releases the light.
+        }
+    }
+
+    private func refreshTorchState() {
+        let device = cameraInput?.device
+        let available = !stopped && !torchDisabled && captureSession.isRunning &&
+            device?.position == .back && device?.hasTorch == true && device?.isTorchAvailable == true
+        if !available, let device { turnTorchOff(device) }
+        torchRevision &+= 1
+        emit(.torch(available: available, on: available && device?.torchMode == .on, revision: torchRevision))
+    }
+
+    private func observeTorch() {
+        torchAvailability = nil
+        guard !torchDisabled, let device = cameraInput?.device, device.hasTorch else { return }
+        let id = ObjectIdentifier(device)
+        torchAvailability = device.observe(\.isTorchAvailable, options: [.new]) { @Sendable [weak self] _, _ in
+            guard let self else { return }
+            // KVO can arrive on any AVFoundation thread. All device reads/writes stay
+            // on sessionQueue, and an old camera's notification cannot affect a flip.
+            self.sessionQueue.async { [self] in
+                // Explicit self: Swift 5 mode refuses implicit self here (Mac build 19 Nov).
+                guard let current = self.cameraInput?.device, ObjectIdentifier(current) == id else { return }
+                self.refreshTorchState()
+            }
+        }
+    }
 
     private func configureSession(front: Bool) throws -> Bool {
         captureSession.beginConfiguration()
@@ -628,6 +750,7 @@ private final class VideoNoteCameraCapture: NSObject, VideoNoteCapturing,
         guard captureSession.canAddInput(camera) else { throw VideoNoteRecordError.couldNotStart }
         captureSession.addInput(camera)
         cameraInput = camera
+        turnTorchOff(device)
 
         videoOutput.alwaysDiscardsLateVideoFrames = true
         videoOutput.setSampleBufferDelegate(self, queue: dataQueue)
@@ -819,6 +942,10 @@ private final class VideoNoteSyntheticCapture: VideoNoteCapturing, @unchecked Se
     init(url: URL) { self.url = url }
 
     func level() -> Double { 0.45 + 0.3 * sin(Date().timeIntervalSince1970 * 7) }
+
+    // The simulator has no torch; never synthesize an available flashlight.
+    func toggleTorch() {}
+    func disableTorch() {}
 
     func start(front: Bool, orientation: VideoNoteOrientation, events: @escaping @Sendable (VideoNoteCaptureEvent) -> Void) {
         queue.async { [self] in

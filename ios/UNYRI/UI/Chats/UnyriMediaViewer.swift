@@ -358,7 +358,7 @@ struct UnyriMediaViewer: View {
             }
             .onChange(of: selection) { _ in liveText = false }
             .sheet(isPresented: $exportFile) { if let item = items.first(where: { $0.id == selection }), let url = resolved[item.id] ?? item.url { UnyriFileExporter(url: url) } }
-            .alert("Could not save", isPresented: Binding(get: { actionError != nil }, set: { if !$0 { actionError = nil } })) { Button("OK") { actionError = nil } } message: { Text(actionError ?? "") }
+            .alert("Could not save", isPresented: Binding(get: { actionError != nil }, set: { if !$0 { actionError = nil } })) { Button("OK") { actionError = nil } } message: { Text(verbatim: actionError ?? "") }
     }
     private func closeViewer() { if let onClose { onClose() } else { dismiss() } }
 
@@ -411,7 +411,7 @@ struct UnyriMediaViewer: View {
                     Button { UnyriShareSheet.present(url) } label: { Label("Share…", systemImage: "square.and.arrow.up") }
                     Button { Task { await saveToPhotos(url, mime: current?.mime ?? "image/jpeg") } } label: { Label("Save to Photos", systemImage: "photo.on.rectangle") }
                     Button { exportFile = true } label: { Label("Save to Files", systemImage: "folder") }
-                    Button { UIPasteboard.general.image = UIImage(contentsOfFile: url.path) } label: { Label("Copy", systemImage: "doc.on.doc") }
+                    Button { UIPasteboard.general.image = PeerImagePolicy.image(path: url.path) } label: { Label("Copy", systemImage: "doc.on.doc") }
                 }
             } label: {
                 Image(systemName: "ellipsis").font(.system(size: 19, weight: .semibold)).frame(width: 48, height: 48)
@@ -2890,7 +2890,7 @@ private struct UnyriZoomImage: UIViewRepresentable {
                 defer { PerformanceRecorder.shared.end(performanceSpan, success: performanceSuccess) }
                 var failures = 0
                 while !Task.isCancelled {
-                    let source = CGImageSourceCreateWithURL(url as CFURL, [kCGImageSourceShouldCache: false] as CFDictionary)
+                    let source = PeerImagePolicy.source(url: url)
                     let count = source.map { CGImageSourceGetCount($0) } ?? 0
                     let persistent = source != nil && count == 0
                     await MainActor.run { [weak self] in if self?.loadID == id { self?.animatedSource = count > 1 } }
@@ -3168,7 +3168,7 @@ struct UnyriImportFileSheet: View {
                  ? String(format: UnyriL10n.string("Shared items from before the update: %d"), inbox.legacyItemCount)
                  : UnyriL10n.string("Shared items from before the update")).font(.headline)
             Text("Import these items into the current account, or discard them from this device. Nothing is sent until you choose a chat and confirm.")
-            if let recoveryError { Text(recoveryError).foregroundStyle(UnyriColors.danger) }
+            if let recoveryError { Text(verbatim: recoveryError).foregroundStyle(UnyriColors.danger) }
             if recovering { ProgressView() }
             Button("Import") {
                 guard !recovering, let binding = UnyriShareStore.activeBinding(), binding.accountKey == accountKey else { return }
@@ -3445,9 +3445,9 @@ enum UnyriAmbientColor {
     static func average(url: URL?, mime: String, thumbnailBase64: String?) -> UIColor? {
         var source: CGImageSource?
         if let url, url.isFileURL, mime.hasPrefix("image/") {
-            source = CGImageSourceCreateWithURL(url as CFURL, nil)
+            source = PeerImagePolicy.source(url: url)
         } else if let thumbnailBase64, let data = Data(base64Encoded: thumbnailBase64) {
-            source = CGImageSourceCreateWithData(data as CFData, nil)
+            source = PeerImagePolicy.source(data: data, jpegOnly: true)
         }
         guard let source,
               let image = CGImageSourceCreateThumbnailAtIndex(source, 0, [
@@ -3481,7 +3481,7 @@ struct UnyriEditorImage: Identifiable {
     let image: UIImage
     static func load(_ url: URL) async -> UIImage? {
         await Task.detached(priority: .userInitiated) { () -> UIImage? in
-            guard let source = CGImageSourceCreateWithURL(url as CFURL, nil),
+            guard let source = PeerImagePolicy.source(url: url),
                   let image = CGImageSourceCreateThumbnailAtIndex(source, 0, [kCGImageSourceCreateThumbnailFromImageAlways: true,
                     kCGImageSourceCreateThumbnailWithTransform: true, kCGImageSourceThumbnailMaxPixelSize: 2560] as CFDictionary) else { return nil }
             return UIImage(cgImage: image)

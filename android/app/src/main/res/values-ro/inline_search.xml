@@ -19,7 +19,7 @@
     <string name="search_recent">Căutări recente</string>
     <string name="search_scope_messages">Mesaje</string>
     <string name="settings_search_label">Caută</string>
-    <string name="unified_search_hint">Caută offline în conversațiile și mesajele salvate. Găsește persoane pe acest server după numele de utilizator.</string>
+    <string name="unified_search_hint">Căutați conversații și mesaje salvate fără internet. Găsiți persoane pe acest server după număr sau @nume.</string>
     <string name="unified_search_network">Căutarea pe server nu este disponibilă. Rezultatele locale rămân disponibile.</string>
     <string name="unified_search_local_error">Mesajele salvate nu s-au putut încărca. Încearcă din nou.</string>
 </resources>

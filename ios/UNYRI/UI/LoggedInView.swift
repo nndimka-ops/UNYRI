@@ -557,7 +557,7 @@ struct LoggedInView: View {
         .alert("Another conversation is active", isPresented: Binding(get: { callController.startBlockedMessage != nil },
             set: { if !$0 { callController.startBlockedMessage = nil } })) {
                 Button("OK") { callController.startBlockedMessage = nil }
-            } message: { Text(LocalizedStringKey(callController.startBlockedMessage ?? "")) }
+            } message: { Text(verbatim: UnyriL10n.string(callController.startBlockedMessage ?? "")) }
         .onReceive(callController.$state) { pictureInPicture.update($0, owner: callController, chats: chatsRepository, users: usersRepository) }
         .onChange(of: pictureInPicture.restoreRequest) { _ in callMinimized = false }
         // No start from the background: AVKit starts the window itself as the
@@ -634,7 +634,7 @@ struct LoggedInView: View {
             set: { if !$0 { callKit.actionError = nil } }
         )) {
             Button("OK") { callKit.actionError = nil }
-        } message: { Text(callKit.actionError ?? "") }
+        } message: { Text(verbatim: callKit.actionError ?? "") }
         .fullScreenCover(isPresented: callActive) { callScreenCover }
     }
 
@@ -1030,6 +1030,7 @@ private extension CallUiState {
 
 private struct CallsView: View {
     let visible: Bool
+    @EnvironmentObject private var users: UsersRepository
     @EnvironmentObject private var callKit: CallKitCoordinator
     @EnvironmentObject private var callController: CallController
     @EnvironmentObject private var conference: ConferenceController
@@ -1088,7 +1089,8 @@ private struct CallsView: View {
         if let profile = call.validatedPeer(owner:owner) {
             return PublicUser(id:profile.id.uuidString.lowercased(),username:profile.username,displayName:profile.displayName,
                 bio:profile.bio,avatarUrl:profile.avatarUrl,profileVersion:profile.profileVersion,
-                avatarVersion:profile.avatarVersion,hasAvatar:profile.hasAvatar)
+                avatarVersion:profile.avatarVersion,hasAvatar:profile.hasAvatar,
+                unyriNumber:profile.unyriNumber,publicUsername:profile.publicUsername)
         }
         guard let owner, call.callerUserId == owner || call.calleeUserId == owner else { return nil }
         let peerId = call.callerUserId == owner ? call.calleeUserId : call.callerUserId
@@ -1104,7 +1106,7 @@ private struct CallsView: View {
         // Use the session's in-memory profile before the asynchronous disk refresh.
         let summary: ChatSummary? = callSummary(call)
         let identity = callPeer(call,owner:owner)
-        let name = CallPeerTitlePolicy.title(displayName:identity.map { DisplayNameSanitizer.display($0.displayName) },username:identity?.username,unknown:UnyriL10n.string("Unknown user"))
+        let name = CallPeerTitlePolicy.title(displayName:identity.map { DisplayNameSanitizer.display($0.displayName) },publicIdentity:identity?.peerIdentityLabel(legacyServer: users.legacyIdentityServer),unknown:UnyriL10n.string("Unknown user"))
         HStack(spacing: 4) {
         Button {
             if !selectedCalls.isEmpty { toggleCall(call.id); return }
@@ -1154,7 +1156,7 @@ private struct CallsView: View {
         NavigationStack {
             ScrollView {
                 LazyVStack(spacing: 4) {
-                    if let error { Text(error).font(.footnote).foregroundColor(UnyriColors.danger) }
+                    if let error { Text(verbatim: error).font(.footnote).foregroundColor(UnyriColors.danger) }
                     if calls.history.isEmpty { Text(LocalizedStringKey(loaded ? "No recent calls" : "Loading call history…")).padding(.vertical, 32) }
                     ForEach(calls.history) { call in
                         callRow(call)
@@ -1428,7 +1430,8 @@ struct UnyriProfileQRSheet: View {
                     if let identity {
                         Text(PublicIdentityPolicy.formattedNumber(identity.unyriNumber)).font(.title2.monospacedDigit())
                             .accessibilityIdentifier("profile-qr-number")
-                        if let username = identity.publicUsername { Text("@" + username).font(.subheadline).foregroundStyle(.secondary) }
+                        let alias = PeerIdentityPolicy.label(publicUsername: identity.publicUsername, unyriNumber: nil)
+                        if !alias.isEmpty { Text(alias).font(.subheadline).foregroundStyle(.secondary) }
                     }
                 }
                 Text("Scan to open your public profile on this server. Your privacy settings still apply. This number link never changes.")

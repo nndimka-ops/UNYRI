@@ -21,11 +21,9 @@ fun OwnerClaimScreen(onClose: () -> Unit, onClaimed: () -> Unit) {
     DisposableEffect(context) {
         var current: android.content.Context? = context
         while (current is android.content.ContextWrapper && current !is android.app.Activity) current = current.baseContext
-        val window = (current as? android.app.Activity)?.window
-        val flag = android.view.WindowManager.LayoutParams.FLAG_SECURE
-        val alreadySecure = ((window?.attributes?.flags ?: 0) and flag) != 0
-        window?.addFlags(flag)
-        onDispose { if (!alreadySecure) window?.clearFlags(flag) }
+        val activity = current as? android.app.Activity
+        activity?.let(com.messenger.app.security.ScreenshotPrivacy::apply)
+        onDispose { activity?.let(com.messenger.app.security.ScreenshotPrivacy::apply) }
     }
     val controller = app.ownerSetup
     val state by controller.state.collectAsState()

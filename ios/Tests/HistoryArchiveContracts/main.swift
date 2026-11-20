@@ -35,7 +35,8 @@ func verifyCallHistoryV2() throws {
     archive.format = 2; archive.media = []; archive.chats = []
     let row = HistoryArchiveCall(id: id(20), caller: id(2), callee: id(21), mediaKind: "audio", createdAtMs: 1000,
         acceptedAtMs: 1100, connectedAtMs: 1200, endedAtMs: 2000, endReason: "hangup", chat: id(6), chatVisible: true,
-        peer: HistoryArchivePeer(id: id(21), username: "peer", displayName: "Peer"))
+        peer: HistoryArchivePeer(id: id(21), username: "", displayName: "Peer",
+            unyriNumber: "123456789", publicUsername: "public_peer"))
     archive.calls = [row]
     _ = try archive.encoded() // Previously valid call-only archives remain readable.
     rejected { try archive.validateBackupChatDescriptors() }
@@ -51,6 +52,8 @@ func verifyCallHistoryV2() throws {
     archive.chats = [HistoryArchiveChat(id: id(6), type: "direct", createdAtMs: 1000, peer: row.peer)]
     let roundtrip = try HistoryArchive.decode(archive.encoded(), server: id(1), owner: id(2))
     precondition(roundtrip == archive)
+    precondition(roundtrip.calls?.first?.peer?.publicUsername == "public_peer"
+        && roundtrip.chats?.first?.peer?.unyriNumber == "123456789", "Public identities survive chat and call archive roundtrips")
     precondition(archive.withoutMedia().calls == nil)
     var wrongOwner = archive; wrongOwner.owner = id(99)
     rejected { _ = try wrongOwner.encoded() }
@@ -69,6 +72,21 @@ func verifyCallHistoryV2() throws {
     precondition(chatCleared.calls?.count == 1 && chatCleared.calls?.first?.chatVisible == false)
     let data = try archive.encoded()
     let object = try JSONSerialization.jsonObject(with: data) as! [String: Any]
+    var legacy = object
+    var legacyCalls = legacy["calls"] as! [[String: Any]]
+    var legacyPeer = legacyCalls[0]["peer"] as! [String: Any]
+    legacyPeer["username"] = "private_login_b033_fixture"
+    legacyCalls[0]["peer"] = legacyPeer; legacy["calls"] = legacyCalls
+    var legacyChats = legacy["chats"] as! [[String: Any]]
+    legacyChats[0]["peer"] = legacyPeer; legacy["chats"] = legacyChats
+    let importedLegacy = try HistoryArchive.decode(JSONSerialization.data(withJSONObject: legacy), server: id(1), owner: id(2))
+    precondition(importedLegacy.calls?.first?.peer?.username.isEmpty == true,
+                 "B-033 accepts an old archive while discarding its private peer login")
+    precondition(importedLegacy.calls?.first?.peer?.publicUsername == "public_peer",
+                 "B-033 keeps public identity while reading old archives")
+    let rewritten = try importedLegacy.encoded()
+    precondition(!String(decoding: rewritten, as: UTF8.self).contains("private_login_b033_fixture"),
+                 "B-033 rebackup never writes an old peer login")
     var forged = object; var rows = forged["calls"] as! [[String: Any]]
     rows[0]["acceptedDeviceId"] = id(10); forged["calls"] = rows
     rejected { _ = try HistoryArchive.decode(JSONSerialization.data(withJSONObject: forged), server: id(1), owner: id(2)) }

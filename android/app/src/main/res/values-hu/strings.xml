@@ -212,7 +212,7 @@
     <string name="voice_open_app_settings">Alkalmazásbeállítások megnyitása</string>
     <string name="notification_settings_system_on">Az Android értesítései engedélyezve</string>
     <string name="notification_settings_system_off">Az Android értesítései letiltva</string>
-    <string name="notification_settings_system_detail">Az Android kezeli az engedélyt, a zárolási képernyőt, a hangot és a rezgést, a felügyeleti és szolgáltatási értesítéseknél is. Az UNYRI nem írhatja felül a rendszerbeállításaidat.</string>
+    <string name="notification_settings_system_detail">Az Androidban válasszon üzenet- vagy híváscsatornát a hang és rezgés beállításához.</string>
     <string name="notification_settings_allow">Értesítések engedélyezése</string>
     <string name="notification_settings_system_open">Android értesítési beállításainak megnyitása</string>
     <string name="local_mode_notifications">Értesítések engedélyezése</string>

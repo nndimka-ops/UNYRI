@@ -815,8 +815,123 @@ do {
     expect(failedCamera.audioControls?.localCameraState, .off, "a camera that failed while connecting shows off, still in the video layout")
     expect(failedCamera.audioControls?.videoMode, .video, "a camera failure keeps the video layout")
     let early = CallStateReducer.reduce(CallReducerState(ui: .connecting(outgoingInfo(.video)), activeCallId: callId), .setCameraEnabled(false))
-    check(early.1.isEmpty && early.0.audioControls?.localVideoEnabled == true,
-          "the camera button waits for connect: nothing would carry a change made before it")
+    check(early.1.contains(.engineSetVideoEnabled(false)) && early.0.audioControls?.localVideoEnabled == false,
+          "the camera button works while connecting")
+}
+
+// B-036: crossing camera requests already carry consent from both users. They
+// acknowledge each other without stopping capture or waiting for a new timeout.
+do {
+    for info in [outgoingInfo(), incomingInfo()] {
+        var call = CallReducerState(ui: .connected(ConnectedState(call: info)), activeCallId: callId)
+        call = CallStateReducer.reduce(call, .requestVideoUpgrade).0
+        call = CallStateReducer.reduce(call, .engineLocalFirstFrame(callId: callId)).0
+        let crossed = CallStateReducer.reduce(call, .remoteVideoUpgradeRequest(callId: callId))
+        expect(crossed.0.audioControls?.videoUpgrade, .upgrading, "crossing upgrades immediately (\(info.direction))")
+        check(crossed.0.audioControls?.localVideoEnabled == true && crossed.0.audioControls?.localCameraState == .on,
+              "crossing preserves our live camera (\(info.direction))")
+        check(crossed.1.contains(.sendVideoUpgradeAccept(callId: callId))
+              && crossed.1.contains(.produceOfferAndSend(callId: callId))
+              && crossed.1.contains(.cancelVideoUpgradeTimeout), "crossing acknowledges and offers without waiting")
+        check(!crossed.1.contains(.engineStopLocalVideo) && !crossed.1.contains(.engineSetVideoEnabled(false)),
+              "crossing never tears down capture")
+        let lateTimeout = CallStateReducer.reduce(crossed.0, .videoUpgradeTimeout)
+        check(lateTimeout.0 == crossed.0 && lateTimeout.1.isEmpty, "a queued old timeout cannot disable crossing cameras")
+        let duplicate = CallStateReducer.reduce(crossed.0, .remoteVideoUpgradeRequest(callId: callId))
+        check(duplicate.0 == crossed.0 && duplicate.1.isEmpty, "a crossing duplicate cannot make a second offer")
+        var restarting = call
+        restarting.renegotiating = true
+        restarting.pendingOfferIsRestart = true
+        let deferred = CallStateReducer.reduce(restarting, .remoteVideoUpgradeRequest(callId: callId))
+        expect(deferred.0.deferredOfferTarget, .video, "a crossing serializes behind the in-flight restart")
+        check(deferred.1.contains(.sendVideoUpgradeAccept(callId: callId))
+              && deferred.1.contains(.cancelVideoUpgradeTimeout)
+              && !deferred.1.contains(.produceOfferAndSend(callId: callId)), "a crossing keeps one offer in flight")
+    }
+}
+
+// B-036 integration: connect two real reducers through their emitted signaling
+// effects. Both users request before either receives the other's request.
+do {
+    for firstDelivery in [0, 1] {
+        var peers = [
+            CallReducerState(ui: .connected(ConnectedState(call: outgoingInfo())), activeCallId: callId),
+            CallReducerState(ui: .connected(ConnectedState(call: incomingInfo())), activeCallId: callId)
+        ]
+        var wire: [(Int, CallEvent)] = []
+        var versions = [0, 0]
+        var offers = 0, stoppedCameras = 0
+        func description(_ side: Int) -> String {
+            versions[side] += 1
+            return "v=0\r\no=- \(100 + side) \(versions[side]) IN IP4 0.0.0.0\r\na=x-unyri-perfect-negotiation\r\nm=audio 9 UDP/TLS/RTP/SAVPF 111\r\nm=video 9 UDP/TLS/RTP/SAVPF 96\r\na=sendrecv\r\n"
+        }
+        func deliver(_ side: Int, _ event: CallEvent) {
+            let reduced = CallStateReducer.reduce(peers[side], event)
+            peers[side] = reduced.0
+            for effect in reduced.1 {
+                switch effect {
+                case .sendVideoUpgradeRequest:
+                    wire.append((1 - side, .remoteVideoUpgradeRequest(callId: callId)))
+                case .sendVideoUpgradeAccept:
+                    wire.append((1 - side, .remoteVideoUpgradeAccept(callId: callId)))
+                case .produceOfferAndSend:
+                    offers += 1
+                    wire.append((1 - side, .remoteOffer(callId: callId, sdp: description(side))))
+                case .produceAnswerAndSend:
+                    wire.append((1 - side, .remoteAnswer(callId: callId, sdp: description(side))))
+                    wire.append((side, .localAnswerSent(callId: callId)))
+                case .engineStopLocalVideo, .engineSetVideoEnabled(false): stoppedCameras += 1
+                default: break
+                }
+            }
+        }
+        deliver(firstDelivery, .requestVideoUpgrade)
+        deliver(1 - firstDelivery, .requestVideoUpgrade)
+        var steps = 0
+        while !wire.isEmpty && steps < 64 {
+            let message = wire.removeFirst()
+            deliver(message.0, message.1)
+            steps += 1
+        }
+        check(wire.isEmpty && steps < 64, "two crossing reducers settle in a bounded exchange")
+        check(offers >= 2 && offers <= 3, "crossing glare needs at most three offers across both peers")
+        check(stoppedCameras == 0, "crossing signaling never stops either camera")
+        for peer in peers {
+            expect(peer.audioControls?.videoMode, .video, "both crossing peers reach video")
+            expect(peer.audioControls?.videoUpgrade, .idle, "both crossing requests settle")
+            check(peer.audioControls?.localVideoEnabled == true && !peer.renegotiating,
+                  "both cameras stay enabled with no unanswered offer")
+        }
+    }
+}
+
+// B-037: controls retain the user's choices before ICE exists and through connect.
+do {
+    var call = CallReducerState(ui: .outgoingRinging(outgoingInfo(.video)), activeCallId: callId)
+    let speaker = AudioRoute(kind: .speaker, label: "Speaker")
+    let muted = CallStateReducer.reduce(call, .toggleMute)
+    check(muted.1.contains(.engineSetMuted(true)), "ringing mute reaches the engine")
+    call = CallStateReducer.reduce(muted.0, .setAudioRoute(speaker)).0
+    let cameraOff = CallStateReducer.reduce(call, .setCameraEnabled(false))
+    check(cameraOff.1.contains(.engineSetVideoEnabled(false)), "ringing camera off reaches the engine")
+    call = CallStateReducer.reduce(cameraOff.0, .remoteAccepted(callId: callId)).0
+    expect(call.audioControls?.isMuted, true, "mute survives ringing to connecting")
+    expect(call.selectedAudioRoute, speaker, "the selected output survives ringing to connecting")
+    expect(call.audioControls?.localVideoEnabled, false, "camera off survives ringing to connecting")
+    let strayFrame = CallStateReducer.reduce(call, .engineLocalFirstFrame(callId: callId))
+    check(!strayFrame.0.localVideoFrameReady, "a late frame cannot restore an explicitly disabled camera")
+    let connected = CallStateReducer.reduce(call, .engineConnectionState(callId: callId, state: .connected))
+    expect(connected.0.audioControls?.isMuted, true, "mute survives connecting to connected")
+    expect(connected.0.audioControls?.audioRoute, .speaker, "the selected output survives connect")
+    expect(connected.0.audioControls?.localVideoEnabled, false, "camera stays off on connect")
+    check(connected.1.contains(.sendVideoState(callId: callId, enabled: false)), "connect announces the retained camera-off choice")
+    let enabled = CallStateReducer.reduce(call, .setCameraEnabled(true))
+    expect(enabled.0.audioControls?.localVideoEnabled, true, "camera can turn back on while connecting")
+    let cameraOnConnect = CallStateReducer.reduce(enabled.0, .engineConnectionState(callId: callId, state: .connected))
+    expect(cameraOnConnect.0.audioControls?.localVideoEnabled, true, "the last preconnect camera choice wins")
+    let audioRing = CallReducerState(ui: .outgoingRinging(outgoingInfo()), activeCallId: callId)
+    check(CallStateReducer.reduce(audioRing, .requestVideoUpgrade).1.isEmpty,
+          "audio upgrade is unavailable while ringing and its UI control must stay hidden")
 }
 
 // A notice raised while reconnecting lives in the kept controls (the source the
@@ -1625,6 +1740,29 @@ do {
     check(!CallProximityPolicy.wantsProximity(state: .connecting(outgoingInfo(.video)), controls: ConnectedState(call: outgoingInfo(.video))),
           "connecting a video call never darkens the screen")
     check(!CallProximityPolicy.wantsProximity(state: .ended(outgoingInfo(), reason: .hangup), controls: nil), "the end releases proximity")
+}
+
+// A protected call with no TURN configuration ends before engine setup and
+// retains a dedicated explanation after stale engine/signaling callbacks.
+do {
+    for info in [outgoingInfo(), incomingInfo(.video)] {
+        var initial = CallReducerState()
+        initial.ui = .connecting(info)
+        initial.activeCallId = callId
+        let (failed, effects) = CallStateReducer.reduce(initial, .relayUnavailable(callId: callId))
+        expect(failed.ui, .failed(info, reason: .relayUnavailable), "missing TURN keeps a dedicated call failure")
+        check(failed.activeCallId == nil, "missing TURN retires the active call identity")
+        check(effects.contains(.restFailed(callId: callId)), "missing TURN reports the terminal call to the server")
+        check(effects.contains(.engineDispose) && effects.contains(.stopKeepAlive), "missing TURN cancels media setup and keepalive")
+        check(!effects.contains(.engineInitialize(mediaKind: info.mediaKind)), "missing TURN never schedules engine setup")
+        let (late, lateEffects) = CallStateReducer.reduce(failed, .engineConnectionState(callId: callId, state: .connected))
+        expect(late, failed, "late connected callback cannot overwrite the relay explanation")
+        check(lateEffects.isEmpty, "retired relay failure emits no late effects")
+        let (unrelated, unrelatedEffects) = CallStateReducer.reduce(initial, .relayUnavailable(callId: "another-call"))
+        expect(unrelated, initial, "a stale relay failure cannot end another call")
+        check(unrelatedEffects.isEmpty, "stale relay failure has no effects")
+    }
+    check(CallFailureReason.relayUnavailable.textKey.contains("TURN"), "dedicated failure explains the unavailable relay")
 }
 
 if failures > 0 {

@@ -168,7 +168,7 @@ with tempfile.TemporaryDirectory(prefix="unyri-share-contracts-") as folder:
     subprocess.run([str(binary)], check=True, timeout=30)
     if platform.system() == "Darwin":
         images = path / "image-contracts"
-        subprocess.run(compiler + [str(path / "Store.swift"), str(ROOT / "ios/UNYRI/Attachments/ImageProcessor.swift"),
+        subprocess.run(compiler + [str(path / "Store.swift"), str(ROOT / "ios/Shared/PeerImagePolicy.swift"), str(ROOT / "ios/UNYRI/Attachments/ImageProcessor.swift"),
                                    str(ROOT / "ios/Tests/SharePhase0Contracts/NativeImages.swift"), "-o", str(images)],
                        check=True, timeout=120)
         subprocess.run([str(images)], check=True, timeout=30)

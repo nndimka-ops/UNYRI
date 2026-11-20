@@ -19,7 +19,7 @@
     <string name="search_recent">Pesquisas recentes</string>
     <string name="search_scope_messages">Mensagens</string>
     <string name="settings_search_label">Pesquisar</string>
-    <string name="unified_search_hint">Pesquise conversas e mensagens salvas sem conexão. Encontre pessoas neste servidor pelo nome de usuário.</string>
+    <string name="unified_search_hint">Pesquise conversas e mensagens guardadas sem ligação. Encontre pessoas neste servidor por número ou @nome.</string>
     <string name="unified_search_network">A pesquisa no servidor está indisponível. Os resultados locais continuam disponíveis.</string>
     <string name="unified_search_local_error">Não foi possível carregar as mensagens salvas. Pesquise novamente.</string>
 </resources>

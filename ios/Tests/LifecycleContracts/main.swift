@@ -287,13 +287,46 @@ do {
     try store.upsert(row("delete-late", "delete", "second", 40, .delivered, ""))
     try store.upsert(row("second", "content", nil, 15, .delivered, "original"))
     expect(try store.message(byServerId: "second")?.deleteSequence, 40, "delete before target is replayed")
+    try store.upsert(row("original", "content", nil, 10, .sent, "stale send response"))
+    let visible = try store.message(byServerId: "original")
+    expect(visible?.content.text, "edited", "send response preserves newer visible edit")
+    expect(visible?.status, .delivered, "send response preserves receipt status")
     try store.hideLocally(clientMessageId: "original")
     try store.upsert(row("original", "content", nil, 10, .sent, "stale send response"))
-    let preserved = try store.message(byServerId: "original")
-    check(preserved?.hiddenLocally == true, "send response preserves local hiding")
-    expect(preserved?.content.text, "edited", "send response preserves newer edit")
-    expect(preserved?.status, .delivered, "send response preserves receipt status")
+    let hidden = try store.message(byServerId: "original")
+    check(hidden?.hiddenLocally == true, "send response preserves local hiding")
+    check(hidden?.content.text == nil && hidden?.payloadText == nil && hidden?.pendingEditText == nil,
+          "send response cannot restore erased hidden content")
 } catch { fail("late lifecycle replay: \(error)") }
+
+// A frozen in-flight send and its newer local edit are separate intents. An
+// ACK without an edit row must preserve the overlay until it is enqueued.
+do {
+    let store = try makeStore()
+    var pending = DecryptedChatMessage(clientMessageId: "pending-edit-ack", serverId: nil,
+        chatId: "pending-edits", senderId: "me", sequence: nil, createdAt: Date(),
+        kind: "content", targetMessageId: nil, status: .pending,
+        content: MessageContent(kind: MessageContent.kindText, text: "original"))
+    try store.upsert(pending)
+    try store.beginSend(clientMessageId: pending.clientMessageId, fallbackText: "original")
+    let edited = try store.setPendingEdit(clientMessageId: pending.clientMessageId,
+        content: MessageContent(kind: MessageContent.kindText, text: "edited"), revision: 7)
+    check(edited, "newer local edit is recorded while send is in flight")
+    pending.serverId = "pending-edit-server"
+    pending.sequence = 50
+    pending.status = .sent
+    try store.upsertSentWithPendingEdit(pending, editRow: nil)
+    let sent = try store.message(byClientMessageId: pending.clientMessageId)
+    expect(sent?.content.text, "edited", "send ACK retains newer local text")
+    expect(sent?.pendingEditText, "edited", "send ACK retains pending edit intent")
+    expect(sent?.pendingEditRevision, 7, "send ACK retains pending edit revision")
+    expect(sent?.payloadText, "original", "send ACK retains frozen original payload")
+    try store.hideLocally(clientMessageId: pending.clientMessageId)
+    try store.upsertSentWithPendingEdit(pending, editRow: nil)
+    let hidden = try store.message(byClientMessageId: pending.clientMessageId)
+    check(hidden?.content.text == nil && hidden?.payloadText == nil && hidden?.pendingEditText == nil,
+          "real hiding erases both pending edit and send payload after a late ACK")
+} catch { fail("pending edit ACK preservation: \(error)") }
 
 do {
     let store = try makeStore()

@@ -202,7 +202,7 @@ enum HistoryOperationErrorPresentation {
             try context.fence()
             guard let date = ISO8601Cocoa.parse(backup.createdAt) else { throw HistoryTransferFailure.invalid }
             preparedBackup = backup; preparedAt = date
-            HistoryAutoPreferences(server: state.serverId, owner: context.owner).lastSuccess = Date().timeIntervalSince1970
+            HistoryAutoPreferences(server: state.serverId, owner: context.owner, scope: AccountSecretScope.current(owner: context.owner)).lastSuccess = Date().timeIntervalSince1970
         }
     }
     func scan() {
@@ -349,6 +349,7 @@ struct HistoryTransferView: View {
 private struct HistoryTransferContent: View {
     @Environment(\.openURL) private var openURL
     @EnvironmentObject private var auth: AuthRepository
+    @EnvironmentObject private var users: UsersRepository
     @ObservedObject var model: HistoryTransferModel
     var initialReceive: Bool?
     @State private var confirmAccept = false
@@ -388,8 +389,9 @@ private struct HistoryTransferContent: View {
                         .font(.headline).fixedSize(horizontal: false, vertical: true)
                         .accessibilityIdentifier("history-transfer-phone-role")
                 }
-                if let username = auth.currentUser?.username {
-                    LabeledContent("Account on this phone", value: "@" + username).font(.footnote)
+                if let identity = users.ownIdentity {
+                    LabeledContent("Account on this phone", value: PeerIdentityPolicy.label(
+                        publicUsername: identity.publicUsername, unyriNumber: identity.unyriNumber)).font(.footnote)
                 }
                 if let host = AppConfig.apiBaseURL.host {
                     LabeledContent("Server on this phone", value: host).font(.footnote)
@@ -403,7 +405,7 @@ private struct HistoryTransferContent: View {
                 UnyriHistorySettingsSection {
                     if let error = model.error { UnyriHistoryErrorLine(error) }
                     if model.cameraDenied {
-                        Button("Open app settings") { if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) } }.accessibilityIdentifier("history-transfer-camera-settings")
+                        Button("Open app settings") { UnyriMediaNetwork.openAppSettings() }.accessibilityIdentifier("history-transfer-camera-settings")
                     }
                 }
             }

@@ -138,12 +138,14 @@ final class SignalStateStore: @unchecked Sendable {
     private let ownershipLock = NSRecursiveLock()
     private var active = true
     private let keychain: SignalKeychainStore
+    let localSecurity: LocalSecurityDecisions?
     private let namespace: () -> String
 
     init(keychain: SignalKeychainStore = SignalKeychainStore(),
-         namespace: @escaping () -> String) {
+         localSecurity: LocalSecurityDecisions? = nil, namespace: @escaping () -> String) {
         self.keychain = keychain
         self.namespace = namespace
+        self.localSecurity = localSecurity
     }
 
     private lazy var receiveStorage = SignalReceiveJournal(
@@ -201,6 +203,16 @@ final class SignalStateStore: @unchecked Sendable {
     func setData(_ data: Data, forKey key: String) throws {
         ownershipLock.lock(); defer { ownershipLock.unlock() }
         guard active else { throw CancellationError() }
+        if let localSecurity {
+            let prefix = "trusted_identity."
+            if key.hasPrefix(prefix), let address = SignalStorageKeys.decodeAddress(String(key.dropFirst(prefix.count))) {
+                try localSecurity.pin(user: address.name, signal: address.deviceId, identity: data)
+            } else if key.hasPrefix("verified_identity."),
+                      let address = SignalStorageKeys.decodeAddress(String(key.dropFirst("verified_identity.".count))),
+                      let identity = try receiveStorage.data(SignalStorageKeys.trustedIdentity(name: address.name, deviceId: address.deviceId)) {
+                try localSecurity.pin(user: address.name, signal: address.deviceId, identity: identity, verified: true)
+            }
+        }
         try receiveStorage.set(key, value: data)
     }
 
@@ -208,6 +220,17 @@ final class SignalStateStore: @unchecked Sendable {
         ownershipLock.lock(); defer { ownershipLock.unlock() }
         guard active else { throw CancellationError() }
         try receiveStorage.set(key, value: nil)
+    }
+
+    func hasVerifiedIdentityChange(user: String) throws -> Bool {
+        try withExclusiveAccess {
+            guard let localSecurity else { return false }
+            for pin in try localSecurity.pins() where pin.userId == user.lowercased() && pin.verified {
+                let pending = try data(forKey: "pending_identity." + SignalStorageKeys.encodeAddress(name: pin.userId, deviceId: pin.signalDeviceId))
+                if let pending, pending != pin.identityKey { return true }
+            }
+            return false
+        }
     }
 
     func contains(_ key: String) throws -> Bool {

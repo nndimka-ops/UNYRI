@@ -82,6 +82,8 @@ class CallUpgradeRaceTest {
         }
         assertEquals(0, caller.engine.rollbackCount, "caller is impolite")
         assertEquals(1, callee.engine.rollbackCount, "callee yields its crossed offer")
+        assertTrue(caller.wire.sentOffers.size + callee.wire.sentOffers.size <= 4,
+            "Crossed requests must settle with a bounded number of offers")
         assertLive(caller, callee)
     }
 

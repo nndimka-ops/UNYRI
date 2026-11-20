@@ -58,7 +58,7 @@ internal object ContactsPresentation {
         val term = normalize(query)
         val number = com.messenger.app.data.identity.IdentityPolicy.input(query)?.takeIf { it.parameter == "number" }?.value
         val filtered = entries.distinctBy { it.id }.filter {
-            term.isEmpty() || normalize(it.user.visibleName).contains(term) || (legacyLogins && normalize(it.user.username).contains(term)) || (number != null && it.user.publicNumber == number) || it.user.publicUsername?.let { name -> "@$name" == query } == true
+            term.isEmpty() || normalize(com.messenger.app.domain.model.DisplayNameSanitizer.display(it.user.displayName)).contains(term) || (number != null && it.user.publicNumber == number) || com.messenger.app.data.identity.IdentityPolicy.input(query)?.let { target -> target.parameter == "username" && it.user.publicUsername.equals(target.value, true) } == true
         }
         val sorted = ContactsOrdering.sorted(filtered, locale).sortedBy { sectionOrder(if (it.id in online) ONLINE else section(it.user.visibleName)) }
         var previous: String? = null

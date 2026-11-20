@@ -19,7 +19,7 @@
     <string name="search_recent">Скорошни търсения</string>
     <string name="search_scope_messages">Съобщения</string>
     <string name="settings_search_label">Търсене</string>
-    <string name="unified_search_hint">Търсете в запазени чатове и съобщения без връзка. Намерете хора на този сървър по потребителско име.</string>
+    <string name="unified_search_hint">Търсете запазени чатове и съобщения без интернет. Намерете хора на този сървър по номер или @име.</string>
     <string name="unified_search_network">Търсенето в сървъра е недостъпно. Местните резултати остават достъпни.</string>
     <string name="unified_search_local_error">Запазените съобщения не могат да се заредят. Опитайте отново.</string>
 </resources>

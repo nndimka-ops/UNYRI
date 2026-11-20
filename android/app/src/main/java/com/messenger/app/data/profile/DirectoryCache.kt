@@ -9,16 +9,20 @@ internal data class DirectoryCache(val items: List<PublicUser> = emptyList()) {
     fun append(offset: Long, page: List<PublicUser>): DirectoryCache {
         if (offset != 0L && offset != items.size.toLong()) return this
         val prefix = if (offset == 0L) emptyList() else items
-        return DirectoryCache((prefix + page).distinctBy { it.id }.take(100).map { it.copy(bio = null, avatarUrl = null) })
+        return DirectoryCache((prefix + page).distinctBy { it.id }.take(100).map { it.copy(username = "", bio = null, avatarUrl = null) })
     }
     fun remember(page: List<PublicUser>): DirectoryCache = DirectoryCache(
-        (page + items).distinctBy { it.id }.take(100).map { it.copy(bio = null, avatarUrl = null) })
+        (page + items).distinctBy { it.id }.take(100).map { it.copy(username = "", bio = null, avatarUrl = null) })
     fun search(query: String, limit: Int, offset: Long): SearchResult {
-        val term = query.trim().removePrefix("@")
-        val matched = items.filter { it.visibleName.contains(term, true) || it.username.contains(term, true) }
+        val term = query.trim()
+        val target = com.messenger.app.data.identity.IdentityPolicy.input(term)
+        val matched = items.filter { user ->
+            com.messenger.app.domain.model.DisplayNameSanitizer.display(user.displayName).contains(term, true) ||
+                when (target?.parameter) { "username" -> user.publicUsername.equals(target.value, true); "number" -> user.publicNumber == target.value; else -> false }
+        }
         val start = offset.coerceIn(0, matched.size.toLong()).toInt()
         val end = (start + limit.coerceIn(1, 30)).coerceAtMost(matched.size)
-        return SearchResult(matched.subList(start, end), end.toLong().takeIf { end < matched.size }, cached = true)
+        return SearchResult(matched.subList(start, end).map { it.copy(username = "") }, end.toLong().takeIf { end < matched.size }, cached = true)
     }
 }
 

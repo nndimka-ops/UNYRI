@@ -36,6 +36,8 @@ final class UsersRepository: ObservableObject {
     private var profileMutationRevision: UInt64 = 0
     @Published private(set) var ownProfile: UserProfile?
     @Published private(set) var ownIdentity: OwnerIdentity?
+    // Endpoint capability changes discovery UI only, never peer-login visibility.
+    @Published private(set) var legacyIdentityServer = false
     private var identityRead: (id: UUID, task: Task<OwnerIdentity, Error>)?
 
     @discardableResult func getIdentity() async throws -> OwnerIdentity {
@@ -51,10 +53,22 @@ final class UsersRepository: ObservableObject {
             }
             flight = (id, task); identityRead = flight
         }
-        let result = try await flight.task.value
+        let result: OwnerIdentity
+        do {
+            result = try await flight.task.value
+        } catch {
+            guard try currentProfileOwner() == owner else { throw CancellationError() }
+            let status: Int?
+            if let failure = error as? APIStatusError { status = failure.status }
+            else if let failure = error as? APIError, case .http(let code) = failure { status = code }
+            else { status = nil }
+            if ownIdentity == nil, status == 404 || status == 405 { legacyIdentityServer = true }
+            throw error
+        }
         guard try currentProfileOwner() == owner, result.userId.lowercased() == owner,
               PublicIdentityPolicy.number(result.unyriNumber)?.count == 9,
               PublicIdentityPolicy.origin(result.publicOrigin) != nil else { throw CancellationError() }
+        legacyIdentityServer = false
         if (ownIdentity.map({ $0.revision <= result.revision }) ?? true), ownIdentity != result { ownIdentity = result }
         return ownIdentity ?? result
     }
@@ -63,15 +77,18 @@ final class UsersRepository: ObservableObject {
         let owner = try currentProfileOwner()
         let result = try await api.updateIdentity(accessToken: try await currentToken(), request: request)
         guard try currentProfileOwner() == owner, result.userId.lowercased() == owner else { throw CancellationError() }
+        legacyIdentityServer = false
         if (ownIdentity.map({ $0.revision <= result.revision }) ?? true), ownIdentity != result { ownIdentity = result }
         return ownIdentity ?? result
     }
 
+    enum IdentityLookupError: Error { case profileUnavailable }
+
     func lookup(_ target: PublicIdentityPolicy.Target) async throws -> DiscoveredProfile {
         let owner = try currentProfileOwner(), privacy = identityPrivacyRevision
         let result = try await api.lookup(accessToken: try await currentToken(), target: target)
-        guard try currentProfileOwner() == owner, privacy == identityPrivacyRevision,
-              !locallyBlockedUsers.contains(result.id) else { throw CancellationError() }
+        guard try currentProfileOwner() == owner, privacy == identityPrivacyRevision else { throw CancellationError() }
+        guard !locallyBlockedUsers.contains(result.id.lowercased()) else { throw IdentityLookupError.profileUnavailable }
         return result
     }
 
@@ -97,7 +114,7 @@ final class UsersRepository: ObservableObject {
     private var invalidatingAvatarIDs = Set<String>()
 
     var blockedAccountScope: String? {
-        guard generation == auth.sessionGeneration, auth.currentUser?.id == directoryOwner,
+        guard !ownProfileRetired, generation == auth.sessionGeneration, auth.currentUser?.id == directoryOwner,
               AppConfig.storageOrigin == directoryOrigin, !directoryOwner.isEmpty else { return nil }
         return "\(generation)|\(directoryOrigin)|\(directoryOwner)"
     }
@@ -105,21 +122,33 @@ final class UsersRepository: ObservableObject {
 
     func blockedAccounts(query: String, cursor: String?) async throws -> BlockedAccountsPage {
         guard let scope = blockedAccountScope else { throw CancellationError() }
-        let result = try await api.blockedAccounts(accessToken: try await currentToken(), query: query, cursor: cursor)
+        guard let security = auth.localSecurity else { throw CancellationError() }
+        let localIDs = try security.blockedUsers()
+        let result = (try? await api.blockedAccounts(accessToken: try await currentToken(), query: query, cursor: cursor)) ?? BlockedAccountsPage(items: [], nextCursor: nil)
         try Task.checkCancellation()
         guard blockedAccountScope == scope else { throw CancellationError() }
-        return result
+        var items = result.items.filter { localIDs.contains($0.id.lowercased()) }
+        if cursor == nil {
+            let seen = Set(items.map(\.id))
+            for id in localIDs.sorted() where !seen.contains(id) && (query.isEmpty || id.localizedCaseInsensitiveContains(query)) {
+                items.append(BlockedAccount(user: PublicUser(id: id, username: id, displayName: id, bio: nil, avatarUrl: nil,
+                    profileVersion: 0, avatarVersion: 0, hasAvatar: false), blockedAt: ""))
+            }
+        }
+        return BlockedAccountsPage(items: items, nextCursor: result.nextCursor)
     }
 
     func setAccountBlocked(userID: String, blocked: Bool) async throws {
         guard let scope = blockedAccountScope, userID != directoryOwner else { throw CancellationError() }
         guard blockMutations.insert(userID).inserted else { throw APIError.http(409) }
         defer { blockMutations.remove(userID) }
-        try await api.setBlocked(accessToken: try await currentToken(), userID: userID, blocked: blocked)
-        guard blockedAccountScope == scope else { throw CancellationError() }
-        // Publish only an acknowledged account mutation. No optimistic offline success.
+        guard let security = auth.localSecurity else { throw CancellationError() }
+        try security.setBlocked(userID, blocked: blocked)
         accountBlockAcknowledged(userID: userID, blocked: blocked)
         onAccountBlockChange?(userID, blocked)
+        // A failed server projection cannot undo the user's durable local action.
+        try? await api.setBlocked(accessToken: try await currentToken(), userID: userID, blocked: blocked)
+        guard blockedAccountScope == scope else { throw CancellationError() }
     }
 
     func accountBlockAcknowledged(userID: String, blocked: Bool) {
@@ -135,7 +164,7 @@ final class UsersRepository: ObservableObject {
     func accountBlocksChanged() {
         guard blockedAccountScope != nil else { return }
         identityPrivacyRevision &+= 1
-        locallyBlockedUsers.removeAll()
+        locallyBlockedUsers = (try? auth.localSecurity?.blockedUsers()) ?? locallyBlockedUsers
         blockedAccountsRevision &+= 1
         contactsStore?.markStale()
     }
@@ -143,13 +172,36 @@ final class UsersRepository: ObservableObject {
     // MARK: Contacts
 
     private var contactsStore: ContactsStore?
-    /// Created on first use, so an account that never opens contacts pays nothing.
+    private var contactChanges: AnyCancellable?
+    /// One address book for this repository's account/server/session scope.
     var contacts: ContactsStore {
         if let contactsStore { return contactsStore }
         let store = ContactsStore(service: self)
         contactsStore = store
         return store
     }
+
+    func startContactMembershipSync() {
+        if contactChanges == nil {
+            contactChanges = NotificationCenter.default.publisher(for: .login2ContactChanged).sink { [weak self] note in
+                let owner = note.userInfo?["owner"] as? String
+                Task { @MainActor [weak self] in
+                    guard let self, self.blockedAccountScope != nil, owner == self.directoryOwner else { return }
+                    self.contacts.markStale()
+                }
+            }
+        }
+        contacts.startSession()
+    }
+
+    /// Single membership gate shared by calls and files. A future mutual-circle
+    /// policy can replace this without changing either transport's bindings.
+    func isKnownPeerContact(_ userID: String) -> Bool {
+        guard blockedAccountScope != nil, !ownProfileRetired else { return false }
+        return contactsStore?.isKnownPeerContact(userID) ?? false
+    }
+
+    func refreshContactMembership() { contacts.markStale() }
 
     func contactsPage(cursor: String?) async throws -> ContactsPage {
         guard let scope = blockedAccountScope else { throw CancellationError() }
@@ -173,6 +225,16 @@ final class UsersRepository: ObservableObject {
         guard let scope = blockedAccountScope, userID != directoryOwner else { throw CancellationError() }
         try await api.setContact(accessToken: try await currentToken(), userID: userID, contact: contact)
         guard blockedAccountScope == scope else { throw CancellationError() }
+    }
+
+    func peerDeleted(_ userID: String) {
+        guard blockedAccountScope != nil else { return }
+        identityPrivacyRevision &+= 1
+        invalidateKnownIdentity(userID)
+        contactsStore?.hide(userID)
+        // Also erase avatars loaded during earlier launches, whose file paths
+        // are no longer present in the current in-memory URL index.
+        Task { [weak self] in _ = await self?.clearAvatarCache() }
     }
 
     private func invalidateKnownIdentity(_ userID: String) {
@@ -250,6 +312,7 @@ final class UsersRepository: ObservableObject {
         self.api = api
         self.auth = auth
         self.generation = auth.sessionGeneration
+        self.locallyBlockedUsers = (try? auth.localSecurity?.blockedUsers()) ?? []
         self.directoryOrigin = AppConfig.storageOrigin
         self.directoryOwner = auth.currentUser?.id ?? ""
         self.accountAvatarSlot = UnyriActiveAccountSlot.current.id
@@ -390,7 +453,10 @@ final class UsersRepository: ObservableObject {
 
     func stopOwnProfileSync() {
         ownProfileRetired = true
+        contactChanges?.cancel(); contactChanges = nil
+        contactsStore?.stopSession()
         ownIdentity = nil; identityRead?.task.cancel(); identityRead = nil
+        legacyIdentityServer = false
         ownProfile = nil; wantedProfileVersion = -1
         profileSyncTask?.cancel(); profileSyncTask = nil; profileSyncID = nil
         profileRequest?.task.cancel(); profileRequest = nil
@@ -448,9 +514,7 @@ final class UsersRepository: ObservableObject {
         let file = directoryCacheFile
         let scope = directoryScope
         let identities = await Task.detached(priority: .utility) {
-            guard let bytes = try? file.resourceValues(forKeys: [.fileSizeKey]).fileSize, bytes <= 1_048_576,
-                  let data = try? Data(contentsOf: file), let entry = try? JSONDecoder().decode(DirectoryIdentityCache.self, from: data) else { return [] as [PublicUser] }
-            return DirectoryCachePolicy.restored(entry, scope: scope, query: query)
+            DirectoryCachePolicy.load(file: file, scope: scope, query: query)
         }.value
         return directoryIdentityIsCurrent && !Task.isCancelled ? identities.filter { !locallyBlockedUsers.contains($0.id) } : []
     }
@@ -491,7 +555,6 @@ final class UsersRepository: ObservableObject {
 
     /// Resolves a displayable avatar URL:
     /// - nil/empty `avatarUrl` → nil (initials fallback)
-    /// - `http(s)://…` → used directly (legacy external avatar)
     /// - `avatars/…` key → presigned download URL via `GET /users/:id/avatar`
     func avatarURL(id: String, avatarUrl: String?, avatarVersion: Int64) async -> URL? {
         let file = await resolveAvatarURL(id: id, avatarUrl: avatarUrl, avatarVersion: avatarVersion)
@@ -502,7 +565,7 @@ final class UsersRepository: ObservableObject {
     private func resolveAvatarURL(id: String, avatarUrl: String?, avatarVersion: Int64) async -> URL? {
         guard let scope = blockedAccountScope, !Task.isCancelled, !clearingAvatars, !invalidatingAvatarIDs.contains(id) else { return nil }
         let privacyRevision = identityPrivacyRevision
-        guard let raw = avatarUrl, !raw.isEmpty else { return nil }
+        guard let raw = avatarUrl, Self.isAvatarObjectKey(raw) else { return nil }
 
         let key = "\(id):\(avatarVersion):\(raw)"
         if let cached = avatarURLCache[key], cached.url.isFileURL {
@@ -571,15 +634,16 @@ final class UsersRepository: ObservableObject {
         return result
     }
 
+    nonisolated static func isAvatarObjectKey(_ value: String) -> Bool {
+        value.hasPrefix("avatars/") && value.count > 8 && !value.contains(":") && !value.contains("\\") &&
+            !value.contains("%") && !value.split(separator: "/").contains(where: { $0 == "." || $0 == ".." })
+    }
+
     private func remoteAvatarURL(id: String, avatarUrl: String, avatarVersion: Int64) async -> URL? {
         guard let scope = blockedAccountScope, !Task.isCancelled else { return nil }
         let raw = avatarUrl
 
-        if raw.hasPrefix("http://") || raw.hasPrefix("https://") {
-            return URL(string: raw)
-        }
-
-        if raw.hasPrefix("avatars/") {
+        if Self.isAvatarObjectKey(raw) {
             let cacheKey = "\(id):\(avatarVersion)"
             if let cached = avatarURLCache[cacheKey], cached.expiresAt > Date().addingTimeInterval(30) { return cached.url }
             do {
@@ -679,12 +743,12 @@ struct ContactsChangeHint: Equatable {
 
 /// Account address book, kept apart from UsersRepository's published state so a
 /// contact change re-renders only the views that observe contacts. The whole
-/// book is paged in only for an open People list; a profile row asks about one
-/// person, and nothing reloads while no list is on screen.
+/// book is loaded once at session start for transport admission. Existing sync
+/// events refresh it even when no Contacts screen has ever been opened.
 @MainActor
 final class ContactsStore: ObservableObject {
     enum Phase: Equatable { case idle, loading, loaded, failed }
-    /// Sorted by display name, then username. Filled by the People list's load.
+    /// Sorted by display name, then username; cached for this account scope.
     @Published private(set) var entries: [ContactEntry] = []
     /// Known members: the loaded list plus single answers, writes and hints.
     @Published private(set) var ids: Set<String> = []
@@ -704,8 +768,10 @@ final class ContactsStore: ObservableObject {
     private var touched: [String: UInt64] = [:]
     private var loadedAt: Date?
     private var stale = true
-    /// Open People lists. Only they make a change reload the whole book.
+    /// Open People lists and the session both consume the same address book.
     private var listViewers = 0
+    private var sessionActive = false
+    private var sessionLoad: Task<Void, Never>?
     /// Folded name and username per id, built off the main thread with the list.
     private var searchKeys: [String: String] = [:]
     private var hints: AnyCancellable?
@@ -727,6 +793,23 @@ final class ContactsStore: ObservableObject {
     }
 
     private var identityIsCurrent: Bool { scope != nil && service?.blockedAccountScope == scope }
+
+    func isKnownPeerContact(_ userID: String) -> Bool {
+        identityIsCurrent && loadedAt != nil && ids.contains(userID.lowercased())
+    }
+
+    func startSession() {
+        guard identityIsCurrent, !sessionActive else { return }
+        sessionActive = true
+        restartIfListed()
+    }
+
+    func stopSession() {
+        sessionActive = false
+        sessionLoad?.cancel()
+        sessionLoad = nil
+        clear()
+    }
     /// The loaded list answers for everyone while it is fresh. Hints missed
     /// while the socket was down cannot leave a profile row wrong for long.
     private var listIsCurrent: Bool {
@@ -825,10 +908,9 @@ final class ContactsStore: ObservableObject {
         }
     }
 
-    /// A change that names nobody (an older server's hint, an unblock): an
-    /// open list reloads now, open profile rows ask again, the rest waits for
-    /// its next use.
+    /// A bare hint, unblock or reconnect refreshes the account's shared book.
     func markStale() {
+        _ = supersede()
         stale = true
         guard identityIsCurrent else { return }
         if !nonMembers.isEmpty { nonMembers = [] }
@@ -845,8 +927,13 @@ final class ContactsStore: ObservableObject {
     }
 
     private func restartIfListed() {
-        guard listViewers > 0 else { return }
-        Task { await reload() }
+        guard sessionActive || listViewers > 0 else { return }
+        // Replacing the task also replaces reload's ticket before it publishes.
+        sessionLoad?.cancel()
+        sessionLoad = Task { [weak self] in
+            guard !Task.isCancelled, let self else { return }
+            await self.ensureLoaded()
+        }
     }
 
     /// WS hint: patches the named person; a bare hint marks the list stale.
@@ -962,9 +1049,9 @@ final class ContactsStore: ObservableObject {
         return (sorted, seen, keys)
     }
 
-    /// Name and username folded once, so filtering is a plain substring test.
+    /// Name and public identity folded once; private sign-in fields are excluded.
     nonisolated static func searchKey(_ user: PublicUser) -> String {
-        fold(DisplayNameSanitizer.peer(user.displayName, username: user.username) + "\n" + user.username)
+        fold([DisplayNameSanitizer.peer(user.displayName), user.publicUsername ?? "", user.unyriNumber ?? ""].joined(separator: "\n"))
     }
 
     nonisolated static func fold(_ text: String) -> String {
@@ -972,12 +1059,12 @@ final class ContactsStore: ObservableObject {
     }
 
     nonisolated static func precedes(_ a: ContactEntry, _ b: ContactEntry) -> Bool {
-        switch DisplayNameSanitizer.peer(a.user.displayName, username: a.user.username).localizedStandardCompare(DisplayNameSanitizer.peer(b.user.displayName, username: b.user.username)) {
+        switch DisplayNameSanitizer.peer(a.user.displayName).localizedStandardCompare(DisplayNameSanitizer.peer(b.user.displayName)) {
         case .orderedAscending: return true
         case .orderedDescending: return false
         case .orderedSame:
-            if a.user.username != b.user.username {
-                return a.user.username.localizedStandardCompare(b.user.username) == .orderedAscending
+            if a.user.publicUsername != b.user.publicUsername {
+                return (a.user.publicUsername ?? "").localizedStandardCompare(b.user.publicUsername ?? "") == .orderedAscending
             }
             return a.id < b.id
         }

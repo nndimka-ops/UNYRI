@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 # Sourced by install.sh. Inspect only container identity and published sockets.
 selfhost_port_list() {
+    if [[ ${2:-} == true ]]; then
+        printf '%s\n' '18080 tcp' '18443 tcp' '13478 tcp' '13478 udp'
+        local trial_port
+        for ((trial_port=59152; trial_port<=59200; trial_port++)); do printf '%s udp\n' "$trial_port"; done
+        return
+    fi
     printf '%s\n' '80 tcp' '443 tcp' '3478 tcp' '3478 udp'
     local port
     for ((port=49152; port<=49200; port++)); do printf '%s udp\n' "$port"; done
@@ -31,9 +37,9 @@ format_selfhost_port_conflicts() {
 }
 
 check_selfhost_ports() {
-    local rooms=${1:-} containers id project name mapping container_port port protocol line endpoint program key failed=false sockets
+    local rooms=${1:-} local_trial=${2:-false} containers id project name mapping container_port port protocol line endpoint program key failed=false sockets
     local -A wanted=() ours=() conflicts=()
-    while read -r port protocol; do wanted["$port/$protocol"]=1; done < <(selfhost_port_list "$rooms")
+    while read -r port protocol; do wanted["$port/$protocol"]=1; done < <(selfhost_port_list "$rooms" "$local_trial")
     # Inspect every running container: NAT publications may have no ss listener.
     containers=$(docker ps --format '{{.ID}}|{{.Label "com.docker.compose.project"}}|{{.Names}}') || return 1
     while IFS='|' read -r id project name; do
@@ -91,7 +97,13 @@ check_selfhost_ports() {
             rows+="$port"$'\t'"$protocol"$'\t'"${conflicts[$key]}"$'\n'
             failed=true
         fi
-    done < <(selfhost_port_list "$rooms")
+    done < <(selfhost_port_list "$rooms" "$local_trial")
     if [[ $failed == true ]]; then printf '%s' "$rows" | format_selfhost_port_conflicts >&2; fi
     [[ $failed == false ]]
 }
+
+# Direct desktop entry point; sourced callers are unchanged.
+if [[ ${BASH_SOURCE[0]} == "$0" ]]; then
+    set -euo pipefail
+    check_selfhost_ports "${1:-}" "${2:-false}"
+fi

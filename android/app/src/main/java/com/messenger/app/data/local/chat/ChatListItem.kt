@@ -24,4 +24,6 @@ data class ChatListItem(
     val isBlocked: Boolean = false,
     val blockedUserId: String? = null,
     val lastPreviewClientMessageId: String? = null,
+    val otherPublicNumber: String? = null,
+    val otherPublicUsername: String? = null,
 )

@@ -86,7 +86,8 @@ class DirectServiceNativeTest {
         lateinit var receiver: DirectTransferCoordinator
         fun coordinator(side: Side, other: Side, send: suspend (String, DirectFileOffer, Int) -> Unit, allowed: () -> Boolean) =
             DirectTransferCoordinator(context, side.auth, side.db.workspaceDao(), side.db.messageDao(), side.signal,
-                DirectTransferApi(client, side.auth, base), send, { other.auth.response.user.id }, { emptyList() }, allowed)
+                DirectTransferApi(client, side.auth, base), send, { other.auth.response.user.id }, { emptyList() },
+                peerToPeer = { com.messenger.app.data.call.CallPeerToPeer.EVERYONE }, canStream = allowed)
         receiver = coordinator(b, a, { _, _, _ -> error("Receiver must not create an offer") }, { receiverAllowed.get() })
         sender = coordinator(a, b, { id, offer, _ ->
             offerEnqueueGate.withLock {

@@ -19,7 +19,7 @@
     <string name="search_recent">Legutóbbi keresések</string>
     <string name="search_scope_messages">Üzenetek</string>
     <string name="settings_search_label">Keresés</string>
-    <string name="unified_search_hint">Keress a mentett csevegésekben és üzenetekben offline. Keress személyeket ezen a szerveren felhasználónév alapján.</string>
+    <string name="unified_search_hint">Keressen a mentett beszélgetésekben és üzenetekben kapcsolat nélkül. A kiszolgálón szám vagy @név alapján találhat embereket.</string>
     <string name="unified_search_network">A szerveres keresés nem érhető el. A helyi találatok továbbra is elérhetők.</string>
     <string name="unified_search_local_error">A mentett üzenetek nem tölthetők be. Próbáld újra a keresést.</string>
 </resources>

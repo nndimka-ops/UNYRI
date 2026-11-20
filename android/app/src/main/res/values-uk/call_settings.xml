@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_settings_title">Дзвінки</string>
+    <string name="call_settings_saving_title">Економія трафіку в дзвінках</string>
+    <string name="call_settings_saving_never">Ніколи</string>
+    <string name="call_settings_saving_cellular">У мобільній мережі</string>
+    <string name="call_settings_saving_always">Завжди</string>
+    <string name="call_settings_saving_never_detail">До 720p через Wi-Fi і до 540p у мобільній мережі. Рекомендовано.</string>
+    <string name="call_settings_saving_cellular_detail">У мобільній мережі — до 360p і полегшений звук.</string>
+    <string name="call_settings_saving_always_detail">До 360p і полегшений звук у будь-якій мережі.</string>
+    <string name="call_settings_saving_note">Дзвінки в будь-якому разі підлаштовуються під мережу й знижують якість за слабкого з’єднання та в режимі економії даних. Зміни застосовуються одразу, зокрема під час дзвінка.</string>
+    <string name="call_settings_peer_everyone_detail">З’єднуватися напряму, коли це можливо. Найкраща якість.</string>
+    <string name="call_settings_peer_nobody_detail">Завжди через сервер. Ваша IP-адреса залишається прихованою.</string>
+    <string name="call_settings_peer_note">Пряме з’єднання зазвичай швидше, але пристрій співрозмовника бачить вашу IP-адресу. Під час дзвінка через сервер видно лише адресу сервера. Застосовується з наступного дзвінка.</string>
+    <string name="call_settings_peer_contacts_detail">Напряму — лише з людьми з Контактів. З іншими — через сервер.</string>
+</resources>

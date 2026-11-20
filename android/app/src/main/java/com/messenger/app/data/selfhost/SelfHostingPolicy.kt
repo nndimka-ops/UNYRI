@@ -10,6 +10,20 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/** Official, fixed destinations; server configuration never supplies a guide URL. */
+object SelfHostingGuidePolicy {
+    private const val guideBaseUrl = "https://github.com/nndimka-ops/UNYRI/blob/main/docs/"
+
+    fun guideUrl(language: String): String {
+        val filename = when (language.lowercase(Locale.ROOT).substringBefore('-').substringBefore('_')) {
+            "ru" -> "SELF_HOSTING.md"
+            "uk" -> "SELF_HOSTING_UK.md"
+            else -> "SELF_HOSTING_EN.md"
+        }
+        return guideBaseUrl + filename
+    }
+}
+
 @Serializable
 data class RegistrationPolicy(
     @SerialName("invite_required") val inviteRequired: Boolean = false,

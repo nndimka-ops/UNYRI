@@ -68,7 +68,8 @@ class ContactsContractsTest {
         }
         val store = store(service)
         store.ensureLoaded()
-        assertEquals(listOf("p"), store.matching("hidden_login").map { it.id })
+        assertTrue(store.entries.value.all { it.user.username.isEmpty() })
+        assertTrue(store.matching("hidden_login").isEmpty())
         assertTrue(store.matching("hidden_login", legacyLogins = false).isEmpty())
         assertEquals(listOf("q"), store.matching("@public_name", legacyLogins = false).map { it.id })
         assertEquals(listOf("q"), store.matching("123 456 789", legacyLogins = false).map { it.id })
@@ -85,7 +86,7 @@ class ContactsContractsTest {
         store.ensureLoaded(); assertEquals(1, service.reads)
         time = 300_000; store.ensureLoaded(); assertEquals(2, service.reads)
         service.rows = listOf(anna, person("a0", "Anna", "anna_k"))
-        store.reload(); assertEquals(listOf("a1", "a0"), store.entries.value.map { it.id })
+        store.reload(); assertEquals(listOf("a0", "a1"), store.entries.value.map { it.id })
     }
 
     @Test fun `cursor pages and malformed repeated failed and over-limit pages preserve displayed rows`() = runTest {
@@ -190,12 +191,12 @@ class ContactsContractsTest {
         assertEquals(3, service.statusReads); assertTrue("b2" in store.ids.value)
     }
 
-    @Test fun `filter keys ignore case diacritics and match username plus newly added row`() = runTest {
-        val zoe = person("o5", "Zoë Ångström", "zoe_a")
+    @Test fun `filter keys ignore case diacritics and match exact public username plus newly added row`() = runTest {
+        val zoe = person("o5", "Zoë Ångström", "private_login").copy(publicUsername = "zoe_a")
         val service = Service().apply { rows = listOf(anna, boris, zoe) }
         val store = store(service); store.listAppeared(); store.ensureLoaded()
         assertEquals(listOf("a1", "b2", "o5"), store.matching("").map { it.id })
-        for (query in listOf("ZOE", "angst", "zoe_", "@zoe_")) assertEquals(listOf("o5"), store.matching(query).map { it.id })
+        for (query in listOf("ZOE", "angst", "@zoe_a")) assertEquals(listOf("o5"), store.matching(query).map { it.id })
         assertTrue(store.matching("nobody").isEmpty())
         assertTrue(store.set(person("c3", "Céline"), true)); assertEquals(listOf("c3"), store.matching("celine").map { it.id })
     }

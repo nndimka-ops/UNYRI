@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_relay_unavailable">개인정보 설정에 따라 이 사용자에게 연결하려면 릴레이가 필요하지만 이 서버에는 설정되어 있지 않습니다. 파일 전송을 연결할 수 없습니다.</string>
+</resources>

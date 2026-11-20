@@ -36,14 +36,14 @@ enum CallPeerToPeer: String, CaseIterable, Equatable {
     case everyone, contacts, nobody
 
     static let storageKey = "callPeerToPeer.v1"
-    static func resolved(stored: String?) -> CallPeerToPeer { stored.flatMap(Self.init(rawValue:)) ?? .everyone }
+    static func resolved(stored: String?) -> CallPeerToPeer { stored.flatMap(Self.init(rawValue:)) ?? .contacts }
 }
 
 enum CallRelayPolicy {
     /// Relay-only ICE (`iceTransportPolicy = .relay`): this device gathers no
     /// host or server-reflexive candidates, so the other person only ever sees
-    /// the relay's address. A contact is someone this account has a direct
-    /// chat with; an unknown peer is never treated as one.
+    /// the relay's address. Only known membership in this account's Contacts
+    /// permits direct ICE; an unknown peer is never treated as a contact.
     static func relayOnly(_ setting: CallPeerToPeer, peerIsContact: Bool) -> Bool {
         switch setting {
         case .everyone: return false
@@ -737,6 +737,11 @@ struct CallRelayFallbackPolicy: Equatable {
         }
     }
 
+    /// Reject unavailable protected calls before constructing a media engine.
+    static func canInitialize(relayOnly: Bool, urls: [String]) -> Bool {
+        !relayOnly || hasTurnServer(urls)
+    }
+
     /// Wi-Fi <-> cellular, or no network at all. An outage under way becomes
     /// the network's too: its failed restarts say nothing about the direct
     /// pair. A failed round over the fallback's relay still goes back to
@@ -1318,5 +1323,33 @@ enum CallAudioCodecPreference {
         let red = names.indices.filter { names[$0].lowercased() == "red" }
         let others = names.indices.filter { names[$0].lowercased() != "red" }
         return preferRed ? red + others : others
+    }
+}
+
+/// Video codecs both apps prefer, in this order: H.264 Constrained High
+/// (profile-level-id 640c…), H.264 Constrained Baseline (42e0…), any other
+/// H.264, VP8, then everything else as WebRTC gave it (VP9, AV1, rtx, red,
+/// ulpfec stay negotiable). Set on our video transceiver before every offer
+/// and answer; the answer's order decides both directions, so either side
+/// alone already gets H.264. Android's encoder factory lists its software
+/// codecs first: an Android offer made both phones encode VP8 in software,
+/// 12-13 fps from a POCO X6, which has no VP8 hardware (B-047, 19 Nov;
+/// docs/CALL_QUALITY_PLAN.md step 8). Shared vectors:
+/// shared/test-vectors/call-video-codec-order.json.
+enum CallVideoCodecPreference {
+    /// Positions into `codecs` (name, its `profile-level-id` if any), in order.
+    static func order(_ codecs: [(name: String, profileLevelId: String?)]) -> [Int] {
+        func rank(_ index: Int) -> Int {
+            switch codecs[index].name.lowercased() {
+            case "h264":
+                let profile = codecs[index].profileLevelId?.lowercased() ?? ""
+                if profile.hasPrefix("640c") { return 0 }
+                if profile.hasPrefix("42e0") { return 1 }
+                return 2
+            case "vp8": return 3
+            default: return 4
+            }
+        }
+        return codecs.indices.sorted { (rank($0), $0) < (rank($1), $1) }
     }
 }

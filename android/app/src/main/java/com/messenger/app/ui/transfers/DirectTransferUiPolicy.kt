@@ -12,7 +12,7 @@ internal enum class DirectTransferStatus {
     HELD_BOTH, HELD_LOCAL, HELD_PEER, SYNC_LIMIT, CONFIRMING,
     TRANSFERRING, CONNECTING, QUEUED, SERVER_CAPACITY, NO_ROUTE, PREFIX_MISMATCH, DISK_FULL,
     SOURCE_MISSING, UNSUPPORTED, INTEGRITY_FAILED, SECURITY_ERROR, CALL_PRIORITY,
-    UNAVAILABLE, BACKGROUND_INTERRUPTED, PAUSED, OFFERED, WAITING,
+    UNAVAILABLE, RELAY_UNAVAILABLE, PEER_RELAY_UNAVAILABLE, BACKGROUND_INTERRUPTED, PAUSED, OFFERED, WAITING,
 }
 
 internal data class DirectTransferActionPermissions(
@@ -103,6 +103,8 @@ internal object DirectTransferUiPolicy {
         value.reason == "server_capacity" -> DirectTransferStatus.SERVER_CAPACITY
         value.state == "paused" && value.reason == "queued" -> DirectTransferStatus.QUEUED
         value.state == "paused" && value.reason == "direct_unavailable" -> DirectTransferStatus.NO_ROUTE
+        value.state == "paused" && value.reason == "relay_unavailable" -> DirectTransferStatus.RELAY_UNAVAILABLE
+        value.state == "paused" && value.reason == "peer_relay_unavailable" -> DirectTransferStatus.PEER_RELAY_UNAVAILABLE
         value.state == "paused" && value.reason == "prefix_mismatch" -> DirectTransferStatus.PREFIX_MISMATCH
         value.state == "paused" && value.reason == "disk_full" -> DirectTransferStatus.DISK_FULL
         value.state == "paused" && value.reason in setOf("source_missing", "source_changed") -> DirectTransferStatus.SOURCE_MISSING

@@ -15,32 +15,32 @@ internal object AdminTitles {
 
     fun meaningful(value: String?): String? = value?.takeIf { it.isNotBlank() && it != "null" }
 
-    /** `@username` when the account row was loaded, otherwise a shortened id. */
+    /** Public identity when explicitly available, otherwise a shortened id. */
     fun account(userId: String?, cache: AdminCache): String {
         val key = meaningful(userId) ?: return "—"
-        val username = meaningful(cache.userRow(key)?.username)
-        return if (username != null) "@$username" else AdminPresentation.shortId(key)
+        val row = cache.userRow(key)
+        return accountLabel(key, row?.publicUsername, row?.unyriNumber)
     }
 
-    /** The same label when the username is already in hand (moderation centre). */
-    fun accountLabel(userId: String?, username: String?): String {
+    /** Compatibility username fields can contain a private login on older servers. */
+    fun accountLabel(userId: String?, publicUsername: String?, unyriNumber: String? = null): String {
         val key = meaningful(userId) ?: return "—"
-        val name = meaningful(username)
-        return if (name != null) "@$name" else AdminPresentation.shortId(key)
+        return com.messenger.app.data.identity.PeerIdentityPolicy.handle(publicUsername, unyriNumber)
+            .takeIf { it.isNotEmpty() } ?: AdminPresentation.shortId(key)
     }
 
     /** Best-effort human name for an account row. */
     fun displayName(row: AdminUserRowDto?): String {
         if (row == null) return "—"
         val name = meaningful(row.displayName?.let { com.messenger.app.domain.model.DisplayNamePolicy.display(it, "") })
-        val username = meaningful(row.username)
-        return name ?: username ?: AdminPresentation.shortId(row.userId)
+        return name ?: accountLabel(row.userId, row.publicUsername, row.unyriNumber)
     }
 
     /** Best-effort human name for the account open in the moderation centre. */
     fun profileName(profile: AdminProfileDto?): String {
         if (profile == null) return "—"
-        return meaningful(profile.displayName?.let { com.messenger.app.domain.model.DisplayNamePolicy.display(it, "") }) ?: meaningful(profile.username) ?: AdminPresentation.shortId(profile.userId)
+        return meaningful(profile.displayName.let { com.messenger.app.domain.model.DisplayNamePolicy.display(it, "") })
+            ?: accountLabel(profile.userId, profile.publicUsername, profile.unyriNumber)
     }
 
     /**

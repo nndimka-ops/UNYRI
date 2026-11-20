@@ -19,13 +19,7 @@ class AndroidKeystoreSignalStore private constructor(
     internal constructor(prefs: SharedPreferences) : this(prefs, indexFor(prefs))
 
     constructor(context: Context, prefsName: String = PREFS_FILE_NAME) : this(
-        EncryptedSharedPreferences.create(
-            context,
-            prefsName,
-            MasterKey.Builder(context).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build(),
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
-        ),
+        com.messenger.app.data.secure.WorkspaceSecrets.open(context, prefsName),
         // Logout also constructs a store. Share its index with the active store,
         // but keep inactive-account storage contexts and separate files isolated.
         indexFor(context.getSharedPreferences(prefsName, Context.MODE_PRIVATE)),

@@ -29,7 +29,7 @@ import com.messenger.app.data.local.search.SearchDao
         PeerIdentityEntity::class, ChatWorkspaceValue::class, DeletedChat::class,
         PendingDecryptEntity::class,
     ],
-    version = 22,
+    version = 24,
     exportSchema = false,
 )
 abstract class MessengerDatabase : RoomDatabase() {
@@ -44,6 +44,18 @@ abstract class MessengerDatabase : RoomDatabase() {
     abstract fun mediaDao(): MediaDao
 
     companion object {
+        val MIGRATION_23_24 = object : Migration(23, 24) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                // The compatibility field could contain a private sign-in login.
+                db.execSQL("UPDATE chat_participants SET username = '' WHERE username <> ''")
+            }
+        }
+        val MIGRATION_22_23 = object : Migration(22, 23) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE chat_participants ADD COLUMN publicNumber TEXT")
+                db.execSQL("ALTER TABLE chat_participants ADD COLUMN publicUsername TEXT")
+            }
+        }
         val MIGRATION_21_22 = object : Migration(21, 22) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL("ALTER TABLE messages ADD COLUMN sortKey INTEGER DEFAULT NULL")
@@ -424,11 +436,28 @@ abstract class MessengerDatabase : RoomDatabase() {
             }
         }
 
+        /** Every migration Room may run, in order. Each first drops the partial decrypt-retry
+         *  indexes that onOpen installs: Room validates every entity table after migrating and
+         *  cannot model partial indexes, so an upgraded device failed that check and the app
+         *  crashed at start (19 Nov, POCO, 23 -> 24: "Migration didn't properly handle:
+         *  pending_decrypts"). onOpen re-creates them after validation. */
+        internal fun registeredMigrations(): Array<Migration> = arrayOf(
+            MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12, MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16, MIGRATION_16_17, MIGRATION_17_18, MIGRATION_18_19, MIGRATION_19_20, MIGRATION_20_21, MIGRATION_21_22, MIGRATION_22_23, MIGRATION_23_24,
+        ).map(::withoutUnmodeledIndexes).toTypedArray()
+
+        internal fun withoutUnmodeledIndexes(migration: Migration): Migration =
+            object : Migration(migration.startVersion, migration.endVersion) {
+                override fun migrate(db: SupportSQLiteDatabase) {
+                    com.messenger.app.data.local.message.PendingDecryptRetrySql.INDEX_NAMES.forEach {
+                        db.execSQL("DROP INDEX IF EXISTS $it")
+                    }
+                    migration.migrate(db)
+                }
+            }
+
         fun create(context: Context): MessengerDatabase =
             Room.databaseBuilder(context.applicationContext, MessengerDatabase::class.java, "messenger.db")
-                .addMigrations(
-                    MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12, MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16, MIGRATION_16_17, MIGRATION_17_18, MIGRATION_18_19, MIGRATION_19_20, MIGRATION_20_21, MIGRATION_21_22,
-                )
+                .addMigrations(*registeredMigrations())
                 .addCallback(object : Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         installDecryptRetryIndexes(db)
@@ -437,11 +466,14 @@ abstract class MessengerDatabase : RoomDatabase() {
                     }
 
                     override fun onOpen(db: SupportSQLiteDatabase) {
+                        MessageDeletionSql.install.forEach { MessageDeletionSql.run(db, it) }
                         installDecryptRetryIndexes(db)
                         // Idempotent - also covers a fresh DB created without
                         // running onCreate (and any in-memory DB).
                         ensureSearchIndex(db)
                         installDeletedChatGuards(db)
+                        MessageDeletionSql.backfill.forEach { MessageDeletionSql.run(db, it) }
+                        for (operation in listOf("INSERT", "UPDATE")) db.execSQL("CREATE TRIGGER IF NOT EXISTS deleted_profile_$operation AFTER $operation ON chat_participants WHEN EXISTS(SELECT 1 FROM chat_workspace WHERE chatId='__deleted_profiles__' AND name=NEW.userId) AND (NEW.username<>'' OR NEW.avatarUrl IS NOT NULL OR NEW.hasAvatar<>0 OR NEW.publicUsername IS NOT NULL OR NEW.displayName<>(SELECT value FROM chat_workspace WHERE chatId='__deleted_profiles__' AND name=NEW.userId)) BEGIN UPDATE chat_participants SET username='',displayName=(SELECT value FROM chat_workspace WHERE chatId='__deleted_profiles__' AND name=NEW.userId),avatarUrl=NULL,avatarVersion=0,hasAvatar=0,publicUsername=NULL WHERE userId=NEW.userId; END")
                     }
                 })
                 .build()

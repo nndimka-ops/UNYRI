@@ -15,7 +15,7 @@ methods='\n'.join(block(source,marker)for marker in ['    func cachedMe()', '   
 properties='\n'.join(line.replace('@Published private(set) ','')for line in source.splitlines() if any(line.strip().startswith(prefix)for prefix in [
  'private var profileMutationRevision:', '@Published private(set) var ownProfile:', 'private var profileRequest:',
  'private var profileSyncTask:', 'private var profileSyncID:', 'private var profileHintRevision:',
- 'private var wantedProfileVersion:', 'private var ownProfileRetired ']))
+ 'private var wantedProfileVersion:', 'private var ownProfileRetired ', '@Published private(set) var legacyIdentityServer ']))
 seams=r'''
 import Foundation
 let owner="11111111-1111-4111-8111-111111111111"

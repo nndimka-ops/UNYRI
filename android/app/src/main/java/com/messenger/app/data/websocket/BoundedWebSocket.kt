@@ -31,6 +31,8 @@ internal class BoundedWebSocket(
     private val random = SecureRandom()
     private val key = ByteArray(16).apply { random.nextBytes(this) }.toByteString().base64()
     private val http = client.newBuilder().protocols(listOf(Protocol.HTTP_1_1))
+        .followRedirects(false).followSslRedirects(false)
+        .retryOnConnectionFailure(false)
         .eventListener(EventListener.NONE).build()
     private val call = RealCall(http, request.newBuilder()
         .header("Upgrade", "websocket").header("Connection", "Upgrade")

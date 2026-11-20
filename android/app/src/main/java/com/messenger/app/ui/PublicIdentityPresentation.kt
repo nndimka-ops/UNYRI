@@ -5,13 +5,23 @@ import androidx.compose.ui.platform.LocalContext
 import com.messenger.app.MessengerApp
 import com.messenger.app.domain.model.PublicUser
 
-internal fun publicHandleText(number: String?, username: String?, oldLogin: String, legacy: Boolean): String = when {
-    !legacy && number != null -> username?.let { "@$it" } ?: com.messenger.app.data.identity.IdentityPolicy.formattedNumber(number)
-    legacy && oldLogin.isNotEmpty() -> "@$oldLogin"
-    else -> ""
+internal fun publicHandleText(number: String?, username: String?, oldLogin: String, legacy: Boolean): String =
+    com.messenger.app.data.identity.PeerIdentityPolicy.handle(username, number, oldLogin, legacy)
+
+@Composable
+internal fun publicHandle(number: String?, username: String?, oldUsername: String = ""): String {
+    val legacy by (LocalContext.current.applicationContext as MessengerApp).identityRepository.legacy.collectAsState()
+    return publicHandleText(number, username, oldUsername, legacy)
 }
 
-/** Old chat/contact payloads still contain logins in step 2. Never render them on a new server. */
+/** B-051: the Contacts row caption (grouped number, then the public @username). */
+@Composable
+internal fun contactCaption(user: PublicUser): String {
+    val legacy by (LocalContext.current.applicationContext as MessengerApp).identityRepository.legacy.collectAsState()
+    return com.messenger.app.data.identity.PeerIdentityPolicy.contactCaption(user.publicUsername, user.publicNumber, legacy)
+}
+
+/** The legacy compatibility username is never a peer identifier, on any server. */
 @Composable
 internal fun publicHandle(user: PublicUser): String {
     val legacy by (LocalContext.current.applicationContext as MessengerApp).identityRepository.legacy.collectAsState()

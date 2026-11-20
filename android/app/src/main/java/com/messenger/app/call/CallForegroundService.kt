@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
+import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
@@ -20,6 +21,7 @@ import androidx.core.content.ContextCompat
  *  terminal/Idle transition). */
 class CallForegroundService : Service() {
     private var promotedTicket: CallForegroundServiceTicket? = null
+    private var wifiLock: WifiManager.WifiLock? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val controller = (application as? MessengerApp)?.callController
@@ -51,11 +53,14 @@ class CallForegroundService : Service() {
             }
             true
         }
-        if (admitted) promotedTicket = ticket
-        else {
+        if (admitted) {
+            promotedTicket = ticket
+            holdWifi()
+        } else {
             val now = controller.foregroundServiceTicket()
             if (now == null || now == ticket) {
                 promotedTicket = null
+                releaseWifi()
                 stopForeground(STOP_FOREGROUND_REMOVE)
                 stopSelfResult(startId)
             } else if (shouldStopStaleCallService(promotedTicket, now)) {
@@ -65,7 +70,36 @@ class CallForegroundService : Service() {
         return START_NOT_STICKY
     }
 
+    override fun onDestroy() {
+        releaseWifi()
+        super.onDestroy()
+    }
+
     override fun onBind(intent: Intent?): IBinder? = null
+
+    /**
+     * Wi-Fi power save holds incoming packets until the next beacon: on one Wi-Fi
+     * with a direct pair the iPhone saw stalls of about 1 s and a 1.5 s voice
+     * buffer from an Android peer (B-047, 19 Nov). Held only while this service
+     * runs (a call Connecting/Connected) and released in [onDestroy]. Low-latency
+     * mode works while the app is in the foreground with the screen on; Android 9
+     * and older get high-performance mode instead.
+     */
+    @Suppress("DEPRECATION") // WIFI_MODE_FULL_HIGH_PERF, used only before Android 10
+    private fun holdWifi() {
+        if (wifiLock?.isHeld == true) return
+        val manager = applicationContext.getSystemService(WifiManager::class.java) ?: return
+        val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) WifiManager.WIFI_MODE_FULL_LOW_LATENCY
+            else WifiManager.WIFI_MODE_FULL_HIGH_PERF
+        wifiLock = runCatching {
+            manager.createWifiLock(mode, WIFI_LOCK_TAG).apply { setReferenceCounted(false); acquire() }
+        }.getOrNull()
+    }
+
+    private fun releaseWifi() {
+        wifiLock?.let { lock -> if (lock.isHeld) runCatching { lock.release() } }
+        wifiLock = null
+    }
 
     private fun buildNotification(title: String): android.app.Notification {
         ensureChannel()
@@ -113,5 +147,6 @@ class CallForegroundService : Service() {
         const val EXTRA_GENERATION = "call_generation"
         const val EXTRA_OWNER = "call_owner"
         private const val CHANNEL_ID = "calls_ongoing"
+        private const val WIFI_LOCK_TAG = "UNYRI:call"
     }
 }

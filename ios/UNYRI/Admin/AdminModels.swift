@@ -186,14 +186,13 @@ struct AdminFeedbackDTO: Decodable, Identifiable, Equatable {
 
 /// A row of the account search.
 ///
-/// The search endpoint reuses the report/feedback row keys: `description`
-/// carries the display name and `reason` carries the username. The wire shape is
-/// documented rather than hidden.
+/// Administration uses the same public-only identity as peer surfaces.
 struct AdminUserRowDTO: Decodable, Identifiable, Equatable {
     var id: String
     var userId: String
     var displayName: String?
-    var username: String?
+    var publicUsername: String?
+    var unyriNumber: String?
     var sortKey: String?
     var installationBlocks: Int64 = 0
     var status: String = "active"
@@ -202,8 +201,7 @@ struct AdminUserRowDTO: Decodable, Identifiable, Equatable {
 
     private enum CodingKeys: String, CodingKey {
         case id, userId, sortKey, installationBlocks, status, suspendedUntil, createdAt
-        case displayName = "description"
-        case username = "reason"
+        case displayName, publicUsername, unyriNumber
     }
 
     init(from decoder: Decoder) throws {
@@ -211,7 +209,8 @@ struct AdminUserRowDTO: Decodable, Identifiable, Equatable {
         id = try container.decode(String.self, forKey: .id)
         userId = (try? container.decodeIfPresent(String.self, forKey: .userId)) ?? id
         displayName = try? container.decodeIfPresent(String.self, forKey: .displayName)
-        username = try? container.decodeIfPresent(String.self, forKey: .username)
+        publicUsername = try? container.decodeIfPresent(String.self, forKey: .publicUsername)
+        unyriNumber = try? container.decodeIfPresent(String.self, forKey: .unyriNumber)
         sortKey = try? container.decodeIfPresent(String.self, forKey: .sortKey)
         installationBlocks = (try? container.decodeIfPresent(Int64.self, forKey: .installationBlocks)) ?? 0
         status = (try? container.decodeIfPresent(String.self, forKey: .status)) ?? "active"
@@ -222,8 +221,9 @@ struct AdminUserRowDTO: Decodable, Identifiable, Equatable {
 
 struct AdminProfileDTO: Decodable, Equatable {
     var userId: String
-    var username: String
     var displayName: String
+    var publicUsername: String?
+    var unyriNumber: String?
     var hasAvatar: Bool = false
     var createdAt: String?
 }

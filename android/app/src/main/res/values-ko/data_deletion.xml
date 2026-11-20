@@ -1,0 +1,10 @@
+<resources>
+    <string name="auth_account_deleted">계정이 삭제되었습니다</string>
+    <string name="auth_account_suspended">서버 관리자가 계정을 차단했습니다</string>
+    <string name="auth_session_ended">세션이 종료되었습니다</string>
+    <string name="privacy_prevent_screenshots">스크린샷 금지</string>
+    <string name="admin_delete_account_forever">계정 영구 삭제</string>
+    <string name="admin_delete_account_detail">서버와 휴대전화에서 계정 및 메시지를 삭제합니다.</string>
+    <string name="admin_delete_account_number">확인을 위해 공개 번호를 입력하세요</string>
+    <string name="deleted_account">삭제된 계정</string>
+</resources>

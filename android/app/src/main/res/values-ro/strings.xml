@@ -225,7 +225,7 @@
     <string name="voice_open_app_settings">Deschide setările aplicației</string>
     <string name="notification_settings_system_on">Notificările Android sunt permise</string>
     <string name="notification_settings_system_off">Notificările Android sunt blocate</string>
-    <string name="notification_settings_system_detail">Android controlează permisiunea, afișarea pe ecranul blocat, sunetul și vibrațiile, inclusiv pentru notificările administrative și de serviciu. UNYRI nu poate înlocui alegerile tale de sistem.</string>
+    <string name="notification_settings_system_detail">Alegeți un canal de mesaje sau apeluri în Android pentru a regla sunetul și vibrațiile.</string>
     <string name="notification_settings_allow">Permite notificările</string>
     <string name="notification_settings_system_open">Deschide setările notificărilor Android</string>
     <string name="local_mode_notifications">Permite notificările</string>

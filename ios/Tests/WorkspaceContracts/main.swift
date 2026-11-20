@@ -436,6 +436,9 @@ struct WorkspaceContracts {
         let beforeFuturePreview = try store.latestPreviewByChat()[boundedChat]
         precondition(lateAckRow?.sequence == 14 && lateAckRow?.hiddenLocally == true && beforeFutureRows.isEmpty && beforeFuturePreview == nil,
             "Already-dispatched POST acknowledgement above bound must not resurrect captured pending message or preview")
+        precondition(lateAckRow?.content.text == nil && lateAckRow?.content.attachment == nil && lateAckRow?.content.replySnapshot == nil &&
+            lateAckRow?.payloadText == nil && lateAckRow?.pendingEditText == nil && lateAckRow?.pendingEditRevision == 0,
+            "A late ACK above the clear boundary must preserve complete cancellation erasure")
         try store.upsert(boundedMessage("bounded-future",sequence:15))
         try store.upsert(boundedMessage("bounded-new-unsent",sequence:nil))
         try store.saveChatValue(chatId:boundedChat,name:"draft",value:"new draft")

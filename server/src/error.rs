@@ -25,6 +25,10 @@ pub enum AppError {
     InstallationRestricted,
     InvalidRefreshToken,
     SessionRevoked,
+    DeviceProofStale(i64),
+    AppUpdateRequired,
+    AccountDeleted,
+    AccountSuspended,
     AccountReadOnly,
     Unauthorized,
     Forbidden(String),
@@ -48,6 +52,8 @@ struct ErrorBody {
 
 #[derive(Serialize)]
 struct ErrorDetail {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    server_time: Option<i64>,
     code: String,
     message: String,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -57,6 +63,7 @@ struct ErrorDetail {
 impl AppError {
     fn parts(&self) -> (StatusCode, &'static str, String) {
         match self {
+            AppError::DeviceProofStale(_) => (StatusCode::UNAUTHORIZED, "device_proof_stale", "Device proof clock needs synchronization.".into()),
             AppError::InviteRequired => (StatusCode::FORBIDDEN, "invite_required", "An invitation code is required.".into()),
             AppError::InviteInvalid => (StatusCode::FORBIDDEN, "invite_invalid", "The invitation code is invalid or no longer available.".into()),
             AppError::SetupNotAvailable => (StatusCode::NOT_FOUND, "setup_not_available", "Owner setup is not available.".into()),
@@ -110,6 +117,15 @@ impl AppError {
                 "session_revoked",
                 "Session has been revoked.".to_string(),
             ),
+            // Required device binding met an app without it (19 Nov): not session_revoked, which
+            // old apps treat as terminal and answer by erasing the account locally.
+            AppError::AppUpdateRequired => (
+                StatusCode::UPGRADE_REQUIRED,
+                "app_update_required",
+                "Update UNYRI to keep using this server.".to_string(),
+            ),
+            AppError::AccountDeleted => (StatusCode::UNAUTHORIZED, "account_deleted", "Account deleted.".into()),
+            AppError::AccountSuspended => (StatusCode::UNAUTHORIZED, "account_suspended", "Account suspended by the server administrator.".into()),
             AppError::AccountReadOnly => (
                 StatusCode::FORBIDDEN,
                 "account_read_only",
@@ -169,17 +185,25 @@ impl IntoResponse for AppError {
         if matches!(self, AppError::Internal) {
             tracing::error!(code, "request failed with an internal error");
         }
-        (
+        let server_time = match self { AppError::DeviceProofStale(time) => Some(time), _ => None };
+        let mut response = (
             status,
             Json(ErrorBody {
                 error: ErrorDetail {
+                    server_time,
                     code: code.to_string(),
                     message,
                     current_revision,
                 },
             }),
         )
-            .into_response()
+            .into_response();
+        if let Some(time) = server_time {
+            if let Ok(value) = axum::http::HeaderValue::from_str(&time.to_string()) {
+                response.headers_mut().insert("x-unyri-proof-time", value);
+            }
+        }
+        response
     }
 }
 

@@ -341,7 +341,7 @@ private fun CapsuleChatContent(viewModel: ChatDetailViewModel, onBack: () -> Uni
     val voicePlayback by playbackIdentity.collectAsStateWithLifecycle(minActiveState = androidx.lifecycle.Lifecycle.State.RESUMED, initialValue = initialPlayback)
     val scheduledDates by viewModel.scheduledDates.collectAsStateWithLifecycle(minActiveState = androidx.lifecycle.Lifecycle.State.RESUMED)
     var showChatSafety by remember { mutableStateOf(false) }
-    var showPeerCard by remember { mutableStateOf(false) }
+    var showPeerCard by rememberSaveable(viewModel.chatId) { mutableStateOf(false) }
     var chatSafetyAction by remember { mutableStateOf<String?>(null) }
     var showSchedule by remember { mutableStateOf(false) }
     var headerMenuOpen by remember { mutableStateOf(false) }
@@ -353,17 +353,6 @@ private fun CapsuleChatContent(viewModel: ChatDetailViewModel, onBack: () -> Uni
         ChatSafetyDialog(chat = current, initialAction = chatSafetyAction, onDismiss = { showChatSafety = false; chatSafetyAction = null },
             update = { viewModel.updateChatPreference(it, current.otherUser?.id) },
             report = { reason, detail -> viewModel.submitReport(reason, detail) })
-    }
-    if (showPeerCard) (uiState as? ChatDetailUiState.Loaded)?.chat?.otherUser?.let { peer ->
-        AlertDialog(onDismissRequest = { showPeerCard = false },
-            title = { Text(peer.visibleName) },
-            text = { Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                com.messenger.app.ui.profile.PeerIdentityCard(peer)
-                peer.bio?.takeIf { it.isNotBlank() }?.let { Text(it) }
-                com.messenger.app.ui.search.ContactToggleRow(peer)
-                TextButton(onClick = { showPeerCard = false; onVerifyIdentity(peer.id) }) { Text(stringResource(R.string.verify_title)) }
-            } },
-            confirmButton = { TextButton(onClick = { showPeerCard = false }) { Text(stringResource(R.string.dismiss)) } })
     }
     val colors = LocalCocoColors.current
     var headerHeight by remember { mutableStateOf(0) }
@@ -1488,6 +1477,7 @@ private fun CapsuleChatContent(viewModel: ChatDetailViewModel, onBack: () -> Uni
                 focusManager.clearFocus(force = true); keyboardController?.hide()
             }, lift = keyboardLift) {
             Box(modifier = Modifier.fillMaxSize()
+                .then(if (showPeerCard) Modifier.clearAndSetSemantics {} else Modifier)
                 .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))) {
                 GlassBackdropSource(chromeGlass,
                     modifier = Modifier
@@ -1802,7 +1792,7 @@ private fun CapsuleChatContent(viewModel: ChatDetailViewModel, onBack: () -> Uni
                     Text(stringResource(R.string.live_draft_peer), style = MaterialTheme.typography.labelSmall, color = colors.accentSoft)
                     Text(peerDraft, maxLines = 3, overflow = TextOverflow.Ellipsis, color = colors.secondaryText)
                 }
-                val otherDisplayName = (uiState as? ChatDetailUiState.Loaded)?.let { it.chat.otherUser?.visibleName ?: it.chat.otherUser?.username }
+                val otherDisplayName = (uiState as? ChatDetailUiState.Loaded)?.let { it.chat.otherUser?.visibleName }
 
 
                 if (selectedIds.isNotEmpty()) {
@@ -2134,7 +2124,16 @@ private fun CapsuleChatContent(viewModel: ChatDetailViewModel, onBack: () -> Uni
         }
 
         }
-
+        if (showPeerCard) (uiState as? ChatDetailUiState.Loaded)?.chat?.let { chat ->
+            chat.otherUser?.let { peer ->
+                com.messenger.app.ui.chats.peer.PeerCard(peer,
+                    self = peer.id == currentUserId, blocked = chat.isBlocked,
+                    connected = socketState == com.messenger.app.domain.repository.SocketConnectionState.CONNECTED,
+                    onClose = { showPeerCard = false },
+                    onCall = { kind -> showPeerCard = false; onStartCall(peer.id, peer.visibleName, kind) },
+                    onVerify = { showPeerCard = false; onVerifyIdentity(peer.id) })
+            }
+        }
         }
         actionsFor?.let { message ->
             // Freeze the exact visible set while this menu/confirmation is open.
@@ -3211,7 +3210,7 @@ internal fun ForwardChatPickerDialog(
     val commentLabel = stringResource(R.string.forward_add_comment)
     val sendingLabel = stringResource(R.string.forward_sending)
     val removeLabel = stringResource(R.string.forward_remove_target)
-    fun title(chat: ChatSummary) = if (chat.type == "saved") savedTitle else chat.otherUser?.visibleName ?: chat.otherUser?.username ?: fallbackTitle
+    fun title(chat: ChatSummary) = if (chat.type == "saved") savedTitle else chat.otherUser?.visibleName ?: fallbackTitle
     val ordered = remember(chats) { chats.distinctBy { it.chatId }.sortedBy { if (it.type == "saved") 0 else 1 } }
     val query = state.query.trim()
     val filtered = ordered.filter { query.isEmpty() || title(it).contains(query, ignoreCase = true) }
@@ -4098,7 +4097,7 @@ private fun FileSendConfirm(uri: Uri, sending: Boolean, failed: Boolean, onSend:
                 Icon(CocoIcons.File, contentDescription = null, tint = CapsuleChatStyle.accent, modifier = Modifier.background(CapsuleChatStyle.accent.copy(alpha = .12f), RoundedCornerShape(16.dp)).padding(12.dp).size(30.dp))
                 Text(text = name ?: stringResource(R.string.file_preview), color = colors.primaryText, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 Spacer(modifier = Modifier.height(CocoSpacing.xs))
-                Text(text = AttachmentFormat.fileSize(size), color = colors.secondaryText)
+                Text(text = com.messenger.app.ui.settings.FileSizeFormatter.format(size, androidx.compose.ui.platform.LocalConfiguration.current.locales[0]), color = colors.secondaryText)
                 if (size > AttachmentFormat.MAX_FILE_BYTES) {
                     Spacer(modifier = Modifier.height(CocoSpacing.xs))
                     Text(text = stringResource(R.string.error_file_too_large), color = colors.danger)
@@ -4392,9 +4391,9 @@ private fun fileAttachmentSubtitle(attachment: Attachment, isMine: Boolean): Str
         uploading && attachment.uploadState == AttachmentUploadState.FAILED -> stringResource(R.string.attachment_send_failed)
         uploading && !LocalChatConnected.current -> stringResource(R.string.voice_waiting_network)
         uploading -> uploadPendingLabel(attachment.uploadState) + if (attachment.uploadState == AttachmentUploadState.UPLOADING) " · ${attachment.progress.coerceIn(0, 100)}%" else ""
-        downloading -> "${AttachmentFormat.fileSize(attachment.size)} · ${attachment.progress.coerceIn(0, 100)}%"
+        downloading -> "${com.messenger.app.ui.settings.FileSizeFormatter.format(attachment.size, androidx.compose.ui.platform.LocalConfiguration.current.locales[0])} · ${attachment.progress.coerceIn(0, 100)}%"
         attachment.downloadState == AttachmentDownloadState.FAILED || attachment.downloadState == AttachmentDownloadState.CORRUPT -> stringResource(R.string.retry)
-        else -> com.messenger.app.data.attachment.FilePresentation.label(attachment.mimeType, attachment.filename) + " · " + AttachmentFormat.fileSize(attachment.size)
+        else -> com.messenger.app.data.attachment.FilePresentation.label(attachment.mimeType, attachment.filename) + " · " + com.messenger.app.ui.settings.FileSizeFormatter.format(attachment.size, androidx.compose.ui.platform.LocalConfiguration.current.locales[0])
     }
 }
 

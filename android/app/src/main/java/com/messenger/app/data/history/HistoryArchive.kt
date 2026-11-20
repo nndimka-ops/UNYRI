@@ -34,6 +34,12 @@ data class HistoryArchive(
     val callClearedBeforeMs: Long = 0,
     val callChatClears: Map<String, Long> = emptyMap(),
 ) {
+    /** Normalize historical compatibility credentials without changing public identity. */
+    fun withoutPeerLogins(): HistoryArchive = copy(
+        chats = chats?.map { it.copy(peer = it.peer?.copy(username = "")) },
+        calls = calls.map { it.copy(peer = it.peer?.copy(username = "")) },
+    )
+
     fun validate(expectedServer: String, expectedOwner: String) {
         require(format in 1..2 && server == expectedServer && owner == expectedOwner)
         require(if (format == 1) media == null && chats == null else media != null && chats != null)
@@ -60,8 +66,8 @@ data class HistoryArchive(
         val clients = HashSet<String>(); val servers = HashSet<String>(); val sequences = HashSet<Pair<String, Long>>()
         var budget = 1024L + chatClears.size * 80L + deletedChats.size * 40L + reactions.size * 512L
         budget += (media?.size ?: 0) * 384L
-        budget += callDeletedIds.size * 40L + callChatClears.size * 80L + calls.sumOf { 1024L + 6L * ((it.peer?.username?.toByteArray(Charsets.UTF_8)?.size ?: 0) + (it.peer?.displayName?.toByteArray(Charsets.UTF_8)?.size ?: 0)) }
-        budget += chats?.sumOf { 256L + 6L * ((it.peer?.username?.toByteArray(Charsets.UTF_8)?.size ?: 0) + (it.peer?.displayName?.toByteArray(Charsets.UTF_8)?.size ?: 0)) } ?: 0L
+        budget += callDeletedIds.size * 40L + callChatClears.size * 80L + calls.sumOf { 1024L + 6L * ((it.peer?.username?.toByteArray(Charsets.UTF_8)?.size ?: 0) + (it.peer?.displayName?.toByteArray(Charsets.UTF_8)?.size ?: 0) + (it.peer?.unyriNumber?.toByteArray(Charsets.UTF_8)?.size ?: 0) + (it.peer?.publicUsername?.toByteArray(Charsets.UTF_8)?.size ?: 0)) }
+        budget += chats?.sumOf { 256L + 6L * ((it.peer?.username?.toByteArray(Charsets.UTF_8)?.size ?: 0) + (it.peer?.displayName?.toByteArray(Charsets.UTF_8)?.size ?: 0) + (it.peer?.unyriNumber?.toByteArray(Charsets.UTF_8)?.size ?: 0) + (it.peer?.publicUsername?.toByteArray(Charsets.UTF_8)?.size ?: 0)) } ?: 0L
         require(budget <= MAX_BYTES)
         messages.forEach { message ->
             message.validate()
@@ -146,7 +152,7 @@ data class HistoryArchive(
                 if (existing.type == "direct") require(existing.peer?.id == peers.single())
                 continue
             }
-            val peer = rows.firstNotNullOfOrNull { it.peer } ?: HistoryArchivePeer(peers.single(), "restored-contact", "Restored contact")
+            val peer = rows.firstNotNullOfOrNull { it.peer } ?: HistoryArchivePeer(peers.single(), "", "Restored contact")
             descriptors[chat] = HistoryArchiveChat(chat,"direct",rows.minOf { it.createdAtMs },peer)
         }
         return copy(chats=descriptors.values.sortedBy { it.id }).also {
@@ -189,11 +195,15 @@ data class HistoryArchive(
                 require(row.jsonObject.keys - setOf("content", "replyTo") == fields)
             }
             return json.decodeFromString<HistoryArchive>(text).also { it.validate(server, owner); if (it.format == 2) it.validateCompleteMedia() }
+                .withoutPeerLogins()
         }
         fun encode(archive: HistoryArchive): ByteArray {
             archive.validate(archive.server, archive.owner)
             if (archive.format == 2) archive.validateCompleteMedia()
-            val root = json.parseToJsonElement(json.encodeToString(archive)).jsonObject
+            // Old archives remain readable, but their compatibility logins are
+            // never copied into a newly written backup or device transfer.
+            val publicArchive = archive.withoutPeerLogins()
+            val root = json.parseToJsonElement(json.encodeToString(publicArchive)).jsonObject
             val omitted = mutableSetOf<String>()
             if (archive.calls.isEmpty()) omitted.add("calls")
             if (archive.callDeletedIds.isEmpty()) omitted.add("callDeletedIds")
@@ -231,8 +241,14 @@ data class HistoryArchiveCall(
 }
 
 @Serializable
-data class HistoryArchivePeer(val id: String, val username: String, val displayName: String) {
-    fun validate() { requireHistoryId(id); require(username.toByteArray(Charsets.UTF_8).size in 1..512 && displayName.toByteArray(Charsets.UTF_8).size <= 1024) }
+data class HistoryArchivePeer(val id: String, val username: String, val displayName: String,
+    val unyriNumber: String? = null, val publicUsername: String? = null) {
+    fun validate() {
+        requireHistoryId(id)
+        require(username.toByteArray(Charsets.UTF_8).size <= 512 && displayName.toByteArray(Charsets.UTF_8).size <= 1024)
+        require(unyriNumber == null || unyriNumber.toByteArray(Charsets.UTF_8).size <= 64)
+        require(publicUsername == null || publicUsername.toByteArray(Charsets.UTF_8).size <= 512)
+    }
 }
 @Serializable
 data class HistoryArchiveChat(val id: String, val type: String, val createdAtMs: Long, val peer: HistoryArchivePeer? = null) {

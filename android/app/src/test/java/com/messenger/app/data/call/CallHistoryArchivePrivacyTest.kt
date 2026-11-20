@@ -15,7 +15,7 @@ import java.nio.file.Files
 class CallHistoryArchivePrivacyTest {
     private fun id(n: Int) = "00000000-0000-4000-8000-%012d".format(n)
     private val old = HistoryArchiveCall(id(4), id(2), id(5), "audio", 1000, endedAtMs = 2000,
-        endReason = "missed", chat = id(6), peer = HistoryArchivePeer(id(5), "bob", "Bob"))
+        endReason = "missed", chat = id(6), peer = HistoryArchivePeer(id(5), "", "Bob"))
     private fun archive(vararg calls: HistoryArchiveCall) = HistoryArchive(format = 2, server = id(1), owner = id(2),
         snapshot = id(3), messages = emptyList(), media = emptyList(), chats = listOf(HistoryArchiveChat(id(6), "direct", 0, old.peer)), calls = calls.toList())
 

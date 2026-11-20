@@ -62,6 +62,23 @@ enum KeychainStore {
     }
 }
 
+// Separate from the services erased on ordinary or forced sign-out.
+extension LocalSecurityDecisions {
+    static func account(origin: String, userID: String) -> LocalSecurityDecisions {
+        let key = storageKey(origin: origin, userID: userID)
+        let service = KeychainStore.defaultService + ".local-security"
+        return cachedAccount(key: key) {
+            LocalSecurityDecisions(origin: origin, userID: userID, read: {
+                guard let raw = try KeychainStore.checkedValue(forKey: key, service: service) else { return nil }
+                guard let data = Data(base64Encoded: raw) else { throw Failure.invalidRecord }
+                return data
+            }, write: { data in
+                guard KeychainStore.set(data.base64EncodedString(), forKey: key, service: service) else { throw Failure.persistence }
+            }, remove: { KeychainStore.remove(key, service: service) })
+        }
+    }
+}
+
 /// Keychain-backed session storage. Tokens and identity live in the Keychain,
 /// never in UserDefaults. Passwords are never stored.
 final class SessionStore {
@@ -70,12 +87,42 @@ final class SessionStore {
     private let write: (String, String) -> Bool
     private let remove: (String) -> Void
     private let tokenReadQueue = DispatchQueue(label: "unyri.session-token-read", qos: .userInitiated)
+    #if os(iOS)
+    let deviceBindingClock = DeviceBoundClock()
+    #endif
     init(read: @escaping (String) throws -> String? = { try KeychainStore.checkedValue(forKey: $0) },
          write: @escaping (String, String) -> Bool = { KeychainStore.set($0, forKey: $1) },
          remove: @escaping (String) -> Void = { KeychainStore.remove($0) }) {
         self.readValue = read; self.write = write; self.remove = remove
     }
     private func read(_ key: String) -> String? { try? readValue(key) }
+
+    /// The binding id is durable before the first network attempt. A stored id
+    /// whose hardware key is missing must never be replaced during refresh.
+    func deviceBindingID() throws -> String? {
+        guard let id = try readValue("device_binding_id_v1") else { return nil }
+        guard UUID(uuidString: id) != nil else { throw PersistenceError.failed }
+        return id
+    }
+    func saveDeviceBindingID(_ id: String) throws {
+        guard UUID(uuidString: id) != nil, write(id, "device_binding_id_v1") else { throw PersistenceError.failed }
+    }
+    func deviceBindingSessionID() throws -> String? {
+        try readValue("device_binding_session_v1")
+    }
+    func saveDeviceBindingSessionID(_ session: String, keyID: String) throws {
+        guard try deviceBindingID() == keyID, UUID(uuidString: session) != nil,
+              write(session, "device_binding_session_v1") else { throw PersistenceError.failed }
+    }
+    func eraseDeviceBinding() throws {
+        #if os(iOS)
+        try DeviceBoundKey.eraseStored(readID: { try self.deviceBindingID() },
+            removeID: { self.remove("device_binding_id_v1"); self.remove("device_binding_session_v1") })
+        #else
+        remove("device_binding_id_v1")
+        remove("device_binding_session_v1")
+        #endif
+    }
 
     private struct OfflineScreen: Codable { let owner: String; let body: Data }
     func cachedScreen<T: Decodable>(_ key: String, owner: String, as type: T.Type) -> T? {
@@ -196,6 +243,13 @@ final class SessionStore {
     static func localExpiry(accessToken: String, serverExpiresAt: Date, receivedAt: Date = Date()) -> Date {
         guard let lifetime = accessLifetime(accessToken) else { return serverExpiresAt }
         return receivedAt.addingTimeInterval(lifetime)
+    }
+
+    /// Bound tokens last at most 60s. Derive the margin from the token already
+    /// loaded, avoiding a new synchronous Keychain read on every HTTP request.
+    static func refreshMargin(accessToken: String?) -> TimeInterval {
+        guard let token = accessToken, let lifetime = accessLifetime(token) else { return 30 }
+        return min(30, max(1, lifetime / 12))
     }
 
     /// exp - iat of a JWT access token (bounded to 7 days), nil for anything else.
@@ -346,8 +400,13 @@ final class SessionStore {
 
     /// A lost app workspace must enroll as a fresh device on the next login.
     /// Never erase Signal keys or server history; a new installation namespaces keys.
-    func retireSessionForMissingWorkspace() throws {
+    func retireSessionForMissingWorkspace(origin: URL? = nil) throws {
         try requireReadableSession()
+        if let refresh = refreshToken() {
+            // Persist revocation before clearing reinstall-surviving tokens.
+            guard let origin else { throw PersistenceError.failed }
+            try enqueueLogout(origin: origin, refreshToken: refresh)
+        }
         let generated = UUID().uuidString.lowercased()
         guard write(generated, Key.installationId),
               try readValue(Key.installationId) == generated else { throw PersistenceError.failed }
@@ -396,6 +455,8 @@ final class SessionStore {
     }
 
     func clearSession() {
+        // Keep the id for a later cleanup retry if Security is temporarily locked.
+        try? eraseDeviceBinding()
         remove("conference_owned_access_v1")
         remove("offline_profile")
         remove("offline_devices")

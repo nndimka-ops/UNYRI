@@ -18,7 +18,7 @@ def block(source, marker):
 
 destination = Path(sys.argv[1]); destination.mkdir(parents=True, exist_ok=True)
 sources = []
-for rel in ["Support/UserSettingsPolicy.swift", "Support/UserSettings.swift", "Support/AccountAutoDelete.swift", "Support/AppColorStyle.swift", "Support/AppLanguage.swift", "Models/UserModels.swift", "Support/DisplayNameSanitizer.swift", "UI/Profile/PrivacyStorageSettingsView.swift", "UI/Profile/AccountAutoDeleteSettingsView.swift"]:
+for rel in ["Support/UserSettingsPolicy.swift", "Support/UserSettings.swift", "Support/AccountAutoDelete.swift", "Support/AppColorStyle.swift", "Support/AppLanguage.swift", "Models/UserModels.swift", "Support/DisplayNameSanitizer.swift", "Support/PublicIdentityPolicy.swift", "UI/Profile/PrivacyStorageSettingsView.swift", "UI/Profile/AccountAutoDeleteSettingsView.swift"]:
     name = "Production" + Path(rel).name; (destination/name).write_bytes((ROOT/"ios/UNYRI"/rel).read_bytes()); sources.append(name)
 peer = block((ROOT/"ios/UNYRI/Support/PeerDisplayNames.swift").read_text(encoding="utf-8"), "extension PublicUser {")
 (destination/"ProductionPeerNames.swift").write_text(peer, encoding="utf-8"); sources.append("ProductionPeerNames.swift")

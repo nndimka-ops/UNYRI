@@ -4,5 +4,5 @@
     <string name="call_p2p_everyone">所有人</string>
     <string name="call_p2p_contacts">我的联系人</string>
     <string name="call_p2p_nobody">不允许任何人</string>
-    <string name="call_p2p_note">直接连接通常更快，但对方设备可以看到您的 IP 地址。通过服务器时，只能看到服务器地址。选择“我的联系人”仅允许与联系人中的人直接连接。从下次通话起生效。</string>
+    <string name="call_p2p_note">直接连接通常更快，但对方设备可以看到您的 IP 地址。通过服务器时，只能看到服务器地址。选择“我的联系人”仅允许与联系人中的人直接连接。从下次通话起生效。 同一设置也适用于文件传输。</string>
 </resources>

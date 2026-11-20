@@ -32,8 +32,8 @@ class DirectVerificationNativeTest {
             senderDeviceId = UUID.randomUUID().toString(), recipientUserId = UUID.randomUUID().toString(), offerNonce = DirectOfferNonce.create(),
             filename = staged.filename, mimeType = staged.mimeType, size = staged.size, sha256 = staged.sha256, expiresAt = System.currentTimeMillis() / 1000 + 3600)
         val record = DirectTransferRecord(offer, UUID.randomUUID().toString(), "sender", consent = true, attemptId = UUID.randomUUID().toString())
-        val a = WebRtcDirectPeerTransport(context, emptyList())
-        val b = WebRtcDirectPeerTransport(context, emptyList())
+        val a = WebRtcDirectPeerTransport(context, DirectPeerIceConfig(emptyList(), relayOnly = false))
+        val b = WebRtcDirectPeerTransport(context, DirectPeerIceConfig(emptyList(), relayOnly = false))
         val entered = CompletableDeferred<Unit>()
         val receiverZero = CompletableDeferred<DirectAckStats>()
         val senderZero = CompletableDeferred<DirectAckStats>()

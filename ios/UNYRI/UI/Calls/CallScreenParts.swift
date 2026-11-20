@@ -798,6 +798,7 @@ struct CallFlipCameraButton: View {
 struct CallTorchButton: View {
     let isOn: Bool
     let action: () -> Void
+    var accessibilityID = "call-torch"
 
     var body: some View {
         Button(action: action) {
@@ -816,7 +817,7 @@ struct CallTorchButton: View {
         // ("On, Selected").
         .accessibilityLabel("Flashlight")
         .accessibilityValue(isOn ? Text("On") : Text("Off"))
-        .accessibilityIdentifier("call-torch")
+        .accessibilityIdentifier(accessibilityID)
     }
 }
 

@@ -1,6 +1,295 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "All reactions" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "All reactions" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Все реакции" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Усі реакції" } }
+      }
+    },
+    "Find emoji" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Find emoji" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Найти эмодзи" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Знайти емодзі" } }
+      }
+    },
+    "Reactions, %lld options" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reactions, %lld options" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Реакции, %lld вариантов" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Реакції, %lld варіантів" } }
+      }
+    },
+    "Skin tone" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Skin tone" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Оттенок кожи" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Відтінок шкіри" } }
+      }
+    },
+    "A call is in progress" : {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A call is in progress"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сейчас идёт звонок"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зараз триває дзвінок"
+          }
+        }
+      }
+    },
+    "End and switch" : {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "End and switch"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Завершить и переключить"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Завершити й перемкнути"
+          }
+        }
+      }
+    },
+    "End the call and switch to %@?" : {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "End the call and switch to %@?"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Завершить звонок и переключиться на «%@»?"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Завершити дзвінок і перемкнутися на «%@»?"
+          }
+        }
+      }
+    },
+    "Create code" : {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create code"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Создать код"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Створити код"
+          }
+        }
+      }
+    },
+    "Only the owner can change registration mode." : {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Only the owner can change registration mode."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Только владелец может изменить режим регистрации."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Лише власник може змінити режим реєстрації."
+          }
+        }
+      }
+    },
+    "No invitation codes yet." : {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No invitation codes yet."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кодов приглашения пока нет."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кодів запрошення поки немає."
+          }
+        }
+      }
+    },
+    "Only codes created on this screen can be copied or shared. The server cannot show older codes again." : {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Only codes created on this screen can be copied or shared. The server cannot show older codes again."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скопировать или отправить можно только коды, созданные на этом экране. Сервер не может снова показать старые коды."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скопіювати або надіслати можна лише коди, створені на цьому екрані. Сервер не може знову показати старі коди."
+          }
+        }
+      }
+    },
+    "Expires: %@" : {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expires: %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Действует до: %@"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Діє до: %@"
+          }
+        }
+      }
+    },
+
+    "Account deleted" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Account deleted" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Аккаунт удалён" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Акаунт видалено" } }
+      }
+    },
+    "Account suspended by the server administrator" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Account suspended by the server administrator" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Аккаунт заблокирован администратором сервера" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Акаунт заблоковано адміністратором сервера" } }
+      }
+    },
+    "Session ended" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Session ended" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Сеанс завершён" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Сеанс завершено" } }
+      }
+    },
+    "Deleted account" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Deleted account" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Удалённый аккаунт" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Видалений акаунт" } }
+      }
+    },
+    "Erases the account and its messages on the server and on phones when they connect." : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Erases the account and its messages on the server and on phones when they connect." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Удаляет аккаунт и его сообщения на сервере и на телефонах при подключении." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Видаляє акаунт і його повідомлення на сервері та на телефонах під час підключення." } }
+      }
+    },
+    "Enter the account number to confirm" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enter the account number to confirm" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Введите номер аккаунта для подтверждения" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Введіть номер акаунта для підтвердження" } }
+      }
+    },
+    "Reason for deletion" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reason for deletion" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Причина удаления" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Причина видалення" } }
+      }
+    },
+    "This call needs a relay (TURN), but this server has none. A safe connection is unavailable." : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This call needs a relay (TURN), but this server has none. A safe connection is unavailable." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Для звонка нужен сервер-посредник (TURN), но здесь его нет. Без прямого соединения звонок невозможен." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Для дзвінка потрібен сервер-посередник (TURN), але тут його немає. Без прямого з’єднання дзвінок неможливий." } }
+      }
+    },
+    "The other person allows server-only connections, but the relay server is unavailable." : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The other person allows server-only connections, but the relay server is unavailable." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "У собеседника включены соединения только через сервер, а сервер-посредник недоступен." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "У співрозмовника ввімкнені з’єднання лише через сервер, а сервер-посередник недоступний." } }
+      }
+    },
+    "A relay is required by your peer-to-peer setting, but this server has no relay configured. The transfer cannot connect safely." : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "A relay is required by your peer-to-peer setting, but this server has no relay configured. The transfer cannot connect safely." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Ваши настройки прямых соединений требуют ретранслятор, но на этом сервере он не настроен. Безопасно подключить передачу невозможно." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Ваші налаштування прямих з'єднань вимагають ретранслятор, але на цьому сервері його не налаштовано. Безпечно підключити передачу неможливо." } }
+      }
+    },
+    "Directly only with saved contacts. Everyone else via the server." : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Directly only with saved contacts. Everyone else via the server." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Напрямую только с сохранёнными контактами. С остальными — через сервер." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Напряму лише зі збереженими контактами. З рештою — через сервер." } }
+      }
+    },
+    "A direct connection is usually faster, but the other person's device can see your IP address. Via the server, only the server's address is visible. Applies from the next call. The same setting applies to file transfers." : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "A direct connection is usually faster, but the other person's device can see your IP address. Via the server, only the server's address is visible. Applies from the next call. The same setting applies to file transfers." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Прямое соединение обычно быстрее, но устройство собеседника видит ваш IP-адрес. Через сервер виден только адрес сервера. Изменение применяется со следующего звонка. Та же настройка действует для передачи файлов." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Пряме з'єднання зазвичай швидше, але пристрій співрозмовника бачить вашу IP-адресу. Через сервер видно лише адресу сервера. Зміна застосовується з наступного дзвінка. Те саме налаштування діє для передавання файлів." } }
+      }
+    },
     "%@ MB" : {
       "localizations" : {
         "en" : {
@@ -1240,6 +1529,28 @@
         }
       }
     },
+    "A removed device is listed again. It remains blocked on this iPhone." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A removed device is listed again. It remains blocked on this iPhone."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалённое устройство снова появилось в списке. На этом iPhone оно остаётся заблокированным."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Видалений пристрій знову з’явився у списку. На цьому iPhone він залишається заблокованим."
+          }
+        }
+      }
+    },
     "A security key is your device’s digital ID, not a password. It can change after reinstalling COCO or changing phones. Never send anyone your passwords or recovery keys." : {
       "localizations" : {
         "en" : {
@@ -1280,6 +1591,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ключ безпеки — цифрове посвідчення пристрою, а не пароль. Він може змінитися після перевстановлення UNYRI або зміни телефона. Паролі та ключі відновлення нікому передавати не потрібно."
+          }
+        }
+      }
+    },
+    "A server is a program on a computer that stays on: your home PC or a rented computer (VPS). The UNYRI page on GitHub has everything you need: UNYRI Server for Windows, one command for VPS/Linux, and a step-by-step guide. The program and guide are free." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A server is a program on a computer that stays on: your home PC or a rented computer (VPS). The UNYRI page on GitHub has everything you need: UNYRI Server for Windows, one command for VPS/Linux, and a step-by-step guide. The program and guide are free."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сервер — это программа на компьютере, который всегда включён: вашем домашнем ПК или арендованном компьютере (VPS). На странице UNYRI на GitHub есть всё нужное: программа UNYRI Server для Windows, одна команда для VPS/Linux и пошаговая инструкция. Программа и инструкция бесплатные."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сервер — це програма на комп’ютері, який завжди увімкнений: вашому домашньому ПК або орендованому комп’ютері (VPS). На сторінці UNYRI на GitHub є все потрібне: програма UNYRI Server для Windows, одна команда для VPS/Linux і покрокова інструкція. Програма та інструкція безкоштовні."
           }
         }
       }
@@ -16794,6 +17127,28 @@
         }
       }
     },
+    "Follow the guide to install UNYRI Server on that computer. Docker is the tool that runs the server. You also need a domain (its internet name) and a valid HTTPS certificate for a secure connection." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Follow the guide to install UNYRI Server on that computer. Docker is the tool that runs the server. You also need a domain (its internet name) and a valid HTTPS certificate for a secure connection."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установите UNYRI Server на этот компьютер по инструкции. Docker — средство, которое запускает сервер. Ещё нужны домен — имя сервера в интернете — и действующий сертификат HTTPS для защищённого подключения."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установіть UNYRI Server на цей комп’ютер за інструкцією. Docker — засіб, який запускає сервер. Ще потрібні домен — ім’я сервера в інтернеті — і чинний сертифікат HTTPS для захищеного підключення."
+          }
+        }
+      }
+    },
     "For one hour" : {
       "localizations" : {
         "en" : {
@@ -16948,28 +17303,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Уперед на 10 секунд"
-          }
-        }
-      }
-    },
-    "Forward HTTPS 443 and the configured call relay ports. With CGNAT, use a VPS or a tunnel. A DDNS name can follow a changing public IP address." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Forward HTTPS 443 and the configured call relay ports. With CGNAT, use a VPS or a tunnel. A DDNS name can follow a changing public IP address."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Перенаправьте HTTPS 443 и настроенные порты ретранслятора звонков. При CGNAT используйте VPS или туннель. DDNS позволяет сохранить имя при смене внешнего IP-адреса."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Перенаправте HTTPS 443 і налаштовані порти ретранслятора дзвінків. За CGNAT використовуйте VPS або тунель. DDNS дозволяє зберегти ім’я при зміні зовнішньої IP-адреси."
           }
         }
       }
@@ -19209,28 +19542,6 @@
         }
       }
     },
-    "Install the server on a PC that stays on or on a VPS. Use Docker and a domain name with a valid HTTPS certificate." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Install the server on a PC that stays on or on a VPS. Use Docker and a domain name with a valid HTTPS certificate."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Установите сервер на постоянно включённый ПК или VPS. Нужны Docker и доменное имя с действительным сертификатом HTTPS."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Установіть сервер на постійно ввімкнений ПК або VPS. Потрібні Docker і доменне ім’я з дійсним сертифікатом HTTPS."
-          }
-        }
-      }
-    },
     "Installation protection requires HTTPS. This HTTP connection uses legacy sign-in." : {
       "localizations" : {
         "en" : {
@@ -20774,6 +21085,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Менше трафіку для голосу. Звук може бути менш детальним."
+          }
+        }
+      }
+    },
+    "Let phones reach the server from the internet. In your router, open HTTPS port 443 and the ports listed in the guide that carry calls through the server. If your provider uses CGNAT (a shared internet address), use a tunnel (a connection through another server) or a VPS. DDNS gives the server a permanent name even when its internet address changes." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let phones reach the server from the internet. In your router, open HTTPS port 443 and the ports listed in the guide that carry calls through the server. If your provider uses CGNAT (a shared internet address), use a tunnel (a connection through another server) or a VPS. DDNS gives the server a permanent name even when its internet address changes."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разрешите телефонам подключаться к серверу через интернет. На роутере откройте порт HTTPS 443 и указанные в инструкции порты для звонков через сервер. Если у провайдера CGNAT (общий интернет-адрес на нескольких клиентов), используйте туннель (подключение через другой сервер) или VPS. DDNS — постоянное имя сервера, даже если его интернет-адрес меняется."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дозвольте телефонам підключатися до сервера через інтернет. На роутері відкрийте порт HTTPS 443 і вказані в інструкції порти для дзвінків через сервер. Якщо провайдер використовує CGNAT (спільну інтернет-адресу для кількох клієнтів), скористайтеся тунелем (підключенням через інший сервер) або VPS. DDNS — постійне ім’я сервера, навіть якщо його інтернет-адреса змінюється."
           }
         }
       }
@@ -24780,6 +25113,7 @@
     },
     "No results" : {
       "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No results" } },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25775,24 +26109,24 @@
         }
       }
     },
-    "On a fresh server, open Account → Server → Become the owner and enter or scan the installer code. Then enroll administrator sign-in protection." : {
+    "On a new server, choose Become the owner. Enter or scan the code from the installer. Then set up protection for administrator sign-in." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "On a fresh server, open Account → Server → Become the owner and enter or scan the installer code. Then enroll administrator sign-in protection."
+            "value" : "On a new server, choose Become the owner. Enter or scan the code from the installer. Then set up protection for administrator sign-in."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "На новом сервере откройте Учётная запись → Сервер → Стать владельцем и введите или отсканируйте код установщика. Затем настройте защиту входа администратора."
+            "value" : "На новом сервере выберите «Стать владельцем». Введите или отсканируйте код из установщика. Затем настройте защиту входа администратора."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "На новому сервері відкрийте Обліковий запис → Сервер → Стати власником і введіть або відскануйте код інсталятора. Потім налаштуйте захист входу адміністратора."
+            "value" : "На новому сервері виберіть «Стати власником». Введіть або відскануйте код з інсталятора. Потім налаштуйте захист входу адміністратора."
           }
         }
       }
@@ -26663,6 +26997,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Відкрити розмову"
+          }
+        }
+      }
+    },
+    "Open guide and downloads" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open guide and downloads"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть инструкцию и загрузки"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відкрити інструкцію та завантаження"
           }
         }
       }
@@ -34287,24 +34643,24 @@
         }
       }
     },
-    "Scan a server invitation, confirm the address, and create an account. If invitations are required, the invitation code is filled in for that server." : {
+    "Scan a server invitation and confirm the address. Then create an account. If this server requires an invitation code, the app fills it in for that server." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scan a server invitation, confirm the address, and create an account. If invitations are required, the invitation code is filled in for that server."
+            "value" : "Scan a server invitation and confirm the address. Then create an account. If this server requires an invitation code, the app fills it in for that server."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Отсканируйте приглашение на сервер, подтвердите адрес и создайте учётную запись. Если сервер требует приглашение, его код будет подставлен."
+            "value" : "Отсканируйте приглашение на сервер и подтвердите адрес. Затем создайте аккаунт. Если на этом сервере нужен код приглашения, приложение подставит его для этого сервера."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Відскануйте запрошення на сервер, підтвердьте адресу та створіть обліковий запис. Якщо сервер вимагає запрошення, його код буде підставлено."
+            "value" : "Відскануйте запрошення на сервер і підтвердьте адресу. Потім створіть обліковий запис. Якщо на цьому сервері потрібен код запрошення, програма підставить його для цього сервера."
           }
         }
       }
@@ -35149,6 +35505,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ключ безпеки змінився. Звірте ключі зі співрозмовником, потім повторіть надсилання ненадісланих повідомлень."
+          }
+        }
+      }
+    },
+    "Security warning" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Security warning"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Предупреждение безопасности"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Попередження безпеки"
           }
         }
       }
@@ -40110,28 +40488,6 @@
         }
       }
     },
-    "Test messages and calls over mobile data. Connection checks do not prove that call relay ports or push delivery work. iOS background notifications need configured Apple push support or the planned relay." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Test messages and calls over mobile data. Connection checks do not prove that call relay ports or push delivery work. iOS background notifications need configured Apple push support or the planned relay."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Проверьте сообщения и звонки через мобильный интернет. Проверка подключения не доказывает доступность портов звонков и доставку push. Для фоновых уведомлений iOS нужна настроенная поддержка push Apple или будущий ретранслятор."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Перевірте повідомлення та дзвінки через мобільний інтернет. Перевірка підключення не доводить доступність портів дзвінків і доставку push. Для фонових сповіщень iOS потрібна налаштована підтримка push Apple або майбутній ретранслятор."
-          }
-        }
-      }
-    },
     "Text" : {
       "localizations" : {
         "en" : {
@@ -44410,6 +44766,28 @@
         }
       }
     },
+    "Turn off Wi-Fi and test messages and calls using mobile data. A connection check cannot confirm that call relay ports work or notifications arrive. Notifications need a provider configured on the server. On iPhone, background notifications need Apple push support or the planned notification relay." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn off Wi-Fi and test messages and calls using mobile data. A connection check cannot confirm that call relay ports work or notifications arrive. Notifications need a provider configured on the server. On iPhone, background notifications need Apple push support or the planned notification relay."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выключите Wi-Fi и проверьте сообщения и звонки через мобильный интернет. Проверка подключения не подтверждает, что порты для звонков работают и уведомления приходят. Для уведомлений на сервере нужно настроить службу их доставки. На iPhone уведомления в фоне требуют поддержки Apple push или запланированного сервиса пересылки уведомлений."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вимкніть Wi-Fi та перевірте повідомлення й дзвінки через мобільний інтернет. Перевірка підключення не підтверджує, що порти для дзвінків працюють і сповіщення надходять. Для сповіщень на сервері потрібно налаштувати службу їх доставки. На iPhone сповіщення у фоні потребують підтримки Apple push або запланованого сервісу пересилання сповіщень."
+          }
+        }
+      }
+    },
     "Turn off backups" : {
       "localizations" : {
         "ru" : {
@@ -48167,6 +48545,28 @@
         }
       }
     },
+    "Where to get your own server" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Where to get your own server"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Где взять свой сервер"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Де взяти свій сервер"
+          }
+        }
+      }
+    },
     "Which phone is this?" : {
       "localizations" : {
         "en" : {
@@ -51797,6 +52197,381 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "← Скасувати · ↑ Зафіксувати"
+          }
+        }
+      }
+    }
+,
+    "Name, number or @username" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name, number or @username"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Имя, номер или @имя"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ім’я, номер або @ім’я"
+          }
+        }
+      }
+    },
+    "Search saved chats and messages offline. Find people on this server by number or @username." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search saved chats and messages offline. Find people on this server by number or @username."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ищите сохранённые чаты и сообщения без сети, а людей на этом сервере — по номеру или @имени."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шукайте збережені чати й повідомлення без мережі, а людей на цьому сервері — за номером або @іменем."
+          }
+        }
+      }
+    },
+    "Problem report" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отчёт"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Звіт"
+          }
+        }
+      }
+    },
+    "Search by number or @username. This query is sent to your server." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search by number or @username. This query is sent to your server."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ищите по номеру или @имени. Этот запрос отправляется на ваш сервер."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шукайте за номером або @іменем. Цей запит надсилається на ваш сервер."
+          }
+        }
+      }
+    },
+    "A computer that stays on" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A computer that stays on"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Компьютер, который всегда включён"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Комп’ютер, який завжди ввімкнено"
+          }
+        }
+      }
+    },
+    "Use your own computer or rent one online (VPS)." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use your own computer or rent one online (VPS)."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подойдёт ваш компьютер или арендованный компьютер в интернете (VPS)."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Підійде ваш комп’ютер або орендований комп’ютер в інтернеті (VPS)."
+          }
+        }
+      }
+    },
+    "Install UNYRI Server" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Install UNYRI Server"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установить UNYRI Server"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установити UNYRI Server"
+          }
+        }
+      }
+    },
+    "Install the server program using the guide." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Install the server program using the guide."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установите программу сервера по инструкции."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установіть програму сервера за інструкцією."
+          }
+        }
+      }
+    },
+    "Allow access from the internet" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow access from the internet"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доступ из интернета"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доступ з інтернету"
+          }
+        }
+      }
+    },
+    "Follow the guide so your phone can connect away from home." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Follow the guide so your phone can connect away from home."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Следуйте инструкции, чтобы телефон подключался и вне дома."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дотримуйтеся інструкції, щоб телефон підключався й поза домом."
+          }
+        }
+      }
+    },
+    "Connect your phone" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connect your phone"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подключить телефон"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Підключити телефон"
+          }
+        }
+      }
+    },
+    "Confirm the server address or scan an invitation, then create an account." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirm the server address or scan an invitation, then create an account."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подтвердите адрес сервера или отсканируйте приглашение, затем создайте аккаунт."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Підтвердьте адресу сервера або відскануйте запрошення, потім створіть обліковий запис."
+          }
+        }
+      }
+    },
+    "Use the one-time code shown by the installer." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use the one-time code shown by the installer."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Используйте одноразовый код, который показал установщик."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скористайтеся одноразовим кодом, який показав установник."
+          }
+        }
+      }
+    },
+    "Check messages and calls" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check messages and calls"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проверить сообщения и звонки"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перевірити повідомлення та дзвінки"
+          }
+        }
+      }
+    },
+    "Turn off Wi-Fi and check messages, calls and notifications using mobile data." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn off Wi-Fi and check messages, calls and notifications using mobile data."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выключите Wi-Fi и проверьте сообщения, звонки и уведомления через мобильный интернет."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вимкніть Wi-Fi та перевірте повідомлення, дзвінки й сповіщення через мобільний інтернет."
+          }
+        }
+      }
+    },
+    "More details" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More details"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подробнее"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Докладніше"
+          }
+        }
+      }
+    },
+    "Guide and downloads" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guide and downloads"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Инструкция и загрузки"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Інструкція та завантаження"
           }
         }
       }

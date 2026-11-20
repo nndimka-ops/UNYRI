@@ -91,11 +91,7 @@ struct IdentityLinkView: View {
                     }
                     if !requiresApproval {
                         if sameOrigin {
-                            if auth.needsRegistrationRecovery {
-                                Text("Finish saving your recovery key before opening this profile.")
-                            } else {
-                                profileContent(target)
-                            }
+                            profileContent(target)
                         } else {
                             UnyriSettingsGroup("Choose an account on this server") {
                                 VStack(alignment: .leading, spacing: 12) {
@@ -139,7 +135,8 @@ struct IdentityLinkView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     Text(profile.contact.visibleName).font(.title2.bold())
                     Text(PublicIdentityPolicy.formattedNumber(profile.unyriNumber)).monospacedDigit()
-                    if let username = profile.publicUsername { Text("@" + username) }
+                    let alias = PeerIdentityPolicy.label(publicUsername: profile.publicUsername, unyriNumber: nil)
+                    if !alias.isEmpty { Text(alias) }
                     if let bio = profile.bio { Text(bio).font(.subheadline) }
                     if profile.id != auth.currentUser?.id {
                         Button(added ? "Contact added" : "Add contact") { run {

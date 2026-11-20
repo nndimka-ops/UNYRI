@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="privacy_devices_blocks">Devices and blocks</string>
+    <string name="privacy_messages_section">Messages</string>
+    <string name="privacy_nobody_count">Nobody</string>
+    <plurals name="privacy_people_count_short">
+        <item quantity="one">%1$d person</item>
+        <item quantity="few">%1$d people</item>
+        <item quantity="many">%1$d people</item>
+        <item quantity="other">%1$d people</item>
+    </plurals>
+    <string name="drawer_report_short">Report</string>
+    <string name="peer_qr_title">This person\'s QR code</string>
+    <string name="peer_remove_confirm_title">Remove this contact?</string>
+    <string name="peer_remove_confirm_detail">This person will leave your contacts. Your chat and messages will stay.</string>
+    <string name="app_version_format">Version %1$s (%2$d)</string>
+    <string name="server_current_title">Current server</string>
+    <string name="server_change_title">Change server</string>
+    <string name="server_alpha_http_detail">Alpha builds also allow HTTP on a trusted local network.</string>
+    <string name="server_max_file_size">Maximum encrypted file size</string>
+    <string name="server_user_quota">Storage per account</string>
+    <string name="server_no_limit">Unlimited</string>
+    <string name="notification_in_app_sound_detail">Play a sound while UNYRI is open.</string>
+    <string name="notification_in_app_vibration_detail">Vibrate while UNYRI is open.</string>
+    <string name="report_problem_detail">Describe the issue and attach screenshots.</string>
+    <string name="report_recent_problem_detail">Mark the time of a recent issue; enable diagnostics below.</string>
+    <string name="sh_step_computer">A computer that stays on</string>
+    <string name="sh_step_computer_summary">Use your own computer or rent one online (VPS).</string>
+    <string name="sh_step_install">Install UNYRI Server</string>
+    <string name="sh_step_install_summary">Install the server program using the guide.</string>
+    <string name="sh_step_internet">Allow access from the internet</string>
+    <string name="sh_step_internet_summary">Follow the guide so your phone can connect away from home.</string>
+    <string name="sh_step_phone">Connect your phone</string>
+    <string name="sh_step_phone_summary">Confirm the server address or scan an invitation, then create an account.</string>
+    <string name="sh_step_owner">Become the owner</string>
+    <string name="sh_step_owner_summary">Use the one-time code shown by the installer.</string>
+    <string name="sh_step_test">Check messages and calls</string>
+    <string name="sh_step_test_summary">Turn off Wi-Fi and check messages, calls and notifications using mobile data.</string>
+    <string name="sh_step_more">More details</string>
+    <string name="connection_checking">Checking…</string>
+    <string name="peer_qr_instruction">Scan this code to open this person\'s profile in UNYRI.</string>
+</resources>

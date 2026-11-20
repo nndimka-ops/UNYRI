@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_relay_unavailable">Je privacyinstelling vereist een relay voor deze persoon, maar deze server heeft er geen ingesteld. De bestandsoverdracht kan geen verbinding maken.</string>
+</resources>

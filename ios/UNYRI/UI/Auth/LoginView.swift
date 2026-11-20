@@ -48,10 +48,12 @@ struct LoginView: View {
                                     .textInputAutocapitalization(.never).autocorrectionDisabled().textContentType(.username)
                             }.padding(12).background(colorStyle.surface(ChatControlPalette.composer), in: RoundedRectangle(cornerRadius: 18))
                             passwordField
-                        }.padding(16).modifier(UnyriDrawerGlass())
+                        }.padding(16).modifier(UnyriCardGlass())
+                            .accessibilityElement(children: .contain).accessibilityIdentifier("login-credentials")
                         Text("Use your private login, not your public number or optional @username.")
                             .font(.caption).foregroundStyle(UnyriColors.secondaryText).frame(maxWidth: .infinity, alignment: .leading)
 
+                        if let reason = auth.sessionEndMessage { UnyriNotice(message: reason) }
                         if let errorMessage {
                             UnyriNotice(message: errorMessage)
                         }

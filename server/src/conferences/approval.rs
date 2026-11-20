@@ -37,6 +37,8 @@ pub struct Entry {
     requester_device_id: Uuid,
     display_name: String,
     username: String,
+    public_username: Option<String>,
+    unyri_number: String,
     status: String,
     expires_at: DateTime<Utc>,
     retry_at: Option<DateTime<Utc>>,
@@ -69,8 +71,10 @@ async fn retry_at(
         .bind(room).bind(user).fetch_optional(&mut **tx).await?)
 }
 async fn entry(tx: &mut Transaction<'_, Postgres>, row: &Row) -> Result<Entry, AppError> {
-    let (name, username): (String, String) = sqlx::query_as(
-        "SELECT COALESCE(NULLIF(trim(display_name),''),username),username FROM users WHERE id=$1",
+    let (name, username, public_username, unyri_number): (String, String, Option<String>, String) = sqlx::query_as(
+        "SELECT COALESCE(NULLIF(trim(u.display_name),''),'@'||i.public_username,i.unyri_number::text), \
+         COALESCE(i.public_username,''),i.public_username,i.unyri_number::text \
+         FROM users u JOIN user_identities i ON i.user_id=u.id WHERE u.id=$1",
     )
     .bind(row.user_id)
     .fetch_one(&mut **tx)
@@ -82,6 +86,8 @@ async fn entry(tx: &mut Transaction<'_, Postgres>, row: &Row) -> Result<Entry, A
         requester_device_id: row.device_id,
         display_name: name,
         username,
+        public_username,
+        unyri_number,
         status: row.status.clone(),
         expires_at: row.expires_at,
         retry_at: retry_at(tx, row.conference_id, row.user_id).await?,

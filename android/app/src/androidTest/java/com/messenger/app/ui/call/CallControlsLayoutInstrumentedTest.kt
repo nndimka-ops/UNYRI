@@ -111,6 +111,62 @@ class CallControlsLayoutInstrumentedTest {
         compose.runOnIdle { assertEquals(1, cameraTaps); assertEquals(1, muteTaps); assertEquals(1, endTaps) }
     }
 
+    @Test fun disabledVideoTrayKeepsRealHeightIncludingWrappedRowsAndBottomGap() {
+        val enabled = mutableStateOf(true)
+        val width = mutableStateOf(320f)
+        var measuredHeight = 0
+        var actionCount = 0
+        compose.setContent {
+            CallTheme {
+                Box(Modifier.size(width.value.dp, 640.dp).testTag("call-fixture")) {
+                    VideoCallControlTray(CallPresentationPolicy.VideoControls("retained", false, false, AudioRouteKind.EARPIECE),
+                        routes, { actionCount++ }, { actionCount++ }, { actionCount++ }, { actionCount++ },
+                        modifier = Modifier.align(Alignment.BottomCenter), onMeasured = { measuredHeight = it }, enabled = enabled.value)
+                }
+            }
+        }
+        val heights = mutableMapOf<Float, Int>()
+        for (windowWidth in listOf(320f, 220f)) {
+            compose.runOnIdle { width.value = windowWidth; enabled.value = true }
+            compose.waitForIdle()
+            val liveHeight = measuredHeight
+            assertTrue(liveHeight > 0)
+            compose.onNodeWithTag("call-end").assertHasClickAction()
+            compose.runOnIdle { enabled.value = false }
+            compose.waitForIdle()
+            assertEquals("Terminal tray must retain rows and bottom gap at width $windowWidth", liveHeight, measuredHeight)
+            for (tag in listOf("call-camera", "call-mute", "call-end", "call-output"))
+                compose.onNodeWithTag(tag, useUnmergedTree = true).assertDoesNotExist()
+            heights[windowWidth] = measuredHeight
+        }
+        assertTrue("Narrow window must reserve both rows", heights.getValue(220f) > heights.getValue(320f))
+        compose.runOnIdle { assertEquals(0, actionCount) }
+    }
+
+    @Test fun terminalVideoKeepsPeerIdentityPositionAtNormalAndWrappedWidths() {
+        val terminal = mutableStateOf(false)
+        val width = mutableStateOf(320f)
+        compose.setContent {
+            Box(Modifier.size(width.value.dp, 640.dp).testTag("call-fixture")) {
+                ActiveCallScreen("Connected", "Synthetic peer", null, availableRoutes = routes, onHangup = {},
+                    videoControls = CallPresentationPolicy.VideoControls("retained", false, false, AudioRouteKind.EARPIECE),
+                    onToggleCamera = {}, controlsAvailable = !terminal.value, terminal = terminal.value)
+            }
+        }
+        for (windowWidth in listOf(320f, 220f)) {
+            compose.runOnIdle { width.value = windowWidth; terminal.value = false }
+            compose.waitForIdle()
+            val liveName = compose.onNodeWithTag("call-peer-name").fetchSemanticsNode().boundsInRoot
+            val liveIdentity = compose.onNodeWithTag("call-identity-scroll").fetchSemanticsNode().boundsInRoot
+            compose.runOnIdle { terminal.value = true }
+            compose.waitForIdle()
+            assertEquals("Peer name must stay still at width $windowWidth", liveName,
+                compose.onNodeWithTag("call-peer-name").fetchSemanticsNode().boundsInRoot)
+            assertEquals("Avatar and name stage must retain its height at width $windowWidth", liveIdentity,
+                compose.onNodeWithTag("call-identity-scroll").fetchSemanticsNode().boundsInRoot)
+        }
+    }
+
     @Test fun incomingLargeTextShortViewportKeepsAcceptAndDeclineOutsideIdentityScroll() {
         var accepted = 0; var declined = 0
         compose.setContent {

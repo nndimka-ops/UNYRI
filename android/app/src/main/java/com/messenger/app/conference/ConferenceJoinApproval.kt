@@ -7,16 +7,6 @@ import kotlinx.serialization.Serializable
 import java.time.Instant
 import java.util.UUID
 
-@Serializable class ConferenceJoinRequest(
-    @SerialName("request_id") val requestId: String,
-    @SerialName("conference_id") val conferenceId: String,
-    @SerialName("requester_user_id") val requesterUserId: String,
-    @SerialName("requester_device_id") val requesterDeviceId: String,
-    @SerialName("display_name") val displayName: String,
-    val username: String, val status: String,
-    @SerialName("expires_at") val expiresAt: String,
-    @SerialName("retry_at") val retryAt: String? = null,
-) { override fun toString() = "ConferenceJoinRequest([redacted])" }
 @Serializable class ConferenceJoinRequests(val items: List<ConferenceJoinRequest> = emptyList())
 
 class ConferenceJoinApprovalFailure(val reason: Reason, val retryAt: Long? = null) : Exception("Room entry decision") {

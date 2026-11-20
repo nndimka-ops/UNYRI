@@ -508,7 +508,7 @@ struct ConferenceConfigurationEditor: View {
                 }
                 if let shownError {
                     Section {
-                        Text(LocalizedStringKey(shownError)).foregroundStyle(UnyriColors.danger)
+                        Text(verbatim: UnyriL10n.string(shownError)).foregroundStyle(UnyriColors.danger)
                         if shownError == ConferenceDirectoryFailure.changed.localizedDescription {
                             Text("Your draft is kept. Reload to use the latest room settings.").font(.footnote).foregroundStyle(.secondary)
                             Button("Reload room settings") {

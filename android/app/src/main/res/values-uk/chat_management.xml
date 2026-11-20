@@ -15,5 +15,5 @@
     <string name="chats_restore_short">Повернути</string>
     <string name="chats_archive_back">Назад до чатів</string>
     <string name="chats_archive_empty">В архіві поки порожньо</string>
-    <string name="chats_archive_detail">Перенось чати через їхнє меню або вибери кілька. Нові повідомлення залишають їх тут до ручного повернення.</string>
+    <string name="chats_archive_detail">Переносьте чати через їхнє меню або виберіть кілька. Нові повідомлення залишають їх тут до ручного повернення.</string>
 </resources>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auth_hardware_binding_required">이 휴대전화는 하드웨어 키로 세션을 보호할 수 없지만 서버에서 이 보호를 요구합니다.</string>
+</resources>

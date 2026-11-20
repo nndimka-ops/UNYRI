@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_relay_unavailable">لا يوفر هذا الخادم وسيط TURN. تتطلب المكالمة مع هذا الشخص وسيطًا لتجنب الاتصال المباشر.</string>
+    <string name="direct_peer_relay_unavailable">يسمح الطرف الآخر بالاتصال عبر الخادم فقط، لكن وسيط الترحيل غير متاح.</string>
+</resources>

@@ -29,6 +29,8 @@ internal class AdminTransport(
     val text: suspend (path: String, body: String?) -> String,
     /** Returns raw bytes (screenshot endpoint), never parsed as JSON. */
     val blob: suspend (path: String) -> ByteArray,
+    /** Public registration policy, through the same guarded panel client. */
+    val serverInfo: suspend () -> String = { error("Server information is unavailable") },
 ) {
     suspend inline fun <reified T> get(path: String): T =
         AdminJson.format.decodeFromString<T>(text(path, null))
@@ -48,4 +50,7 @@ internal class AdminTransport(
         AdminJson.format.decodeFromString<T>(text(path, "{}"))
 
     suspend fun screenshot(path: String): ByteArray = blob(path)
+
+    suspend inline fun <reified T> getServerInfo(): T =
+        AdminJson.format.decodeFromString<T>(serverInfo())
 }

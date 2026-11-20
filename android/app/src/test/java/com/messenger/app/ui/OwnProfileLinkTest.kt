@@ -19,8 +19,20 @@ import kotlin.test.*
 
 /** Exercise the real repository: /users/search deliberately cannot resolve the signed-in user. */
 class OwnProfileLinkTest {
+    @Test fun compatibilityLinksNeverResolvePrivateLogins() = runBlocking {
+        val result = resolveProfileLink("private_login", "owner", { "owner" }, "me", {
+            Result.success(UserProfile("me", "private_login", "Me", null, createdAt = "", updatedAt = ""))
+        }, { query, _ ->
+            assertEquals("@private_login", query)
+            Result.success(com.messenger.app.domain.model.SearchResult(listOf(
+                com.messenger.app.domain.model.PublicUser("peer", "private_login", "Peer", null,
+                    publicUsername = "public_name", publicNumber = "123456789")), null))
+        })
+        assertTrue(result.isFailure)
+    }
+
     private fun ownResponse(username: String = "user") = MockResponse().setBody(
-        """{"id":"me","username":"$username","display_name":"Authenticated Me","bio":"Own biography","profile_version":3,"avatar_version":2,"has_avatar":true,"created_at":"","updated_at":""}""")
+        """{"id":"me","username":"private_login","public_username":"$username","unyri_number":"123456789","display_name":"Authenticated Me","bio":"Own biography","profile_version":3,"avatar_version":2,"has_avatar":true,"created_at":"","updated_at":""}""")
 
     private fun repository(server: MockWebServer, auth: FakeAuthRepository): ProfileRepositoryImpl {
         val origin = server.url("/").toString().trimEnd('/')
@@ -127,7 +139,7 @@ class OwnProfileLinkTest {
         MockWebServer().use { server ->
             server.enqueue(ownResponse())
             server.enqueue(MockResponse().setBody(
-                """{"items":[{"id":"peer","username":"boris","display_name":"Boris"}],"next_offset":null}"""))
+                """{"items":[{"id":"peer","username":"","public_username":"boris","unyri_number":"987654321","display_name":"Boris"}],"next_offset":null}"""))
             val auth = FakeAuthRepository()
             val repo = repository(server, auth)
             val captured = assertNotNull(owner(auth))

@@ -16,7 +16,12 @@ struct CallHistoryRow: View {
     @Environment(\.unyriChatAppearance) private var appearance
     @State private var avatarURL: URL?
     private var title: String {
-        CallPeerTitlePolicy.title(displayName:name.map { DisplayNameSanitizer.display($0) },username:peer?.username ?? call.validatedPeer(owner: owner)?.username,unknown:UnyriL10n.string("Unknown user"))
+        let bundled = call.validatedPeer(owner: owner)
+        let handle = peer?.peerIdentityLabel(legacyServer: users.legacyIdentityServer) ??
+            PeerIdentityPolicy.label(publicUsername: bundled?.publicUsername, unyriNumber: bundled?.unyriNumber,
+                                     legacyUsername: bundled?.username, legacyServer: users.legacyIdentityServer)
+        return CallPeerTitlePolicy.title(displayName: name.map { DisplayNameSanitizer.display($0) },
+            publicIdentity: handle, unknown: UnyriL10n.string("Unknown user"))
     }
     var body: some View {
         if listRow {
@@ -344,7 +349,7 @@ struct CallScreen: View, Equatable {
             set: { if !$0 { callKit.actionError = nil } }
         )) {
             Button("OK") { callKit.actionError = nil }
-        } message: { Text(actionError ?? "") }
+        } message: { Text(verbatim: actionError ?? "") }
     }
 
     private func openChat(_ chatId: String) { rotation.beforeLeaving { actions.onOpenChat(chatId) } }
@@ -697,8 +702,8 @@ struct CallScreen: View, Equatable {
         .padding(.horizontal, UnyriSpacing.xl)
     }
 
-    /// Output · Mute · Video · End in every phase. Before the call exists the
-    /// same buttons sit in place without reacting; Video waits for connect.
+    /// Camera · Mute · End · Output. Audio calls expose the video upgrade only
+    /// once connected; ringing and connecting keep working mute/output controls.
     /// White only off the default (FaceTime): the microphone muted, the
     /// output on the speaker of an iPhone (headphones and an iPad's speaker
     /// stay dark).
@@ -712,19 +717,33 @@ struct CallScreen: View, Equatable {
         } else {
             let live = controls != nil && !stage.isEnded
             let muted = controls?.isMuted ?? false
+            let row = CallControlRowPolicy.audio(videoAvailable: stage.phase == .connected && controls?.videoUpgrade == .idle,
+                                                 live: live, ended: stage.isEnded)
+            // B-067: only usable controls, centred; an inserted control re-centres the row.
             HStack(spacing: spacing) {
-                routeButton(controls?.audioRoute, video: false, size: size, enabled: !stage.isEnded)
-                    .allowsHitTesting(live)
-                controlCircle(muted ? "mic.slash.fill" : "mic.fill", label: muted ? "Unmute microphone" : "Mute microphone",
-                              active: muted, size: size, enabled: !stage.isEnded, identifier: "call-mute",
-                              action: { controller.toggleMute() })
-                    .allowsHitTesting(live)
-                controlCircle("video.fill", label: "Start video", size: size,
-                              enabled: stage.phase == .connected && controls?.videoUpgrade == .idle,
-                              identifier: "call-video", action: { controller.requestVideoUpgrade() })
-                controlCircle("phone.down.fill", label: "End call", endCall: true, size: size,
-                              enabled: !stage.isEnded, identifier: "call-end", action: { end(stage) })
+                ForEach(row, id: \.self) { control in
+                    switch control {
+                    case .video:
+                        controlCircle("video.fill", label: "Start video", size: size,
+                                      identifier: "call-video", action: { controller.requestVideoUpgrade() })
+                            .transition(controlTransition)
+                    case .mute:
+                        controlCircle(muted ? "mic.slash.fill" : "mic.fill", label: muted ? "Unmute microphone" : "Mute microphone",
+                                      active: muted, size: size, identifier: "call-mute",
+                                      action: { controller.toggleMute() })
+                            .transition(controlTransition)
+                    case .end:
+                        controlCircle("phone.down.fill", label: "End call", endCall: true, size: size,
+                                      identifier: "call-end", action: { end(stage) })
+                            .transition(controlTransition)
+                    case .route, .camera:
+                        routeButton(controls?.audioRoute, video: false, size: size, enabled: true)
+                            .transition(controlTransition)
+                    }
+                }
             }
+            .frame(height: size)
+            .animation(controlAnimation, value: row)
         }
     }
 
@@ -759,9 +778,10 @@ struct CallScreen: View, Equatable {
             Spacer()
             CallRingIndicatorView(phase: snap.ringPhase ?? (reason == .busy ? .busy : .failed),
                                   connectedAt: nil, ringbackStartedAt: nil)
-            Text(LocalizedStringKey(reason == .busy ? "Line busy" : reason == .rateLimited ? "Too many calls. Try again later." : reason == .network ? "Network error" : "Call failed"))
-                .font(UnyriTypography.screenTitle)
+            Text(LocalizedStringKey(reason.textKey))
+                .font(reason == .relayUnavailable ? UnyriTypography.body : UnyriTypography.screenTitle)
                 .foregroundColor(UnyriColors.primaryText)
+                .multilineTextAlignment(.center)
             if reason == .busy {
                 Text("The line is busy. Try calling again later.").foregroundStyle(UnyriColors.secondaryText).multilineTextAlignment(.center)
             }
@@ -776,9 +796,8 @@ struct CallScreen: View, Equatable {
     /// Every phase of a video call in one layout: the top bar's room, the
     /// identity (the same large avatar and name as the audio stage) and a
     /// four-slot tray, all at fixed sizes that follow from the width and
-    /// height alone. Ringing, connecting, connected and the end only change
-    /// what the slots show, never where they are; End keeps its slot from the
-    /// first frame. With no live picture (both cameras off, or before any
+    /// height alone. The tray shows only the usable controls, centred, and
+    /// re-centres when one is added (B-067, owner 20 Nov). With no live picture (both cameras off, or before any
     /// frame) taps do nothing; with one, a tap hides or shows the chrome.
     private func videoStage(_ stage: Stage, _ snap: Snapshot, size: CGSize, chromeHidden: Bool) -> some View {
         let c = snap.controls
@@ -911,8 +930,8 @@ struct CallScreen: View, Equatable {
 
     /// Camera · Mute · End · Output: always four slots, from ringing on, and
     /// the row count follows the width (two and two when it wraps); the flip
-    /// sits on the self-view. Before media runs the camera shows the call's
-    /// intent and waits; ringing in, Decline and Accept take the same tray
+    /// sits on the self-view. Camera changes persist through media setup;
+    /// ringing in, Decline and Accept take the same tray
     /// height, so answering moves nothing above it.
     private func videoControls(_ stage: Stage, _ c: ConnectedState?, rows: Int, size: CGFloat, spacing: CGFloat,
                                trayHeight: CGFloat, width: CGFloat) -> some View {
@@ -927,11 +946,13 @@ struct CallScreen: View, Equatable {
                     videoMediaControls(stage, c, size: size)
                     videoCallControls(stage, c, size: size)
                 }
+                .animation(controlAnimation, value: videoRow(stage, c))
             } else {
                 VStack(spacing: UnyriSpacing.md) {
-                    HStack(spacing: spacing) { videoMediaControls(stage, c, size: size) }
-                    HStack(spacing: spacing) { videoCallControls(stage, c, size: size) }
+                    HStack(spacing: spacing) { videoMediaControls(stage, c, size: size) }.frame(height: size)
+                    HStack(spacing: spacing) { videoCallControls(stage, c, size: size) }.frame(height: size)
                 }
+                .animation(controlAnimation, value: videoRow(stage, c))
             }
         }
         .frame(height: trayHeight)
@@ -945,26 +966,45 @@ struct CallScreen: View, Equatable {
     /// Camera and microphone, white only when off (FaceTime).
     @ViewBuilder
     private func videoMediaControls(_ stage: Stage, _ c: ConnectedState?, size: CGFloat) -> some View {
-        // Before the call exists the camera is the call's intent: on.
+        // Once the call exists these controls work even before media connects.
         let cameraOn = c?.localVideoEnabled ?? !stage.isEnded
         let muted = c?.isMuted ?? false
-        let live = c != nil && !stage.isEnded
-        controlCircle(cameraOn ? "video.fill" : "video.slash.fill", label: cameraOn ? "Turn camera off" : "Turn camera on",
-                      active: !cameraOn && !stage.isEnded, size: size, enabled: stage.inCall, identifier: "call-camera",
-                      action: { controller.toggleVideo() })
-        controlCircle(muted ? "mic.slash.fill" : "mic.fill", label: muted ? "Unmute microphone" : "Mute microphone",
-                      active: muted, size: size, enabled: !stage.isEnded, identifier: "call-mute",
-                      action: { controller.toggleMute() })
-            .allowsHitTesting(live)
+        ForEach(CallControlRowPolicy.videoMedia(live: c != nil, ended: stage.isEnded), id: \.self) { control in
+            if control == .camera {
+                controlCircle(cameraOn ? "video.fill" : "video.slash.fill", label: cameraOn ? "Turn camera off" : "Turn camera on",
+                              active: !cameraOn && !stage.isEnded, size: size, identifier: "call-camera",
+                              action: { controller.toggleVideo() })
+                    .transition(controlTransition)
+            } else {
+                controlCircle(muted ? "mic.slash.fill" : "mic.fill", label: muted ? "Unmute microphone" : "Mute microphone",
+                              active: muted, size: size, identifier: "call-mute",
+                              action: { controller.toggleMute() })
+                    .transition(controlTransition)
+            }
+        }
     }
+
+    /// The visible video controls, for the re-centring animation (B-067).
+    private func videoRow(_ stage: Stage, _ c: ConnectedState?) -> [CallControlRowPolicy.Control] {
+        CallControlRowPolicy.videoMedia(live: c != nil, ended: stage.isEnded) + CallControlRowPolicy.videoCall(live: c != nil, ended: stage.isEnded)
+    }
+
+    private var controlTransition: AnyTransition { reduceMotion ? .opacity : .opacity.combined(with: .scale(scale: 0.8)) }
+    private var controlAnimation: Animation { reduceMotion ? .easeInOut(duration: 0.15) : .spring(response: 0.32, dampingFraction: 0.86) }
 
     /// End and the output, white only on the receiver.
     @ViewBuilder
     private func videoCallControls(_ stage: Stage, _ c: ConnectedState?, size: CGFloat) -> some View {
-        controlCircle("phone.down.fill", label: "End call", endCall: true, size: size, enabled: !stage.isEnded,
-                      identifier: "call-end", action: { end(stage) })
-        routeButton(c?.audioRoute, video: true, size: size, enabled: !stage.isEnded)
-            .allowsHitTesting(c != nil && !stage.isEnded)
+        ForEach(CallControlRowPolicy.videoCall(live: c != nil, ended: stage.isEnded), id: \.self) { control in
+            if control == .end {
+                controlCircle("phone.down.fill", label: "End call", endCall: true, size: size,
+                              identifier: "call-end", action: { end(stage) })
+                    .transition(controlTransition)
+            } else {
+                routeButton(c?.audioRoute, video: true, size: size, enabled: true)
+                    .transition(controlTransition)
+            }
+        }
     }
 
     /// The self-view's flip. Reads live state on tap: a departing transition
@@ -1004,13 +1044,16 @@ struct CallScreen: View, Equatable {
     /// The output control; routes are read from the system only on tap.
     /// White only where the sound is unusual for the call type
     /// (`CallAudioOutputPolicy`); nil `route` shows the call type's own.
+    @ViewBuilder
     private func routeButton(_ route: AudioRouteKind?, video: Bool, size: CGFloat, enabled: Bool) -> some View {
         let controller = self.controller
-        return CallAudioRouteButton(route: route, video: video, size: size, enabled: enabled,
+        CallControlSlot(size: size, enabled: enabled) {
+            CallAudioRouteButton(route: route, video: video, size: size, enabled: true,
                                     routes: { controller.availableAudioRoutes() },
                                     current: { controller.currentAudioRoute() },
                                     select: { controller.setAudioRoute($0) })
-            .frame(width: size, height: size)
+                .frame(width: size, height: size)
+        }
     }
 
     /// One avatar with its halo. Its URL comes from a per-user cache, so a
@@ -1027,6 +1070,7 @@ struct CallScreen: View, Equatable {
     /// (`active`) only for the non-default state (FaceTime: microphone muted,
     /// camera off), `color` for Accept and danger for end call; accessibility
     /// label included and the glyph, not only the colour, says the state.
+    @ViewBuilder
     private func controlCircle(
         _ symbol: String,
         label: String? = nil,
@@ -1038,32 +1082,50 @@ struct CallScreen: View, Equatable {
         identifier: String? = nil,
         action: @escaping () -> Void
     ) -> some View {
-        Button(action: action) {
-            Image(systemName: symbol)
-                .font(.system(size: size * 0.38, weight: .medium))
-                .foregroundColor(active && !endCall ? UnyriColors.callBackground : .white)
-                .frame(width: size, height: size)
-                .background(
-                    Circle().fill(
-                        endCall ? UnyriColors.danger
-                            : active ? (color == UnyriColors.accent ? .white : color)
-                            : Color.white.opacity(0.18)
+        CallControlSlot(size: size, enabled: enabled) {
+            Button(action: action) {
+                Image(systemName: symbol)
+                    .font(.system(size: size * 0.38, weight: .medium))
+                    .foregroundColor(active && !endCall ? UnyriColors.callBackground : .white)
+                    .frame(width: size, height: size)
+                    .background(
+                        Circle().fill(
+                            endCall ? UnyriColors.danger
+                                : active ? (color == UnyriColors.accent ? .white : color)
+                                : Color.white.opacity(0.18)
+                        )
                     )
-                )
-                .overlay(
-                    Circle().stroke(
-                        endCall ? UnyriColors.danger.opacity(0.4)
-                            : active ? UnyriColors.outlineActive
-                            : UnyriColors.outlineSecondary,
-                        lineWidth: 1
+                    .overlay(
+                        Circle().stroke(
+                            endCall ? UnyriColors.danger.opacity(0.4)
+                                : active ? UnyriColors.outlineActive
+                                : UnyriColors.outlineSecondary,
+                            lineWidth: 1
+                        )
                     )
-                )
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(LocalizedStringKey(label ?? symbol))
+            .accessibilityIdentifier(identifier ?? (endCall ? "call-end" : symbol))
         }
-        .buttonStyle(.plain)
-        .disabled(!enabled)
-        .opacity(enabled ? 1 : 0.45)
-        .accessibilityLabel(LocalizedStringKey(label ?? symbol))
-        .accessibilityIdentifier(identifier ?? (endCall ? "call-end" : symbol))
+    }
+}
+
+/// A disabled control leaves a clear, non-interactive square in its original
+/// slot. HStack geometry never depends on which actions are currently usable.
+struct CallControlSlot<Content: View>: View {
+    let size: CGFloat
+    let enabled: Bool
+    @ViewBuilder var content: () -> Content
+
+    var body: some View {
+        ZStack {
+            Color.clear
+            if enabled { content() }
+        }
+        .frame(width: size, height: size)
+        .allowsHitTesting(enabled)
+        .accessibilityHidden(!enabled)
     }
 }
 

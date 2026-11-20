@@ -30,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -53,6 +54,7 @@ import com.messenger.app.ui.theme.LocalCocoColors
 import com.messenger.app.ui.theme.CocoHaptics
 import com.messenger.app.ui.theme.CocoIcons
 import java.io.File
+import kotlinx.coroutines.launch
 
 @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
@@ -69,6 +71,9 @@ fun EditProfileScreen(viewModel: ProfileViewModel, onSaved: () -> Unit, onBack: 
     // A photo revision is not a different editor/account. Keep typed fields.
     val identityApp = androidx.compose.ui.platform.LocalContext.current.applicationContext as com.messenger.app.MessengerApp
     val legacyIdentity by identityApp.identityRepository.legacy.collectAsState()
+    val publicIdentity by identityApp.identityRepository.identity.collectAsState()
+    val identityEditor = rememberIdentityEditor()
+    val saveScope = rememberCoroutineScope()
     var username by remember(profile?.id) { mutableStateOf(profile?.username.orEmpty()) }
     var displayName by remember(profile?.id) { mutableStateOf(profile?.displayName.orEmpty()) }
     var bio by remember(profile?.id) { mutableStateOf(profile?.bio.orEmpty()) }
@@ -82,9 +87,9 @@ fun EditProfileScreen(viewModel: ProfileViewModel, onSaved: () -> Unit, onBack: 
         priorProfile = profile
     }
     var showDiscard by remember(profile?.id) { mutableStateOf(false) }
-    val saving = saveState == SaveState.Saving
+    val saving = saveState == SaveState.Saving || identityEditor?.busy == true
     val baseline = priorProfile ?: profile
-    val dirty = baseline != null && (username != baseline.username || displayName != baseline.displayName || bio != baseline.bio.orEmpty())
+    val dirty = baseline != null && (username != baseline.username || displayName != baseline.displayName || bio != baseline.bio.orEmpty() || identityEditor?.dirty == true)
     // Match the server's Unicode scalar limits, not Kotlin UTF-16 length.
     val initialName = baseline?.displayName.orEmpty()
     val nameEdited = displayName != initialName
@@ -106,7 +111,7 @@ fun EditProfileScreen(viewModel: ProfileViewModel, onSaved: () -> Unit, onBack: 
     val nameError = DisplayNamePolicy.editError(displayName, initialName)
     val nameValid = nameError == null
     val bioValid = bioCount <= 160
-    val canSave = profile != null && !saving && usernameValid && nameValid && bioValid
+    val canSave = profile != null && !saving && usernameValid && nameValid && bioValid && (legacyIdentity || identityEditor?.valid == true)
     val requestBack: () -> Unit = {
         if (!saving) {
             focus.clearFocus()
@@ -151,7 +156,11 @@ fun EditProfileScreen(viewModel: ProfileViewModel, onSaved: () -> Unit, onBack: 
                 bio.isNotBlank() && bio.trim() != profile?.bio -> BioUpdate.Set(bio.trim())
                 else -> BioUpdate.Keep
             }
-            viewModel.save(username.takeIf { legacyIdentity && it != profile?.username }, DisplayNamePolicy.nameToSend(displayName, initialName), bioUpdate, AvatarUpdate.Keep)
+            saveScope.launch {
+                if (legacyIdentity || identityEditor?.save() == true) {
+                    viewModel.save(username.takeIf { legacyIdentity && it != profile?.username }, DisplayNamePolicy.nameToSend(displayName, initialName), bioUpdate, AvatarUpdate.Keep)
+                }
+            }
         }
     }
 
@@ -195,7 +204,13 @@ fun EditProfileScreen(viewModel: ProfileViewModel, onSaved: () -> Unit, onBack: 
                             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                                 Text(sanitizedName.ifBlank { stringResource(R.string.profile_editor_preview_name) },
                                     style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold, color = colors.primaryText, maxLines = 2)
-                                Text(if (legacyIdentity) "@" + username else profile?.unyriNumber.orEmpty(), style = MaterialTheme.typography.bodyMedium, color = colors.secondaryText, maxLines = 2)
+                                // B-042: the public number grouped by three (as iOS), then the public @username; never the login (B-033).
+                                val publicNumber = (publicIdentity?.number ?: profile?.unyriNumber)?.takeUnless { legacyIdentity }
+                                if (!publicNumber.isNullOrBlank()) Text(com.messenger.app.data.identity.IdentityPolicy.formattedNumber(publicNumber),
+                                    style = MaterialTheme.typography.bodyMedium, color = colors.secondaryText, maxLines = 1,
+                                    modifier = Modifier.testTag("edit-profile-number"))
+                                val publicHandle = com.messenger.app.data.identity.PeerIdentityPolicy.handle(profile?.publicUsername, null)
+                                if (publicHandle.isNotEmpty()) Text(publicHandle, style = MaterialTheme.typography.bodyMedium, color = colors.secondaryText, maxLines = 2)
                                 com.messenger.app.ui.settings.SettingsSecondaryButton(enabled = !saving, onClick = { focus.clearFocus(); keyboard?.hide(); showAvatarSheet = true },
                                     modifier = Modifier.testTag("edit-profile-photo")) {
                                     Icon(CocoIcons.Camera, contentDescription = null, modifier = Modifier.size(18.dp))
@@ -239,13 +254,13 @@ fun EditProfileScreen(viewModel: ProfileViewModel, onSaved: () -> Unit, onBack: 
                             shape = RoundedCornerShape(16.dp), colors = profileEditorFieldColors(),
                             modifier = Modifier.fillMaxWidth().testTag("edit-profile-bio"))
                     }
-                    if (!legacyIdentity) IdentityCard()
+                    if (!legacyIdentity) IdentityCard(editor = identityEditor, showSave = false, enabled = !saving)
                     if (legacyIdentity) ProfileEditorCard {
                         Text(stringResource(R.string.profile_editor_username_section), style = MaterialTheme.typography.titleSmall, color = colors.secondaryText)
-                        OutlinedTextField(value = username, onValueChange = { username = it },
-                            label = { Text(stringResource(R.string.auth_username)) }, prefix = { Text("@") }, singleLine = true,
-                            enabled = !saving, isError = !usernameValid,
-                            supportingText = { ProfileEditorFieldHelp(stringResource(when { usernameReserved -> R.string.profile_username_reserved; usernameLink -> R.string.profile_username_link; usernameValid -> R.string.profile_editor_username_hint; else -> R.string.profile_editor_username_error }), username.codePointCount(0, username.length), 32, !usernameValid) },
+                        OutlinedTextField(value = profile?.publicUsername.orEmpty(), onValueChange = {},
+                            label = { Text(stringResource(R.string.auth_username)) }, prefix = { if (!profile?.publicUsername.isNullOrBlank()) Text("@") }, singleLine = true,
+                            enabled = !saving, readOnly = true, isError = false,
+                            supportingText = { ProfileEditorFieldHelp(stringResource(when { usernameReserved -> R.string.profile_username_reserved; usernameLink -> R.string.profile_username_link; usernameValid -> R.string.profile_editor_username_hint; else -> R.string.profile_editor_username_error }), profile?.publicUsername.orEmpty().codePointCount(0, profile?.publicUsername.orEmpty().length), 32, !usernameValid) },
                             keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.None, autoCorrect = false, keyboardType = KeyboardType.Ascii, imeAction = ImeAction.Done),
                             keyboardActions = KeyboardActions(onDone = { focus.clearFocus(); keyboard?.hide() }),
                             shape = RoundedCornerShape(16.dp), colors = profileEditorFieldColors(),
@@ -311,6 +326,9 @@ fun EditProfileScreen(viewModel: ProfileViewModel, onSaved: () -> Unit, onBack: 
 
 private val ProfileUsernamePattern = Regex("[A-Za-z0-9_.]{3,32}")
 
+internal fun profileEditorIdentityLabel(legacy: Boolean, username: String, number: String?): String =
+    if (legacy) "@$username" else com.messenger.app.data.identity.IdentityPolicy.formattedNumber(number.orEmpty())
+
 @Composable
 private fun ProfileEditorSaveButton(saving: Boolean, enabled: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
     Button(onClick = onClick, enabled = enabled, modifier = modifier.testTag("edit-profile-save")) {
@@ -323,7 +341,7 @@ private fun ProfileEditorSaveButton(saving: Boolean, enabled: Boolean, onClick: 
 }
 
 @Composable
-private fun ProfileEditorCard(content: @Composable ColumnScope.() -> Unit) {
+internal fun ProfileEditorCard(content: @Composable ColumnScope.() -> Unit) {
     val colors = LocalCocoColors.current
     Surface(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(24.dp), color = colors.surface,
         border = BorderStroke(1.dp, colors.outlineSecondary)) {
@@ -342,7 +360,7 @@ private fun ProfileEditorFieldHelp(message: String, count: Int, maximum: Int, er
 }
 
 @Composable
-private fun profileEditorFieldColors() = LocalCocoColors.current.let { colors ->
+internal fun profileEditorFieldColors() = LocalCocoColors.current.let { colors ->
     OutlinedTextFieldDefaults.colors(focusedTextColor = colors.primaryText, unfocusedTextColor = colors.primaryText,
         disabledTextColor = colors.secondaryText, focusedContainerColor = colors.inputSurface, unfocusedContainerColor = colors.inputSurface,
         disabledContainerColor = colors.inputSurface, focusedBorderColor = colors.accent, unfocusedBorderColor = colors.outlineSecondary,

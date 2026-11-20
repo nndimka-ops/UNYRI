@@ -1,0 +1,10 @@
+<resources>
+    <string name="auth_account_deleted">Fiók törölve</string>
+    <string name="auth_account_suspended">A fiókot a szerver rendszergazdája letiltotta</string>
+    <string name="auth_session_ended">A munkamenet véget ért</string>
+    <string name="privacy_prevent_screenshots">Képernyőképek tiltása</string>
+    <string name="admin_delete_account_forever">Fiók végleges törlése</string>
+    <string name="admin_delete_account_detail">Törli a fiókot és üzeneteit a szerverről és a telefonokról.</string>
+    <string name="admin_delete_account_number">A megerősítéshez adja meg a nyilvános számot</string>
+    <string name="deleted_account">Törölt fiók</string>
+</resources>

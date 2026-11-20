@@ -33,13 +33,12 @@ import livekit.org.webrtc.SessionDescription
 
 /**
  * Own factory/PC/channel, no tracks, audio session, camera, renderers or call state.
- * Only STUN URLs are accepted. Both signalled candidates and the actually selected
- * pair must be non-relay before any application payload can leave this transport.
+ * Contact admission determines ALL or RELAY before gathering. Both signalled
+ * candidates and the selected local pair must obey that frozen policy.
  * One consumer owns [events]; file I/O/AEAD and durable acceptance belong to the coordinator.
  */
-class WebRtcDirectPeerTransport(context: Context, stunUrls: List<String>) : DirectPeerTransport {
+internal class WebRtcDirectPeerTransport(context: Context, private val ice: DirectPeerIceConfig) : DirectPeerTransport {
     private val appContext = context.applicationContext
-    private val servers = stunUrls.also { require(it.size <= 8 && it.all(DirectPeerPolicy::isStunUrl)) }.toList()
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val lifecycle = Mutex()
     private val negotiation = Mutex()
@@ -91,31 +90,31 @@ class WebRtcDirectPeerTransport(context: Context, stunUrls: List<String>) : Dire
                 }) ?: error("Unable to create transfer channel"))
             }
         }
-        createDescription(connection, true).also { require(DirectPeerPolicy.isDataOnlySdp(it)) }
+        createDescription(connection, true).also { require(DirectPeerPolicy.isDataOnlySdp(it, allowRelay = true)) }
     } }
 
     override suspend fun acceptOffer(sdp: String): String = withContext(Dispatchers.IO) { negotiation.withLock {
-        require(DirectPeerPolicy.isDataOnlySdp(sdp)) { "Invalid direct transfer offer" }
+        require(DirectPeerPolicy.isDataOnlySdp(sdp, allowRelay = true)) { "Invalid direct transfer offer" }
         val connection = lifecycle.withLock {
             checkOpen(); check(peer == null) { "Transfer connection already initialized" }; initialize()
         }
-        setRemote(connection, SessionDescription(SessionDescription.Type.OFFER, com.messenger.app.data.call.RemoteIcePolicy.filterSdp(sdp, relayOnly = false)))
+        setRemote(connection, SessionDescription(SessionDescription.Type.OFFER, com.messenger.app.data.call.RemoteIcePolicy.filterSdp(sdp, relayOnly = ice.relayOnly)))
         remoteAuthenticated.set(true)
-        createDescription(connection, false).also { require(DirectPeerPolicy.isDataOnlySdp(it)) }
+        createDescription(connection, false).also { require(DirectPeerPolicy.isDataOnlySdp(it, allowRelay = true)) }
     } }
 
     override suspend fun applyAnswer(sdp: String) = withContext(Dispatchers.IO) { negotiation.withLock {
-        require(DirectPeerPolicy.isDataOnlySdp(sdp)) { "Invalid direct transfer answer" }
+        require(DirectPeerPolicy.isDataOnlySdp(sdp, allowRelay = true)) { "Invalid direct transfer answer" }
         checkOpen(); check(makingOffer && !remoteAuthenticated.get()) { "Unexpected transfer answer" }
         val connection = peer ?: error("No transfer connection")
-        setRemote(connection, SessionDescription(SessionDescription.Type.ANSWER, com.messenger.app.data.call.RemoteIcePolicy.filterSdp(sdp, relayOnly = false)))
+        setRemote(connection, SessionDescription(SessionDescription.Type.ANSWER, com.messenger.app.data.call.RemoteIcePolicy.filterSdp(sdp, relayOnly = ice.relayOnly)))
         remoteAuthenticated.set(true)
         maybeReady()
     } }
 
     override suspend fun addRemoteIce(candidate: String, mid: String?, line: Int) = withContext(Dispatchers.IO) { lifecycle.withLock {
-        require(DirectPeerPolicy.isDirectCandidate(candidate) && line == 0 && (mid == null || mid.length <= 64)) { "Invalid direct ICE candidate" }
-        if (!com.messenger.app.data.call.RemoteIcePolicy.allows(candidate, relayOnly = false)) return@withLock
+        require(DirectPeerPolicy.isTransportCandidate(candidate) && line == 0 && (mid == null || mid.length <= 64)) { "Invalid direct ICE candidate" }
+        if (!com.messenger.app.data.call.RemoteIcePolicy.allows(candidate, relayOnly = ice.relayOnly)) return@withLock
         checkOpen(); check(remoteAuthenticated.get()) { "Remote description required before ICE" }
         check(peer?.addIceCandidate(IceCandidate(mid.orEmpty(), line, candidate)) == true) { "Unable to add transfer candidate" }
     } }
@@ -136,14 +135,20 @@ class WebRtcDirectPeerTransport(context: Context, stunUrls: List<String>) : Dire
     override suspend fun close() = withContext(Dispatchers.IO) { terminate(DirectPeerFailure.CLOSED) }
 
     private fun initialize(): PeerConnection {
+        ice.requireAvailable()
         // Use the same native initialization as calls and conference rooms.
         io.livekit.android.LiveKit.init(appContext)
         val createdFactory = PeerConnectionFactory.builder().createPeerConnectionFactory()
         factory = createdFactory
-        val config = PeerConnection.RTCConfiguration(servers.map { PeerConnection.IceServer.builder(it).createIceServer() }).apply {
+        val config = PeerConnection.RTCConfiguration(ice.servers.map { server ->
+            PeerConnection.IceServer.builder(server.urls).apply {
+                server.username?.let { setUsername(it) }
+                server.credential?.let { setPassword(it) }
+            }.createIceServer()
+        }).apply {
             sdpSemantics = PeerConnection.SdpSemantics.UNIFIED_PLAN
             continualGatheringPolicy = PeerConnection.ContinualGatheringPolicy.GATHER_ONCE
-            iceTransportsType = PeerConnection.IceTransportsType.ALL
+            iceTransportsType = if (ice.relayOnly) PeerConnection.IceTransportsType.RELAY else PeerConnection.IceTransportsType.ALL
             iceCandidatePoolSize = 0
         }
         return (createdFactory.createPeerConnection(config, observer) ?: error("Unable to initialize direct transfer")).also { peer = it }
@@ -181,13 +186,15 @@ class WebRtcDirectPeerTransport(context: Context, stunUrls: List<String>) : Dire
     private val observer = object : PeerConnection.Observer {
         override fun onIceCandidate(candidate: IceCandidate) {
             if (closed.get()) return
-            if (!DirectPeerPolicy.isDirectCandidate(candidate.sdp)) { fail(DirectPeerFailure.DIRECT_PATH_UNAVAILABLE); return }
+            if (!DirectPeerPolicy.isTransportCandidate(candidate.sdp) || ice.relayOnly && DirectPeerPolicy.candidateType(candidate.sdp) != "relay") {
+                fail(DirectPeerFailure.DIRECT_PATH_UNAVAILABLE); return
+            }
             // Full SDP is sent only after gathering completes, not one mailbox message per candidate.
         }
         override fun onSelectedCandidatePairChanged(event: CandidatePairChangeEvent) {
             selectedDirect.set(false)
             if (closed.get()) return
-            if (!DirectPeerPolicy.isDirectCandidate(event.local.sdp) || !DirectPeerPolicy.isDirectCandidate(event.remote.sdp)) {
+            if (!DirectPeerIcePolicy.selectedPairAllowed(DirectPeerPolicy.candidateType(event.local.sdp), DirectPeerPolicy.candidateType(event.remote.sdp), ice.relayOnly)) {
                 fail(DirectPeerFailure.DIRECT_PATH_UNAVAILABLE); return
             }
             selectedDirect.set(true)
@@ -242,8 +249,8 @@ class WebRtcDirectPeerTransport(context: Context, stunUrls: List<String>) : Dire
             val local = (pair.members["localCandidateId"] as? String)?.let(stats::get)
             val remote = (pair.members["remoteCandidateId"] as? String)?.let(stats::get)
             val allowed = pair.members["state"] == "succeeded" &&
-                DirectPeerPolicy.isDirectType(local?.members?.get("candidateType") as? String) &&
-                DirectPeerPolicy.isDirectType(remote?.members?.get("candidateType") as? String)
+                DirectPeerIcePolicy.selectedPairAllowed(local?.members?.get("candidateType") as? String,
+                    remote?.members?.get("candidateType") as? String, ice.relayOnly)
             if (allowed) provenDirectPair = (local!!.members["candidateType"] as String) to (remote!!.members["candidateType"] as String)
             allowed
         }
@@ -268,7 +275,7 @@ class WebRtcDirectPeerTransport(context: Context, stunUrls: List<String>) : Dire
             }
             if (offer) connection.createOffer(callback, MediaConstraints()) else connection.createAnswer(callback, MediaConstraints())
         } }
-        require(DirectPeerPolicy.isDataOnlySdp(description.description))
+        require(DirectPeerPolicy.isDataOnlySdp(description.description, allowRelay = true))
         withTimeout(10_000) { suspendCancellableCoroutine<Unit> { continuation ->
             connection.setLocalDescription(object : QuietSdpObserver {
                 override fun onSetSuccess() { if (continuation.isActive) continuation.resume(Unit) }
@@ -280,8 +287,8 @@ class WebRtcDirectPeerTransport(context: Context, stunUrls: List<String>) : Dire
             if (connection.iceGatheringState() != PeerConnection.IceGatheringState.COMPLETE) gatheringComplete.await()
         }
         checkOpen()
-        return (connection.localDescription?.description ?: error("No gathered transfer description")).also {
-            require(DirectPeerPolicy.isDataOnlySdp(it)) { "Invalid gathered direct description" }
+        return DirectPeerIcePolicy.localSdp(connection.localDescription?.description ?: error("No gathered transfer description"), ice.relayOnly).also {
+            require(DirectPeerPolicy.isDataOnlySdp(it, allowRelay = true)) { "Invalid gathered direct description" }
         }
     }
 

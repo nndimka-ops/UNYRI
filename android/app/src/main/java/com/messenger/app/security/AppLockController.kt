@@ -14,7 +14,7 @@ import com.messenger.app.domain.model.AuthSessionState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-data class AppLockState(val enabled: Boolean = false, val timeoutMs: Long = 0, val locked: Boolean = false, val authenticating: Boolean = false, val error: Boolean = false)
+data class AppLockState(val enabled: Boolean = false, val timeoutMs: Long = 0, val locked: Boolean = false, val authenticating: Boolean = false, val error: Boolean = false, val preventScreenshots: Boolean = false)
 
 /** Native authentication only. No password/PIN or successful-auth state is persisted. */
 class AppLockController(private val activity: MainActivity) {
@@ -51,13 +51,11 @@ class AppLockController(private val activity: MainActivity) {
         owner = current?.second; backgroundAt = null; nativeCredentialPause = null
         val enabled = preferences.getBoolean("device|enabled", false)
         val delay = preferences.getLong("device|timeout", 0L)
-        mutable.value = AppLockState(enabled, delay, locked = AppLockPolicy.protectsOwner(enabled, owner))
+        mutable.value = AppLockState(enabled, delay, locked = AppLockPolicy.protectsOwner(enabled, owner), preventScreenshots = preferences.getBoolean("device|prevent_screenshots", false))
         secureWindow()
     }
     private fun secureWindow() {
-        // Global snapshot protection also covers the unshielded login screen.
-        if (preferences.getBoolean("device|enabled",false)) activity.window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
-        else activity.window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        ScreenshotPrivacy.apply(activity)
     }
     fun onForeground() {
         foreground = true
@@ -92,6 +90,11 @@ class AppLockController(private val activity: MainActivity) {
             preferences.edit().putLong("device|timeout", timeoutMs).apply()
             mutable.value = mutable.value.copy(timeoutMs = timeoutMs, locked = false, error = false)
         }
+    }
+    fun setPreventScreenshots(enabled: Boolean) {
+        check(preferences.edit().putBoolean("device|prevent_screenshots", enabled).commit())
+        mutable.value = mutable.value.copy(preventScreenshots = enabled)
+        secureWindow()
     }
     fun unlock(after: () -> Unit = {}) = authenticate { mutable.value = mutable.value.copy(locked = false, error = false); after() }
     private fun authenticate(success: () -> Unit) {

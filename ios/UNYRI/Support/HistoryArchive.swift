@@ -60,8 +60,8 @@ struct HistoryArchive: Codable, Equatable {
         var budget = 1024 + chatClears.count * 80 + deletedChats.count * 40 + reactions.count * 512
         budget += (media?.count ?? 0) * 384
         budget += (callDeletedIds?.count ?? 0) * 40 + (callChatClears?.count ?? 0) * 80
-        for call in calls ?? [] { budget += 1024 + 6 * ((call.peer?.username.utf8.count ?? 0) + (call.peer?.displayName.utf8.count ?? 0)) }
-        for chat in chats ?? [] { budget += 256 + 6 * ((chat.peer?.username.utf8.count ?? 0) + (chat.peer?.displayName.utf8.count ?? 0)) }
+        for call in calls ?? [] { budget += 1024 + 6 * (call.peer?.textBytes ?? 0) }
+        for chat in chats ?? [] { budget += 256 + 6 * (chat.peer?.textBytes ?? 0) }
         guard budget <= Self.maxBytes else { throw Failure.invalidArchive }
         for message in messages {
             try message.validate()
@@ -143,7 +143,7 @@ struct HistoryArchive: Codable, Equatable {
             if let existing = descriptors[chat] {
                 guard existing.peer?.id == other else { throw Failure.conflict }
             } else {
-                let peer = rows.compactMap(\.peer).first ?? HistoryArchivePeer(id: other, username: "restored-contact", displayName: "Restored contact")
+                let peer = rows.compactMap(\.peer).first ?? HistoryArchivePeer(id: other, username: "", displayName: "Restored contact")
                 descriptors[chat] = HistoryArchiveChat(id: chat, type: "direct", createdAtMs: rows.map(\.createdAtMs).min() ?? 0, peer: peer)
             }
         }
@@ -216,7 +216,7 @@ struct HistoryArchive: Codable, Equatable {
             guard let rows = rows as? [[String: Any]], rows.count <= 50_000 else { throw Failure.invalidArchive }
             for row in rows {
                 guard Set(row.keys).isSubset(of: ["id", "caller", "callee", "mediaKind", "createdAtMs", "acceptedAtMs", "connectedAtMs", "endedAtMs", "endReason", "chat", "chatVisible", "peer"]) else { throw Failure.invalidArchive }
-                if let peer = row["peer"] as? [String: Any] { guard Set(peer.keys) == ["id", "username", "displayName"] else { throw Failure.invalidArchive } }
+                if let peer = row["peer"] as? [String: Any] { try HistoryArchivePeer.validateFields(Set(peer.keys)) }
             }
         }
         if (object["format"] as? Int) == 2 {
@@ -226,7 +226,7 @@ struct HistoryArchive: Codable, Equatable {
             for chat in chats {
                 guard Set(chat.keys).isSubset(of: ["id", "type", "createdAtMs", "peer"]) else { throw Failure.invalidArchive }
                 if let peer = chat["peer"] as? [String: Any] {
-                    guard Set(peer.keys) == ["id", "username", "displayName"] else { throw Failure.invalidArchive }
+                    try HistoryArchivePeer.validateFields(Set(peer.keys))
                 }
             }
         }
@@ -416,9 +416,49 @@ struct HistoryArchiveCall: Codable, Equatable {
 struct HistoryMediaIdentity: Equatable { let bytes: Int64; let sha256: String }
 struct HistoryArchivePeer: Codable, Equatable {
     let id: String; let username: String; let displayName: String
+    var unyriNumber: String? = nil
+    var publicUsername: String? = nil
+    private enum CodingKeys: String, CodingKey { case id, username, displayName, unyriNumber, publicUsername }
+    // Older archives remain readable, but any newly written archive discards
+    // their legacy login field, including a restore followed by another backup.
+    func encode(to encoder: Encoder) throws {
+        var values = encoder.container(keyedBy: CodingKeys.self)
+        try values.encode(id, forKey: .id)
+        try values.encode("", forKey: .username)
+        try values.encode(displayName, forKey: .displayName)
+        try values.encodeIfPresent(unyriNumber, forKey: .unyriNumber)
+        try values.encodeIfPresent(publicUsername, forKey: .publicUsername)
+    }
+    var textBytes: Int {
+        username.utf8.count + displayName.utf8.count + (unyriNumber?.utf8.count ?? 0) + (publicUsername?.utf8.count ?? 0)
+    }
+    static func validateFields(_ fields: Set<String>) throws {
+        let required: Set<String> = ["id", "username", "displayName"]
+        guard required.isSubset(of: fields), fields.isSubset(of: required.union(["unyriNumber", "publicUsername"])) else {
+            throw HistoryArchive.Failure.invalidArchive
+        }
+    }
     func validate() throws {
         try HistoryArchive.validateId(id)
-        guard (1...512).contains(username.utf8.count), displayName.utf8.count <= 1024 else { throw HistoryArchive.Failure.invalidArchive }
+        guard username.utf8.count <= 512, displayName.utf8.count <= 1024,
+              (unyriNumber?.utf8.count ?? 0) <= 64, (publicUsername?.utf8.count ?? 0) <= 512 else {
+            throw HistoryArchive.Failure.invalidArchive
+        }
+    }
+}
+
+extension HistoryArchivePeer {
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        id = try values.decode(String.self, forKey: .id)
+        // Validate historical bytes before discarding the retired credential.
+        guard try values.decode(String.self, forKey: .username).utf8.count <= 512 else {
+            throw HistoryArchive.Failure.invalidArchive
+        }
+        username = ""
+        displayName = try values.decode(String.self, forKey: .displayName)
+        unyriNumber = try values.decodeIfPresent(String.self, forKey: .unyriNumber)
+        publicUsername = try values.decodeIfPresent(String.self, forKey: .publicUsername)
     }
 }
 struct HistoryArchiveChat: Codable, Equatable {

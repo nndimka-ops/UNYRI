@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auth_hardware_binding_required">Este telefone não pode proteger a sessão com uma chave de hardware, mas o servidor exige essa proteção.</string>
+</resources>

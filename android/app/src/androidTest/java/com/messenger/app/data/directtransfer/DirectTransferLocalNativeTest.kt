@@ -74,8 +74,8 @@ class DirectTransferLocalNativeTest {
         val s = DirectTransferRecord(offer, chat, "sender", state = "connecting", consent = true, durableOffset = offset, attemptId = attempt)
         val r = s.copy(role = "receiver")
         val database = Room.databaseBuilder(context, MessengerDatabase::class.java, "local-direct-$run.db").build()
-        val a = WebRtcDirectPeerTransport(context, emptyList())
-        val b = WebRtcDirectPeerTransport(context, emptyList())
+        val a = WebRtcDirectPeerTransport(context, DirectPeerIceConfig(emptyList(), relayOnly = false))
+        val b = WebRtcDirectPeerTransport(context, DirectPeerIceConfig(emptyList(), relayOnly = false))
         val sent = AtomicLong(0)
         val senderTransport = object : DirectPeerTransport by a {
             override suspend fun send(bytes: ByteArray, binary: Boolean) {

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chats_archive_detail">채팅 메뉴에서 여기로 옮기거나 여러 채팅을 선택하세요. 새 메시지가 와도 직접 복원할 때까지 여기에 유지됩니다.</string>
+    <string name="privacy_devices_blocks">기기 및 차단</string>
+    <string name="privacy_messages_section">메시지</string>
+    <string name="settings_privacy_visibility">공개 범위</string>
+    <string name="privacy_nobody_count">없음</string>
+    <string name="blocked_users_search">이름, 번호 또는 @사용자이름</string>
+    <plurals name="privacy_people_count_short">
+        <item quantity="one">%1$d 명</item>
+        <item quantity="few">%1$d 명</item>
+        <item quantity="many">%1$d 명</item>
+        <item quantity="other">%1$d 명</item>
+    </plurals>
+    <string name="drawer_report_short">신고</string>
+    <string name="peer_qr_title">상대방의 QR 코드</string>
+    <string name="peer_remove_confirm_title">연락처를 삭제할까요?</string>
+    <string name="peer_remove_confirm_detail">이 사람이 연락처에서 삭제됩니다. 채팅과 메시지는 유지됩니다.</string>
+    <string name="inline_search_people_hint">번호 또는 @사용자이름으로 사람을 찾으세요.</string>
+    <string name="app_version_format">버전 %1$s (%2$d)</string>
+    <string name="server_current_title">현재 서버</string>
+    <string name="server_change_title">서버 변경</string>
+    <string name="server_edit_help">HTTPS 주소를 입력하세요. 서버를 변경하려면 먼저 로그아웃하세요.</string>
+    <string name="server_alpha_http_detail">알파 버전에서는 신뢰할 수 있는 로컬 네트워크에서 HTTP도 허용합니다.</string>
+    <string name="server_max_file_size">암호화 파일 최대 크기</string>
+    <string name="server_user_quota">계정당 저장 공간</string>
+    <string name="server_no_limit">제한 없음</string>
+    <string name="settings_about">도움말 및 앱</string>
+    <string name="settings_data_storage">연결 및 저장 공간</string>
+    <string name="notification_in_app_sound_detail">UNYRI가 열려 있을 때 소리를 재생합니다.</string>
+    <string name="notification_in_app_vibration_detail">UNYRI가 열려 있을 때 진동합니다.</string>
+    <string name="report_problem_detail">문제를 설명하고 스크린샷을 첨부하세요.</string>
+    <string name="report_recent_problem_detail">최근 문제의 시간을 표시합니다. 아래에서 진단을 켜세요.</string>
+    <string name="sh_step_computer">항상 켜져 있는 컴퓨터</string>
+    <string name="sh_step_computer_summary">자신의 컴퓨터를 사용하거나 인터넷에서 컴퓨터(VPS)를 빌리세요.</string>
+    <string name="sh_step_install">UNYRI Server 설치</string>
+    <string name="sh_step_install_summary">안내에 따라 서버 프로그램을 설치하세요.</string>
+    <string name="sh_step_internet">인터넷 접속 허용</string>
+    <string name="sh_step_internet_summary">집 밖에서도 휴대전화가 연결되도록 안내를 따르세요.</string>
+    <string name="sh_step_phone">휴대전화 연결</string>
+    <string name="sh_step_phone_summary">서버 주소를 확인하거나 초대를 스캔한 다음 계정을 만드세요.</string>
+    <string name="sh_step_owner">소유자 되기</string>
+    <string name="sh_step_owner_summary">설치 프로그램에 표시된 일회용 코드를 사용하세요.</string>
+    <string name="sh_step_test">메시지와 통화 확인</string>
+    <string name="sh_step_test_summary">Wi-Fi를 끄고 모바일 데이터로 메시지, 통화, 알림을 확인하세요.</string>
+    <string name="sh_step_more">자세히</string>
+    <string name="connection_checking">확인 중…</string>
+    <string name="sh_open_guide">안내 및 다운로드</string>
+    <string name="local_mode_description">인터넷 없이 Wi-Fi로 서버에서 메시지와 통화를 받습니다. 이 모드는 상시 알림을 표시하고 배터리를 더 사용합니다. 강제 종료나 재시작 후에는 UNYRI를 다시 여세요.</string>
+    <string name="local_mode_connected">서버에 연결됨</string>
+    <string name="local_mode_signin">로컬 연결을 사용하려면 로그인하세요.</string>
+    <string name="peer_qr_instruction">코드를 스캔하여 UNYRI에서 이 사람의 프로필을 여세요.</string>
+</resources>

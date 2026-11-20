@@ -9,8 +9,13 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 
+/** Discovery handles can change; only the authenticated account's immutable ID identifies self. */
+internal fun isOwnPublicProfile(userId: String, selfId: String?): Boolean =
+    !selfId.isNullOrBlank() && userId.equals(selfId, ignoreCase = true)
+
 internal fun profileLinkMatches(raw: String, user: PublicUser): Boolean {
-    val target = IdentityPolicy.parse(raw)?.target ?: return user.username.equals(raw, true)
+    val target = IdentityPolicy.parse(raw)?.target
+        ?: return user.publicUsername?.equals(raw.removePrefix("@"), true) == true
     return when (target.parameter) {
         "number" -> user.publicNumber != null && (target.value.length < 9 || user.publicNumber == target.value)
         "username" -> user.publicUsername == target.value
@@ -21,12 +26,12 @@ internal fun profileLinkMatches(raw: String, user: PublicUser): Boolean {
 /** Uses the same direct-chat and contact-store operations as Contacts, fenced to the visible card. */
 internal class ProfileLinkActions(private val owner: String, private val currentOwner: () -> String?,
     private val currentCard: () -> Boolean, private val openDirect: suspend (String) -> Result<String>,
-    private val add: suspend () -> Boolean) {
+    private val add: suspend () -> Boolean, private val peerActionsAllowed: () -> Boolean = { true }) {
     var busy by mutableStateOf(false)
         private set
     var failed by mutableStateOf(false)
         private set
-    private fun current() = owner == currentOwner() && currentCard()
+    private fun current() = owner == currentOwner() && currentCard() && peerActionsAllowed()
     suspend fun message(userId: String): String? {
         if (busy || !current()) return null
         busy = true; failed = false

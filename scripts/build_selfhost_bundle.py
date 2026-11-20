@@ -18,6 +18,8 @@ RUNTIME_FILES = {
         "Caddyfile", "THIRD_PARTY_NOTICES.md", "backup.sh", "backup.ps1",
         "check-ports.sh", "check-ports.ps1", "common.sh", "common.ps1",
         "preflight-ports.sh", "preflight-ports.ps1", "firewall.ps1",
+        "desktop-firewall.ps1", "desktop-manage.ps1", "desktop-manage.sh",
+        "desktop-upnp.ps1", "desktop-upnp.sh",
         "install.sh", "install.ps1", "get.sh", "health-check.sh",
         "init-storage.sh", "restore.sh", "restore.ps1", "restore-volume.sh",
         "start-turn.sh", "start.sh", "start.ps1", "storage-client-uploads-policy.template.json",

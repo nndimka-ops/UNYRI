@@ -31,6 +31,7 @@ theme_host.write_text("import SwiftUI\nimport UIKit\n" + declaration("extension 
 files = [source / "ios/Tests/ConferencePresentationHost/Host.swift",
          source / "ios/Tests/ConferencePresentationHost/Adapters.swift", theme_host,
          source / "ios/UNYRI/Support/DisplayNameSanitizer.swift",
+         source / "ios/UNYRI/Support/PublicIdentityPolicy.swift",
          source / "ios/UNYRI/Conferences/ConferenceViews.swift",
          source / "ios/UNYRI/Conferences/ConferenceDirectoryModels.swift",
          source / "ios/UNYRI/Conferences/ConferenceDirectoryView.swift",

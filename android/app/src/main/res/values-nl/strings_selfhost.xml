@@ -22,7 +22,7 @@
     <string name="sh_uses">Gebruik</string>
     <string name="sh_days">Geldigheid (dagen)</string>
     <string name="sh_invite_bounds">1–10.000 keer; 1–365 dagen.</string>
-    <string name="sh_create_invite">Uitnodiging maken</string>
+    <string name="sh_create_invite">Code maken</string>
     <string name="sh_active">Actief</string>
     <string name="sh_revoked">Ingetrokken</string>
     <string name="sh_expired">Verlopen</string>
@@ -30,15 +30,15 @@
     <string name="sh_unknown">Onbekend</string>
     <string name="sh_expiry">Verloopt</string>
     <string name="sh_creator">Gemaakt door</string>
-    <string name="sh_revoke">Uitnodiging intrekken</string>
+    <string name="sh_revoke">Intrekken</string>
     <string name="sh_revoke_confirm">Deze uitnodiging intrekken? Nieuwe registraties ermee zijn dan niet meer mogelijk.</string>
     <string name="sh_more">Meer uitnodigingen</string>
     <string name="sh_self_check">Server controleren</string>
     <string name="sh_code_once">Nu opslaan of delen. De code wordt maar één keer getoond.</string>
-    <string name="sh_copy_code">Code kopiëren</string>
+    <string name="sh_copy_code">Kopiëren</string>
     <string name="sh_share_code">Code delen</string>
     <string name="sh_copy_link">Link kopiëren</string>
-    <string name="sh_share_link">Link delen</string>
+    <string name="sh_share_link">Delen</string>
     <string name="sh_yes">ja</string>
     <string name="sh_no">nee</string>
     <string name="sh_ready">gereed</string>
@@ -54,7 +54,7 @@
     <string name="sh_fix_storage">Controleer bestandsopslag en uploadrechten in het installatieprogramma.</string>
     <string name="sh_fix_disk">Houd minstens 1 GB vrij en maak een back-up vóór het opruimen.</string>
     <string name="sh_fix_version">Gebruik een compatibele serverversie en laat de update voltooien.</string>
-    <string name="sh_guide">1. Installeer Docker en UNYRI op een pc die aan blijft. 2. Kies een domein of DDNS. 3. Reserveer het pc-adres en stuur HTTPS- en belpoorten door; gebruik bij CGNAT een VPS of tunnel. 4. Bevestig het HTTPS-adres of scan de uitnodigings-QR. 5. Meld aan, word eigenaar in Profiel met de installatiecode en beveilig het beheer. 6. Beheer → Eigen server → Server controleren. Test via mobiele data. Maak back-ups vóór updates; push vereist een aanbieder.</string>
+    <string name="sh_guide">1. Installeer Docker en UNYRI op een pc die aan blijft. 2. Kies een domein of DDNS. 3. Reserveer het pc-adres en stuur HTTPS- en belpoorten door; gebruik bij CGNAT een VPS of tunnel. 4. Bevestig het HTTPS-adres of scan de uitnodigings-QR. 5. Meld aan, word eigenaar in Profiel met de installatiecode en beveilig het beheer. 6. Beheer → Registratie en uitnodigingen → Server controleren. Test via mobiele data. Maak back-ups vóór updates; push vereist een aanbieder.</string>
     <string name="sh_check_setup">Eigendom beschikbaar</string>
     <string name="sh_check_url">Openbaar adres</string>
     <string name="sh_check_url_config">Openbaar adres ingesteld</string>
@@ -88,4 +88,7 @@
     <string name="sh_compatibility">Appversie compatibel</string>
     <string name="sh_socket">Huidige WebSocket verbonden</string>
     <string name="sh_scan_owner_code">Eigenaarscode scannen</string>
+    <string name="sh_registration_invites">Registratie en uitnodigingen</string>
+    <string name="sh_mode_owner_only">Alleen de eigenaar kan de registratiemodus wijzigen.</string>
+    <string name="sh_saved_codes_hint">De code wordt alleen na het maken getoond. Bewaar of deel de nieuwe code voordat je dit scherm verlaat.</string>
 </resources>

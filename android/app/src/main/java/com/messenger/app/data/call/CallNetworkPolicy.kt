@@ -237,6 +237,39 @@ object CallAudioCodecPreference {
     }
 }
 
+/**
+ * Video codecs both apps prefer, in this order: H.264 Constrained High
+ * (profile-level-id 640c…), H.264 Constrained Baseline (42e0…), any other H.264,
+ * VP8, then everything else as WebRTC gave it (VP9, AV1, rtx, red, ulpfec stay
+ * negotiable). Set on our video transceiver before every offer and answer; the
+ * answer's order decides both directions. DefaultVideoEncoderFactory lists its
+ * software codecs first, so an Android offer made both phones encode VP8 in
+ * software: 12-13 fps from a POCO X6, which has no VP8 hardware (B-047, 19 Nov;
+ * docs/CALL_QUALITY_PLAN.md step 8). Mirrors iOS CallVideoCodecPreference; shared
+ * vectors in shared/test-vectors/call-video-codec-order.json.
+ */
+object CallVideoCodecPreference {
+    /** Positions into [codecs] (name to its `profile-level-id`, if any), in order. */
+    fun order(codecs: List<Pair<String, String?>>): List<Int> {
+        fun rank(index: Int): Int {
+            val (name, profileLevelId) = codecs[index]
+            return when (name.lowercase()) {
+                "h264" -> {
+                    val profile = profileLevelId?.lowercase().orEmpty()
+                    when {
+                        profile.startsWith("640c") -> 0
+                        profile.startsWith("42e0") -> 1
+                        else -> 2
+                    }
+                }
+                "vp8" -> 3
+                else -> 4
+            }
+        }
+        return codecs.indices.sortedWith(compareBy({ rank(it) }, { it }))
+    }
+}
+
 object CallSdpMunger {
     /** usedtx is a receive preference. Only Opus format lines change; an explicit value wins. */
     fun requestingOpusDtx(sdp: String): String {

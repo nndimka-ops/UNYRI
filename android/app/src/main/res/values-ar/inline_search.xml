@@ -19,7 +19,7 @@
     <string name="search_recent">عمليات البحث الأخيرة</string>
     <string name="search_scope_messages">الرسائل</string>
     <string name="settings_search_label">بحث</string>
-    <string name="unified_search_hint">ابحث في المحادثات والرسائل المحفوظة دون اتصال. اعثر على أشخاص في هذا الخادم باسم المستخدم.</string>
+    <string name="unified_search_hint">ابحث في المحادثات والرسائل المحفوظة دون اتصال. اعثر على أشخاص على هذا الخادم بالرقم أو @اسم_المستخدم.</string>
     <string name="unified_search_network">البحث في الخادم غير متاح. تظل النتائج المحلية متاحة.</string>
     <string name="unified_search_local_error">تعذر تحميل الرسائل المحفوظة. حاول البحث مرة أخرى.</string>
 </resources>

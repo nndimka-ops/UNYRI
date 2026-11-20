@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chats_archive_detail">Helyezze ide a beszélgetéseket a menüjükből, vagy jelöljön ki többet. Az új üzenetek itt tartják őket, amíg vissza nem állítja őket.</string>
+    <string name="privacy_devices_blocks">Eszközök és tiltások</string>
+    <string name="privacy_messages_section">Üzenetek</string>
+    <string name="settings_privacy_visibility">Láthatóság</string>
+    <string name="privacy_nobody_count">Senki</string>
+    <string name="blocked_users_search">Név, szám vagy @felhasználónév</string>
+    <plurals name="privacy_people_count_short">
+        <item quantity="one">%1$d fő</item>
+        <item quantity="few">%1$d fő</item>
+        <item quantity="many">%1$d fő</item>
+        <item quantity="other">%1$d fő</item>
+    </plurals>
+    <string name="drawer_report_short">Jelentés</string>
+    <string name="peer_qr_title">A személy QR-kódja</string>
+    <string name="peer_remove_confirm_title">Eltávolítja a névjegyet?</string>
+    <string name="peer_remove_confirm_detail">Ez a személy eltűnik a névjegyei közül. A beszélgetés és az üzenetek megmaradnak.</string>
+    <string name="inline_search_people_hint">Keressen embereket szám vagy @név alapján.</string>
+    <string name="app_version_format">Verzió: %1$s (%2$d)</string>
+    <string name="server_current_title">Jelenlegi szerver</string>
+    <string name="server_change_title">Szerverváltás</string>
+    <string name="server_edit_help">Adjon meg HTTPS-címet. Szerverváltás előtt jelentkezzen ki.</string>
+    <string name="server_alpha_http_detail">Az alfa verziók megbízható helyi hálózaton HTTP-t is engedélyeznek.</string>
+    <string name="server_max_file_size">Titkosított fájl legnagyobb mérete</string>
+    <string name="server_user_quota">Tárhely fiókonként</string>
+    <string name="server_no_limit">Korlátlan</string>
+    <string name="settings_about">Súgó és alkalmazás</string>
+    <string name="settings_data_storage">Kapcsolat és tárhely</string>
+    <string name="notification_in_app_sound_detail">Hang lejátszása, amikor az UNYRI nyitva van.</string>
+    <string name="notification_in_app_vibration_detail">Rezgés, amikor az UNYRI nyitva van.</string>
+    <string name="report_problem_detail">Írja le a hibát, és csatoljon képernyőképeket.</string>
+    <string name="report_recent_problem_detail">Jelölje meg a legutóbbi hiba idejét; alább kapcsolja be a diagnosztikát.</string>
+    <string name="sh_step_computer">Egy mindig bekapcsolt számítógép</string>
+    <string name="sh_step_computer_summary">Használja saját számítógépét, vagy béreljen egyet az interneten (VPS).</string>
+    <string name="sh_step_install">UNYRI Server telepítése</string>
+    <string name="sh_step_install_summary">Telepítse a kiszolgálóprogramot az útmutató alapján.</string>
+    <string name="sh_step_internet">Internetes hozzáférés engedélyezése</string>
+    <string name="sh_step_internet_summary">Kövesse az útmutatót, hogy telefonja otthonán kívül is csatlakozhasson.</string>
+    <string name="sh_step_phone">Telefon csatlakoztatása</string>
+    <string name="sh_step_phone_summary">Erősítse meg a kiszolgáló címét, vagy olvasson be egy meghívót, majd hozzon létre fiókot.</string>
+    <string name="sh_step_owner">Legyen tulajdonos</string>
+    <string name="sh_step_owner_summary">Használja a telepítő által megjelenített egyszer használatos kódot.</string>
+    <string name="sh_step_test">Üzenetek és hívások ellenőrzése</string>
+    <string name="sh_step_test_summary">Kapcsolja ki a Wi-Fit, és tesztelje az üzeneteket, hívásokat és értesítéseket mobiladattal.</string>
+    <string name="sh_step_more">További részletek</string>
+    <string name="connection_checking">Ellenőrzés…</string>
+    <string name="sh_open_guide">Útmutató és letöltések</string>
+    <string name="local_mode_description">Üzenetek és hívások a saját kiszolgálóról Wi-Fin, internet nélkül. A mód állandó értesítést jelenít meg és több energiát használ. Kényszerített leállítás vagy újraindítás után nyissa meg újra az UNYRI-t.</string>
+    <string name="local_mode_connected">Csatlakozva a kiszolgálójához</string>
+    <string name="local_mode_signin">Jelentkezzen be a helyi kapcsolat bekapcsolásához.</string>
+    <string name="peer_qr_instruction">Olvassa be a kódot a személy UNYRI-profiljának megnyitásához.</string>
+</resources>

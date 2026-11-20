@@ -48,7 +48,7 @@ data class IdentityProfile(
         require(username == null || IdentityPolicy.username(username) == username)
         require(profileVersion >= 0 && avatarVersion >= 0)
     }
-    fun domain() = com.messenger.app.domain.model.PublicUser(id, username.orEmpty(), displayName, null, bio,
+    fun domain() = com.messenger.app.domain.model.PublicUser(id, "", displayName, null, bio,
         profileVersion, avatarVersion, hasAvatar, number, username)
 }
 

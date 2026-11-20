@@ -9,7 +9,8 @@ struct PublicIdentityCard: View {
             VStack(alignment: .leading, spacing: 12) {
                 Text(PublicIdentityPolicy.formattedNumber(identity.unyriNumber)).font(.title2.monospacedDigit().bold())
                     .accessibilityIdentifier("profile-public-number")
-                if let username = identity.publicUsername { Text("@" + username).foregroundStyle(UnyriColors.secondaryText) }
+                let alias = PeerIdentityPolicy.label(publicUsername: identity.publicUsername, unyriNumber: nil)
+                if !alias.isEmpty { Text(alias).foregroundStyle(UnyriColors.secondaryText) }
                 HStack {
                     Button("Copy number") { UIPasteboard.general.string = identity.unyriNumber }
                     if let link = identity.link { ShareLink(item: link) { Label("Share link", systemImage: "square.and.arrow.up") } }
@@ -36,7 +37,8 @@ struct PeerPublicIdentityView: View {
             if let profile {
                 Text(PublicIdentityPolicy.formattedNumber(profile.unyriNumber)).font(.subheadline.monospacedDigit())
                     .accessibilityIdentifier("peer-public-number")
-                if let username = profile.publicUsername { Text("@" + username).font(.subheadline) }
+                let alias = PeerIdentityPolicy.label(publicUsername: profile.publicUsername, unyriNumber: nil)
+                if !alias.isEmpty { Text(alias).font(.subheadline) }
                 HStack {
                     Button("Copy number") { UIPasteboard.general.string = profile.unyriNumber }
                     if let origin, let link = PublicIdentityPolicy.link(number: profile.unyriNumber, origin: origin) {

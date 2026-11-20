@@ -99,6 +99,41 @@ struct CallPeerProfile: Codable, Equatable {
     let profileVersion: Int64
     let avatarVersion: Int64
     let hasAvatar: Bool
+    var unyriNumber: String? = nil
+    var publicUsername: String? = nil
+
+    private enum CodingKeys: String, CodingKey {
+        case id, username, displayName, bio, avatarUrl, profileVersion, avatarVersion, hasAvatar, unyriNumber, publicUsername
+    }
+}
+
+extension CallPeerProfile {
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        id = try values.decode(UUID.self, forKey: .id)
+        username = ""
+        displayName = try values.decode(String.self, forKey: .displayName)
+        bio = try values.decodeIfPresent(String.self, forKey: .bio)
+        avatarUrl = try values.decodeIfPresent(String.self, forKey: .avatarUrl)
+        profileVersion = try values.decode(Int64.self, forKey: .profileVersion)
+        avatarVersion = try values.decode(Int64.self, forKey: .avatarVersion)
+        hasAvatar = try values.decode(Bool.self, forKey: .hasAvatar)
+        unyriNumber = try values.decodeIfPresent(String.self, forKey: .unyriNumber)
+        publicUsername = try values.decodeIfPresent(String.self, forKey: .publicUsername)
+    }
+    func encode(to encoder: Encoder) throws {
+        var values = encoder.container(keyedBy: CodingKeys.self)
+        try values.encode(id, forKey: .id)
+        try values.encode("", forKey: .username)
+        try values.encode(displayName, forKey: .displayName)
+        try values.encodeIfPresent(bio, forKey: .bio)
+        try values.encodeIfPresent(avatarUrl, forKey: .avatarUrl)
+        try values.encode(profileVersion, forKey: .profileVersion)
+        try values.encode(avatarVersion, forKey: .avatarVersion)
+        try values.encode(hasAvatar, forKey: .hasAvatar)
+        try values.encodeIfPresent(unyriNumber, forKey: .unyriNumber)
+        try values.encodeIfPresent(publicUsername, forKey: .publicUsername)
+    }
 }
 
 struct CallDTO: Codable, Identifiable, Equatable {
@@ -194,10 +229,10 @@ enum CallActivityPolicy {
 }
 
 enum CallPeerTitlePolicy {
-    static func title(displayName: String?, username: String?, unknown: String) -> String {
+    static func title(displayName: String?, publicIdentity: String?, unknown: String) -> String {
         if let name = displayName?.trimmingCharacters(in:.whitespacesAndNewlines), !name.isEmpty { return name }
-        if let handle = username?.trimmingCharacters(in:.whitespacesAndNewlines), !handle.isEmpty {
-            return handle.hasPrefix("@") ? handle : "@" + handle
+        if let handle = publicIdentity?.trimmingCharacters(in:.whitespacesAndNewlines), !handle.isEmpty {
+            return handle
         }
         return unknown
     }
@@ -259,7 +294,8 @@ extension CallDTO {
             callee: calleeUserId.uuidString.lowercased(), mediaKind: mediaKind.rawValue, createdAtMs: ms(createdAt)!,
             acceptedAtMs: ms(acceptedAt), connectedAtMs: ms(connectedAt), endedAtMs: ms(endedAt), endReason: endReason,
             chat: chatId?.uuidString.lowercased(), chatVisible: chatVisible != false,
-            peer: validatedPeer(owner: owner).map { HistoryArchivePeer(id: $0.id.uuidString.lowercased(), username: $0.username, displayName: $0.displayName) })
+            peer: validatedPeer(owner: owner).map { HistoryArchivePeer(id: $0.id.uuidString.lowercased(), username: "",
+                displayName: $0.displayName, unyriNumber: $0.unyriNumber, publicUsername: $0.publicUsername) })
     }
     init(restored row: HistoryArchiveCall) throws {
         func date(_ value: Int64?) -> Date? { value.map { Date(timeIntervalSince1970: Double($0) / 1000) } }
@@ -269,23 +305,34 @@ extension CallDTO {
             acceptedDeviceId: nil, createdAt: date(row.createdAtMs)!, acceptedAt: date(row.acceptedAtMs),
             connectedAt: date(row.connectedAtMs), endedAt: date(row.endedAtMs), chatId: row.chat.flatMap(UUID.init(uuidString:)),
             chatVisible: row.chatVisible, unread: false, peer: row.peer.map { CallPeerProfile(id: UUID(uuidString: $0.id)!,
-                username: $0.username, displayName: $0.displayName, bio: nil, avatarUrl: nil,
-                profileVersion: 0, avatarVersion: 0, hasAvatar: false) })
+                username: "", displayName: $0.displayName, bio: nil, avatarUrl: nil,
+                profileVersion: 0, avatarVersion: 0, hasAvatar: false,
+                unyriNumber: $0.unyriNumber, publicUsername: $0.publicUsername) })
     }
 }
 
 /// Account-scoped durable history. Actor isolation serializes page merges;
 /// atomic replacement never exposes a partially written JSON file.
 actor CallHistoryStore {
-    private struct Snapshot: Codable { let rows: [CallDTO]; let restoredIds: Set<UUID> }
+    private struct Snapshot: Codable {
+        let rows: [CallDTO]; let restoredIds: Set<UUID>
+        var peerPrivacyVersion: Int? = 1
+    }
     private let file: URL
     init(file: URL) { self.file = file }
     func barrier() {}
     private func snapshot() throws -> Snapshot {
         guard FileManager.default.fileExists(atPath: file.path) else { return Snapshot(rows: [], restoredIds: []) }
         let data = try Data(contentsOf: file)
-        if let value = try? JSONDecoder().decode(Snapshot.self, from: data) { return value }
-        return Snapshot(rows: try JSONDecoder().decode([CallDTO].self, from: data), restoredIds: [])
+        let value: Snapshot
+        if let decoded = try? JSONDecoder().decode(Snapshot.self, from: data) { value = decoded }
+        else { value = Snapshot(rows: try JSONDecoder().decode([CallDTO].self, from: data), restoredIds: [], peerPrivacyVersion: nil) }
+        if value.peerPrivacyVersion != 1 {
+            let migrated = Snapshot(rows: value.rows, restoredIds: value.restoredIds)
+            try JSONEncoder().encode(migrated).write(to: file, options: .atomic)
+            return migrated
+        }
+        return value
     }
     func restoredIDs() throws -> Set<UUID> {
         try snapshot().restoredIds
@@ -368,7 +415,17 @@ enum CallEndReason: String, Equatable {
 }
 
 enum CallFailureReason: Equatable {
-    case generic, network, busy, rateLimited
+    case generic, network, busy, rateLimited, relayUnavailable
+
+    var textKey: String {
+        switch self {
+        case .generic: return "Call failed"
+        case .network: return "Network error"
+        case .busy: return "Line busy"
+        case .rateLimited: return "Too many calls. Try again later."
+        case .relayUnavailable: return "This call needs a relay (TURN), but this server has none. A safe connection is unavailable."
+        }
+    }
 }
 
 /// Immutable identity of "the current call" as the UI needs it.
@@ -684,7 +741,7 @@ enum CallLayoutPolicy {
     /// Video always has four control slots (camera, mute, end, output); the
     /// flip button sits on the self-view tile and exists only with the camera on.
     static let videoControlCount = 4
-    /// Audio always has four (output, mute, video, end) in every phase.
+    /// Audio has at most four (output, mute, video, end); sizes always follow four (B-067).
     static let audioControlCount = 4
 
     /// Rows for `count` controls, decided from the width alone (no measuring,
@@ -694,6 +751,32 @@ enum CallLayoutPolicy {
         let spacing = controlSpacing(availableWidth: availableWidth, controlCount: controlCount)
         let inner = trayWidth(availableWidth: availableWidth) - 2 * trayPadding(availableWidth: availableWidth)
         return size * CGFloat(controlCount) + spacing * CGFloat(controlCount - 1) <= inner + 0.5 ? 1 : 2
+    }
+}
+
+/// B-067 (owner, 20 Nov, on an outgoing call screenshot: «почему не по центру? если тех кнопок нету — по центру
+/// эти, а потом доп появляются»): a call tray shows only the controls usable now, centred. A control that becomes
+/// usable (video after connecting) is inserted and the row re-centres; sizes stay those of four controls, so a
+/// button never changes size. This replaces fixed four slots, where an unusable control left an empty square.
+enum CallControlRowPolicy {
+    enum Control: String, Hashable { case video, camera, mute, end, route }
+
+    /// Audio: video upgrade (connected only), microphone, End, output.
+    static func audio(videoAvailable: Bool, live: Bool, ended: Bool) -> [Control] {
+        var row: [Control] = []
+        if videoAvailable && !ended { row.append(.video) }
+        if live && !ended { row.append(.mute) }
+        if !ended { row.append(.end) }
+        if live && !ended { row.append(.route) }
+        return row
+    }
+
+    /// Video, first group: camera and microphone once the call exists.
+    static func videoMedia(live: Bool, ended: Bool) -> [Control] { live && !ended ? [.camera, .mute] : [] }
+
+    /// Video, second group: End and the output.
+    static func videoCall(live: Bool, ended: Bool) -> [Control] {
+        (ended ? [] : [.end]) + (live && !ended ? [.route] : [])
     }
 }
 

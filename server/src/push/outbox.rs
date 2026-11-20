@@ -91,6 +91,67 @@ pub struct PushService {
 }
 
 impl PushService {
+    /// Snapshot the final routing capability before token invalidation/cascade.
+    /// This queue deliberately has no account/device FK and contains no content
+    /// or identity. Each route receives one wake, with bounded retries.
+    pub async fn enqueue_session_check_transactional(&self, tx: &mut sqlx::Transaction<'_, sqlx::Postgres>, devices: &[Uuid]) -> Result<(), crate::error::AppError> {
+        let mut providers = Vec::new();
+        if self.provider.is_some() { providers.push("fcm"); }
+        if !self.apns.is_empty() { providers.push("apns"); }
+        if providers.is_empty() || devices.is_empty() { return Ok(()); }
+        sqlx::query("INSERT INTO session_check_wakes(provider,token,environment,topic,registration_id,revision,token_registered_at) \
+            SELECT DISTINCT ON(p.provider,p.token) p.provider::text,p.token,p.environment,p.topic,p.registration_id,p.revision,p.token_registered_at \
+            FROM push_tokens p WHERE p.device_id=ANY($1) AND p.invalidated_at IS NULL AND p.token<>'' AND p.provider::text=ANY($2) \
+            ORDER BY p.provider,p.token,p.revision DESC")
+            .bind(devices).bind(&providers).execute(&mut **tx).await?;
+        Ok(())
+    }
+
+    async fn process_session_checks(&self, db: &PgPool) -> usize {
+        #[derive(sqlx::FromRow)]
+        struct Wake { id: Uuid, provider: String, token: String, environment: Option<String>, topic: Option<String>,
+            registration_id: Uuid, revision: i64, token_registered_at: DateTime<Utc>, expires_at: DateTime<Utc>, attempts: i32 }
+        let _ = sqlx::query("DELETE FROM session_check_wakes WHERE expires_at<=now() OR attempts>=10").execute(db).await;
+        let mut count = 0;
+        // Bounded so ordinary traffic cannot be starved by a large moderation action.
+        for _ in 0..10 {
+            let row: Option<Wake> = sqlx::query_as("UPDATE session_check_wakes SET attempts=attempts+1,next_attempt_at=now()+interval '5 minutes' \
+                WHERE id=(SELECT id FROM session_check_wakes WHERE next_attempt_at<=now() AND expires_at>now() AND attempts<10 \
+                ORDER BY next_attempt_at,id LIMIT 1 FOR UPDATE SKIP LOCKED) \
+                RETURNING id,provider,token,environment,topic,registration_id,revision,token_registered_at,expires_at,attempts")
+                .fetch_optional(db).await.ok().flatten();
+            let Some(row) = row else { break; };
+            count += 1;
+            let event = PushEvent::session_check();
+            let terminal = if row.provider == "fcm" {
+                match &self.provider {
+                    Some(provider) => matches!(provider.send(&row.token, &event).await,
+                        Ok(PushSendOutcome::Delivered | PushSendOutcome::InvalidToken | PushSendOutcome::Permanent)),
+                    None => true,
+                }
+            } else {
+                use super::apns::{Context, Environment, Kind, Outcome, Preferences, Target};
+                let environment = match row.environment.as_deref() { Some("production") => Some(Environment::Production), Some("sandbox") => Some(Environment::Sandbox), _ => None };
+                if let (Some(environment), Some(topic)) = (environment, row.topic) {
+                    if let Some(provider) = self.apns.iter().find(|p| p.environment()==environment && p.allows(Kind::Alert, &topic)) {
+                        let target = Target { kind:Kind::Alert, environment, topic, token:row.token, registration_id:row.registration_id,
+                            revision:row.revision, token_registered_at:row.token_registered_at,
+                            preferences:Preferences { message_alert_enabled:false,message_sound_enabled:false,permission_allowed:false } };
+                        let context = Context { push_id:row.id, user_id:Uuid::nil(), device_id:Uuid::nil(), sent_at_ms:Utc::now().timestamp_millis(), expires_at_ms:row.expires_at.timestamp_millis() };
+                        match provider.send(&target,&event,&context).await {
+                            Ok(Outcome::Accepted | Outcome::InvalidToken { .. } | Outcome::Permanent { .. } | Outcome::Expired) => true,
+                            Err(error) => !error.is_retryable(),
+                            _ => false,
+                        }
+                    } else { true }
+                } else { true }
+            };
+            if terminal || row.attempts>=10 {
+                let _ = sqlx::query("DELETE FROM session_check_wakes WHERE id=$1").bind(row.id).execute(db).await;
+            }
+        }
+        count
+    }
     fn build(provider: Option<Arc<dyn PushProvider>>) -> Self {
         let mut limits = [1; LANES];
         limits[LANE_APNS_ALERT] = DEFAULT_ALERT_CONCURRENCY;
@@ -376,7 +437,8 @@ impl PushService {
     /// once nothing is in flight and a poll of every lane finds nothing due.
     /// Returns how many rows were claimed.
     pub async fn process_due(&self, db: &PgPool) -> usize {
-        self.sweep(db).await.0
+        let (checks, ordinary) = tokio::join!(self.process_session_checks(db), self.sweep(db));
+        checks + ordinary.0
     }
 
     /// `process_due`, plus whether the sweep stopped at `ORDINARY_PER_SWEEP`
@@ -842,7 +904,8 @@ impl PushService {
                         _ = self.wake.notified() => {}
                     }
                 }
-                more_due = self.sweep(&db).await.1;
+                let (_, ordinary) = tokio::join!(self.process_session_checks(&db), self.sweep(&db));
+                more_due = ordinary.1;
             }
         })
     }
@@ -963,6 +1026,7 @@ pub async fn purge_finished(db: &PgPool) -> Result<u64, sqlx::Error> {
 pub fn spawn_cleanup(db: PgPool) {
     tokio::spawn(async move {
         loop {
+            let _ = sqlx::query("DELETE FROM session_check_wakes WHERE expires_at<=now() OR attempts>=10").execute(&db).await;
             match purge_finished(&db).await {
                 Ok(0) => {}
                 Ok(removed) => tracing::info!(removed, "purged finished push outbox rows"),

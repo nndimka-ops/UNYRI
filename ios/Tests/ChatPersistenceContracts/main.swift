@@ -14,11 +14,11 @@ func fail(_ description: String) {
     FileHandle.standardError.write(Data(line.utf8))
 }
 
-func check(_ condition: @autoclosure () -> Bool, _ description: String) {
+func check(_ condition: @autoclosure () -> Bool, _ description: String, file: StaticString = #file, line: UInt = #line) {
     if condition() {
         print("PASS: \(description)")
     } else {
-        fail(description)
+        fail("\(file):\(line): \(description)")
     }
 }
 
@@ -90,10 +90,42 @@ do {
     expect(chats.count, 3, "three cached chats")
     expect(chats.map { $0.chatId }, ["b", "a", "s"], "ordered by last_message_at DESC, nulls last")
     check(chats[0].otherUser?.displayName == "Bob", "peer display name preserved")
+    check(chats[0].otherUser?.username.isEmpty == true, "new SQLite writes discard a legacy-server peer login")
     check(chats[0].otherUser?.avatarVersion == 2, "peer avatar version preserved")
     check(chats[0].otherUser?.hasAvatar == true, "peer has_avatar preserved")
     expect(chats[0].otherMemberReadSequence, 4, "receipt watermark preserved")
     check(chats[2].otherUser == nil, "saved chat has no other_user")
+
+    var publicChat = directChat("public", name: "Public peer", lastMessageAt: nil)
+    publicChat.otherUser = PublicUser(id: "u-public", username: "", displayName: "Public peer", bio: nil,
+        avatarUrl: nil, profileVersion: 1, avatarVersion: 0, hasAvatar: false,
+        unyriNumber: "123456789", publicUsername: "public_peer")
+    let identityStore = try makeStore()
+    try identityStore.upsertChats([publicChat])
+    expect(try identityStore.loadChats().first?.otherUser, publicChat.otherUser, "cache preserves public identity with an empty compatibility username")
+
+    let migrationDirectory = FileManager.default.temporaryDirectory.appendingPathComponent("coco-chat-identity-migration-\(UUID().uuidString)")
+    try FileManager.default.createDirectory(at: migrationDirectory, withIntermediateDirectories: true)
+    let migrationURL = migrationDirectory.appendingPathComponent("chats.sqlite3")
+    var legacyDB: OpaquePointer?
+    guard sqlite3_open(migrationURL.path, &legacyDB) == SQLITE_OK else { throw ChatStore.StoreError.openFailed }
+    let legacySchema = "CREATE TABLE chat_participants (user_id TEXT PRIMARY KEY NOT NULL, username TEXT NOT NULL, display_name TEXT NOT NULL, avatar_url TEXT, bio TEXT, profile_version INTEGER NOT NULL DEFAULT 0, avatar_version INTEGER NOT NULL DEFAULT 0, has_avatar INTEGER NOT NULL DEFAULT 0);"
+    let created = sqlite3_exec(legacyDB, legacySchema + "INSERT INTO chat_participants(user_id,username,display_name) VALUES ('legacy-peer','private_fixture','Untouched name');", nil, nil, nil)
+    sqlite3_close(legacyDB)
+    guard created == SQLITE_OK else { throw ChatStore.StoreError.openFailed }
+    let migrated = try ChatStore(databaseURL: migrationURL)
+    guard sqlite3_open(migrationURL.path, &legacyDB) == SQLITE_OK else { throw ChatStore.StoreError.openFailed }
+    var migratedRow: OpaquePointer?
+    defer { sqlite3_finalize(migratedRow); sqlite3_close(legacyDB) }
+    guard sqlite3_prepare_v2(legacyDB, "SELECT username, display_name FROM chat_participants WHERE user_id='legacy-peer';", -1, &migratedRow, nil) == SQLITE_OK,
+          sqlite3_step(migratedRow) == SQLITE_ROW else { throw ChatStore.StoreError.stepFailed }
+    check(String(cString: sqlite3_column_text(migratedRow, 0)).isEmpty, "upgrade removes stored credential bytes before first chat hydration")
+    check(String(cString: sqlite3_column_text(migratedRow, 1)) == "Untouched name", "upgrade preserves peer display name")
+    let reopened = try ChatStore(databaseURL: migrationURL)
+    let reopenedRows = try reopened.loadChats()
+    check(reopenedRows.isEmpty, "privacy migration is safe on reopening")
+    try migrated.upsertChats([publicChat])
+    expect(try migrated.loadChats().first?.otherUser, publicChat.otherUser, "old SQLite participant schema migrates without losing public identity")
 
     // 3. Re-upsert merges (updates) rather than duplicating or deleting.
     try store.upsertChats([

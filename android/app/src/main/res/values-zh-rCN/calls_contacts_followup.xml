@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_relay_unavailable">此服务器没有 TURN 中继。与此人通话需要中继，以避免直接连接。</string>
+    <string name="direct_peer_relay_unavailable">对方仅允许通过服务器连接，但中继服务器不可用。</string>
+</resources>

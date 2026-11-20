@@ -19,7 +19,7 @@
     <string name="search_recent">Πρόσφατες αναζητήσεις</string>
     <string name="search_scope_messages">Μηνύματα</string>
     <string name="settings_search_label">Αναζήτηση</string>
-    <string name="unified_search_hint">Αναζητήστε αποθηκευμένες συνομιλίες και μηνύματα εκτός σύνδεσης. Βρείτε άτομα σε αυτόν τον διακομιστή με όνομα χρήστη.</string>
+    <string name="unified_search_hint">Αναζητήστε αποθηκευμένες συνομιλίες και μηνύματα εκτός σύνδεσης. Βρείτε άτομα σε αυτόν τον διακομιστή με αριθμό ή @όνομα.</string>
     <string name="unified_search_network">Η αναζήτηση στον διακομιστή δεν είναι διαθέσιμη. Τα τοπικά αποτελέσματα παραμένουν διαθέσιμα.</string>
     <string name="unified_search_local_error">Δεν ήταν δυνατή η φόρτωση αποθηκευμένων μηνυμάτων. Δοκιμάστε ξανά.</string>
 </resources>

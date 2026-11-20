@@ -36,13 +36,13 @@ struct UnyriChatPickerSheet: View {
 
     private func name(_ chat: ChatSummary) -> String {
         if chat.chatType == "saved" { return UnyriL10n.string("Saved Messages") }
-        return chat.otherUser?.visibleName ?? chat.otherUser?.username ?? UnyriL10n.string("Chat")
+        return chat.otherUser?.visibleName ?? UnyriL10n.string("Chat")
     }
     private var filtered: [ChatSummary] {
         let query = search.trimmingCharacters(in: .whitespacesAndNewlines)
         let ordered = chats.filter { $0.isBlocked != true }.sorted { ($0.chatType == "saved" ? 0 : 1) < ($1.chatType == "saved" ? 0 : 1) }
         guard !query.isEmpty else { return ordered }
-        return ordered.filter { name($0).localizedCaseInsensitiveContains(query) || ($0.otherUser?.username ?? "").localizedCaseInsensitiveContains(query) }
+        return ordered.filter { name($0).localizedCaseInsensitiveContains(query) || ($0.otherUser?.publicIdentityLabel ?? "").localizedCaseInsensitiveContains(query) }
     }
     private var selectedChats: [ChatSummary] { selected.compactMap { id in chats.first { $0.chatId == id && $0.isBlocked != true } } }
 
@@ -72,7 +72,7 @@ struct UnyriChatPickerSheet: View {
                 VStack(spacing: 12) {
                     if let header { header.padding(.horizontal, 14) }
                     if loading && chats.isEmpty { ProgressView().padding(.top, 30) }
-                    if let error { Text(error).font(.footnote).foregroundStyle(UnyriColors.danger).multilineTextAlignment(.center).padding(.horizontal, 20) }
+                    if let error { Text(verbatim: error).font(.footnote).foregroundStyle(UnyriColors.danger).multilineTextAlignment(.center).padding(.horizontal, 20) }
                     if !loading && filtered.isEmpty {
                         Text("No results.").foregroundStyle(UnyriColors.secondaryText).padding(.top, 24)
                     }

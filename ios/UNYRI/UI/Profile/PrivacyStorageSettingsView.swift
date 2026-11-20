@@ -39,7 +39,7 @@ struct UnyriPrivacySettingsView: View {
                 }
                 UnyriSettingsNote("When off, others do not see new read receipts. Your own unread count still updates. Previous receipts remain visible.")
             } else if privacy.busy { ProgressView().frame(maxWidth: .infinity) }
-            if let error = privacy.error { Text(error).font(.footnote).foregroundStyle(UnyriColors.danger) }
+            if let error = privacy.error { Text(verbatim: error).font(.footnote).foregroundStyle(UnyriColors.danger) }
             Button("Refresh") { Task { await privacy.refresh() } }.frame(minHeight: 44)
         }.disabled(privacy.busy).task { await privacy.refresh() }.refreshable { await privacy.refresh() }
     }
@@ -78,7 +78,7 @@ private struct UnyriPrivacyExceptionsView: View {
                 ForEach(results.filter { $0.id != auth.currentUser?.id }) { user in
                     Button { toggle(user.id); remember(user) } label: {
                         HStack {
-                            VStack(alignment: .leading) { Text(user.visibleName); Text(user.publicIdentityLabel).font(.caption).foregroundStyle(UnyriColors.secondaryText) }
+                            VStack(alignment: .leading) { Text(user.visibleName); Text(user.peerIdentityLabel(legacyServer: users.legacyIdentityServer)).font(.caption).foregroundStyle(UnyriColors.secondaryText) }
                             Spacer(); Image(systemName: selected.contains(user.id) ? "checkmark.circle.fill" : "circle")
                         }.padding(14).frame(minHeight: 52).contentShape(Rectangle())
                     }.disabled(privacy.busy || (!selected.contains(user.id) && selected.count >= 256))
@@ -95,7 +95,7 @@ private struct UnyriPrivacyExceptionsView: View {
                     }
                 }
             }
-            if let error = privacy.error { Text(error).font(.footnote).foregroundStyle(UnyriColors.danger) }
+            if let error = privacy.error { Text(verbatim: error).font(.footnote).foregroundStyle(UnyriColors.danger) }
         }.task(id: selected) { await resolveKnownNames() }
         .task(id: query) {
             guard !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { results = []; return }
@@ -163,7 +163,7 @@ struct UnyriAppLockSettingsView: View {
                 Button("Unlock settings") { Task { authorized = await lock.authenticate() } }.frame(minHeight: 44)
             }
             if working || lock.authenticating { ProgressView().frame(maxWidth: .infinity) }
-            if let error = lock.error { Text(error).font(.footnote).foregroundStyle(UnyriColors.danger) }
+            if let error = lock.error { Text(verbatim: error).font(.footnote).foregroundStyle(UnyriColors.danger) }
         }.disabled(working).task { if lock.enabled { authorized = await lock.authenticate() } }
     }
     private func configure(enabled: Bool, timeout: Int) {

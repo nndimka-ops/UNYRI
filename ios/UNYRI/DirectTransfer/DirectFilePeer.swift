@@ -3,7 +3,7 @@ import WebRTC
 
 @MainActor
 final class DirectFilePeer: NSObject {
-    enum Failure: Error { case closed, negotiation, nonDirectRoute, routeNotReady, protocolViolation, congested }
+    enum Failure: Error { case closed, negotiation, nonDirectRoute, relayUnavailable, routeNotReady, protocolViolation, congested }
     enum State { case connecting, connected, disconnected, failed, closed }
 
     var onCandidate: ((String, String?, Int) -> Void)?
@@ -19,6 +19,7 @@ final class DirectFilePeer: NSObject {
     private var channel: RTCDataChannel?
     private let initiator: Bool
     private let trickleICE: Bool
+    private let relayOnly: Bool
     private var fastConnectionDeadline: Task<Void, Never>?
     var timingID: String?
     var timingOutgoing = false
@@ -29,17 +30,26 @@ final class DirectFilePeer: NSObject {
     private var pathEpoch: UInt64 = 0
     nonisolated private let pipe = DirectFilePeerPipe()
 
-    init(stunURLs: [String], initiator: Bool, trickleICE: Bool = false) throws {
+    init(iceServers: [CallICEServer], relayOnly: Bool, initiator: Bool, trickleICE: Bool = false) throws {
         self.initiator = initiator; self.trickleICE = trickleICE
+        self.relayOnly = relayOnly
+        let ice: DirectFileIceConfiguration
+        do {
+            ice = try DirectFileIceConfiguration(servers: iceServers.map {
+                DirectFileIceConfiguration.Server(urls: $0.urls, username: $0.username, credential: $0.credential)
+            }, relayOnly: relayOnly)
+        } catch {
+            throw Failure.relayUnavailable
+        }
         factory = RTCPeerConnectionFactory(encoderFactory: RTCDefaultVideoEncoderFactory(),
             decoderFactory: RTCDefaultVideoDecoderFactory())
         super.init()
         pipe.configure(failure: { [weak self] error in Task { @MainActor in self?.failed(error) } })
         let configuration = RTCConfiguration()
-        // There is deliberately no TURN URL, credential or relay fallback.
-        let urls = DirectFilePeerPolicy.stunURLs(stunURLs)
-        configuration.iceServers = urls.isEmpty ? [] : [RTCIceServer(urlStrings: urls)]
-        configuration.iceTransportPolicy = .all
+        configuration.iceServers = ice.servers.map { server in
+            RTCIceServer(urlStrings: server.urls, username: server.username, credential: server.credential)
+        }
+        configuration.iceTransportPolicy = ice.relayOnly ? .relay : .all
         configuration.bundlePolicy = .maxBundle
         configuration.rtcpMuxPolicy = .require
         configuration.sdpSemantics = .unifiedPlan
@@ -100,7 +110,7 @@ final class DirectFilePeer: NSObject {
         if trickleICE {
             let initial = pc.localDescription?.sdp ?? description.sdp
             guard DirectFilePeerPolicy.dataOnlyDescription(initial) else { throw Failure.protocolViolation }
-            return initial
+            return DirectFilePeerPolicy.publishedDescription(initial, relayOnly: relayOnly)
         }
         // Full SDP is sent once through Signal instead of emitting one Signal
         // packet per candidate. An ICE restart creates a fresh owned peer.
@@ -109,7 +119,7 @@ final class DirectFilePeer: NSObject {
             guard connection === pc, !closed else { throw Failure.closed }
             if pc.iceGatheringState == .complete, let complete = pc.localDescription?.sdp {
                 guard DirectFilePeerPolicy.dataOnlyDescription(complete) else { throw Failure.protocolViolation }
-                return complete
+                return DirectFilePeerPolicy.publishedDescription(complete, relayOnly: relayOnly)
             }
             try await Task.sleep(nanoseconds: 25_000_000)
         }
@@ -123,7 +133,7 @@ final class DirectFilePeer: NSObject {
         guard let pc = connection, !closed else { throw Failure.closed }
         guard DirectFilePeerPolicy.dataOnlyDescription(sdp) else { throw Failure.protocolViolation }
         try await withCheckedThrowingContinuation { (result: CheckedContinuation<Void, Error>) in
-            pc.setRemoteDescription(RTCSessionDescription(type: offer ? .offer : .answer, sdp: sdp)) { error in
+            pc.setRemoteDescription(RTCSessionDescription(type: offer ? .offer : .answer, sdp: RemoteIcePolicy.filterSDP(sdp, relayOnly: relayOnly))) { error in
                 if let error { result.resume(throwing: error) } else { result.resume() }
             }
         }
@@ -133,7 +143,7 @@ final class DirectFilePeer: NSObject {
 
     func addCandidate(_ value: String, mid: String?, index: Int) async throws {
         guard let pc = connection, !closed else { throw Failure.closed }
-        guard DirectFilePeerPolicy.directCandidate(value), (0...16).contains(index),
+        guard RemoteIcePolicy.allows(value, relayOnly: relayOnly), DirectFilePeerPolicy.transportCandidate(value), (0...16).contains(index),
               mid == nil || (mid!.utf8.count <= 64 && !mid!.contains(where: { $0.isNewline })) else {
             throw Failure.nonDirectRoute
         }
@@ -146,10 +156,11 @@ final class DirectFilePeer: NSObject {
     }
 
     /// Not a getStats "succeeded pair" guess: the transport must identify the
-    /// actual selected pair and BOTH selected candidates must be non-relay.
+    /// actual selected pair. An IP-protected peer must use a local TURN relay.
     func verifyDirectPath() async throws {
         guard let pc = connection, !closed else { throw Failure.closed }
         let epoch = pathEpoch
+        let relayOnly = self.relayOnly
         let timingID = self.timingID, timingOutgoing = self.timingOutgoing
         let direct = await withCheckedContinuation { (result: CheckedContinuation<Int, Never>) in
             pc.statistics { report in
@@ -169,8 +180,7 @@ final class DirectFilePeer: NSObject {
                           let local = statistics[localID], let remote = statistics[remoteID],
                           let localType = local.values["candidateType"] as? String,
                           let remoteType = remote.values["candidateType"] as? String else { return false }
-                    return ["host", "srflx", "prflx"].contains(localType) &&
-                        ["host", "srflx", "prflx"].contains(remoteType)
+                    return DirectFilePeerPolicy.selectedRouteAllowed(local: localType, remote: remoteType, relayOnly: relayOnly)
                 }
                 result.resume(returning: selected.isEmpty ? 0 : valid ? 1 : -1)
             }
@@ -268,8 +278,8 @@ extension DirectFilePeer: RTCPeerConnectionDelegate {
     nonisolated func peerConnection(_ peerConnection: RTCPeerConnection, didGenerate candidate: RTCIceCandidate) {
         Task { @MainActor in
             guard self.connection === peerConnection, !self.closed else { return }
-            guard DirectFilePeerPolicy.directCandidate(candidate.sdp) else { self.failed(); return }
-            self.onCandidate?(candidate.sdp, candidate.sdpMid, Int(candidate.sdpMLineIndex))
+            guard let safe = DirectFilePeerPolicy.publishedCandidate(candidate.sdp, relayOnly: self.relayOnly) else { return }
+            self.onCandidate?(safe, candidate.sdpMid, Int(candidate.sdpMLineIndex))
         }
     }
     nonisolated func peerConnection(_ peerConnection: RTCPeerConnection, didRemove candidates: [RTCIceCandidate]) {}
@@ -288,7 +298,8 @@ extension DirectFilePeer: RTCPeerConnectionDelegate {
             guard self.connection === peerConnection, !self.closed else { return }
             self.pathEpoch &+= 1; self.directPathVerified = false; self.pipe.verifyRoute(false)
             self.onDiagnostic?("selected_pair_change epoch=\(self.pathEpoch)")
-            guard DirectFilePeerPolicy.directCandidate(local.sdp), DirectFilePeerPolicy.directCandidate(remote.sdp) else {
+            guard DirectFilePeerPolicy.transportCandidate(local.sdp, relayOnly: self.relayOnly),
+                  DirectFilePeerPolicy.transportCandidate(remote.sdp) else {
                 self.failed(); return
             }
             if self.isOpen { await self.channelOpened() }

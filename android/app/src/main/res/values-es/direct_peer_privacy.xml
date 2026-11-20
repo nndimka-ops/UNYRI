@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_relay_unavailable">Tu ajuste de privacidad requiere un relé para esta persona, pero este servidor no tiene uno configurado. La transferencia del archivo no puede conectarse.</string>
+</resources>

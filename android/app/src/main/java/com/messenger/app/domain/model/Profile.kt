@@ -34,7 +34,7 @@ data class PublicUser(
     val publicNumber: String? = null,
     val publicUsername: String? = null,
 ) {
-    val visibleName: String get() = DisplayNameSanitizer.peer(displayName, username)
+    val visibleName: String get() = DisplayNameSanitizer.display(displayName, com.messenger.app.data.identity.PeerIdentityPolicy.handle(publicUsername, publicNumber).ifEmpty { com.messenger.app.domain.model.DisplayNameSanitizer.unknownUser })
 }
 
 data class SearchResult(val items: List<PublicUser>, val nextOffset: Long?, val cached: Boolean = false)

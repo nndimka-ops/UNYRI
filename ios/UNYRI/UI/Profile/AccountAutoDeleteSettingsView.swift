@@ -89,7 +89,7 @@ struct UnyriAccountAutoDeleteSettingsView: View {
             }
             if policy.busy { ProgressView().frame(maxWidth: .infinity) }
             if saved && !changed { Text("Account auto-delete saved.").font(.footnote).foregroundStyle(UnyriColors.success) }
-            if let error = policy.error { Text(error).font(.footnote).foregroundStyle(UnyriColors.danger) }
+            if let error = policy.error { Text(verbatim: error).font(.footnote).foregroundStyle(UnyriColors.danger) }
             Button("Refresh") { Task { await reload() } }.frame(minHeight: 44).disabled(policy.busy)
         }
         .task(id: phase) { if phase == .active { await reload() } }

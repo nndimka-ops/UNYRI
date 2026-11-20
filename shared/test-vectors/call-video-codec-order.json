@@ -1,0 +1,14 @@
+{
+  "description": "B-047: the video codec order both apps set on their video transceiver before every offer and answer. Each case lists receiver capabilities as [name, profile-level-id or null] and the expected positions into that list: H.264 Constrained High (640c...), H.264 Constrained Baseline (42e0...), any other H.264, VP8, then everything else in the order WebRTC gave.",
+  "cases": [
+    {"name": "android default factory lists software codecs first", "codecs": [["VP8", null], ["VP9", null], ["AV1", null], ["H264", "640c1f"], ["H264", "42e01f"], ["rtx", null], ["red", null], ["ulpfec", null]], "expected": [3, 4, 0, 1, 2, 5, 6, 7]},
+    {"name": "ios default factory is already in order", "codecs": [["H264", "640c1f"], ["H264", "42e01f"], ["VP8", null], ["VP9", null], ["AV1", null], ["rtx", null], ["red", null], ["ulpfec", null]], "expected": [0, 1, 2, 3, 4, 5, 6, 7]},
+    {"name": "constrained high before constrained baseline", "codecs": [["H264", "42e01f"], ["VP8", null], ["H264", "640c34"]], "expected": [2, 0, 1]},
+    {"name": "other H.264 profiles after the constrained ones", "codecs": [["VP8", null], ["H264", "4d001f"], ["H264", "42e01f"]], "expected": [2, 1, 0]},
+    {"name": "H.264 without a profile after the known ones", "codecs": [["H264", null], ["H264", "640c1f"]], "expected": [1, 0]},
+    {"name": "both packetization modes keep their order", "codecs": [["VP8", null], ["H264", "42e01f"], ["H264", "42e01f"]], "expected": [1, 2, 0]},
+    {"name": "no H.264: VP8 first, the rest unchanged", "codecs": [["VP9", null], ["VP8", null], ["rtx", null]], "expected": [1, 0, 2]},
+    {"name": "names and profiles compare case-insensitively", "codecs": [["vp8", null], ["h264", "640C1F"]], "expected": [1, 0]},
+    {"name": "nothing to order", "codecs": [], "expected": []}
+  ]
+}

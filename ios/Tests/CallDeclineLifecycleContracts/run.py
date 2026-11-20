@@ -88,6 +88,7 @@ import Foundation
     var resolveCallerName: (String) async -> String? = { _ in nil }
     var recoveryStarts = 0, recoveryStops = 0
     var externalMediaBusy: () -> Bool = { false }
+    var incomingPeerAllowed: (String) -> Bool = { _ in true }
     var incomingCallAllowed: (String) -> Bool = { _ in true }
     func interruptExternalCapture() {}
     func startIncomingRecovery(_ id: String) { recoveryStarts += 1 }

@@ -16,8 +16,9 @@ import java.util.concurrent.TimeUnit
 
 /** Separate encrypted journal survives account cleanup. WorkManager holds IDs only. */
 internal class PendingLogoutJournal(context: Context, name: String = "pending-logouts") {
-    private val prefs = EncryptedSharedPreferences.create(context, name,
-        MasterKey.Builder(context).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build(),
+    private val storage = AccountWorkspaceContext.installationContext(context)
+    private val prefs = EncryptedSharedPreferences.create(storage, name,
+        MasterKey.Builder(storage).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build(),
         EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM)
     fun save(origin: String, token: String): String {
@@ -29,14 +30,29 @@ internal class PendingLogoutJournal(context: Context, name: String = "pending-lo
     fun ids(): Set<String> = prefs.all.keys
     fun read(id: String): String? = prefs.getString(id, null)
     fun remove(id: String) { check(prefs.edit().remove(id).commit()) }
+    fun import(id: String, raw: String) { check(prefs.edit().putString(id, raw).commit()) }
 }
 
 object PendingLogout {
-    suspend fun save(context: Context, token: String) = withContext(Dispatchers.IO) {
-        val id = PendingLogoutJournal(context).save(ServerEndpoint.current(), token)
+    suspend fun save(context: Context, token: String) = save(context, ServerEndpoint.current(), token)
+    suspend fun save(context: Context, origin: String, token: String) = withContext(Dispatchers.IO) {
+        val id = PendingLogoutJournal(context).save(origin, token)
         schedule(context, id)
     }
-    fun scheduleSaved(context: Context) { PendingLogoutJournal(context).ids().forEach { schedule(context, it) } }
+    fun scheduleSaved(context: Context) { migrateLegacy(context); PendingLogoutJournal(context).ids().forEach { schedule(context, it) } }
+    @Synchronized internal fun migrateLegacy(context: Context) {
+        if (AccountWorkspaceContext.keyOf(context) == AccountWorkspaceLayout.LEGACY) return
+        val raw = context.getSharedPreferences("pending-logouts", Context.MODE_PRIVATE)
+        if (raw.all.isEmpty()) return
+        val old = EncryptedSharedPreferences.create(context, "pending-logouts",
+            MasterKey.Builder(context).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build(),
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM)
+        val journal = PendingLogoutJournal(context)
+        old.all.forEach { (id, value) -> if (value is String) { journal.import(id, value); schedule(context, id) } }
+        check(raw.edit().clear().commit())
+        context.deleteSharedPreferences("pending-logouts")
+    }
     private fun schedule(context: Context, id: String) {
         val work = OneTimeWorkRequestBuilder<PendingLogoutWorker>()
             .setInputData(workDataOf("id" to id))

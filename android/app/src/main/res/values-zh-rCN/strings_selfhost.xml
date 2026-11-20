@@ -22,7 +22,7 @@
     <string name="sh_uses">使用次数</string>
     <string name="sh_days">有效天数</string>
     <string name="sh_invite_bounds">使用1–10000次；有效1–365天。</string>
-    <string name="sh_create_invite">创建邀请</string>
+    <string name="sh_create_invite">创建代码</string>
     <string name="sh_active">有效</string>
     <string name="sh_revoked">已撤销</string>
     <string name="sh_expired">已过期</string>
@@ -30,15 +30,15 @@
     <string name="sh_unknown">未知</string>
     <string name="sh_expiry">到期时间</string>
     <string name="sh_creator">创建者</string>
-    <string name="sh_revoke">撤销邀请</string>
+    <string name="sh_revoke">撤销</string>
     <string name="sh_revoke_confirm">撤销此邀请吗？撤销后将无法用于新注册。</string>
     <string name="sh_more">更多邀请</string>
     <string name="sh_self_check">检查服务器</string>
     <string name="sh_code_once">请立即保存或分享。代码仅显示一次。</string>
-    <string name="sh_copy_code">复制代码</string>
+    <string name="sh_copy_code">复制</string>
     <string name="sh_share_code">分享代码</string>
     <string name="sh_copy_link">复制链接</string>
-    <string name="sh_share_link">分享链接</string>
+    <string name="sh_share_link">分享</string>
     <string name="sh_yes">是</string>
     <string name="sh_no">否</string>
     <string name="sh_ready">就绪</string>
@@ -54,7 +54,7 @@
     <string name="sh_fix_storage">请在安装程序中检查文件存储和上传权限。</string>
     <string name="sh_fix_disk">请保留至少1 GB空间，清理前先备份。</string>
     <string name="sh_fix_version">使用兼容的服务器版本，并等待安装程序完成更新。</string>
-    <string name="sh_guide">1. 在持续开机的电脑上安装 Docker 和 UNYRI。2. 选择域名或 DDNS。3. 固定电脑地址并转发 HTTPS 和通话端口；使用 CGNAT 时请选择 VPS 或隧道。4. 确认 HTTPS 地址或扫描邀请二维码。5. 登录后在个人资料中用安装代码成为所有者，然后保护管理员访问。6. 管理 → 自有服务器 → 检查服务器。请通过移动数据测试外部连通性，更新前先备份。推送通知需要配置提供商。</string>
+    <string name="sh_guide">1. 在持续开机的电脑上安装 Docker 和 UNYRI。2. 选择域名或 DDNS。3. 固定电脑地址并转发 HTTPS 和通话端口；使用 CGNAT 时请选择 VPS 或隧道。4. 确认 HTTPS 地址或扫描邀请二维码。5. 登录后在个人资料中用安装代码成为所有者，然后保护管理员访问。6. 管理 → 注册和邀请 → 检查服务器。请通过移动数据测试外部连通性，更新前先备份。推送通知需要配置提供商。</string>
     <string name="sh_check_setup">可获取所有权</string>
     <string name="sh_check_url">公共地址</string>
     <string name="sh_check_url_config">公共地址已配置</string>
@@ -88,4 +88,7 @@
     <string name="sh_compatibility">应用版本兼容</string>
     <string name="sh_socket">当前 WebSocket 已连接</string>
     <string name="sh_scan_owner_code">扫描所有者代码</string>
+    <string name="sh_registration_invites">注册和邀请</string>
+    <string name="sh_mode_owner_only">只有所有者可以更改注册方式。</string>
+    <string name="sh_saved_codes_hint">代码仅在创建后显示。离开此页面前，请保存或分享新代码。</string>
 </resources>

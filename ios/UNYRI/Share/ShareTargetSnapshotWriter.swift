@@ -156,7 +156,7 @@ final class ShareTargetSnapshotWriter {
         } catch { /* Event-driven retry on the next real change/unlock/launch. */ }
     }
     nonisolated private static func thumbnail(_ url: URL) -> Data? {
-        guard url.isFileURL, let source = CGImageSourceCreateWithURL(url as CFURL, [kCGImageSourceShouldCache: false] as CFDictionary),
+        guard url.isFileURL, let source = PeerImagePolicy.source(url: url),
               let pixels = CGImageSourceCreateThumbnailAtIndex(source, 0, [kCGImageSourceCreateThumbnailFromImageAlways: true,
                 kCGImageSourceCreateThumbnailWithTransform: true, kCGImageSourceThumbnailMaxPixelSize: 120] as CFDictionary) else { return nil }
         let bytes = NSMutableData()

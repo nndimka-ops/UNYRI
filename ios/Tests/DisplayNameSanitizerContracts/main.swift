@@ -38,7 +38,7 @@ let extraIgnored: [UInt32] = [0xFFF0, 0xFFF8, 0xE01F0, 0xE0FFF]
 for cp in extraIgnored {
     check(display("A"+String(Unicode.Scalar(cp)!)+"B") == "AB", "full DICP range")
 }
-check(DisplayNameSanitizer.peer("\u{FFF0}", username: "alice") == "@alice", "handle fallback")
+check(DisplayNameSanitizer.peer("\u{FFF0}", username: "private_login") == "Unknown user", "peer fallback never renders a login")
 check(DisplayNameSanitizer.peer("\u{FFF0}") == "Unknown user", "neutral fallback")
 let huge = String(repeating: "z", count: 1024 * 1024)
 let started = Date()

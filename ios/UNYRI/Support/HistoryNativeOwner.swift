@@ -177,9 +177,11 @@ actor HistoryNativeOwner: HistoryBackupLocal {
         guard let digest = Data(base64Encoded: a.encryption.sha256), digest.count == 32,
               digest.map({ String(format: "%02x", $0) }).joined() == entry.sha256,
               a.encryptedSize == entry.bytes else { throw AttachmentIntegrityError() }
+        let boundary = AttachmentCacheBoundary(root: clearRoot)
+        _ = try boundary.file(name: "containment-check")
         try FileManager.default.createDirectory(at: clearRoot, withIntermediateDirectories: true)
         let extensionByMime = ["image/jpeg":"jpg", "image/png":"png", "image/webp":"webp", "video/mp4":"mp4", "audio/mp4":"m4a", "audio/ogg":"ogg", "application/pdf":"pdf"]
-        let output = clearRoot.appendingPathComponent("history-\(entry.blob)-\(UUID().uuidString)." + (extensionByMime[a.mimeType] ?? "bin"))
+        let output = try boundary.file(name: "history-\(UUID().uuidString)." + (extensionByMime[a.mimeType] ?? "bin"))
         do {
             if a.encryption.version == 1 {
                 guard let k = a.encryption.key.flatMap({ Data(base64Encoded: $0) }), k.count == 32,
@@ -267,7 +269,8 @@ actor HistoryNativeOwner: HistoryBackupLocal {
                   let millis = Int64(exactly: (date.timeIntervalSince1970 * 1000).rounded(.towardZero)) else { throw HistoryArchive.Failure.invalidArchive }
             descriptors[chat.chatId] = HistoryArchiveChat(id: chat.chatId, type: chat.chatType,
                 createdAtMs: millis, peer: chat.otherUser.map {
-                    HistoryArchivePeer(id: $0.id, username: $0.username, displayName: $0.displayName)
+                    HistoryArchivePeer(id: $0.id, username: "", displayName: $0.displayName,
+                        unyriNumber: $0.unyriNumber, publicUsername: $0.publicUsername)
                 })
         }
         result.chats = descriptors.values.filter { required.contains($0.id) }.sorted { $0.id < $1.id }
@@ -324,7 +327,8 @@ actor HistoryNativeOwner: HistoryBackupLocal {
                   let millis = Int64(exactly: (date.timeIntervalSince1970 * 1000).rounded(.towardZero)) else { throw HistoryArchive.Failure.invalidArchive }
                     return HistoryArchiveChat(id: chat.chatId, type: chat.chatType,
                         createdAtMs: millis, peer: chat.otherUser.map {
-                            HistoryArchivePeer(id: $0.id, username: $0.username, displayName: $0.displayName)
+                            HistoryArchivePeer(id: $0.id, username: "", displayName: $0.displayName,
+                                unyriNumber: $0.unyriNumber, publicUsername: $0.publicUsername)
                         })
                 }
             return try input.restoringLegacyTextHistory(chats: known)
@@ -389,9 +393,12 @@ actor HistoryNativeOwner: HistoryBackupLocal {
         let chats = try ChatStore(databaseURL: directory.appendingPathComponent("chats.sqlite3"))
         try HistoryAttachmentRestorer.resume(messages: store, attachments: attachments, applyDeletedChat: chats.deleteChat,
             removeCachedFile: { path in
-                let file = URL(fileURLWithPath: path).standardizedFileURL.resolvingSymlinksInPath()
-                guard file.path.hasPrefix(self.clearRoot.standardizedFileURL.path + "/") else { return }
+                guard let file = try? AttachmentCacheBoundary(root: self.clearRoot).checked(URL(fileURLWithPath: path)) else { return }
                 if FileManager.default.fileExists(atPath: file.path) { try FileManager.default.removeItem(at: file) }
+            }, removeTranscript: { id in
+                #if os(iOS)
+                try VoiceTranscriber.erasePersisted([id], owner: self.server + "|" + self.owner)
+                #endif
             }, assertCurrent: lease.check)
         let known = Set(try chats.loadChats().map(\.chatId))
         for descriptor in archive.chats ?? [] where !known.contains(descriptor.id) && !archive.deletedChats.contains(descriptor.id) {
@@ -402,7 +409,8 @@ actor HistoryNativeOwner: HistoryBackupLocal {
             let hasCall = (admitted.calls ?? []).contains { $0.chat == descriptor.id && $0.chatVisible }
             guard try !store.messages(forChatId: descriptor.id).isEmpty || hasCall else { continue }
             let peer = descriptor.peer.map { PublicUser(id: $0.id, username: $0.username, displayName: $0.displayName,
-                bio: nil, avatarUrl: nil, profileVersion: 0, avatarVersion: 0, hasAvatar: false) }
+                bio: nil, avatarUrl: nil, profileVersion: 0, avatarVersion: 0, hasAvatar: false,
+                unyriNumber: $0.unyriNumber, publicUsername: $0.publicUsername) }
             let date = ISO8601DateFormatter().string(from: Date(timeIntervalSince1970: Double(descriptor.createdAtMs) / 1000))
             let summary = ChatSummary(chatId: descriptor.id, chatType: descriptor.type, otherUser: peer,
                 createdAt: date, lastMessageAt: nil, otherMemberDeliveredSequence: 0, otherMemberReadSequence: 0, lastPreview: nil)

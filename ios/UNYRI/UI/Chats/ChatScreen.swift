@@ -170,10 +170,11 @@ private struct AudioEnvelopeView: View {
     let unplayed: Color
     /// Envelope from the message itself (sender-computed); drawn at once and never decoded.
     var embedded: [Double]? = nil
+    var decodeOnPlay = false
     @State private var samples: [Double]
     @Environment(\.unyriMessagePreview) private var isMenuPreview
-    init(path: String?, fraction: Double, played: Color, unplayed: Color, embedded: [Double]? = nil) {
-        self.path = path; self.fraction = fraction; self.played = played; self.unplayed = unplayed; self.embedded = embedded
+    init(path: String?, fraction: Double, played: Color, unplayed: Color, embedded: [Double]? = nil, decodeOnPlay: Bool = false) {
+        self.path = path; self.fraction = fraction; self.played = played; self.unplayed = unplayed; self.embedded = embedded; self.decodeOnPlay = decodeOnPlay
         _samples = State(initialValue: embedded ?? path.flatMap { VoiceWaveformMemory.shared.get($0) } ?? [])
     }
     var body: some View {
@@ -187,9 +188,10 @@ private struct AudioEnvelopeView: View {
                 var line = Path(); line.move(to: CGPoint(x: x, y: (size.height - height) / 2)); line.addLine(to: CGPoint(x: x, y: (size.height + height) / 2))
                 context.stroke(line, with: .color(Double(i) < fraction * Double(count) ? played : unplayed), style: StrokeStyle(lineWidth: 2.4, lineCap: .round))
             }
-        }.task(id: path) {
+        }.task(id: "\(path ?? "")|\(decodeOnPlay)") {
             if let embedded, !embedded.isEmpty { if samples != embedded { samples = embedded }; return }
             guard let path else { samples = []; return }
+            guard decodeOnPlay else { samples = []; return }
             if let ready = VoiceWaveformMemory.shared.get(path) { if samples != ready { samples = ready }; return }
             let result: [Double]
             if isMenuPreview { result = await VoiceWaveformCache.shared.cached(path: path) }
@@ -762,7 +764,7 @@ private struct FileAttachmentPreview: View {
                 Button { UnyriHaptics.press(); previewURL = draft.url } label: { Label("Preview", systemImage: "eye").font(.subheadline.weight(.semibold)).foregroundStyle(appColorStyle.decorative(ChatControlPalette.blue)).frame(maxWidth: .infinity, minHeight: 44).background(appColorStyle.surface(ChatControlPalette.blueBack), in: Capsule()) }.buttonStyle(.plain).disabled(sending).opacity(sending ? 0.45 : 1)
                     .quickLookPreview($previewURL)
         .background(UnyriMediaRotation(active: previewURL != nil))
-                if let error { Text(error).font(.footnote).foregroundColor(UnyriColors.danger).multilineTextAlignment(.center) }
+                if let error { Text(verbatim: error).font(.footnote).foregroundColor(UnyriColors.danger).multilineTextAlignment(.center) }
                 if sending { ProgressView("Sending…") }
             }.padding(24)
             }
@@ -2385,7 +2387,7 @@ struct ChatScreen: View {
                             Image(systemName: everyone ? "checkmark.circle.fill" : "circle")
                                 .font(.system(size: 22)).foregroundStyle(everyone ? Color(hex: 0xFF453A) : UnyriColors.secondaryText)
                             Text(String(format: UnyriL10n.string("Also delete for %@"),
-                                        chat.otherUser?.visibleName ?? chat.otherUser?.username ?? UnyriL10n.string("the other participant")))
+                                        chat.otherUser?.visibleName ?? UnyriL10n.string("the other participant")))
                                 .font(.system(size: 15)).foregroundStyle(UnyriColors.primaryText)
                                 .multilineTextAlignment(.leading).fixedSize(horizontal: false, vertical: true)
                             Spacer(minLength: 0)
@@ -2606,7 +2608,7 @@ struct ChatScreen: View {
                         VStack(alignment: .leading, spacing: 14) {
                 DatePicker("Date and time", selection: $reminderDate, in: Date()...)
                     .accessibilityIdentifier("reminder-date")
-                if let reminderError { Text(reminderError).font(.footnote) }
+                if let reminderError { Text(verbatim: reminderError).font(.footnote) }
                 Button("Save reminder") { Task { await scheduleReminder(item) } }
                     .buttonStyle(UnyriSettingsMenuActionStyle()).accessibilityIdentifier("reminder-save")
                 Button("Cancel") { reminderFor = nil }
@@ -2815,7 +2817,7 @@ struct ChatScreen: View {
                 }
                 if let error = messagesRepository.errorMessage, !messagesRepository.errorIsConnectivity {
                     HStack(spacing: 8) {
-                        Text(error)
+                        Text(verbatim: error)
                             .font(.footnote)
                             .foregroundColor(UnyriColors.secondaryText)
                             .lineLimit(2)
@@ -2994,7 +2996,8 @@ struct ChatScreen: View {
                 else { callKit.startOutgoing(remoteUserId: other.id, displayName: other.visibleName, isVideo: false) }
             } },
             onMenu: { composerModel.blur(); withAnimation(.easeOut(duration: 0.16)) { headerMenuOpen = true } },
-            onProfile: chat.otherUser == nil ? nil : { composerModel.blur(); showPeerProfile = true })
+            onProfile: chat.otherUser == nil ? nil : { composerModel.blur(); showPeerProfile = true },
+            legacyIdentityServer: usersRepository.legacyIdentityServer)
     }
     /// Closes the profile sheet first; another sheet can only present after it is gone.
     private func fromProfile(_ action: @escaping () -> Void) {
@@ -3048,7 +3051,7 @@ struct ChatScreen: View {
                             fromProfile { chatSafetyAction = "notifications"; showChatSafety = true }
                         }
                     }
-                    if let peer, chat.chatType == "direct", !peer.username.isEmpty {
+                    if let peer, chat.chatType == "direct" {
                         UnyriContactToggleRow(store: usersRepository.contacts, user: peer)
                     }
                     VStack(spacing: 0) {
@@ -3189,6 +3192,7 @@ struct ChatScreen: View {
                     VStack(spacing: 0) {
                         headerMenuRow("Search messages", symbol: "magnifyingglass") { startInChatSearch() }
                         headerMenuRow("Media", symbol: "photo.on.rectangle") { showMediaGallery = true }
+                            .accessibilityIdentifier("chat-menu-media")
                         headerMenuRow("Pinned messages", symbol: "pin") { onlyPinned = true; showMessageTools = true }
                         headerMenuRow("Reminders", symbol: "bookmark") { showReminders = true }
                         if let other = chat.otherUser, currentPreferenceChat.isBlocked != true {
@@ -3312,7 +3316,7 @@ struct ChatScreen: View {
         TimelineRowPassContext(ownerID: auth.currentUser?.id, generation: auth.sessionGeneration, chatID: chat.chatId,
             cutoff: auth.historyBeforeSequence ?? 0, showsFailures: showDecryptionFailures,
             selection: selectedMessages, highlighted: highlightedMessage, pinned: pinnedMessages,
-            replyPeerName: chat.otherUser?.visibleName ?? chat.otherUser?.username ?? UnyriL10n.string("Reply"),
+            replyPeerName: chat.otherUser?.visibleName ?? UnyriL10n.string("Reply"),
             quickReaction: UnyriQuickReactionPolicy.normalize(quickReaction))
     }
 
@@ -3567,7 +3571,7 @@ struct ChatScreen: View {
                             isPinned: pinnedMessages.contains(message.clientMessageId),
                             isMine: message.senderId == auth.currentUser?.id,
                             currentUserId: auth.currentUser?.id,
-                            replyPeerName: chat.otherUser?.visibleName ?? chat.otherUser?.username ?? UnyriL10n.string("Reply"),
+                            replyPeerName: chat.otherUser?.visibleName ?? UnyriL10n.string("Reply"),
                             reactions: messagesRepository.reactions(forMessageServerId: message.serverId),
                             onRetry: {
                                 guard actionIsCurrent() else { return }
@@ -3945,7 +3949,7 @@ struct ChatScreen: View {
                 let url = messagesRepository.cachedLocalPath(attachmentId: a.attachmentId).map { URL(fileURLWithPath: $0) }
                 var item = UnyriMediaItem(id: a.attachmentId, url: url, mime: a.mimeType, name: a.filename, thumbnailBase64: a.thumbnail)
                 item.sender = message.senderId == auth.currentUser?.id ? UnyriL10n.string("You")
-                    : (chat.otherUser?.visibleName ?? chat.otherUser?.username)
+                    : chat.otherUser?.visibleName
                 item.date = message.createdAt
                 return item
             }
@@ -4576,7 +4580,7 @@ struct ChatScreen: View {
                     VStack(spacing: 0) {
                         if let target = editingMessage ?? replyTarget {
                             UnyriReplyComposerPreview(message: target,
-                                author: target.senderId == auth.currentUser?.id ? UnyriL10n.string("You") : (chat.otherUser?.visibleName ?? chat.otherUser?.username ?? UnyriL10n.string("Reply")),
+                                author: target.senderId == auth.currentUser?.id ? UnyriL10n.string("You") : (chat.otherUser?.visibleName ?? UnyriL10n.string("Reply")),
                                 editing: editingMessage != nil,
                                 localPath: target.content.attachment.flatMap { messagesRepository.cachedLocalPath(attachmentId: $0.attachmentId) },
                                 onOpen: { jumpRequest = target.clientMessageId }) {
@@ -6083,7 +6087,7 @@ struct ChatScreen: View {
         if let error = messagesRepository.mediaPreparationErrors[chat.chatId] {
             HStack(spacing: 10) {
                 Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(Color(hex: 0xE5AC5E)).accessibilityHidden(true)
-                Text(error).font(.footnote).foregroundStyle(UnyriColors.primaryText).lineLimit(3)
+                Text(verbatim: error).font(.footnote).foregroundStyle(UnyriColors.primaryText).lineLimit(3)
                 Spacer(minLength: 4)
                 Button { messagesRepository.acknowledgeMediaPreparationError(chatId: chat.chatId) } label: {
                     Image(systemName: "xmark").font(.system(size: 12, weight: .semibold)).frame(width: 30, height: 30)
@@ -6415,6 +6419,9 @@ struct ChatScreen: View {
     /// Tells the landing effect which chip to expect; the tick above stays the only haptic.
     private func noteReactionIntent(_ message: DecryptedChatMessage, _ emoji: String) {
         guard let serverId = message.serverId else { return }
+        if let owner = auth.currentUser?.id {
+            UnyriReactionStore(account: AppConfig.storageOrigin + "|" + owner.lowercased()).recordSend(emoji)
+        }
         UnyriReactionBursts.shared.expectAdd(chatId: message.chatId, serverId: serverId, emoji: emoji, messageID: message.clientMessageId)
     }
 
@@ -6567,26 +6574,33 @@ private struct ChatMediaGallery: View {
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 3), spacing: 8) {
                 ForEach(visibleRecords, id: \.attachmentId) { record in
                     Button { open(record) } label: {
-                        ZStack {
-                            MediaGalleryThumbnail(record: record, repository: messagesRepository)
-                            if downloading.contains(record.attachmentId) {
-                                ProgressView().tint(.white)
-                            } else if messagesRepository.cachedLocalPath(attachmentId: record.attachmentId) == nil {
-                                Image(systemName: "arrow.down.circle.fill")
-                                    .font(.title2).foregroundColor(.white)
-                                    .shadow(radius: 3)
+                        // B-044: the square comes from the column width alone. The thumbnail and the
+                        // download state are overlays, so a wide or tall picture can never resize its
+                        // cell, cover a neighbour or run past the screen edge.
+                        Color.clear
+                            .aspectRatio(1, contentMode: .fit)
+                            .overlay { MediaGalleryThumbnail(record: record, repository: messagesRepository) }
+                            .overlay {
+                                if downloading.contains(record.attachmentId) {
+                                    ProgressView().tint(.white)
+                                } else if messagesRepository.cachedLocalPath(attachmentId: record.attachmentId) == nil {
+                                    Image(systemName: "arrow.down.circle.fill")
+                                        .font(.title2).foregroundColor(.white)
+                                        .shadow(radius: 3)
+                                }
                             }
-                        }
-                        .aspectRatio(1, contentMode: .fit)
-                        .clipShape(RoundedRectangle(cornerRadius: UnyriShapes.radiusMedium))
+                            .clipShape(RoundedRectangle(cornerRadius: UnyriShapes.radiusMedium))
+                            .contentShape(RoundedRectangle(cornerRadius: UnyriShapes.radiusMedium))
                     }
                     .buttonStyle(.plain)
                     .accessibilityLabel(record.filename ?? UnyriL10n.string("Media"))
+                    .accessibilityIdentifier("chat-media-tile")
                     .disabled(downloading.contains(record.attachmentId))
                 }
             }
             .padding(.horizontal, 16)
         }
+        .accessibilityIdentifier("chat-media-grid")
     }
 
     private var attachmentList: some View {
@@ -6662,8 +6676,14 @@ private struct MediaGalleryThumbnail: View {
             url: repository.cachedLocalPath(attachmentId: record.attachmentId).map { URL(fileURLWithPath: $0) },
             mime: record.mimeType, thumbnail: record.thumbnailBase64, pixelEdge: 384), repository: repository) { image in
             ZStack(alignment: .bottomTrailing) {
-                if let image { Image(uiImage: image).resizable().scaledToFill() }
-                else { Color(.systemGray5).overlay(Image(systemName: record.mimeType.hasPrefix("video/") ? "video" : "photo").foregroundColor(.secondary)) }
+                // The base takes exactly the proposed square; the picture fills it as an overlay and is
+                // clipped there, so the duration label stays on the visible corner (B-044).
+                Color(.systemGray5)
+                    .overlay {
+                        if let image { Image(uiImage: image).resizable().scaledToFill() }
+                        else { Image(systemName: record.mimeType.hasPrefix("video/") ? "video" : "photo").foregroundColor(.secondary) }
+                    }
+                    .clipped()
                 if record.mimeType.hasPrefix("video/") {
                     Label(FilePresentation.duration(record.durationMs), systemImage: "play.fill")
                         .font(.caption).foregroundStyle(.white).padding(5).background(.black.opacity(0.6))
@@ -6804,9 +6824,9 @@ enum ConversationImages {
             PerformanceRecorder.shared.record(.previewCache, ["cache_hit": 0, "operation": diagnosticOperation, "gap_ms": max(0, ProcessInfo.processInfo.systemUptime - requestedAt) * 1000])
             guard !Task.isCancelled else { return nil }
             var source: CGImageSource?
-            if let path { source = CGImageSourceCreateWithURL(URL(fileURLWithPath: path) as CFURL, nil) }
+            if let path { source = PeerImagePolicy.source(url: URL(fileURLWithPath: path)) }
             if path == nil, let thumbnail, thumbnail.utf8.count <= 128 * 1024, let data = Data(base64Encoded: thumbnail) {
-                source = CGImageSourceCreateWithData(data as CFData, nil)
+                source = PeerImagePolicy.source(data: data, jpegOnly: true)
             }
             guard let source, let decoded = CGImageSourceCreateThumbnailAtIndex(source, 0, [
                 kCGImageSourceCreateThumbnailFromImageAlways: true,
@@ -6946,7 +6966,7 @@ private struct PhotoDraftPreview: View {
                     TextField("Caption (optional)", text: $caption, axis: .vertical)
                         .lineLimit(1...4).textFieldStyle(.plain).padding(14).background(appColorStyle.surface(ChatControlPalette.composer), in: RoundedRectangle(cornerRadius: 18)).overlay(RoundedRectangle(cornerRadius: 18).stroke(appColorStyle.decorative(ChatControlPalette.edge).opacity(0.25), lineWidth: 1)).disabled(isSending).opacity(isSending ? 0.45 : 1)
                         .onChange(of: caption) { value in if value.count > 4096 { caption = String(value.prefix(4096)) } }
-                    if let error { Text(error).foregroundStyle(UnyriColors.danger).font(.footnote) }
+                    if let error { Text(verbatim: error).foregroundStyle(UnyriColors.danger).font(.footnote) }
                 }.padding(16)
             }.scrollDismissesKeyboard(.interactively)
              .background(UnyriColors.background)
@@ -8231,7 +8251,8 @@ private struct MessageBubble: View {
                                  }
                                  onReact(emoji)
                              }
-                         }, outgoing: isMine)
+                         }, outgoing: isMine,
+                         reactionAccount: currentUserId.map { AppConfig.storageOrigin + "|" + $0.lowercased() })
     }
 }
 
@@ -9130,7 +9151,7 @@ private struct AttachmentVoiceContent: View {
             AudioEnvelopeView(path: availablePath, fraction: fraction,
                 played: UnyriSavedChatStyle.accent,
                 unplayed: UnyriSavedChatStyle.waveQuiet,
-                embedded: VoiceWaveformCodec.decode(attachment.voice?.waveform))
+                embedded: VoiceWaveformCodec.decode(attachment.voice?.waveform), decodeOnPlay: active)
                 .contentShape(Rectangle())
                 // Seeking only exists on the active message, and a drag needs 8 pt first:
                 // a zero-distance drag on every waveform swallowed scrolls, swipe-to-reply
@@ -9376,6 +9397,7 @@ private struct ChatHeaderBar: View {
     let onMenu: () -> Void
     /// Like Telegram: tapping the name/avatar opens the peer's profile.
     var onProfile: (() -> Void)? = nil
+    var legacyIdentityServer = false
 
     private var solidChrome: Bool { reduceTransparency || lowPower || contrast == .increased }
     private var connected: Bool { realtime.state == .connected }
@@ -9390,8 +9412,9 @@ private struct ChatHeaderBar: View {
     }
     private var peerPresenceLabel: String {
         guard let peer = presencePeer else { return "" }
-        guard !blocked, scenePhase == .active else { return "@" + peer.username }
-        return realtime.presenceLabel(for: peer.id) ?? "@" + peer.username
+        let identity = peer.peerIdentityLabel(legacyServer: legacyIdentityServer)
+        guard !blocked, scenePhase == .active else { return identity }
+        return realtime.presenceLabel(for: peer.id) ?? identity
     }
     private var statusLine: String {
         connected && !connectivityError

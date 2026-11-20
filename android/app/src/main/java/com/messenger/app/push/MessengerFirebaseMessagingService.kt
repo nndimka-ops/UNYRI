@@ -19,6 +19,13 @@ class MessengerFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         val app = applicationContext as? MessengerApp ?: return
         val data = message.data
+        if (data["event"] == "session_check") {
+            // No recipient, reason or content is trusted from a push. Authenticate all saved sessions.
+            kotlinx.coroutines.runBlocking {
+                kotlinx.coroutines.withTimeoutOrNull(20_000) { app.checkSavedSessionsNow() }
+            }
+            return
+        }
         val event = PushPayloadParser.parse(data)
         // Release diagnostics contain no tokens, identifiers or message content.
         val kind = when (event) {

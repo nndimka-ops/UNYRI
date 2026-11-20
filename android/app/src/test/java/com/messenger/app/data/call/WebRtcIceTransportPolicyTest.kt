@@ -15,9 +15,11 @@ class WebRtcIceTransportPolicyTest {
     private val stunServer = IceServerDto(urls = listOf("stun:10.0.2.2:3478"))
 
     @Test
-    fun `default policy is ALL`() {
-        assertEquals(IceTransportPolicy.ALL, WebRtcIceTransportPolicy.resolve(isDebug = true, forceRelayFlag = false))
-        assertEquals(IceTransportPolicy.ALL, WebRtcIceTransportPolicy.resolve(isDebug = false, forceRelayFlag = false))
+    fun `default policy requires real contact membership`() {
+        for (debug in listOf(true, false)) {
+            assertEquals(IceTransportPolicy.RELAY, WebRtcIceTransportPolicy.resolve(isDebug = debug, forceRelayFlag = false))
+            assertEquals(IceTransportPolicy.ALL, WebRtcIceTransportPolicy.resolve(isDebug = debug, forceRelayFlag = false, peerIsContact = true))
+        }
     }
 
     @Test
@@ -40,13 +42,12 @@ class WebRtcIceTransportPolicyTest {
 
     @Test
     fun `release ignores debug relay flag with Everyone default`() {
-        assertEquals(IceTransportPolicy.ALL, WebRtcIceTransportPolicy.resolve(isDebug = false, forceRelayFlag = true))
+        assertEquals(IceTransportPolicy.ALL, WebRtcIceTransportPolicy.resolve(isDebug = false, forceRelayFlag = true, setting = CallPeerToPeer.EVERYONE))
     }
 
     @Test
     fun `missing turn config is handled safely`() {
-        // Forced RELAY with no TURN server at all: still reported faithfully,
-        // never crashes, and the engine will fail ICE instead of falling back.
+        // Required missing TURN is a dedicated preflight failure before native setup.
         val forcedNoTurn = WebRtcIceTransportPolicy.buildConfig(
             iceServers = emptyList(),
             isDebug = true,
@@ -55,14 +56,19 @@ class WebRtcIceTransportPolicyTest {
         assertEquals(IceTransportPolicy.RELAY, forcedNoTurn.transports)
         assertFalse(forcedNoTurn.hasTurnServer)
         assertFalse(forcedNoTurn.hasStunServer)
+        assertTrue(forcedNoTurn.relayUnavailable)
 
-        // Default (ALL) with empty servers is also safe.
+        // Default Contacts with unknown membership never falls back to direct.
         val defaultEmpty = WebRtcIceTransportPolicy.buildConfig(
             iceServers = emptyList(),
             isDebug = true,
             forceRelayFlag = false,
         )
-        assertEquals(IceTransportPolicy.ALL, defaultEmpty.transports)
+        assertEquals(IceTransportPolicy.RELAY, defaultEmpty.transports)
         assertFalse(defaultEmpty.hasTurnServer)
+        assertTrue(defaultEmpty.relayUnavailable)
+        assertFalse(WebRtcIceTransportPolicy.buildConfig(listOf(stunServer), false, false,
+            CallPeerToPeer.EVERYONE, null).relayUnavailable)
+        assertFalse(WebRtcIceTransportPolicy.buildConfig(listOf(turnServer), false, false).relayUnavailable)
     }
 }

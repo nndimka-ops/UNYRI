@@ -1,0 +1,10 @@
+<resources>
+    <string name="auth_account_deleted">账号已删除</string>
+    <string name="auth_account_suspended">账号已被服务器管理员封禁</string>
+    <string name="auth_session_ended">会话已结束</string>
+    <string name="privacy_prevent_screenshots">禁止截屏</string>
+    <string name="admin_delete_account_forever">永久删除账号</string>
+    <string name="admin_delete_account_detail">删除服务器和手机上的账号及其消息。</string>
+    <string name="admin_delete_account_number">输入公开号码以确认</string>
+    <string name="deleted_account">已删除的账号</string>
+</resources>

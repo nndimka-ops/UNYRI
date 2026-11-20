@@ -18,6 +18,7 @@ else:
     binary = str(pathlib.Path(temp_dir.name) / ("contracts.exe" if os.name == "nt" else "contracts"))
     swiftc = shutil.which("swiftc") or "swiftc"
     sources = [
+        root / "ios/UNYRI/Attachments/AttachmentCacheBoundary.swift",
         root / "ios/UNYRI/Support/HistoryArchive.swift",
         root / "ios/UNYRI/Support/HistoryMedia.swift",
         root / "ios/UNYRI/Support/HistoryBackupCoordinator.swift",

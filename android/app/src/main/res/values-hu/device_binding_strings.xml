@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auth_hardware_binding_required">Ez a telefon nem tudja hardveres kulccsal védeni a munkamenetet, de a kiszolgáló megköveteli ezt a védelmet.</string>
+</resources>

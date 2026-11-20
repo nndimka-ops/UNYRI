@@ -63,6 +63,10 @@ async fn spawn_state() -> AppState {
     );
     let redis_url =
         std::env::var("TEST_REDIS_URL").expect("explicit isolated TEST_REDIS_URL required");
+    // Enrollment owns a valid encryption fixture rather than a runner placeholder
+    // or deployment key. Keep one stable key for this entire test binary.
+    static ADMIN_KEY: std::sync::Once = std::sync::Once::new();
+    ADMIN_KEY.call_once(|| std::env::set_var("COCO_ADMIN_KEY", "11".repeat(32)));
     let db = sqlx::postgres::PgPoolOptions::new()
         .max_connections(5)
         .connect(&database_url)
@@ -136,7 +140,13 @@ async fn reports_keep_admin_context_after_chat_and_both_accounts_are_deleted() {
     let retained: (Option<Uuid>, Option<Uuid>, Option<Uuid>, Uuid, Value) = sqlx::query_as(
         "SELECT chat_id,reporter_user_id,reported_user_id,chat_id_snapshot,participants_snapshot FROM chat_reports WHERE id=$1")
         .bind(before.0).fetch_one(&state.db).await.unwrap();
-    assert_eq!(retained, (None, None, None, Uuid::parse_str(&chat).unwrap(), before.1));
+    assert_eq!((retained.0,retained.1,retained.2,retained.3), (None, None, None, Uuid::parse_str(&chat).unwrap()));
+    for participant in retained.4.as_array().unwrap() {
+        assert_eq!(participant["display_name"], "Удалённый аккаунт");
+        assert!(participant["unyri_number"].is_string());
+        assert!(participant.get("public_username").is_none());
+        assert!(participant.get("username").is_none());
+    }
     let response = get_admin(&app, ip, &owner, &admin.token, &format!("/admin/reports?reported_user_id={}",actor.id)).await;
     assert_eq!(response.status(), StatusCode::OK);
     let data = body_json(response).await;
@@ -147,8 +157,10 @@ async fn reports_keep_admin_context_after_chat_and_both_accounts_are_deleted() {
     assert!(row.get("chat_id_snapshot").is_none());
     assert!(row.get("participants_snapshot").is_none());
     assert_eq!(row["reporter_user_id"], json!(reporter.id));
-    assert!(row["reporter_username"].is_string());
-    assert!(row["reported_username"].is_string());
+    assert!(row["reporter_unyri_number"].is_string());
+    assert!(row.get("reporter_username").is_none());
+    assert!(row["reported_unyri_number"].is_string());
+    assert!(row.get("reported_username").is_none());
     assert_eq!(post_admin(&app, ip, &owner, &admin.token, &format!("/admin/reports/{}",before.0),
         json!({"status":"resolved","note":"Evidence retained","decision_reason":"Reviewed"})).await.status(), StatusCode::OK);
 }

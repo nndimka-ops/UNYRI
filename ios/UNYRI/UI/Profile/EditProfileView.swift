@@ -89,7 +89,7 @@ struct EditProfileView: View {
             if let errorMessage {
                 HStack(alignment: .top, spacing: 10) {
                     Image(systemName: "exclamationmark.circle").foregroundColor(UnyriColors.danger).accessibilityHidden(true)
-                    Text(errorMessage).font(.footnote).foregroundColor(UnyriColors.danger)
+                    Text(verbatim: errorMessage).font(.footnote).foregroundColor(UnyriColors.danger)
                         .fixedSize(horizontal: false, vertical: true).frame(maxWidth: .infinity, alignment: .leading)
                 }.padding(14).background(UnyriColors.danger.opacity(0.08), in: RoundedRectangle(cornerRadius: 14))
                     .accessibilityIdentifier("edit-profile-error")
@@ -200,7 +200,7 @@ struct EditProfileView: View {
 
     private var profileAvatar: some View {
         Group {
-            if let avatarJPEG, let image = UIImage(data: avatarJPEG) {
+            if let avatarJPEG, let image = PeerImagePolicy.image(data: avatarJPEG) {
                 Image(uiImage: image).resizable().scaledToFill().frame(width: 88, height: 88).clipShape(Circle())
             } else {
                 UserAvatar(url: removeAvatarRequested ? nil : currentAvatarURL, name: previewName, size: 88)

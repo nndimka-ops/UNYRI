@@ -11,6 +11,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -68,6 +69,13 @@ fun LoginScreen(viewModel: AuthViewModel, onNavigateToRegister: () -> Unit,
             // Editing clears form feedback, but must not cancel this policy refresh.
             scope.launch { signup.load(true) }
         }
+        // B-048: a login/password refusal returns to the step with those fields; the message
+        // stays visible there. A refused password is cleared so it is typed anew.
+        val back = form.afterRefusal(staleCode)
+        if (back != form) {
+            if (staleCode == "common_password") { password = ""; repeated = "" }
+            form = back
+        }
     }
     LaunchedEffect(importedInvite, serverHost) {
         if (importedInvite?.origin == serverHost.trimEnd('/') && signup.load()) form = AuthForm(AuthStep.SignUp)
@@ -86,7 +94,8 @@ fun LoginScreen(viewModel: AuthViewModel, onNavigateToRegister: () -> Unit,
         lifecycle.lifecycle.addObserver(observer)
         onDispose { lifecycle.lifecycle.removeObserver(observer) }
     }
-    androidx.activity.compose.BackHandler(form.step != AuthStep.SignIn && !loading) { form = AuthForm(); viewModel.clearError() }
+    // Back from the name step returns to the login and password step, not to sign-in (B-048).
+    androidx.activity.compose.BackHandler(form.step != AuthStep.SignIn && !loading) { form = form.back(); viewModel.clearError() }
     if (recovery) AccountRecoveryPanel(false, login) { recovery = false }
     CocoScreenSurface(Modifier.fillMaxSize(), color = colors.background) {
         Column(Modifier.fillMaxSize().safeDrawingPadding().imePadding().verticalScroll(rememberScrollState()).padding(24.dp),
@@ -114,9 +123,13 @@ fun LoginScreen(viewModel: AuthViewModel, onNavigateToRegister: () -> Unit,
                                 } }, modifier = Modifier.fillMaxWidth())
                             if (form.step == AuthStep.SignUp) {
                                 InviteCodeField(inviteFieldVisible(signup.policy), invite, !loading) { invite = it; viewModel.clearError() }
-                                val strength = IdentityPolicy.strength(password)
+                                // B-048: a password the server would refuse is named here, while typing.
+                                val common = password.isNotEmpty() && IdentityPolicy.isCommonPassword(password)
+                                val strength = if (common) 0 else IdentityPolicy.strength(password)
                                 LinearProgressIndicator(progress = { strength / 3f }, modifier = Modifier.fillMaxWidth())
-                                Text(stringResource(listOf(R.string.auth_password_help, R.string.login2_strength_weak,
+                                if (common) Text(stringResource(R.string.auth_error_common_password), color = colors.danger,
+                                    style = MaterialTheme.typography.bodySmall)
+                                else Text(stringResource(listOf(R.string.auth_password_help, R.string.login2_strength_weak,
                                     R.string.login2_strength_fair, R.string.login2_strength_strong)[strength]), style = MaterialTheme.typography.bodySmall)
                                 OutlinedTextField(repeated, { repeated = it }, label = { Text(stringResource(R.string.auth_confirm_password)) },
                                     enabled = !loading, singleLine = true, colors = authFieldColors(),
@@ -136,6 +149,9 @@ fun LoginScreen(viewModel: AuthViewModel, onNavigateToRegister: () -> Unit,
                                 label = { Text(stringResource(R.string.auth_your_name)) }, supportingText = { Text(stringResource(R.string.auth_name_help)) },
                                 isError = name.isNotEmpty() && DisplayNamePolicy.error(name, false) != null,
                                 enabled = !loading, colors = authFieldColors(), modifier = Modifier.fillMaxWidth())
+                            // B-048: the way back to the login and password is visible, not only the system gesture.
+                            TextButton(onClick = { form = form.back(); viewModel.clearError() }, enabled = !loading,
+                                modifier = Modifier.testTag("signup-name-back")) { Text(stringResource(R.string.back)) }
                         }
                     }
                 }
@@ -145,7 +161,8 @@ fun LoginScreen(viewModel: AuthViewModel, onNavigateToRegister: () -> Unit,
                     AuthStep.SignIn -> login.isNotBlank() && password.isNotEmpty() && !login.trim().startsWith("@")
                     AuthStep.SignUp -> !signup.busy && !signup.failed && signup.policy?.open == true &&
                         (!inviteFieldVisible(signup.policy) || invite.isNotBlank()) && form.next(login.trim(), password, repeated, accepted).step == AuthStep.DisplayName
-                    AuthStep.DisplayName -> !signup.busy && !signup.failed && DisplayNamePolicy.error(name, false) == null && accepted && IdentityPolicy.passwordAllowed(password)
+                    AuthStep.DisplayName -> !signup.busy && !signup.failed && DisplayNamePolicy.error(name, false) == null && accepted &&
+                        IdentityPolicy.passwordAllowed(password) && !IdentityPolicy.isCommonPassword(password)
                 }
                 val style = authPrimaryActionStyle(enabled, RoundedCornerShape(20.dp))
                 Button(onClick = {

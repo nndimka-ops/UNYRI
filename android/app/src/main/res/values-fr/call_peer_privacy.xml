@@ -4,5 +4,5 @@
     <string name="call_p2p_everyone">Tout le monde</string>
     <string name="call_p2p_contacts">Mes contacts</string>
     <string name="call_p2p_nobody">Personne</string>
-    <string name="call_p2p_note">Une connexion directe est généralement plus rapide, mais l’autre appareil voit votre adresse IP. Via le serveur, seule son adresse est visible. Mes contacts autorise les connexions directes uniquement avec les personnes dans Contacts. S’applique dès le prochain appel.</string>
+    <string name="call_p2p_note">Une connexion directe est généralement plus rapide, mais l’autre appareil voit votre adresse IP. Via le serveur, seule son adresse est visible. Mes contacts autorise les connexions directes uniquement avec les personnes dans Contacts. S’applique dès le prochain appel. Ce réglage concerne aussi les transferts de fichiers.</string>
 </resources>

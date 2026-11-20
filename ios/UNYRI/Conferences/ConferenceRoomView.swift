@@ -4,12 +4,16 @@ import SwiftUI
 
 private struct ConferenceJoinRequestActions: View {
     let request: ConferenceJoinRequest
+    var legacyIdentityServer = false
     @EnvironmentObject private var controller: ConferenceController
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @Environment(\.unyriAppColorStyle) private var colors
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(DisplayNameSanitizer.peer(request.displayName, username: request.username, unknown: UnyriL10n.string("Unknown user"))).font(.body.weight(.medium)).lineLimit(2)
-            Text("@" + request.username).font(.caption).foregroundStyle(UnyriColors.secondaryText).lineLimit(1)
+            Text(DisplayNameSanitizer.peer(request.displayName, unknown: UnyriL10n.string("Unknown user"))).font(.body.weight(.medium)).lineLimit(2)
+            Text(PeerIdentityPolicy.label(publicUsername: request.publicUsername, unyriNumber: request.unyriNumber,
+                                         legacyUsername: request.username, legacyServer: legacyIdentityServer))
+                .font(.caption).foregroundStyle(UnyriColors.secondaryText).lineLimit(1)
             Group {
                 if dynamicTypeSize.isAccessibilitySize {
                     VStack(spacing: 12) { decline; accept }
@@ -35,7 +39,12 @@ private struct ConferenceJoinRequestActions: View {
             Text("Accept").fixedSize(horizontal: false, vertical: true)
                 .frame(maxWidth: dynamicTypeSize.isAccessibilitySize ? .infinity : nil)
                 .contentShape(Rectangle())
-        }.buttonStyle(.borderedProminent).frame(maxWidth: .infinity, minHeight: 44)
+        }
+        // B-054 (owner, 19 Nov): the default light tint put white text on a light pill
+        // (it looked disabled); dark text on the light pill, as «Пригласить участников».
+        .buttonStyle(.borderedProminent).tint(colors.role(.categoryBlue))
+        .foregroundStyle(Color(hex: 0x101820)).accessibilityIdentifier("room-request-accept")
+        .frame(maxWidth: .infinity, minHeight: 44)
     }
 }
 
@@ -68,6 +77,7 @@ private struct ConferenceRoomKeyActions: View {
 
 private struct ConferenceJoinRequestsSheet: View {
     @EnvironmentObject private var controller: ConferenceController
+    @EnvironmentObject private var users: UsersRepository
     @Environment(\.dismiss) private var dismiss
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     var body: some View {
@@ -80,7 +90,7 @@ private struct ConferenceJoinRequestsSheet: View {
                     ConferenceRoomKeyActions(request: request).padding(.vertical, 6)
                 }
                 ForEach(controller.pendingJoinRequests) { request in
-                    ConferenceJoinRequestActions(request: request).padding(.vertical, 6)
+                    ConferenceJoinRequestActions(request: request, legacyIdentityServer: users.legacyIdentityServer).padding(.vertical, 6)
                 }
             }.scrollContentBackground(.hidden).background(UnyriColors.background)
                 .navigationTitle("Join requests").navigationBarTitleDisplayMode(.inline)
@@ -94,6 +104,7 @@ private struct ConferenceJoinRequestsSheet: View {
 /// attach SDK renderers. Presentation ownership fences delayed disappearance.
 struct ConferenceScreen: View {
     @EnvironmentObject private var controller: ConferenceController
+    @EnvironmentObject private var users: UsersRepository
     @Environment(\.dynamicTypeSize) private var dynamicType
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.unyriAppColorStyle) private var colors
@@ -130,7 +141,7 @@ struct ConferenceScreen: View {
                                 Text("\(controller.pendingJoinRequests.count)").monospacedDigit()
                             }
                         }.font(.subheadline.weight(.semibold)).frame(minHeight: 44)
-                        ConferenceJoinRequestActions(request: request)
+                        ConferenceJoinRequestActions(request: request, legacyIdentityServer: users.legacyIdentityServer)
                     }.padding(12).background(colors.material(hex: 0x191B21), in: RoundedRectangle(cornerRadius: 18))
                         .padding(.horizontal, 10).padding(.bottom, 8)
                 }
@@ -149,7 +160,7 @@ struct ConferenceScreen: View {
                     HStack(alignment: .top, spacing: 8) {
                         Image(systemName: "exclamationmark.circle")
                         Button { showErrorDetails = true } label: {
-                            Text(LocalizedStringKey(error)).lineLimit(1).frame(maxWidth: .infinity, alignment: .leading)
+                            Text(verbatim: UnyriL10n.string(error)).lineLimit(1).frame(maxWidth: .infinity, alignment: .leading)
                         }.buttonStyle(.plain).accessibilityLabel(UnyriL10n.string(error) + ". " + UnyriL10n.string("Show details"))
                         Button { controller.error = nil } label: { Image(systemName: "xmark").frame(width: 44, height: 44) }
                             .accessibilityLabel("Dismiss")
@@ -186,7 +197,7 @@ struct ConferenceScreen: View {
                 Button("Cancel", role: .cancel) {}
             }
             .alert("Conference", isPresented: $showErrorDetails) { Button("OK") { controller.error = nil } }
-                message: { Text(LocalizedStringKey(controller.error ?? "")) }
+                message: { Text(verbatim: UnyriL10n.string(controller.error ?? "")) }
             .onReceive(NotificationCenter.default.publisher(for: AVAudioSession.routeChangeNotification)) { _ in routeRevision += 1 }
     }
 

@@ -175,10 +175,18 @@ if case .connected(let c) = req.0.ui {
 check(req.1.contains(.sendVideoUpgradeRequest(callId: callId)), "upgrade request sends request")
 check(req.1.contains(.armVideoUpgradeTimeout), "upgrade request arms timeout")
 
-// Duplicate incoming request ignored (simultaneous race resolves by timeout).
+// B-036: a request that crosses ours already carries both users' consent. The
+// first crossing request is accepted and starts exactly one offer instead of
+// waiting for the timeout; a duplicate after the crossing was handled is ignored.
 state = CallReducerState(ui: .connected(ConnectedState(call: audioInfo(), videoUpgrade: .requesting)), activeCallId: callId)
+let crossing = reduce(.remoteVideoUpgradeRequest(callId: callId))
+if case .connected(let c) = crossing.0.ui { check(c.videoUpgrade == .upgrading, "crossing upgrade request upgrades while requesting") }
+check(crossing.0.renegotiating && crossing.0.renegotiationTarget == .video, "crossing upgrade request renegotiates for video")
+expect(crossing.1, [.sendVideoUpgradeAccept(callId: callId), .produceOfferAndSend(callId: callId), .cancelVideoUpgradeTimeout],
+       "crossing upgrade request accepts and starts one offer")
 let dup = reduce(.remoteVideoUpgradeRequest(callId: callId))
-if case .connected(let c) = dup.0.ui { check(c.videoUpgrade == .requesting, "duplicate upgrade request ignored while requesting") }
+if case .connected(let c) = dup.0.ui { check(c.videoUpgrade == .upgrading, "duplicate upgrade request ignored after the crossing") }
+check(dup.0 == crossing.0, "duplicate upgrade request leaves the crossing state unchanged")
 expect(dup.1, [], "duplicate upgrade request has no effects")
 
 // Remote accept -> renegotiation offer.

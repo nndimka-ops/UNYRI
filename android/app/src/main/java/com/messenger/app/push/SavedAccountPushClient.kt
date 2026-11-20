@@ -23,6 +23,7 @@ internal interface SavedPushSession {
     fun expiresAt(): Instant?
     fun refreshToken(): String?
     fun refreshRequestId(): String
+    fun deviceBinding(): com.messenger.app.data.auth.DeviceSessionBinding? = null
     fun saveTokens(access: String, expiry: Instant, refresh: String)
 }
 
@@ -36,13 +37,11 @@ internal class SavedAccountPushClient(client: OkHttpClient, private val json: Js
             current()
             val cached = session.accessToken()
             val expiry = session.expiresAt()
-            if (cached != null && expiry != null && Instant.now().isBefore(expiry.minusSeconds(60)) &&
+            if (cached != null && expiry != null && Instant.now().isBefore(expiry.minusSeconds(5)) &&
                 (rejected == null || rejected != cached)) return@withLock cached
             val refresh = session.refreshToken() ?: error("Saved session unavailable")
-            val body = json.encodeToString(RefreshRequestDto.serializer(), RefreshRequestDto(refresh, session.refreshRequestId()))
-            val response = client.executeCancellableApi(Request.Builder().url("${owner.account.origin}/auth/refresh")
-                .post(body.toRequestBody("application/json".toMediaType())).build(), json)
-            val renewed = json.decodeFromString(RefreshResponseDto.serializer(), response)
+            val renewed = com.messenger.app.data.auth.refreshDeviceSession(client, json, owner.account.origin,
+                session.deviceBinding(), refresh, session.refreshRequestId())
             current()
             check(session.refreshToken() == refresh) { "Saved session changed during refresh" }
             withContext(NonCancellable) {

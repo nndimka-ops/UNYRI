@@ -108,8 +108,9 @@ internal fun SearchResultRow(
             overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
         )
         val locale = androidx.compose.ui.platform.LocalConfiguration.current.locales[0]
-        val date = androidx.compose.runtime.remember(result.createdAt, locale, java.time.LocalDate.now()) {
-            com.messenger.app.ui.chats.chatTimestamp(result.createdAt, java.time.Instant.now(), java.time.ZoneId.systemDefault(), locale)
+        val yesterday = stringResource(R.string.history_list_yesterday)
+        val date = androidx.compose.runtime.remember(result.createdAt, locale, java.time.LocalDate.now(), yesterday) {
+            com.messenger.app.ui.chats.chatTimestamp(result.createdAt, java.time.Instant.now(), java.time.ZoneId.systemDefault(), locale, yesterday)
         }
         if (date != null) Text(text = date, style = MaterialTheme.typography.bodySmall,color=LocalCocoColors.current.secondaryText)
     }

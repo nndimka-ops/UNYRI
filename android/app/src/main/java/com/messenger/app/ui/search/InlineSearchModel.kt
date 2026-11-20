@@ -25,11 +25,11 @@ internal object InlineSearchPolicy {
         val normalized = fold(term)
         if (normalized.isEmpty()) return emptyList()
         return people.distinctBy { it.id }.map { person ->
-            val publicMatch = !legacyLogins && person.user?.let { user ->
-                user.publicNumber == term.filterNot { it.isWhitespace() } ||
-                    user.publicUsername?.equals(term.removePrefix("@"), ignoreCase = true) == true
+            val target = com.messenger.app.data.identity.IdentityPolicy.input(term)
+            val publicMatch = person.user?.let { user ->
+                when (target?.parameter) { "number" -> user.publicNumber == target.value; "username" -> user.publicUsername.equals(target.value, true); else -> false }
             } == true
-            val score = if (publicMatch) 0 else (if (legacyLogins) listOf(person.title, person.handle) else listOf(person.title)).minOf { value ->
+            val score = if (publicMatch) 0 else listOf(person.user?.let { com.messenger.app.domain.model.DisplayNameSanitizer.display(it.displayName) } ?: person.title).minOf { value ->
                 val key = fold(value)
                 when { key == normalized -> 0; key.startsWith(normalized) -> 1; key.contains(normalized) -> 2; else -> 3 }
             }

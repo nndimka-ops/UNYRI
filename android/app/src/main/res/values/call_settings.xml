@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_settings_title">Calls</string>
+    <string name="call_settings_saving_title">Use less data for calls</string>
+    <string name="call_settings_saving_never">Never</string>
+    <string name="call_settings_saving_cellular">On cellular</string>
+    <string name="call_settings_saving_always">Always</string>
+    <string name="call_settings_saving_never_detail">Up to 720p on Wi-Fi and 540p on cellular. Recommended.</string>
+    <string name="call_settings_saving_cellular_detail">On cellular, up to 360p and lighter audio.</string>
+    <string name="call_settings_saving_always_detail">Up to 360p and lighter audio on every network.</string>
+    <string name="call_settings_saving_note">Calls adapt to the network either way and lower quality on a weak connection and in Low Data Mode. Changes apply at once, also during a call.</string>
+    <string name="call_settings_peer_everyone_detail">Connect directly whenever possible. Best quality.</string>
+    <string name="call_settings_peer_nobody_detail">Always via the server. Your IP address stays hidden.</string>
+    <string name="call_settings_peer_note">A direct connection is usually faster, but the other person\'s device can see your IP address. Via the server, only the server\'s address is visible. Applies from the next call.</string>
+    <string name="call_settings_peer_contacts_detail">Directly only with people in Contacts. Everyone else via the server.</string>
+</resources>

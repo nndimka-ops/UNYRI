@@ -1,7 +1,7 @@
 import Foundation
 
-func person(_ id: String, _ name: String, _ username: String = "", online: Bool = false) -> ContactListPerson {
-    ContactListPerson(id: id, name: name, username: username, online: online)
+func person(_ id: String, _ name: String, _ username: String = "", online: Bool = false, number: String = "") -> ContactListPerson {
+    ContactListPerson(id: id, name: name, username: username, online: online, number: number)
 }
 let people = [
     person("latin", "Alice", "alice"), person("cyr", "Борис", "boris"),
@@ -21,6 +21,26 @@ precondition(ContactsPresentation.sections(people, query: " @BoRiS ").flatMap(\.
 precondition(ContactsPresentation.sections(people, query: "EMI").flatMap(\.people).map(\.id) == ["accent"])
 precondition(ContactsPresentation.sections(people, query: "🦊").flatMap(\.people).map(\.id) == ["emoji"])
 precondition(ContactsPresentation.sections(people, query: "absent").isEmpty)
+let numbered = [person("saved", "Борис", "", number: "149985646"),
+                person("other", "Alice", "alice_public", number: "123456789"),
+                ContactListPerson(id: "legacy", name: "Legacy", username: "", online: false),
+                person("short-alias", "Team", "", number: "14998564"),
+                person("handled", "Zoe", "boris_public", number: "604743993")]
+for query in ["149985646", "149 985 646", " 149 985 646 "] {
+    let local = ContactsPresentation.sections(numbered, query: query).flatMap(\.people)
+    precondition(local.map(\.id) == ["saved"], "An exact nine-digit public number finds the saved contact locally")
+    let server = ContactsPresentation.serverIDs(["saved", "remote", "saved", "remote"], excluding: Set(local.map(\.id)))
+    precondition(server == ["remote"], "A contact found locally by number is never repeated in the server list")
+}
+for query in ["1", "149", "14998564", "149 985 64", "985646", "149985647", "@149985646"] {
+    precondition(ContactsPresentation.sections(numbered, query: query).isEmpty,
+                 "Partial digits, short aliases, a different number and numeric @handles do not match public numbers")
+}
+precondition(ContactsPresentation.sections(numbered, query: "бОр").flatMap(\.people).map(\.id) == ["saved"],
+             "Name matching remains case-insensitive and partial")
+precondition(ContactsPresentation.sections(numbered, query: " @BoRiS_PuB ").flatMap(\.people).map(\.id) == ["handled"],
+             "Public @username matching remains case-insensitive and partial")
+precondition(numbered[2].number.isEmpty, "Existing memberwise callers default to an empty public number")
 let tied = [person("z", "Анна", "same"), person("a", "Анна", "same"), person("b", "Анна", "before")]
 precondition(ContactsPresentation.sections(tied, query: "").first?.people.map(\.id) == ["b", "a", "z"])
 let cyrillic = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
@@ -115,4 +135,4 @@ precondition(presence.label == "Status hidden" && !presence.online, "An authorit
 var unknown = ContactPresenceValue()
 unknown.apply(liveOnline: true, label: "cached online", uptime: 100)
 precondition(unknown.label.isEmpty && !unknown.online && !unknown.isLive, "A cached flag without a live lease never creates online")
-print("PASS: Contacts live classification, stable IDs/anchor, filtering/dedup, lease handoff/expiry/privacy, Retry cursor and accessibility status height; drawer width/name/account/badge policies")
+print("PASS: Contacts exact public-number/name/@username filtering and local/server dedup, live classification, stable IDs/anchor, lease handoff/expiry/privacy, Retry cursor and accessibility status height; drawer width/name/account/badge policies")

@@ -23,9 +23,7 @@ struct ContentView: View {
                     Button("Retry cleanup") { Task { await auth.retryLocalCleanup() } }
                 }.padding().onAppear { DiagnosticReportEvents.emit(.cleanupFailure) }
             case .loggedIn:
-                if auth.needsRegistrationRecovery {
-                    SignupRecoveryView().id(auth.sessionGeneration)
-                } else if auth.needsHistoryChoice {
+                if auth.needsHistoryChoice {
                     HistoryWelcomeView()
                 } else {
                 AccountContentView(auth: auth)
@@ -45,7 +43,7 @@ private struct HistoryWelcomeView: View {
             Text("History on this phone").font(.title2.bold())
             Text("Previous history is not automatically restored. Use your history recovery key or transfer a prepared encrypted copy by QR from your old phone. You can also start messaging now. Keep your old phone until you have checked the restored history and files.")
                 .multilineTextAlignment(.center)
-            if let error { Text(error).font(.footnote) }
+            if let error { Text(verbatim: error).font(.footnote) }
             Button("Restore or transfer history") {
                 do {
                     UserDefaults.standard.set(auth.currentUser?.id, forKey: "openHistoryBackupForAccount")

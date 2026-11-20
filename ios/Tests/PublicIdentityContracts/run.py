@@ -8,7 +8,10 @@ root = Path(__file__).resolve().parents[3]
 here = Path(__file__).resolve().parent
 with tempfile.TemporaryDirectory(prefix="unyri-public-identity-") as temp:
     binary = Path(temp) / ("checks.exe" if os.name == "nt" else "checks")
+    projection = Path(temp) / "PublicUserDisplay.swift"
+    projection.write_text((root / "ios/UNYRI/Support/PeerDisplayNames.swift").read_text(encoding="utf-8").split("extension CallInfo {")[0], encoding="utf-8")
     sources = [root / "ios/UNYRI/Support/PublicIdentityPolicy.swift",
+               projection,
                root / "ios/UNYRI/Support/DisplayNameSanitizer.swift",
                root / "ios/Tests/Support/DeviceInfo.swift",
                root / "ios/UNYRI/Models/AuthModels.swift",

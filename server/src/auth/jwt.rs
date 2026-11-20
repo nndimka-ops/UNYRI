@@ -31,8 +31,16 @@ pub fn issue_access_token(
     device_id: Uuid,
     session_id: Uuid,
 ) -> Result<IssuedAccessToken, AppError> {
+    issue_session_access_token(config, user_id, device_id, session_id, false)
+}
+
+pub fn issue_session_access_token(
+    config: &Config, user_id: Uuid, device_id: Uuid, session_id: Uuid, bound: bool,
+) -> Result<IssuedAccessToken, AppError> {
     let now = Utc::now();
-    let expires_at = now + Duration::seconds(config.access_token_ttl_seconds);
+    let ttl = if bound { config.access_token_ttl_seconds.min(super::device_proof::BOUND_ACCESS_TTL_SECONDS) }
+        else { config.access_token_ttl_seconds };
+    let expires_at = now + Duration::seconds(ttl);
 
     let claims = AccessTokenClaims {
         sub: user_id,
@@ -60,10 +68,15 @@ pub fn issue_access_token(
 
 pub fn decode_access_token(config: &Config, token: &str) -> Result<AccessTokenClaims, AppError> {
     let mut validation = Validation::new(Algorithm::HS256);
+    validation.leeway = 0;
     validation.set_issuer(&[config.jwt_issuer.clone()]);
     validation.set_audience(&[config.jwt_audience.clone()]);
 
     decode::<AccessTokenClaims>(token, &DecodingKey::from_secret(config.jwt_secret.as_bytes()), &validation)
-        .map(|data| data.claims)
+        .and_then(|data| {
+            if data.claims.exp <= Utc::now().timestamp() {
+                Err(jsonwebtoken::errors::Error::from(jsonwebtoken::errors::ErrorKind::ExpiredSignature))
+            } else { Ok(data.claims) }
+        })
         .map_err(|_| AppError::Unauthorized)
 }

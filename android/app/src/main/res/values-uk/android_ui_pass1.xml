@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="privacy_devices_blocks">Пристрої та блокування</string>
+    <string name="privacy_messages_section">Повідомлення</string>
+    <string name="privacy_nobody_count">Нікого</string>
+    <plurals name="privacy_people_count_short">
+        <item quantity="one">%1$d ос.</item>
+        <item quantity="few">%1$d ос.</item>
+        <item quantity="many">%1$d ос.</item>
+        <item quantity="other">%1$d ос.</item>
+    </plurals>
+    <string name="drawer_report_short">Звіт</string>
+    <string name="peer_qr_title">QR-код співрозмовника</string>
+    <string name="peer_remove_confirm_title">Видалити контакт?</string>
+    <string name="peer_remove_confirm_detail">Ця людина зникне з ваших контактів. Чат і повідомлення збережуться.</string>
+    <string name="app_version_format">Версія %1$s (%2$d)</string>
+    <string name="server_current_title">Поточний сервер</string>
+    <string name="server_change_title">Змінити сервер</string>
+    <string name="server_edit_help">Введіть HTTPS-адресу. Щоб змінити сервер, спочатку вийдіть з облікового запису.</string>
+    <string name="server_alpha_http_detail">В альфа-збірках також доступний HTTP у довіреній локальній мережі.</string>
+    <string name="server_max_file_size">Максимальний розмір зашифрованого файлу</string>
+    <string name="server_user_quota">Місце для одного облікового запису</string>
+    <string name="server_no_limit">Без обмеження</string>
+    <string name="notification_in_app_sound_detail">Звук, коли UNYRI відкрито.</string>
+    <string name="notification_in_app_vibration_detail">Вібрація, коли UNYRI відкрито.</string>
+    <string name="report_problem_detail">Опишіть проблему та додайте знімки екрана.</string>
+    <string name="report_recent_problem_detail">Позначка часу недавнього збою; увімкніть діагностику нижче.</string>
+    <string name="sh_step_computer">Комп’ютер, який завжди ввімкнено</string>
+    <string name="sh_step_computer_summary">Підійде ваш комп’ютер або орендований комп’ютер в інтернеті (VPS).</string>
+    <string name="sh_step_install">Установити UNYRI Server</string>
+    <string name="sh_step_install_summary">Установіть програму сервера за інструкцією.</string>
+    <string name="sh_step_internet">Доступ з інтернету</string>
+    <string name="sh_step_internet_summary">Дотримуйтеся інструкції, щоб телефон підключався й поза домом.</string>
+    <string name="sh_step_phone">Підключити телефон</string>
+    <string name="sh_step_phone_summary">Підтвердьте адресу сервера або відскануйте запрошення, потім створіть обліковий запис.</string>
+    <string name="sh_step_owner">Стати власником</string>
+    <string name="sh_step_owner_summary">Скористайтеся одноразовим кодом, який показав установник.</string>
+    <string name="sh_step_test">Перевірити повідомлення та дзвінки</string>
+    <string name="sh_step_test_summary">Вимкніть Wi-Fi та перевірте повідомлення, дзвінки й сповіщення через мобільний інтернет.</string>
+    <string name="sh_step_more">Докладніше</string>
+    <string name="connection_checking">Перевірка…</string>
+    <string name="local_mode_description">Повідомлення та дзвінки від вашого сервера через Wi-Fi, без інтернету. Режим показує постійне сповіщення та витрачає більше заряду. Після примусової зупинки чи перезапуску знову відкрийте UNYRI.</string>
+    <string name="local_mode_connected">Підключено до вашого сервера</string>
+    <string name="local_mode_signin">Увійдіть до облікового запису, щоб увімкнути локальний зв’язок.</string>
+    <string name="peer_qr_instruction">Відскануйте код, щоб відкрити профіль цієї людини в UNYRI.</string>
+</resources>

@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+        B71911000000000000000001 /* ReactionPickerPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71911000000000000000001; };
+        B71911000000000000000002 /* ReactionPickerCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71911000000000000000002; };
+        B71911000000000000000003 /* ReactionPickerPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71911000000000000000003; };
+        B71911000000000000000004 /* ReactionEmojiKeywords.json in Resources */ = {isa = PBXBuildFile; fileRef = A71911000000000000000004; };
+        D51119000000000000000001 /* AdminRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51119000000000000000001; };
         BD1311000000000000000005 /* ShakeToReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1311000000000000000005; };
         BD1311000000000000000004 /* AutomaticDiagnosticsSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1311000000000000000004; };
         BD1311000000000000000003 /* DiagnosticReportOutbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1311000000000000000003; };
@@ -28,6 +33,8 @@
         D01113000000000000000003 /* ContactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01113000000000000000003 /* ContactsView.swift */; };
         D01113000000000000000002 /* ContactsPresence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01113000000000000000002 /* ContactsPresence.swift */; };
         D01113000000000000000001 /* ContactsPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01113000000000000000001 /* ContactsPresentation.swift */; };
+        B8F800000000000000000001 /* AccountSecretScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F800000000000000000001 /* AccountSecretScope.swift */; };
+        B8F800000000000000000003 /* ServerWorkBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F800000000000000000003 /* ServerWorkBudget.swift */; };
         2F380E1E1BF3445D345641E1 /* UnyriNamedQuickLook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3196112BB4DA893C7F55077E; };
         BF071026F11EB00000000001 /* UnyriFolderAttachmentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF071026F11EB00000000001; };
         B6E12A18C899C51182C43D00 /* DirectSendPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E12A18C899C51182C43D00; };
@@ -59,6 +66,9 @@
         ED2900000000000000000002 /* ConferencesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2900000000000000000002; };
         ED2900000000000000000001 /* ConferenceInvite.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2900000000000000000001; };
         BFB028000000000000000203 /* InstallationProof.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB028000000000000000203; };
+        BDB519000000000000000001 /* DeviceBoundProof.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB519000000000000000001; };
+        BDB519000000000000000002 /* DeviceBoundKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB519000000000000000002; };
+        BDB519000000000000000003 /* DeviceBoundSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB519000000000000000003; };
         BFB028000000000000000202 /* BlockedAccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB028000000000000000202 /* BlockedAccountsView.swift */; };
         BFB028000000000000000201 /* BlockedAccountsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB028000000000000000201 /* BlockedAccountsModel.swift */; };
         BFA928000000000000000001 /* AdminFactorPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA928000000000000000001 /* AdminFactorPolicy.swift */; };
@@ -308,9 +318,19 @@ E21000000000000000000002 = {isa = PBXBuildFile; fileRef = E220000000000000000000
 		6C08241BBC7C53F57AEA56B4 /* ConferenceKeyReleasePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F033A4E5E2C7A5C40CF20DB8 /* ConferenceKeyReleasePolicy.swift */; };
 		6C4E8CFFD824DF72FE72E68D /* DirectChatBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5F3F087EC8055E802F7D42 /* DirectChatBinding.swift */; };
 		94A3200901FC0DF6F136CD51 /* HostileInteger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B61A46FA3D2FE435DD82847E /* HostileInteger.swift */; };
+        5EC200000000000000000001 /* PeerImagePolicy.swift in Sources (app) */ = {isa = PBXBuildFile; fileRef = 5EC200000000000000000004; };
+        5EC200000000000000000002 /* PeerImagePolicy.swift in Sources (share) */ = {isa = PBXBuildFile; fileRef = 5EC200000000000000000004; };
+        5EC200000000000000000003 /* PeerImagePolicy.swift in Sources (notification) */ = {isa = PBXBuildFile; fileRef = 5EC200000000000000000004; };
+        5EC200000000000000000005 /* RemoteIcePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC200000000000000000006; };
+        5EC200000000000000000007 /* LocalSecurityDecisions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC200000000000000000008; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+        A71911000000000000000001 /* ReactionPickerPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/ReactionPickerPolicy.swift; sourceTree = SOURCE_ROOT; };
+        A71911000000000000000002 /* ReactionPickerCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/ReactionPickerCatalog.swift; sourceTree = SOURCE_ROOT; };
+        A71911000000000000000003 /* ReactionPickerPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/UI/Chats/ReactionPickerPanel.swift; sourceTree = SOURCE_ROOT; };
+        A71911000000000000000004 /* ReactionEmojiKeywords.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = UNYRI/Resources/ReactionEmojiKeywords.json; sourceTree = SOURCE_ROOT; };
+        C51119000000000000000001 /* AdminRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Admin/AdminRegistration.swift"; sourceTree = "<group>"; };
         AD1311000000000000000005 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/ShakeToReport.swift; sourceTree = SOURCE_ROOT; };
         AD1311000000000000000004 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/AutomaticDiagnosticsSession.swift; sourceTree = SOURCE_ROOT; };
         AD1311000000000000000003 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/DiagnosticReportOutbox.swift; sourceTree = SOURCE_ROOT; };
@@ -332,6 +352,8 @@ E21000000000000000000002 = {isa = PBXBuildFile; fileRef = E220000000000000000000
         C01113000000000000000003 /* ContactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Search/ContactsView.swift"; sourceTree = "<group>"; };
         C01113000000000000000002 /* ContactsPresence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Search/ContactsPresence.swift"; sourceTree = "<group>"; };
         C01113000000000000000001 /* ContactsPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/ContactsPresentation.swift"; sourceTree = "<group>"; };
+        A8F800000000000000000001 /* AccountSecretScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/AccountSecretScope.swift"; sourceTree = "<group>"; };
+        A8F800000000000000000003 /* ServerWorkBudget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/ServerWorkBudget.swift"; sourceTree = "<group>"; };
         3196112BB4DA893C7F55077E /* UnyriNamedQuickLook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Chats/UnyriNamedQuickLook.swift"; sourceTree = "<group>"; };
         AF071026F11EB00000000001 /* UnyriFolderAttachmentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Chats/UnyriFolderAttachmentPicker.swift"; sourceTree = "<group>"; };
         5CBA896539328D2DBB274DCD /* DirectFileMediaPreviewGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/DirectTransfer/DirectFileMediaPreviewGenerator.swift; sourceTree = SOURCE_ROOT; };
@@ -362,6 +384,9 @@ E21000000000000000000002 = {isa = PBXBuildFile; fileRef = E220000000000000000000
         EC2900000000000000000002 /* ConferencesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conferences/ConferencesAPI.swift"; sourceTree = "<group>"; };
         EC2900000000000000000001 /* ConferenceInvite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conferences/ConferenceInvite.swift"; sourceTree = "<group>"; };
         AFB028000000000000000203 /* InstallationProof.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Auth/InstallationProof.swift"; sourceTree = "<group>"; };
+        ADB519000000000000000001 /* DeviceBoundProof.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Auth/DeviceBoundProof.swift"; sourceTree = "<group>"; };
+        ADB519000000000000000002 /* DeviceBoundKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Auth/DeviceBoundKey.swift"; sourceTree = "<group>"; };
+        ADB519000000000000000003 /* DeviceBoundSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Auth/DeviceBoundSession.swift"; sourceTree = "<group>"; };
         AFB028000000000000000202 /* BlockedAccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/Profile/BlockedAccountsView.swift"; sourceTree = "<group>"; };
         AFB028000000000000000201 /* BlockedAccountsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Users/BlockedAccountsModel.swift"; sourceTree = "<group>"; };
         AFA928000000000000000001 /* AdminFactorPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/AdminFactorPolicy.swift"; sourceTree = "<group>"; };
@@ -607,6 +632,9 @@ E22000000000000000000002 = {isa = PBXFileReference; lastKnownFileType = sourceco
 		F033A4E5E2C7A5C40CF20DB8 /* ConferenceKeyReleasePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/ConferenceKeyReleasePolicy.swift"; sourceTree = "<group>"; };
 		4C5F3F087EC8055E802F7D42 /* DirectChatBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/DirectChatBinding.swift"; sourceTree = "<group>"; };
 		B61A46FA3D2FE435DD82847E /* HostileInteger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Support/HostileInteger.swift"; sourceTree = "<group>"; };
+        5EC200000000000000000004 /* PeerImagePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared/PeerImagePolicy.swift; sourceTree = SOURCE_ROOT; };
+        5EC200000000000000000006 /* RemoteIcePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Calls/RemoteIcePolicy.swift; sourceTree = SOURCE_ROOT; };
+        5EC200000000000000000008 /* LocalSecurityDecisions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNYRI/Support/LocalSecurityDecisions.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -713,6 +741,10 @@ E22000000000000000000002 = {isa = PBXFileReference; lastKnownFileType = sourceco
 				AC0330000000000000000001 /* ChatAlbumSelection.swift */,
 				AC1311000000000000000001 /* ChatComposerPastePolicy.swift */,
 				AAD320000000000000000003 /* QuickReactionPolicy.swift */,
+                A71911000000000000000001 /* ReactionPickerPolicy.swift */,
+                A71911000000000000000002 /* ReactionPickerCatalog.swift */,
+                A71911000000000000000003 /* ReactionPickerPanel.swift */,
+                A71911000000000000000004 /* ReactionEmojiKeywords.json */,
 				AAD320000000000000000002 /* QuickReaction.swift */,
 				AAD330000000000000000001 /* UnyriVideoPolicy.swift */,
 				AAD330000000000000000002 /* UnyriPlaybackAudioSession.swift */,
@@ -762,11 +794,14 @@ E22000000000000000000002 = {isa = PBXFileReference; lastKnownFileType = sourceco
 				AC00000000000000000000FD /* HistoryAttachmentRestorer.swift */,
 				AC00000000000000000000FE /* HistoryBackupCoordinator.swift */,
 				AC00000000000000000000FF /* HistoryBackupAPI.swift */,
-				AC0000000000000000000100 /* HistoryRecoveryKeys.swift */,
+				                A8F800000000000000000001 /* AccountSecretScope.swift */,
+                A8F800000000000000000003 /* ServerWorkBudget.swift */,
+                AC0000000000000000000100 /* HistoryRecoveryKeys.swift */,
 				AC0000000000000000000101 /* HistoryKeySettingsView.swift */,
                 AC0000000000000000000102 /* HistoryMedia.swift */,
                 AC0000000000000000000103 /* HistoryNativeOwner.swift */,
                 AC0000000000000000000107 /* HistoryTransferView.swift */,
+                C51119000000000000000001 /* AdminRegistration.swift */,
                 C51118000000000000000001 /* SelfHostingPolicy.swift */,
                 C51118000000000000000002 /* SelfHostingViews.swift */,
                 C01114000000000000000001 /* PublicIdentityPolicy.swift */,
@@ -816,6 +851,9 @@ E22000000000000000000002 = {isa = PBXFileReference; lastKnownFileType = sourceco
 				AC0000000000000000000005 /* UserAvatar.swift */,
 				AC0000000000000000000006 /* ProfileView.swift */,
                 AFB028000000000000000203 /* InstallationProof.swift */,
+                ADB519000000000000000001 /* DeviceBoundProof.swift */,
+                ADB519000000000000000002 /* DeviceBoundKey.swift */,
+                ADB519000000000000000003 /* DeviceBoundSession.swift */,
                 AFB028000000000000000202 /* BlockedAccountsView.swift */,
                 AFB028000000000000000201 /* BlockedAccountsModel.swift */,
 				AC0000000000000000000007 /* EditProfileView.swift */,
@@ -861,6 +899,9 @@ E22000000000000000000002 = {isa = PBXFileReference; lastKnownFileType = sourceco
 				3196112BB4DA893C7F55077E /* UnyriNamedQuickLook.swift */,
 				4C965B007F2DA25B5C3DCD7A /* UnyriFullMessageTextView.swift */,
 				63AC792C40E7E5C956245026 /* MessageTextPolicy.swift */,
+                5EC200000000000000000004 /* PeerImagePolicy.swift */,
+                5EC200000000000000000006 /* RemoteIcePolicy.swift */,
+                5EC200000000000000000008 /* LocalSecurityDecisions.swift */,
 				AB1A6EC80E754F85A10ED001 /* AttachmentImagePolicy.swift */,
 				AB1A6EC80E754F85A10ED002 /* AttachmentImages.swift */,
 				AB1A6EC80E754F85A10ED003 /* PhotosAttachmentThumbnail.swift */,
@@ -1010,6 +1051,7 @@ E22000000000000000000002 = {isa = PBXFileReference; lastKnownFileType = sourceco
 			files = (
 				BB0000000000000000000003 /* Assets.xcassets in Resources */,
 				BBA100000000000000000001 /* Localizable.xcstrings in Resources */,
+                B71911000000000000000004 /* ReactionEmojiKeywords.json in Resources */,
                 B02700000000000000000007 /* appearance_preview.jpg in Resources */,
                 AB80000000000000000000A1 /* unyri_message.caf in Resources */,
 				EC5103BAA9940822C1E09C35 /* UNYRI PrivacyInfo.xcprivacy in Resources */,
@@ -1069,6 +1111,9 @@ E22000000000000000000002 = {isa = PBXFileReference; lastKnownFileType = sourceco
 				BC0330000000000000000001 /* ChatAlbumSelection.swift in Sources */,
 				BC1311000000000000000001 /* ChatComposerPastePolicy.swift in Sources */,
 				BBD320000000000000000003 /* QuickReactionPolicy.swift in Sources */,
+                B71911000000000000000001 /* ReactionPickerPolicy.swift in Sources */,
+                B71911000000000000000002 /* ReactionPickerCatalog.swift in Sources */,
+                B71911000000000000000003 /* ReactionPickerPanel.swift in Sources */,
 				BBD320000000000000000002 /* QuickReaction.swift in Sources */,
 				BBD330000000000000000001 /* UnyriVideoPolicy.swift in Sources */,
 				BBD330000000000000000002 /* UnyriPlaybackAudioSession.swift in Sources */,
@@ -1167,11 +1212,14 @@ E21000000000000000000001,
 				BC00000000000000000000FD /* HistoryAttachmentRestorer.swift in Sources */,
 				BC00000000000000000000FE /* HistoryBackupCoordinator.swift in Sources */,
 				BC00000000000000000000FF /* HistoryBackupAPI.swift in Sources */,
-				BC0000000000000000000100 /* HistoryRecoveryKeys.swift in Sources */,
+				                B8F800000000000000000001 /* AccountSecretScope.swift in Sources */,
+                B8F800000000000000000003 /* ServerWorkBudget.swift in Sources */,
+                BC0000000000000000000100 /* HistoryRecoveryKeys.swift in Sources */,
 				BC0000000000000000000101 /* HistoryKeySettingsView.swift in Sources */,
                 BC0000000000000000000102 /* HistoryMedia.swift in Sources */,
                 BC0000000000000000000103 /* HistoryNativeOwner.swift in Sources */,
                 BC0000000000000000000107 /* HistoryTransferView.swift in Sources */,
+                D51119000000000000000001 /* AdminRegistration.swift in Sources */,
                 D51118000000000000000001 /* SelfHostingPolicy.swift in Sources */,
                 D51118000000000000000002 /* SelfHostingViews.swift in Sources */,
                 D01114000000000000000001 /* PublicIdentityPolicy.swift in Sources */,
@@ -1221,6 +1269,9 @@ E21000000000000000000001,
 				BC0000000000000000000005 /* UserAvatar.swift in Sources */,
 				BC0000000000000000000006 /* ProfileView.swift in Sources */,
                 BFB028000000000000000203 /* InstallationProof.swift in Sources */,
+                BDB519000000000000000001 /* DeviceBoundProof.swift in Sources */,
+                BDB519000000000000000002 /* DeviceBoundKey.swift in Sources */,
+                BDB519000000000000000003 /* DeviceBoundSession.swift in Sources */,
                 BFB028000000000000000202 /* BlockedAccountsView.swift in Sources */,
                 BFB028000000000000000201 /* BlockedAccountsModel.swift in Sources */,
 				BC0000000000000000000007 /* EditProfileView.swift in Sources */,
@@ -1266,6 +1317,9 @@ E21000000000000000000001,
 				2F380E1E1BF3445D345641E1 /* UnyriNamedQuickLook.swift in Sources */,
 				374F4532E9D6AB935DFBA210 /* UnyriFullMessageTextView.swift in Sources */,
 				708EFA8C79F6B55E0C9B20C6 /* MessageTextPolicy.swift in Sources */,
+                5EC200000000000000000001 /* PeerImagePolicy.swift in Sources */,
+                5EC200000000000000000005 /* RemoteIcePolicy.swift in Sources */,
+                5EC200000000000000000007 /* LocalSecurityDecisions.swift in Sources */,
 				BB1A6EC80E754F85A10ED001 /* AttachmentImagePolicy.swift in Sources */,
 				BB1A6EC80E754F85A10ED002 /* AttachmentImages.swift in Sources */,
 				BB1A6EC80E754F85A10ED003 /* PhotosAttachmentThumbnail.swift in Sources */,
@@ -1319,9 +1373,9 @@ E21000000000000000000001,
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 
- AB7E00000000000000000008 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (AB7E00000000000000000001, ); runOnlyForDeploymentPostprocessing = 0; };
+ AB7E00000000000000000008 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (5EC200000000000000000003 /* PeerImagePolicy.swift in Sources */, AB7E00000000000000000001, ); runOnlyForDeploymentPostprocessing = 0; };
  AB7E00000000000000000009 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (AB7E00000000000000000003, ); runOnlyForDeploymentPostprocessing = 0; };
- E14000000000000000000001 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (8BDDD33A5B3C8E33D375698D /* ShareItemClassification.swift in Sources */, E11000000000000000000001, E11000000000000000000002, F2F7518121E86AAF9669A94A /* ShareContainer.swift in Sources */, 812A3D9B88FC4B61C56BEBA8 /* ShareJob.swift in Sources */, AB01672439904D364467BBED /* ShareRoutePolicy.swift in Sources */, D924FFFA893102A4E9B89BB5 /* ShareTargetSnapshot.swift in Sources */, 02E610A8851BCF5EBC4D6F49 /* ShareSignal.swift in Sources */, A0DB4B19D536F86F2CD18639 /* LegacyShareViewController.swift in Sources */, 6100ADBE589BA1875BA2274C /* ShareComposerView.swift in Sources */, FB0C28714F6D5A84ABC330D2 /* ShareStrings.swift in Sources */, D5EC4F6A53A54B3A2E0BC29D /* MessageTextPolicy.swift in Sources */, ); runOnlyForDeploymentPostprocessing = 0; };
+ E14000000000000000000001 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (5EC200000000000000000002 /* PeerImagePolicy.swift in Sources */, 8BDDD33A5B3C8E33D375698D /* ShareItemClassification.swift in Sources */, E11000000000000000000001, E11000000000000000000002, F2F7518121E86AAF9669A94A /* ShareContainer.swift in Sources */, 812A3D9B88FC4B61C56BEBA8 /* ShareJob.swift in Sources */, AB01672439904D364467BBED /* ShareRoutePolicy.swift in Sources */, D924FFFA893102A4E9B89BB5 /* ShareTargetSnapshot.swift in Sources */, 02E610A8851BCF5EBC4D6F49 /* ShareSignal.swift in Sources */, A0DB4B19D536F86F2CD18639 /* LegacyShareViewController.swift in Sources */, 6100ADBE589BA1875BA2274C /* ShareComposerView.swift in Sources */, FB0C28714F6D5A84ABC330D2 /* ShareStrings.swift in Sources */, D5EC4F6A53A54B3A2E0BC29D /* MessageTextPolicy.swift in Sources */, ); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
@@ -1456,7 +1510,7 @@ E21000000000000000000001,
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
  CODE_SIGN_ENTITLEMENTS = UNYRI/UNYRI.entitlements; PROVISIONING_PROFILE_SPECIFIER = "$(UNYRI_MAIN_PROVISIONING_PROFILE_SPECIFIER)";
-				CURRENT_PROJECT_VERSION = 67;
+				CURRENT_PROJECT_VERSION = 71;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = UNYRI/Info.plist;
                 UNYRI_APS_ENVIRONMENT = development;
@@ -1465,7 +1519,7 @@ E21000000000000000000001,
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.4.21;
+				MARKETING_VERSION = 0.4.25;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(UNYRI_APP_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1488,7 +1542,7 @@ E21000000000000000000001,
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
  CODE_SIGN_ENTITLEMENTS = UNYRI/UNYRI.entitlements; PROVISIONING_PROFILE_SPECIFIER = "$(UNYRI_MAIN_PROVISIONING_PROFILE_SPECIFIER)";
-				CURRENT_PROJECT_VERSION = 67;
+				CURRENT_PROJECT_VERSION = 71;
 				GENERATE_INFOPLIST_FILE = NO;
 				UNYRI_MAIN_INFO_PLIST = "UNYRI/Info-Release.plist";
                 UNYRI_APS_ENVIRONMENT = production;
@@ -1498,7 +1552,7 @@ E21000000000000000000001,
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.4.21;
+				MARKETING_VERSION = 0.4.25;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(UNYRI_APP_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1514,10 +1568,10 @@ E21000000000000000000001,
 			};
 			name = Release;
 		};
-E16000000000000000000001 = {isa = XCBuildConfiguration; buildSettings = {APPLICATION_EXTENSION_API_ONLY = YES; CODE_SIGN_STYLE = Automatic; CODE_SIGN_ENTITLEMENTS = UNYRIShare/UNYRIShare.entitlements; PROVISIONING_PROFILE_SPECIFIER = "$(UNYRI_SHARE_PROVISIONING_PROFILE_SPECIFIER)"; CURRENT_PROJECT_VERSION = 67; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = UNYRIShare/Info.plist; IPHONEOS_DEPLOYMENT_TARGET = 16.0; LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@executable_path/../../Frameworks", ); MARKETING_VERSION = 0.4.21; PRODUCT_BUNDLE_IDENTIFIER = "$(UNYRI_APP_BUNDLE_IDENTIFIER).share"; PRODUCT_NAME = "$(TARGET_NAME)"; SKIP_INSTALL = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Debug; };
-E16000000000000000000002 = {isa = XCBuildConfiguration; buildSettings = {APPLICATION_EXTENSION_API_ONLY = YES; CODE_SIGN_STYLE = Automatic; CODE_SIGN_ENTITLEMENTS = UNYRIShare/UNYRIShare.entitlements; PROVISIONING_PROFILE_SPECIFIER = "$(UNYRI_SHARE_PROVISIONING_PROFILE_SPECIFIER)"; CURRENT_PROJECT_VERSION = 67; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = UNYRIShare/Info.plist; IPHONEOS_DEPLOYMENT_TARGET = 16.0; LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@executable_path/../../Frameworks", ); MARKETING_VERSION = 0.4.21; PRODUCT_BUNDLE_IDENTIFIER = "$(UNYRI_APP_BUNDLE_IDENTIFIER).share"; PRODUCT_NAME = "$(TARGET_NAME)"; SKIP_INSTALL = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Release; };
-AB7E0000000000000000000C = {isa = XCBuildConfiguration; buildSettings = {APPLICATION_EXTENSION_API_ONLY = YES; CODE_SIGN_STYLE = Automatic; PROVISIONING_PROFILE_SPECIFIER = "$(UNYRI_NOTIFICATION_PROVISIONING_PROFILE_SPECIFIER)"; CURRENT_PROJECT_VERSION = 67; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = UNYRINotificationService/Info.plist; IPHONEOS_DEPLOYMENT_TARGET = 16.0; LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@executable_path/../../Frameworks", ); MARKETING_VERSION = 0.4.21; PRODUCT_BUNDLE_IDENTIFIER = "$(UNYRI_APP_BUNDLE_IDENTIFIER).notifications"; PRODUCT_NAME = "$(TARGET_NAME)"; SKIP_INSTALL = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Debug; };
-AB7E0000000000000000000D = {isa = XCBuildConfiguration; buildSettings = {APPLICATION_EXTENSION_API_ONLY = YES; CODE_SIGN_STYLE = Automatic; PROVISIONING_PROFILE_SPECIFIER = "$(UNYRI_NOTIFICATION_PROVISIONING_PROFILE_SPECIFIER)"; CURRENT_PROJECT_VERSION = 67; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = UNYRINotificationService/Info.plist; IPHONEOS_DEPLOYMENT_TARGET = 16.0; LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@executable_path/../../Frameworks", ); MARKETING_VERSION = 0.4.21; PRODUCT_BUNDLE_IDENTIFIER = "$(UNYRI_APP_BUNDLE_IDENTIFIER).notifications"; PRODUCT_NAME = "$(TARGET_NAME)"; SKIP_INSTALL = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Release; };
+E16000000000000000000001 = {isa = XCBuildConfiguration; buildSettings = {APPLICATION_EXTENSION_API_ONLY = YES; CODE_SIGN_STYLE = Automatic; CODE_SIGN_ENTITLEMENTS = UNYRIShare/UNYRIShare.entitlements; PROVISIONING_PROFILE_SPECIFIER = "$(UNYRI_SHARE_PROVISIONING_PROFILE_SPECIFIER)"; CURRENT_PROJECT_VERSION = 71; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = UNYRIShare/Info.plist; IPHONEOS_DEPLOYMENT_TARGET = 16.0; LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@executable_path/../../Frameworks", ); MARKETING_VERSION = 0.4.25; PRODUCT_BUNDLE_IDENTIFIER = "$(UNYRI_APP_BUNDLE_IDENTIFIER).share"; PRODUCT_NAME = "$(TARGET_NAME)"; SKIP_INSTALL = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Debug; };
+E16000000000000000000002 = {isa = XCBuildConfiguration; buildSettings = {APPLICATION_EXTENSION_API_ONLY = YES; CODE_SIGN_STYLE = Automatic; CODE_SIGN_ENTITLEMENTS = UNYRIShare/UNYRIShare.entitlements; PROVISIONING_PROFILE_SPECIFIER = "$(UNYRI_SHARE_PROVISIONING_PROFILE_SPECIFIER)"; CURRENT_PROJECT_VERSION = 71; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = UNYRIShare/Info.plist; IPHONEOS_DEPLOYMENT_TARGET = 16.0; LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@executable_path/../../Frameworks", ); MARKETING_VERSION = 0.4.25; PRODUCT_BUNDLE_IDENTIFIER = "$(UNYRI_APP_BUNDLE_IDENTIFIER).share"; PRODUCT_NAME = "$(TARGET_NAME)"; SKIP_INSTALL = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Release; };
+AB7E0000000000000000000C = {isa = XCBuildConfiguration; buildSettings = {APPLICATION_EXTENSION_API_ONLY = YES; CODE_SIGN_STYLE = Automatic; PROVISIONING_PROFILE_SPECIFIER = "$(UNYRI_NOTIFICATION_PROVISIONING_PROFILE_SPECIFIER)"; CURRENT_PROJECT_VERSION = 71; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = UNYRINotificationService/Info.plist; IPHONEOS_DEPLOYMENT_TARGET = 16.0; LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@executable_path/../../Frameworks", ); MARKETING_VERSION = 0.4.25; PRODUCT_BUNDLE_IDENTIFIER = "$(UNYRI_APP_BUNDLE_IDENTIFIER).notifications"; PRODUCT_NAME = "$(TARGET_NAME)"; SKIP_INSTALL = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Debug; };
+AB7E0000000000000000000D = {isa = XCBuildConfiguration; buildSettings = {APPLICATION_EXTENSION_API_ONLY = YES; CODE_SIGN_STYLE = Automatic; PROVISIONING_PROFILE_SPECIFIER = "$(UNYRI_NOTIFICATION_PROVISIONING_PROFILE_SPECIFIER)"; CURRENT_PROJECT_VERSION = 71; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = UNYRINotificationService/Info.plist; IPHONEOS_DEPLOYMENT_TARGET = 16.0; LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@executable_path/../../Frameworks", ); MARKETING_VERSION = 0.4.25; PRODUCT_BUNDLE_IDENTIFIER = "$(UNYRI_APP_BUNDLE_IDENTIFIER).notifications"; PRODUCT_NAME = "$(TARGET_NAME)"; SKIP_INSTALL = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Release; };
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auth_hardware_binding_required">Ten telefon nie może chronić sesji kluczem sprzętowym, a serwer wymaga takiej ochrony.</string>
+</resources>

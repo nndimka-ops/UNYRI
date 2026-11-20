@@ -1055,9 +1055,11 @@ pub async fn reports(
     let sql = format!(
         "SELECT jsonb_build_object('id',r.id,'user_id',COALESCE(r.reported_user_id,r.reported_user_id_snapshot),
             'reporter_user_id',COALESCE(r.reporter_user_id,r.reporter_user_id_snapshot),'reason',r.reason,'description',r.description,
-            'reporter_username',COALESCE((SELECT u.username FROM users u WHERE u.id=r.reporter_user_id),(SELECT p->>'username' FROM jsonb_array_elements(r.participants_snapshot) p WHERE p->>'id'=r.reporter_user_id_snapshot::text)),
+            'reporter_public_username',COALESCE((SELECT i.public_username FROM user_identities i WHERE i.user_id=r.reporter_user_id),(SELECT p->>'public_username' FROM jsonb_array_elements(r.participants_snapshot) p WHERE p->>'id'=r.reporter_user_id_snapshot::text)),
+            'reporter_unyri_number',COALESCE((SELECT i.unyri_number::text FROM user_identities i WHERE i.user_id=r.reporter_user_id),(SELECT p->>'unyri_number' FROM jsonb_array_elements(r.participants_snapshot) p WHERE p->>'id'=r.reporter_user_id_snapshot::text)),
             'reporter_display_name',COALESCE((SELECT u.display_name FROM users u WHERE u.id=r.reporter_user_id),(SELECT p->>'display_name' FROM jsonb_array_elements(r.participants_snapshot) p WHERE p->>'id'=r.reporter_user_id_snapshot::text)),
-            'reported_username',COALESCE((SELECT u.username FROM users u WHERE u.id=r.reported_user_id),(SELECT p->>'username' FROM jsonb_array_elements(r.participants_snapshot) p WHERE p->>'id'=r.reported_user_id_snapshot::text)),
+            'reported_public_username',COALESCE((SELECT i.public_username FROM user_identities i WHERE i.user_id=r.reported_user_id),(SELECT p->>'public_username' FROM jsonb_array_elements(r.participants_snapshot) p WHERE p->>'id'=r.reported_user_id_snapshot::text)),
+            'reported_unyri_number',COALESCE((SELECT i.unyri_number::text FROM user_identities i WHERE i.user_id=r.reported_user_id),(SELECT p->>'unyri_number' FROM jsonb_array_elements(r.participants_snapshot) p WHERE p->>'id'=r.reported_user_id_snapshot::text)),
             'reported_display_name',COALESCE((SELECT u.display_name FROM users u WHERE u.id=r.reported_user_id),(SELECT p->>'display_name' FROM jsonb_array_elements(r.participants_snapshot) p WHERE p->>'id'=r.reported_user_id_snapshot::text)),
             'status',r.review_status,'review_note',r.review_note,'decision_reason',r.decision_reason,
             'reviewed_by',r.reviewed_by,
@@ -1231,13 +1233,8 @@ pub struct UsersQuery {
     limit: Option<i64>,
 }
 
-/// Account search by username or display name, ordered by username.
-///
-/// Display-name matching is an administrator-only capability: the ordinary
-/// `/users/search` surface remains username-only, so this does not widen what a
-/// normal user can look up. Ordinariness of ordering relies on
-/// `username_normalized` being UNIQUE (migration 0001), which makes the cursor
-/// a total order without a tiebreaker column.
+/// Public account search: exact number, @public username or UUID, and display-name substring.
+/// UUID ordering and pagination do not disclose a private sign-in credential.
 pub async fn users(
     State(state): State<AppState>,
     _admin: Admin,
@@ -1254,7 +1251,8 @@ pub async fn users(
     let after = cursor::decode_text_key_uuid(query.cursor.as_deref(), &print)?;
     let sql = format!(
         "SELECT jsonb_build_object('id',u.id,'user_id',u.id,
-            'description',u.display_name,'reason',u.username,'sort_key',u.username_normalized,
+            'display_name',u.display_name,'public_username',i.public_username,
+            'unyri_number',i.unyri_number::text,'sort_key',u.id::text,
             'installation_blocks',(SELECT COUNT(DISTINCT ib.installation_id)
                 FROM installation_suspensions ib JOIN devices di ON di.installation_id=ib.installation_id
                 WHERE di.user_id=u.id AND (ib.until_date IS NULL OR ib.until_date>now())),
@@ -1262,14 +1260,16 @@ pub async fn users(
                 THEN 'suspended' WHEN EXISTS(SELECT 1 FROM admin_user_controls c WHERE c.user_id=u.id AND c.read_only_reason IS NOT NULL AND (c.read_only_until IS NULL OR c.read_only_until>now())) THEN 'read_only' ELSE 'active' END,
             'suspended_until',to_char(b.until_date AT TIME ZONE 'UTC','{ISO_UTC}'),
             'created_at',to_char(u.created_at AT TIME ZONE 'UTC','{ISO_UTC}'))
-         FROM users u LEFT JOIN server_suspensions b ON b.user_id=u.id
+         FROM users u LEFT JOIN user_identities i ON i.user_id=u.id
+         LEFT JOIN server_suspensions b ON b.user_id=u.id
          WHERE u.deleted_at IS NULL
-           AND ($1::text IS NULL OR position(lower($1) in u.username_normalized)>0
-                OR position(lower($1) in lower(u.display_name))>0)
+           AND ($1::text IS NULL OR u.id::text=lower($1) OR i.unyri_number::text=$1
+                OR (left($1,1)='@' AND i.public_username=lower(substring($1,2)))
+                OR (left($1,1)<>'@' AND position(lower($1) in lower(u.display_name))>0))
            AND ($2::text IS NULL OR (CASE WHEN b.user_id IS NOT NULL AND (b.until_date IS NULL OR b.until_date>now())
                 THEN 'suspended' WHEN EXISTS(SELECT 1 FROM admin_user_controls c WHERE c.user_id=u.id AND c.read_only_reason IS NOT NULL AND (c.read_only_until IS NULL OR c.read_only_until>now())) THEN 'read_only' ELSE 'active' END)=ANY(CASE WHEN $2='restricted' THEN ARRAY['suspended','read_only'] ELSE ARRAY[$2] END))
-           AND ($3::text IS NULL OR u.username_normalized>$3)
-         ORDER BY u.username_normalized LIMIT $4"
+           AND ($3::text IS NULL OR u.id::text>$3)
+         ORDER BY u.id LIMIT $4"
     );
     let rows: Vec<Value> = sqlx::query_scalar(&sql)
         .bind(search)
@@ -1554,7 +1554,7 @@ pub async fn summary(State(state): State<AppState>, admin: Admin) -> Result<Json
 /// The User Moderation Center payload: everything an administrator needs about
 /// one account, and nothing about its private conversations.
 ///
-/// Primary fields are human-readable (username, display name, device label).
+/// Primary fields contain public identity (number, public username, display name).
 /// Raw identifiers are still returned because a client must be able to address
 /// a device for moderation, but they are documented as technical detail and the
 /// clients present them collapsed.
@@ -1565,7 +1565,8 @@ pub async fn user_detail(
 ) -> Result<Json<Value>, AppError> {
     let sql = format!(
         "SELECT jsonb_build_object(
-            'user_id',u.id,'username',u.username,'display_name',u.display_name,
+            'user_id',u.id,'public_username',(SELECT i.public_username FROM user_identities i WHERE i.user_id=u.id),
+            'unyri_number',(SELECT i.unyri_number::text FROM user_identities i WHERE i.user_id=u.id),'display_name',u.display_name,
             'bio',u.bio,
             'has_avatar',u.avatar_key IS NOT NULL,
             'created_at',to_char(u.created_at AT TIME ZONE 'UTC','{ISO_UTC}'),
@@ -1675,7 +1676,8 @@ pub async fn user_detail(
     Ok(Json(json!({
         "profile": {
             "user_id": row["user_id"],
-            "username": row["username"],
+            "public_username": row["public_username"],
+            "unyri_number": row["unyri_number"],
             "display_name": row["display_name"],
             "bio": row["bio"],
             "has_avatar": row["has_avatar"],
@@ -1847,7 +1849,8 @@ pub async fn export_user_diagnostics(
     let reason = required_reason(&body.reason)?;
     let mut tx = state.db.begin().await?;
     let profile: Option<Value> = sqlx::query_scalar(
-        "SELECT jsonb_build_object('user_id',u.id,'username',u.username,'display_name',u.display_name,
+        "SELECT jsonb_build_object('user_id',u.id,'public_username',(SELECT i.public_username FROM user_identities i WHERE i.user_id=u.id),
+            'unyri_number',(SELECT i.unyri_number::text FROM user_identities i WHERE i.user_id=u.id),'display_name',u.display_name,
             'bio',u.bio,'has_avatar',u.avatar_key IS NOT NULL,'profile_version',u.profile_version,
             'avatar_version',u.avatar_version,'created_at',u.created_at,'updated_at',u.updated_at)
          FROM users u WHERE u.id=$1 AND u.deleted_at IS NULL",
@@ -1934,11 +1937,10 @@ pub async fn moderate_profile(
     ensure_moderatable(&state, &admin, id).await?;
     let mut tx = state.db.begin().await?;
     let current: (String, String, Option<String>, Option<String>) = sqlx::query_as(
-        "SELECT username,display_name,bio,avatar_key FROM users WHERE id=$1 AND deleted_at IS NULL FOR UPDATE",
+        "SELECT COALESCE((SELECT COALESCE('@'||NULLIF(i.public_username,''),CASE WHEN length(i.unyri_number::text)=9 THEN substring(i.unyri_number::text,1,3)||U&'\\202F'||substring(i.unyri_number::text,4,3)||U&'\\202F'||substring(i.unyri_number::text,7,3) ELSE i.unyri_number::text END) FROM user_identities i WHERE i.user_id=users.id),''),display_name,bio,avatar_key FROM users WHERE id=$1 AND deleted_at IS NULL FOR UPDATE",
     ).bind(id).fetch_optional(&mut *tx).await?.ok_or_else(denied)?;
-    let cleared_name = if crate::display_name::contains_link(&current.0) || crate::display_name::is_reserved(&current.0) {
-        "Unknown user".to_string()
-    } else { crate::display_name::sanitize(&current.0) };
+    // Moderation writes a public field: never use the private sign-in login.
+    let cleared_name = current.0.clone();
     let name_changed = body.clear_display_name && current.1 != cleared_name;
     let bio_changed = body.clear_bio && current.2.is_some();
     let avatar_changed = body.remove_avatar && current.3.is_some();
@@ -2132,7 +2134,7 @@ pub async fn logout_device(
 
     if let Ok(payload) =
         serde_json::to_string(&crate::websocket::protocol::ServerMessage::SessionRevoked {
-            reason: "device_revoked".into(),
+            reason: "session_revoked".into(),
         })
     {
         crate::websocket::terminate_revoked_device(&state, device_id, &payload).await;
@@ -2182,7 +2184,7 @@ pub async fn user_avatar(
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct DeleteUserRequest {
-    confirm_username: String,
+    confirm_identity: String,
     reason: String,
 }
 
@@ -2195,10 +2197,10 @@ pub async fn delete_user(
     if admin.role != "owner" || id == admin.user {
         return Err(denied());
     }
-    if body.confirm_username.len() > 32 || body.reason.trim().is_empty() || body.reason.len() > 2000
+    if body.confirm_identity.len() > 36 || body.reason.trim().is_empty() || body.reason.len() > 2000
     {
         return Err(AppError::Validation(
-            "An exact username confirmation and deletion reason are required.".into(),
+            "An exact public number (or account UUID) and deletion reason are required.".into(),
         ));
     }
     // Owner-only destructive action. The server owner explicitly requested
@@ -2208,17 +2210,19 @@ pub async fn delete_user(
     // Account deletion writes durable peer call tombstones. Match the global
     // history feed -> users lock order used by manual/automatic removal.
     crate::users::deletion::lock_account_deletion_roles(&mut tx).await?;
-    sqlx::query("SELECT pg_advisory_xact_lock(6840210040)").execute(&mut *tx).await?;
-    let username: String = sqlx::query_scalar(
-        "SELECT username FROM users WHERE id=$1 AND deleted_at IS NULL FOR UPDATE",
+    sqlx::query("SELECT pg_advisory_xact_lock(6840210040)")
+        .execute(&mut *tx)
+        .await?;
+    let identity: String = sqlx::query_scalar(
+        "SELECT COALESCE((SELECT i.unyri_number::text FROM user_identities i WHERE i.user_id=users.id),id::text) FROM users WHERE id=$1 AND deleted_at IS NULL FOR UPDATE",
     )
     .bind(id)
     .fetch_optional(&mut *tx)
     .await?
     .ok_or_else(denied)?;
-    if body.confirm_username != username {
+    if body.confirm_identity != identity {
         return Err(AppError::Validation(
-            "The confirmation username does not match.".into(),
+            "The confirmation public number or account UUID does not match.".into(),
         ));
     }
     let target_is_admin: bool =
@@ -2231,12 +2235,12 @@ pub async fn delete_user(
     }
     sqlx::query(
         "INSERT INTO admin_audit(actor,action,target,reason,detail) \
-         VALUES($1,'account_delete',$2,$3,jsonb_build_object('username',$4))",
+         VALUES($1,'account_delete',$2,$3,jsonb_build_object('user_id',$2,'identity',$4))",
     )
     .bind(admin.user)
     .bind(id)
     .bind(body.reason.trim())
-    .bind(&username)
+    .bind(&identity)
     .execute(&mut *tx)
     .await?;
     let effects = crate::users::deletion::delete_account_data(&state, &mut tx, id).await?;
@@ -2520,11 +2524,12 @@ pub async fn suspend_installation(
         .fetch_all(&mut *tx)
         .await?;
         sqlx::query(
-            "UPDATE sessions SET revoked_at=now(),revocation_reason='device_revoked' WHERE revoked_at IS NULL AND device_id=ANY($1)",
+            "UPDATE sessions SET revoked_at=now(),revocation_reason='account_suspended' WHERE device_id=ANY($1)",
         )
         .bind(&affected_devices)
         .execute(&mut *tx)
         .await?;
+        state.push.enqueue_session_check_transactional(&mut tx, &affected_devices).await?;
         sqlx::query("UPDATE push_tokens SET invalidated_at=now() WHERE device_id=ANY($1)")
             .bind(&affected_devices)
             .execute(&mut *tx)
@@ -2557,9 +2562,10 @@ pub async fn suspend_installation(
     tx.commit().await?;
 
     if body.blocked {
+        state.push.wake_worker();
         if let Ok(payload) =
             serde_json::to_string(&crate::websocket::protocol::ServerMessage::SessionRevoked {
-                reason: "device_revoked".into(),
+                reason: "account_suspended".into(),
             })
         {
             for device in affected_devices {
@@ -2644,8 +2650,9 @@ pub async fn suspend(
             sqlx::query("INSERT INTO installation_suspensions(installation_id,source_user_id,until_date,reason,actor) VALUES($1,$2,$3,$4,$5) ON CONFLICT(installation_id,source_user_id) DO UPDATE SET until_date=excluded.until_date,reason=excluded.reason,actor=excluded.actor,created_at=now()")
                 .bind(installation).bind(id).bind(body.until).bind(&body.reason).bind(admin.user).execute(&mut *tx).await?;
         }
-        sqlx::query("UPDATE sessions SET revoked_at=now(),revocation_reason='device_revoked' WHERE revoked_at IS NULL AND (user_id=$1 OR device_id IN (SELECT installation_devices($2)))")
+        sqlx::query("UPDATE sessions SET revoked_at=COALESCE(revoked_at,now()),revocation_reason='account_suspended' WHERE user_id=$1 OR device_id IN (SELECT installation_devices($2))")
             .bind(id).bind(&installations).execute(&mut *tx).await?;
+        state.push.enqueue_session_check_transactional(&mut tx, &affected_devices).await?;
         sqlx::query("UPDATE push_tokens SET invalidated_at=now() WHERE device_id IN (SELECT id FROM devices WHERE user_id=$1 OR id IN (SELECT installation_devices($2)))")
             .bind(id).bind(&installations).execute(&mut *tx).await?;
         sqlx::query("DELETE FROM admin_sessions WHERE user_id=$1 OR auth_session IN (SELECT id FROM sessions WHERE revoked_at IS NOT NULL)")
@@ -2685,9 +2692,10 @@ pub async fn suspend(
         .execute(&mut *tx)
         .await?;
     tx.commit().await?;
+    if body.blocked { state.push.wake_worker(); }
     if let Ok(payload) =
         serde_json::to_string(&crate::websocket::protocol::ServerMessage::SessionRevoked {
-            reason: "device_revoked".into(),
+            reason: "account_suspended".into(),
         })
     {
         for device in affected_devices {

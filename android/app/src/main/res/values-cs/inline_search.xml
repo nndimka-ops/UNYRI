@@ -19,7 +19,7 @@
     <string name="search_recent">Nedávná hledání</string>
     <string name="search_scope_messages">Zprávy</string>
     <string name="settings_search_label">Hledat</string>
-    <string name="unified_search_hint">Prohledávejte uložené chaty a zprávy offline. Najděte osoby na tomto serveru podle uživatelského jména.</string>
+    <string name="unified_search_hint">Hledejte uložené chaty a zprávy i bez připojení. Lidi na tomto serveru najdete podle čísla nebo @jména.</string>
     <string name="unified_search_network">Hledání na serveru není dostupné. Místní výsledky zůstávají dostupné.</string>
     <string name="unified_search_local_error">Uložené zprávy nelze načíst. Zkuste hledat znovu.</string>
 </resources>

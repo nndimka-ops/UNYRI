@@ -154,9 +154,17 @@ struct RegisterView: View {
             }
             .id(Input.handle)
             passwordField.id(Input.password)
-            Text(UnyriL10n.string(PublicIdentityPolicy.passwordStrengthKey(password)))
-                .font(.caption).foregroundStyle(UnyriColors.secondaryText)
-                .accessibilityIdentifier("register-password-strength")
+            // B-048: a password the server would refuse is named while it is typed.
+            if !password.isEmpty, PublicIdentityPolicy.isCommonPassword(password) {
+                Text(UnyriL10n.string(PublicIdentityPolicy.commonPasswordKey))
+                    .font(.caption).foregroundStyle(.red)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .accessibilityIdentifier("register-password-common")
+            } else {
+                Text(UnyriL10n.string(PublicIdentityPolicy.passwordStrengthKey(password)))
+                    .font(.caption).foregroundStyle(UnyriColors.secondaryText)
+                    .accessibilityIdentifier("register-password-strength")
+            }
             Text("8–256 characters. Use a long password that you do not use elsewhere.")
                 .font(.caption).foregroundColor(.secondary)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -170,7 +178,8 @@ struct RegisterView: View {
             .onSubmit { focusedInput = nil }
             .autocorrectionDisabled().textInputAutocapitalization(.never).unyriFieldStyle()
             .id(Input.confirmation)
-        }.padding(16).modifier(UnyriDrawerGlass())
+        }.padding(16).modifier(UnyriCardGlass())
+            .accessibilityElement(children: .contain).accessibilityIdentifier("register-credentials")
     }
 
     private func revealInput(_ input: Input?, using scroll: ScrollViewProxy) {
@@ -224,6 +233,11 @@ struct RegisterView: View {
         }
         guard (8...256).contains(password.unicodeScalars.count) else {
             errorMessage = UnyriL10n.string("Password must be 8-256 characters.")
+            return
+        }
+        guard !PublicIdentityPolicy.isCommonPassword(password) else {
+            errorMessage = UnyriL10n.string(PublicIdentityPolicy.commonPasswordKey)
+            focusedInput = .password
             return
         }
         guard password == confirmPassword else {

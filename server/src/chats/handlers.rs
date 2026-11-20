@@ -40,6 +40,8 @@ struct ChatSummaryRow {
     last_message_at: Option<DateTime<Utc>>,
     other_user_id: Option<Uuid>,
     other_username: Option<String>,
+    other_public_username: Option<String>,
+    other_unyri_number: Option<String>,
     other_display_name: Option<String>,
     other_bio: Option<String>,
     other_new_account: Option<bool>,
@@ -58,11 +60,13 @@ struct ChatSummaryRow {
 
 impl From<ChatSummaryRow> for ChatSummary {
     fn from(row: ChatSummaryRow) -> Self {
-        let other_user = match (row.other_user_id, row.other_username, row.other_display_name) {
-            (Some(id), Some(username), Some(display_name)) => {
+        let other_user = match (row.other_user_id, row.other_username, row.other_unyri_number, row.other_display_name) {
+            (Some(id), Some(username), Some(unyri_number), Some(display_name)) => {
                 Some(PublicUser {
                     id,
                     username,
+                    public_username: row.other_public_username,
+                    unyri_number,
                     display_name,
                     bio: row.other_bio,
                     new_account: row.other_new_account,
@@ -102,7 +106,8 @@ impl From<ChatSummaryRow> for ChatSummary {
 async fn fetch_chat_summary(db: &PgPool, chat_id: Uuid, requester_id: Uuid, requester_device: Option<Uuid>) -> Result<Option<ChatSummary>, AppError> {
     let row: Option<ChatSummaryRow> = sqlx::query_as(
         "SELECT c.id AS chat_id, c.type AS chat_type, c.created_at, c.last_message_at, \
-                ou.id AS other_user_id, ou.username AS other_username, \
+                ou.id AS other_user_id, COALESCE(oi.public_username,'') AS other_username, \
+                oi.public_username AS other_public_username, oi.unyri_number::text AS other_unyri_number, \
                 ou.bio AS other_bio, \
                 CASE WHEN ou.created_at > now() - interval '30 days' THEN true END AS other_new_account, \
                 ou.display_name AS other_display_name, ou.avatar_url AS other_avatar_url, \
@@ -129,6 +134,7 @@ async fn fetch_chat_summary(db: &PgPool, chat_id: Uuid, requester_id: Uuid, requ
          LEFT JOIN users ou ON ou.id = CASE WHEN c.type = 'direct' \
              THEN (CASE WHEN c.user_a_id = $2 THEN c.user_b_id ELSE c.user_a_id END) \
              ELSE NULL END AND NOT user_pair_blocked($2,ou.id) AND ($3::uuid IS NULL OR NOT user_device_blocked($3,ou.id)) \
+         LEFT JOIN user_identities oi ON oi.user_id=ou.id \
          LEFT JOIN user_blocks ub ON ub.user_id=$2 AND ub.blocked_user_id=CASE WHEN c.type='direct' \
              THEN CASE WHEN c.user_a_id=$2 THEN c.user_b_id ELSE c.user_a_id END ELSE NULL END \
          WHERE cm.chat_id = $1 AND cm.user_id = $2 AND cm.left_at IS NULL",
@@ -304,7 +310,8 @@ pub async fn list_chats(
 
     let rows: Vec<ChatSummaryRow> = sqlx::query_as(
         "SELECT c.id AS chat_id, c.type AS chat_type, c.created_at, c.last_message_at, \
-                ou.id AS other_user_id, ou.username AS other_username, \
+                ou.id AS other_user_id, COALESCE(oi.public_username,'') AS other_username, \
+                oi.public_username AS other_public_username, oi.unyri_number::text AS other_unyri_number, \
                 NULL::text AS other_bio, NULL::boolean AS other_new_account, \
                 ou.display_name AS other_display_name, ou.avatar_url AS other_avatar_url, \
                 ou.avatar_key AS other_avatar_key, ou.profile_version AS other_profile_version, \
@@ -330,6 +337,7 @@ pub async fn list_chats(
          LEFT JOIN users ou ON ou.id = CASE WHEN c.type = 'direct' \
              THEN (CASE WHEN c.user_a_id = $1 THEN c.user_b_id ELSE c.user_a_id END) \
              ELSE NULL END AND NOT user_device_blocked($5,ou.id) \
+         LEFT JOIN user_identities oi ON oi.user_id=ou.id \
          LEFT JOIN user_blocks ub ON ub.user_id=$1 AND ub.blocked_user_id=CASE WHEN c.type='direct' \
              THEN CASE WHEN c.user_a_id=$1 THEN c.user_b_id ELSE c.user_a_id END ELSE NULL END \
          WHERE cm.user_id = $1 AND cm.left_at IS NULL \

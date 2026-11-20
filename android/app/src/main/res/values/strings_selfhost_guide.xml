@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sh_get_server_title">Where to get your own server</string>
+    <string name="sh_get_server">A server is a program on a computer that stays on: your home PC or a rented computer (VPS). The UNYRI page on GitHub has everything you need: UNYRI Server for Windows, one command for VPS/Linux, and a step-by-step guide. The program and guide are free.</string>
+    <string name="sh_open_guide">Guide and downloads</string>
+    <string name="sh_open_guide_failed">Could not open the guide. Check that a browser is installed and try again.</string>
+    <string name="sh_guide_install">Follow the guide to install UNYRI Server on that computer. Docker is the tool that runs the server. You also need a domain (its internet name) and a valid HTTPS certificate for a secure connection.</string>
+    <string name="sh_guide_network">Let phones reach the server from the internet. In your router, open HTTPS port 443 and the ports listed in the guide that carry calls through the server. If your provider uses CGNAT (a shared internet address), use a tunnel (a connection through another server) or a VPS. DDNS gives the server a permanent name even when its internet address changes.</string>
+    <string name="sh_guide_join">Scan a server invitation and confirm the address. Then create an account. If this server requires an invitation code, the app fills it in for that server.</string>
+    <string name="sh_guide_owner">On a new server, choose Become the owner. Enter or scan the code from the installer. Then set up protection for administrator sign-in.</string>
+    <string name="sh_guide_check">Turn off Wi-Fi and test messages and calls using mobile data. A connection check cannot confirm that call relay ports work or notifications arrive. Notifications need a provider configured on the server. On iPhone, background notifications need Apple push support or the planned notification relay.</string>
+</resources>

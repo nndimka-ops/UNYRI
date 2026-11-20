@@ -1549,6 +1549,15 @@ class CallController(
         if (!isCurrentCall(call.id)) return false
         val iceServers = callApi.iceServers()
         if (!isCurrentCall(call.id)) return false
+        val peer = if (call.callerUserId == currentUserId()) call.calleeUserId else call.callerUserId
+        val contact = isContact(peer)
+        if (webRtcEngine.relayUnavailable(iceServers, contact)) {
+            val current = currentCallInfoOrNull() ?: return false
+            val owner = sessionOwner()
+            endLocally(current, CallEndReason.FAILED, CallFailureReason.RELAY_UNAVAILABLE)
+            scope.launch { runCatching { callApi.markFailedIfCurrent(call.id) { owner == sessionOwner() } } }
+            return false
+        }
         val mediaKind = if (call.mediaKind == "video") CallMediaKind.VIDEO else CallMediaKind.AUDIO
         recovery.caller = currentCallInfoOrNull()?.direction == CallDirection.OUTGOING
         webRtcEngine.setDiagnosticsRecording(diagnosticsRecording())
@@ -1558,8 +1567,7 @@ class CallController(
             is CallUiState.Connecting -> current.localVideoEnabled
             else -> localCameraRequested
         } && mediaKind == CallMediaKind.VIDEO
-        val peer = if (call.callerUserId == currentUserId()) call.calleeUserId else call.callerUserId
-        webRtcEngine.setPeerContact(isContact(peer))
+        webRtcEngine.setPeerContact(contact)
         webRtcEngine.initialize(iceServers, mediaKind, captureVideo = cameraIntent)
         if (!isCurrentCall(call.id)) return false
         localCameraRequested = cameraIntent && webRtcEngine.localVideoRunning()
@@ -1570,7 +1578,10 @@ class CallController(
             if (!localCameraRequested) signalingClient.sendVideoState(call.id, false)
         }
         startStatsSampling(call.id)
+        // Native audio initialization can reset the route selected while ringing.
+        // Reapply the per-call manual choice after setup, before connecting media.
         if (!localCameraRequested) updateAutomaticAudioRoute(localCameraEnabled = false)
+        else updateAutomaticAudioRoute()
         return true
     }
 

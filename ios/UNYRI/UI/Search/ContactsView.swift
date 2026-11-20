@@ -51,6 +51,7 @@ struct ContactsView: View, Equatable {
     @State private var loading = false
     @State private var searched = false
     @State private var serverError: String?
+    @State private var serverErrorRetryable = true
     @State private var nextOffset: Int64?
     @State private var failedPageOffset: Int64?
     @State private var epoch = UUID()
@@ -61,8 +62,10 @@ struct ContactsView: View, Equatable {
     @State private var openingTask: Task<Void, Never>?
     @State private var cachedChats: [ChatSummary] = []
     @State private var showingQR = false
-    @State private var showingAdd = false
+    @State private var openedLink: PublicIdentityPolicy.Link?
+    @State private var profileLink: PublicIdentityPolicy.Link?
     @State private var publicIdentity: OwnerIdentity?
+    @State private var legacyIdentityServer = false
     @State private var lastContactChange: UUID?
     @State private var visible = false
     @StateObject private var hub: ContactsPresenceHub
@@ -82,6 +85,7 @@ struct ContactsView: View, Equatable {
     private struct ServerPreparationKey: Hashable, Sendable {
         let revision: UInt64
         let serverRevision: Int
+        let projectionRevision: Int
         let query: String
     }
     private struct RemoteKey: Hashable, Sendable {
@@ -90,10 +94,19 @@ struct ContactsView: View, Equatable {
         let retry: Int
     }
     private var preparationKey: PreparationKey { .init(query: query, revision: revision, classification: classificationRevision) }
-    private var remoteKey: RemoteKey { .init(query: ContactsPresentation.query(query), connected: connected, retry: retry) }
+    private var remoteKey: RemoteKey { .init(query: query.trimmingCharacters(in: .whitespacesAndNewlines), connected: connected, retry: retry) }
 
     var body: some View {
         ScrollViewReader { proxy in
+            lifecycleHandlers(observers(list(proxy)))
+                .sheet(isPresented: $showingQR) { UnyriProfileQRSheet(users: users, displayName: displayName) }
+                .sheet(item: $openedLink) { IdentityLinkView(target: $0) }
+        }
+    }
+
+    // Split out of `body` (same modifier order): one chain this long exceeded the type
+    // checker's time budget once B-033's identity handlers joined it (Mac build 19 Nov).
+    private func list(_ proxy: ScrollViewProxy) -> some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 0) {
                 actions
@@ -120,7 +133,7 @@ struct ContactsView: View, Equatable {
                             .accessibilityIdentifier("contacts-section-" + title)
                     }
                 }
-                if ContactsPresentation.query(query).count >= 3 { serverSection }
+                if PublicIdentityPolicy.contactsSearch(query).showsServerSection { serverSection }
                 else if !query.isEmpty {
                     note("People you have chats with. Type 3 or more characters to search everyone on your server.", symbol: "magnifyingglass")
                 }
@@ -141,13 +154,6 @@ struct ContactsView: View, Equatable {
         .navigationBarBackButtonHidden(true)
         .toolbar {
             UnyriBackToolbarItem(action: { dismiss() }, label: "Back to chats", identifier: "contacts-back")
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button { UnyriHaptics.press(); showingAdd = true } label: {
-                    Image(systemName: "person.crop.circle.badge.plus").frame(width: 44, height: 44)
-                }
-                .accessibilityLabel("Add contact by number or @username")
-                .accessibilityIdentifier("contacts-add-identity")
-            }
             ToolbarItem(placement: .principal) {
                 ContactsConnectionTitle(realtime: realtime, routeAvailable: connected)
             }
@@ -155,6 +161,10 @@ struct ContactsView: View, Equatable {
         .unyriScreenBackground()
         .performanceScreen(.search)
         .unyriBlocksRootDrawer()
+    }
+
+    private func observers<Content: View>(_ content: Content) -> some View {
+        content
         // Every handler below must be idempotent. SwiftUI may cancel and resubscribe
         // onReceive on any body update, and @Published / CurrentValueSubject replay
         // their current value at once. An unconditional bump there is a synchronous
@@ -176,8 +186,8 @@ struct ContactsView: View, Equatable {
         .onReceive(users.$blockedAccountsRevision.removeDuplicates()) { value in
             guard lastBlockedRevision != value else { return }
             if lastBlockedRevision != nil {
-                epoch = UUID(); serverResults = []; renderedServer = []; serverRevision += 1
-                lastRemoteKey = nil; retry += 1
+                epoch = UUID(); loading = false; serverResults = []; renderedServer = []; serverRevision += 1
+                searched = false; serverError = nil; nextOffset = nil; failedPageOffset = nil; retry += 1
             }
             lastBlockedRevision = value
         }
@@ -187,7 +197,7 @@ struct ContactsView: View, Equatable {
             if onlineIDs != ids { onlineIDs = ids; classificationRevision &+= 1 }
         }
         .task(id: preparationKey) { await prepare() }
-        .task(id: ServerPreparationKey(revision: revision, serverRevision: serverRevision, query: query)) { await prepareServer() }
+        .task(id: ServerPreparationKey(revision: revision, serverRevision: serverRevision, projectionRevision: projectionRevision, query: query)) { await prepareServer() }
         .task(id: remoteKey) { await searchServer() }
         .task { _ = try? await users.getIdentity() }
         .task {
@@ -195,25 +205,27 @@ struct ContactsView: View, Equatable {
             hub.blocked = Set(cachedChats.filter { $0.isBlocked == true }.compactMap { $0.otherUser?.id })
             await users.contacts.ensureLoaded()
         }
-        .onAppear { visible = true; users.contacts.listAppeared(); hub.setEnabled(scenePhase == .active && !showingQR && !showingAdd) }
+    }
+
+    private func lifecycleHandlers<Content: View>(_ content: Content) -> some View {
+        content
+        .onAppear { visible = true; users.contacts.listAppeared(); hub.setEnabled(scenePhase == .active && !showingQR && openedLink == nil) }
         .onDisappear {
             visible = false; users.contacts.listDisappeared(); hub.setEnabled(false)
             cancelOpening()
         }
         .onChange(of: query) { _ in cancelOpening() }
-        .onChange(of: scenePhase) { hub.setEnabled(visible && $0 == .active && !showingQR && !showingAdd) }
-        .onChange(of: showingQR) { hub.setEnabled(visible && scenePhase == .active && !$0 && !showingAdd) }
-        .onChange(of: showingAdd) { hub.setEnabled(visible && scenePhase == .active && !$0 && !showingQR) }
+        .onChange(of: scenePhase) { hub.setEnabled(visible && $0 == .active && !showingQR && openedLink == nil) }
+        .onChange(of: showingQR) { hub.setEnabled(visible && scenePhase == .active && !$0 && openedLink == nil) }
+        .onChange(of: openedLink) { hub.setEnabled(visible && scenePhase == .active && $0 == nil && !showingQR) }
         .onReceive(users.$ownIdentity.removeDuplicates()) { value in if publicIdentity != value { publicIdentity = value } }
+        .onReceive(users.$legacyIdentityServer.removeDuplicates()) { legacyIdentityServer = $0 }
         .onReceive(NotificationCenter.default.publisher(for: .login2ContactChanged)) { notification in
             guard let change = notification.object as? UUID, change != lastContactChange,
                   notification.userInfo?["owner"] as? String == users.blockedAccountOwnerID else { return }
             lastContactChange = change
             users.contacts.markStale()
             Task { @MainActor in await users.contacts.ensureLoaded() }
-        }
-        .sheet(isPresented: $showingQR) { UnyriProfileQRSheet(users: users, displayName: displayName) }
-        .sheet(isPresented: $showingAdd) { ContactsAddByIdentity(users: users) }
         }
     }
 
@@ -223,8 +235,11 @@ struct ContactsView: View, Equatable {
             TextField("Search contacts", text: $query).focused($searchFocused)
                 .textInputAutocapitalization(.never).autocorrectionDisabled().submitLabel(.search)
                 .accessibilityIdentifier("contacts-query")
-                .onSubmit { searchFocused = false }
-                .onChange(of: query) { if $0.count > 256 { query = String($0.prefix(256)) } }
+                .onSubmit { Task { @MainActor in await submitSearch() } }
+                .onChange(of: query) {
+                    let bounded = PublicIdentityPolicy.boundedContactsInput($0)
+                    if bounded != $0 { query = bounded }
+                }
             if !query.isEmpty {
                 Button { query = ""; searchFocused = true } label: {
                     Image(systemName: "xmark").frame(width: 44, height: 44)
@@ -270,9 +285,10 @@ struct ContactsView: View, Equatable {
         // ("в контактах нету кнопки напротив человека"); no separate add row and sheet.
         HStack(spacing: 4) {
             Button { openPerson(user) } label: {
-                ContactsPersonRow(user: user, query: query, users: users, presence: hub.cell(for: user)).equatable()
+                ContactsPersonRow(user: user, query: query, users: users, legacyIdentityServer: legacyIdentityServer, presence: hub.cell(for: user)).equatable()
             }
             .buttonStyle(.plain).disabled(opening)
+            .accessibilityIdentifier("contacts-person-" + user.id)
             if !contact {
                 Button { UnyriHaptics.press(); changeContact(user, adding: true) } label: {
                     Image(systemName: "person.crop.circle.badge.plus").font(.system(size: 20))
@@ -284,7 +300,6 @@ struct ContactsView: View, Equatable {
             }
         }
         .modifier(ContactsRowVisibility(id: user.id, hub: hub))
-        .accessibilityIdentifier("contacts-person-" + user.id)
         .contextMenu {
             Button { openPerson(user) } label: { Label("Write message", systemImage: "message") }
             Button { call(user, video: false) } label: { Label("Call", systemImage: "phone") }
@@ -300,20 +315,29 @@ struct ContactsView: View, Equatable {
     @ViewBuilder private var serverSection: some View {
         sectionHeader(UnyriL10n.string("Find on server"))
             .accessibilityIdentifier("contacts-server")
-        note("Search by name or @username. This query is sent to your server.", symbol: "network")
+        if let profileLink {
+            Button("Open server profile") { searchFocused = false; openedLink = profileLink }
+                .accessibilityIdentifier("contacts-open-profile-link")
+        } else if case .exact = PublicIdentityPolicy.contactsSearch(query) {
+            note("Exact match only. Hidden, blocked and missing profiles all appear unavailable. A link does not bypass privacy.", symbol: "network")
+        } else {
+            note("Search by number or @username. This query is sent to your server.", symbol: "network")
+        }
         // One reserved feedback line: loading/error/empty changes cannot move the rows.
         HStack {
             if loading { ProgressView().controlSize(.small).accessibilityLabel("Searching") }
             else if let serverError {
-                Text(serverError).font(.footnote).lineLimit(dynamicTypeSize.isAccessibilitySize ? 4 : 2)
-                Button { Task { @MainActor in await retryServer() } } label: {
-                    Text("Retry").frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
-                }.disabled(loading || !connected).accessibilityIdentifier("contacts-server-retry")
+                Text(verbatim: serverError).font(.footnote).lineLimit(dynamicTypeSize.isAccessibilitySize ? 4 : 2)
+                if serverErrorRetryable {
+                    Button { Task { @MainActor in await retryServer() } } label: {
+                        Text("Retry").frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
+                    }.disabled(loading || !connected).accessibilityIdentifier("contacts-server-retry")
+                }
             } else if !connected { Text("Connect to search for people on this server.").font(.footnote) }
-            else if searched && renderedServer.isEmpty { Text("No users found.").font(.footnote) }
+            else if searched && renderedServer.isEmpty && profileLink == nil { Text("No users found.").font(.footnote) }
             Spacer(minLength: 0)
         }.foregroundStyle(UnyriColors.secondaryText).frame(height: max(56, feedbackLineHeight * (dynamicTypeSize.isAccessibilitySize ? 4 : 2) + 8))
-        ForEach(renderedServer) { user in person(user, contact: false) }
+        ForEach(renderedServer) { user in person(user, contact: contactIDs.contains(user.id)) }
         if nextOffset != nil && connected && serverError == nil {
             Button { Task { @MainActor in await loadServer(reset: false) } } label: {
                 Text("Load more").frame(maxWidth: .infinity, minHeight: 44).contentShape(Rectangle())
@@ -327,8 +351,8 @@ struct ContactsView: View, Equatable {
         let knownOnline = onlineIDs
         let term = query
         let prepared = await Task.detached(priority: .userInitiated) {
-            let values = people.map { ContactListPerson(id: $0.id, name: $0.visibleName, username: $0.username,
-                                                       online: knownOnline.contains($0.id)) }
+            let values = people.map { ContactListPerson(id: $0.id, name: $0.visibleName, username: $0.publicUsername ?? "",
+                                                       online: knownOnline.contains($0.id), number: $0.unyriNumber ?? "") }
             let byID = Dictionary(people.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
             return ContactsPresentation.sections(values, query: term).flatMap { section -> [ContactsRenderedItem] in
                 [ContactsRenderedItem(id: ContactsPresentation.sectionID(section.id), user: nil, title: section.id)] +
@@ -360,12 +384,19 @@ struct ContactsView: View, Equatable {
         let bookRevision = revision
         let term = query
         let server = serverResults
-        let contacts = contactIDs.union(entries.map(\.id))
+        let localProjection = projectionRevision
+        let contacts: Set<String>
+        if case .exact = PublicIdentityPolicy.contactsSearch(term) {
+            // A number may not match the cached local caption. Keep an exact
+            // contact result visible, but never duplicate a row already above.
+            contacts = Set(listItems.compactMap { $0.user?.id })
+        } else { contacts = contactIDs.union(entries.map(\.id)) }
         let ids = server.map(\.id)
         let filtered = await Task.detached(priority: .userInitiated) {
             ContactsPresentation.serverIDs(ids, excluding: contacts)
         }.value
-        guard !Task.isCancelled, version == serverRevision, bookRevision == revision, term == query else { return }
+        guard !Task.isCancelled, version == serverRevision, bookRevision == revision,
+              localProjection == projectionRevision, term == query else { return }
         let byID = Dictionary(server.map { ($0.id, $0) }, uniquingKeysWith: { _, last in last })
         let prepared = filtered.compactMap { byID[$0] }
         withAnimation(reduceMotion ? nil : .easeOut(duration: 0.2)) {
@@ -375,6 +406,14 @@ struct ContactsView: View, Equatable {
 
     private func searchServer() async {
         let key = remoteKey
+        // Privacy/contact invalidations may bump retry without editing the
+        // field. They fence old replies; they never spend another exact lookup
+        // or reopen a dismissed link presenter.
+        if let previous = lastRemoteKey, previous.query == key.query, previous.retry != key.retry {
+            epoch = UUID(); loading = false
+            lastRemoteKey = key
+            return
+        }
         let sameQuery = lastRemoteKey.map { $0.query == key.query && $0.retry == key.retry } ?? false
         if sameQuery && (searched || serverError != nil || !key.connected) {
             if !key.connected { epoch = UUID(); loading = false }
@@ -382,41 +421,102 @@ struct ContactsView: View, Equatable {
             return
         }
         lastRemoteKey = key
-        epoch = UUID(); loading = false; searched = false; serverError = nil; nextOffset = nil; failedPageOffset = nil
+        epoch = UUID(); loading = false; searched = false; serverError = nil; serverErrorRetryable = true
+        nextOffset = nil; failedPageOffset = nil; profileLink = nil
         serverResults = []; serverRevision += 1
-        guard key.query.count >= 3 else { return }
-        let saved = await users.cachedDirectory(query: key.query)
-        guard !Task.isCancelled, key == remoteKey else { return }
-        serverResults = saved; serverRevision += 1
-        guard key.connected else { return }
+        let route = PublicIdentityPolicy.contactsSearch(key.query)
+        if case .none = route { return }
+        if case .directory(let value) = route {
+            let saved = await users.cachedDirectory(query: value)
+            guard !Task.isCancelled, key == remoteKey else { return }
+            serverResults = saved; serverRevision += 1
+        }
+        if case .profileLink = route {
+            // Parsing is local. Keep an explicit Open profile action available
+            // without presenting a sheet while a link is still being pasted.
+            await loadServer(reset: true)
+            return
+        }
+        guard key.connected, PublicIdentityPolicy.contactsSearchRunsAutomatically(key.query) else { return }
+        let ticket = epoch
         do { try await Task.sleep(nanoseconds: 300_000_000) } catch { return }
-        guard !Task.isCancelled else { return }
+        guard !Task.isCancelled, key == remoteKey, ticket == epoch else { return }
+        await loadServer(reset: true)
+    }
+
+    private func submitSearch() async {
+        searchFocused = false
+        let key = remoteKey
+        // Return consumes a pending debounce instead of issuing a second
+        // request after the automatic complete-value lookup has finished.
+        if case .profileLink = PublicIdentityPolicy.contactsSearch(key.query) {
+            epoch = UUID()
+            await loadServer(reset: true)
+            openedLink = profileLink
+            return
+        }
+        if loading && lastRemoteKey == key { return }
+        guard !(searched && serverError == nil && lastRemoteKey?.query == key.query) else { return }
+        epoch = UUID(); loading = false; lastRemoteKey = key
         await loadServer(reset: true)
     }
 
     private func retryServer() async {
-        guard !loading else { return }
+        guard !loading, serverErrorRetryable else { return }
         await loadServer(reset: ContactsDirectoryPolicy.retryResets(failedOffset: failedPageOffset))
     }
 
     /// Same directory request, paging, privacy fencing and failure wording as People.
     private func loadServer(reset: Bool) async {
-        guard connected, remoteKey.query.count >= 3, !loading || reset else { return }
         let key = remoteKey
+        let route = PublicIdentityPolicy.contactsSearch(key.query)
+        guard route.showsServerSection, !loading || reset else { return }
+        if case .profileLink(let raw) = route {
+            profileLink = nil; serverError = nil; serverErrorRetryable = false
+            if let parsed = PublicIdentityPolicy.parse(raw) {
+                profileLink = parsed; searched = true
+            } else { serverError = UnyriL10n.string("Invalid profile link. Use a number or @username link with an explicit server.") }
+            return
+        }
+        if case .invalidIdentity = route {
+            serverError = UnyriL10n.string("Enter a public number or a valid @username.")
+            return
+        }
+        guard connected else { return }
         let ticket = epoch
         let offset = reset ? Int64(0) : (failedPageOffset ?? nextOffset ?? 0)
-        loading = true; serverError = nil
+        loading = true; serverError = nil; serverErrorRetryable = true
         defer { if ticket == epoch && key == remoteKey { loading = false } }
         do {
-            let response = try await users.directory(query: key.query, limit: 30, offset: offset)
+            let items: [PublicUser]
+            let followingOffset: Int64?
+            switch route {
+            case .exact(let target):
+                let profile = try await users.lookup(target)
+                items = profile.id == users.blockedAccountOwnerID ? [] : [profile.contact]
+                followingOffset = nil
+            case .directory(let value):
+                let response = try await users.directory(query: value, limit: 30, offset: offset)
+                items = response.items; followingOffset = response.nextOffset
+            default: return
+            }
             guard !Task.isCancelled, ticket == epoch, key == remoteKey else { return }
             var seen = Set<String>()
-            serverResults = ((reset ? [] : serverResults) + response.items).filter { seen.insert($0.id).inserted }
-            nextOffset = response.nextOffset.flatMap { $0 > offset ? $0 : nil }
+            serverResults = ((reset ? [] : serverResults) + items).filter { seen.insert($0.id).inserted }
+            nextOffset = followingOffset.flatMap { $0 > offset ? $0 : nil }
             searched = true; failedPageOffset = nil; serverRevision += 1
         } catch {
             guard !Task.isCancelled, ticket == epoch, key == remoteKey else { return }
             failedPageOffset = offset
+            if case .exact = route {
+                serverResults = []; nextOffset = nil; failedPageOffset = 0
+                if case UsersRepository.IdentityLookupError.profileUnavailable = error {
+                    serverError = UnyriL10n.string("Profile not available.")
+                    serverErrorRetryable = false
+                } else { serverError = IdentityErrorText.message(error) }
+                serverRevision += 1
+                return
+            }
             if case APIError.http(404) = error {
                 serverResults = []; nextOffset = nil; failedPageOffset = 0
                 serverError = UnyriL10n.string("Server directory is unavailable. Update your server to use Contacts.")
@@ -459,8 +559,18 @@ struct ContactsView: View, Equatable {
     }
     private func changeContact(_ user: PublicUser, adding: Bool) {
         mutationFailed = false
+        let search = PublicIdentityPolicy.contactsSearch(query)
         Task { @MainActor in
-            if await users.contacts.set(user, contact: adding) {
+            var candidate = user
+            if adding, case .exact = search {
+                // The result's immutable UUID survives a later handle change.
+                // Recheck availability immediately before the explicit add.
+                do { candidate = try await users.publicProfile(user.id).contact }
+                catch is CancellationError { return }
+                catch { mutationFailed = true; return }
+                guard !Task.isCancelled, scenePhase == .active else { return }
+            }
+            if await users.contacts.set(candidate, contact: adding) {
                 UnyriHaptics.selection()
                 UIAccessibility.post(notification: .announcement, argument: UnyriL10n.string(adding ? "Contact added" : "Contact removed"))
             } else if !Task.isCancelled { mutationFailed = true }
@@ -470,10 +580,13 @@ struct ContactsView: View, Equatable {
 
 @MainActor
 private struct ContactsPersonRow: View, Equatable {
-    nonisolated static func == (lhs: Self, rhs: Self) -> Bool { lhs.user == rhs.user && lhs.query == rhs.query }
+    nonisolated static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.user == rhs.user && lhs.query == rhs.query && lhs.legacyIdentityServer == rhs.legacyIdentityServer
+    }
     let user: PublicUser
     let query: String
     let users: UsersRepository
+    let legacyIdentityServer: Bool
     @ObservedObject var presence: ContactPresenceCell
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @ScaledMetric(relativeTo: .caption) private var statusLineHeight: CGFloat = 18
@@ -492,7 +605,8 @@ private struct ContactsPersonRow: View, Equatable {
             VStack(alignment: .leading, spacing: 2) {
                 Text(highlight(user.visibleName)).font(.body.weight(.medium)).foregroundStyle(UnyriColors.primaryText)
                     .lineLimit(accessibility ? nil : 1).fixedSize(horizontal: false, vertical: true)
-                Text(highlight(user.publicIdentityLabel.isEmpty ? " " : user.publicIdentityLabel)).font(.caption).foregroundStyle(UnyriColors.secondaryText)
+                let caption = user.contactCaption(legacyServer: legacyIdentityServer)
+                Text(highlight(caption.isEmpty ? " " : caption)).font(.caption.monospacedDigit()).foregroundStyle(UnyriColors.secondaryText)
                     .lineLimit(accessibility ? nil : 1).fixedSize(horizontal: false, vertical: true)
                 // Names/handles are known before rendering. Only status changes later:
                 // reserve all six accessibility lines, even for an unknown/short value.
@@ -553,96 +667,5 @@ private struct ContactsConnectionTitle: View {
                 do { try await Task.sleep(nanoseconds: 5_000_000_000) } catch { return }
             }
         }
-    }
-}
-
-@MainActor
-private struct ContactsAddByIdentity: View {
-    let users: UsersRepository
-    @Environment(\.dismiss) private var dismiss
-    @State private var username = ""
-    @State private var busy = false
-    @State private var failure: String?
-    @State private var profile: DiscoveredProfile?
-    @State private var link: PublicIdentityPolicy.Link?
-    @State private var openedLink: PublicIdentityPolicy.Link?
-    @Environment(\.scenePhase) private var scenePhase
-    var body: some View {
-        NavigationStack {
-            UnyriSettingsPage("Add contact") {
-                UnyriSettingsGroup {
-                    VStack(alignment: .leading, spacing: 14) {
-                        TextField("Public number, @username or profile link", text: $username)
-                            .textInputAutocapitalization(.never).autocorrectionDisabled().unyriFieldStyle()
-                            .accessibilityIdentifier("contacts-add-username")
-                            .onChange(of: username) {
-                                if $0.utf8.count > 4096 { username = String($0.prefix(4096)) }
-                                profile = nil; failure = nil; link = nil
-                            }
-                        Text("Exact match only. Hidden, blocked and missing profiles all appear unavailable. A link does not bypass privacy.")
-                            .font(.footnote).foregroundStyle(UnyriColors.secondaryText)
-                        Button("Find profile") { Task { @MainActor in await find() } }.disabled(busy || username.isEmpty)
-                            .accessibilityIdentifier("login2-contact-find")
-                    }.padding(16)
-                }
-                if let profile {
-                    UnyriSettingsGroup {
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text(profile.contact.visibleName).font(.title3.bold())
-                            Text(PublicIdentityPolicy.formattedNumber(profile.unyriNumber)).monospacedDigit()
-                                .accessibilityIdentifier("login2-contact-number")
-                            if let username = profile.publicUsername { Text("@" + username) }
-                            if let bio = profile.bio { Text(bio).font(.subheadline) }
-                            if profile.id != users.blockedAccountOwnerID {
-                                Button("Add contact") { Task { @MainActor in await add(profile) } }.disabled(busy)
-                                    .accessibilityIdentifier("contacts-add-confirm")
-                            }
-                        }.padding(16)
-                    }
-                }
-                if let link {
-                    Text(link.origin).font(.caption.monospaced())
-                    Button("Open server profile") { openedLink = link }
-                }
-                if let failure { Text(failure).font(.footnote).foregroundStyle(UnyriColors.secondaryText) }
-                if busy { ProgressView() }
-            }
-            .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } } }
-            .disabled(busy)
-        }
-        .sheet(item: $openedLink) { IdentityLinkView(target: $0) }
-        .onChange(of: scenePhase) { if $0 != .active { profile = nil } }
-    }
-    private func find() async {
-        busy = true; failure = nil; defer { busy = false }
-        profile = nil; link = nil
-        let input = username
-        if input.lowercased().hasPrefix("unyri:") {
-            if let parsed = PublicIdentityPolicy.parse(input) { link = parsed }
-            else { failure = UnyriL10n.string("Invalid profile link. Use a number or @username link with an explicit server.") }
-            return
-        }
-        guard let target = PublicIdentityPolicy.input(input) else {
-            failure = UnyriL10n.string("Enter a public number or a valid @username."); return
-        }
-        do {
-            let result = try await users.lookup(target)
-            guard !Task.isCancelled, input == username, scenePhase == .active else { return }
-            profile = result
-        } catch is CancellationError { }
-        catch { failure = IdentityErrorText.message(error) }
-    }
-    private func add(_ profile: DiscoveredProfile) async {
-        busy = true; failure = nil; defer { busy = false }
-        do {
-            // Recheck by immutable UUID, never by a handle that may have changed owners.
-            let freshProfile = try await users.publicProfile(profile.id)
-            guard scenePhase == .active, !Task.isCancelled else { return }
-            if await users.contacts.set(freshProfile.contact, contact: true) {
-                UnyriHaptics.selection(); await users.contacts.ensureLoaded(); dismiss()
-            }
-            else { failure = UnyriL10n.string("Could not update contacts. Check your connection and try again.") }
-        } catch is CancellationError { }
-        catch { self.profile = nil; failure = IdentityErrorText.message(error) }
     }
 }

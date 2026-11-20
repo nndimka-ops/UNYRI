@@ -14,7 +14,7 @@ class ChatPreviewSelectionRegressionTest {
         listOf(
             "CREATE TABLE chats(chatId TEXT PRIMARY KEY,type TEXT,createdAt TEXT,lastMessageAt TEXT,lastReadSequence INTEGER DEFAULT 0,isMuted INTEGER DEFAULT 0,mutedUntil TEXT,isBlocked INTEGER DEFAULT 0,blockedUserId TEXT)",
             "CREATE TABLE chat_members(chatId TEXT,userId TEXT)",
-            "CREATE TABLE chat_participants(userId TEXT,username TEXT,displayName TEXT,avatarUrl TEXT,avatarVersion INTEGER,hasAvatar INTEGER)",
+            "CREATE TABLE chat_participants(userId TEXT,username TEXT,displayName TEXT,avatarUrl TEXT,avatarVersion INTEGER,hasAvatar INTEGER,publicNumber TEXT,publicUsername TEXT)",
             "CREATE TABLE messages(clientMessageId TEXT PRIMARY KEY,chatId TEXT,senderId TEXT,kind TEXT,hiddenLocally INTEGER,isDeletedForEveryone INTEGER,sequence INTEGER,status TEXT,createdAt TEXT,text TEXT,sortKey INTEGER,sortSequence INTEGER NOT NULL DEFAULT 0)",
             "CREATE INDEX index_messages_chatId_sequence ON messages(chatId,sequence)",
             "CREATE TABLE attachments(attachmentId TEXT PRIMARY KEY,clientMessageId TEXT,mediaType TEXT,mimeType TEXT,filename TEXT)",

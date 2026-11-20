@@ -22,7 +22,7 @@
     <string name="sh_uses">Usos</string>
     <string name="sh_days">Validez (días)</string>
     <string name="sh_invite_bounds">1–10 000 usos; 1–365 días.</string>
-    <string name="sh_create_invite">Crear invitación</string>
+    <string name="sh_create_invite">Crear código</string>
     <string name="sh_active">Activa</string>
     <string name="sh_revoked">Revocada</string>
     <string name="sh_expired">Caducada</string>
@@ -30,15 +30,15 @@
     <string name="sh_unknown">Desconocido</string>
     <string name="sh_expiry">Caduca</string>
     <string name="sh_creator">Creada por</string>
-    <string name="sh_revoke">Revocar invitación</string>
+    <string name="sh_revoke">Revocar</string>
     <string name="sh_revoke_confirm">¿Revocar esta invitación? Ya no permitirá nuevos registros.</string>
     <string name="sh_more">Más invitaciones</string>
     <string name="sh_self_check">Comprobar servidor</string>
     <string name="sh_code_once">Guarda o comparte ahora. El código solo se muestra una vez.</string>
-    <string name="sh_copy_code">Copiar código</string>
+    <string name="sh_copy_code">Copiar</string>
     <string name="sh_share_code">Compartir código</string>
     <string name="sh_copy_link">Copiar enlace</string>
-    <string name="sh_share_link">Compartir enlace</string>
+    <string name="sh_share_link">Compartir</string>
     <string name="sh_yes">sí</string>
     <string name="sh_no">no</string>
     <string name="sh_ready">listo</string>
@@ -54,7 +54,7 @@
     <string name="sh_fix_storage">Revisa el almacenamiento y los permisos de subida en el instalador.</string>
     <string name="sh_fix_disk">Mantén al menos 1 GB libre y haz una copia antes de liberar espacio.</string>
     <string name="sh_fix_version">Usa una versión compatible y deja terminar la actualización.</string>
-    <string name="sh_guide">1. Instala Docker y UNYRI en un PC siempre encendido. 2. Elige un dominio o DDNS. 3. Reserva la dirección del PC y redirige HTTPS y los puertos de llamadas; con CGNAT usa un VPS o túnel. 4. Confirma la dirección HTTPS o escanea el QR de invitación. 5. Inicia sesión, reclama la propiedad en Perfil con el código del instalador y protege el acceso de administrador. 6. Administración → Servidor propio → Comprobar servidor. Prueba con datos móviles. Haz copias antes de actualizar; las notificaciones push requieren un proveedor.</string>
+    <string name="sh_guide">1. Instala Docker y UNYRI en un PC siempre encendido. 2. Elige un dominio o DDNS. 3. Reserva la dirección del PC y redirige HTTPS y los puertos de llamadas; con CGNAT usa un VPS o túnel. 4. Confirma la dirección HTTPS o escanea el QR de invitación. 5. Inicia sesión, reclama la propiedad en Perfil con el código del instalador y protege el acceso de administrador. 6. Administración → Registro e invitaciones → Comprobar servidor. Prueba con datos móviles. Haz copias antes de actualizar; las notificaciones push requieren un proveedor.</string>
     <string name="sh_check_setup">Propiedad disponible</string>
     <string name="sh_check_url">Dirección pública</string>
     <string name="sh_check_url_config">Dirección pública configurada</string>
@@ -88,4 +88,7 @@
     <string name="sh_compatibility">Versión de la aplicación compatible</string>
     <string name="sh_socket">WebSocket actual conectado</string>
     <string name="sh_scan_owner_code">Escanear el código de propietario</string>
+    <string name="sh_registration_invites">Registro e invitaciones</string>
+    <string name="sh_mode_owner_only">Solo el propietario puede cambiar el modo de registro.</string>
+    <string name="sh_saved_codes_hint">El código solo se muestra al crearlo. Guarda o comparte el nuevo código antes de salir de esta pantalla.</string>
 </resources>

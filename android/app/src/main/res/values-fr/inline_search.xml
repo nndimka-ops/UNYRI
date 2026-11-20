@@ -19,7 +19,7 @@
     <string name="search_recent">Recherches récentes</string>
     <string name="search_scope_messages">Messages</string>
     <string name="settings_search_label">Rechercher</string>
-    <string name="unified_search_hint">Recherchez hors ligne dans les discussions et messages enregistrés. Trouvez des personnes sur ce serveur par identifiant.</string>
+    <string name="unified_search_hint">Recherchez hors ligne dans les discussions et messages enregistrés. Trouvez des personnes sur ce serveur par numéro ou @nom.</string>
     <string name="unified_search_network">La recherche sur le serveur est indisponible. Les résultats locaux restent disponibles.</string>
     <string name="unified_search_local_error">Impossible de charger les messages enregistrés. Relancez la recherche.</string>
 </resources>

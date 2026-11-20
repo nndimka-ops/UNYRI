@@ -24,6 +24,20 @@ class DirectTransferUiPolicyTest {
     private val base = DirectFilePresentation(offer, "paused", "receiver", manualControlsAvailable = true)
     private val allPermissions = DirectTransferActionPermissions(true, true, true, true, true)
 
+    @Test fun missingRelayHasClearStatusAndExplicitRetry() {
+        val value=base.copy(reason="relay_unavailable")
+        assertEquals(DirectTransferStatus.RELAY_UNAVAILABLE,DirectTransferUiPolicy.status(value))
+        assertEquals(com.messenger.app.R.string.direct_relay_unavailable,directTransferStatusResource(DirectTransferUiPolicy.status(value)))
+        assertEquals(com.messenger.app.R.string.direct_relay_unavailable,directTransferErrorResource("relay_unavailable"))
+        assertTrue(DirectTransferUiPolicy.canRetry(value,DirectTransferUiPolicy.cardPermissions(value)))
+        val peer = base.copy(reason = "peer_relay_unavailable")
+        assertEquals(DirectTransferStatus.PEER_RELAY_UNAVAILABLE, DirectTransferUiPolicy.status(peer))
+        assertEquals(com.messenger.app.R.string.direct_peer_relay_unavailable,
+            directTransferStatusResource(DirectTransferUiPolicy.status(peer)))
+        assertEquals(com.messenger.app.R.string.direct_peer_relay_unavailable,
+            directTransferErrorResource("peer_relay_unavailable"))
+    }
+
     @Test fun heldLabelsOutrankAcknowledgmentAndProbeWarnings() {
         for (pending in listOf(false, true)) for (limit in listOf(false, true)) {
             assertEquals(DirectTransferStatus.HELD_LOCAL, DirectTransferUiPolicy.status(base.copy(localManualPaused = true, manualSyncPending = pending, manualSyncLimitReached = limit)))

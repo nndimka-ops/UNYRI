@@ -86,8 +86,10 @@ check(AppVersion.compare("0.4.13", "0.4.9") == .orderedDescending, "numeric orde
 check(AppVersion.compare("1.0", "1.0.0") == .orderedSame, "padding")
 check(AppVersion.compare("0.2.1-alpha", "0.2.1") == .orderedSame, "suffix never orders")
 check(AppVersion.compare("garbage", "1.0") == nil, "nil never blocks")
-check(AppVersion.trustedUpdateURL("https://apps.apple.com/app/id123") != nil, "App Store")
-check(AppVersion.trustedUpdateURL("https://testflight.apple.com/join/abc") != nil, "TestFlight")
+// ios-015: without the publisher's bundled pin no server URL is trusted;
+// pinned same-product positives live in UpdateProductURLContracts.
+check(AppVersion.trustedUpdateURL("https://apps.apple.com/app/id123") == nil, "unpinned App Store product")
+check(AppVersion.trustedUpdateURL("https://testflight.apple.com/join/abc") == nil, "unpinned TestFlight invitation")
 for untrusted in ["http://apps.apple.com/app/id1", "https://apps.apple.com.evil.example/x", "https://user@apps.apple.com/x",
                   "https://apps.apple.com:8443/x", "https://example.com/update", nil] as [String?] {
     check(AppVersion.trustedUpdateURL(untrusted) == nil, "untrusted \(untrusted ?? "nil")")

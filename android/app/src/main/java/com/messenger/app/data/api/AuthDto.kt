@@ -4,6 +4,11 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
+data class DeviceKeyDto(@SerialName("public_key") val publicKey: String, val protection: String) {
+    override fun toString() = "DeviceKeyDto(redacted)"
+}
+
+@Serializable
 @OptIn(kotlinx.serialization.ExperimentalSerializationApi::class)
 data class RegisterRequestDto(
     val username: String,
@@ -18,6 +23,8 @@ data class RegisterRequestDto(
     @SerialName("installation_credential") val installationCredential: String? = null,
     @kotlinx.serialization.EncodeDefault(kotlinx.serialization.EncodeDefault.Mode.NEVER)
     @SerialName("invite_code") val inviteCode: String? = null,
+    @kotlinx.serialization.EncodeDefault(kotlinx.serialization.EncodeDefault.Mode.NEVER)
+    @SerialName("device_key") val deviceKey: DeviceKeyDto? = null,
 ) {
     override fun toString() = "RegisterRequestDto(redacted)"
 }
@@ -34,15 +41,22 @@ data class LoginRequestDto(
     @SerialName("app_version") val appVersion: String? = null,
     @kotlinx.serialization.EncodeDefault(kotlinx.serialization.EncodeDefault.Mode.NEVER)
     @SerialName("installation_credential") val installationCredential: String? = null,
+    @kotlinx.serialization.EncodeDefault(kotlinx.serialization.EncodeDefault.Mode.NEVER)
+    @SerialName("device_key") val deviceKey: DeviceKeyDto? = null,
 )
 
 @Serializable
 data class InstallationCredentialDto(@SerialName("installation_credential") val credential: String)
 
 @Serializable
+@OptIn(kotlinx.serialization.ExperimentalSerializationApi::class)
 data class RefreshRequestDto(
     @SerialName("refresh_token") val refreshToken: String,
     @SerialName("request_id") val requestId: String? = null,
+    @kotlinx.serialization.EncodeDefault(kotlinx.serialization.EncodeDefault.Mode.NEVER)
+    @SerialName("device_key") val deviceKey: DeviceKeyDto? = null,
+    @SerialName("app_version") val appVersion: String? = null,
+    @SerialName("os_version") val osVersion: String? = null,
 )
 
 @Serializable
@@ -73,7 +87,7 @@ data class RefreshResponseDto(
 data class ApiErrorDto(val error: ApiErrorDetailDto)
 
 @Serializable
-data class ApiErrorDetailDto(val code: String, val message: String)
+data class ApiErrorDetailDto(val code: String, val message: String, @SerialName("server_time") val serverTime: Long? = null)
 
 @Serializable
 data class HistoryContextDto(

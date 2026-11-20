@@ -286,18 +286,48 @@ final class CallsRepository: ObservableObject {
     /// Concurrent refreshes of the same page share one request set (cleared chats,
     /// deletions, history): the chat list, the open chat's poll, socket events and the
     /// recovery pass often asked at the same moment (QA log: ~4 refreshes a minute).
-    private var historyRefreshes: [String: Task<UUID?, Error>] = [:]
+    /// The shared task is cancelled only when every caller awaiting it has been
+    /// cancelled: a screen going away must not fail the reconciler's or another
+    /// screen's refresh, while a refresh nobody waits for stops promptly.
+    private final class SharedHistoryRefresh: @unchecked Sendable {
+        let task: Task<UUID?, Error>
+        private let lock = NSLock()
+        private var waiters = Set<UInt64>()
+        private var lastWaiter: UInt64 = 0
+        init(task: Task<UUID?, Error>) { self.task = task }
+        func join() -> UInt64 {
+            lock.lock(); defer { lock.unlock() }
+            lastWaiter += 1; waiters.insert(lastWaiter); return lastWaiter
+        }
+        func leave(_ waiter: UInt64, cancelled: Bool) {
+            lock.lock()
+            let abandoned = waiters.remove(waiter) != nil && waiters.isEmpty && cancelled
+            lock.unlock()
+            if abandoned { task.cancel() }
+        }
+    }
+    private var historyRefreshes: [String: SharedHistoryRefresh] = [:]
     @discardableResult
     func refreshHistory(peer: UUID? = nil, before: UUID? = nil) async throws -> UUID? {
+        try Task.checkCancellation()
         let key = (peer?.uuidString ?? "all") + "|" + (before?.uuidString ?? "top")
-        if let running = historyRefreshes[key] { return try await running.value }
-        let task = Task { @MainActor [weak self] () throws -> UUID? in
-            guard let self else { throw CancellationError() }
-            return try await self.performHistoryRefresh(peer: peer, before: before)
+        let shared: SharedHistoryRefresh
+        if let running = historyRefreshes[key], !running.task.isCancelled {
+            shared = running
+        } else {
+            shared = SharedHistoryRefresh(task: Task { @MainActor [weak self] () throws -> UUID? in
+                guard let self else { throw CancellationError() }
+                return try await self.performHistoryRefresh(peer: peer, before: before)
+            })
+            historyRefreshes[key] = shared
         }
-        historyRefreshes[key] = task
-        defer { historyRefreshes[key] = nil }
-        return try await task.value
+        let waiter = shared.join()
+        defer {
+            shared.leave(waiter, cancelled: false)
+            if historyRefreshes[key] === shared { historyRefreshes[key] = nil }
+        }
+        return try await withTaskCancellationHandler(operation: { try await shared.task.value },
+            onCancel: { shared.leave(waiter, cancelled: true) })
     }
 
     private func performHistoryRefresh(peer: UUID?, before: UUID?) async throws -> UUID? {
@@ -345,7 +375,12 @@ final class CallsRepository: ObservableObject {
         try requireSession()
     }
 
-    private func syncHistoryDeletions(token: String) async throws {
+    private func syncHistoryDeletions(token: String, clock: (() -> TimeInterval)? = nil) async throws {
+        try requireSession()
+        let currentTime = clock ?? { ProcessInfo.processInfo.systemUptime }
+        // The server returns at most 200 deletions per page. Persist each valid
+        // page before advancing; a later real refresh resumes at that cursor.
+        var budget = ServerWorkBudget(now: currentTime(), maxRecords: 4000, pageLimit: 200)
         if let historyStore {
             let stored = try await historyStore.deletions()
             try requireSession()
@@ -353,16 +388,24 @@ final class CallsRepository: ObservableObject {
             deletedHistory.cursor = max(deletedHistory.cursor, stored.cursor)
         }
         while true {
-            let page = try await api.historyDeletions(accessToken: token, after: deletedHistory.cursor)
             try requireSession()
+            let now = currentTime()
+            try budget.check(now: now)
+            let after = deletedHistory.cursor
+            let page = try await api.historyDeletions(accessToken: token, after: after)
+            try requireSession()
+            guard page.items.count <= budget.pageLimit else { throw ServerWorkBudget.Failure.invalidPage }
+            let sequences = page.items.map(\.sequence)
+            let cursor = sequences.last ?? after
+            try budget.accept(after: after, next: cursor, sequences: sequences,
+                hasMore: page.hasMore, deletions: 0, now: currentTime())
             if page.items.isEmpty { pruneDeletedHistory(); return }
             let ids = Set(page.items.map(\.callId))
-            let cursor = max(deletedHistory.cursor, page.items.map(\.sequence).max() ?? 0)
             if let historyStore { _ = try await historyStore.remove(ids: ids, cursor: cursor) }
             try requireSession()
             deletedHistory.ids.formUnion(ids); deletedHistory.cursor = max(deletedHistory.cursor, cursor)
             pruneDeletedHistory()
-            if !page.hasMore || page.items.isEmpty { return }
+            if !page.hasMore { return }
         }
     }
 

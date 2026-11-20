@@ -1,0 +1,10 @@
+<resources>
+    <string name="auth_account_deleted">Акаунтът е изтрит</string>
+    <string name="auth_account_suspended">Акаунтът е блокиран от администратора на сървъра</string>
+    <string name="auth_session_ended">Сесията приключи</string>
+    <string name="privacy_prevent_screenshots">Забрана на екранни снимки</string>
+    <string name="admin_delete_account_forever">Изтриване на акаунта завинаги</string>
+    <string name="admin_delete_account_detail">Изтрива акаунта и съобщенията му от сървъра и телефоните.</string>
+    <string name="admin_delete_account_number">Въведете публичния номер за потвърждение</string>
+    <string name="deleted_account">Изтрит акаунт</string>
+</resources>

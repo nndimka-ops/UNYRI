@@ -127,7 +127,7 @@ internal fun rememberDirectOriginalSelection(
                         val release = { if (branches.decrementAndGet() == 0) cleanup(); Unit }
                         if (regular.isNotEmpty() && !latestNormal(regular, asFile, null, release)) release()
                         request = DirectPickRequest(direct.map { it.first }, direct.map { (uri, name, size) ->
-                            (name ?: context.getString(R.string.file_preview)) + if (size >= 0) " · " + com.messenger.app.data.attachment.AttachmentFormat.fileSize(size) else ""
+                            (name ?: context.getString(R.string.file_preview)) + if (size >= 0) " · " + com.messenger.app.ui.settings.FileSizeFormatter.format(size, context.resources.configuration.locales[0]) else ""
                         }, release)
                         transferredCleanup = true
                     }

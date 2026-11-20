@@ -69,7 +69,8 @@ class DirectCrossPlatformNativeTest {
                 enqueuedOffers += offer.transferId
                 ready.send(offer.transferId)
                 }
-            }, { otherUser }, { listOf("stun:stun.example.test:3478") }, { allowed.get() })
+            }, { otherUser }, { listOf(com.messenger.app.data.api.IceServerDto(listOf("stun:stun.example.test:3478"))) },
+            peerToPeer = { com.messenger.app.data.call.CallPeerToPeer.EVERYONE }, canStream = { allowed.get() })
         val snapshots = File(fixture.context.filesDir, "direct-cross-$run-stats.jsonl")
         val samples = mutableSetOf<String>()
         val observe = scope.launch {

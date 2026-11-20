@@ -2,6 +2,7 @@ package com.messenger.app.ui.settings
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import java.util.Locale
 
 class FileSizeFormatterTest {
 
@@ -31,7 +32,24 @@ class FileSizeFormatterTest {
 
     @Test
     fun usesDotDecimalSeparatorOnEveryLocale() {
-        // Phase 7 lesson: "%.1f".format on the ru locale produced "3,5".
+        // Calls without an app locale retain the existing deterministic contract.
         assertEquals("12.4 MB", FileSizeFormatter.format(13_002_342))
+    }
+
+    @Test fun localizesRussianUnitsAndDecimalSeparator() {
+        val ru = Locale.forLanguageTag("ru")
+        assertEquals("50 МБ", FileSizeFormatter.format(50L * 1024 * 1024, ru))
+        assertEquals("16,6 МБ", FileSizeFormatter.format(17_406_362, ru))
+        assertEquals("5 ГБ", FileSizeFormatter.format(5L * 1024 * 1024 * 1024, ru))
+    }
+
+    @Test fun localizesUkrainianAndFrench() {
+        assertEquals("100 МБ", FileSizeFormatter.format(100L * 1024 * 1024, Locale.forLanguageTag("uk")))
+        assertEquals("1,2 Go", FileSizeFormatter.format(1_288_490_189, Locale.FRENCH))
+    }
+
+    @Test fun clampsInvalidCountsAndHandlesLargeQuotas() {
+        assertEquals("0 Б", FileSizeFormatter.format(-1, Locale.forLanguageTag("ru")))
+        assertEquals("2 TB", FileSizeFormatter.format(2L * 1024 * 1024 * 1024 * 1024, Locale.ENGLISH))
     }
 }

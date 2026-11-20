@@ -1,0 +1,10 @@
+<resources>
+    <string name="auth_account_deleted">Konto gelöscht</string>
+    <string name="auth_account_suspended">Konto vom Serveradministrator gesperrt</string>
+    <string name="auth_session_ended">Sitzung beendet</string>
+    <string name="privacy_prevent_screenshots">Screenshots verhindern</string>
+    <string name="admin_delete_account_forever">Konto endgültig löschen</string>
+    <string name="admin_delete_account_detail">Löscht das Konto und seine Nachrichten auf dem Server und den Telefonen.</string>
+    <string name="admin_delete_account_number">Zur Bestätigung die öffentliche Nummer eingeben</string>
+    <string name="deleted_account">Gelöschtes Konto</string>
+</resources>

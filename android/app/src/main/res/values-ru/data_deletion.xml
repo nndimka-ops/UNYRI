@@ -1,0 +1,10 @@
+<resources>
+    <string name="auth_account_deleted">Аккаунт удалён</string>
+    <string name="auth_account_suspended">Аккаунт заблокирован администратором сервера</string>
+    <string name="auth_session_ended">Сеанс завершён</string>
+    <string name="privacy_prevent_screenshots">Запретить снимки экрана</string>
+    <string name="admin_delete_account_forever">Удалить аккаунт навсегда</string>
+    <string name="admin_delete_account_detail">Удаляет аккаунт и его сообщения на сервере и на телефонах.</string>
+    <string name="admin_delete_account_number">Введите публичный номер для подтверждения</string>
+    <string name="deleted_account">Удалённый аккаунт</string>
+</resources>

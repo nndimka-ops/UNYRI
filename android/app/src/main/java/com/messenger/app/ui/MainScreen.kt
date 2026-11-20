@@ -307,7 +307,7 @@ fun MainScreen(
     // Register last so the open modal drawer consumes Back before a search,
     // selection or nested screen's own handler.
     if (showProfileQr) ProfileQrSheet(profile?.displayName ?: drawerUser?.displayName ?: "UNYRI",
-        publicIdentity?.username ?: profile?.username?.takeIf { legacyIdentity }, onEdit = { quickNavigate(onNavigateToEdit) }, onClose = { showProfileQr = false })
+        publicIdentity?.username, onEdit = { quickNavigate(onNavigateToEdit) }, onClose = { showProfileQr = false })
     BackHandler(drawer.isOpen && !showProfileQr) { scope.launch { drawer.animateTo(DrawerValue.Closed, tween(sidebarStyle.behaviorDuration.toInt())) } }
 }
 

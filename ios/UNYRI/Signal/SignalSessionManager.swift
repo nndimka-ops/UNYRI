@@ -15,6 +15,17 @@ final class SignalSessionManager {
     /// In-flight resolutions keyed the same way as the cache, so simultaneous
     /// messages from the same unseen sender device share ONE bundle fetch
     /// instead of N identical `GET /keys/bundles` requests.
+    func revokeOwnDevice(_ deviceID: String) async throws {
+        let owner = try keysRepository.verificationOwner()
+        guard let security = container.stateStore.localSecurity else { throw CancellationError() }
+        // Persist the UUID first: an offline/hostile bundle lookup cannot cancel removal.
+        try security.revoke(.init(userId: owner, serverDeviceId: deviceID.lowercased(), signalDeviceId: nil, identityFingerprint: nil))
+        if let snapshot = try? await reviewExactDevice(userID: owner, deviceID: deviceID) {
+            _ = try keysRepository.verificationOwner()
+            try security.revoke(.init(userId: owner, serverDeviceId: deviceID.lowercased(), signalDeviceId: snapshot.signalID,
+                                      identityFingerprint: LocalSecurityDecisions.fingerprint(snapshot.identity)))
+        }
+    }
     private var withheldDeviceIDs: [String: Set<String>] = [:]
     func withheldDevices(for userID: String) -> [String] { (withheldDeviceIDs[userID] ?? []).sorted() }
     private var inFlightResolutions: [String: Task<Int32, Error>] = [:]
@@ -22,6 +33,7 @@ final class SignalSessionManager {
     /// Fired after the user accepts a changed identity key. The message
     /// ingestor subscribes to retry durably-retained undecryptable envelopes
     /// from that sender (mirrors Android's `IdentityVerificationManager`).
+    var onSecurityWarning: (() -> Void)?
     var onTrustAccepted: ((String, UInt32) -> Void)? = nil
 
     init(container: UnyriSignalStoreContainer, keysRepository: KeysRepository) {
@@ -31,7 +43,7 @@ final class SignalSessionManager {
     func shutdown() {
         container.stateStore.invalidate()
         for task in inFlightResolutions.values { task.cancel() }
-        inFlightResolutions.removeAll(); deviceIdCache.clear(); onTrustAccepted = nil
+        inFlightResolutions.removeAll(); deviceIdCache.clear(); onTrustAccepted = nil; onSecurityWarning = nil
     }
 
     /// Fetches every available device bundle for `userId` and establishes a
@@ -97,10 +109,12 @@ final class SignalSessionManager {
         let id = try HostileInteger.unsigned(bundle.signalDeviceId, device: true)
         let address = try ProtocolAddress(name: userID, deviceId: id)
         _ = try container.identityKeyStore.isTrustedIdentity(IdentityKey(bytes: bundle.identityKey), for: address, direction: .sending, context: container.context)
+        try container.stateStore.localSecurity?.observe(user: userID, device: deviceID, signal: id, identity: bundle.identityKey)
         return SignalDeviceTrustSnapshot(userID: userID, deviceID: deviceID, signalID: id, identity: bundle.identityKey)
     }
     func isDeviceTrusted(_ snapshot: SignalDeviceTrustSnapshot) throws -> Bool {
         _ = try keysRepository.verificationOwner()
+        if try container.stateStore.localSecurity?.isRevoked(user: snapshot.userID, device: snapshot.deviceID, signal: snapshot.signalID, identity: snapshot.identity) == true { return false }
         let suffix = SignalStorageKeys.encodeAddress(name: snapshot.userID, deviceId: snapshot.signalID)
         return try DeviceTrustPolicy.mayUse(trusted: container.stateStore.data(forKey: "trusted_identity." + suffix),
             pending: container.stateStore.data(forKey: "pending_identity." + suffix), presented: snapshot.identity)
@@ -167,11 +181,24 @@ final class SignalSessionManager {
         let decoded = try response.devices.filter { $0.deviceId != excludingDeviceId }.map { try SignalBundleDecoder.decode($0) }
         var allowed: [DecodedSignalBundle] = []
         for bundle in decoded {
+            try container.stateStore.localSecurity?.observe(user: userId, device: bundle.deviceId,
+                signal: HostileInteger.unsigned(bundle.signalDeviceId, device: true), identity: bundle.identityKey)
+            if let security = container.stateStore.localSecurity,
+               try security.isRevoked(user: userId, device: bundle.deviceId, signal: try HostileInteger.unsigned(bundle.signalDeviceId, device: true), identity: bundle.identityKey) {
+                if userId.lowercased() == security.ownUserId {
+                    try security.revoke(.init(userId: userId.lowercased(), serverDeviceId: bundle.deviceId.lowercased(),
+                        signalDeviceId: try HostileInteger.unsigned(bundle.signalDeviceId, device: true),
+                        identityFingerprint: LocalSecurityDecisions.fingerprint(bundle.identityKey)))
+                }
+                if try security.claimRelistingWarning([bundle.deviceId]) { onSecurityWarning?() }
+                continue
+            }
             let address = try ProtocolAddress(name: userId, deviceId: try HostileInteger.unsigned(bundle.signalDeviceId, device: true))
             let identity = try IdentityKey(bytes: bundle.identityKey)
             let trusted = try container.identityKeyStore.isTrustedIdentity(identity, for: address, direction: .sending, context: container.context)
             if trusted { allowed.append(bundle) }
         }
+        if try container.stateStore.hasVerifiedIdentityChange(user: userId) { throw SignalError.untrustedIdentity(userId) }
         return allowed
     }
 
@@ -280,6 +307,9 @@ final class SignalSessionManager {
 
     nonisolated private static func requireTrustedRecipientsStored(container: UnyriSignalStoreContainer, _ recipients: [SignalRecipientDevice]) throws {
         for recipient in recipients {
+            if try container.stateStore.hasVerifiedIdentityChange(user: recipient.addressName) { throw SignalError.untrustedIdentity(recipient.addressName) }
+            if try container.stateStore.localSecurity?.isRevoked(user: recipient.addressName, device: recipient.deviceId,
+                signal: HostileInteger.unsigned(recipient.signalDeviceId, device: true)) == true { throw LocalSecurityDecisions.Failure.revoked }
             guard try container.stateStore.contains(SignalStorageKeys.trustedIdentity(name: recipient.addressName, deviceId: try HostileInteger.unsigned(recipient.signalDeviceId, device: true))),
                   !(try container.stateStore.contains("pending_identity." + SignalStorageKeys.encodeAddress(name: recipient.addressName, deviceId: try HostileInteger.unsigned(recipient.signalDeviceId, device: true)))) else {
                 throw SignalError.untrustedIdentity(recipient.addressName)
@@ -324,6 +354,7 @@ final class SignalSessionManager {
     /// sessions — decryption of a PreKeySignalMessage establishes its own
     /// session from the incoming message.
     func resolveSignalDeviceId(senderId: String, senderDeviceId: String) async throws -> Int32 {
+        if try container.stateStore.localSecurity?.isRevoked(user: senderId, device: senderDeviceId) == true { throw LocalSecurityDecisions.Failure.revoked }
         // Cache hit: resolve purely from the local mapping, no network call.
         if let cached = deviceIdCache.cached(userId: senderId, deviceId: senderDeviceId) {
             return cached
@@ -388,6 +419,10 @@ final class SignalSessionManager {
         receiveID: String? = nil,
         receiveMetadata: Data = Data()
     ) throws -> Data {
+        if let security = container.stateStore.localSecurity {
+            if try security.blockDecision(senderUserId) == true || security.isRevoked(user: senderUserId,
+                signal: HostileInteger.unsigned(senderSignalDeviceId, device: true)) { throw LocalSecurityDecisions.Failure.revoked }
+        }
         if let receiveID {
             return try container.stateStore.receive(id: receiveID, metadata: receiveMetadata) {
                 try decryptStored(container: container, ciphertextBase64: ciphertextBase64, messageType: messageType,
@@ -462,7 +497,8 @@ extension SignalSessionManager {
                 localIdentifier: Data(owner.utf8), localKey: local,
                 remoteIdentifier: Data(peer.utf8), remoteKey: remote.publicKey)
             let number = fingerprint.displayable.formatted
-            let verified = try pending == nil && state.data(forKey: "verified_identity." + suffix) == Data(number.utf8)
+            let durableVerified = try state.localSecurity?.pins().contains { $0.userId == peer.lowercased() && $0.signalDeviceId == id && $0.identityKey == trusted && $0.verified } == true
+            let verified = try pending == nil && (durableVerified || state.data(forKey: "verified_identity." + suffix) == Data(number.utf8))
             return UnyriVerifiedDevice(id: id, number: number, trusted: trusted, pending: pending, verified: verified)
         }
     }
@@ -476,6 +512,7 @@ extension SignalSessionManager {
             let state = container.stateStore
             let suffix = SignalStorageKeys.encodeAddress(name: peer, deviceId: expected.id)
             let marker = "verified_identity." + suffix
+            if try state.localSecurity?.isRevoked(user: peer, signal: current.id, identity: current.pending ?? current.trusted) == true { throw LocalSecurityDecisions.Failure.revoked }
             if acceptChange {
                 guard let pending = current.pending else { throw SignalError.invalidState("no changed key") }
                 let session = SignalStorageKeys.session(name: peer, deviceId: current.id)

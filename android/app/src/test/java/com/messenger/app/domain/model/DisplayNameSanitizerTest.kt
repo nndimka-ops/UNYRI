@@ -53,7 +53,7 @@ class DisplayNameSanitizerTest {
         assertTrue("Bounded cached calls should stay cheap", (System.nanoTime()-started)/1_000_000 < 5000)
         val boundary = "a".repeat(1023)+"😀"+"b".repeat(1000)
         assertEquals("a".repeat(63)+"…", DisplayNameSanitizer.display(boundary))
-        assertEquals("@alice", DisplayNameSanitizer.peer("\uFFF0", "alice"))
+        assertEquals("Alice", DisplayNameSanitizer.peer("Alice"))
         assertEquals("Unknown user", DisplayNameSanitizer.peer("\uFFF0"))
         for (cp in listOf(0xFFF0, 0xFFF8, 0xE01F0, 0xE0FFF)) assertEquals("AB", DisplayNameSanitizer.display("A"+scalar(cp)+"B"))
     }

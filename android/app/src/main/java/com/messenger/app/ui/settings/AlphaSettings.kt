@@ -45,12 +45,22 @@ import java.io.ByteArrayOutputStream
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 
+/** The public source repository: where anyone can report bugs, translate or send code. */
+internal const val PROJECT_REPOSITORY_URL = "https://github.com/nndimka-ops/UNYRI"
+
 @Composable fun AlphaAboutContent(onOpenLegal: (String) -> Unit) {
     Column(Modifier.verticalScroll(rememberScrollState()).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        Text(stringResource(R.string.alpha_test), style = MaterialTheme.typography.titleLarge)
+        Text(stringResource(R.string.settings_about_project), style = MaterialTheme.typography.titleLarge)
         Text(stringResource(R.string.alpha_description)); Text(stringResource(R.string.alpha_warning))
         Text(stringResource(R.string.alpha_server_description))
-        for (id in listOf("privacy", "support", "terms")) {
+        // Owner 18 Nov: «кто хочет, пускай присоединяется к разработке».
+        Text(stringResource(R.string.about_join_title), style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.about_join_description))
+        val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
+        SettingsSecondaryButton(onClick = { uriHandler.openUri(PROJECT_REPOSITORY_URL) }, modifier = Modifier.testTag("about-join-development")) {
+            Text(stringResource(R.string.about_join_button))
+        }
+        for (id in listOf("terms", "privacy", "support")) {
             SettingsSecondaryButton(onClick = { onOpenLegal(id) }) { Text(cocoLegalTitle(id)) }
         }
     }

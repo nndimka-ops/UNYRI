@@ -24,7 +24,7 @@ enum ImageProcessor {
         let attributes = try FileManager.default.attributesOfItem(atPath: sourceURL.path)
         guard let bytes = (attributes[.size] as? NSNumber)?.int64Value, bytes >= 0,
               (allowLargeStillSource || bytes <= Int64(UnyriShareStore.maxFileBytes)) else { throw CocoaError(.fileReadCorruptFile) }
-        guard let source = CGImageSourceCreateWithURL(sourceURL as CFURL, [kCGImageSourceShouldCache: false] as CFDictionary),
+        guard let source = PeerImagePolicy.source(url: sourceURL),
               let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any],
               let width = properties[kCGImagePropertyPixelWidth] as? Int,
               let height = properties[kCGImagePropertyPixelHeight] as? Int,
@@ -36,7 +36,7 @@ enum ImageProcessor {
     }
     #if canImport(UIKit)
     static func processImage(sourceURL: URL, outputURL: URL, highQuality: Bool = false) throws -> ProcessedImage {
-        guard let source = CGImageSourceCreateWithURL(sourceURL as CFURL, nil),
+        guard let source = PeerImagePolicy.source(url: sourceURL),
               let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any],
               let width = properties[kCGImagePropertyPixelWidth] as? Int,
               let height = properties[kCGImagePropertyPixelHeight] as? Int,

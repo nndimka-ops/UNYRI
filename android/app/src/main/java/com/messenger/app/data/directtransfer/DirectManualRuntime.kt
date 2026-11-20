@@ -3,7 +3,9 @@ package com.messenger.app.data.directtransfer
 /** Production predicates shared by publisher, recovery and all RTC admission points. */
 internal object DirectManualRuntime {
     private val hardReasons = setOf("prefix_mismatch", "integrity_failed", "integrity_mismatch", "verification_failed", "disk_full",
-        "source_missing", "source_changed", "security_error", "storage_error", "unsupported", "access_unavailable", "transfer_unavailable", "permission_denied", "expired")
+        "source_missing", "source_changed", "security_error", "storage_error", "unsupported", "access_unavailable", "transfer_unavailable", "permission_denied", "claimed_elsewhere", "invalid_control", "expired", "relay_unavailable", "peer_relay_unavailable")
+    fun reasonForPeer(reason: String?): String? = if (reason == "relay_unavailable") "peer_relay_unavailable" else reason
+    fun reasonFromPeer(reason: String?): String? = reasonForPeer(reason)
     fun safetyBlocked(record: DirectTransferRecord): Boolean = record.reason in hardReasons
     fun retiringNegotiation(record: DirectTransferRecord): DirectTransferRecord = record.copy(state = "paused",
         reason = if (safetyBlocked(record)) record.reason else null, requestId = null, acceptedRequest = null, speedBytesPerSecond = 0)

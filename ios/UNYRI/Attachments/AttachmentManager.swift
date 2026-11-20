@@ -946,7 +946,7 @@ final class AttachmentManager: ObservableObject {
     /// account's attachment cache.
     private func removeCachedFiles(of records: [AttachmentRecord]) throws {
         // A deleted voice message takes its on-device transcript with it.
-        VoiceTranscriber.forget(records.filter { $0.mediaType == AttachmentMetadata.mediaTypeVoice }.map(\.attachmentId))
+        try VoiceTranscriber.forgetForDeletion(records.filter { $0.mediaType == AttachmentMetadata.mediaTypeVoice }.map(\.attachmentId))
         for row in records {
             clearUploadMeter(row.clientMessageId)
             var files = [URL]()
@@ -1072,7 +1072,7 @@ private final class AttachmentTransferProgress: NSObject, URLSessionDownloadDele
 }
 
 private func originalImageThumbnail(_ file: URL) -> String? {
-    guard let source = CGImageSourceCreateWithURL(file as CFURL, [kCGImageSourceShouldCache: false] as CFDictionary),
+    guard let source = PeerImagePolicy.source(url: file),
           let frame = CGImageSourceCreateThumbnailAtIndex(source, 0, [
             kCGImageSourceCreateThumbnailFromImageAlways: true,
             kCGImageSourceCreateThumbnailWithTransform: true,

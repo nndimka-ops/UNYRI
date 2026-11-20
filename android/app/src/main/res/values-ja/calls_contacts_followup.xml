@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="call_relay_unavailable">このサーバーにはTURN中継がありません。この相手との通話では、直接接続を避けるために中継が必要です。</string>
+    <string name="direct_peer_relay_unavailable">相手はサーバー経由の接続のみ許可していますが、中継サーバーを利用できません。</string>
+</resources>

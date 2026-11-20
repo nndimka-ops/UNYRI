@@ -58,6 +58,7 @@ internal fun AdminModerationScreen(
     run: (suspend () -> Unit) -> Unit,
     onUnauthorized: () -> Unit,
     onBack: () -> Unit,
+    isOwner: Boolean = false,
 ) {
     val colors = LocalCocoColors.current
     var loaded by remember(userId) { mutableStateOf(false) }
@@ -67,6 +68,9 @@ internal fun AdminModerationScreen(
     var noteSaved by remember(userId) { mutableStateOf(false) }
     var diagnostics by remember(userId) { mutableStateOf(false) }
     var requestToken by remember(userId) { mutableStateOf(0) }
+    var confirmDelete by remember(userId) { mutableStateOf(false) }
+    var deleteNumber by remember(userId) { mutableStateOf("") }
+    var deleteReason by remember(userId) { mutableStateOf("") }
 
     suspend fun loadDetail() {
         val token = requestToken + 1
@@ -122,6 +126,31 @@ internal fun AdminModerationScreen(
     }
 
     val detail = cache.moderation
+    if (confirmDelete && isOwner && detail?.suspendAllowed == true && !detail.isAdministrator) {
+        val identity = detail.profile.unyriNumber ?: detail.profile.userId
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { if (!busy) confirmDelete = false },
+            title = { Text(stringResource(R.string.admin_delete_account_forever)) },
+            text = { Column(verticalArrangement = Arrangement.spacedBy(CocoSpacing.md)) {
+                Text(stringResource(R.string.admin_delete_account_detail))
+                Text(identity)
+                OutlinedTextField(deleteNumber, { deleteNumber = it.take(64) }, enabled = !busy,
+                    label = { Text(stringResource(R.string.admin_delete_account_number)) })
+                OutlinedTextField(deleteReason, { deleteReason = it.take(2000) }, enabled = !busy,
+                    label = { Text(stringResource(R.string.admin_reason)) })
+            } },
+            confirmButton = { androidx.compose.material3.TextButton(
+                enabled = !busy && deleteNumber == identity && deleteReason.isNotBlank(),
+                onClick = { run {
+                    check(transport.postOk("users/$userId/delete", AdminDeleteAccountBody(deleteNumber, deleteReason.trim())))
+                    confirmDelete = false
+                    cache.clear()
+                    onBack()
+                } },
+            ) { Text(stringResource(R.string.admin_delete_account_forever)) } },
+            dismissButton = { androidx.compose.material3.TextButton(enabled = !busy, onClick = { confirmDelete = false }) { Text(stringResource(R.string.cancel)) } },
+        )
+    }
     val failure = cache.moderationFailed
 
     AdminScrollingScreen(
@@ -158,7 +187,7 @@ internal fun AdminModerationScreen(
                         fontWeight = FontWeight.SemiBold,
                     )
                     Text(
-                        AdminTitles.accountLabel(detail.profile.userId, detail.profile.username),
+                        AdminTitles.accountLabel(detail.profile.userId, detail.profile.publicUsername, detail.profile.unyriNumber),
                         style = MaterialTheme.typography.bodySmall,
                         color = colors.mutedText,
                     )
@@ -231,6 +260,12 @@ internal fun AdminModerationScreen(
                             onClick = { sheet = ModerationTarget.Account },
                         )
                     }
+                }
+
+                if (isOwner && detail.suspendAllowed && !detail.isAdministrator) AdminCard {
+                    AdminActionRow(title = stringResource(R.string.admin_delete_account_forever),
+                        subtitle = stringResource(R.string.admin_delete_account_detail), destructive = true, enabled = !busy,
+                        onClick = { deleteNumber = ""; deleteReason = ""; confirmDelete = true })
                 }
 
                 // ----- devices -------------------------------------------------

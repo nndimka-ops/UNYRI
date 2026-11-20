@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_relay_unavailable">Gizlilik ayarınız bu kişi için bir aktarıcı gerektiriyor, ancak bu sunucuda yapılandırılmamış. Dosya aktarımı bağlanamıyor.</string>
+</resources>

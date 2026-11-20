@@ -1,0 +1,10 @@
+<resources>
+    <string name="auth_account_deleted">アカウントが削除されました</string>
+    <string name="auth_account_suspended">サーバー管理者がアカウントを停止しました</string>
+    <string name="auth_session_ended">セッションが終了しました</string>
+    <string name="privacy_prevent_screenshots">スクリーンショットを禁止</string>
+    <string name="admin_delete_account_forever">アカウントを完全に削除</string>
+    <string name="admin_delete_account_detail">サーバーと端末上のアカウントおよびメッセージを削除します。</string>
+    <string name="admin_delete_account_number">確認のため公開番号を入力</string>
+    <string name="deleted_account">削除されたアカウント</string>
+</resources>

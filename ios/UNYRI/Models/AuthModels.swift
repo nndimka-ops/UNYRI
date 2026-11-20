@@ -1,5 +1,10 @@
 import Foundation
 
+struct DeviceSessionKey: Encodable {
+    let publicKey: String
+    let protection: String
+}
+
 // MARK: - Requests
 // JSON keys are snake_case and produced by APIClient's encoder strategy,
 // matching the Rust structs (serde rename_all = "lowercase" / snake_case).
@@ -15,6 +20,7 @@ struct RegisterRequest: Encodable {
     let osVersion: String
     let appVersion: String
     var installationCredential: String? = nil
+    var deviceKey: DeviceSessionKey? = nil
 }
 
 struct LoginRequest: Encodable {
@@ -26,6 +32,7 @@ struct LoginRequest: Encodable {
     let osVersion: String
     let appVersion: String
     var installationCredential: String? = nil
+    var deviceKey: DeviceSessionKey? = nil
 }
 
 struct RefreshRequest: Encodable {
@@ -34,6 +41,7 @@ struct RefreshRequest: Encodable {
     /// Keeps Settings → Devices current (the server stored only the sign-in version).
     var appVersion: String? = DeviceInfo.currentAppVersion
     var osVersion: String? = DeviceInfo.currentOSVersion
+    var deviceKey: DeviceSessionKey? = nil
 }
 
 // MARK: - Responses
@@ -74,6 +82,7 @@ struct APIErrorBody: Decodable {
 struct APIErrorDetail: Decodable {
     let code: String
     let message: String
+    var serverTime: Int64? = nil
 }
 
 /// Public /server-info fields are optional for compatibility with older servers.

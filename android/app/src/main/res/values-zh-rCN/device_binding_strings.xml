@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auth_hardware_binding_required">此手机无法使用硬件密钥保护会话，但服务器要求此保护。</string>
+</resources>

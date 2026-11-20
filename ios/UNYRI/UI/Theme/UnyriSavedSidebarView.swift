@@ -101,8 +101,9 @@ struct UnyriSavedSidebarView: View {
                 }.buttonStyle(.plain).accessibilityLabel(Text(UnyriL10n.string("Copy number") + " " + publicNumber))
                     .accessibilityIdentifier("drawer-public-number")
             }
-            if let username {
-                Text("@" + username).font(.system(size: 13 * textScale))
+            let alias = PeerIdentityPolicy.label(publicUsername: username, unyriNumber: nil)
+            if !alias.isEmpty {
+                Text(alias).font(.system(size: 13 * textScale))
                     .lineLimit(1).minimumScaleFactor(CGFloat(DrawerCPolicy.usernameMinimumScale)).truncationMode(.middle)
                     .foregroundStyle(UnyriColors.secondaryText)
             }
@@ -192,7 +193,7 @@ struct UnyriSavedSidebarView: View {
         Button { UnyriHaptics.press(); onItem("report") } label: {
             HStack(spacing: 8) {
                 icon("UnyriSidebarReport", size: 16)
-                Text("Report a problem").font(.system(size: 14 * textScale)).fixedSize(horizontal: false, vertical: true)
+                Text("Problem report").accessibilityLabel("Report a problem").font(.system(size: 14 * textScale)).fixedSize(horizontal: false, vertical: true)
             }.foregroundStyle(UnyriColors.sidebarSecondaryText).padding(.horizontal, 12).padding(.vertical, 6)
                 .frame(maxWidth: .infinity, minHeight: 44)
                 .background(.white.opacity(0.05), in: RoundedRectangle(cornerRadius: 22))
@@ -292,6 +293,23 @@ private struct DrawerCPressStyle: ButtonStyle {
 }
 
 /// Shared glass capsule: iOS 26 native glass; the established material fallback below.
+/// B-060 (owner, 19 Nov: «Я увидел этот полукруг или что это? С логином и паролем»): a glass card for
+/// several rows. UnyriDrawerGlass below is a capsule made for 44 pt controls; around the two sign-in
+/// fields it drew semicircular sides and let the fields' own corners show outside it. The corners are
+/// concentric with the 18 pt field corners inside the 16 pt padding.
+struct UnyriCardGlass: ViewModifier {
+    var cornerRadius: CGFloat = 34
+    func body(content: Content) -> some View {
+        let shape = RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+        if #available(iOS 26.0, *) {
+            content.background(.white.opacity(0.07), in: shape).glassEffect(.regular, in: shape)
+        } else {
+            content.background(.ultraThinMaterial, in: shape)
+                .overlay(shape.stroke(.white.opacity(0.12), lineWidth: 0.5))
+        }
+    }
+}
+
 struct UnyriDrawerGlass: ViewModifier {
     func body(content: Content) -> some View {
         if #available(iOS 26.0, *) {

@@ -18,6 +18,9 @@ use crate::websocket::protocol::{ClientMessage, ServerMessage};
 /// socket ever opens, identically to any other endpoint.
 pub async fn ws_handler(ws: WebSocketUpgrade, State(state): State<AppState>, ClientIp(ip): ClientIp, headers: axum::http::HeaderMap, auth: AuthUser) -> Result<axum::response::Response, AppError> {
     crate::auth::rate_limit::enforce(&state,"ws:upgrade:ip",ip,240,60).await?;
+    let token = headers.get(axum::http::header::AUTHORIZATION).and_then(|value| value.to_str().ok())
+        .and_then(|value| value.strip_prefix("Bearer ")).ok_or(AppError::Unauthorized)?;
+    crate::auth::device_proof::socket(&state.db, &headers, auth.session_id, token).await?;
     crate::auth::rate_limit::enforce(&state,&format!("ws:upgrade:user:{}",auth.user_id),std::net::Ipv4Addr::UNSPECIFIED.into(),120,60).await?;
     crate::auth::rate_limit::enforce(&state,&format!("ws:upgrade:device:{}",auth.device_id),std::net::Ipv4Addr::UNSPECIFIED.into(),60,60).await?;
     let reservation=state.resources.sockets.reserve(&auth,ip)?;
@@ -38,15 +41,9 @@ async fn close_revoked(socket: &mut WebSocket, state: &AppState, auth: &AuthUser
     // across server processes. Recover the canonical reason without draining data.
     let pending = control.borrow().clone();
     let payload = if let Some(payload) = pending { payload } else {
-        let reason: String = sqlx::query_scalar(
-            "SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM users WHERE id=$2) THEN 'account_deleted' \
-             ELSE COALESCE((SELECT s.revocation_reason FROM sessions root JOIN sessions s ON s.family_id=root.family_id WHERE root.id=$1 AND s.revocation_reason IS NOT NULL ORDER BY s.created_at DESC LIMIT 1), \
-             CASE WHEN EXISTS(SELECT 1 FROM devices d WHERE d.id=$3 AND (d.revoked_at IS NOT NULL OR EXISTS(SELECT 1 FROM installation_suspensions b WHERE b.installation_id IN (SELECT d.installation_id UNION SELECT va.client_installation_id FROM verified_installation_aliases va WHERE va.installation_id=d.verified_installation_id) AND (b.until_date IS NULL OR b.until_date>now())))) \
-               OR EXISTS(SELECT 1 FROM server_suspensions WHERE user_id=$2 AND (until_date IS NULL OR until_date>now())) \
-             THEN 'device_revoked' ELSE 'session_revoked' END) END",
-        ).bind(auth.session_id).bind(auth.user_id).bind(auth.device_id).fetch_one(&state.db).await
-            .unwrap_or_else(|_| "session_revoked".into());
-        serde_json::to_string(&ServerMessage::SessionRevoked { reason }).unwrap()
+        let reason = crate::auth::middleware::terminal_reason(&state.db, auth.user_id, auth.device_id, auth.session_id)
+            .await.unwrap_or("session_revoked");
+        serde_json::to_string(&ServerMessage::SessionRevoked { reason: reason.into() }).unwrap()
     };
     let _ = send_frame(socket, Message::Text(payload)).await;
     let _ = send_frame(socket, Message::Close(None)).await;

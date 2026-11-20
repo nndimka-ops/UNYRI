@@ -74,7 +74,7 @@ enum class LocalCameraState {
 
 /** Typed, localizable reason for a failed call start - never a raw exception
  *  or API message (code-review 8). */
-enum class CallFailureReason { GENERIC, NETWORK, DEVICE_RESTRICTED, BUSY, RATE_LIMITED }
+enum class CallFailureReason { GENERIC, NETWORK, DEVICE_RESTRICTED, BUSY, RATE_LIMITED, RELAY_UNAVAILABLE }
 
 /** Feedback for a rejected NEW action; never changes the conversation already running. */
 enum class CallStartBlockedReason { ROOM, CALL, CAPTURE }

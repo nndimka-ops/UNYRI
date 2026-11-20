@@ -49,7 +49,6 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.messenger.app.MessengerApp
 import com.messenger.app.R
-import com.messenger.app.push.NotificationChannels
 import com.messenger.app.ui.theme.CocoHaptics
 import com.messenger.app.ui.theme.LocalCocoColors
 
@@ -96,23 +95,18 @@ fun NotificationSettingsContent() {
                 CocoHaptics.select(view); app.notificationSettings.update { current -> current.copy(calls = it) }
             }
             HorizontalDivider(color = colors.outlineSubtle)
-            NotificationSettingsToggle(R.string.notification_settings_sound, R.string.notification_settings_sound_detail,
-                preferences.messageSound, preferences.messageAlertsEnabled, "notifications-sound") {
-                CocoHaptics.select(view); app.notificationSettings.update { current -> current.copy(messageSound = it) }
-            }
-            HorizontalDivider(color = colors.outlineSubtle)
             Text(stringResource(R.string.inline_notification_header), Modifier.padding(16.dp), style = MaterialTheme.typography.titleSmall)
             NotificationSettingsToggle(R.string.inline_notification_banners, 0,
                 preferences.inAppBanners, preferences.messageAlertsEnabled, "notifications-in-app") {
                 CocoHaptics.select(view); app.notificationSettings.update { current -> current.copy(inAppBanners = it) }
             }
             HorizontalDivider(color = colors.outlineSubtle)
-            NotificationSettingsToggle(R.string.inline_notification_sound, 0,
+            NotificationSettingsToggle(R.string.inline_notification_sound, R.string.notification_in_app_sound_detail,
                 preferences.inAppSound, preferences.messageAlertsEnabled, "notifications-in-app-sound") {
                 app.notificationSettings.update { current -> current.copy(inAppSound = it) }
             }
             HorizontalDivider(color = colors.outlineSubtle)
-            NotificationSettingsToggle(R.string.inline_notification_vibration, 0,
+            NotificationSettingsToggle(R.string.inline_notification_vibration, R.string.notification_in_app_vibration_detail,
                 preferences.inAppVibration, preferences.messageAlertsEnabled, "notifications-in-app-vibration") {
                 app.notificationSettings.update { current -> current.copy(inAppVibration = it) }
             }
@@ -141,21 +135,6 @@ fun NotificationSettingsContent() {
                 SettingsSecondaryButton(modifier = Modifier.rejectObscuredTouches().fillMaxWidth().testTag("notifications-system-settings"), onClick = { systemSettings() }) {
                     Text(stringResource(R.string.notification_settings_system_open))
                 }
-                SettingsSecondaryButton(modifier = Modifier.fillMaxWidth(), onClick = { NotificationChannels.ensure(context); systemSettings(NotificationChannels.CHANNEL_MESSAGES) }) {
-                    Text(stringResource(R.string.notification_settings_message_channel))
-                }
-                SettingsSecondaryButton(modifier = Modifier.fillMaxWidth(), onClick = { systemSettings(com.messenger.app.call.IncomingCallChannelSpec.CHANNEL_ID) }) {
-                    Text(stringResource(R.string.notification_settings_call_channel))
-                }
-            }
-        }
-        NotificationSettingsCard {
-            Column(Modifier.padding(horizontal = 16.dp)) {
-                Text(stringResource(R.string.notification_settings_local), style = MaterialTheme.typography.titleMedium,
-                    color = colors.primaryText, modifier = Modifier.padding(top = 16.dp))
-                Text(stringResource(R.string.notification_settings_local_detail), style = MaterialTheme.typography.bodySmall,
-                    color = colors.secondaryText, modifier = Modifier.padding(top = 8.dp))
-                LocalConnectionSettings()
             }
         }
     }

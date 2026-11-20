@@ -3,9 +3,29 @@ set -euo pipefail
 source "$(dirname -- "${BASH_SOURCE[0]}")/common.sh"
 source "$(dirname -- "${BASH_SOURCE[0]}")/preflight-ports.sh"
 selfhost_from_source=false
-if (( $# )); then
-    [[ $# == 1 && $1 == --from-source ]] || { echo 'Usage: install.sh [--from-source]' >&2; exit 1; }
-    selfhost_from_source=true
+non_interactive=false; domain=; server_name=UNYRI; public_ip=; rooms=no
+local_trial=false
+[[ ! -f "$selfhost_root/.selfhost-local-trial" ]] || local_trial=true
+# Explicit argument pairs only; no eval, stdin protocol, IP discovery or UPnP in automation.
+while (( $# )); do
+    case $1 in
+        --from-source) selfhost_from_source=true; shift ;;
+        --non-interactive) non_interactive=true; shift ;;
+        --domain|--server-name|--public-ipv4|--rooms)
+            [[ $# -ge 2 ]] || exit 1
+            case $1 in
+                --domain) domain=$2 ;; --server-name) server_name=$2 ;;
+                --public-ipv4) public_ip=$2 ;; --rooms) rooms=$2 ;;
+            esac
+            shift 2 ;;
+        *) echo 'Unknown installer argument.' >&2; exit 1 ;;
+    esac
+done
+if [[ $non_interactive == true && ! -e $selfhost_env ]]; then
+    [[ -n $domain && -n $public_ip && ( $rooms == yes || $rooms == no ) ]] || exit 1
+fi
+if [[ $local_trial == true ]]; then
+    [[ $non_interactive == true && $domain == localhost && $public_ip == 127.0.0.1 && $rooms == no ]] || exit 1
 fi
 if [[ $selfhost_from_source == true ]]; then
     [[ -f "$selfhost_root/server/Dockerfile" && -d "$selfhost_root/shared" ]] || { echo '--from-source needs a full source checkout, not the runtime bundle.' >&2; exit 1; }
@@ -20,15 +40,15 @@ command -v curl >/dev/null || { echo 'Install curl from your distribution packag
 umask 077
 if [[ ! -e "$selfhost_env" ]]; then
     check_selfhost_old_data || exit 1
-    read -r -p 'Domain or DDNS name (family.duckdns.org; no https://): ' domain
+    if [[ $non_interactive != true ]]; then read -r -p 'Domain or DDNS name (family.duckdns.org; no https://): ' domain; fi
     domain=${domain,,}
-    [[ ${#domain} -le 253 && $domain =~ ^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]([a-z0-9-]{0,61}[a-z0-9])?$ ]] || { echo 'Enter an ASCII DNS name (punycode for international names).' >&2; exit 1; }
-    read -r -p 'Server name shown in the apps [UNYRI]: ' server_name
+    [[ $local_trial == true || ( ${#domain} -le 253 && $domain =~ ^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]([a-z0-9-]{0,61}[a-z0-9])?$ ) ]] || { echo 'Enter an ASCII DNS name (punycode for international names).' >&2; exit 1; }
+    if [[ $non_interactive != true ]]; then read -r -p 'Server name shown in the apps [UNYRI]: ' server_name; fi
     server_name=${server_name:-UNYRI}
     valid_server_name "$server_name" || { echo 'Server name must be 1-64 printable characters, with no control characters.' >&2; exit 1; }
     echo 'A router WAN address in 100.64.0.0/10 means CGNAT. If router WAN differs from the public address, ask your provider about CGNAT/double NAT; forwarding alone may not work.'
-    public_ip=
-    read -r -p 'Detect automatically? It asks api.ipify.org over HTTPS, which learns your address [y/N] ' detect_ip
+    detect_ip=no
+    if [[ $non_interactive != true ]]; then read -r -p 'Detect automatically? It asks api.ipify.org over HTTPS, which learns your address [y/N] ' detect_ip; fi
     if [[ $detect_ip =~ ^([yY]|[yY][eE][sS])$ ]]; then
         if public_ip=$(curl --fail --silent --show-error --proto '=https' --proto-redir '=https' --connect-timeout 5 --max-time 15 https://api.ipify.org) && valid_public_ipv4 "$public_ip"; then
             printf 'Detected public IPv4: %s\n' "$public_ip"
@@ -38,7 +58,7 @@ if [[ ! -e "$selfhost_env" ]]; then
     fi
     if [[ -z $public_ip ]]; then read -r -p 'Public IPv4 from router WAN/VPS (not PC LAN address): ' public_ip; fi
     valid_public_ipv4 "$public_ip" || { echo 'Invalid IPv4; a dotted IPv4 address is required for TURN.' >&2; exit 1; }
-    read -r -p 'Enable optional LiveKit rooms? [y/N] ' rooms
+    if [[ $non_interactive != true ]]; then read -r -p 'Enable optional LiveKit rooms? [y/N] ' rooms; fi
     lk_key="lk$(openssl rand -hex 8)"; lk_secret=$(openssl rand -hex 32)
     # Noclobber prevents replacing a concurrently created configuration.
     set -o noclobber
@@ -69,11 +89,12 @@ chmod 600 "$selfhost_env"
 domain=$(setting UNYRI_DOMAIN)
 rooms=$(setting COMPOSE_PROFILES)
 export COMPOSE_PROFILES="$rooms"
-check_selfhost_ports "$rooms" || exit 1
+check_selfhost_ports "$rooms" "$local_trial" || exit 1
 echo 'Configure ufw/cloud firewall and router forwarding as in the guide. The installer does not change Linux system firewall policy.'
 echo 'UPnP will request: TCP 80,443,3478; UDP 3478,49152-49200.'
 if [[ $rooms == rooms ]]; then echo 'UPnP will also request rooms: TCP 17881; UDP 17882.'; fi
-read -r -p 'Try UPnP on your local router to forward the stack ports? [y/N] ' upnp
+upnp=no
+if [[ $non_interactive != true ]]; then read -r -p 'Try UPnP on your local router to forward the stack ports? [y/N] ' upnp; fi
 if [[ $upnp =~ ^([yY]|[yY][eE][sS])$ ]] && command -v upnpc >/dev/null && command -v timeout >/dev/null && command -v ip >/dev/null; then
     lan=$(detect_selfhost_lan "$(setting UNYRI_SUBNET)")
     if [[ -n $lan ]]; then
@@ -100,28 +121,36 @@ echo 'Before update:'
 show_server_version
 echo 'Target images (UNYRI_SERVER_IMAGE overrides the bundle default if set):'
 dc config --images
-if [[ $selfhost_from_source == true ]]; then
+if [[ $non_interactive == true ]]; then echo UNYRI_GUI:pull; fi
+if [[ $local_trial == true ]]; then
+    echo 'Loopback trial uses cached images only; no image download or build.'
+elif [[ $selfhost_from_source == true ]]; then
     dc pull --ignore-buildable
     dc build --pull
 else
     dc pull
 fi
-dc up -d --no-build --wait --wait-timeout 300
+if [[ $non_interactive == true ]]; then echo UNYRI_GUI:start; fi
+if [[ $local_trial == true ]]; then dc up -d --no-build --pull never --wait --wait-timeout 300
+else dc up -d --no-build --wait --wait-timeout 300; fi
 if [[ $selfhost_from_source == true ]]; then
     printf '%s\n' 'Local source build; pass --from-source again for the next source update.' > "$selfhost_root/.selfhost-from-source"
 else
     rm -f -- "$selfhost_root/.selfhost-from-source"
 fi
+if [[ $non_interactive == true ]]; then echo UNYRI_GUI:health; fi
 echo 'After update:'
 show_server_version
 dc exec -T backend curl --fail --silent http://127.0.0.1:8080/health
 address="https://$domain"
 printf '\nServer: %s\nAdministration: %s/administration\n' "$address" "$address"
-show_owner_setup
+if [[ $non_interactive != true ]]; then show_owner_setup; fi
 if command -v qrencode >/dev/null; then qrencode -t ANSIUTF8 "$address" || true; fi
 printf 'Address for copying or encoding as QR: %s\n' "$address"
 echo 'The QR contains an address. Select this server manually in the app; it is not an account/room invitation.'
 echo 'If the public IPv4 changes, update TURN_EXTERNAL_IP in .env and rerun; DDNS alone does not update TURN. Test from mobile data.'
+if [[ $local_trial == true ]]; then echo 'Loopback trial installed; public verification intentionally unavailable (exit 3).'; exit 3; fi
+if [[ $non_interactive == true ]]; then echo UNYRI_GUI:public; fi
 public_ready=false
 for ((attempt=0; attempt<36; attempt++)); do
     if curl --fail --silent --connect-timeout 3 --max-time 5 "$address/health" | grep -Eq '"status"[[:space:]]*:[[:space:]]*"ok"'; then public_ready=true; break; fi

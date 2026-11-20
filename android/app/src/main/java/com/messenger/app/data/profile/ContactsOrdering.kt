@@ -16,7 +16,7 @@ internal object ContactsOrdering {
             decomposition = Collator.CANONICAL_DECOMPOSITION
         }
         val identities = entries.map { entry ->
-            Identity(entry, parts(entry.user.visibleName, collator), parts(entry.user.username, collator))
+            Identity(entry, parts(entry.user.visibleName, collator), parts(com.messenger.app.data.identity.PeerIdentityPolicy.handle(entry.user.publicUsername, entry.user.publicNumber), collator))
         }
         return identities.sortedWith { left, right ->
             compare(left.name, right.name).takeIf { it != 0 }

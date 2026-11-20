@@ -1,0 +1,10 @@
+<resources>
+    <string name="auth_account_deleted">Account deleted</string>
+    <string name="auth_account_suspended">Account suspended by the server administrator</string>
+    <string name="auth_session_ended">Session ended</string>
+    <string name="privacy_prevent_screenshots">Prevent screenshots</string>
+    <string name="admin_delete_account_forever">Delete account permanently</string>
+    <string name="admin_delete_account_detail">Erases the account and its messages on the server and phones.</string>
+    <string name="admin_delete_account_number">Enter the public number to confirm</string>
+    <string name="deleted_account">Deleted account</string>
+</resources>

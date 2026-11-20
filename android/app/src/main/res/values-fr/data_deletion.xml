@@ -1,0 +1,10 @@
+<resources>
+    <string name="auth_account_deleted">Compte supprimé</string>
+    <string name="auth_account_suspended">Compte bloqué par l’administrateur du serveur</string>
+    <string name="auth_session_ended">Session terminée</string>
+    <string name="privacy_prevent_screenshots">Interdire les captures d’écran</string>
+    <string name="admin_delete_account_forever">Supprimer définitivement le compte</string>
+    <string name="admin_delete_account_detail">Supprime le compte et ses messages sur le serveur et les téléphones.</string>
+    <string name="admin_delete_account_number">Saisissez le numéro public pour confirmer</string>
+    <string name="deleted_account">Compte supprimé</string>
+</resources>

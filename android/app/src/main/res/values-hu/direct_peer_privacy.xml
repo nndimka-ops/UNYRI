@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="direct_relay_unavailable">Az adatvédelmi beállítás közvetítő szervert igényel ehhez a személyhez, de ezen a szerveren nincs beállítva. A fájlátvitel nem tud csatlakozni.</string>
+</resources>

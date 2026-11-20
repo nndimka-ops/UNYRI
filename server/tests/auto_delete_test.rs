@@ -1048,7 +1048,7 @@ async fn automatic_deletion_removes_both_sides_and_retains_durable_object_and_ca
         .await
         .unwrap();
     assert_eq!(rejected.status(), StatusCode::UNAUTHORIZED);
-    assert_eq!(json(rejected).await["error"]["code"], "session_revoked");
+    assert_eq!(json(rejected).await["error"]["code"], "account_deleted");
     assert_eq!(
         messenger_server::users::deletion::sweep_deleted_objects(&state)
             .await

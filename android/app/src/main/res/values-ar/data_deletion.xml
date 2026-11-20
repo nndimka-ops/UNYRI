@@ -1,0 +1,10 @@
+<resources>
+    <string name="auth_account_deleted">تم حذف الحساب</string>
+    <string name="auth_account_suspended">تم حظر الحساب بواسطة مسؤول الخادم</string>
+    <string name="auth_session_ended">انتهت الجلسة</string>
+    <string name="privacy_prevent_screenshots">منع لقطات الشاشة</string>
+    <string name="admin_delete_account_forever">حذف الحساب نهائيًا</string>
+    <string name="admin_delete_account_detail">يحذف الحساب ورسائله من الخادم والهواتف.</string>
+    <string name="admin_delete_account_number">أدخل الرقم العام للتأكيد</string>
+    <string name="deleted_account">حساب محذوف</string>
+</resources>

@@ -16,6 +16,8 @@ pub enum DevicePlatform {
 #[derive(Debug, Deserialize)]
 pub struct RegisterRequest {
     #[serde(default)]
+    pub device_key: Option<super::device_proof::DeviceKey>,
+    #[serde(default)]
     pub invite_code: Option<String>,
     pub username: String,
     pub password: String,
@@ -35,6 +37,8 @@ pub struct RegisterRequest {
 
 #[derive(Debug, Deserialize)]
 pub struct LoginRequest {
+    #[serde(default)]
+    pub device_key: Option<super::device_proof::DeviceKey>,
     pub username: String,
     pub password: String,
     pub installation_id: Uuid,
@@ -49,6 +53,8 @@ pub struct LoginRequest {
 
 #[derive(Debug, Deserialize)]
 pub struct RefreshRequest {
+    #[serde(default)]
+    pub device_key: Option<super::device_proof::DeviceKey>,
     pub refresh_token: String,
     #[serde(default)]
     pub request_id: Option<Uuid>,

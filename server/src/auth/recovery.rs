@@ -230,9 +230,6 @@ async fn apply_reset(
     // old-password login or refresh cannot create a surviving session after reset.
     let user: Option<Uuid> = sqlx::query_scalar("SELECT id FROM users WHERE username_normalized=$1 AND deleted_at IS NULL AND NOT EXISTS(SELECT 1 FROM server_suspensions b WHERE b.user_id=users.id AND (b.until_date IS NULL OR b.until_date>now())) FOR UPDATE")
         .bind(normalized_user).fetch_optional(&mut *tx).await?;
-    let Some(user) = user else {
-        return Err(AppError::InvalidCredentials);
-    };
     let expected: Option<Vec<u8>> =
         sqlx::query_scalar("SELECT code_hash FROM account_recovery WHERE user_id=$1 AND (expires_at IS NULL OR expires_at>now()) FOR UPDATE")
             .bind(user)
@@ -240,10 +237,13 @@ async fn apply_reset(
             .await?;
     if !refresh_token::constant_time_eq(
         expected.as_deref().unwrap_or(&[0u8; 32]),
-        &hash(user, &code),
+        &hash(user.unwrap_or_else(Uuid::nil), &code),
     ) {
         return Err(AppError::InvalidCredentials);
     }
+    let Some(user) = user else {
+        return Err(AppError::InvalidCredentials);
+    };
     let password_hash = password::run(move || password::hash_password(&new_password)).await?;
     sqlx::query("UPDATE users SET password_hash=$2 WHERE id=$1")
         .bind(user)
@@ -285,7 +285,7 @@ async fn apply_reset(
         state,
         user,
         &ServerMessage::SessionRevoked {
-            reason: "password_recovered".into(),
+            reason: "session_revoked".into(),
         },
     )
     .await;

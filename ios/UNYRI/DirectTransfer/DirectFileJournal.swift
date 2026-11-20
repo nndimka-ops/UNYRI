@@ -62,5 +62,10 @@ actor DirectFileJournal {
         guard record.id == id, record.offer.hasValidShape, record.validLocalExtensions else { throw Failure.invalid }
         return record
     }
+    func eraseRemovedMessage(_ id: String) throws {
+        let folder = try directory(id)
+        if FileManager.default.fileExists(atPath: folder.path) { try FileManager.default.removeItem(at: folder) }
+        try? allocation.release(id)
+    }
     func retire() { retired = true; allocation.retire() }
 }

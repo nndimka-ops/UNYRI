@@ -35,7 +35,7 @@ internal fun PeerIdentityCard(peer: PublicUser) {
         if (legacy) Text(com.messenger.app.ui.publicHandle(peer))
         profile?.takeUnless { legacy }?.let { current ->
             Text(com.messenger.app.data.identity.IdentityPolicy.formattedNumber(current.number))
-            current.username?.let { Text("@$it") }
+            com.messenger.app.data.identity.PeerIdentityPolicy.handle(current.username, null).takeIf { it.isNotEmpty() }?.let { Text(it) }
             TextButton(onClick = { qr = true }) { Text(stringResource(R.string.sidebar_qr_title)) }
             val own by app.identityRepository.identity.collectAsState()
             if (qr && own != null) com.messenger.app.ui.ProfileQrSheet(current.displayName, current.username, {}, { qr = false },

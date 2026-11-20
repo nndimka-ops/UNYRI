@@ -59,6 +59,8 @@ pub struct ContactChange {
 struct ContactRow {
     id: Uuid,
     username: String,
+    public_username: Option<String>,
+    unyri_number: String,
     display_name: String,
     bio: Option<String>,
     avatar_url: Option<String>,
@@ -82,12 +84,14 @@ pub async fn list(
     rate_limit::enforce(&state, "contacts:ip", ip, 120, 60).await?;
     rate_limit::enforce(&state, &format!("contacts:read:{}", auth.user_id), user_bucket(), 60, 60).await?;
     let limit = query.limit.unwrap_or(200).clamp(1, 200);
-    // Same visibility as the directory. Hidden rows stay stored, so a contact
+    // Hidden rows stay stored, so a contact
     // comes back after an unblock or a lifted suspension.
     let rows: Vec<ContactRow> = sqlx::query_as(
-        "SELECT u.id,u.username,u.display_name,u.bio,u.avatar_url,u.profile_version,u.avatar_version, \
+        "SELECT u.id,COALESCE(i.public_username,'') AS username,i.public_username,i.unyri_number::text, \
+         u.display_name,u.bio,u.avatar_url,u.profile_version,u.avatar_version, \
          (u.avatar_key IS NOT NULL) AS has_avatar, c.source, c.created_at AS added_at \
          FROM user_contacts c JOIN users u ON u.id=c.contact_id \
+         JOIN user_identities i ON i.user_id=u.id \
          WHERE c.owner_id=$1 AND c.removed_at IS NULL AND ($2::uuid IS NULL OR c.contact_id>$2) \
            AND u.deleted_at IS NULL \
            AND NOT EXISTS(SELECT 1 FROM server_suspensions s WHERE s.user_id=u.id AND (s.until_date IS NULL OR s.until_date>now())) \
@@ -108,6 +112,8 @@ pub async fn list(
             user: PublicUser {
                 id: row.id,
                 username: row.username,
+                public_username: row.public_username,
+                unyri_number: row.unyri_number,
                 display_name: row.display_name,
                 bio: row.bio,
                 avatar_url: row.avatar_url,

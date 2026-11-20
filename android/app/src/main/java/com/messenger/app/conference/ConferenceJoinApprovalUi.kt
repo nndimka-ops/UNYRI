@@ -21,8 +21,8 @@ import com.messenger.app.ui.theme.CocoHaptics
     val view = LocalView.current
     Surface(color = colors.surfaceVariant, contentColor = colors.primaryText, shape = RoundedCornerShape(18.dp)) {
         Column(Modifier.fillMaxWidth().padding(12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            Text(stringResource(R.string.conference_join_wants_in, com.messenger.app.domain.model.DisplayNameSanitizer.peer(request.displayName, request.username)), style = MaterialTheme.typography.bodyMedium)
-            Text("@" + request.username, style = MaterialTheme.typography.bodySmall, color = colors.mutedText)
+            Text(stringResource(R.string.conference_join_wants_in, com.messenger.app.domain.model.DisplayNameSanitizer.display(request.displayName, com.messenger.app.domain.model.DisplayNameSanitizer.unknownUser)), style = MaterialTheme.typography.bodyMedium)
+            Text(com.messenger.app.ui.publicHandle(request.publicNumber, request.publicUsername, request.username), style = MaterialTheme.typography.bodySmall, color = colors.mutedText)
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedButton(onClick = { CocoHaptics.select(view); onDecline() }, enabled = !busy, modifier = Modifier.weight(1f).heightIn(min = 44.dp)
                     .testTag("conference_join_decline_" + request.requestId)) { Text(stringResource(R.string.conference_join_reject)) }

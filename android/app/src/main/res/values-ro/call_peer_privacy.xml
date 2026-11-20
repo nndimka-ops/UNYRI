@@ -4,5 +4,5 @@
     <string name="call_p2p_everyone">Toată lumea</string>
     <string name="call_p2p_contacts">Contactele mele</string>
     <string name="call_p2p_nobody">Nimeni</string>
-    <string name="call_p2p_note">Conexiunea directă este de obicei mai rapidă, dar celălalt dispozitiv vede adresa ta IP. Prin server este vizibilă doar adresa serverului. Contactele mele permite conexiuni directe doar cu persoanele din Contacte. Se aplică de la următorul apel.</string>
+    <string name="call_p2p_note">Conexiunea directă este de obicei mai rapidă, dar celălalt dispozitiv vede adresa ta IP. Prin server este vizibilă doar adresa serverului. Contactele mele permite conexiuni directe doar cu persoanele din Contacte. Se aplică de la următorul apel. Aceeași setare se aplică transferurilor de fișiere.</string>
 </resources>

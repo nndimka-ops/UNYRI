@@ -30,29 +30,62 @@ class SelfHostingAdminTest {
         assertFailsWith<IllegalArgumentException> { actions.revoke("../registration") }
         Unit
     }
-    @Test fun `moderator cannot read or write owner policy or self check`() = runBlocking {
+    @Test fun `moderator reads public mode but cannot write owner policy or self check`() = runBlocking {
         var calls = 0
-        val transport = AdminTransport({ _, _ -> calls++; "{}" }, { error("no blob") })
+        var publicCalls = 0
+        val transport = AdminTransport({ _, _ -> calls++; "{}" }, { error("no blob") }, {
+            publicCalls++
+            """{"name":"Fixture","registration_mode":"invite_only","registration_open":false,"invite_required":true}"""
+        })
         val actions = SelfHostingAdminActions("moderator", transport)
-        assertFailsWith<IllegalStateException> { actions.registration() }
+        assertEquals("invite_only", actions.registration().mode)
+        assertFalse(actions.registration().open)
         assertFailsWith<IllegalStateException> { actions.setMode("open") }
         assertFailsWith<IllegalStateException> { actions.selfCheck() }
         assertEquals(0, calls)
+        assertEquals(2, publicCalls)
         assertTrue(AdminNavigation.canOpen("moderator", AdminTarget.SelfHosting))
         assertFalse(AdminNavigation.canOpen(null, AdminTarget.SelfHosting))
     }
     @Test fun `owner can change registration and read self check without giving bearer-only access`() = runBlocking {
         val paths = mutableListOf<String>()
+        val bodies = mutableListOf<String>()
         val transport = AdminTransport({ path, body -> paths += path
+            body?.let(bodies::add)
             if (body != null) """{"ok":true}""" else if (path == "registration") """{"registration_mode":"invite_only","registration_open":false}""" else "{}"
         }, { error("no blob") })
         val actions = SelfHostingAdminActions("owner", transport)
         assertFalse(actions.registration().open)
         actions.setMode("open"); actions.selfCheck()
         assertEquals(listOf("registration", "registration", "self-check"), paths)
+        assertEquals(Json.parseToJsonElement("""{"registration_mode":"open"}"""), Json.parseToJsonElement(bodies.single()))
         assertFailsWith<IllegalArgumentException> { actions.setMode("closed") }
         assertFailsWith<IllegalStateException> { SelfHostingAdminActions("user", transport).invites() }
         Unit
+    }
+    @Test fun `registration mapping requires explicit known mode and closure on both routes`() = runBlocking {
+        for (role in listOf("owner", "moderator")) for (payload in listOf("{}", """{"registration_mode":"open"}""",
+            """{"registration_mode":"future","registration_open":true}""")) {
+            val transport = AdminTransport({ _, _ -> payload }, { error("no blob") }, { payload })
+            assertFails { SelfHostingAdminActions(role, transport).registration() }
+        }
+        val failure = java.io.IOException("fixture")
+        val transport = AdminTransport({ _, _ -> throw failure }, { error("no blob") }, { throw failure })
+        assertSame(failure, assertFailsWith<java.io.IOException> { SelfHostingAdminActions("moderator", transport).registration() })
+        Unit
+    }
+    @Test fun `ungranted roles cannot invoke any invite or policy reader`() = runBlocking {
+        var calls = 0
+        val transport = AdminTransport({ _, _ -> calls++; "{}" }, { error("no blob") }, { calls++; "{}" })
+        for (role in listOf("user", "", "admin", "future")) {
+            val actions = SelfHostingAdminActions(role, transport)
+            assertFailsWith<IllegalStateException> { actions.invites() }
+            assertFailsWith<IllegalStateException> { actions.create(1, 7) }
+            assertFailsWith<IllegalStateException> { actions.revoke(id) }
+            assertFailsWith<IllegalStateException> { actions.registration() }
+            assertFailsWith<IllegalStateException> { actions.setMode("invite_only") }
+        }
+        assertEquals(0, calls)
     }
     @Test fun `self check covers every contracted field individually`() {
         assertEquals(27, selfCheckFields.size)

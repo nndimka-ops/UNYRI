@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chats_archive_detail">Verplaats chats hierheen via hun menu of selecteer er meerdere. Nieuwe berichten laten ze hier staan totdat u ze terugzet.</string>
+    <string name="privacy_devices_blocks">Apparaten en blokkeringen</string>
+    <string name="privacy_messages_section">Berichten</string>
+    <string name="settings_privacy_visibility">Zichtbaarheid</string>
+    <string name="privacy_nobody_count">Niemand</string>
+    <string name="blocked_users_search">Naam, nummer of @gebruikersnaam</string>
+    <plurals name="privacy_people_count_short">
+        <item quantity="one">%1$d pers.</item>
+        <item quantity="few">%1$d pers.</item>
+        <item quantity="many">%1$d pers.</item>
+        <item quantity="other">%1$d pers.</item>
+    </plurals>
+    <string name="drawer_report_short">Melding</string>
+    <string name="peer_qr_title">QR-code van deze persoon</string>
+    <string name="peer_remove_confirm_title">Contact verwijderen?</string>
+    <string name="peer_remove_confirm_detail">Deze persoon wordt uit uw contacten verwijderd. De chat en berichten blijven behouden.</string>
+    <string name="inline_search_people_hint">Zoek mensen op nummer of @naam.</string>
+    <string name="app_version_format">Versie %1$s (%2$d)</string>
+    <string name="server_current_title">Huidige server</string>
+    <string name="server_change_title">Server wijzigen</string>
+    <string name="server_edit_help">Voer een HTTPS-adres in. Meld u af voordat u van server wisselt.</string>
+    <string name="server_alpha_http_detail">Alfaversies staan ook HTTP toe op een vertrouwd lokaal netwerk.</string>
+    <string name="server_max_file_size">Maximale grootte van versleutelde bestanden</string>
+    <string name="server_user_quota">Opslag per account</string>
+    <string name="server_no_limit">Onbeperkt</string>
+    <string name="settings_about">Help en app</string>
+    <string name="settings_data_storage">Verbinding en opslag</string>
+    <string name="notification_in_app_sound_detail">Geluid afspelen terwijl UNYRI open is.</string>
+    <string name="notification_in_app_vibration_detail">Trillen terwijl UNYRI open is.</string>
+    <string name="report_problem_detail">Beschrijf het probleem en voeg schermafbeeldingen toe.</string>
+    <string name="report_recent_problem_detail">Markeer het tijdstip van een recent probleem; schakel hieronder diagnostiek in.</string>
+    <string name="sh_step_computer">Een computer die altijd aan staat</string>
+    <string name="sh_step_computer_summary">Gebruik uw eigen computer of huur er een op internet (VPS).</string>
+    <string name="sh_step_install">UNYRI Server installeren</string>
+    <string name="sh_step_install_summary">Installeer het serverprogramma volgens de handleiding.</string>
+    <string name="sh_step_internet">Toegang vanaf internet toestaan</string>
+    <string name="sh_step_internet_summary">Volg de handleiding zodat uw telefoon ook buitenshuis verbinding maakt.</string>
+    <string name="sh_step_phone">Telefoon verbinden</string>
+    <string name="sh_step_phone_summary">Bevestig het serveradres of scan een uitnodiging en maak daarna een account.</string>
+    <string name="sh_step_owner">Eigenaar worden</string>
+    <string name="sh_step_owner_summary">Gebruik de eenmalige code van het installatieprogramma.</string>
+    <string name="sh_step_test">Berichten en oproepen controleren</string>
+    <string name="sh_step_test_summary">Zet wifi uit en test berichten, oproepen en meldingen via mobiele data.</string>
+    <string name="sh_step_more">Meer informatie</string>
+    <string name="connection_checking">Controleren…</string>
+    <string name="sh_open_guide">Handleiding en downloads</string>
+    <string name="local_mode_description">Berichten en oproepen van uw server via wifi, zonder internet. Deze modus toont een permanente melding en gebruikt meer batterij. Open UNYRI opnieuw na geforceerd stoppen of opnieuw opstarten.</string>
+    <string name="local_mode_connected">Verbonden met uw server</string>
+    <string name="local_mode_signin">Meld u aan om een lokale verbinding in te schakelen.</string>
+    <string name="peer_qr_instruction">Scan deze code om het profiel van deze persoon in UNYRI te openen.</string>
+</resources>

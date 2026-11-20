@@ -30,6 +30,8 @@ class AuthRepositoryImpl(
     private val clearAccountData: suspend () -> Unit = {},
     private val installationCredentials: InstallationCredentialCoordinator? = null,
     private val signupIdentity: suspend (String, String) -> Boolean = { _, _ -> false },
+    private val deviceName: () -> String = { DeviceNamePolicy.fallback(Build.MANUFACTURER, Build.MODEL) },
+    private val refreshSavedAccounts: () -> Unit = {},
 ) : AuthRepository {
 
     private val _signupRecoveryPending = MutableStateFlow(tokenStore.signupRecoveryPending())
@@ -44,6 +46,8 @@ class AuthRepositoryImpl(
     }
 
     private val _authState = MutableStateFlow<AuthSessionState>(AuthSessionState.Unknown)
+    private val _terminalReason = MutableStateFlow<String?>(null)
+    val terminalReason: StateFlow<String?> = _terminalReason
     override val authState: StateFlow<AuthSessionState> = _authState
     private val _cacheCleanupFailed = MutableStateFlow(false)
     override val cacheCleanupFailed: StateFlow<Boolean> = _cacheCleanupFailed
@@ -121,6 +125,8 @@ class AuthRepositoryImpl(
       refreshMutex.withLock {
         val origin = com.messenger.app.data.api.ServerEndpoint.current().trimEnd('/')
         val credential = prepareInstallationCredential(origin)
+        val binding = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { tokenStore.createSignInBinding() }
+        try {
         val response = api.register(
             RegisterRequestDto(
                 username = username,
@@ -128,14 +134,22 @@ class AuthRepositoryImpl(
                 displayName = displayName,
                 inviteCode = inviteCode,
                 installationId = installationId(),
-                deviceName = Build.MODEL,
+                deviceName = deviceName(),
                 osVersion = Build.VERSION.RELEASE,
                 appVersion = BuildConfig.VERSION_NAME,
                 installationCredential = credential,
-            ),
+            ), binding,
         )
         val pending = try { signupIdentity(origin, response.accessToken) } catch (_: Exception) { true }
-        persistSession(response, pending)
+        persistSession(response, pending, binding)
+        } catch (error: Exception) {
+            val failure = kotlinx.coroutines.withContext(kotlinx.coroutines.NonCancellable + kotlinx.coroutines.Dispatchers.IO) {
+                val failure = deviceBindingFailure(error, tokenStore.signInHardwareUnavailable())
+                tokenStore.discardSignInBinding(binding)
+                failure
+            }
+            throw failure
+        }
       }
     }
 
@@ -143,18 +157,28 @@ class AuthRepositoryImpl(
       refreshMutex.withLock {
         val origin = com.messenger.app.data.api.ServerEndpoint.current().trimEnd('/')
         val credential = prepareInstallationCredential(origin)
+        val binding = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { tokenStore.createSignInBinding() }
+        try {
         val response = api.login(
             LoginRequestDto(
                 username = username,
                 password = password,
                 installationId = installationId(),
-                deviceName = Build.MODEL,
+                deviceName = deviceName(),
                 osVersion = Build.VERSION.RELEASE,
                 appVersion = BuildConfig.VERSION_NAME,
                 installationCredential = credential,
-            ),
+            ), binding,
         )
-        persistSession(response)
+        persistSession(response, deviceBinding = binding)
+        } catch (error: Exception) {
+            val failure = kotlinx.coroutines.withContext(kotlinx.coroutines.NonCancellable + kotlinx.coroutines.Dispatchers.IO) {
+                val failure = deviceBindingFailure(error, tokenStore.signInHardwareUnavailable())
+                tokenStore.discardSignInBinding(binding)
+                failure
+            }
+            throw failure
+        }
       }
     }
 
@@ -210,10 +234,35 @@ class AuthRepositoryImpl(
         }
     }
 
-    suspend fun handleRevokedAccessToken(token: String, epoch: Int) {
+    suspend fun handleRevokedAccessToken(token: String, epoch: Int, reason: String = "session_revoked") {
         refreshMutex.withLock {
-            if (sessionEpoch.get() == epoch && tokenStore.accessToken() == token) endLocalSession()
+            if (sessionEpoch.get() == epoch && tokenStore.accessToken() == token) endTerminalSession(reason)
         }
+    }
+
+    suspend fun handleRevokedSession(epoch: Int, reason: String) {
+        if (!isTerminalAuthCode(reason)) return
+        refreshMutex.withLock { if (sessionEpoch.get() == epoch) endTerminalSession(reason) }
+    }
+
+    /** A wake is merely a hint. Only this authenticated server response may erase data. */
+    suspend fun checkSessionNow() {
+        val epoch = sessionEpoch.get()
+        val token = currentAccessToken() ?: return
+        try { api.historyContext(token) }
+        catch (cancel: kotlinx.coroutines.CancellationException) { throw cancel }
+        catch (failure: Exception) {
+            if (isTerminalAuthFailure(failure)) handleRevokedAccessToken(token, epoch, (failure as AuthApiException.Api).code)
+        }
+    }
+
+    private suspend fun endTerminalSession(reason: String) {
+        if (reason == "account_deleted") tokenStore.userId()?.let {
+            tokenStore.requestAccountSecurityErase(com.messenger.app.data.secure.LocalSecurityDecisions.owner(
+                com.messenger.app.data.api.ServerEndpoint.storageOrigin(), it))
+        }
+        _terminalReason.value = deviceBindingFailureCode(reason, tokenStore.deviceSessionHardwareUnavailable())
+        endLocalSession()
     }
 
     private suspend fun endLocalSession() = kotlinx.coroutines.withContext(kotlinx.coroutines.NonCancellable) {
@@ -286,13 +335,17 @@ class AuthRepositoryImpl(
 
         val stillValid = accessToken != null && expiresAt != null &&
             Instant.now().isBefore(expiresAt.minusSeconds(EXPIRY_SAFETY_MARGIN_SECONDS))
-        if (stillValid) {
-            return@withLock accessToken
-        }
-
         try {
+            val (binding, hardwareUnavailable) = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                tokenStore.deviceSessionBinding() to tokenStore.deviceSessionHardwareUnavailable()
+            }
+            // Force the one-time enrollment on an upgraded bearer session before WebSocket use.
+            if (stillValid && canReuseDeviceAccessToken(binding != null, hardwareUnavailable)) return@withLock accessToken
+            refreshSavedAccounts()
             val requestId = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { tokenStore.refreshRequestId() }
-            val refreshed = api.refresh(RefreshRequestDto(refreshToken, requestId))
+            val signingKey = binding ?: kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { tokenStore.deviceSessionBinding(createForLegacy = true) }
+            val refreshed = api.refresh(RefreshRequestDto(refreshToken, requestId,
+                appVersion = BuildConfig.VERSION_NAME, osVersion = Build.VERSION.RELEASE), signingKey)
             if (sessionEpoch.get() != epoch) return@withLock null
             kotlinx.coroutines.withContext(kotlinx.coroutines.NonCancellable + kotlinx.coroutines.Dispatchers.IO) {
                 tokenStore.saveTokens(refreshed.accessToken, Instant.parse(refreshed.accessTokenExpiresAt), refreshed.refreshToken)
@@ -325,13 +378,27 @@ class AuthRepositoryImpl(
             // Only a definitive terminal auth rejection clears the session;
             // transient network/server failures keep it for a later retry.
             if (sessionEpoch.get() == epoch && isTerminalAuthFailure(e)) {
-                endLocalSession()
+                endTerminalSession((e as AuthApiException.Api).code)
             }
             null
         }
     }
 
-    private suspend fun persistSession(response: AuthResponseDto, signupPending: Boolean = false) {
+    suspend fun websocketDeviceProof(token: String, serverTime: Long? = null): String? = refreshMutex.withLock {
+        val epoch = sessionEpoch.get()
+        if (tokenStore.accessToken() != token) throw kotlinx.coroutines.CancellationException("Session changed")
+        try {
+            kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                tokenStore.deviceSessionBinding()?.proof("GET", "ws", accessSessionID(token, com.messenger.app.data.api.ApiJson), token, serverTime)
+            }
+        } catch (error: AuthApiException.Api) {
+            if (sessionEpoch.get() == epoch && isTerminalAuthFailure(error)) endTerminalSession(error.code)
+            throw error
+        }
+    }
+
+    private suspend fun persistSession(response: AuthResponseDto, signupPending: Boolean = false, deviceBinding: DeviceSessionBinding? = null) {
+        _terminalReason.value = null
         sessionEpoch.incrementAndGet()
         installationCredentials?.clearSessionState()
         // Unknown or different ownership must be erased before new credentials
@@ -348,7 +415,7 @@ class AuthRepositoryImpl(
         }
         kotlinx.coroutines.withContext(kotlinx.coroutines.NonCancellable + kotlinx.coroutines.Dispatchers.IO) {
             tokenStore.saveSession(response.accessToken, Instant.parse(response.accessTokenExpiresAt), response.refreshToken,
-                response.user.id, response.user.username, response.user.displayName, response.deviceId, response.historyBeforeSequence, signupPending)
+                response.user.id, response.user.username, response.user.displayName, response.deviceId, response.historyBeforeSequence, signupPending, deviceBinding)
         }
         _signupRecoveryPending.value = tokenStore.signupRecoveryPending()
         _needsHistoryChoice.value = tokenStore.needsHistoryChoice()
@@ -357,14 +424,6 @@ class AuthRepositoryImpl(
     }
 
     private companion object {
-        const val EXPIRY_SAFETY_MARGIN_SECONDS = 30L
+        const val EXPIRY_SAFETY_MARGIN_SECONDS = 5L
     }
 }
-
-/** Pure decision boundary for refresh failures (N.2R): only a definitive,
- *  terminal auth rejection should clear the session. A transient network/
- *  timeout/5xx failure must keep the session so a later retry can succeed.
- *  `invalid_refresh_token` (expired/revoked/reuse-detected) and
- *  `session_revoked` are the authoritative terminal signals. */
-internal fun isTerminalAuthFailure(e: Exception): Boolean =
-    (e as? AuthApiException.Api)?.let { it.code == "invalid_refresh_token" || it.code == "session_revoked" } == true

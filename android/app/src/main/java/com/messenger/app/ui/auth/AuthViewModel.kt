@@ -10,6 +10,7 @@ import com.messenger.app.domain.model.AuthSessionState
 import com.messenger.app.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 sealed interface AuthUiState {
@@ -25,6 +26,14 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
 
     private val _uiState = MutableStateFlow<AuthUiState>(AuthUiState.Idle)
     val uiState: StateFlow<AuthUiState> = _uiState
+
+    init {
+        (repository as? com.messenger.app.data.auth.AuthRepositoryImpl)?.let { auth ->
+            viewModelScope.launch { auth.terminalReason.collect { reason ->
+                if (reason != null) _uiState.value = AuthUiState.Error(authTerminalMessage(reason), reason)
+            } }
+        }
+    }
 
     fun register(username: String, password: String, displayName: String, inviteCode: String? = null) {
         if (_uiState.value is AuthUiState.Loading) return
@@ -64,6 +73,7 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
         is AuthApiException.Api -> com.messenger.app.ui.selfhost.registrationFailureMessage(t.code) ?: when (t.code) {
             "installation_restricted" -> R.string.auth_installation_restricted
             "secure_connection_required" -> R.string.auth_installation_https_required
+            "device_proof_stale" -> R.string.error_network
             "invalid_credentials" -> R.string.error_wrong_credentials
             // The sign-up field is the private login (B-029).
             "username_taken" -> R.string.error_login_taken
@@ -77,10 +87,19 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
             "too_many_devices" -> R.string.auth_error_too_many_devices
             "common_password" -> R.string.auth_error_common_password
             "session_revoked", "invalid_refresh_token", "unauthorized" -> R.string.auth_error_session_ended
+            "account_deleted", "account_suspended", com.messenger.app.data.auth.HARDWARE_BINDING_REQUIRED -> authTerminalMessage(t.code)
             else -> R.string.error_generic
         }
         else -> R.string.error_generic
     }
+}
+
+@StringRes
+internal fun authTerminalMessage(reason: String): Int = when (reason) {
+    "account_deleted" -> R.string.auth_account_deleted
+    "account_suspended" -> R.string.auth_account_suspended
+    com.messenger.app.data.auth.HARDWARE_BINDING_REQUIRED -> R.string.auth_hardware_binding_required
+    else -> R.string.auth_session_ended
 }
 
 class AuthViewModelFactory(private val repository: AuthRepository) : ViewModelProvider.Factory {

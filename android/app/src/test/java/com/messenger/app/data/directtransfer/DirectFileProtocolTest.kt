@@ -75,8 +75,10 @@ class DirectFileProtocolTest {
             assertTrue(control.reason == null || control.reason in DIRECT_CONTROL_REASONS)
             buildJsonObject { put("id", value.getValue("id")); put("payload", actual) }
         }
-        // Preserve the pre-R3 independent fixture; queued is the explicit R3 extension.
-        assertEquals(fixture.getValue("reasons").jsonArray.map { it.jsonPrimitive.content }.toSet() + "queued", DIRECT_CONTROL_REASONS)
+        // Preserve the pre-R3 independent fixture; queued is the explicit R3 extension and the two relay
+        // reasons are the explicit B-035 extensions (same wire values as iOS DirectFileControl.reasons).
+        assertEquals(fixture.getValue("reasons").jsonArray.map { it.jsonPrimitive.content }.toSet() +
+            setOf("queued", "relay_unavailable", "peer_relay_unavailable"), DIRECT_CONTROL_REASONS)
         val export = buildJsonObject {
             put("offer", json.encodeToJsonElement(DirectFileOffer.serializer(), offer))
             put("nested_message_content", actualNested)

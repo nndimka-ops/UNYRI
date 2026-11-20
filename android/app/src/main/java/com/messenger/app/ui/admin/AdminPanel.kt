@@ -46,7 +46,7 @@ import org.json.JSONObject
 // Admin UX Pack 1 - Android administration root.
 //
 // The security model is intentionally unchanged:
-//   * FLAG_SECURE for the whole panel;
+//   * the device screenshot policy applies to the panel;
 //   * a separate `x-coco-admin` session on top of the normal bearer token;
 //   * password + authenticator/recovery code + Ed25519 paper-key proof;
 //   * admin token lives in memory only and is dropped on background/lock;
@@ -69,11 +69,9 @@ fun AdminPanel(role: String, onClose: () -> Unit) {
     DisposableEffect(context) {
         var current: android.content.Context? = context
         while (current is android.content.ContextWrapper && current !is android.app.Activity) current = current.baseContext
-        val window = (current as? android.app.Activity)?.window
-        val flag = android.view.WindowManager.LayoutParams.FLAG_SECURE
-        val alreadySecure = ((window?.attributes?.flags ?: 0) and flag) != 0
-        window?.addFlags(flag)
-        onDispose { if (!alreadySecure) window?.clearFlags(flag) }
+        val activity = current as? android.app.Activity
+        activity?.let(com.messenger.app.security.ScreenshotPrivacy::apply)
+        onDispose { activity?.let(com.messenger.app.security.ScreenshotPrivacy::apply) }
     }
     val scope = rememberCoroutineScope()
     val epoch = remember { app.authRepository.currentSessionEpoch() }
@@ -204,12 +202,41 @@ fun AdminPanel(role: String, onClose: () -> Unit) {
     suspend fun request(path: String, body: JSONObject? = null): JSONObject =
         JSONObject(adminCall(path, body?.toString()))
 
+    // The server exposes registration mode publicly but reserves the admin
+    // policy endpoint for owners. Moderators read the same mode here while
+    // remaining behind this panel's unlocked authority and stale-result fence.
+    suspend fun registrationInfo(): String {
+        val operation = panelGeneration
+        check(token != null && epoch == app.authRepository.currentSessionEpoch())
+        check(base == ServerEndpoint.resolve(BuildConfig.API_BASE_URL))
+        require(base.startsWith("https://"))
+        val access = app.authRepository.currentAccessToken() ?: error("Signed out")
+        check(token != null && operation == panelGeneration && epoch == app.authRepository.currentSessionEpoch())
+        requestStage = "ACTION"
+        val payload = withContext(Dispatchers.IO) {
+            client.newCall(Request.Builder().url("${base.trimEnd('/')}/server-info")
+                .header("Authorization", "Bearer $access")
+                .header("Cache-Control", "no-store").build()).execute().use { response ->
+                val bytes = ServerInputLimits.readBytes(response.body,
+                    if (response.isSuccessful) 65536 else ServerInputLimits.ERROR_BYTES)
+                if (!response.isSuccessful) throw AdminHttpFailure(response.code)
+                String(bytes, Charsets.UTF_8)
+            }
+        }
+        check(token != null && operation == panelGeneration && epoch == app.authRepository.currentSessionEpoch())
+        check(base == ServerEndpoint.resolve(BuildConfig.API_BASE_URL))
+        lastAction = android.os.SystemClock.elapsedRealtime()
+        ServerInputLimits.validateJson(payload)
+        return payload
+    }
+
     // The single typed entry point every administration screen uses. It is
     // rebuilt on each composition so it always closes over the current panel
     // state (token, generation, account epoch).
     val transport = AdminTransport(
         text = { path, body -> adminCall(path, body) },
         blob = { path -> requestBytes(path) },
+        serverInfo = { registrationInfo() },
     )
 
     var consoleFailure by remember { mutableStateOf<AdminPresentation.Failure?>(null) }
@@ -517,6 +544,7 @@ fun AdminPanel(role: String, onClose: () -> Unit) {
                         composable(AdminRoutes.detailRoute(AdminTarget.UserDetail)) { entry ->
                             AdminModerationScreen(
                                 userId = entry.arguments?.getString(AdminRoutes.ARG_ID).orEmpty(),
+                                isOwner = AdminNavigation.isOwner(role),
                                 cache = cache, busy = busy, transport = transport, run = ::run,
                                 onUnauthorized = { clear() },
                                 onBack = { nav.popBackStack() },

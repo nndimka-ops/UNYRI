@@ -21,7 +21,7 @@ internal object DirectControlPolicy {
         val receiverOrigin = record.role == "sender"
         val allowed = if (receiverOrigin) setOf("accept", "resume", "answer", "pause", "pause_state", "cancel", "reject", "complete") else setOf("offer", "pause", "pause_state", "cancel", "complete_ack")
         require(value.type in allowed)
-        if (value.type in setOf("offer", "answer")) require(value.sdp != null && DirectPeerPolicy.isDataOnlySdp(value.sdp))
+        if (value.type in setOf("offer", "answer")) require(value.sdp != null && DirectPeerPolicy.isDataOnlySdp(value.sdp, allowRelay = true))
         else require(value.sdp == null)
         if (value.type in setOf("accept", "resume")) require(value.offset != null && value.offset in 0..record.offer.size && value.prefixSha256?.let(::validHash) == true)
         if (value.type in setOf("complete", "complete_ack")) require(value.offset == record.offer.size && value.prefixSha256 == record.offer.sha256)

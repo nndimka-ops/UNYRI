@@ -1,0 +1,10 @@
+<resources>
+    <string name="auth_account_deleted">Ο λογαριασμός διαγράφηκε</string>
+    <string name="auth_account_suspended">Ο λογαριασμός αποκλείστηκε από τον διαχειριστή του διακομιστή</string>
+    <string name="auth_session_ended">Η συνεδρία έληξε</string>
+    <string name="privacy_prevent_screenshots">Απαγόρευση στιγμιότυπων οθόνης</string>
+    <string name="admin_delete_account_forever">Οριστική διαγραφή λογαριασμού</string>
+    <string name="admin_delete_account_detail">Διαγράφει τον λογαριασμό και τα μηνύματά του στον διακομιστή και στα τηλέφωνα.</string>
+    <string name="admin_delete_account_number">Εισαγάγετε τον δημόσιο αριθμό για επιβεβαίωση</string>
+    <string name="deleted_account">Διαγραμμένος λογαριασμός</string>
+</resources>

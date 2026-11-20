@@ -5,6 +5,40 @@ import org.junit.Test
 import java.io.File
 
 class HistoryArchiveTest {
+    @Test fun `old peer logins are readable but never enter new archives or restored peer state`() {
+        val peer = HistoryArchivePeer(id(90), "private_chat_login", "Alice", "123456789", "alice")
+        val legacy = archive().copy(format = 2, media = emptyList(),
+            chats = listOf(HistoryArchiveChat(id(91), "direct", 0, peer)),
+            calls = listOf(HistoryArchiveCall(id(92), id(2), id(90), "audio", 1000,
+                endedAtMs = 2000, chat = id(91), peer = peer.copy(username = "private_call_login"))))
+        // Bypass the new writer to represent a historical encrypted payload.
+        val historicalJson = kotlinx.serialization.json.Json { encodeDefaults = true }
+        val historical = historicalJson.encodeToString(HistoryArchive.serializer(), legacy).toByteArray()
+        val read = HistoryArchive.decode(historical, id(1), id(2))
+        assertEquals("", read.chats!!.single().peer!!.username)
+        assertEquals("", read.calls.single().peer!!.username)
+        val bytes = HistoryArchive.encode(legacy)
+        val text = bytes.toString(Charsets.UTF_8)
+        assertFalse(text.contains("private_chat_login")); assertFalse(text.contains("private_call_login"))
+        assertTrue(text.contains("alice")); assertTrue(text.contains("123456789"))
+        assertEquals(read, HistoryArchive.decode(bytes, id(1), id(2)))
+        assertEquals("private_chat_login", legacy.chats!!.single().peer!!.username)
+        val oversized = legacy.copy(chats = legacy.chats!!.map { it.copy(peer = peer.copy(username = "x".repeat(513))) })
+        val hostile = historicalJson.encodeToString(HistoryArchive.serializer(), oversized).toByteArray()
+        assertThrows(Exception::class.java) { HistoryArchive.decode(hostile, id(1), id(2)) }
+    }
+
+    @kotlin.test.Test fun publicPeerArchiveAcceptsEmptyLegacyUsernameAndPreservesPublicIdentity() {
+        val peer = HistoryArchivePeer(id(90), "", "Alice", "123456789", "alice")
+        peer.validate()
+        val encoded = kotlinx.serialization.json.Json.encodeToString(HistoryArchivePeer.serializer(), peer)
+        assertEquals(peer, kotlinx.serialization.json.Json.decodeFromString(HistoryArchivePeer.serializer(), encoded))
+        val old = kotlinx.serialization.json.Json.decodeFromString(HistoryArchivePeer.serializer(), """{"id":"${id(90)}","username":"old_peer","displayName":"Alice"}""")
+        old.validate()
+        assertEquals(null, old.unyriNumber)
+        assertEquals(null, old.publicUsername)
+    }
+
     @Test fun `legacy call only archive is repaired without losing call policies`() {
         val old = HistoryArchive.decode(File("../../shared/test-vectors/history-archive-v2-call-only-legacy.json").readBytes(),id(1),id(2))
         val repaired = old.restoringCallChatDescriptors()
@@ -44,7 +78,7 @@ class HistoryArchiveTest {
         val incomplete = archive().copy(format=2,media=emptyList(),chats=emptyList(),calls=listOf(call))
         assertThrows(Exception::class.java) { incomplete.validatePreparedChatDescriptors() }
         assertEquals(incomplete,HistoryArchive.decode(HistoryArchive.encode(incomplete),id(1),id(2)))
-        val complete = incomplete.copy(chats=listOf(HistoryArchiveChat(id(22),"direct",0,HistoryArchivePeer(id(21),"peer","Peer"))))
+        val complete = incomplete.copy(chats=listOf(HistoryArchiveChat(id(22),"direct",0,HistoryArchivePeer(id(21),"","Peer"))))
         assertEquals(complete,HistoryArchive.decode(HistoryArchive.encode(complete),id(1),id(2)))
         assertEquals(id(21),incomplete.restoringCallChatDescriptors().chats!!.single().peer!!.id)
         assertThrows(Exception::class.java) { incomplete.copy(calls=listOf(call,call.copy(id=id(23),callee=id(24)))).restoringCallChatDescriptors() }

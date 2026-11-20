@@ -158,11 +158,11 @@ struct UnyriNotificationSettingsView: View {
 enum UnyriLocalNotificationPreferences {
     private static var revision: UInt64 = 0
     private static var task: Task<Void, Never>?
-    private static var context: (owner: String, isCurrent: () -> Bool)?
+    private static var context: (owner: String, server: String, isCurrent: () -> Bool)?
     private static var cancelled = Set<String>()
 
     static func attach(owner: String, isCurrent: @escaping () -> Bool) {
-        context = (owner, isCurrent)
+        context = (owner, AppConfig.storageOrigin, isCurrent)
         reconcile()
     }
 
@@ -174,7 +174,7 @@ enum UnyriLocalNotificationPreferences {
         revision &+= 1
         cancelled.removeAll()
         UnyriForegroundMessageSound.resetForLogout()
-        if let owner { UnyriPausedReminderArchive.accountArchive(owner: owner).clear(owner: lastAccount ? nil : owner) }
+        if let owner { UnyriPausedReminderArchive.accountArchive(owner: owner, server: AppConfig.storageOrigin).clear(owner: lastAccount ? nil : owner) }
     }
 
     static func cancelReminder(_ identifier: String) {
@@ -183,10 +183,10 @@ enum UnyriLocalNotificationPreferences {
         center.removePendingNotificationRequests(withIdentifiers: [identifier])
         center.removeDeliveredNotifications(withIdentifiers: [identifier])
         if let context, context.isCurrent() {
-            let archive = UnyriPausedReminderArchive.accountArchive(owner: context.owner)
-            let entries = archive.load(owner: context.owner, server: AppConfig.storageOrigin)
+            let archive = UnyriPausedReminderArchive.accountArchive(owner: context.owner, server: context.server)
+            let entries = archive.load(owner: context.owner, server: context.server)
                 .filter { $0.identifier(owner: context.owner) != identifier }
-            _ = archive.save(entries, owner: context.owner, server: AppConfig.storageOrigin)
+            _ = archive.save(entries, owner: context.owner, server: context.server)
         }
         reconcile()
     }
@@ -203,7 +203,7 @@ enum UnyriLocalNotificationPreferences {
                 let requests = await center.pendingNotificationRequests()
                 if token != revision { continue }
                 guard context.isCurrent() else { task = nil; return }
-                let archive = UnyriPausedReminderArchive.accountArchive(owner: context.owner)
+                let archive = UnyriPausedReminderArchive.accountArchive(owner: context.owner, server: context.server)
                 for request in requests {
                     if token != revision || !context.isCurrent() { break }
                     if request.content.userInfo["kind"] as? String == "chat_reminder" {
@@ -216,12 +216,12 @@ enum UnyriLocalNotificationPreferences {
                             center.removePendingNotificationRequests(withIdentifiers: [request.identifier])
                         } else if !preferences.allowsReminders {
                             if let entry = pausedEntry(request), entry.due > Date() {
-                                var entries = archive.load(owner: context.owner, server: AppConfig.storageOrigin)
+                                var entries = archive.load(owner: context.owner, server: context.server)
                                 entries.removeAll { $0.identifier(owner: context.owner) == request.identifier }
                                 entries.append(entry)
                                 // Preserve a plan before cancelling its system request.
                                 // No plaintext or attachment data is copied.
-                                if !archive.save(entries, owner: context.owner, server: AppConfig.storageOrigin) {
+                                if !archive.save(entries, owner: context.owner, server: context.server) {
                                     UnyriNotificationPreferencesStore.shared.reminderIssue = "Could not preserve paused reminders. Alerts are off; schedule reminders again when ready."
                                 }
                             }
@@ -249,10 +249,10 @@ enum UnyriLocalNotificationPreferences {
                                 // Preserve its exact plan before removal: the
                                 // next pass cannot discover a deleted request.
                                 if let entry = pausedEntry(request), entry.due > Date() {
-                                    var entries = archive.load(owner: context.owner, server: AppConfig.storageOrigin)
+                                    var entries = archive.load(owner: context.owner, server: context.server)
                                     entries.removeAll { $0.identifier(owner: context.owner) == request.identifier }
                                     entries.append(entry)
-                                    if !archive.save(entries, owner: context.owner, server: AppConfig.storageOrigin) {
+                                    if !archive.save(entries, owner: context.owner, server: context.server) {
                                         UnyriNotificationPreferencesStore.shared.reminderIssue = "Could not preserve paused reminders. Alerts are off; schedule reminders again when ready."
                                     }
                                 }
@@ -265,7 +265,7 @@ enum UnyriLocalNotificationPreferences {
                     }
                 }
                 if preferences.allowsReminders && token == revision && context.isCurrent() {
-                    let planned = archive.load(owner: context.owner, server: AppConfig.storageOrigin)
+                    let planned = archive.load(owner: context.owner, server: context.server)
                     var occupied = Set(requests.map(\.identifier))
                     for entry in planned {
                         if token != revision || !context.isCurrent() { break }
@@ -287,9 +287,9 @@ enum UnyriLocalNotificationPreferences {
                             } catch { continue }
                         }
                         if occupied.contains(id) && context.isCurrent() {
-                            let remaining = archive.load(owner: context.owner, server: AppConfig.storageOrigin)
+                            let remaining = archive.load(owner: context.owner, server: context.server)
                                 .filter { $0.identifier(owner: context.owner) != id }
-                            _ = archive.save(remaining, owner: context.owner, server: AppConfig.storageOrigin)
+                            _ = archive.save(remaining, owner: context.owner, server: context.server)
                         }
                     }
                 }

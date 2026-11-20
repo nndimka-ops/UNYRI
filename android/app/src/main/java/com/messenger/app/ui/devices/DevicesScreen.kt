@@ -31,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.messenger.app.R
 import com.messenger.app.domain.model.DeviceInfo
@@ -82,7 +83,14 @@ fun DevicesScreen(
                                 Spacer(modifier = Modifier.height(16.dp))
                                 Text(stringResource(R.string.devices_security_events), style = MaterialTheme.typography.titleMedium)
                             }
-                            items(state.events) { event -> EventRow(event) }
+                            item("security-events") {
+                                Card(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp), shape = RoundedCornerShape(20.dp),
+                                    colors = CardDefaults.cardColors(containerColor = colors.surface, contentColor = colors.primaryText)) {
+                                    Column(Modifier.padding(12.dp)) {
+                                        state.events.forEach { event -> EventRow(event) }
+                                    }
+                                }
+                            }
                         }
                         state.actionError?.let { message ->
                             Text(message, color = MaterialTheme.colorScheme.error)
@@ -98,12 +106,14 @@ fun DevicesScreen(
 private fun DeviceRow(device: DeviceInfo, onRevoke: () -> Unit) {
     var confirm by remember(device.id) { mutableStateOf(false) }
     val colors=LocalCocoColors.current
+    val context = LocalContext.current
+    val displayedName = if (device.isCurrent) remember(device.id) { com.messenger.app.data.auth.SystemDeviceName.read(context) } else device.displayName
     Card(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),shape=RoundedCornerShape(20.dp),
         colors=CardDefaults.cardColors(containerColor=colors.surface,contentColor=colors.primaryText)) {
         Column(modifier = Modifier.padding(12.dp)) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    text = if (device.isCurrent) stringResource(R.string.devices_current_name, device.displayName) else device.displayName,
+                    text = if (device.isCurrent) stringResource(R.string.devices_current_name, displayedName) else displayedName,
                     style = MaterialTheme.typography.titleSmall,
                     color = if (device.isCurrent) colors.success else colors.primaryText,
                     modifier = Modifier.weight(1f),
@@ -113,7 +123,8 @@ private fun DeviceRow(device: DeviceInfo, onRevoke: () -> Unit) {
                 }
             }
             if (device.locallyRevoked) Text(stringResource(R.string.security_device_relisted), color = colors.danger)
-            val meta = listOfNotNull(device.osVersion, device.appVersion).joinToString(" · ")
+            val meta = if (device.isCurrent) listOf(android.os.Build.VERSION.RELEASE, com.messenger.app.BuildConfig.VERSION_NAME).joinToString(" · ")
+                else listOfNotNull(device.osVersion, device.appVersion).joinToString(" · ")
             if (meta.isNotEmpty()) Text(meta, style = MaterialTheme.typography.bodySmall,color=colors.secondaryText)
             device.lastActiveAt?.let { Text(stringResource(R.string.devices_last_active, readableDeviceDate(it)), style = MaterialTheme.typography.bodySmall,color=colors.secondaryText) }
         }

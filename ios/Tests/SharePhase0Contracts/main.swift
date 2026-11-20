@@ -59,7 +59,7 @@ import Foundation
         check(picker.title(blocked) == "Chat" && picker.title(group) == "Chat", "missing otherUser never means Saved")
         check(picker.title(saved) == "Saved Messages", "saved identified by type")
         let invisiblePeer = ChatSummary(chatId: "hidden", chatType: "direct", otherUser: .init(displayName: "\u{FFF0}", username: "alice"))
-        check(picker.title(invisiblePeer) == "@alice", "share picker uses sanitized handle fallback")
+        check(picker.title(invisiblePeer) == "Unknown user", "share picker never renders a legacy peer login")
         check(picker.selectedIDs == ["peer"], "blocked chat excluded from send targets")
         picker.search = "saved"
         check(picker.visibleIDs == ["saved"], "Saved search uses its title")
